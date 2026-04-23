@@ -82,7 +82,7 @@ export function LiveKitStream({
    serverUrl={url}
    connect={true}
    video={isPublisher}
-   audio={false}
+   audio={isPublisher}
    onConnected={onConnected}
    onDisconnected={onDisconnected}
    className={className}
@@ -126,7 +126,7 @@ function PublisherView() {
    </div>
    <ControlBar
     variation="minimal"
-    controls={{ screenShare: false, chat: false, microphone: false }}
+    controls={{ screenShare: false, chat: false, microphone: true, camera: true }}
     className="!bg-black/60 !border-t !border-white/10"
    />
   </div>

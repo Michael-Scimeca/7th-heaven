@@ -116,3 +116,35 @@ export async function seedMockData() {
   revalidatePath("/crew");
   return { success: true };
 }
+
+export async function adminCreateCrewMember({ name, email, password: providedPassword }: { name: string; email: string; password?: string }) {
+  console.log(`[Admin] Creating crew member ${email}`);
+  // Use provided password or generate a secure temporary one
+  const password = providedPassword || (Math.random().toString(36).slice(-10) + "!A1");
+  // Create auth user
+  const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: { full_name: name },
+  });
+  if (authErr) {
+    console.error('Auth error creating crew member:', authErr);
+    return { success: false, error: authErr.message };
+  }
+  // Assign crew role in profiles table
+  if (authData?.user) {
+    const { error } = await supabaseAdmin
+      .from('profiles')
+      .update({ role: 'crew' })
+      .eq('id', authData.user.id);
+    if (error) {
+      console.error('Profile update error for crew member:', error);
+      return { success: false, error: error.message };
+    }
+  }
+  revalidatePath('/admin');
+  revalidatePath('/crew');
+  return { success: true, password };
+}
+

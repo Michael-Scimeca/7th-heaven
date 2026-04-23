@@ -25,7 +25,14 @@ export default function PastShowsPage() {
       .then((r) => r.json())
       .then((cats: any[]) => {
         const lf = cats.find((c) => c.category === "Live Feeds");
-        setVideos(lf?.videos || []);
+        const baseVideos = lf?.videos || [];
+        
+        try {
+          const customFeeds = JSON.parse(localStorage.getItem('7h_custom_live_feeds') || '[]');
+          setVideos([...customFeeds, ...baseVideos]);
+        } catch(e) {
+          setVideos(baseVideos);
+        }
       });
   }, []);
 

@@ -30,12 +30,12 @@ export async function updateSession(request: NextRequest) {
   data: { user },
  } = await supabase.auth.getUser();
 
- // Protect /members, /crew, /admin routes
+ // Protect /fans, /crew, /admin routes
  const path = request.nextUrl.pathname;
 
  // Note: Login redirect disabled until /login page is built.
  // The client-side role check in each page handles access gating for now.
- // if (!user && (path.startsWith('/members') || path.startsWith('/crew') || path.startsWith('/admin'))) {
+ // if (!user && (path.startsWith('/fans') || path.startsWith('/crew') || path.startsWith('/admin'))) {
  //  const url = request.nextUrl.clone();
  //  url.pathname = '/login';
  //  url.searchParams.set('redirect', path);
@@ -51,7 +51,7 @@ export async function updateSession(request: NextRequest) {
    .single();
 
   if (profile?.role !== 'admin') {
-   return NextResponse.redirect(new URL('/members', request.url));
+   return NextResponse.redirect(new URL('/fans', request.url));
   }
  }
 
@@ -64,7 +64,7 @@ export async function updateSession(request: NextRequest) {
    .single();
 
   if (!profile || !['crew', 'admin'].includes(profile.role)) {
-   return NextResponse.redirect(new URL('/members', request.url));
+   return NextResponse.redirect(new URL('/fans', request.url));
   }
  }
 

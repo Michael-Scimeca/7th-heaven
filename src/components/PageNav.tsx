@@ -7,7 +7,8 @@ import { usePathname } from "next/navigation";
 const PAGES = [
   { path: "/admin", label: "🔒 Admin Panel" },
   { path: "/crew", label: "🎸 Crew Dashboard" },
-  { path: "/fans", label: "⭐ Fan Profile" },
+  { path: "/fans", label: "⭐ Fan Dashboard" },
+  { path: "/planner", label: "🗓️ Planner Dashboard" },
   { path: "/", label: "Home" },
   { path: "/bio", label: "Bio" },
   { path: "/tour", label: "Tour" },
@@ -60,7 +61,7 @@ export function PageNav() {
                   onClick={() => {
                     setIsOpen(false);
                     // Bypasses login for Restricted pages in dev mode
-                    if (['/crew', '/admin', '/members', '/fans'].includes(page.path)) {
+                    if (['/crew', '/admin', '/fans', '/planner'].includes(page.path)) {
                       localStorage.setItem('7h_dev_bypass', 'true');
                     }
                   }}

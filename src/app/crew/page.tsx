@@ -46,6 +46,8 @@ export default function CrewDashboard() {
   const [streamTitle, setStreamTitle] = useState('');
   const [viewerCount, setViewerCount] = useState(0);
   const [toggling, setToggling] = useState(false);
+  const [showEndModal, setShowEndModal] = useState(false);
+  const [isSavingReplay, setIsSavingReplay] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   
   const formatTime = (s: number) => {
@@ -105,7 +107,7 @@ export default function CrewDashboard() {
     const checkUser = async () => {
       if (localStorage.getItem('7h_dev_bypass') === 'true') {
         setIsAuthenticated(true);
-        setUserId('dev-user');
+        setUserId('michael');
         setDisplayName('Michael Scimeca');
         setEmail('michael@7thheaven.com');
         setRole('crew');
@@ -210,6 +212,49 @@ export default function CrewDashboard() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [posts]);
 
+  const attemptEndStream = () => {
+    if (isLive) setShowEndModal(true);
+    else toggleLive();
+  };
+
+  // Add cleanup listener for force-quitting the tab
+  useEffect(() => {
+    const handleUnload = () => {
+      localStorage.setItem(LS('crew_is_live'), 'false');
+      localStorage.removeItem(LS('live_stream_start'));
+    };
+    window.addEventListener('beforeunload', handleUnload);
+    return () => window.removeEventListener('beforeunload', handleUnload);
+  }, []);
+
+  const confirmEndAndSave = async () => {
+    setIsSavingReplay(true);
+    await new Promise(r => setTimeout(r, 2500)); // Simulate high-res compression/upload
+    setIsSavingReplay(false);
+    
+    try {
+      const customFeeds = JSON.parse(localStorage.getItem('7h_custom_live_feeds') || '[]');
+      customFeeds.unshift({
+        id: 'LWeA2cE8YlI', // Live simulation ID / Mock ID
+        title: streamTitle || `${userId || 'Crew'} Broadcast Demo`,
+        year: new Date().getFullYear(),
+        duration: formatTime(elapsed),
+        description: `7th heaven Live Crew Broadcast Archive (Test Run)`,
+        viewCount: '1'
+      });
+      localStorage.setItem('7h_custom_live_feeds', JSON.stringify(customFeeds));
+    } catch(e) {}
+    
+    setShowEndModal(false);
+    toggleLive();
+    alert("Live Stream successfully transcoded and published to the Past Shows Video Gallery!");
+  };
+
+  const confirmEndDiscard = () => {
+    setShowEndModal(false);
+    toggleLive();
+  };
+
   const toggleLive = async () => {
     if (toggling) return;
     setToggling(true);
@@ -228,6 +273,7 @@ export default function CrewDashboard() {
     }
     
     setIsLive(nextState);
+    localStorage.setItem(LS('crew_is_live'), nextState.toString());
     localStorage.setItem(LS('stream_title'), streamTitle);
     await supabase.channel('live_events').send({ type: 'broadcast', event: 'stream_state', payload: { isLive: nextState, title: streamTitle } });
     
@@ -459,10 +505,11 @@ export default function CrewDashboard() {
   const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white font-sans selection:bg-[#ec4899]/30">
+    <div className="min-h-screen bg-[#030303] text-white font-sans selection:bg-[#ec4899]/30 pt-20">
       
       {/* ─── EXACT HEADER LAYOUT ─── */}
-      <header className="px-8 py-5 flex items-center justify-between border-b border-white/[0.04] bg-[#050508]/50">
+      <header className="border-b border-white/[0.04] bg-[#050508]/50">
+        <div className="site-container py-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center text-xl font-bold border border-purple-500 relative">
             MS
@@ -480,10 +527,11 @@ export default function CrewDashboard() {
           <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
           <span className="text-[0.65rem] font-bold text-red-500 uppercase tracking-widest">{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
         </div>
+        </div>
       </header>
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
-      <div className="max-w-[1600px] mx-auto p-8 space-y-6">
+      <div className="site-container py-8 space-y-6">
         
         <div className="flex items-center gap-2 text-white/50 text-sm uppercase tracking-widest font-black">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
@@ -571,7 +619,7 @@ export default function CrewDashboard() {
                 </div>
               </div>
               <button 
-                onClick={toggleLive}
+                onClick={attemptEndStream}
                 disabled={toggling}
                 className={`shrink-0 px-8 py-3 rounded-full text-[0.65rem] font-black uppercase tracking-widest shadow-xl transition-all disabled:opacity-50
                   ${isLive ? 'bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-white' : 'bg-[#ec4899] text-white hover:brightness-110'}
@@ -920,6 +968,52 @@ export default function CrewDashboard() {
 
         </div>
       </div>
+      
+      {/* End Stream Modal */}
+      {showEndModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
+          <div className="max-w-md w-full bg-[#0a0a0f] border border-white/10 p-8 shadow-2xl relative overflow-hidden">
+             {isSavingReplay && (
+                <div className="absolute inset-0 bg-[#0a0a0f]/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
+                  <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                  <h3 className="text-emerald-400 font-bold uppercase tracking-widest text-sm">Processing & Saving...</h3>
+                  <p className="text-white/40 text-xs mt-2">Compressing VOD to Gallery</p>
+                </div>
+             )}
+             
+             <div className="text-center mb-8 relative z-10">
+               <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+               </div>
+               <h2 className="text-2xl font-black italic tracking-tighter uppercase mb-2 text-white">End Broadcast?</h2>
+               <p className="text-sm text-white/60 leading-relaxed">
+                 You are about to terminate the live broadcast to all fans. Would you like to compress and save this session to the <strong className="text-white">Past Shows Video Gallery</strong>?
+               </p>
+             </div>
+             
+             <div className="flex flex-col gap-3 relative z-10">
+               <button 
+                 onClick={confirmEndAndSave}
+                 className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-[0.2em] text-xs transition-colors shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+               >
+                 Save to Video Gallery
+               </button>
+               <button 
+                 onClick={confirmEndDiscard}
+                 className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/30 font-bold uppercase tracking-widest text-[0.65rem] transition-colors"
+               >
+                 End without Saving
+               </button>
+               <button 
+                 onClick={() => setShowEndModal(false)}
+                 className="w-full py-2 text-white/40 hover:text-white uppercase tracking-widest text-[0.6rem] font-bold mt-2 transition-colors"
+               >
+                 Cancel, Keep Streaming
+               </button>
+             </div>
+          </div>
+        </div>
+      )}
 
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }

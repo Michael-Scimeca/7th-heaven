@@ -699,39 +699,6 @@
   },
   {
     "category": "Live Feeds",
-    "videos": [
-      {
-        "id": "qp5Y312eiS8",
-        "title": "Schaumburg Fest — Live Feed Archive",
-        "year": 2026,
-        "duration": "1:36:12",
-        "description": "7th heaven — Archived crew live feed from Schaumburg Fest 2026",
-        "viewCount": "0"
-      },
-      {
-        "id": "C0PQYmyaTFk",
-        "title": "DeKalb Cornfest — Live Feed Archive",
-        "year": 2026,
-        "duration": "2:12:00",
-        "description": "7th heaven — Archived crew live feed from DeKalb Cornfest 2026",
-        "viewCount": "0"
-      },
-      {
-        "id": "UQBvl_wZ0ak",
-        "title": "Addison Rock N Wheels — Live Feed Archive",
-        "year": 2026,
-        "duration": "1:51:53",
-        "description": "7th heaven — Archived crew live feed from Rock N Wheels, Addison IL",
-        "viewCount": "0"
-      },
-      {
-        "id": "2a2j6MUDSjM",
-        "title": "Crew Broadcast Demo",
-        "year": 2026,
-        "duration": "11:16",
-        "description": "7th heaven Live Crew Broadcast Archive (Test Run)",
-        "viewCount": "100"
-      }
-    ]
+    "videos": []
   }
 ]

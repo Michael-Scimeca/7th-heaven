@@ -15,7 +15,8 @@ export interface Member {
  location?: { lat: number; lng: number };
  notificationsEnabled: boolean;
  notificationRadius: number; // miles
- role: "fan" | "crew" | "admin" | "merch";
+ role: "fan" | "crew" | "admin" | "merch" | "event_planner";
+ phone?: string;
 }
 
 interface MemberContextType {
@@ -27,7 +28,7 @@ interface MemberContextType {
  modalMode: "login" | "signup";
  setModalMode: (mode: "login" | "signup") => void;
  login: (email: string, password: string) => Promise<boolean>;
- signup: (name: string, email: string, password: string) => Promise<boolean>;
+ signup: (name: string, email: string, password: string, phone?: string) => Promise<boolean>;
  logout: () => void;
  addPoints: (amount: number) => void;
  updateLocation: (lat: number, lng: number) => void;
@@ -73,13 +74,15 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     // Role email lists
     const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
     const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
+    const plannerEmails = ["planner@example.com", "chicago_manager@example.com"];
     // Ensure role field exists for legacy accounts
     if (!parsed.role) {
-     parsed.role = crewEmails.includes(parsed.email) ? "crew" : merchEmails.includes(parsed.email) ? "merch" : "fan";
+     parsed.role = crewEmails.includes(parsed.email) ? "crew" : merchEmails.includes(parsed.email) ? "merch" : plannerEmails.includes(parsed.email) ? "event_planner" : "fan";
     }
     // Auto-promote by email
     if (crewEmails.includes(parsed.email) && parsed.role !== "crew") parsed.role = "crew";
     if (merchEmails.includes(parsed.email) && parsed.role !== "merch") parsed.role = "merch";
+    if (plannerEmails.includes(parsed.email) && parsed.role !== "event_planner") parsed.role = "event_planner";
     setMember(parsed);
    } catch {}
   }
@@ -111,11 +114,12 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   return true;
  };
 
- const signup = async (name: string, email: string, _password: string): Promise<boolean> => {
+ const signup = async (name: string, email: string, _password: string, phone?: string): Promise<boolean> => {
   const newMember: Member = {
    id: crypto.randomUUID(),
    name,
    email: email.toLowerCase(),
+   phone: phone || undefined,
    joinDate: new Date().toISOString(),
    avatar: name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2),
    points: 100, // Welcome bonus
@@ -124,7 +128,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
    favoriteVenues: [],
    notificationsEnabled: false,
    notificationRadius: 25,
-   role: ["mike@test.com", "mikeyscimeca.dev@gmail.com"].includes(email.toLowerCase()) ? "crew" : ["merch@test.com", "merch@7thheaven.com"].includes(email.toLowerCase()) ? "merch" : "fan",
+   role: ["mikeyscimeca@gmail.com"].includes(email.toLowerCase()) ? "admin" : ["mike@test.com", "mikeyscimeca.dev@gmail.com"].includes(email.toLowerCase()) ? "crew" : ["merch@test.com", "merch@7thheaven.com"].includes(email.toLowerCase()) ? "merch" : ["planner@example.com", "chicago_manager@example.com"].includes(email.toLowerCase()) ? "event_planner" : "fan",
   };
 
   // Store account

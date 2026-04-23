@@ -66,9 +66,9 @@ const siteStructure = [
     title: "Authentication & E-Commerce",
     routes: [
       {
-        path: "/members",
-        name: "Member Onboarding",
-        sections: ["Fan vs Crew Pathing", "Account Benefits Splash", "Secure Supabase Login"],
+        path: "/fans",
+        name: "Fan Dashboard",
+        sections: ["Fan vs Crew Pathing", "VIP Rewards & Loyalty", "Secure Supabase Login"],
         features: ["Role-Based Automatic Routing", "JWT Session Management", "Frictionless UI/UX Access"],
         color: "text-cyan-400",
         border: "border-cyan-500/30",

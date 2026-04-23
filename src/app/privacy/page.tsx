@@ -79,7 +79,7 @@ export default function PrivacyPage() {
         <li><strong className="text-white">Help:</strong> Text <strong className="text-[var(--color-accent)]">HELP</strong> for assistance, or contact us at the information below.</li>
         <li><strong className="text-white">Carriers:</strong> Compatible with all major US carriers including AT&T, T-Mobile, Verizon, and others.</li>
        </ul>
-       <p className="mt-3 text-[0.8rem]">Your consent to receive texts is not a condition of any purchase. You can also unsubscribe via the member dashboard at any time.</p>
+       <p className="mt-3 text-[0.8rem]">Your consent to receive texts is not a condition of any purchase. You can also unsubscribe via the fan dashboard at any time.</p>
       </div>
      </div>
 
@@ -112,7 +112,7 @@ export default function PrivacyPage() {
        <li><strong className="text-white">Access:</strong> Request a copy of the personal data we hold about you.</li>
        <li><strong className="text-white">Correction:</strong> Request correction of inaccurate information.</li>
        <li><strong className="text-white">Deletion:</strong> Request deletion of your personal data (subject to legal retention requirements).</li>
-       <li><strong className="text-white">Opt-Out of SMS:</strong> Text STOP or use the unsubscribe feature in the member dashboard.</li>
+       <li><strong className="text-white">Opt-Out of SMS:</strong> Text STOP or use the unsubscribe feature in the fan dashboard.</li>
       </ul>
      </div>
 

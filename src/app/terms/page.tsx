@@ -80,7 +80,7 @@ export default function TermsPage() {
          <p className="text-[0.85rem] mt-1">You may opt out at any time by:</p>
          <ul className="list-disc pl-5 mt-1 space-y-1 text-[0.85rem]">
           <li>Texting <strong className="text-[var(--color-accent)]">STOP</strong> in reply to any message</li>
-          <li>Using the Unsubscribe feature in the member dashboard</li>
+          <li>Using the Unsubscribe feature in the fan dashboard</li>
           <li>Contacting us directly at the information below</li>
          </ul>
          <p className="text-[0.85rem] mt-1">After opting out, you will receive one final confirmation message. No further messages will be sent.</p>

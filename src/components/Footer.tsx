@@ -126,6 +126,8 @@ export function Footer() {
           <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
           <Link href="/sitemap" className="hover:text-[var(--color-accent)] transition-colors">Sitemap</Link>
+          <Link href="/admin?login=true" className="hover:text-[var(--color-accent)] transition-colors">Admin</Link>
+          <Link href="/planner?login=true" className="hover:text-[var(--color-accent)] transition-colors">Planner</Link>
         </div>
         <p className="text-[0.65rem] font-black uppercase tracking-widest text-white/20">
           Designed & Developed by NTD Records © {new Date().getFullYear()}

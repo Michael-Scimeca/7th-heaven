@@ -24,7 +24,7 @@ export function Header() {
  const [scrolled, setScrolled] = useState(false);
  const [mobileOpen, setMobileOpen] = useState(false);
  const [isCrewLive, setIsCrewLive] = useState(false);
- const { member, isLoggedIn, openModal } = useMember();
+ const { member, isLoggedIn, openModal, logout } = useMember();
 
  // Poll localStorage every second to detect if this crew member is live
  useEffect(() => {
@@ -92,72 +92,7 @@ export function Header() {
   </Link>
  ))}
 
- {/* ── Crew/Admin-only links — hidden from public ── */}
- {isLoggedIn && (member?.role === 'crew' || member?.role === 'admin' || member?.role === 'merch') && (
-  <>
-   <span className="w-px h-4 bg-white/10 mx-1" />
-   <Link
-    href="/crew"
-    className={`relative px-3 py-1.5 text-[0.75rem] font-bold uppercase tracking-widest transition-colors duration-150 flex items-center gap-1.5 ${
-     pathname === '/crew'
-      ? 'text-emerald-400'
-      : 'text-emerald-400/60 hover:text-emerald-400'
-    }`}
-    id="nav-crew-dashboard"
-   >
-    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-    Crew
-    {pathname === '/crew' && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-emerald-400" />}
-   </Link>
-   {/* Fan-facing live page — only visible when actively broadcasting */}
-   {isCrewLive && (() => {
-    const firstName = (member?.name || 'michael').split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
-    const fanRoom = `/live/live_${firstName}`;
-    return (
-     <Link
-      href={fanRoom}
-      className={`relative px-3 py-1.5 text-[0.75rem] font-bold uppercase tracking-widest transition-colors duration-150 flex items-center gap-1.5 ${
-       pathname === fanRoom ? 'text-red-400' : 'text-red-400/50 hover:text-red-400'
-      }`}
-      id="nav-fan-view"
-      title={`Fan page: ${fanRoom}`}
-     >
-      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-      Fan View
-      {pathname === fanRoom && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-red-400" />}
-     </Link>
-    );
-   })()}
-   {member?.role === 'admin' && (
-    <Link
-     href="/sitemap"
-     className={`relative px-3 py-1.5 text-[0.75rem] font-bold uppercase tracking-widest transition-colors duration-150 ${
-      pathname === '/sitemap'
-       ? 'text-amber-400'
-       : 'text-amber-400/50 hover:text-amber-400'
-     }`}
-     id="nav-sitemap"
-    >
-     Sitemap
-     {pathname === '/sitemap' && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-amber-400" />}
-    </Link>
-    )}
-    {/* Merch dashboard — merch/crew/admin */}
-    <Link
-     href="/merch"
-     className={`relative px-3 py-1.5 text-[0.75rem] font-bold uppercase tracking-widest transition-colors duration-150 flex items-center gap-1.5 ${
-      pathname === '/merch'
-       ? 'text-yellow-400'
-       : 'text-yellow-400/60 hover:text-yellow-400'
-     }`}
-     id="nav-merch-dashboard"
-    >
-     <span className="text-xs">🛍️</span>
-     Merch
-     {pathname === '/merch' && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-yellow-400" />}
-    </Link>
-   </>
- )}
+
 
  {isShowPlaying && (
   <button
@@ -175,10 +110,11 @@ export function Header() {
  <div className="flex items-center gap-4 z-10">
 
  {isLoggedIn ? (
+ <div className="flex items-center gap-2">
  <Link
-  href="/members"
+  href="/fans"
   className="relative w-9 h-9 flex items-center justify-center bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/30 transition-all"
-  title="Member Dashboard"
+  title="Fan Dashboard"
  >
   {member!.avatar}
   {/* Role indicator */}
@@ -194,6 +130,11 @@ export function Header() {
      <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(10,10,15)" strokeWidth="4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
     </span>
    );
+   if (role === 'event_planner') return (
+    <span className="absolute -bottom-[3px] -right-[3px] w-[14px] h-[14px] rounded-full bg-fuchsia-500 border-2 border-[rgb(10,10,15)] flex items-center justify-center">
+     <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(10,10,15)" strokeWidth="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+    </span>
+   );
    return (
     <span className="absolute -bottom-[3px] -right-[3px] w-[12px] h-[12px] rounded-full bg-white/50 border-2 border-[rgb(10,10,15)] flex items-center justify-center">
      <svg width="6" height="6" viewBox="0 0 24 24" fill="rgb(10,10,15)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
@@ -201,6 +142,25 @@ export function Header() {
    );
   })()}
  </Link>
+ <button
+  onClick={logout}
+  className="h-9 px-3 flex items-center justify-center gap-2 border border-white/10 text-white/30 hover:border-rose-500/40 hover:text-rose-400 transition-all cursor-pointer bg-white/[0.02]"
+  title="Sign Out"
+  id="header-sign-out"
+ >
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+  <span className="text-[0.6rem] font-bold uppercase tracking-widest hidden sm:block">Sign Out</span>
+ </button>
+ </div>
+ ) : (pathname === '/admin' || pathname === '/planner' || pathname === '/crew' || pathname === '/fans') && typeof window !== 'undefined' && localStorage.getItem('7h_dev_bypass') === 'true' ? (
+ <button
+  onClick={() => { logout(); window.location.href = '/'; }}
+  className="h-9 px-3 flex items-center justify-center gap-2 border border-white/10 text-white/30 hover:border-rose-500/40 hover:text-rose-400 transition-all cursor-pointer bg-white/[0.02]"
+  title="Sign Out"
+ >
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+  <span className="text-[0.6rem] font-bold uppercase tracking-widest hidden sm:block">Sign Out</span>
+ </button>
  ) : (
  <button
   onClick={() => openModal("login")}

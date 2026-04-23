@@ -19,8 +19,9 @@ export default function FanAccountPage() {
     email: 'chicagolou@gmail.com',
     role: 'fan',
   };
-  const activeMember = isDemo ? demoMember : member;
-  const activeLoggedIn = isDemo ? true : isLoggedIn;
+  const isDevBypass = typeof window !== 'undefined' && localStorage.getItem('7h_dev_bypass') === 'true';
+  const activeMember = isDemo ? demoMember : (isDevBypass && !member ? { name: 'Dev User', email: 'dev@7thheaven.com', role: 'fan' as const } : member);
+  const activeLoggedIn = isDemo ? true : (isDevBypass || isLoggedIn);
 
   useEffect(() => {
     if (isDemo) {
@@ -67,9 +68,9 @@ export default function FanAccountPage() {
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black text-[var(--color-accent)]">
               {activeMember?.name?.split(' ').map((n: string)=>n[0]).join('').substring(0,2).toUpperCase() || '?'}
-              <span className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full ${activeMember?.role === 'admin' ? 'bg-amber-400' : activeMember?.role === 'crew' ? 'bg-emerald-400' : 'bg-[var(--color-accent)]'} border-2 border-[var(--color-bg-primary)] flex items-center justify-center`}>
+              <span className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full ${activeMember?.role === 'admin' ? 'bg-amber-400' : activeMember?.role === 'crew' ? 'bg-emerald-400' : activeMember?.role === 'event_planner' ? 'bg-fuchsia-500' : 'bg-[var(--color-accent)]'} border-2 border-[var(--color-bg-primary)] flex items-center justify-center`}>
                 <span className="text-[10px]">
-                  {activeMember?.role === 'admin' ? '🛡️' : activeMember?.role === 'crew' ? '🛡️' : '★'}
+                  {activeMember?.role === 'admin' ? '🛡️' : activeMember?.role === 'crew' ? '🛡️' : activeMember?.role === 'event_planner' ? '📋' : '★'}
                 </span>
               </span>
             </div>
@@ -79,9 +80,10 @@ export default function FanAccountPage() {
                 <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.15em] border rounded-full ${
                   activeMember?.role === 'admin' ? 'bg-amber-400/10 text-amber-400 border-amber-400/30' :
                   activeMember?.role === 'crew' ? 'bg-emerald-400/10 text-emerald-400 border-emerald-400/30' :
+                  activeMember?.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30' :
                   'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30'
                 }`}>
-                  {activeMember?.role === 'admin' ? '🛡️ ADMIN' : activeMember?.role === 'crew' ? '🛡️ CREW' : '★ VIP FAN'}
+                  {activeMember?.role === 'admin' ? '🛡️ ADMIN' : activeMember?.role === 'crew' ? '🛡️ CREW' : activeMember?.role === 'event_planner' ? '📋 EVENT PLANNER' : '★ VIP FAN'}
                 </span>
               </div>
               <p className="text-[0.85rem] text-white/40 font-mono mt-1">{activeMember?.email}</p>
@@ -91,6 +93,63 @@ export default function FanAccountPage() {
             <span className="text-white text-[0.7rem] font-bold uppercase tracking-widest leading-none">View Public Gallery</span>
             <span className="text-[var(--color-accent)] text-[0.55rem] uppercase tracking-widest mt-1">Global Fan Wall →</span>
           </Link>
+        </div>
+
+        {/* Prize Wallet — migrated from /members */}
+        <div className="mb-8 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border border-[var(--color-accent)]/30 rounded-2xl relative overflow-hidden shadow-[0_0_40px_rgba(168,85,247,0.15)] group">
+         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
+         <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
+          <div className="flex items-center gap-3">
+           <span className="text-2xl">🎟️</span>
+           <h2 className="text-xl font-black italic tracking-tight">
+            Prize <span className="gradient-text">Wallet</span>
+           </h2>
+          </div>
+          <span className="text-[0.55rem] uppercase tracking-[0.2em] font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Claim PINs</span>
+         </div>
+         <div className="relative z-10">
+          {(() => {
+           const stored = typeof window !== "undefined" ? localStorage.getItem("vip_inbox_messages") : null;
+           const messages = stored ? JSON.parse(stored) : [];
+           if (messages.length === 0) {
+            return (
+             <div className="py-6 flex flex-col items-center border border-white/5 bg-white/5 rounded-xl border-dashed">
+              <p className="text-sm text-white/50 font-bold">Your wallet is currently empty.</p>
+              <p className="text-[0.6rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
+             </div>
+            );
+           }
+           return (
+            <div className="flex flex-col gap-3">
+             {messages.map((msg: any) => {
+              const pinMatch = msg.desc.match(/PIN:\s*(\d+)/i);
+              const pin = pinMatch ? pinMatch[1] : null;
+              return (
+               <div key={msg.id} className={`p-4 rounded-xl border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-md ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
+                <div className="flex items-center gap-4 w-full">
+                 <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : 'bg-white/5 border border-white/10'}`}>{msg.icon}</div>
+                 <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                   <h4 className="font-bold text-[0.85rem] text-white tracking-wide">{msg.title}</h4>
+                   {msg.isNew && <span className="text-[0.45rem] font-black uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+                  </div>
+                  <p className="text-[0.65rem] text-white/60 max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
+                  <p className="text-[0.5rem] uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
+                 </div>
+                </div>
+                {pin && (
+                 <div className="flex flex-col sm:flex-row items-center gap-3 px-5 py-2 border border-dashed border-yellow-400/50 rounded-xl bg-yellow-400/5 w-full sm:w-auto mt-2 sm:mt-0">
+                  <span className="text-[0.45rem] uppercase tracking-[0.2em] text-yellow-500/80 font-bold whitespace-nowrap">Show this PIN</span>
+                  <span className="font-mono text-2xl font-black text-yellow-400 tracking-[0.25em] drop-shadow-[0_0_10px_rgba(250,204,21,0.6)]">{pin}</span>
+                 </div>
+                )}
+               </div>
+              );
+             })}
+            </div>
+           );
+          })()}
+         </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -133,7 +192,6 @@ export default function FanAccountPage() {
                 </div>
                 <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
                    <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">Order #7H-2026-0412</span>
-                   <Link href="/members" className="text-[0.65rem] text-white/40 font-bold uppercase hover:text-[var(--color-accent)] tracking-widest">Full History →</Link>
                 </div>
               </div>
             </div>
@@ -174,6 +232,67 @@ export default function FanAccountPage() {
                 <h3 className="text-xl font-bold italic tracking-tight">Photo Submissions</h3>
               </div>
               <FanUploadForm />
+            </div>
+
+            {/* Pick Awards — migrated from /members */}
+            <div className="p-6 bg-white/[0.02] border border-white/10">
+             <div className="flex items-center justify-between mb-5">
+              <h2 className="text-lg font-bold">
+               Pick <span className="gradient-text">Awards</span>
+              </h2>
+              <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">Collect Picks · Enter Lotteries</span>
+             </div>
+             {(() => {
+              const pickTypes = [
+               { id: "purple", name: "Classic Purple", rarity: "Common", img: "/images/picks/purple.png", color: "#a855f7", owned: 3 },
+               { id: "red", name: "Crimson Fire", rarity: "Uncommon", img: "/images/picks/red.png", color: "#ef4444", owned: 2 },
+               { id: "black", name: "Stealth Black", rarity: "Uncommon", img: "/images/picks/black.png", color: "#6b7280", owned: 1 },
+               { id: "silver", name: "Chrome Silver", rarity: "Rare", img: "/images/picks/silver.png", color: "#c0c0c0", owned: 1 },
+               { id: "gold", name: "24K Gold", rarity: "Epic", img: "/images/picks/gold.png", color: "#fbbf24", owned: 0 },
+               { id: "holographic", name: "Holographic", rarity: "Legendary", img: "/images/picks/holographic.png", color: "#ec4899", owned: 0 },
+              ];
+              const totalOwned = pickTypes.reduce((s, p) => s + p.owned, 0);
+              const rarityColors: Record<string, string> = {
+               Common: "text-white/40", Uncommon: "text-green-400", Rare: "text-blue-400", Epic: "text-yellow-400", Legendary: "text-pink-400",
+              };
+              return (
+               <>
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-6">
+                 {pickTypes.map((pick) => (
+                  <div key={pick.id} className={`relative p-3 border text-center transition-all ${pick.owned > 0 ? "border-white/10 bg-white/[0.02]" : "border-white/5 opacity-30 grayscale"}`}>
+                   <div className="relative mx-auto w-16 h-16 mb-2">
+                    <img src={pick.img} alt={pick.name} className="w-full h-full object-contain" />
+                    {pick.owned > 1 && (
+                     <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-[0.55rem] font-bold bg-[var(--color-accent)] text-white">×{pick.owned}</span>
+                    )}
+                   </div>
+                   <p className="text-[0.6rem] font-bold text-white/70 truncate">{pick.name}</p>
+                   <p className={`text-[0.5rem] font-bold uppercase tracking-[0.1em] ${rarityColors[pick.rarity]}`}>{pick.rarity}</p>
+                   {pick.owned === 0 && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                     <span className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.15em] bg-black/60 px-2 py-1">Locked</span>
+                    </div>
+                   )}
+                  </div>
+                 ))}
+                </div>
+                <div className="flex items-center gap-6 p-3 bg-white/[0.03] border border-white/5">
+                 <div>
+                  <p className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">Total Picks</p>
+                  <p className="text-xl font-bold text-[var(--color-accent)]">{totalOwned}</p>
+                 </div>
+                 <div>
+                  <p className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">Unique Types</p>
+                  <p className="text-xl font-bold text-white">{pickTypes.filter(p => p.owned > 0).length}/{pickTypes.length}</p>
+                 </div>
+                 <div className="ml-auto text-right">
+                  <p className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">How to earn</p>
+                  <p className="text-[0.6rem] text-white/40">Attend shows · Merch purchases · Social shares · Referrals</p>
+                 </div>
+                </div>
+               </>
+              );
+             })()}
             </div>
 
           </div>

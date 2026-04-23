@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
 import { createClient } from '@/lib/supabase/client';
 import { createCheckout } from '@/lib/shopify';
+import { LiveKitStream } from '@/components/LiveKitStream';
 
 /* ─────────────────────────────────────────────
    FAKE ACCOUNT DATABASE
@@ -783,11 +784,22 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
       inbox.unshift({ id: Date.now(), icon: '🛍️', title: 'Pickup Reserved!', desc: `Your ${flashName} is reserved for pickup. Code: ${code}`, time: 'Just now', isNew: true, color: 'yellow' });
       localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
+      
+      recordSale(1); // Record 1 quantity for pickup
       setHasPurchased(true);
     } else {
       setCheckoutQuantity(1);
       setIsCheckoutOpen(true);
     }
+  };
+
+  const recordSale = (qty: number) => {
+    try {
+      const priceVal = parseFloat(flashPrice.replace(/[^0-9.]/g, '')) || 0;
+      const totalToAdd = priceVal * qty;
+      const currentSales = parseFloat(localStorage.getItem(LS('live_merch_sales')) || '0');
+      localStorage.setItem(LS('live_merch_sales'), (currentSales + totalToAdd).toString());
+    } catch(e) {}
   };
 
   // Add this near the top of the file if not already imported:
@@ -831,6 +843,9 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       setIsCheckoutOpen(false);
       
       if (hasPurchased) return;
+      
+      recordSale(checkoutQuantity); // Add revenue directly to global counter
+
       setHasPurchased(true);
       if (flashStock > 0) setFlashStock(s => Math.max(0, s - checkoutQuantity));
       
@@ -1005,6 +1020,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             </div>
           ) : (
           <div className="aspect-video lg:aspect-auto lg:absolute lg:inset-0" style={{ background: stageGradient }}>
+            {/* True WebRTC LiveKit Feed */}
+            <LiveKitStream 
+              room={memberId ? `live_${memberId}` : 'live_michael'} 
+              username={member?.name || 'Fan'} 
+              isPublisher={false} 
+              className="absolute inset-0 z-10 w-full h-full object-cover" 
+            />
             {/* Stage silhouettes */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute bottom-0 left-0 right-0 h-[45%] opacity-40" style={{

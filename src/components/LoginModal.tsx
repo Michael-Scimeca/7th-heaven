@@ -9,7 +9,6 @@ export default function LoginModal() {
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
  const [zipCode, setZipCode] = useState("");
- const [phone, setPhone] = useState("");
  const [error, setError] = useState("");
  const [loading, setLoading] = useState(false);
 
@@ -58,7 +57,7 @@ export default function LoginModal() {
        <span className="text-[var(--color-accent)]">7</span>th <em className="text-[var(--color-accent)]">heaven</em>
       </h2>
       <p className="text-[0.65rem] uppercase tracking-[0.2em] text-white/30 mt-2">
-       {modalMode === "login" ? "Login as Fan or Crew Member" : "Join the Family"}
+       {modalMode === "login" ? "Login as Fan or Crew" : "Join the Family"}
       </p>
      </div>
 
@@ -105,22 +104,8 @@ export default function LoginModal() {
           className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
          />
         </div>
-
-        <div>
-         <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 flex justify-between items-baseline">
-          <span>Phone Number</span>
-          <span className="text-[0.5rem] tracking-normal normal-case opacity-50">Optional but recommended</span>
-         </label>
-         <input
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="(555) 123-4567"
-          className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
-         />
-        </div>
-       </>
-      )}
+        </>
+       )}
 
       <div>
        <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email</label>
@@ -160,7 +145,7 @@ export default function LoginModal() {
      {modalMode === "signup" && (
       <div className="mt-6 p-4 bg-[rgba(133,29,239,0.06)] border border-[var(--color-accent)]/20">
        <p className="text-[0.65rem] text-white/50 leading-relaxed">
-        <span className="text-[var(--color-accent)] font-bold">📍 Proximity Radius:</span> We use your zip code to notify you when we book shows in your area. Add your phone number to get secure VIP exclusives and know exactly who is going to the show.
+        <span className="text-[var(--color-accent)] font-bold">📍 Proximity Radius:</span> We use your zip code to notify you when we book shows in your area. Never miss a local show again!
        </p>
       </div>
      )}

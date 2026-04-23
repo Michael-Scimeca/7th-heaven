@@ -164,7 +164,7 @@ export default function MemberDashboard() {
         
         <div className="relative py-4 flex items-center justify-center">
          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-         <span className="relative bg-[#0c0c18] px-4 text-xs font-bold text-white/30 uppercase tracking-widest">Already a member?</span>
+         <span className="relative bg-[#0c0c18] px-4 text-xs font-bold text-white/30 uppercase tracking-widest">Already a fan?</span>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
@@ -244,9 +244,6 @@ export default function MemberDashboard() {
         Crew Dashboard
        </a>
       )}
-      <button onClick={logout} className="px-4 py-2 text-xs uppercase tracking-[0.15em] text-white/30 hover:text-white border border-white/10 hover:border-white/30 transition-all cursor-pointer">
-       Sign Out
-      </button>
      </div>
     </div>
 
@@ -325,7 +322,7 @@ export default function MemberDashboard() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
      {[
       { label: "Shows Attended", value: member!.showsAttended.toString(), accent: true },
-      { label: "Member Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric" }) },
+      { label: "Fan Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric" }) },
      ].map((s) => (
       <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
        <p className="text-[0.55rem] uppercase tracking-[0.2em] text-white/25 mb-1">{s.label}</p>

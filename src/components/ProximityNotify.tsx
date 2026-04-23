@@ -660,7 +660,7 @@ export default function ProximityNotify() {
         )}
        </form>
       )}
-      <p className="text-[0.6rem] text-white/[0.12] mt-5 tracking-wide text-center">Already a member? <span className="text-white/20 underline cursor-pointer">Sign in</span> to enable notifications in your profile settings.</p>
+      <p className="text-[0.6rem] text-white/[0.12] mt-5 tracking-wide text-center">Already a fan? <span className="text-white/20 underline cursor-pointer">Sign in</span> to enable notifications in your profile settings.</p>
      </div>
     </div>
 
