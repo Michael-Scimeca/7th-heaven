@@ -12,7 +12,7 @@ const navLinks = [
  { href: "/bio", label: "Bio" },
  { href: "/video", label: "Video" },
  { href: "/shows", label: "Past Shows" },
- { href: "/live/test-room", label: "Live" },
+ { href: "/live", label: "Live" },
  { href: "/fan-photo-wall", label: "Fan Wall" },
  { href: "/book", label: "Book" },
 ];
@@ -112,11 +112,11 @@ export function Header() {
  {isLoggedIn ? (
  <div className="flex items-center gap-2">
  <Link
-  href="/fans"
+  href={member?.role === 'event_planner' ? '/planner' : member?.role === 'crew' ? '/crew' : member?.role === 'admin' ? '/admin' : '/fans'}
   className="relative w-9 h-9 flex items-center justify-center bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/30 transition-all"
-  title="Fan Dashboard"
+  title={member?.role === 'event_planner' ? 'Planner Dashboard' : member?.role === 'crew' ? 'Crew Dashboard' : member?.role === 'admin' ? 'Admin Dashboard' : 'Fan Dashboard'}
  >
-  {member!.avatar}
+  {member!.name ? member!.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : member!.avatar}
   {/* Role indicator */}
   {(() => {
    const role = member?.role;
@@ -143,7 +143,7 @@ export function Header() {
   })()}
  </Link>
  <button
-  onClick={logout}
+  onClick={() => { logout(); window.location.href = '/'; }}
   className="h-9 px-3 flex items-center justify-center gap-2 border border-white/10 text-white/30 hover:border-rose-500/40 hover:text-rose-400 transition-all cursor-pointer bg-white/[0.02]"
   title="Sign Out"
   id="header-sign-out"
@@ -152,15 +152,6 @@ export function Header() {
   <span className="text-[0.6rem] font-bold uppercase tracking-widest hidden sm:block">Sign Out</span>
  </button>
  </div>
- ) : (pathname === '/admin' || pathname === '/planner' || pathname === '/crew' || pathname === '/fans') && typeof window !== 'undefined' && localStorage.getItem('7h_dev_bypass') === 'true' ? (
- <button
-  onClick={() => { logout(); window.location.href = '/'; }}
-  className="h-9 px-3 flex items-center justify-center gap-2 border border-white/10 text-white/30 hover:border-rose-500/40 hover:text-rose-400 transition-all cursor-pointer bg-white/[0.02]"
-  title="Sign Out"
- >
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-  <span className="text-[0.6rem] font-bold uppercase tracking-widest hidden sm:block">Sign Out</span>
- </button>
  ) : (
  <button
   onClick={() => openModal("login")}

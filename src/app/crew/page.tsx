@@ -23,7 +23,6 @@ interface ChatMsg {
   timestamp: number;
 }
 
-const LS = (key: string) => `${key}_michael`;
 
 function getAvatarColor(name: string) {
   const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#f87171', '#8b5cf6', '#ec4899'];
@@ -40,6 +39,9 @@ export default function CrewDashboard() {
   const [userId, setUserId] = useState('');
   const [role, setRole] = useState<'fan' | 'crew' | 'admin'>('crew');
   const [email, setEmail] = useState('');
+
+  // Namespaced localStorage helper for synchronization
+  const LS = (key: string) => `${key}_${userId?.toString().toLowerCase().trim() || 'michael'}`;
 
   // --- Stream State ---
   const [isLive, setIsLive] = useState(false);
@@ -64,22 +66,23 @@ export default function CrewDashboard() {
   const [globalPinText, setGlobalPinText] = useState('');
   const [posting, setPosting] = useState(false);
   const chatChannelRef = useRef<any>(null);
-  const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
   const [activePinned, setActivePinned] = useState<{text: string; by: string} | null>(null);
   const [floating, setFloating] = useState<{id: string, emoji: string, x: number, createdAt: number}[]>([]);
   
   // --- Raffle State ---
   const [raffleStatus, setRaffleStatus] = useState<'idle' | 'open' | 'drawing' | 'complete'>('idle');
-  const [raffleEntrants, setRaffleEntrants] = useState<{name: string, id: string}[]>([]);
-  const [drawnWinners, setDrawnWinners] = useState<{name: string, id: string}[]>([]);
+  const [raffleEntrants, setRaffleEntrants] = useState<{name: string, id: string, email?: string}[]>([]);
+  const [drawnWinners, setDrawnWinners] = useState<{name: string, id: string, email?: string}[]>([]);
   const [winnerPins, setWinnerPins] = useState<string[]>([]);
   
   // Array of upcoming/queued raffles
   const [raffleQueue, setRaffleQueue] = useState<{name: string, qty: number, min: number}[]>([
-    { name: 'VIP Meet & Greet Pass', qty: 2, min: 15 },
+    { name: 'VIP Meet & Greet Pass', qty: 1, min: 1 },
     { name: 'Signed Tour Poster', qty: 5, min: 30 },
     { name: 'Free Merch Drop Code', qty: 1, min: 45 }
   ]);
+  const isDrawingRef = useRef(false);
   const [activeQueueIndex, setActiveQueueIndex] = useState(0);
 
   // Derived active config bindings
@@ -105,39 +108,105 @@ export default function CrewDashboard() {
     }).catch(console.error);
 
     const checkUser = async () => {
-      if (localStorage.getItem('7h_dev_bypass') === 'true') {
+      // 1. PRIMARY: Check Supabase session (real auth)
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const name = session.user.user_metadata?.full_name || session.user.user_metadata?.displayName || 'Crew';
         setIsAuthenticated(true);
-        setUserId('michael');
-        setDisplayName('Michael Scimeca');
-        setEmail('michael@7thheaven.com');
-        setRole('crew');
+        setUserId(session.user.id);
+        setDisplayName(name);
+        setEmail(session.user.email || '');
+        setRole(session.user.user_metadata?.role || 'crew');
         setIsLoading(false);
         return;
       }
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        setIsAuthenticated(true);
-        setUserId(session.user.id);
-        setDisplayName(session.user.user_metadata?.displayName || 'Michael Scimeca');
-        setEmail(session.user.email || 'michael@7thheaven.com');
-        setRole(session.user.user_metadata?.role || 'crew');
+
+      // 2. FALLBACK: Check localStorage-based login (from MemberContext)
+      const storedMember = localStorage.getItem('7h_member');
+      if (storedMember) {
+        try {
+          const parsed = JSON.parse(storedMember);
+          if (parsed.role === 'crew' || parsed.role === 'admin') {
+            setIsAuthenticated(true);
+            setUserId(parsed.id || 'crew');
+            setDisplayName(parsed.name || 'Crew');
+            setEmail(parsed.email || '');
+            setRole(parsed.role);
+            setIsLoading(false);
+            return;
+          }
+        } catch {}
       }
+
+      // 3. DEV BYPASS: Only if no real session exists
+      if (localStorage.getItem('7h_dev_bypass') === 'true') {
+        const stored = localStorage.getItem('7h_member');
+        const parsed = stored ? JSON.parse(stored) : null;
+        
+        setIsAuthenticated(true);
+        setUserId(parsed?.id || 'michael');
+        setDisplayName(parsed?.name || 'Michael Scimeca');
+        setEmail(parsed?.email || 'michael@7thheaven.com');
+        setRole('crew');
+        if (!localStorage.getItem('7h_member')) {
+          localStorage.setItem('7h_member', JSON.stringify({
+            id: 'michael', name: 'Michael Scimeca', email: 'michael@7thheaven.com',
+            role: 'crew', avatar: 'MS', joinDate: new Date().toISOString(),
+            points: 0, tier: 'Bronze', showsAttended: 0, favoriteVenues: [],
+            notificationsEnabled: false, notificationRadius: 25,
+          }));
+          window.location.reload();
+        }
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(false);
     };
     checkUser();
     
-    // Load local state
-    setIsLive(localStorage.getItem(LS('crew_is_live')) === 'true');
-    setStreamTitle(localStorage.getItem(LS('stream_title')) || '');
+    // Load state from Supabase first, fallback to localStorage
+    const loadStreamState = async (uid: string) => {
+      try {
+        const { data, error } = await supabase
+          .from('live_streams')
+          .select('*')
+          .eq('user_id', uid)
+          .eq('status', 'live')
+          .limit(1)
+          .single();
+        if (data && !error) {
+          setIsLive(true);
+          setStreamTitle(data.title || '');
+          localStorage.setItem(LS('is_live'), 'true');
+        } else {
+          setIsLive(false);
+          localStorage.setItem(LS('is_live'), 'false');
+        }
+      } catch {
+        setIsLive(localStorage.getItem(LS('is_live')) === 'true');
+      }
+    };
+
+    if (userId) {
+      loadStreamState(userId);
+    }
     
     try {
-      const storedRaffle = localStorage.getItem(LS('raffle_sync'));
+      const storedRaffle = localStorage.getItem(LS('live_raffle_sync'));
       if (storedRaffle) {
         const parsed = JSON.parse(storedRaffle);
-        setRaffleStatus(parsed.status);
+        const safeStatus = (parsed.status === 'open' || parsed.status === 'drawing') ? 'idle' : parsed.status;
+        setRaffleStatus(safeStatus);
         setRaffleEntrants(parsed.entrants || []);
+        
+        if (safeStatus === 'idle' && parsed.status !== 'idle') {
+           setTimeout(() => {
+             syncRaffle('idle', [], parsed.minEntrants || 15, parsed.prizes || [], []);
+           }, 1000);
+        }
+
         if (parsed.minEntrants && parsed.prizes) {
-          // If we restore state from a refresh, just overwrite the first queue item so the UI matches
           setRaffleQueue(prev => {
             const next = [...prev];
             next[0] = { name: parsed.prizes[0]?.name || '', qty: parsed.prizes[0]?.qty || 1, min: parsed.minEntrants };
@@ -150,17 +219,55 @@ export default function CrewDashboard() {
       }
     } catch {}
 
-    // --- Load Chat History and Sync ---
-    try {
-      const storedChat = localStorage.getItem('7h_global_chat_history');
-      if (storedChat) setPosts(JSON.parse(storedChat));
-    } catch {}
+    // Load chat from Supabase first, fallback to localStorage
+    const loadChat = async () => {
+      try {
+        const roomId = `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`;
+        const { data, error } = await supabase
+          .from('chat_messages')
+          .select('*')
+          .eq('room', roomId)
+          .order('created_at', { ascending: true })
+          .limit(100);
+        
+        if (data && data.length > 0 && !error) {
+          const mapped = data.map((m: any) => ({
+            id: m.id,
+            account: {
+              id: m.sender_name,
+              name: m.sender_name,
+              displayName: m.sender_name,
+              role: m.sender_role || 'fan',
+              color: m.sender_role === 'crew' ? '#f97316' : '#8b5cf6',
+              avatar: m.sender_avatar || m.sender_name.slice(0, 2).toUpperCase(),
+            },
+            text: m.content,
+            timestamp: new Date(m.created_at).getTime(),
+          }));
+          setPosts(mapped);
+          localStorage.setItem(LS('live_chat_history'), JSON.stringify(mapped));
+        } else {
+          // Fallback to localStorage
+          const storedChat = localStorage.getItem(LS('live_chat_history'));
+          if (storedChat) setPosts(JSON.parse(storedChat));
+        }
+      } catch {
+        const storedChat = localStorage.getItem(LS('live_chat_history'));
+        if (storedChat) setPosts(JSON.parse(storedChat));
+      }
+    };
+    if (userId) loadChat();
 
     const handleStorage = (e: StorageEvent) => {
-      if (e.key === '7h_global_chat_history' && e.newValue) {
+      // Admin kill switch: detect when is_live is set to 'false' from another tab
+      if (e.key === LS('is_live') && e.newValue === 'false') {
+        console.log('[Crew] Admin shutdown detected via storage event');
+        setIsLive(false);
+      }
+      if (e.key === LS('live_chat_history') && e.newValue) {
         setPosts(JSON.parse(e.newValue));
       }
-      if (e.key === '7h_global_pinned' && e.newValue) {
+      if (e.key === LS('live_pinned') && e.newValue) {
         setActivePinned(e.newValue === 'null' ? null : JSON.parse(e.newValue));
       }
       if (e.key === LS('live_reaction_sync') && e.newValue) {
@@ -169,19 +276,29 @@ export default function CrewDashboard() {
     };
     window.addEventListener('storage', handleStorage);
 
-    // Watch live viewer count from Fan feeds connected
+    const channel = supabase.channel('live_events')
+      .on('broadcast', { event: 'reaction' }, (payload: any) => {
+        const data = payload.payload;
+        if (data.userId === userId || data.memberId === userId) {
+          setFloating(prev => [...prev, { ...data, createdAt: Date.now() }]);
+        }
+      })
+      .subscribe();
+
     const viewerInterval = setInterval(() => {
-      const live = localStorage.getItem('live_viewer_count_michael');
+      const live = localStorage.getItem(LS('viewer_count'));
       if (live) setViewerCount(parseInt(live));
     }, 2000);
 
+    window.scrollTo(0, 0);
+
     return () => {
       window.removeEventListener('storage', handleStorage);
+      supabase.removeChannel(channel);
       clearInterval(viewerInterval);
     };
-  }, []);
+  }, [userId]);
 
-  // Sync Elapsed Timer from stream start
   useEffect(() => {
     let t: any;
     if (isLive) {
@@ -199,7 +316,6 @@ export default function CrewDashboard() {
     return () => clearInterval(t);
   }, [isLive]);
 
-  // Sync / cleanup floating reactions
   useEffect(() => {
     if (floating.length > 0) {
       const t = setTimeout(() => setFloating((prev) => prev.filter((f) => Date.now() - f.createdAt < 3000)), 3000);
@@ -207,9 +323,10 @@ export default function CrewDashboard() {
     }
   }, [floating]);
 
-  // Auto-scroll chat to bottom
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+    }
   }, [posts]);
 
   const attemptEndStream = () => {
@@ -217,25 +334,15 @@ export default function CrewDashboard() {
     else toggleLive();
   };
 
-  // Add cleanup listener for force-quitting the tab
-  useEffect(() => {
-    const handleUnload = () => {
-      localStorage.setItem(LS('crew_is_live'), 'false');
-      localStorage.removeItem(LS('live_stream_start'));
-    };
-    window.addEventListener('beforeunload', handleUnload);
-    return () => window.removeEventListener('beforeunload', handleUnload);
-  }, []);
-
   const confirmEndAndSave = async () => {
     setIsSavingReplay(true);
-    await new Promise(r => setTimeout(r, 2500)); // Simulate high-res compression/upload
+    await new Promise(r => setTimeout(r, 2500));
     setIsSavingReplay(false);
     
     try {
       const customFeeds = JSON.parse(localStorage.getItem('7h_custom_live_feeds') || '[]');
       customFeeds.unshift({
-        id: 'LWeA2cE8YlI', // Live simulation ID / Mock ID
+        id: 'LWeA2cE8YlI',
         title: streamTitle || `${userId || 'Crew'} Broadcast Demo`,
         year: new Date().getFullYear(),
         duration: formatTime(elapsed),
@@ -255,63 +362,167 @@ export default function CrewDashboard() {
     toggleLive();
   };
 
+  const activeStreamId = useRef<string | null>(null);
+
   const toggleLive = async () => {
     if (toggling) return;
     setToggling(true);
-    const nextState = !isLive;
-    if (nextState) {
-      localStorage.setItem(LS('live_stream_start'), Date.now().toString());
-      setElapsed(0);
-    } else {
-      localStorage.removeItem(LS('live_stream_start'));
-      localStorage.setItem('7h_global_chat_history', '[]'); // Clear global chat logs per design spec
-      setPosts([]);
-      // NOTE: We do not clear the viewer count here, we let the fan unload events do it gracefully or let it reset softly
-      localStorage.setItem(LS('viewer_count'), '0'); // Force reset on closure to prevent ghosts
-      setViewerCount(0);
-      setElapsed(0);
+    try {
+      const nextState = !isLive;
+      const roomSlug = `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`;
+      if (nextState) {
+        localStorage.setItem(LS('live_stream_start'), Date.now().toString());
+        
+        localStorage.setItem(LS('viewer_count'), '0');
+        localStorage.setItem(LS('presence'), '{}');
+        setViewerCount(0);
+
+        setElapsed(0);
+        cancelRaffle();
+        setActiveQueueIndex(0);
+
+        const { data: newStream, error: insertErr } = await supabase
+          .from('live_streams')
+          .insert({
+            user_id: userId,
+            title: `${displayName} — ${streamTitle || 'Crew Broadcast'}`,
+            status: 'live',
+            viewer_count: 0,
+          })
+          .select('id')
+          .single();
+        if (insertErr) console.error('❌ live_streams insert failed:', insertErr);
+        if (newStream) {
+          activeStreamId.current = newStream.id;
+        }
+      } else {
+        localStorage.removeItem(LS('live_stream_start'));
+        localStorage.setItem(LS('live_chat_history'), '[]');
+        setPosts([]);
+        localStorage.setItem(LS('viewer_count'), '0');
+        localStorage.setItem(LS('presence'), '{}');
+        setViewerCount(0);
+        setElapsed(0);
+        setActiveQueueIndex(0);
+
+        if (activeStreamId.current) {
+          await supabase
+            .from('live_streams')
+            .update({ status: 'ended' })
+            .eq('id', activeStreamId.current);
+          activeStreamId.current = null;
+        }
+
+        cancelRaffle();
+        
+        try {
+          fetch('/api/live-rooms/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ roomName: roomSlug })
+          });
+        } catch {}
+
+        await supabase
+          .from('live_streams')
+          .update({ status: 'ended' })
+          .eq('user_id', userId)
+          .eq('status', 'live');
+      }
+      
+      setIsLive(nextState);
+      localStorage.setItem(LS('is_live'), nextState.toString());
+      localStorage.setItem(LS('stream_title'), streamTitle);
+      await supabase.channel('live_events').send({ 
+        type: 'broadcast', 
+        event: 'stream_state', 
+        payload: { isLive: nextState, title: streamTitle, userId } 
+      });
+    } catch (e) {
+      console.error("toggleLive failed:", e);
+    } finally {
+      setToggling(false);
     }
-    
-    setIsLive(nextState);
-    localStorage.setItem(LS('crew_is_live'), nextState.toString());
-    localStorage.setItem(LS('stream_title'), streamTitle);
-    await supabase.channel('live_events').send({ type: 'broadcast', event: 'stream_state', payload: { isLive: nextState, title: streamTitle } });
-    
-    setToggling(false);
   };
 
   const syncStreamTitle = () => {
     localStorage.setItem(LS('stream_title'), streamTitle);
     if (isLive) {
-      supabase.channel('live_events').send({ type: 'broadcast', event: 'stream_state', payload: { isLive, title: streamTitle } });
+      supabase.channel('live_events').send({ 
+        type: 'broadcast', 
+        event: 'stream_state', 
+        payload: { isLive, title: streamTitle, userId } 
+      });
     }
   };
 
-  const syncRaffle = (status: any, entrants: any, min: number, prizes: any, winners: any, winnerPins?: string[]) => {
-    const state = { status, entrants, minEntrants: min, prizes, winners, winnerPins, ts: Date.now(), timestamp: Date.now() };
-    localStorage.setItem(LS('raffle_sync'), JSON.stringify(state));
+  const [activeRaffleId, setActiveRaffleId] = useState<string | null>(null);
+
+  const syncRaffle = async (status: any, entrants: any, min: number, prizes: any, winners: any, winnerPins?: string[]) => {
+    const state = { 
+      status, 
+      entrants, 
+      minEntrants: min, 
+      prizes, 
+      winners, 
+      winnerPins, 
+      ts: Date.now(), 
+      timestamp: Date.now(),
+      userId
+    };
+    // Keep localStorage for cross-tab sync
+    localStorage.setItem(LS('live_raffle_sync'), JSON.stringify(state));
     supabase.channel('live_events').send({ type: 'broadcast', event: 'raffle_sync', payload: state });
+
+    // Persist to Supabase
+    try {
+      const raffleData = {
+        crew_id: userId,
+        stream_id: `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`,
+        status,
+        prize_name: prizes?.[0]?.name || '',
+        prize_qty: prizes?.[0]?.qty || 1,
+        min_entrants: min,
+        entrants: JSON.stringify(entrants || []),
+        winners: JSON.stringify(winners || []),
+        winner_pins: JSON.stringify(winnerPins || []),
+        ...(status === 'complete' ? { completed_at: new Date().toISOString() } : {}),
+      };
+
+      if (activeRaffleId) {
+        await supabase.from('raffles').update(raffleData).eq('id', activeRaffleId);
+      } else if (status === 'open') {
+        const { data } = await supabase.from('raffles').insert(raffleData).select('id').single();
+        if (data) setActiveRaffleId(data.id);
+      }
+
+      if (status === 'idle' || status === 'complete') {
+        setActiveRaffleId(null);
+      }
+    } catch (e) {
+      console.error('[Raffle] Supabase sync failed, localStorage is still active:', e);
+    }
   };
 
   const handlePin = () => {
     if (!content.trim() || posting) return;
     const pinData = { text: content.trim(), by: displayName };
-    localStorage.setItem('7h_global_pinned', JSON.stringify(pinData));
+    localStorage.setItem(LS('live_pinned'), JSON.stringify(pinData));
     setActivePinned(pinData);
     setContent('');
   };
 
   const cancelRaffle = () => {
+    isDrawingRef.current = false;
     setRaffleStatus('idle');
     syncRaffle('idle', [], raffleMinEntrants, rafflePrizes, []);
   };
 
   const startSpecificRaffle = (idx: number) => {
-    if (raffleStatus !== 'idle') return;
+    if (raffleStatus !== 'idle' && raffleStatus !== 'complete') return;
     setActiveQueueIndex(idx);
     const targetRaffle = raffleQueue[idx];
     
-    // Lock in the logic for this specific row
     window.dispatchEvent(new CustomEvent('testingSimulateFanRaffleJoin'));
     setRaffleStatus('open');
     setRaffleEntrants([]);
@@ -321,12 +532,13 @@ export default function CrewDashboard() {
   };
 
   const drawWinner = () => {
-    if (raffleEntrants.length === 0) return;
+    if (isDrawingRef.current || raffleStatus !== 'open' || raffleEntrants.length === 0) return;
+    isDrawingRef.current = true;
     setRaffleStatus('drawing');
     syncRaffle('drawing', raffleEntrants, raffleMinEntrants, rafflePrizes, []);
     
     setTimeout(() => {
-      // Pick winners based on quantity, strictly enforcing 1 prize per person (unique entrants)
+      isDrawingRef.current = false;
       const uniqueEntrants = Array.from(new Map(raffleEntrants.map(e => [e.name, e])).values());
       const shuffled = uniqueEntrants.sort(() => 0.5 - Math.random());
       const winners = shuffled.slice(0, rafflePrizes[0]?.qty || 1);
@@ -335,7 +547,59 @@ export default function CrewDashboard() {
       setWinnerPins(pins);
       setRaffleStatus('complete');
       syncRaffle('complete', raffleEntrants, raffleMinEntrants, rafflePrizes, winners, pins);
+
+      const prizeName = rafflePrizes[0]?.name || 'the raffle';
+      
+      winners.forEach((w, idx) => {
+        const msg: ChatMsg = {
+          id: `raffle-win-${Date.now()}-${idx}`,
+          account: { id: 'system', name: '7th Heaven', displayName: 'RAFFLE BOT', role: 'admin', color: '#fbbf24', avatar: '🏆' },
+          text: `🎉 CONGRATULATIONS to ${w.name} for winning ${prizeName}! Check your Fan Dashboard to claim your prize! 🏆`,
+          timestamp: Date.now(),
+        };
+        const stored = JSON.parse(localStorage.getItem(LS('live_chat_history')) || '[]');
+        const nextChat = [...stored, msg].slice(-100);
+        localStorage.setItem(LS('live_chat_history'), JSON.stringify(nextChat));
+        setPosts(nextChat);
+      });
+
+      try {
+        const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
+        winners.forEach((w, idx) => {
+          inbox.unshift({
+            id: Date.now() + idx,
+            icon: '🎰',
+            title: 'Raffle Winner Drawn!',
+            desc: `${w.name} won ${prizeName}. PIN: ${pins[idx]}.`,
+            time: 'Just now',
+            isNew: true,
+            color: 'yellow'
+          });
+
+          // Persist notification to Supabase so it survives refresh
+          Promise.resolve(supabase.from('notifications').insert({
+            user_email: w.email || w.name.toLowerCase().replace(/\s+/g, '') + '@fan.7thheaven.com',
+            type: 'raffle_win',
+            title: `🏆 You won ${prizeName}!`,
+            body: `Congratulations! Show this PIN at the merch table to claim your prize.`,
+            pin: pins[idx],
+            prize: prizeName,
+          })).catch(() => {});
+        });
+        localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox.slice(0, 50)));
+      } catch {}
     }, 4000); // Wait 4s for simulated spin effect on fan page
+  };
+
+  const rigWinForMe = () => {
+    if (raffleStatus !== 'open') {
+       alert("Please START a raffle first, then click Rig to guarantee your win!");
+       return;
+    }
+    const me = { name: displayName, id: userId || 'crew', email: email, joinedAt: Date.now() };
+    // Force me as the only entrant for a guaranteed win
+    setRaffleEntrants([me]);
+    setTimeout(() => drawWinner(), 500);
   };
 
   // Auto-draw when entries reach minimum
@@ -354,6 +618,8 @@ export default function CrewDashboard() {
     }
   }, [raffleStatus]);
 
+  // Auto-restart logic removed to prevent raffles from starting without explicit user action.
+  /*
   useEffect(() => {
     if (raffleAutoRestartCountdown !== null && raffleAutoRestartCountdown > 0) {
       const t = setInterval(() => setRaffleAutoRestartCountdown(c => (c ? c - 1 : 0)), 1000);
@@ -372,6 +638,7 @@ export default function CrewDashboard() {
       syncRaffle('open', [], nextRaffle.min, [{ name: nextRaffle.name, qty: nextRaffle.qty }], [], []);
     }
   }, [raffleAutoRestartCountdown, raffleStatus]);
+  */
 
   const updateQueueItem = (idx: number, field: string, value: any) => {
     const next = [...raffleQueue];
@@ -396,6 +663,7 @@ export default function CrewDashboard() {
   };
 
   const addFakeEntry = () => {
+    if (raffleStatus !== 'open') return;
     const names = ['Alex', 'Jordan', 'Taylor', 'Casey', 'Riley'];
     const newEntrant = { name: names[Math.floor(Math.random() * names.length)], id: Math.random().toString() };
     const nextEntrants = [...raffleEntrants, newEntrant];
@@ -435,6 +703,16 @@ export default function CrewDashboard() {
     
     setPosts(limited);
     localStorage.setItem('7h_global_chat_history', JSON.stringify(limited));
+
+    // Persist to Supabase chat_messages table
+    const roomId = `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`;
+    Promise.resolve(supabase.from('chat_messages').insert({
+      room: roomId,
+      sender_name: displayName,
+      sender_role: 'crew',
+      sender_avatar: displayName.slice(0, 2).toUpperCase(),
+      content: content.trim(),
+    })).catch(() => {});
     
     setContent('');
     setPosting(false);
@@ -443,7 +721,7 @@ export default function CrewDashboard() {
   const handleGlobalPinBox = () => {
     if (!globalPinText.trim()) return;
     const pinData = { text: globalPinText.trim(), by: displayName };
-    localStorage.setItem('7h_global_pinned', JSON.stringify(pinData));
+    localStorage.setItem(LS('live_pinned'), JSON.stringify(pinData));
     setActivePinned(pinData);
     setGlobalPinText('');
   };
@@ -546,13 +824,15 @@ export default function CrewDashboard() {
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
                 Fan Watch Link — Share with your audience
               </p>
-              <p className="text-sm font-mono text-emerald-300/90 select-all relative z-10 block break-all">http://localhost:3000/live/live_michael</p>
+              <p className="text-sm font-mono text-emerald-300/90 select-all relative z-10 block break-all">
+                {`http://localhost:3000/live/live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`}
+              </p>
             </div>
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Link href="/live/live_michael" target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/5 hover:bg-white/15 text-emerald-300 hover:text-white text-[0.65rem] font-bold uppercase tracking-widest rounded border border-emerald-500/20 hover:border-emerald-500/50 transition-colors">
+              <Link href={`/live/live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/5 hover:bg-white/15 text-emerald-300 hover:text-white text-[0.65rem] font-bold uppercase tracking-widest rounded border border-emerald-500/20 hover:border-emerald-500/50 transition-colors">
                 Open <span className="ml-0.5">→</span>
               </Link>
-              <button onClick={() => navigator.clipboard.writeText('http://localhost:3000/live/live_michael')} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-[0.65rem] font-black uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-all cursor-pointer">
+              <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-[0.65rem] font-black uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-all cursor-pointer">
                 Copy Link
               </button>
             </div>
@@ -564,7 +844,23 @@ export default function CrewDashboard() {
           
           {/* VIDEO PLAYER (Left side) */}
           <div className="flex-1 relative bg-black group min-w-0">
-            <LiveKitStream room={`live_${userId}`} username={displayName} isPublisher={true} className="absolute inset-0 z-0" />
+            {userId ? (
+              <LiveKitStream 
+                room={`live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`} 
+                username={displayName} 
+                isPublisher={true} 
+                onDisconnected={() => {
+                  console.log("Remote termination detected");
+                  setIsLive(false);
+                  localStorage.setItem(LS('is_live'), 'false');
+                }}
+                className="absolute inset-0 z-0" 
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-white/20 text-xs">
+                Initializing Stream Identity...
+              </div>
+            )}
             
             {/* Floating Emojis overlay synced from fans */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden z-[15]">
@@ -597,37 +893,32 @@ export default function CrewDashboard() {
                </div>
             </div>
 
-            {/* Video Controls overlay */}
-            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 to-transparent z-20 flex gap-4">
-              <div className="flex-1 relative group">
-                <input 
-                  type="text" 
-                  value={globalPinText}
-                  onChange={e => setGlobalPinText(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
-                  placeholder="Type a message to pin to all fans..."
-                  className="w-full bg-black/50 border border-white/10 rounded-full px-5 py-3 pr-28 text-sm text-white placeholder:text-white/40 focus:border-emerald-500/50 focus:outline-none backdrop-blur-sm transition-all"
-                />
-                <div className="absolute right-2 top-2 bottom-2 flex items-center">
-                  <button 
-                    onClick={handleGlobalPinBox}
-                    disabled={!globalPinText.trim()}
-                    className="h-full px-4 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest text-[0.65rem] rounded-full transition-colors disabled:opacity-50 disabled:bg-white/10 disabled:text-white/50"
-                  >
-                    PIN
-                  </button>
-                </div>
-              </div>
+            {/* Video Controls overlay — only when live */}
+            {isLive && (
+            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 to-transparent z-20 flex items-center justify-end gap-4 pointer-events-none">
               <button 
                 onClick={attemptEndStream}
                 disabled={toggling}
-                className={`shrink-0 px-8 py-3 rounded-full text-[0.65rem] font-black uppercase tracking-widest shadow-xl transition-all disabled:opacity-50
-                  ${isLive ? 'bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-white' : 'bg-[#ec4899] text-white hover:brightness-110'}
-                `}
+                className="shrink-0 px-8 py-3 rounded-full text-[0.65rem] font-black uppercase tracking-widest shadow-xl transition-all disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-white pointer-events-auto"
               >
-                {toggling ? '...' : isLive ? '● End Stream' : 'Go Live'}
+                {toggling ? '...' : '● End Stream'}
               </button>
             </div>
+            )}
+
+            {/* Go Live CTA — centered on video when not streaming */}
+            {!isLive && (
+            <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40">
+              <button 
+                onClick={attemptEndStream}
+                disabled={toggling}
+                className="px-10 py-4 rounded-full text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(236,72,153,0.5)] transition-all disabled:opacity-50 bg-[#ec4899] text-white hover:brightness-110 hover:scale-105 hover:shadow-[0_0_50px_rgba(236,72,153,0.7)] flex items-center gap-3"
+              >
+                <span className="w-3 h-3 bg-white rounded-full drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
+                {toggling ? 'Starting...' : 'Go Live'}
+              </button>
+            </div>
+            )}
           </div>
 
           {/* CHAT PANEL (Right side) */}
@@ -686,10 +977,30 @@ export default function CrewDashboard() {
                      </div>
                   </div>
                 ))}
-                <div ref={chatEndRef} />
+                
              </div>
 
-             <div className="p-4 bg-[#111116] border-t border-white/[0.05]">
+             <div className="p-4 bg-[#111116] border-t border-white/[0.05] space-y-2">
+                {/* Pin message input */}
+                <div className="relative">
+                   <input 
+                     value={globalPinText}
+                     onChange={e => setGlobalPinText(e.target.value)}
+                     onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
+                     placeholder="Pin a message to all fans..."
+                     className="w-full bg-emerald-500/[0.06] border border-emerald-500/20 rounded-full px-5 py-2.5 pr-28 text-sm text-white placeholder:text-emerald-400/40 outline-none focus:border-emerald-500/50 transition-colors"
+                   />
+                   <div className="absolute right-2 top-1.5 bottom-1.5 flex items-center z-10">
+                      <button 
+                        onClick={handleGlobalPinBox} 
+                        disabled={!globalPinText.trim()} 
+                        className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest text-[0.55rem] rounded-full transition-colors disabled:opacity-30 disabled:bg-white/10 disabled:text-white/30"
+                      >
+                        📌 PIN
+                      </button>
+                   </div>
+                </div>
+                {/* Chat message input */}
                 <div className="relative">
                    <input 
                      value={content}
@@ -699,9 +1010,6 @@ export default function CrewDashboard() {
                      className="w-full bg-[#1c1c24] border border-white/5 rounded-full px-5 py-3 pr-24 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#ec4899]/50 transition-colors"
                    />
                    <div className="absolute right-2 top-2 bottom-2 flex items-center gap-1">
-                      <button onClick={handlePin} disabled={!content.trim() || posting} className="w-9 h-9 bg-[#2a2a35] hover:bg-emerald-500 text-white rounded-full flex items-center justify-center transition-colors disabled:opacity-50" title="Pin Message">
-                         📌
-                      </button>
                       <button onClick={handlePost} disabled={!content.trim() || posting} className="w-9 h-9 bg-[#2a2a35] hover:bg-[#ec4899] text-white rounded-full flex items-center justify-center transition-colors disabled:opacity-50" title="Send Chat">
                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                       </button>
@@ -818,7 +1126,7 @@ export default function CrewDashboard() {
                       onClick={cancelRaffle} 
                       className="px-6 py-2.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20"
                    >
-                      Cancel Raffle
+                      {raffleStatus === 'complete' ? 'Clear Results' : 'Cancel Raffle'}
                    </button>
                  )}
               </div>
@@ -828,7 +1136,7 @@ export default function CrewDashboard() {
                  {/* Multi-Raffle Queue Configuration */}
                  <div className="space-y-6">
                     {raffleQueue.map((item, idx) => (
-                      <div key={idx} className={`flex flex-col gap-2 relative ${idx !== activeQueueIndex && raffleStatus !== 'idle' ? 'opacity-30 pointer-events-none' : ''}`}>
+                      <div key={idx} className={`flex flex-col gap-2 relative ${idx !== activeQueueIndex && (raffleStatus !== 'idle' && raffleStatus !== 'complete') ? 'opacity-30 pointer-events-none' : ''}`}>
                          {/* Show indicator if it's the currently active raffle */}
                          {idx === activeQueueIndex && raffleStatus !== 'idle' && (
                            <div className="absolute -left-6 top-8 text-amber-500 animate-pulse">▶</div>
@@ -840,11 +1148,11 @@ export default function CrewDashboard() {
                                {idx === 0 && <label className="text-[0.55rem] font-black uppercase tracking-widest text-[#a78bfa]">1. Input for raffle prize</label>}
                                <input 
                                  type="text" 
-                                 disabled={raffleStatus !== 'idle'}
+                                 disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                  value={item.name}
                                  onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                  placeholder="e.g. VIP Meet & Greet Pass"
-                                 className={`w-full bg-[#1c1c24] border rounded-lg px-4 py-3 text-sm text-white outline-none transition-colors ${idx === activeQueueIndex && raffleStatus !== 'idle' ? 'border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'border-white/10 focus:border-[#a78bfa]'}`}
+                                 className={`w-full bg-[#1c1c24] border rounded-lg px-4 py-3 text-sm text-white outline-none transition-colors ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'border-white/10 focus:border-[#a78bfa]'}`}
                                />
                             </div>
 
@@ -854,10 +1162,10 @@ export default function CrewDashboard() {
                                <input 
                                  type="number" 
                                  min="1"
-                                 disabled={raffleStatus !== 'idle'}
+                                 disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                  value={item.min || ''}
                                  onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                 className={`w-full bg-[#1c1c24] border rounded-lg px-4 py-3 text-sm text-amber-400 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && raffleStatus !== 'idle' ? 'border-amber-500/50' : 'border-white/10 focus:border-amber-500'}`}
+                                 className={`w-full bg-[#1c1c24] border rounded-lg px-4 py-3 text-sm text-amber-400 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50' : 'border-white/10 focus:border-amber-500'}`}
                                />
                                {/* Floating counter during active raffle */}
                                {idx === activeQueueIndex && raffleStatus !== 'idle' && (
@@ -873,10 +1181,10 @@ export default function CrewDashboard() {
                                <input 
                                  type="number" 
                                  min="1"
-                                 disabled={raffleStatus !== 'idle'}
+                                 disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                  value={item.qty || ''}
                                  onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                 className={`w-full bg-[#1c1c24] border rounded-lg px-4 py-3 text-sm text-white outline-none transition-colors text-center ${idx === activeQueueIndex && raffleStatus !== 'idle' ? 'border-amber-500/50' : 'border-white/10 focus:border-[#a78bfa]'}`}
+                                 className={`w-full bg-[#1c1c24] border rounded-lg px-4 py-3 text-sm text-white outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50' : 'border-white/10 focus:border-[#a78bfa]'}`}
                                />
                             </div>
 
@@ -884,16 +1192,16 @@ export default function CrewDashboard() {
                             <div className="flex items-center gap-2">
                               <button 
                                 onClick={() => startSpecificRaffle(idx)}
-                                disabled={raffleStatus !== 'idle'}
+                                disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                 className={`h-[46px] px-6 shrink-0 flex items-center justify-center border text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all ${
-                                  raffleStatus === 'idle' 
+                                  (raffleStatus === 'idle' || raffleStatus === 'complete')
                                   ? 'border-amber-500 text-amber-500 hover:bg-amber-500/10' 
-                                  : idx === activeQueueIndex 
+                                  : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                     ? 'border-amber-500/50 bg-amber-500/20 text-amber-500' // highlight active
                                     : 'border-white/10 text-white/30 opacity-30 shadow-none' // dim inactive
                                 }`}
                               >
-                                {idx === activeQueueIndex && raffleStatus !== 'idle' ? 'Running' : 'Start'}
+                                {idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'Running' : 'Start'}
                               </button>
 
                               <button 
@@ -910,7 +1218,7 @@ export default function CrewDashboard() {
                     
                     <button 
                       onClick={addQueueItem}
-                      disabled={raffleStatus !== 'idle'}
+                      disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                       className="w-full py-2.5 border border-dashed border-white/20 text-white/40 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg hover:border-white/40 hover:text-white/80 transition-colors disabled:opacity-30"
                     >
                       + Add Another Raffle To Queue
@@ -921,14 +1229,18 @@ export default function CrewDashboard() {
                     <div className="mt-2 text-center p-3 border border-amber-500/20 bg-amber-500/5 rounded-xl">
                        <p className="text-lg font-black text-white italic mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
                        <p className="text-[0.55rem] font-bold text-amber-500 uppercase tracking-widest mt-0.5">Fan entries collected</p>
-                    </div>
-                 )}
-
-                 {/* Simulator Controls */}
-                 {raffleStatus !== 'idle' && (
-                    <div className="flex justify-center gap-2 mt-auto pb-4">
-                       <button onClick={addFakeEntry} className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
-                       <button onClick={addLotsOfFakeEntries} className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
+                       <div className="flex flex-col gap-2 mt-4 px-2">
+                        <div className="flex gap-2">
+                           <button onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
+                           <button onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
+                        </div>
+                        <button 
+                          onClick={rigWinForMe} 
+                          className="w-full py-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-lg text-[0.6rem] font-black text-emerald-400 uppercase tracking-[0.2em] transition-all"
+                        >
+                          🧪 TEST: Rig Win for Me
+                        </button>
+                     </div>
                     </div>
                  )}
 

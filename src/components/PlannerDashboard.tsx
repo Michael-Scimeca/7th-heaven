@@ -44,7 +44,7 @@ const eventTypeLabels: Record<string, string> = {
 };
 
 export default function PlannerDashboard() {
-  const { member, isLoggedIn, openModal, login } = useMember();
+  const { member, isLoggedIn, hydrated, openModal, login } = useMember();
   const [mounted, setMounted] = useState(false);
   const [booking, setBooking] = useState<BookingData>(defaultBooking);
   const [isEditing, setIsEditing] = useState(false);
@@ -99,23 +99,41 @@ export default function PlannerDashboard() {
 
   useEffect(() => {
     setMounted(true);
-    // Hydrate booking state from localStorage
-    try {
-      const saved = localStorage.getItem('7h_planner_bookings');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        setBooking(parsed);
-        setEditDraft(parsed);
+    // Fetch bookings from Supabase via API
+    const fetchBookings = async () => {
+      try {
+        const stored = localStorage.getItem('7h_member');
+        const email = stored ? JSON.parse(stored).email : null;
+        if (!email) return;
+        const res = await fetch(`/api/booking?email=${encodeURIComponent(email)}`);
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const latest = data[0]; // most recent booking
+          const mapped: BookingData = {
+            id: latest.bookingId || latest.booking_id || defaultBooking.id,
+            eventName: latest.eventType ? (eventTypeLabels[latest.eventType] || latest.eventType) : defaultBooking.eventName,
+            eventType: latest.eventType || defaultBooking.eventType,
+            date: latest.eventDate || latest.event_date || defaultBooking.date,
+            startTime: latest.startTime || latest.start_time || defaultBooking.startTime,
+            endTime: latest.endTime || latest.end_time || defaultBooking.endTime,
+            venueName: latest.venueName || latest.venue_name || defaultBooking.venueName,
+            venueCity: latest.venueCity || latest.venue_city || defaultBooking.venueCity,
+            venueState: latest.venueState || latest.venue_state || defaultBooking.venueState,
+            indoorOutdoor: latest.indoorOutdoor || latest.indoor_outdoor || defaultBooking.indoorOutdoor,
+            expectedAttendance: latest.expectedAttendance || latest.expected_attendance || defaultBooking.expectedAttendance,
+            organization: latest.organization || defaultBooking.organization,
+            status: latest.status || defaultBooking.status,
+            cancelledAt: latest.cancelledAt || latest.cancelled_at,
+          };
+          setBooking(mapped);
+          setEditDraft(mapped);
+        }
+      } catch (e) {
+        console.error('Failed to fetch bookings:', e);
       }
-    } catch {}
+    };
+    fetchBookings();
   }, []);
-
-  // Persist booking changes to localStorage
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('7h_planner_bookings', JSON.stringify(booking));
-    }
-  }, [booking, mounted]);
 
   // Revive countdown timer
   useEffect(() => {
@@ -154,7 +172,7 @@ export default function PlannerDashboard() {
   const hasAccess = (!forceLogin && isDevBypass) || (isLoggedIn && member?.role === "event_planner");
   const isSignedInPlanner = hasAccess;
 
-  if (!mounted) return null;
+  if (!mounted || !hydrated) return null;
 
   if (!hasAccess) {
     return (
@@ -236,9 +254,17 @@ export default function PlannerDashboard() {
     setIsEditing(false);
   };
 
-  const handleCancelRequest = () => {
+  const handleCancelRequest = async () => {
     setBooking(prev => ({ ...prev, status: "cancelled", cancelledAt: new Date().toISOString() }));
     setShowCancelConfirm(false);
+    // Persist to Supabase
+    try {
+      await fetch('/api/booking', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId: booking.id, status: 'cancelled' }),
+      });
+    } catch {}
   };
 
   const statusConfig = {

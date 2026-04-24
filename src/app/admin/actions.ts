@@ -2,6 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { RoomServiceClient } from 'livekit-server-sdk';
 
 // Create a Supabase admin client that bypasses RLS
 const supabaseAdmin = createClient(
@@ -9,16 +10,39 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+const roomService = new RoomServiceClient(
+  process.env.NEXT_PUBLIC_LIVEKIT_URL!,
+  process.env.LIVEKIT_API_KEY!,
+  process.env.LIVEKIT_API_SECRET!
+);
+
 export async function adminKillStream(streamId: string) {
   console.log(`[Admin] Aggressively terminating stream ${streamId}`);
+  
+  // 1. Get the stream details to find the room name
+  const { data: stream } = await supabaseAdmin.from("live_streams").select("user_id, stream_url").eq("id", streamId).single();
+  
+  // 2. Update Supabase status
   const { error } = await supabaseAdmin
     .from("live_streams")
     .update({ status: "ended", ended_at: new Date().toISOString() })
     .eq("id", streamId);
 
   if (error) {
-    console.error("Failed to kill stream:", error);
+    console.error("Failed to kill stream in DB:", error);
     return { success: false, error: error.message };
+  }
+
+  // 3. Force-delete the LiveKit room to kick the publisher
+  if (stream) {
+    const roomName = stream.stream_url || `live_${stream.user_id}`;
+    try {
+      await roomService.deleteRoom(roomName);
+      console.log(`[Admin] LiveKit room ${roomName} deleted.`);
+    } catch (lkErr) {
+      console.error("Failed to delete LiveKit room:", lkErr);
+      // Not a fatal error, maybe the room was already empty
+    }
   }
   
   revalidatePath("/admin");
@@ -148,3 +172,18 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
   return { success: true, password };
 }
 
+export async function adminResetPassword(userId: string, email: string) {
+  console.log(`[Admin] Resetting password for ${email}`);
+  const newPassword = Math.random().toString(36).slice(-10) + "!A1";
+  
+  const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+    password: newPassword
+  });
+
+  if (error) {
+    console.error('Reset error:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true, password: newPassword };
+}

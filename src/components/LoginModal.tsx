@@ -9,8 +9,10 @@ export default function LoginModal() {
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
  const [zipCode, setZipCode] = useState("");
+ const [wantNotifications, setWantNotifications] = useState(false);
  const [error, setError] = useState("");
  const [loading, setLoading] = useState(false);
+ const [loginRole, setLoginRole] = useState<'fan' | 'crew'>('fan');
 
  if (!isModalOpen) return null;
 
@@ -21,13 +23,33 @@ export default function LoginModal() {
 
   if (modalMode === "login") {
    const ok = await login(email, password);
-   if (!ok) setError("Account not found. Sign up first!");
+    if (!ok) {
+     setError("Invalid email or password. Try again or sign up.");
+    } else {
+    // Redirect based on logged-in user's role
+    const accounts = JSON.parse(localStorage.getItem("7h_accounts") || "{}");
+    const acct = accounts[email.toLowerCase()];
+    if (acct?.role === 'crew') {
+     window.location.href = '/crew';
+    } else if (acct?.role === 'event_planner') {
+     window.location.href = '/planner';
+    } else if (acct?.role === 'admin') {
+     window.location.href = '/admin';
+    } else {
+     window.location.href = '/fans';
+    }
+   }
   } else {
    if (!name.trim()) { setError("Name is required"); setLoading(false); return; }
    if (!email.includes("@")) { setError("Valid email required"); setLoading(false); return; }
    if (password.length < 4) { setError("Password must be 4+ characters"); setLoading(false); return; }
-   if (!zipCode.trim()) { setError("Zip code required for show radius alerts"); setLoading(false); return; }
-   await signup(name, email, password);
+   if (wantNotifications && !zipCode.trim()) { setError("Enter your zip code to receive local show alerts"); setLoading(false); return; }
+   const ok = await signup(name, email, password);
+   if (!ok) {
+    setError("An account with this email already exists.");
+   } else {
+    window.location.href = '/fans';
+   }
   }
   setLoading(false);
  };
@@ -77,7 +99,35 @@ export default function LoginModal() {
       </button>
      </div>
 
-     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+     {/* Fan / Crew Toggle — Login only (crew accounts are admin-created) */}
+     {modalMode === 'login' && (
+     <div className="flex items-center justify-center gap-1 mb-6 bg-white/[0.03] border border-white/10 rounded-lg p-1">
+      <button
+       type="button"
+       onClick={() => setLoginRole('fan')}
+       className={`flex-1 py-2 text-[0.65rem] font-bold uppercase tracking-[0.12em] rounded-md transition-all cursor-pointer ${
+        loginRole === 'fan'
+         ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]'
+         : 'text-white/30 hover:text-white/50'
+       }`}
+      >
+       🎸 Fan
+      </button>
+      <button
+       type="button"
+       onClick={() => setLoginRole('crew')}
+       className={`flex-1 py-2 text-[0.65rem] font-bold uppercase tracking-[0.12em] rounded-md transition-all cursor-pointer ${
+        loginRole === 'crew'
+         ? 'bg-emerald-500 text-white shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+         : 'text-white/30 hover:text-white/50'
+       }`}
+      >
+       🛡️ Crew
+      </button>
+     </div>
+     )}
+
+     <form onSubmit={handleSubmit} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
       {modalMode === "signup" && (
        <>
         <div>
@@ -91,19 +141,45 @@ export default function LoginModal() {
          />
         </div>
         
-        <div>
-         <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 flex justify-between items-baseline">
-          <span>Zip Code <span className="text-[var(--color-accent)]">*</span></span>
-          <span className="text-[0.5rem] tracking-normal normal-case opacity-50">Required for local show alerts</span>
-         </label>
-         <input
-          type="text"
-          value={zipCode}
-          onChange={(e) => setZipCode(e.target.value)}
-          placeholder="e.g. 60601"
-          className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
-         />
+        {loginRole === 'fan' && (
+        <div className="flex flex-col gap-3">
+         {/* Notification opt-in toggle */}
+         <button
+          type="button"
+          onClick={() => setWantNotifications(!wantNotifications)}
+          className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-all cursor-pointer ${
+           wantNotifications
+            ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+            : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+          }`}
+         >
+          <span className={`w-9 h-5 rounded-full relative transition-all flex-shrink-0 ${
+           wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+          }`}>
+           <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
+            wantNotifications ? 'left-[18px]' : 'left-0.5'
+           }`} />
+          </span>
+          <span className="text-[0.7rem] text-white/70 leading-tight text-left">
+           📍 Notify me when 7th Heaven books a show near me
+          </span>
+         </button>
+
+         {/* Zip code — only if opted in */}
+         {wantNotifications && (
+         <div>
+          <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
+          <input
+           type="text"
+           value={zipCode}
+           onChange={(e) => setZipCode(e.target.value)}
+           placeholder="e.g. 60601"
+           className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+          />
+         </div>
+         )}
         </div>
+        )}
         </>
        )}
 
@@ -114,6 +190,9 @@ export default function LoginModal() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="your@email.com"
+        autoComplete="off"
+        data-lpignore="true"
+        data-form-type="other"
         className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
        />
       </div>
@@ -125,6 +204,9 @@ export default function LoginModal() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="••••••••"
+        autoComplete="new-password"
+        data-lpignore="true"
+        data-form-type="other"
         className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
        />
       </div>
@@ -142,13 +224,7 @@ export default function LoginModal() {
       </button>
      </form>
 
-     {modalMode === "signup" && (
-      <div className="mt-6 p-4 bg-[rgba(133,29,239,0.06)] border border-[var(--color-accent)]/20">
-       <p className="text-[0.65rem] text-white/50 leading-relaxed">
-        <span className="text-[var(--color-accent)] font-bold">📍 Proximity Radius:</span> We use your zip code to notify you when we book shows in your area. Never miss a local show again!
-       </p>
-      </div>
-     )}
+
 
      {modalMode === "login" && (
       <p className="text-center text-[0.65rem] text-white/30 mt-6">

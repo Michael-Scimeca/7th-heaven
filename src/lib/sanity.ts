@@ -62,6 +62,8 @@ export interface SanityTourDate {
  isFestival: boolean;
  tags: string[];
  notes?: string;
+ lat?: number;
+ lng?: number;
 }
 
 export interface SanityBandMember {
@@ -77,6 +79,65 @@ export interface SanityBandMember {
  order: number;
 }
 
+export interface SanityVideo {
+ _id: string;
+ _type: "video";
+ title: string;
+ youtubeId: string;
+ category: string;
+ year?: number;
+ duration?: string;
+ description?: string;
+ viewCount?: string;
+}
+
+export interface SanitySiteSettings {
+ _id: string;
+ _type: "siteSettings";
+ bandName: string;
+ tagline: string;
+ subTagline: string;
+ bioIntro: string;
+ bioIntro2: string;
+ stats: { number: string; label: string }[];
+ latestRelease: {
+  title: string;
+  year: string;
+  duration: string;
+  type: string;
+  description: string;
+  youtubeId: string;
+  buyLink: string;
+  spotifyLink: string;
+  appleMusicLink: string;
+  credits: { role: string; name: string }[];
+  behindTheScenes: SanityImageSource[];
+ };
+ socialLinks: { name: string; url: string }[];
+ platformLinks: { name: string; url: string; label: string }[];
+ endorsements: { name: string; logo?: SanityImageSource; logoPath?: string }[];
+ contacts: {
+  category: string;
+  company?: string;
+  name?: string;
+  email: string;
+  phone: string;
+  note?: string;
+ }[];
+ bookingPhone: string;
+ bookingEmail: string;
+ accomplishments: string[];
+ performedWith: string[];
+ btsVideos: {
+  youtubeId: string;
+  title: string;
+  subtitle: string;
+  director: string;
+  year: number;
+ }[];
+ navLinks: { href: string; label: string }[];
+}
+
 // ─── GROQ Queries ───
 export const queries = {
  // News
@@ -84,13 +145,21 @@ export const queries = {
  featuredNews: `*[_type == "newsPost" && featured == true] | order(publishedAt desc)[0...3] { _id, title, slug, content, date, category, image, featured, publishedAt }`,
 
  // Tour Dates
- allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, day, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes }`,
- upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, day, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes }`,
+ allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, day, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes, lat, lng }`,
+ upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, day, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes, lat, lng }`,
 
  // Band Members
  allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, bio, qaPairs, instruments, order }`,
  memberBySlug: (slug: string) =>
   `*[_type == "bandMember" && slug.current == "${slug}"][0] { _id, name, slug, role, image, bio, qaPairs, instruments }`,
+
+ // Videos
+ allVideos: `*[_type == "video"] | order(category asc, year desc) { _id, title, youtubeId, category, year, duration, description, viewCount }`,
+ videosByCategory: (category: string) =>
+  `*[_type == "video" && category == "${category}"] | order(year desc) { _id, title, youtubeId, category, year, duration, description, viewCount }`,
+
+ // Site Settings (singleton)
+ siteSettings: `*[_type == "siteSettings"][0]`,
 };
 
 // ─── Fetch helpers ───

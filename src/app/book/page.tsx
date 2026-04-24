@@ -96,19 +96,36 @@ function BookPageContent() {
   const [accountPassword, setAccountPassword] = useState("");
   const [creatingAccount, setCreatingAccount] = useState(false);
 
-  // Auto-fill from planner dashboard or rebook URL params
+  // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
   useEffect(() => {
     if (isFromPlanner) {
-      const fields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "startTime", "endTime", "indoorOutdoor", "expectedAttendance"] as const;
+      // Try to restore full form data from last booking
+      try {
+        const savedForm = localStorage.getItem('7h_planner_last_form');
+        if (savedForm) {
+          const parsed = JSON.parse(savedForm);
+          setFormData(prev => ({
+            ...prev,
+            ...parsed,
+            // Clear date/time so user picks new ones
+            eventDate: '',
+            startTime: '',
+            endTime: '',
+          }));
+          if (parsed.eventType) setSelectedType(parsed.eventType);
+        }
+      } catch {}
+
+      // URL params override localStorage (for specific field overrides)
+      const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "startTime", "endTime", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
       setFormData(prev => {
         const updated = { ...prev };
-        fields.forEach(f => {
+        allFields.forEach(f => {
           const val = searchParams.get(f);
           if (val) (updated as any)[f] = val;
         });
         return updated;
       });
-      // Auto-select event type when rebooking
       const eventType = searchParams.get("eventType");
       if (eventType) setSelectedType(eventType);
     }
@@ -128,11 +145,90 @@ function BookPageContent() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    // Clear validation errors when user edits
+    if (validationErrors.length > 0) setValidationErrors([]);
+  };
+
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
+  const validateBooking = (): string[] => {
+    const errors: string[] = [];
+
+    // Required fields
+    if (!selectedType) errors.push("Please select an event type.");
+    if (!formData.name.trim()) errors.push("Full name is required.");
+    if (!formData.email.trim()) errors.push("Email is required.");
+    if (!formData.eventDate) errors.push("Please select an event date.");
+    if (!formData.startTime) errors.push("Start time is required.");
+    if (!formData.venueName.trim()) errors.push("Venue name is required.");
+    if (!formData.venueCity.trim()) errors.push("Venue city is required.");
+
+    // Email format
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.push("Please enter a valid email address.");
+    }
+
+    // Phone format (if provided)
+    if (formData.phone && formData.phone.replace(/\D/g, '').length < 10) {
+      errors.push("Phone number must be at least 10 digits.");
+    }
+
+    // Date validation — must be at least 7 days out
+    if (formData.eventDate) {
+      const eventDate = new Date(formData.eventDate + 'T12:00:00');
+      const now = new Date();
+      const daysOut = Math.ceil((eventDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+      
+      if (daysOut < 0) {
+        errors.push("Cannot book a date in the past.");
+      } else if (daysOut > 365) {
+        errors.push("Bookings cannot be made more than 1 year in advance.");
+      }
+    }
+
+    // Time validation — end time after start time (if both provided)
+    if (formData.startTime && formData.endTime) {
+      const parseTime = (t: string) => {
+        const match = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
+        if (!match) return 0;
+        let h = parseInt(match[1]);
+        const m = parseInt(match[2]);
+        if (match[3].toUpperCase() === 'PM' && h !== 12) h += 12;
+        if (match[3].toUpperCase() === 'AM' && h === 12) h = 0;
+        return h * 60 + m;
+      };
+      if (parseTime(formData.endTime) <= parseTime(formData.startTime)) {
+        errors.push("End time must be after start time.");
+      }
+    }
+
+
+
+    // Rate limiting — max 3 submissions per hour
+    try {
+      const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps') || '[]');
+      const oneHourAgo = Date.now() - 60 * 60 * 1000;
+      const recent = timestamps.filter(t => t > oneHourAgo);
+      if (recent.length >= 3) {
+        errors.push("Too many booking requests. Please wait before submitting another.");
+      }
+    } catch {}
+
+    return errors;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedType) return;
+    
+    // Run validation
+    const errors = validateBooking();
+    if (errors.length > 0) {
+      setValidationErrors(errors);
+      // Scroll to top of form to show errors
+      document.getElementById('book-event')?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
     setSubmitting(true);
     try {
       const res = await fetch("/api/booking", {
@@ -141,23 +237,19 @@ function BookPageContent() {
         body: JSON.stringify({ ...formData, eventType: selectedType }),
       });
       if (res.ok) {
-        // Save booking to planner dashboard localStorage
-        const bookingRecord = {
-          id: `7H-BK-${Math.floor(1000 + Math.random() * 9000)}`,
-          eventName: formData.name ? `${formData.name}'s Event` : "New Event",
-          eventType: selectedType,
-          date: formData.eventDate ? new Date(formData.eventDate + "T12:00:00Z").toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : "",
-          startTime: formData.startTime,
-          endTime: formData.endTime,
-          venueName: formData.venueName,
-          venueCity: formData.venueCity,
-          venueState: formData.venueState,
-          indoorOutdoor: formData.indoorOutdoor,
-          expectedAttendance: formData.expectedAttendance,
-          organization: formData.organization,
-          status: "pending" as const,
-        };
-        localStorage.setItem('7h_planner_bookings', JSON.stringify(bookingRecord));
+
+
+        // Save full form data for rebook auto-fill
+        localStorage.setItem('7h_planner_last_form', JSON.stringify({ ...formData, eventType: selectedType }));
+
+        // Track submission timestamp for rate limiting
+        try {
+          const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps') || '[]');
+          timestamps.push(Date.now());
+          // Keep only last hour
+          const oneHourAgo = Date.now() - 60 * 60 * 1000;
+          localStorage.setItem('7h_booking_timestamps', JSON.stringify(timestamps.filter(t => t > oneHourAgo)));
+        } catch {}
 
         // Persist phone number to user account if logged in
         if (isLoggedIn && member && formData.phone) {
@@ -258,7 +350,19 @@ function BookPageContent() {
                 onClick={async () => {
                   if (!accountPassword || accountPassword.length < 4) return;
                   setCreatingAccount(true);
-                  await signup(formData.name, formData.email, accountPassword, formData.phone);
+                  const success = await signup(formData.name, formData.email, accountPassword, formData.phone);
+                  if (success) {
+                    // Update the account role to event_planner since they booked
+                    const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
+                    const key = formData.email.toLowerCase();
+                    if (accounts[key]) {
+                      accounts[key].role = 'event_planner';
+                      if (formData.phone) accounts[key].phone = formData.phone;
+                      localStorage.setItem('7h_accounts', JSON.stringify(accounts));
+                    }
+                    // Redirect to planner dashboard
+                    window.location.href = '/planner';
+                  }
                   setCreatingAccount(false);
                 }}
                 disabled={creatingAccount || !accountPassword}
@@ -309,7 +413,7 @@ function BookPageContent() {
                   <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.15em] border rounded-full ${
                     member.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30'
                   }`}>
-                    {member.role === 'event_planner' ? '📋 Event Planner' : '★ Member'}
+                    {member.role === 'event_planner' ? '📋 Event Planner' : member.role === 'admin' ? '🛡️ Admin' : member.role === 'crew' ? '🛡️ Crew' : '★ Fan'}
                   </span>
                 </div>
                 <p className="text-[0.8rem] text-white/40 font-mono mt-0.5">{member.email}</p>
@@ -336,6 +440,43 @@ function BookPageContent() {
             Fill out the details below. We'll review your request and get back to you within 24-48 hours.
           </p>
         </div>
+
+        {/* DEV: Auto-fill Test Button */}
+        {typeof window !== 'undefined' && localStorage.getItem('7h_dev_bypass') === 'true' && (
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedType('full_band');
+              setFormData({
+                name: 'Marcus Rivera',
+                email: 'marcus@riveraentertainment.com',
+                phone: '(312) 555-0187',
+                organization: 'Rivera Entertainment Group',
+                eventDate: '2026-06-14',
+                startTime: '7:00 PM',
+                endTime: '10:00 PM',
+                customEventType: '',
+                venueName: 'The Chicago Theatre',
+                venueCity: 'Chicago',
+                venueState: 'IL',
+                indoorOutdoor: 'Indoor',
+                expectedAttendance: '500',
+                budget: '$5,000 – $10,000',
+                setLength: 'Full Show (3-4 hours)',
+                soundSystem: 'Yes — full PA provided',
+                stageAvailable: 'Yes',
+                backlineProvided: 'No — band brings everything',
+                ageRestriction: '21+',
+                loadInTime: '3:00 PM',
+                details: 'Annual summer gala fundraiser. We need high-energy rock covers mixed with originals. VIP section stage-left. Green room required for band.',
+                hearAbout: 'Referred by a friend',
+              });
+            }}
+            className="mb-6 px-4 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[0.65rem] font-bold uppercase tracking-widest rounded-lg hover:bg-amber-500/20 transition-all cursor-pointer flex items-center gap-2"
+          >
+            ⚡ Dev: Auto-Fill Form
+          </button>
+        )}
 
         {/* Testimonial */}
         <div className="mb-16 border border-white/10 bg-white/[0.02] p-8 relative">
@@ -483,6 +624,21 @@ function BookPageContent() {
                      </span>
                   </div>
                </div>
+
+               {/* Validation Errors */}
+               {validationErrors.length > 0 && (
+                 <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-4">
+                   <div className="flex items-center gap-2 mb-2">
+                     <span className="text-red-400 text-sm">⚠</span>
+                     <span className="text-red-400 text-[0.7rem] font-bold uppercase tracking-widest">Please fix the following</span>
+                   </div>
+                   <ul className="space-y-1">
+                     {validationErrors.map((err, i) => (
+                       <li key={i} className="text-red-300/80 text-[0.75rem] pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500/50">{err}</li>
+                     ))}
+                   </ul>
+                 </div>
+               )}
 
                <button 
                 type="submit" 

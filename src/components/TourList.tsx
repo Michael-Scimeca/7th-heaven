@@ -51,9 +51,7 @@ const shows = [
  { day: "Fri", date: "May 30", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
 ];
 
-// --- Derive filter options ---
-const months = [...new Set(shows.map((s) => s.date.split(" ")[0]))];
-
+// --- Helper functions ---
 function getShowTags(info: string): string[] {
  const lower = info.toLowerCase();
  const tags: string[] = [];
@@ -78,11 +76,6 @@ function getShowIcon(info: string): string {
 }
 
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
-const cityCounts: Record<string, number> = {};
-shows.forEach((s) => { if (s.city) cityCounts[s.city] = (cityCounts[s.city] || 0) + 1; });
-const locationOptions = Object.entries(cityCounts)
- .sort((a, b) => b[1] - a[1])
- .map(([city]) => city);
 
 // Shared dropdown styles
 const selectClass = "appearance-none bg-[rgba(255,255,255,0.05)] border border-[var(--color-border)] rounded-lg pl-3 pr-7 py-1.5 text-[0.65rem] font-semibold uppercase tracking-wider text-white/70 cursor-pointer transition-all duration-200 focus:outline-none focus:border-[var(--color-accent)] hover:border-[rgba(255,255,255,0.15)] hover:text-white/90";
@@ -103,6 +96,14 @@ export default function TourList({ initialShows }: TourListProps) {
   if (initialShows && initialShows.length > 0) return initialShows;
   return shows;
  }, [initialShows]);
+
+ // Derive filter options from current data source
+ const months = useMemo(() => [...new Set(displayShows.map((s: any) => s.date.split(' ')[0]))], [displayShows]);
+ const locationOptions = useMemo(() => {
+  const counts: Record<string, number> = {};
+  displayShows.forEach((s: any) => { if (s.city) counts[s.city] = (counts[s.city] || 0) + 1; });
+  return Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([city]) => city);
+ }, [displayShows]);
 
  const tableRef = useRef<HTMLDivElement>(null);
 
@@ -160,7 +161,7 @@ export default function TourList({ initialShows }: TourListProps) {
       const showDate = new Date(`${show.date}, ${currentYear}`);
       if (showDate >= now && show.city) return show;
     }
-    return shows.find(s => s.city) || shows[0]; // fallback to first show with a city
+    return displayShows.find((s: any) => s.city) || displayShows[0]; // fallback to first show with a city
   };
 
   const upNext = getUpcomingShow();

@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
+import { sanityFetch } from "@/sanity/live";
+import { queries, SanitySiteSettings } from "@/lib/sanity";
 
 export const metadata: Metadata = {
  title: "Contact — 7th Heaven",
  description: "Contact 7th heaven for booking, press inquiries, technical & production advance.",
 };
 
-const contacts = [
+const FALLBACK_CONTACTS = [
  { category: "Booking", company: "NTD Management", name: null, email: "info@NTDManagement.com", phone: "847-551-5363", note: null },
  { category: "Press • Media", company: "NTD Records", name: "Lenny Rago", email: "LRago@NTDRecords.com", phone: "847-269-6200", note: "No Bookings" },
  { category: "Technical • Production • Advance", company: null, name: "Jeff Dobbs", email: "jeffdobbs64@yahoo.com", phone: "847-772-5333", note: "No Bookings" },
  { category: "Advance — Non-Technical", company: null, name: "Alan McRae", email: "Alan@NTDManagement.com", phone: "630-842-9129", note: "No Bookings" },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+ const { data: settingsData } = await sanityFetch({ query: queries.siteSettings });
+ const settings = settingsData as SanitySiteSettings | null;
+ const contacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
+
  return (
  <div className="pt-[72px]">
  <section className="pt-24 pb-10 text-center bg-gradient-to-b from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)]">

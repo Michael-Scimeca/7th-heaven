@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { createClient } from "@supabase/supabase-js";
 
 const ADMIN_EMAIL = "mikeyscimeca@gmail.com";
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 function generateBookingId() {
   return `7H-BK-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -117,14 +121,49 @@ function buildAdminNotificationHtml(booking: any) {
   </div>`;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const filePath = path.join(process.cwd(), "data", "bookings.json");
-    if (!fs.existsSync(filePath)) {
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get('email');
+
+    let query = supabaseAdmin.from('bookings').select('*').order('created_at', { ascending: false });
+
+    // If email provided, filter to that planner's bookings
+    if (email) {
+      query = query.eq('planner_email', email.toLowerCase());
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Bookings fetch error:', error);
       return NextResponse.json([]);
     }
-    const raw = fs.readFileSync(filePath, "utf-8");
-    return NextResponse.json(JSON.parse(raw));
+
+    // Transform Supabase format to match existing client expectations
+    const bookings = (data || []).map((b: any) => ({
+      bookingId: b.booking_id,
+      name: b.planner_name,
+      email: b.planner_email,
+      phone: b.planner_phone,
+      organization: b.organization,
+      eventType: b.event_type,
+      eventDate: b.event_date,
+      startTime: b.start_time,
+      endTime: b.end_time,
+      venueName: b.venue_name,
+      venueCity: b.venue_city,
+      venueState: b.venue_state,
+      indoorOutdoor: b.indoor_outdoor,
+      expectedAttendance: b.expected_attendance,
+      details: b.details,
+      status: b.status,
+      cancelledAt: b.cancelled_at,
+      submittedAt: b.created_at,
+      updatedAt: b.updated_at,
+    }));
+
+    return NextResponse.json(bookings);
   } catch {
     return NextResponse.json([]);
   }
@@ -144,26 +183,32 @@ export async function POST(request: Request) {
 
     const bookingId = generateBookingId();
 
-    // Add timestamp and ID
-    const booking = {
-      ...data,
-      bookingId,
-      submittedAt: new Date().toISOString(),
-      status: "pending",
-    };
+    // Insert into Supabase
+    const { error } = await supabaseAdmin.from('bookings').insert({
+      booking_id: bookingId,
+      planner_name: data.name,
+      planner_email: data.email.toLowerCase(),
+      planner_phone: data.phone || null,
+      organization: data.organization || null,
+      event_type: data.eventType,
+      event_date: data.eventDate,
+      start_time: data.startTime || null,
+      end_time: data.endTime || null,
+      venue_name: data.venueName || null,
+      venue_city: data.venueCity,
+      venue_state: data.venueState,
+      indoor_outdoor: data.indoorOutdoor || null,
+      expected_attendance: data.expectedAttendance || null,
+      details: data.details || null,
+      status: 'pending',
+    });
 
-    // Save to JSON file
-    const filePath = path.join(process.cwd(), "data", "bookings.json");
-    const dir = path.dirname(filePath);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
-    let bookings = [];
-    if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, "utf-8");
-      bookings = JSON.parse(raw);
+    if (error) {
+      console.error('Booking insert error:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    bookings.push(booking);
-    fs.writeFileSync(filePath, JSON.stringify(bookings, null, 2));
+
+    const booking = { ...data, bookingId };
 
     // Send confirmation emails (non-blocking)
     const emailBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -203,25 +248,29 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const { bookingId, status } = await request.json();
-    
-    const filePath = path.join(process.cwd(), "data", "bookings.json");
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: "No bookings found" }, { status: 404 });
+
+    const update: any = {
+      status,
+      updated_at: new Date().toISOString(),
+    };
+
+    if (status === 'cancelled') {
+      update.cancelled_at = new Date().toISOString();
     }
 
-    const raw = fs.readFileSync(filePath, "utf-8");
-    const bookings = JSON.parse(raw);
-    const idx = bookings.findIndex((b: any) => b.bookingId === bookingId);
-    
-    if (idx === -1) {
-      return NextResponse.json({ error: "Booking not found" }, { status: 404 });
+    const { data, error } = await supabaseAdmin
+      .from('bookings')
+      .update(update)
+      .eq('booking_id', bookingId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Booking update error:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    bookings[idx].status = status;
-    bookings[idx].updatedAt = new Date().toISOString();
-    fs.writeFileSync(filePath, JSON.stringify(bookings, null, 2));
-
-    return NextResponse.json({ success: true, booking: bookings[idx] });
+    return NextResponse.json({ success: true, booking: data });
   } catch (error) {
     console.error("Booking PATCH error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

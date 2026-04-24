@@ -9,7 +9,32 @@ export default defineConfig({
  projectId: "1dg5ciuj",
  dataset: "production",
  plugins: [
-  structureTool(),
+  structureTool({
+   structure: (S) =>
+    S.list()
+     .title("Content")
+     .items([
+      // Singleton: Site Settings
+      S.listItem()
+       .title("Site Settings")
+       .id("siteSettings")
+       .child(
+        S.document()
+         .schemaType("siteSettings")
+         .documentId("siteSettings")
+         .title("Site Settings")
+       ),
+      S.divider(),
+      // Tour Dates
+      S.documentTypeListItem("tourDate").title("Tour Dates"),
+      // News
+      S.documentTypeListItem("newsPost").title("News"),
+      // Band Members
+      S.documentTypeListItem("bandMember").title("Band Members"),
+      // Videos
+      S.documentTypeListItem("video").title("Videos"),
+     ]),
+  }),
   presentationTool({
    previewUrl: {
     previewMode: {

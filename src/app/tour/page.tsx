@@ -15,12 +15,12 @@ export default async function TourPage() {
     day: s.day || "",
     date: s.date ? new Date(s.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) : "TBD",
     venue: s.venue,
-    city: s.city,
-    state: s.state,
-    time: s.time,
-    info: s.notes,
-    mapUrl: s.directionsLink,
-    websiteUrl: s.ticketLink,
+    city: s.city || "",
+    state: s.state || "",
+    time: s.time || "",
+    info: s.notes || "",
+    mapUrl: s.directionsLink || "",
+    websiteUrl: s.ticketLink || "",
     startDate: s.date // Raw date for JSON-LD
   }));
 
@@ -71,7 +71,7 @@ export default async function TourPage() {
  </div>
  </section>
 
- <TourList />
+ <TourList initialShows={sanityShows} />
 
 
 

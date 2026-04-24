@@ -106,7 +106,7 @@ const tourDate = {
  ],
  preview: {
   select: { venue: "venue", city: "city", state: "state", date: "date" },
-  prepare: ({ venue, city, state, date }: { venue: string; city: string; state: string; date: string }) => ({
+  prepare: ({ venue, city, state, date }: Record<string, any>) => ({
    title: venue,
    subtitle: `${city}${state ? `, ${state}` : ""} — ${date || "TBD"}`,
   }),

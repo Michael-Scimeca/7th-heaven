@@ -13,9 +13,9 @@ create table public.profiles (
  email text not null,
  full_name text not null default '',
  avatar_url text,
- role text not null default 'fan' check (role in ('fan', 'crew', 'admin')),
+ role text not null default 'fan' check (role in ('fan', 'crew', 'admin', 'merch', 'event_planner')),
  can_stream boolean not null default false,
- date_of_birth date not null,
+ date_of_birth date,
  phone text,
  zip text,
  notification_radius integer not null default 50,
@@ -78,15 +78,17 @@ create index idx_shows_status on public.shows(status);
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
- insert into public.profiles (id, email, full_name, date_of_birth, phone, zip)
+ insert into public.profiles (id, email, full_name, role, date_of_birth, phone, zip)
  values (
   new.id,
   new.email,
   coalesce(new.raw_user_meta_data->>'full_name', ''),
-  coalesce((new.raw_user_meta_data->>'date_of_birth')::date, '2000-01-01'),
+  coalesce(new.raw_user_meta_data->>'role', 'fan'),
+  (new.raw_user_meta_data->>'date_of_birth')::date,
   new.raw_user_meta_data->>'phone',
   new.raw_user_meta_data->>'zip'
- );
+ )
+ on conflict (id) do nothing;
  return new;
 end;
 $$ language plpgsql security definer;

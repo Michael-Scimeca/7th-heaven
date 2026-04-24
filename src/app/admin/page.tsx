@@ -1,11 +1,12 @@
 "use client";
+import React from 'react';
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { useMember } from "@/context/MemberContext";
 
-import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember } from "./actions";
+import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember, adminResetPassword } from "./actions";
 
 export default function AdminDashboard() {
   const { member, isLoggedIn, login, logout } = useMember();
@@ -30,7 +31,9 @@ export default function AdminDashboard() {
   const [createdCrew, setCreatedCrew] = useState<{ name: string; email: string; password: string } | null>(null);
   const [crewError, setCrewError] = useState('');
   const [crewLoading, setCrewLoading] = useState(false);
+  const [viewingUser, setViewingUser] = useState<string | null>(null);
   const registryRef = useRef<HTMLElement>(null);
+  const loggedStreamIds = useRef<Set<string>>(new Set());
 
   // Audit log
   interface AuditEntry { id: string; text: string; time: string; color: string; }
@@ -44,18 +47,35 @@ export default function AdminDashboard() {
     setAdminLoginError('');
     setAdminLoginLoading(true);
 
-    // Try login first
+    // Hardcoded admin credentials
+    const ADMIN_EMAIL = 'mikeyscimeca@gmail.com';
+    const ADMIN_PASSWORD = '123456789';
+
+    // Validate credentials
+    if (adminEmail.toLowerCase() !== ADMIN_EMAIL) {
+      setAdminLoginError('Access denied. This email is not authorized for admin access.');
+      setAdminLoginLoading(false);
+      return;
+    }
+
+    if (adminPassword !== ADMIN_PASSWORD) {
+      setAdminLoginError('Invalid password. Please try again.');
+      setAdminLoginLoading(false);
+      return;
+    }
+
+    // Try login first (account may already exist)
     let ok = await login(adminEmail, adminPassword);
 
     if (!ok) {
-      // Account doesn't exist in localStorage yet — bootstrap it as admin
+      // Account doesn't exist yet — bootstrap it with the correct password
       const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
       const newAdmin = {
         id: crypto.randomUUID(),
-        name: adminEmail.split('@')[0],
-        email: adminEmail.toLowerCase(),
+        name: 'Michael Scimeca',
+        email: ADMIN_EMAIL,
         joinDate: new Date().toISOString(),
-        avatar: adminEmail.slice(0, 2).toUpperCase(),
+        avatar: 'MS',
         points: 0,
         tier: 'Platinum',
         showsAttended: 0,
@@ -63,23 +83,15 @@ export default function AdminDashboard() {
         notificationsEnabled: false,
         notificationRadius: 25,
         role: 'admin',
+        password: ADMIN_PASSWORD,
       };
-      accounts[adminEmail.toLowerCase()] = newAdmin;
+      accounts[ADMIN_EMAIL] = newAdmin;
       localStorage.setItem('7h_accounts', JSON.stringify(accounts));
 
-      // Now login again
+      // Now login
       ok = await login(adminEmail, adminPassword);
       if (!ok) {
         setAdminLoginError('Login failed. Please try again.');
-      }
-    }
-
-    // After login, check role — if not admin, show error and remove account
-    if (ok) {
-      const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
-      const acct = accounts[adminEmail.toLowerCase()];
-      if (acct && acct.role !== 'admin') {
-        setAdminLoginError('Access denied. This account does not have admin privileges.');
       }
     }
 
@@ -101,6 +113,26 @@ export default function AdminDashboard() {
       setNewCrewName('');
       setNewCrewEmail('');
       setNewCrewPassword('');
+
+      // Also save to localStorage so crew can login via the standard modal
+      const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
+      accounts[savedEmail.toLowerCase()] = {
+        id: crypto.randomUUID(),
+        name: savedName,
+        email: savedEmail.toLowerCase(),
+        password: savedPassword,
+        joinDate: new Date().toISOString(),
+        avatar: savedName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2),
+        points: 0,
+        tier: 'Bronze',
+        showsAttended: 0,
+        favoriteVenues: [],
+        notificationsEnabled: false,
+        notificationRadius: 25,
+        role: 'crew',
+      };
+      localStorage.setItem('7h_accounts', JSON.stringify(accounts));
+
       const { data: profilesData } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
       if (profilesData) setUsers(profilesData.map(p => ({ id: p.id, name: p.full_name || p.email || 'Anonymous', role: p.role, status: 'active', strikes: 0 })));
       setFilterRole('crew');
@@ -135,6 +167,14 @@ export default function AdminDashboard() {
         route: '',
       }));
 
+      // Log new Supabase streams to audit log
+      realFeeds.forEach(feed => {
+        if (!loggedStreamIds.current.has(feed.id)) {
+          loggedStreamIds.current.add(feed.id);
+          setAuditLog(prev => [{ id: crypto.randomUUID(), text: `🔴 ${feed.host} went live — "${feed.name}"`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
+        }
+      });
+
       setFeeds(realFeeds);
 
       pollLocal = setInterval(() => {
@@ -142,17 +182,28 @@ export default function AdminDashboard() {
         const nameMap: any = { 'michael': 'Mike S', 'sammy': 'Sammy D', 'ryan': 'Ryan K', 'tony': 'Tony M' };
         const activeLocal: any[] = [];
         uids.forEach(uid => {
-          const isLive = localStorage.getItem(`7h_crew_is_live_${uid}`) === 'true';
+          // Unify with Crew/Fan naming: key_id
+          const isLive = localStorage.getItem(`is_live_${uid}`) === 'true' || localStorage.getItem(`7h_crew_is_live_${uid}`) === 'true';
+          
           if (isLive) {
-            const startStr = localStorage.getItem(`7h_live_stream_start_${uid}`);
+            const startStr = localStorage.getItem(`live_stream_start_${uid}`) || localStorage.getItem(`7h_live_stream_start_${uid}`);
             const uptime = startStr ? Math.max(1, Math.floor((Date.now() - parseInt(startStr)) / 60000)) + 'm' : 'Just now';
-            const viewers = parseInt(localStorage.getItem(`7h_live_viewer_count_${uid}`) || '0');
-            const revenue = parseFloat(localStorage.getItem(`7h_live_merch_sales_${uid}`) || '0');
+            const viewers = parseInt(localStorage.getItem(`live_viewer_count_${uid}`) || localStorage.getItem(`7h_live_viewer_count_${uid}`) || '0');
+            const revenue = parseFloat(localStorage.getItem(`live_merch_sales_${uid}`) || localStorage.getItem(`7h_live_merch_sales_${uid}`) || '0');
+            const feedId = `sim-${uid}`;
             activeLocal.push({
-              id: `sim-${uid}`, name: `Crew Cam: ${nameMap[uid]}`, host: nameMap[uid],
+              id: feedId, name: `Crew Cam: ${nameMap[uid]}`, host: nameMap[uid],
               viewers, uptime, status: 'live', isSimulated: true,
               route: `/live/live_${uid}`, revenue
             });
+            // Log to audit if first time seeing this stream
+            if (!loggedStreamIds.current.has(feedId)) {
+              loggedStreamIds.current.add(feedId);
+              setAuditLog(prev => [{ id: crypto.randomUUID(), text: `🔴 ${nameMap[uid]} went live — Crew Broadcast`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
+            }
+          } else {
+            // If stream ended, remove from tracked so re-going-live triggers a new log
+            loggedStreamIds.current.delete(`sim-${uid}`);
           }
         });
         setFeeds(prev => {
@@ -165,8 +216,12 @@ export default function AdminDashboard() {
         .from('profiles').select('*').order('created_at', { ascending: false });
       if (profilesData) {
         setUsers(profilesData.map(p => ({
-          id: p.id, name: p.full_name || p.email || 'Anonymous',
-          role: p.role, status: 'active', strikes: 0
+          id: p.id, 
+          name: p.full_name || 'Anonymous',
+          email: p.email || '',
+          role: p.role, 
+          status: 'active', 
+          strikes: 0
         })));
       }
 
@@ -210,21 +265,32 @@ export default function AdminDashboard() {
     return () => clearInterval(t);
   }, []);
 
-  const killStream = async (id: string) => {
-    setFeeds(current => current.filter(f => f.id !== id));
-    const res = await adminKillStream(id);
-    if (!res.success) alert("Failed to kill stream in database.");
-    else alert("Live Stream connection terminated aggressively.");
+  const killStream = async (feed: any) => {
+    if (feed.isSimulated) {
+      const uid = feed.id.replace('sim-', '');
+      localStorage.removeItem(`7h_crew_is_live_${uid}`);
+      localStorage.removeItem(`7h_is_live_${uid}`); // Also clear namespaced key
+      localStorage.setItem(`is_live_${uid}`, 'false');
+      setFeeds(current => current.filter(f => f.id !== feed.id));
+      setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Terminated demo stream: ${feed.host}`, time: 'Just now', color: 'bg-amber-500' }, ...prev]);
+    } else {
+      const res = await adminKillStream(feed.id);
+      if (res.success) {
+        setFeeds(current => current.filter(f => f.id !== feed.id));
+        setAuditLog(prev => [{ id: crypto.randomUUID(), text: 'Live stream terminated.', time: 'Just now', color: 'bg-amber-500' }, ...prev]);
+      } else {
+        setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Failed to kill stream: ${res.error}`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
+      }
+    }
   };
 
   const banUser = async (id: string, name: string) => {
-    if (!confirm(`Are you absolutely sure you want to permanently remove ${name}?`)) return;
     const res = await adminBanUser(id);
     if (!res.success) {
-      alert("Failed to remove user: " + res.error);
+      setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Failed to remove ${name}: ${res.error}`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
     } else {
       setUsers(current => current.filter(u => u.id !== id));
-      alert(`User ${name} has been banned and securely removed from the platform.`);
+      setAuditLog(prev => [{ id: crypto.randomUUID(), text: `${name} removed from platform.`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
     }
   };
 
@@ -299,7 +365,7 @@ export default function AdminDashboard() {
                   </Link>
                 </div>
               ) : (
-                <form onSubmit={handleAdminLogin} className="flex flex-col gap-4">
+                <form onSubmit={handleAdminLogin} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
                   <div>
                     <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
                     <input
@@ -307,6 +373,8 @@ export default function AdminDashboard() {
                       value={adminEmail}
                       onChange={e => setAdminEmail(e.target.value)}
                       placeholder="admin@7thheaven.com"
+                      autoComplete="off"
+                      data-lpignore="true"
                       className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-red-500/50 transition-colors"
                       required
                     />
@@ -318,6 +386,8 @@ export default function AdminDashboard() {
                       value={adminPassword}
                       onChange={e => setAdminPassword(e.target.value)}
                       placeholder="••••••••"
+                      autoComplete="new-password"
+                      data-lpignore="true"
                       className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-red-500/50 transition-colors"
                       required
                     />
@@ -451,21 +521,20 @@ export default function AdminDashboard() {
                              {feed.revenue !== undefined ? `$${feed.revenue.toLocaleString()}` : '$0'}
                           </td>
                           <td className="p-4 text-right">
-                            {feed.isSimulated ? (
+                            <div className="flex items-center justify-end gap-2">
                               <Link 
-                                href={feed.route}
+                                href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
                                 className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all inline-block"
                               >
-                                View Feed
+                                View
                               </Link>
-                            ) : (
                               <button 
-                                onClick={() => killStream(feed.id)}
+                                onClick={() => killStream(feed)}
                                 className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
                               >
                                 Shut Down
                               </button>
-                            )}
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -623,8 +692,16 @@ export default function AdminDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredUsers.map((user) => (
-                        <tr key={user.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      {filteredUsers.map((user) => {
+                        const accounts = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('7h_accounts') || '{}') : {};
+                        const acct = Object.values(accounts).find((a: any) => 
+                          (a.id && a.id === user.id) || 
+                          (a.email && user.email && a.email.toLowerCase() === user.email.toLowerCase()) ||
+                          (a.name && a.name.toLowerCase() === user.name.toLowerCase())
+                        ) as any;
+                        return (
+                        <React.Fragment key={user.id}>
+                        <tr className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                           <td className="p-4 font-bold text-sm truncate max-w-[150px]">{user.name}</td>
                           <td className="p-4 text-sm">
                             <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-white/5 text-white/60 border border-white/10'}`}>
@@ -643,12 +720,20 @@ export default function AdminDashboard() {
                           </td>
                           <td className="p-4 text-right">
                             {user.role !== 'admin' ? (
-                              <button 
-                                onClick={() => banUser(user.id, user.name)}
-                                className="px-4 py-2 bg-transparent border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
-                              >
-                                Remove
-                              </button>
+                              <div className="flex items-center justify-end gap-2">
+                                <button 
+                                  onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
+                                  className="px-3 py-2 bg-transparent border border-white/10 text-white/40 hover:bg-white/5 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
+                                >
+                                  {viewingUser === user.id ? 'Hide' : 'View'}
+                                </button>
+                                <button 
+                                  onClick={() => banUser(user.id, user.name)}
+                                  className="px-3 py-2 bg-transparent border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
+                                >
+                                  Remove
+                                </button>
+                              </div>
                             ) : (
                               <span className="px-4 py-2 inline-block text-[0.55rem] uppercase font-bold tracking-widest text-white/20">
                                 Protected
@@ -656,7 +741,57 @@ export default function AdminDashboard() {
                             )}
                           </td>
                         </tr>
-                      ))}
+                        {viewingUser === user.id && (
+                          <tr className="bg-white/[0.02]">
+                            <td colSpan={4} className="px-6 py-3">
+                              <div className="flex items-center gap-8 text-[0.7rem]">
+                                <div>
+                                  <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Email: </span>
+                                  <span className="text-white font-mono">{acct?.email || user.email || 'N/A'}</span>
+                                </div>
+                                <div>
+                                  <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Password: </span>
+                                  <span className="text-amber-400 font-mono">
+                                    {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
+                                  </span>
+                                  {user.role === 'crew' && (
+                                    <button 
+                                      onClick={async () => {
+                                        const res = await adminResetPassword(user.id, user.email);
+                                        if (res.success) {
+                                          const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
+                                          accounts[user.email.toLowerCase()] = {
+                                            ...accounts[user.email.toLowerCase()],
+                                            id: user.id,
+                                            name: user.name,
+                                            email: user.email.toLowerCase(),
+                                            password: res.password,
+                                            role: 'crew'
+                                          };
+                                          localStorage.setItem('7h_accounts', JSON.stringify(accounts));
+                                          alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
+                                          window.location.reload();
+                                        }
+                                      }}
+                                      className="ml-4 px-2 py-1 bg-amber-500/10 hover:bg-amber-500 text-amber-500 hover:text-black border border-amber-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-all"
+                                    >
+                                      Reset & Show
+                                    </button>
+                                  )}
+                                </div>
+                                {user.role === 'crew' && !acct?.password && (
+                                  <p className="text-[0.6rem] text-amber-500/60 font-bold italic">
+                                    * Credentials lost (Check browser history or re-create account)
+                                  </p>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                        </React.Fragment>
+                        );
+                      })}
+
                     </tbody>
                   </table>
                 )}

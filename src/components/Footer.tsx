@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useMember } from "@/context/MemberContext";
+import { useState, useEffect } from "react";
 
-const platformLinks = [
+const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
   { name: "Amazon", url: "https://music.amazon.com", label: "Amazon" },
   { name: "YouTube", url: "https://www.youtube.com", label: "YouTube" },
@@ -16,17 +19,17 @@ const platformLinks = [
   { name: "SoundCloud", url: "https://soundcloud.com", label: "SoundCloud" },
 ];
 
-const endorsements = [
-  { name: "Shure", path: "/images/sponsor-logos/SHURE.svg" },
-  { name: "Dunlop", path: "/images/sponsor-logos/DUNLOP.svg" },
-  { name: "Mesa/Boogie", path: "/images/sponsor-logos/Mesa_Boogie_Engineering_Logo.svg.svg" },
-  { name: "Paiste", path: "/images/sponsor-logos/PRASISTE.svg" },
-  { name: "Ernie Ball", path: "/images/sponsor-logos/ERNIEBALL.svg" },
-  { name: "Dean Markley", path: "/images/sponsor-logos/Dean-Markley-logo.svg" },
-  { name: "Vic Firth", path: "/images/sponsor-logos/VIC.svg" },
-  { name: "Parker", path: "/images/sponsor-logos/Parker_guitars_logo.svg" },
-  { name: "Grundorf", path: "/images/sponsor-logos/groundorf.svg" },
-  { name: "Toontrack", path: "/images/sponsor-logos/TOON.svg" },
+const FALLBACK_ENDORSEMENTS = [
+  { name: "Shure", logoPath: "/images/sponsor-logos/SHURE.svg" },
+  { name: "Dunlop", logoPath: "/images/sponsor-logos/DUNLOP.svg" },
+  { name: "Mesa/Boogie", logoPath: "/images/sponsor-logos/Mesa_Boogie_Engineering_Logo.svg.svg" },
+  { name: "Paiste", logoPath: "/images/sponsor-logos/PRASISTE.svg" },
+  { name: "Ernie Ball", logoPath: "/images/sponsor-logos/ERNIEBALL.svg" },
+  { name: "Dean Markley", logoPath: "/images/sponsor-logos/Dean-Markley-logo.svg" },
+  { name: "Vic Firth", logoPath: "/images/sponsor-logos/VIC.svg" },
+  { name: "Parker", logoPath: "/images/sponsor-logos/Parker_guitars_logo.svg" },
+  { name: "Grundorf", logoPath: "/images/sponsor-logos/groundorf.svg" },
+  { name: "Toontrack", logoPath: "/images/sponsor-logos/TOON.svg" },
 ];
 
 const footerLinks = [
@@ -38,7 +41,7 @@ const footerLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-const socialLinks = [
+const FALLBACK_SOCIAL_LINKS = [
   { name: "Spotify", url: "https://open.spotify.com/artist/7thheavenband" },
   { name: "Apple Music", url: "https://music.apple.com" },
   { name: "YouTube", url: "https://www.youtube.com" },
@@ -47,24 +50,48 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const { member, openModal } = useMember();
+  const router = useRouter();
+  const isPlanner = member?.role === 'event_planner';
+
+  const [endorsements, setEndorsements] = useState(FALLBACK_ENDORSEMENTS);
+  const [socialLinks, setSocialLinks] = useState(FALLBACK_SOCIAL_LINKS);
+  const [bookingPhone, setBookingPhone] = useState('847-551-5363');
+  const [bookingEmail, setBookingEmail] = useState('Rich@7thheaven.com');
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(r => r.json())
+      .then(data => {
+        if (!data) return;
+        if (data.endorsements?.length) setEndorsements(data.endorsements);
+        if (data.socialLinks?.length) setSocialLinks(data.socialLinks);
+        if (data.bookingPhone) setBookingPhone(data.bookingPhone);
+        if (data.bookingEmail) setBookingEmail(data.bookingEmail);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <footer className="relative bg-black pt-24 pb-12 overflow-hidden border-t border-white/5" id="footer">
       <div className="site-container relative z-10">
 
-        {/* Book The Band — Bold CTA */}
+        {/* Book The Band — Bold CTA (Planner only) */}
+        {isPlanner && (
         <div className="mb-10">
           <h2 className="font-[var(--font-heading)] text-[clamp(1.5rem,3vw,2.2rem)] font-black uppercase tracking-tight text-white mb-1">
             Book The Band
           </h2>
           <div className="w-20 h-[3px] bg-[var(--color-accent)] mb-8" />
 
-          <a href="tel:8475515363" className="block font-[var(--font-heading)] text-[clamp(2.2rem,6vw,4rem)] font-extrabold italic text-white/90 hover:text-white transition-colors leading-[1.1] tracking-tight">
-            847-551-5363
+          <a href={`tel:${bookingPhone.replace(/-/g, '')}`} className="block font-[var(--font-heading)] text-[clamp(2.2rem,6vw,4rem)] font-extrabold italic text-white/90 hover:text-white transition-colors leading-[1.1] tracking-tight">
+            {bookingPhone}
           </a>
-          <a href="mailto:Rich@7thheaven.com" className="block font-[var(--font-heading)] text-[clamp(2rem,5.5vw,3.5rem)] font-extrabold italic text-[var(--color-accent)] hover:text-white transition-colors leading-[1.1] tracking-tight">
-            Rich@7thheaven.com
+          <a href={`mailto:${bookingEmail}`} className="block font-[var(--font-heading)] text-[clamp(2rem,5.5vw,3.5rem)] font-extrabold italic text-[var(--color-accent)] hover:text-white transition-colors leading-[1.1] tracking-tight">
+            {bookingEmail}
           </a>
         </div>
+        )}
 
         {/* Inline Links — Stacked Rows */}
         <div className="flex flex-col gap-4 py-6 border-t border-white/10">
@@ -75,6 +102,18 @@ export function Footer() {
                 {link.label}
               </Link>
             ))}
+            <button
+              onClick={() => {
+                if (member?.role === 'crew') {
+                  router.push('/crew');
+                } else {
+                  openModal('login');
+                }
+              }}
+              className="text-[0.7rem] font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
+            >
+              Crew Login
+            </button>
           </div>
 
           {/* Social Links — purple slash separators */}
@@ -108,7 +147,7 @@ export function Footer() {
           {endorsements.map((brand) => (
             <img
               key={brand.name}
-              src={brand.path}
+              src={brand.logoPath}
               alt={brand.name}
               className="h-6 md:h-8 w-auto transition-all duration-300 hover:brightness-100"
               style={{ filter: 'invert(1) brightness(0.4)' }}

@@ -22,6 +22,7 @@ export interface Member {
 interface MemberContextType {
  member: Member | null;
  isLoggedIn: boolean;
+ hydrated: boolean;
  isModalOpen: boolean;
  openModal: (mode?: "login" | "signup") => void;
  closeModal: () => void;
@@ -62,6 +63,7 @@ export { tierColors };
 
 export function MemberProvider({ children }: { children: ReactNode }) {
  const [member, setMember] = useState<Member | null>(null);
+ const [hydrated, setHydrated] = useState(false);
  const [isModalOpen, setIsModalOpen] = useState(false);
  const [modalMode, setModalMode] = useState<"login" | "signup">("login");
 
@@ -86,6 +88,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     setMember(parsed);
    } catch {}
   }
+  setHydrated(true);
  }, []);
 
  // Persist member to localStorage
@@ -103,45 +106,126 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  };
  const closeModal = () => setIsModalOpen(false);
 
- const login = async (email: string, _password: string): Promise<boolean> => {
-  // Check if member exists in localStorage accounts
+ const login = async (email: string, password: string): Promise<boolean> => {
+  // 1. Check localStorage accounts first (fast path)
   const accounts = JSON.parse(localStorage.getItem("7h_accounts") || "{}");
   const account = accounts[email.toLowerCase()];
-  if (!account) return false;
+  if (account) {
+   if (account.password !== password) return false;
+   setMember(account);
+   setIsModalOpen(false);
+   localStorage.removeItem('vip_inbox_messages');
+   return true;
+  }
 
-  setMember(account);
-  setIsModalOpen(false);
-  return true;
+  // 2. Fall back to Supabase Auth (for admin-created crew accounts, etc.)
+  try {
+   const { createClient } = await import("@/utils/supabase/client");
+   const supabase = createClient();
+   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+   if (error || !data.user) return false;
+
+   // Fetch profile for role
+   const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).single();
+   const role = profile?.role || "fan";
+   const fullName = data.user.user_metadata?.full_name || data.user.email?.split("@")[0] || "User";
+
+   const supabaseMember: Member = {
+    id: data.user.id,
+    name: fullName,
+    email: data.user.email?.toLowerCase() || email.toLowerCase(),
+    joinDate: data.user.created_at || new Date().toISOString(),
+    avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
+    points: 0,
+    tier: "Bronze",
+    showsAttended: 0,
+    favoriteVenues: [],
+    notificationsEnabled: false,
+    notificationRadius: 25,
+    role: role as Member["role"],
+   };
+
+   // Persist to localStorage so future logins are instant
+   accounts[email.toLowerCase()] = { ...supabaseMember, password };
+   localStorage.setItem("7h_accounts", JSON.stringify(accounts));
+
+   setMember(supabaseMember);
+   setIsModalOpen(false);
+   localStorage.removeItem('vip_inbox_messages');
+   return true;
+  } catch (e) {
+   console.error("Supabase login fallback error:", e);
+   return false;
+  }
  };
 
- const signup = async (name: string, email: string, _password: string, phone?: string): Promise<boolean> => {
+ const signup = async (name: string, email: string, password: string, phone?: string): Promise<boolean> => {
+  // Check if account already exists in localStorage
+  const accounts = JSON.parse(localStorage.getItem("7h_accounts") || "{}");
+  if (accounts[email.toLowerCase()]) return false;
+
+  // Determine role based on email
+  const role = ["mikeyscimeca@gmail.com"].includes(email.toLowerCase()) ? "admin"
+   : ["mike@test.com", "mikeyscimeca.dev@gmail.com"].includes(email.toLowerCase()) ? "crew"
+   : ["merch@test.com", "merch@7thheaven.com"].includes(email.toLowerCase()) ? "merch"
+   : ["planner@example.com", "chicago_manager@example.com"].includes(email.toLowerCase()) ? "event_planner"
+   : "fan";
+
+  let userId = crypto.randomUUID();
+
+  // Create account in Supabase Auth (persistent, cross-device)
+  try {
+   const { createClient } = await import("@/utils/supabase/client");
+   const supabase = createClient();
+   const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+     data: { full_name: name, role, phone: phone || '' },
+    },
+   });
+   if (!error && data.user) {
+    userId = data.user.id;
+    // Update role in profiles if trigger didn't set it correctly
+    await supabase.from("profiles").update({ role }).eq("id", data.user.id);
+   }
+  } catch (e) {
+   console.error("Supabase signup error (falling back to local):", e);
+  }
+
   const newMember: Member = {
-   id: crypto.randomUUID(),
+   id: userId,
    name,
    email: email.toLowerCase(),
    phone: phone || undefined,
    joinDate: new Date().toISOString(),
    avatar: name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2),
-   points: 100, // Welcome bonus
+   points: 0,
    tier: "Bronze",
    showsAttended: 0,
    favoriteVenues: [],
    notificationsEnabled: false,
    notificationRadius: 25,
-   role: ["mikeyscimeca@gmail.com"].includes(email.toLowerCase()) ? "admin" : ["mike@test.com", "mikeyscimeca.dev@gmail.com"].includes(email.toLowerCase()) ? "crew" : ["merch@test.com", "merch@7thheaven.com"].includes(email.toLowerCase()) ? "merch" : ["planner@example.com", "chicago_manager@example.com"].includes(email.toLowerCase()) ? "event_planner" : "fan",
+   role: role as Member["role"],
   };
 
-  // Store account
-  const accounts = JSON.parse(localStorage.getItem("7h_accounts") || "{}");
-  accounts[email.toLowerCase()] = newMember;
+  // Cache in localStorage for fast access
+  accounts[email.toLowerCase()] = { ...newMember, password };
   localStorage.setItem("7h_accounts", JSON.stringify(accounts));
 
   setMember(newMember);
   setIsModalOpen(false);
+  localStorage.removeItem('vip_inbox_messages');
   return true;
  };
 
- const logout = () => {
+ const logout = async () => {
+  // Sign out of Supabase too
+  try {
+   const { createClient } = await import("@/utils/supabase/client");
+   const supabase = createClient();
+   await supabase.auth.signOut();
+  } catch {}
   setMember(null);
  };
 
@@ -169,6 +253,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   <MemberContext.Provider value={{
    member,
    isLoggedIn: !!member,
+   hydrated,
    isModalOpen,
    openModal,
    closeModal,

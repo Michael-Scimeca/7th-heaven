@@ -12,12 +12,18 @@ export default function CountdownTimer({ targetDate, targetTime }: CountdownTime
 
  useEffect(() => {
   const getTarget = () => {
-   const d = new Date(targetDate);
+   // Handle both ISO (2026-04-24) and display (April 24) date formats
+   let d: Date;
+   if (/^\d{4}-\d{2}-\d{2}/.test(targetDate)) {
+    d = new Date(targetDate + 'T20:00:00');
+   } else {
+    d = new Date(targetDate + ', ' + new Date().getFullYear());
+   }
    if (targetTime) {
-    const match = targetTime.match(/(\d+):(\d+)(am|pm)/i);
+    const match = targetTime.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)/i);
     if (match) {
      let h = parseInt(match[1]);
-     const m = parseInt(match[2]);
+     const m = parseInt(match[2] || '0');
      if (match[3].toLowerCase() === "pm" && h !== 12) h += 12;
      if (match[3].toLowerCase() === "am" && h === 12) h = 0;
      d.setHours(h, m, 0, 0);

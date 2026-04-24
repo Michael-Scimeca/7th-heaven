@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS public.live_streams (
  title text NOT NULL DEFAULT '',
  stream_url text,
  thumbnail_url text,
+ guest_name text DEFAULT '',
  status text NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'live', 'ended')),
  viewer_count integer NOT NULL DEFAULT 0,
  started_at timestamptz,

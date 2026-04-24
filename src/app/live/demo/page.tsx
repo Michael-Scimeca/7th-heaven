@@ -140,7 +140,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const supabase = createClient();
 
   // Namespace localStorage keys per crew member so feeds are independent
-  const LS = (key: string) => `${key}_${memberId}`;
+  const LS = (key: string) => `${key}_${memberId?.toString().toLowerCase().trim()}`;
   
   // Chat state
   const [messages, setMessages] = useState<ChatMsg[]>([]);
@@ -193,34 +193,87 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const [feedActive, setFeedActive] = useState<boolean | null>(null);
   const router = useRouter();
 
-  // On mount: check if a feed is actually live
-  useEffect(() => {
-    const live = localStorage.getItem(LS('crew_is_live')) === 'true';
-    if (!live) {
-      // No active feed — redirect immediately
-      router.replace('/live');
-      return;
-    }
-    setFeedActive(true);
-  }, [router]);
+  // On mount: check if a feed is actually live via Supabase, LiveKit, or localStorage
+  const checkIfLiveRef = useRef(async () => {
+    // 1. Check localStorage (same-tab)
+    if (localStorage.getItem(LS('crew_is_live')) === 'true') return true;
+    // 2. Check Supabase live_streams table (specifically for THIS member)
+    try {
+      const sb = createClient();
+      const { data } = await sb
+        .from('live_streams')
+        .select('id')
+        .eq('status', 'live')
+        .eq('user_id', memberId)
+        .limit(1);
+      if (data?.length) {
+        localStorage.setItem(LS('is_live'), 'true');
+        return true;
+      }
+    } catch {}
+    // 3. Check LiveKit active rooms
+    try {
+      const res = await fetch('/api/live-rooms');
+      const lkData = await res.json();
+      if (lkData.rooms?.some((r: any) => r.name === `live_${memberId}`)) return true;
+    } catch {}
+    return false;
+  });
 
-  // Track real viewer count — increment on mount, decrement on unmount/close
+  useEffect(() => {
+    checkIfLiveRef.current().then(live => setFeedActive(live));
+  }, []);
+
+  // Track real viewer count via heartbeat presence system
   useEffect(() => {
     if (!feedActive) return;
-    const increment = () => {
-      const current = parseInt(localStorage.getItem(LS('live_viewer_count')) || '0');
-      localStorage.setItem(LS('live_viewer_count'), String(current + 1));
-      setViewerCount(current + 1);
+    
+    const sessionId = Math.random().toString(36).substring(7);
+    const presenceKey = LS('live_presence');
+    
+    const updatePresence = () => {
+      try {
+        const now = Date.now();
+        const presence = JSON.parse(localStorage.getItem(presenceKey) || '{}');
+        
+        // Update my heartbeat
+        presence[sessionId] = now;
+        
+        // Clean up expired ones (> 15s)
+        const activePresence: Record<string, number> = {};
+        Object.keys(presence).forEach(id => {
+          if (now - presence[id] < 15000) {
+            activePresence[id] = presence[id];
+          }
+        });
+        
+        const count = Object.keys(activePresence).length;
+        localStorage.setItem(presenceKey, JSON.stringify(activePresence));
+        localStorage.setItem(LS('live_viewer_count'), String(count));
+        setViewerCount(count);
+      } catch (e) {
+        console.warn("Presence update failed", e);
+      }
     };
-    const decrement = () => {
-      const current = parseInt(localStorage.getItem(LS('live_viewer_count')) || '1');
-      localStorage.setItem(LS('live_viewer_count'), String(Math.max(0, current - 1)));
+    
+    updatePresence();
+    const interval = setInterval(updatePresence, 5000);
+    
+    const cleanup = () => {
+      try {
+        const presence = JSON.parse(localStorage.getItem(presenceKey) || '{}');
+        delete presence[sessionId];
+        const count = Object.keys(presence).length;
+        localStorage.setItem(presenceKey, JSON.stringify(presence));
+        localStorage.setItem(LS('live_viewer_count'), String(Math.max(0, count)));
+      } catch (e) {}
+      clearInterval(interval);
     };
-    increment();
-    window.addEventListener('beforeunload', decrement);
+    
+    window.addEventListener('beforeunload', cleanup);
     return () => {
-      decrement();
-      window.removeEventListener('beforeunload', decrement);
+      cleanup();
+      window.removeEventListener('beforeunload', cleanup);
     };
   }, [feedActive]);
 
@@ -261,17 +314,17 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
     // Read currently active pinned message on mount (for late joiners)
     try {
-      const existingPin = localStorage.getItem(LS('pinned_message_sync'));
+      const existingPin = localStorage.getItem(LS('live_pinned'));
       if (existingPin) setActivePinned(JSON.parse(existingPin));
       
       // Only restore raffle state if the crew is actually live
-      const crewIsLive = localStorage.getItem(LS('crew_is_live')) === 'true';
+      const crewIsLive = localStorage.getItem(LS('is_live')) === 'true';
       if (!crewIsLive) {
         // Wipe any stale raffle data from a previous session
-        localStorage.removeItem(LS('raffle_sync'));
+        localStorage.removeItem(LS('live_raffle_sync'));
         setRaffleState(null);
       } else {
-        const existingRaffle = localStorage.getItem(LS('raffle_sync'));
+        const existingRaffle = localStorage.getItem(LS('live_raffle_sync'));
         if (existingRaffle) {
          const pb = JSON.parse(existingRaffle);
          if (pb.status === 'idle') setRaffleState(null);
@@ -280,23 +333,73 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       }
     } catch (e) {}
 
+    // Load chat from Supabase first, fallback to localStorage
+    const loadChatAndInbox = async () => {
+      try {
+        const roomId = `live_${memberId?.toString().toLowerCase().trim()}`;
+        const { data: chatData } = await supabase
+          .from('chat_messages')
+          .select('*')
+          .eq('room', roomId)
+          .order('created_at', { ascending: true })
+          .limit(100);
+        
+        if (chatData && chatData.length > 0) {
+          const mapped = chatData.map((m: any) => ({
+            id: m.id,
+            account: {
+              id: m.sender_name,
+              name: m.sender_name,
+              displayName: m.sender_name,
+              role: m.sender_role || 'fan',
+              color: m.sender_role === 'crew' ? '#f97316' : '#8b5cf6',
+              avatar: m.sender_avatar || m.sender_name.slice(0, 2).toUpperCase(),
+            },
+            text: m.content,
+            timestamp: new Date(m.created_at).getTime(),
+          }));
+          setMessages(mapped);
+        }
+      } catch {}
+
+      // Load VIP inbox from Supabase notifications
+      if (member?.email) {
+        try {
+          const { data: notifs } = await supabase
+            .from('notifications')
+            .select('*')
+            .eq('user_email', member.email)
+            .order('created_at', { ascending: false })
+            .limit(50);
+          
+          if (notifs && notifs.length > 0) {
+            const inbox = notifs.map((n: any) => ({
+              id: n.id,
+              icon: n.type === 'raffle_win' ? '🏆' : '📦',
+              title: n.title,
+              desc: n.body + (n.pin ? ` PIN: ${n.pin}` : ''),
+              time: new Date(n.created_at).toLocaleString(),
+              isNew: !n.read,
+              color: n.type === 'raffle_win' ? 'yellow' : 'blue',
+            }));
+            const existing = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
+            const merged = [...inbox];
+            existing.forEach((e: any) => {
+              if (!merged.find((m: any) => m.title === e.title && m.desc === e.desc)) {
+                merged.push(e);
+              }
+            });
+            localStorage.setItem('vip_inbox_messages', JSON.stringify(merged.slice(0, 50)));
+          }
+        } catch {}
+      }
+    };
+    loadChatAndInbox();
+
     const storageHandler = (e: StorageEvent) => {
-      if (e.key === LS('flash_drop_sync') && e.newValue) {
-        handler(JSON.parse(e.newValue));
-      }
-      if (e.key === LS('crew_is_live') && e.newValue !== 'true') {
-        setStreamEnded(true);
-      }
-      if (e.key === LS('pinned_message_sync')) {
+      if (e.key === LS('live_pinned')) {
         if (e.newValue) setActivePinned(JSON.parse(e.newValue));
         else setActivePinned(null);
-      }
-      if (e.key === LS('raffle_sync')) {
-        if (e.newValue) {
-         const pb = JSON.parse(e.newValue);
-         if (pb.status === 'idle') setRaffleState(null);
-         else setRaffleState(pb);
-        } else setRaffleState(null);
       }
       // Crew chat message bridge
       if (e.key === LS('live_chat_sync') && e.newValue) {
@@ -321,54 +424,23 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     }
   }, [streamEnded, showFlashDrop, disconnectCountdown]);
 
-  // Polling fallback: check every 2s if the crew ended the stream
-  // (localStorage storage events + Supabase broadcasts can be unreliable in local dev)
-  useEffect(() => {
-    if (streamEnded) return; // already detected
-    const poll = setInterval(() => {
-      const live = localStorage.getItem(LS('crew_is_live')) === 'true';
-      if (!live) {
-        setStreamEnded(true);
-        clearInterval(poll);
-      }
-    }, 2000);
-    return () => clearInterval(poll);
-  }, [streamEnded]);
+  // Stream-ended polling removed in favor of Supabase broadcast events
 
   // Raffle state polling — runs every 1s to catch status transitions 
   // (same-tab storage events don't fire, Supabase can lag in local dev)
+  // Initial raffle state check on mount
   useEffect(() => {
-    const RAFFLE_TTL = 10 * 60 * 1000; // 10 minutes — any older raffle data is stale
-    const poll = setInterval(() => {
-      try {
-        // Never show raffle if crew isn't actively live
-        const crewIsLive = localStorage.getItem(LS('crew_is_live')) === 'true';
-        if (!crewIsLive) {
-          setRaffleState(null);
-          localStorage.removeItem(LS('raffle_sync'));
-          return;
-        }
-        const raw = localStorage.getItem(LS('raffle_sync'));
-        if (!raw) {
-          setRaffleState(null);
-          return;
-        }
+    try {
+      const raw = localStorage.getItem(LS('live_raffle_sync'));
+      if (raw) {
         const pb = JSON.parse(raw);
-        // Expire stale raffle data (no timestamp, or too old)
-        if (!pb.ts || Date.now() - pb.ts > RAFFLE_TTL) {
-          localStorage.removeItem(LS('raffle_sync'));
-          setRaffleState(null);
-          return;
+        if (pb && (pb.userId === memberId || memberId === 'michael')) {
+          if (pb.status === 'idle') setRaffleState(null);
+          else setRaffleState(pb);
         }
-        if (pb.status === 'idle') {
-          setRaffleState(null);
-          return;
-        }
-        setRaffleState(pb);
-      } catch {}
-    }, 1000);
-    return () => clearInterval(poll);
-  }, []);
+      }
+    } catch {}
+  }, [memberId]);
 
 
 
@@ -378,7 +450,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     if (raffleState?.status === 'countdown' && (raffleState.countdown ?? 1) <= 0) {
       const t = setTimeout(() => {
         try {
-          const raw = localStorage.getItem(LS('raffle_sync'));
+          const raw = localStorage.getItem(LS('live_raffle_sync'));
           if (raw) {
             const pb = JSON.parse(raw);
             if (pb.status !== 'idle') setRaffleState(pb);
@@ -404,7 +476,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     if (isWinner && !winnerEmailSent.current) {
       winnerEmailSent.current = true;
       const prizeName = raffleState.prizes[0]?.name || 'your prize';
-      const winnerIndex = raffleState.winners.findIndex((w: any) => (w?.name || w) === demoUser);
+      const winnerIndex = raffleState.winners.findIndex((w: any) => (w?.name || w) === member.name);
       const pin = (raffleState.winnerPins?.[winnerIndex >= 0 ? winnerIndex : 0]) || '';
 
       const claimUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://7thheavenband.com'}/claim/${pin}`;
@@ -429,6 +501,16 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
         inbox.unshift({ id: Date.now(), icon: '🏆', title: 'You Won the Raffle!', desc: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`, time: 'Just now', isNew: true, color: 'yellow' });
         localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
+
+        // Also persist to Supabase notifications
+        Promise.resolve(supabase.from('notifications').insert({
+          user_email: member?.email || 'unknown@fan.7thheaven.com',
+          type: 'raffle_win',
+          title: `🏆 You Won the Raffle!`,
+          body: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`,
+          pin: pin,
+          prize: prizeName,
+        })).catch(() => {});
       } catch {}
     }
   }, [raffleState?.status, raffleState?.winners, raffleWidgetClosed]);
@@ -522,6 +604,18 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     const sec = s % 60;
     return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
   };
+
+  // Sync elapsed time from localStorage (using start time for accuracy)
+  useEffect(() => {
+    if (!feedActive || streamEnded) return;
+    const t = setInterval(() => {
+      const start = localStorage.getItem(LS('live_stream_start'));
+      if (start) {
+        setElapsed(Math.floor((Date.now() - parseInt(start)) / 1000));
+      }
+    }, 1000);
+    return () => clearInterval(t);
+  }, [memberId, feedActive, streamEnded]);
 
   const CHAT_EMOJIS = ['😂','❤️','🔥','🤘','🎸','👏','⚡','😍','🙌','💀','👀','🎵','🫶','😭','💜','🤯','🎤','🎶','🥹','😎'];
 
@@ -681,17 +775,27 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         if (data.stock !== undefined) setFlashStock(data.stock);
       })
       .on('broadcast', { event: 'stream_state' }, (payload) => {
-        if (!payload.payload.isLive) {
+        const data = payload.payload;
+        if (data.isLive === false && data.userId === memberId) {
           setStreamEnded(true);
+          setRaffleState(null); // Clear raffle on stream end
         }
       })
       .on('broadcast', { event: 'raffle_sync' }, (p) => {
         const pb = p.payload;
-        if (!pb || pb.status === 'idle') {
-          setRaffleState(null);
-        } else {
-          setRaffleState(pb);
+        // Only sync if this raffle belongs to the member we are watching
+        if (pb && (pb.userId === memberId || memberId === 'michael')) {
+          if (pb.status === 'idle') {
+            setRaffleState(null);
+          } else {
+            setRaffleState(pb);
+          }
         }
+      })
+      .on('broadcast', { event: 'reaction' }, (payload) => {
+        const data = payload.payload;
+        setFloating(prev => [...prev, { ...data, createdAt: Date.now() }]);
+        setHype(h => Math.min(100, h + 2));
       })
       .subscribe();
 
@@ -738,11 +842,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     setHype(h => Math.min(100, h + 2));
 
     // Broadcast globally
-    chatChannelRef.current?.send({
-      type: 'broadcast',
-      event: 'new_reaction',
-      payload: reactionInfo
-    });
+    try {
+      supabase.channel('live_events').send({
+        type: 'broadcast',
+        event: 'reaction',
+        payload: { ...reactionInfo, memberId, userId: memberId }
+      });
+    } catch {}
 
     // Bridge to crew dashboard via localStorage
     localStorage.setItem(LS('live_reaction_sync'), JSON.stringify(reactionInfo));
@@ -784,6 +890,26 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
       inbox.unshift({ id: Date.now(), icon: '🛍️', title: 'Pickup Reserved!', desc: `Your ${flashName} is reserved for pickup. Code: ${code}`, time: 'Just now', isNew: true, color: 'yellow' });
       localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
+
+      // Persist to Supabase
+      Promise.resolve(supabase.from('merch_pickups').insert({
+        fan_email: member?.email || '',
+        fan_name: member?.name || 'Fan',
+        product_name: flashName,
+        quantity: 1,
+        total: parseFloat(flashPrice.replace(/[^0-9.]/g, '')) || 0,
+        pin: code,
+        stream_id: `live_${memberId?.toString().toLowerCase().trim()}`,
+      })).catch(() => {});
+
+      Promise.resolve(supabase.from('notifications').insert({
+        user_email: member?.email || '',
+        type: 'merch_pickup',
+        title: '🛍️ Pickup Reserved!',
+        body: `Your ${flashName} is reserved for pickup. Code: ${code}`,
+        pin: code,
+        prize: flashName,
+      })).catch(() => {});
       
       recordSale(1); // Record 1 quantity for pickup
       setHasPurchased(true);
@@ -891,6 +1017,17 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     
     setMessages(limited);
     localStorage.setItem('7h_global_chat_history', JSON.stringify(limited));
+
+    // Persist to Supabase chat_messages table
+    const roomId = `live_${memberId?.toString().toLowerCase().trim()}`;
+    Promise.resolve(supabase.from('chat_messages').insert({
+      room: roomId,
+      sender_name: member?.name || 'You',
+      sender_role: 'fan',
+      sender_avatar: member?.avatar || 'YO',
+      content: userMessage.trim(),
+    })).catch(() => {});
+
     setUserMessage('');
   };
 
@@ -930,20 +1067,44 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     `;
   }, [lightPhase]);
 
-  // Strict URL Redirect: Completely kill the page if stream is off
+  // Poll for live status changes (e.g. crew goes live while fan is waiting)
   useEffect(() => {
-    // We check the simulated database state (localStorage)
-    const isActuallyLive = typeof window !== 'undefined' && localStorage.getItem('7h_crew_crew_is_live') === 'true';
-    if (!isActuallyLive && !feedActive) {
-      router.push('/');
-    }
-  }, [feedActive, router]);
+    if (feedActive) return;
+    const poll = setInterval(async () => {
+      const live = await checkIfLiveRef.current();
+      if (live) {
+        setFeedActive(true);
+        clearInterval(poll);
+      }
+    }, 3000);
+    return () => clearInterval(poll);
+  }, [feedActive]);
 
   // If we haven't redirected yet, aggressively block the UI
   if (!feedActive) {
     return (
       <section className="fixed inset-0 bg-[#07070a] z-50 flex items-center justify-center">
         <style>{`header, footer, .page-nav, a[href="/studio"] { display: none !important; } body { overflow: hidden !important; }`}</style>
+        <div className="text-center max-w-md px-6">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-3xl font-black text-white/20">
+            {crewConfig.avatar}
+          </div>
+          <h2 className="text-2xl font-black text-white mb-2">{crewConfig.displayName}</h2>
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <span className="w-2 h-2 rounded-full bg-white/20" />
+            <span className="text-sm text-white/40 uppercase tracking-widest font-bold">Offline</span>
+          </div>
+          <p className="text-white/30 text-sm mb-8 leading-relaxed">
+            This crew member isn't streaming right now. When they go live, the feed will start automatically.
+          </p>
+          <div className="flex items-center justify-center gap-2 text-white/20 text-xs animate-pulse">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Waiting for stream...
+          </div>
+          <Link href="/tour" className="inline-block mt-8 px-6 py-2.5 bg-white/5 border border-white/10 text-white/50 text-xs uppercase tracking-widest font-bold hover:bg-white/10 hover:text-white transition-all rounded-lg">
+            ← Back to Tour
+          </Link>
+        </div>
       </section>
     );
   }
@@ -1023,7 +1184,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             {/* True WebRTC LiveKit Feed */}
             <LiveKitStream 
               room={memberId ? `live_${memberId}` : 'live_michael'} 
-              username={member?.name || 'Fan'} 
+              username={member?.name ? `${member.name} (Fan)` : `Fan_${Math.floor(Math.random() * 10000)}`} 
               isPublisher={false} 
               className="absolute inset-0 z-10 w-full h-full object-cover" 
             />
@@ -1123,7 +1284,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             {/* LIVE RAFFLE WIDGET */}
             {raffleState && !raffleWidgetClosed && (() => {
               const isCurrentUserWinner = hasEnteredRaffle && !!member?.name &&
-                raffleState.winners?.some((w: string) => w?.toLowerCase().trim() === member!.name.toLowerCase().trim());
+                raffleState.winners?.some((w: any) => (w?.name || w)?.toLowerCase().trim() === member!.name.toLowerCase().trim());
               return (
               <div className="absolute top-20 left-4 sm:left-auto sm:right-4 z-40 w-[calc(100%-2rem)] sm:w-full sm:max-w-xs animate-in slide-in-from-right-8 fade-in duration-500">
                 <div className="bg-[#0a0a0e]/95 backdrop-blur-xl border-2 border-yellow-500/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)] text-white relative flex flex-col px-4 py-5 pointer-events-auto">
@@ -1177,7 +1338,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                       setHasEnteredRaffle(true);
                       setRaffleWidgetClosed(false);
                       // ── Send real raffle entry to crew page ──
-                      const fanName = (member as any)?.name || (member as any)?.displayName || demoUser || 'Fan';
+                      const fanName = (member as any)?.name || (member as any)?.displayName || 'Fan';
                       localStorage.setItem('raffle_enter_sync', JSON.stringify({ fanName, ts: Date.now() }));
                       try { supabase?.channel('live_events').send({ type: 'broadcast', event: 'raffle_enter', payload: { fanName } }); } catch {}
                       fetch('/api/email', {
@@ -1287,7 +1448,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
             {/* RAFFLE CLAIM MODAL OVERLAY */}
             {showClaimModal && (() => {
-              const winnerIdx = Math.max(0, raffleState?.winners.findIndex((w: any) => (w?.name || w) === demoUser) ?? 0);
+              const winnerIdx = Math.max(0, raffleState?.winners.findIndex((w: any) => (w?.name || w) === member?.name) ?? 0);
               const pin = raffleState?.winnerPins?.[winnerIdx] || '';
 
               const claimUrl = `${window.location.origin}/claim/${pin}`;
@@ -1303,6 +1464,9 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                       <div className="text-center mb-5">
                         <span className="text-4xl mb-2 block">🏆</span>
                         <h3 className="text-xl font-black text-white uppercase tracking-wider">You Won!</h3>
+                        {raffleState.prizes?.[winnerIdx]?.name && (
+                          <p className="text-sm font-bold text-yellow-500 mt-1 uppercase tracking-widest">{raffleState.prizes[winnerIdx].name}</p>
+                        )}
                         <p className="text-xs text-white/40 mt-1">Show your PIN to the crew at the merch table</p>
                       </div>
 

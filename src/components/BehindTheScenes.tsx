@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
 
-const btsVideos = [
+const FALLBACK_BTS = [
   {
     id: "BzHUNTZ66zY",
     title: "Making of 'Ain't That Just Beautiful'",
@@ -22,7 +22,22 @@ const btsVideos = [
   },
 ];
 
-export default function BehindTheScenes() {
+interface BTSVideo {
+  youtubeId: string;
+  title: string;
+  subtitle: string;
+  director: string;
+  year: number;
+}
+
+interface BehindTheScenesProps {
+  btsVideos?: BTSVideo[];
+}
+
+export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScenesProps) {
+  const btsVideos = sanityBts?.length
+    ? sanityBts.map(v => ({ id: v.youtubeId, title: v.title, subtitle: v.subtitle, director: v.director, year: v.year }))
+    : FALLBACK_BTS;
   const [playingId, setPlayingId] = useState<string | null>(null);
   const featured = btsVideos[0];
 

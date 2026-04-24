@@ -74,7 +74,7 @@ const newsPost = {
  ],
  preview: {
   select: { title: "title", date: "date", category: "category" },
-  prepare: ({ title, date, category }: { title: string; date: string; category: string }) => ({
+  prepare: ({ title, date, category }: Record<string, any>) => ({
    title,
    subtitle: `${category?.toUpperCase() || "UPDATE"} — ${date || "No date"}`,
   }),
