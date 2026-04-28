@@ -172,40 +172,41 @@ export default function ProximityDemoPage() {
                       <div className="text-white/60 text-sm mt-1">Tuesday, April 28</div>
                     </div>
 
-                  {/* Notification banner — tap to advance */}
-                  <div
-                    className={`transition-all duration-700 cursor-pointer ${
-                      notificationVisible && !notificationDismissed
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 -translate-y-4 pointer-events-none"
-                    }`}
-                    onClick={() => { setNotificationDismissed(true); setTimeout(() => setStep("show"), 300); }}
-                  >
-                    <div className="bg-white/20 backdrop-blur-2xl rounded-2xl p-4 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.4)] active:scale-[0.98] transition-transform">
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-fuchsia-600 flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(133,29,239,0.5)]">
-                          <span className="text-white text-sm font-black">7H</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-white text-xs font-bold">7th Heaven</span>
-                            <span className="text-white/50 text-[0.6rem]">now</span>
+                    {/* Notification banner — tap to advance */}
+                    <div
+                      className={`transition-all duration-700 cursor-pointer ${
+                        notificationVisible && !notificationDismissed
+                          ? "opacity-100 translate-y-0"
+                          : "opacity-0 -translate-y-4 pointer-events-none"
+                      }`}
+                      onClick={() => { setNotificationDismissed(true); setTimeout(() => setStep("show"), 300); }}
+                    >
+                      <div className="bg-white/20 backdrop-blur-2xl rounded-2xl p-4 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.4)] active:scale-[0.98] transition-transform">
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-fuchsia-600 flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(133,29,239,0.5)]">
+                            <span className="text-white text-sm font-black">7H</span>
                           </div>
-                          <p className="text-white text-xs font-bold mb-1">🎸 Show near you!</p>
-                          <div className="text-white/85 text-[0.65rem] leading-relaxed space-y-0.5">
-                            <p><span className="font-bold">{DEMO_SHOW.venue}</span> · {DEMO_SHOW.city}, {DEMO_SHOW.state}</p>
-                            <p>🚪 Doors {DEMO_SHOW.doorsTime} · 🎤 Show {DEMO_SHOW.time}</p>
-                            <p>{DEMO_SHOW.allAges ? "✅ All Ages" : "🔞 21+"} · 💵 {DEMO_SHOW.cover}</p>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-white text-xs font-bold">7th Heaven</span>
+                              <span className="text-white/50 text-[0.6rem]">now</span>
+                            </div>
+                            <p className="text-white text-xs font-bold mb-1">🎸 Show near you!</p>
+                            <div className="text-white/85 text-[0.65rem] leading-relaxed space-y-0.5">
+                              <p><span className="font-bold">{DEMO_SHOW.venue}</span> · {DEMO_SHOW.city}, {DEMO_SHOW.state}</p>
+                              <p>🚪 Doors {DEMO_SHOW.doorsTime} · 🎤 Show {DEMO_SHOW.time}</p>
+                              <p>{DEMO_SHOW.allAges ? "✅ All Ages" : "🔞 21+"} · 💵 {DEMO_SHOW.cover}</p>
+                            </div>
+                            <p className="text-blue-300 text-[0.6rem] mt-1.5 font-medium underline">
+                              7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}...
+                            </p>
                           </div>
-                          <p className="text-blue-300 text-[0.6rem] mt-1.5 font-medium underline">
-                            7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}...
-                          </p>
                         </div>
                       </div>
-                    </div>
-                    {/* Tap hint below notification */}
-                    <div className="flex justify-center mt-3 animate-pulse">
-                      <span className="text-white/30 text-[0.6rem] uppercase tracking-widest">Tap to open →</span>
+                      {/* Tap hint */}
+                      <div className="flex justify-center mt-3 animate-pulse">
+                        <span className="text-white/30 text-[0.6rem] uppercase tracking-widest">Tap to open →</span>
+                      </div>
                     </div>
                   </div>
                 </div>
