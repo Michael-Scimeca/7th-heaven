@@ -8,6 +8,7 @@ export default defineConfig({
  title: "7th Heaven",
  projectId: "1dg5ciuj",
  dataset: "production",
+ basePath: "/studio",
  plugins: [
   structureTool({
    structure: (S) =>
