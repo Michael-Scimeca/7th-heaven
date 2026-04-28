@@ -503,20 +503,25 @@ export default function ProximityDemoPage() {
                   ) : (
                     <>
                       {[
-                        { initials: "TK", name: "Taylor Kim",    tier: "Silver",   status: "going" },
-                        { initials: "MR", name: "Marcus Rivera", tier: "Bronze",   status: "going" },
-                        { initials: "SP", name: "Sam Patel",     tier: "Gold",     status: "going" },
-                        { initials: "JL", name: "Jamie Lee",     tier: "Silver",   status: "going" },
-                        { initials: "???", name: "Anonymous Fan", tier: null,       status: "going" },
-                        { initials: "CR", name: "Casey Reed",    tier: "Bronze",   status: "going" },
-                        { initials: "???", name: "Anonymous Fan", tier: null,       status: "going" },
-                        { initials: "NK", name: "Nina Khan",     tier: "Silver",   status: "going" },
+                        { initials: "TK", name: "Taylor Kim",    tier: "Silver",  status: "going" },
+                        { initials: "MR", name: "Marcus Rivera", tier: "Bronze",  status: "going" },
+                        { initials: "SP", name: "Sam Patel",     tier: "Gold",    status: "there" },
+                        { initials: "JL", name: "Jamie Lee",     tier: "Silver",  status: "going" },
+                        { initials: "???", name: "Anonymous Fan", tier: null,     status: "going" },
+                        { initials: "CR", name: "Casey Reed",    tier: "Bronze",  status: "going" },
+                        { initials: "???", name: "Anonymous Fan", tier: null,     status: "going" },
+                        { initials: "NK", name: "Nina Khan",     tier: "Silver",  status: "going" },
                       ].map((fan, i) => (
-                        <div key={i} className="flex items-center gap-4 p-4 border border-white/[0.04] bg-white/[0.01]">
+                        <div key={i} className={`flex items-center gap-4 p-4 border bg-white/[0.01] ${fan.status === "there" ? "border-emerald-500/30 bg-emerald-500/[0.03]" : "border-white/[0.04]"}`}>
                           <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-black text-xs border border-white/10 text-white/40 bg-white/[0.03]">{fan.initials}</div>
                           <div>
                             <p className="font-bold text-sm text-white/70">{fan.name}</p>
-                            {fan.tier && <span className="text-[0.45rem] font-black uppercase text-white/30">{fan.tier}</span>}
+                            <div className="flex items-center gap-2 mt-0.5">
+                              {fan.tier && <span className="text-[0.45rem] font-black uppercase text-white/30">{fan.tier}</span>}
+                              <span className={`text-[0.45rem] font-black uppercase ${fan.status === "there" ? "text-emerald-400" : "text-white/30"}`}>
+                                {fan.status === "there" ? "✓ Here Now" : "Going"}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       ))}
