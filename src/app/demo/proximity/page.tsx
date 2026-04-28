@@ -399,17 +399,6 @@ export default function ProximityDemoPage() {
                     >
                       📍 Directions
                     </a>
-
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}${DEMO_SHOW.url}`);
-                        setShareConfirm(true);
-                        setTimeout(() => setShareConfirm(false), 2000);
-                      }}
-                      className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center hover:border-white/30 hover:text-white transition-all"
-                    >
-                      {shareConfirm ? "✓ Copied!" : "🔗 Share"}
-                    </button>
                   </div>
                 </div>
 
