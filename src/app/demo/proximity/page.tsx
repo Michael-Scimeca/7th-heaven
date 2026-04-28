@@ -521,8 +521,32 @@ export default function ProximityDemoPage() {
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <div className="px-6 py-3 bg-purple-600 text-white text-[0.7rem] font-black uppercase tracking-widest">🔗 Copy Link</div>
-                <div className="px-6 py-3 border border-white/10 text-white/50 text-[0.7rem] font-black uppercase tracking-widest">💬 Text a Friend</div>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`);
+                    setShareConfirm(true);
+                    setTimeout(() => setShareConfirm(false), 2000);
+                  }}
+                  className="px-6 py-3 bg-purple-600 text-white text-[0.7rem] font-black uppercase tracking-widest hover:bg-purple-500 transition-all"
+                >
+                  {shareConfirm ? "✓ Copied!" : "🔗 Copy Link"}
+                </button>
+                <a
+                  href={`sms:?body=${encodeURIComponent(
+                    rsvpStatus === "going"
+                      ? `I'm going to see ${DEMO_SHOW.venue} in ${DEMO_SHOW.city} on May 1st — you should come! ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
+                      : rsvpStatus === "there"
+                      ? `I'm already at the show — ${DEMO_SHOW.venue} in ${DEMO_SHOW.city}! Get here! ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
+                      : `Are you going to ${DEMO_SHOW.venue} in ${DEMO_SHOW.city} on May 1st? Check it out: ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
+                  )}`}
+                  className="px-6 py-3 border border-white/10 text-white/50 text-[0.7rem] font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-all"
+                >
+                  {rsvpStatus === "going"
+                    ? "💬 Text — I'm Going!"
+                    : rsvpStatus === "there"
+                    ? "💬 Text — I'm There!"
+                    : "💬 Text a Friend"}
+                </a>
               </div>
             </div>
 
