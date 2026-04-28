@@ -30,6 +30,7 @@ export default function ProximityDemoPage() {
   const [rsvpStatus, setRsvpStatus] = useState<"idle" | "going" | "there" | "loading">("idle");
   const [anonToggle, setAnonToggle] = useState(false);
   const [shareConfirm, setShareConfirm] = useState(false);
+  const [showAllAttendees, setShowAllAttendees] = useState(false);
 
   const handleRsvp = async (status: "going" | "there") => {
     if (!isLoggedIn) {
@@ -492,12 +493,41 @@ export default function ProximityDemoPage() {
                   </div>
 
                   {/* +8 more pill */}
-                  <Link
-                    href={`/shows/${DEMO_SHOW.id}`}
-                    className="flex items-center justify-center p-4 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 hover:bg-white/[0.02] transition-all group"
-                  >
-                    <span className="text-white/25 text-sm font-bold group-hover:text-white/50 transition-colors">+ 8 more fans going →</span>
-                  </Link>
+                  {!showAllAttendees ? (
+                    <button
+                      onClick={() => setShowAllAttendees(true)}
+                      className="flex items-center justify-center p-4 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 hover:bg-white/[0.02] transition-all group w-full"
+                    >
+                      <span className="text-white/25 text-sm font-bold group-hover:text-white/50 transition-colors">+ 8 more fans going ↓</span>
+                    </button>
+                  ) : (
+                    <>
+                      {[
+                        { initials: "TK", name: "Taylor Kim",    tier: "Silver",   status: "going" },
+                        { initials: "MR", name: "Marcus Rivera", tier: "Bronze",   status: "going" },
+                        { initials: "SP", name: "Sam Patel",     tier: "Gold",     status: "going" },
+                        { initials: "JL", name: "Jamie Lee",     tier: "Silver",   status: "going" },
+                        { initials: "???", name: "Anonymous Fan", tier: null,       status: "going" },
+                        { initials: "CR", name: "Casey Reed",    tier: "Bronze",   status: "going" },
+                        { initials: "???", name: "Anonymous Fan", tier: null,       status: "going" },
+                        { initials: "NK", name: "Nina Khan",     tier: "Silver",   status: "going" },
+                      ].map((fan, i) => (
+                        <div key={i} className="flex items-center gap-4 p-4 border border-white/[0.04] bg-white/[0.01]">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-black text-xs border border-white/10 text-white/40 bg-white/[0.03]">{fan.initials}</div>
+                          <div>
+                            <p className="font-bold text-sm text-white/70">{fan.name}</p>
+                            {fan.tier && <span className="text-[0.45rem] font-black uppercase text-white/30">{fan.tier}</span>}
+                          </div>
+                        </div>
+                      ))}
+                      <button
+                        onClick={() => setShowAllAttendees(false)}
+                        className="flex items-center justify-center p-3 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 transition-all group w-full"
+                      >
+                        <span className="text-white/20 text-xs font-bold group-hover:text-white/40 transition-colors">Show less ↑</span>
+                      </button>
+                    </>
+                  )}
                 </div>
 
                 <p className="text-[0.55rem] text-white/15 mt-4 text-center">Fans who chose to go anonymously appear as &ldquo;Anonymous Fan&rdquo;</p>
