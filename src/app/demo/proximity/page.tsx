@@ -492,9 +492,12 @@ export default function ProximityDemoPage() {
                   </div>
 
                   {/* +8 more pill */}
-                  <div className="flex items-center justify-center p-4 border border-dashed border-white/[0.06] sm:col-span-2">
-                    <span className="text-white/25 text-sm font-bold">+ 8 more fans going</span>
-                  </div>
+                  <Link
+                    href={`/shows/${DEMO_SHOW.id}`}
+                    className="flex items-center justify-center p-4 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 hover:bg-white/[0.02] transition-all group"
+                  >
+                    <span className="text-white/25 text-sm font-bold group-hover:text-white/50 transition-colors">+ 8 more fans going →</span>
+                  </Link>
                 </div>
 
                 <p className="text-[0.55rem] text-white/15 mt-4 text-center">Fans who chose to go anonymously appear as &ldquo;Anonymous Fan&rdquo;</p>
