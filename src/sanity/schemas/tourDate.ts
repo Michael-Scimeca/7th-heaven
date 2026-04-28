@@ -43,6 +43,25 @@ const tourDate = {
    description: "e.g. '8:00pm'",
   },
   {
+   name: "doorsTime",
+   title: "Doors Open",
+   type: "string",
+   description: "e.g. '7:00pm'",
+  },
+  {
+   name: "allAges",
+   title: "All Ages",
+   type: "boolean",
+   description: "Is this show open to all ages?",
+   initialValue: true,
+  },
+  {
+   name: "cover",
+   title: "Cover / Admission",
+   type: "string",
+   description: "e.g. 'Free', '$10', '$15 at door'",
+  },
+  {
    name: "ticketLink",
    title: "Ticket Link",
    type: "url",
@@ -62,6 +81,13 @@ const tourDate = {
    name: "isFestival",
    title: "Is Festival",
    type: "boolean",
+   initialValue: false,
+  },
+  {
+   name: "isPrivate",
+   title: "Private Event",
+   type: "boolean",
+   description: "Private events are hidden from proximity SMS blasts and public fan alerts.",
    initialValue: false,
   },
   {

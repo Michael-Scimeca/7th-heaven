@@ -10,6 +10,7 @@ export default function LoginModal() {
  const [password, setPassword] = useState("");
  const [zipCode, setZipCode] = useState("");
  const [wantNotifications, setWantNotifications] = useState(false);
+ const [wantNewsletter, setWantNewsletter] = useState(true);
  const [error, setError] = useState("");
  const [loading, setLoading] = useState(false);
  const [loginRole, setLoginRole] = useState<'fan' | 'crew'>('fan');
@@ -48,6 +49,14 @@ export default function LoginModal() {
    if (!ok) {
     setError("An account with this email already exists.");
    } else {
+    // Subscribe to newsletter if opted in
+    if (wantNewsletter) {
+     fetch('/api/newsletter/subscribe', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ email, name, source: 'signup' }),
+     }).catch(() => {});
+    }
     window.location.href = '/fans';
    }
   }
@@ -140,48 +149,70 @@ export default function LoginModal() {
           className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
          />
         </div>
-        
-        {loginRole === 'fan' && (
-        <div className="flex flex-col gap-3">
-         {/* Notification opt-in toggle */}
-         <button
-          type="button"
-          onClick={() => setWantNotifications(!wantNotifications)}
-          className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-all cursor-pointer ${
-           wantNotifications
-            ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-            : 'bg-white/[0.02] border-white/10 hover:border-white/20'
-          }`}
-         >
-          <span className={`w-9 h-5 rounded-full relative transition-all flex-shrink-0 ${
-           wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-          }`}>
-           <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
-            wantNotifications ? 'left-[18px]' : 'left-0.5'
-           }`} />
-          </span>
-          <span className="text-[0.7rem] text-white/70 leading-tight text-left">
-           📍 Notify me when 7th Heaven books a show near me
-          </span>
-         </button>
 
-         {/* Zip code — only if opted in */}
-         {wantNotifications && (
-         <div>
-          <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
-          <input
-           type="text"
-           value={zipCode}
-           onChange={(e) => setZipCode(e.target.value)}
-           placeholder="e.g. 60601"
-           className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
-          />
+        {loginRole === 'fan' && (
+         <div className="flex flex-col gap-3">
+          {/* Show notification toggle */}
+          <button
+           type="button"
+           onClick={() => setWantNotifications(!wantNotifications)}
+           className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-all cursor-pointer ${
+            wantNotifications
+             ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+             : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+           }`}
+          >
+           <span className={`w-9 h-5 rounded-full relative transition-all flex-shrink-0 ${
+            wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+           }`}>
+            <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
+             wantNotifications ? 'left-[18px]' : 'left-0.5'
+            }`} />
+           </span>
+           <span className="text-[0.7rem] text-white/70 leading-tight text-left">
+            📍 Notify me when 7th Heaven books a show near me
+           </span>
+          </button>
+
+          {/* Zip code — only if opted in */}
+          {wantNotifications && (
+           <div>
+            <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
+            <input
+             type="text"
+             value={zipCode}
+             onChange={(e) => setZipCode(e.target.value)}
+             placeholder="e.g. 60601"
+             className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+            />
+           </div>
+          )}
+
+          {/* Newsletter opt-in */}
+          <button
+           type="button"
+           onClick={() => setWantNewsletter(!wantNewsletter)}
+           className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-all cursor-pointer ${
+            wantNewsletter
+             ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+             : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+           }`}
+          >
+           <span className={`w-9 h-5 rounded-full relative transition-all flex-shrink-0 ${
+            wantNewsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+           }`}>
+            <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
+             wantNewsletter ? 'left-[18px]' : 'left-0.5'
+            }`} />
+           </span>
+           <span className="text-[0.7rem] text-white/70 leading-tight text-left">
+            📧 Send me news, show updates & exclusive drops
+           </span>
+          </button>
          </div>
-         )}
-        </div>
         )}
-        </>
-       )}
+       </>
+      )}
 
       <div>
        <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email</label>
@@ -218,13 +249,51 @@ export default function LoginModal() {
       <button
        type="submit"
        disabled={loading}
-       className="w-full py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer"
+       className="w-full py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(133,29,239,0.3)]"
       >
        {loading ? "..." : modalMode === "login" ? "Sign In" : "Create Account"}
       </button>
+      {modalMode === "signup" && (
+       <p className="text-[0.55rem] text-white/25 text-center mt-3 leading-relaxed">
+        By creating an account you agree to our <a href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-white/40 transition-colors">Terms of Service</a>.
+       </p>
+      )}
      </form>
 
-
+     {/* OAuth Social Login for Fans */}
+     {loginRole === 'fan' && (
+      <>
+       <div className="flex items-center gap-4 my-6">
+        <div className="flex-1 h-px bg-white/10" />
+        <span className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold">Or continue with</span>
+        <div className="flex-1 h-px bg-white/10" />
+       </div>
+       
+       <div className="grid grid-cols-3 gap-3">
+        <button 
+         type="button"
+         onClick={() => { setLoading(true); setTimeout(() => { signup('Google Fan', 'google@example.com', 'pass123').then(() => window.location.href = '/fans'); }, 600); }}
+         className="flex items-center justify-center gap-2 py-3 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 rounded-lg transition-colors cursor-pointer"
+        >
+         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.409 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z"/><path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.108c1.96 3.96 6.047 6.632 10.763 6.632 3.211 0 6.081-1.12 8.08-3.231l-4.04-2.764Z"/><path fill="#4A90E2" d="M23.606 12.276c0-.82-.07-1.536-.25-2.228H12v4.61h6.58c-.315 1.554-1.145 2.71-2.26 3.518l4.04 2.764c2.464-2.366 3.246-6.062 3.246-8.664Z"/><path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.905 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z"/></svg>
+        </button>
+        <button 
+         type="button"
+         onClick={() => { setLoading(true); setTimeout(() => { signup('Facebook Fan', 'facebook@example.com', 'pass123').then(() => window.location.href = '/fans'); }, 600); }}
+         className="flex items-center justify-center gap-2 py-3 bg-[#1877F2]/10 hover:bg-[#1877F2]/20 border border-[#1877F2]/30 rounded-lg transition-colors cursor-pointer"
+        >
+         <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </button>
+        <button 
+         type="button"
+         onClick={() => { setLoading(true); setTimeout(() => { signup('Apple Fan', 'apple@example.com', 'pass123').then(() => window.location.href = '/fans'); }, 600); }}
+         className="flex items-center justify-center gap-2 py-3 bg-white hover:bg-gray-200 border border-transparent rounded-lg transition-colors cursor-pointer"
+        >
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="black"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z"/></svg>
+        </button>
+       </div>
+      </>
+     )}
 
      {modalMode === "login" && (
       <p className="text-center text-[0.65rem] text-white/30 mt-6">

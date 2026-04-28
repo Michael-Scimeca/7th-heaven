@@ -13,6 +13,7 @@ import {
 } from '@livekit/components-react';
 import '@livekit/components-styles';
 import { Track, Room } from 'livekit-client';
+import { createClient } from '@/utils/supabase/client';
 
 interface LiveKitStreamProps {
  room: string;
@@ -36,11 +37,24 @@ export function LiveKitStream({
  const [error, setError] = useState('');
 
  useEffect(() => {
-  const fetchToken = async () => {
+  const fetchToken = async (retryCount = 0) => {
    try {
+    const supabase = createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    const headers: Record<string, string> = {
+     'Content-Type': 'application/json'
+    };
+    
+    if (session?.access_token) {
+     headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+
     const res = await fetch(
-     `/api/livekit?room=${encodeURIComponent(room)}&username=${encodeURIComponent(username)}&publish=${isPublisher}`
+     `/api/livekit?room=${encodeURIComponent(room)}&username=${encodeURIComponent(username)}&publish=${isPublisher}`,
+     { headers }
     );
+    
     const data = await res.json();
     if (data.error) {
      setError(data.error);
@@ -48,8 +62,13 @@ export function LiveKitStream({
     }
     setToken(data.token);
     setUrl(data.url);
-   } catch {
-    setError('Failed to connect to stream server');
+   } catch (err) {
+    if (retryCount < 2) {
+     setTimeout(() => fetchToken(retryCount + 1), 1000);
+    } else {
+     console.error('Token fetch failed:', err);
+     setError('Failed to connect to stream server');
+    }
    }
   };
   fetchToken();

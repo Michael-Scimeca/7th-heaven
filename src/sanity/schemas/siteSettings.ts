@@ -26,6 +26,19 @@ const siteSettings = {
    initialValue: "40 years of rocking the world.",
   },
   {
+   name: "announcement",
+   title: "Global Announcement Banner",
+   type: "object",
+   description: "Use this to display an alert across the site for canceled shows, weather updates, or major news.",
+   fields: [
+    { name: "isActive", title: "Show Banner?", type: "boolean", initialValue: false },
+    { name: "text", title: "Announcement Text", type: "text", rows: 2 },
+    { name: "link", title: "Optional Link URL", type: "url" },
+    { name: "linkText", title: "Link Button Text", type: "string", description: "e.g. 'Read More'" },
+    { name: "expiresAt", title: "Auto-Expire At", type: "datetime", description: "Banner auto-hides after this time" },
+   ]
+  },
+  {
    name: "bioIntro",
    title: "Bio Intro (Paragraph 1)",
    type: "text",
@@ -198,7 +211,7 @@ const siteSettings = {
    type: "array",
    of: [{ type: "string" }],
   },
-  // Behind the Scenes Videos
+   // Behind the Scenes Videos
   {
    name: "btsVideos",
    title: "Behind the Scenes Videos",
@@ -217,6 +230,17 @@ const siteSettings = {
       select: { title: "title", subtitle: "director" },
      },
     },
+   ],
+  },
+  // Global SEO Settings
+  {
+   name: "seo",
+   title: "Global SEO Settings",
+   type: "object",
+   fields: [
+    { name: "metaTitle", title: "Global Meta Title", type: "string", description: "Default title tag for the website" },
+    { name: "metaDescription", title: "Global Meta Description", type: "text", rows: 3, description: "Default meta description" },
+    { name: "ogImage", title: "Default Open Graph Image", type: "image", description: "Default image for social sharing (1200x630)" },
    ],
   },
   // Navigation links

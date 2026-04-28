@@ -116,8 +116,8 @@ export async function seedMockData() {
   ];
 
   for (const u of mockUsers) {
-    // Generate secure password
-    const password = "Password123!";
+    // Generate secure random password
+    const password = crypto.randomUUID().slice(0, 12) + "!A1";
     const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
       email: u.email,
       password,
@@ -141,7 +141,7 @@ export async function seedMockData() {
   return { success: true };
 }
 
-export async function adminCreateCrewMember({ name, email, password: providedPassword }: { name: string; email: string; password?: string }) {
+export async function adminCreateCrewMember({ name, email, password: providedPassword, phone }: { name: string; email: string; password?: string; phone?: string }) {
   console.log(`[Admin] Creating crew member ${email}`);
   // Use provided password or generate a secure temporary one
   const password = providedPassword || (Math.random().toString(36).slice(-10) + "!A1");
@@ -156,11 +156,13 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
     console.error('Auth error creating crew member:', authErr);
     return { success: false, error: authErr.message };
   }
-  // Assign crew role in profiles table
+  // Assign crew role and phone in profiles table
   if (authData?.user) {
+    const updateData: any = { role: 'crew' };
+    if (phone) updateData.phone = phone;
     const { error } = await supabaseAdmin
       .from('profiles')
-      .update({ role: 'crew' })
+      .update(updateData)
       .eq('id', authData.user.id);
     if (error) {
       console.error('Profile update error for crew member:', error);

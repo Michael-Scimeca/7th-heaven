@@ -54,6 +54,21 @@ export function Footer() {
   const router = useRouter();
   const isPlanner = member?.role === 'event_planner';
 
+  const [nlEmail, setNlEmail] = useState('');
+  const [nlStatus, setNlStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  // SMS Text Alerts
+  const [smsPhone, setSmsPhone] = useState('');
+  const [smsZip, setSmsZip] = useState('');
+  const [smsStatus, setSmsStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  const formatPhone = (value: string) => {
+    const digits = value.replace(/\D/g, '').slice(0, 10);
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  };
+
   const [endorsements, setEndorsements] = useState(FALLBACK_ENDORSEMENTS);
   const [socialLinks, setSocialLinks] = useState(FALLBACK_SOCIAL_LINKS);
   const [bookingPhone, setBookingPhone] = useState('847-551-5363');
@@ -93,9 +108,9 @@ export function Footer() {
         </div>
         )}
 
-        {/* Inline Links — Stacked Rows */}
-        <div className="flex flex-col gap-4 py-6 border-t border-white/10">
-          {/* Nav Links — spaced */}
+        {/* Inline Links — Single Row */}
+        <div className="flex flex-wrap items-center justify-between gap-4 py-6 border-t border-white/10">
+          {/* Nav Links */}
           <div className="flex flex-wrap items-center gap-6">
             {footerLinks.map((link) => (
               <Link key={link.href} href={link.href} className="text-[0.7rem] font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
@@ -114,9 +129,12 @@ export function Footer() {
             >
               Crew Login
             </button>
+            <Link href="/planner?login=true" className="text-[0.7rem] font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+              Planner Login
+            </Link>
           </div>
 
-          {/* Social Links — purple slash separators */}
+          {/* Social Links */}
           <div className="flex flex-wrap items-center gap-1">
             {socialLinks.map((link, i) => (
               <span key={link.name} className="flex items-center">
@@ -131,6 +149,69 @@ export function Footer() {
           </div>
         </div>
 
+      </div>
+
+      {/* SMS Text Alerts */}
+      <div className="site-container py-12 border-t border-white/5">
+        <div className="max-w-lg">
+          <div className="flex items-center gap-3 mb-1">
+            <span className="text-lg">📱</span>
+            <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-white">Text Alerts</h3>
+          </div>
+          <p className="text-[0.7rem] text-white/40 mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
+          {smsStatus === 'success' ? (
+            <div className="flex items-center gap-3 px-5 py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+              <span className="text-emerald-400 text-lg">✓</span>
+              <p className="text-sm font-bold text-emerald-400">You&apos;re subscribed! We&apos;ll text you when we&apos;re in your area.</p>
+            </div>
+          ) : (
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const digits = smsPhone.replace(/\D/g, '');
+                if (digits.length < 10 || !smsZip || smsZip.length < 5) return;
+                setSmsStatus('sending');
+                try {
+                  const res = await fetch('/api/sms/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: smsPhone, zipCode: smsZip, name: member?.name || '' }),
+                  });
+                  if (res.ok) { setSmsStatus('success'); setSmsPhone(''); setSmsZip(''); }
+                  else setSmsStatus('error');
+                } catch { setSmsStatus('error'); }
+              }}
+              className="flex flex-wrap gap-2"
+            >
+              <input
+                type="tel"
+                value={smsPhone}
+                onChange={e => setSmsPhone(formatPhone(e.target.value))}
+                placeholder="(555) 123-4567"
+                required
+                className="flex-1 min-w-[140px] px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+              />
+              <input
+                type="text"
+                value={smsZip}
+                onChange={e => setSmsZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                placeholder="Zip code"
+                required
+                maxLength={5}
+                className="w-24 px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+              />
+              <button
+                type="submit"
+                disabled={smsStatus === 'sending'}
+                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.7rem] uppercase tracking-widest rounded-lg transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(133,29,239,0.2)] whitespace-nowrap"
+              >
+                {smsStatus === 'sending' ? '...' : '📱 Subscribe'}
+              </button>
+            </form>
+          )}
+          {smsStatus === 'error' && <p className="text-xs text-rose-400 mt-2">Something went wrong. Try again.</p>}
+          <p className="text-[0.55rem] text-white/20 mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <a href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-white/40 transition-colors">Terms</a>.</p>
+        </div>
       </div>
 
       {/* Massive Typographic Footer Logo */}

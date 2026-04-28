@@ -56,6 +56,9 @@ export interface SanityTourDate {
  date: string;
  time: string;
  day: string;
+ doorsTime?: string;
+ allAges?: boolean;
+ cover?: string;
  ticketLink?: string;
  directionsLink?: string;
  isSoldOut: boolean;
@@ -73,9 +76,20 @@ export interface SanityBandMember {
  slug: { current: string };
  role: string;
  image?: SanityImageSource;
- bio: string;
- qaPairs: { question: string; answer: string }[];
- instruments: string[];
+ birthday?: string;
+ zodiac?: string;
+ favQuote?: string;
+ bestTrait?: string;
+ worstTrait?: string;
+ favBands?: string;
+ favAlbum?: string;
+ favMovie?: string;
+ fav7hSong?: string;
+ firstSong?: string;
+ bestFeeling?: string;
+ hobbies?: string;
+ influences?: string;
+ funFact?: string;
  order: number;
 }
 
@@ -97,6 +111,13 @@ export interface SanitySiteSettings {
  bandName: string;
  tagline: string;
  subTagline: string;
+ announcement?: {
+  isActive: boolean;
+  text: string;
+  link?: string;
+  linkText?: string;
+  expiresAt?: string;
+ };
  bioIntro: string;
  bioIntro2: string;
  stats: { number: string; label: string }[];
@@ -145,13 +166,13 @@ export const queries = {
  featuredNews: `*[_type == "newsPost" && featured == true] | order(publishedAt desc)[0...3] { _id, title, slug, content, date, category, image, featured, publishedAt }`,
 
  // Tour Dates
- allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, day, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes, lat, lng }`,
- upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, day, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes, lat, lng }`,
+ allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes, lat, lng }`,
+ upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes, lat, lng }`,
 
  // Band Members
- allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, bio, qaPairs, instruments, order }`,
+ allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact, order }`,
  memberBySlug: (slug: string) =>
-  `*[_type == "bandMember" && slug.current == "${slug}"][0] { _id, name, slug, role, image, bio, qaPairs, instruments }`,
+  `*[_type == "bandMember" && slug.current == "${slug}"][0] { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact }`,
 
  // Videos
  allVideos: `*[_type == "video"] | order(category asc, year desc) { _id, title, youtubeId, category, year, duration, description, viewCount }`,

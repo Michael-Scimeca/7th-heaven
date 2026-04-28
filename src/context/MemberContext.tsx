@@ -76,7 +76,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     // Role email lists
     const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
     const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
-    const plannerEmails = ["planner@example.com", "chicago_manager@example.com"];
+    const plannerEmails = ["planner@example.com", "chicago_manager@example.com", "planner@test.com"];
     // Ensure role field exists for legacy accounts
     if (!parsed.role) {
      parsed.role = crewEmails.includes(parsed.email) ? "crew" : merchEmails.includes(parsed.email) ? "merch" : plannerEmails.includes(parsed.email) ? "event_planner" : "fan";
@@ -107,18 +107,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  const closeModal = () => setIsModalOpen(false);
 
  const login = async (email: string, password: string): Promise<boolean> => {
-  // 1. Check localStorage accounts first (fast path)
-  const accounts = JSON.parse(localStorage.getItem("7h_accounts") || "{}");
-  const account = accounts[email.toLowerCase()];
-  if (account) {
-   if (account.password !== password) return false;
-   setMember(account);
-   setIsModalOpen(false);
-   localStorage.removeItem('vip_inbox_messages');
-   return true;
-  }
-
-  // 2. Fall back to Supabase Auth (for admin-created crew accounts, etc.)
+  // Authenticate via Supabase Auth
   try {
    const { createClient } = await import("@/utils/supabase/client");
    const supabase = createClient();
@@ -145,30 +134,25 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     role: role as Member["role"],
    };
 
-   // Persist to localStorage so future logins are instant
-   accounts[email.toLowerCase()] = { ...supabaseMember, password };
-   localStorage.setItem("7h_accounts", JSON.stringify(accounts));
+   // Cache member profile (NOT the password) for fast access
+   localStorage.setItem("7h_member", JSON.stringify(supabaseMember));
 
    setMember(supabaseMember);
    setIsModalOpen(false);
    localStorage.removeItem('vip_inbox_messages');
    return true;
   } catch (e) {
-   console.error("Supabase login fallback error:", e);
+   console.error("Login error:", e);
    return false;
   }
  };
 
  const signup = async (name: string, email: string, password: string, phone?: string): Promise<boolean> => {
-  // Check if account already exists in localStorage
-  const accounts = JSON.parse(localStorage.getItem("7h_accounts") || "{}");
-  if (accounts[email.toLowerCase()]) return false;
-
   // Determine role based on email
   const role = ["mikeyscimeca@gmail.com"].includes(email.toLowerCase()) ? "admin"
    : ["mike@test.com", "mikeyscimeca.dev@gmail.com"].includes(email.toLowerCase()) ? "crew"
    : ["merch@test.com", "merch@7thheaven.com"].includes(email.toLowerCase()) ? "merch"
-   : ["planner@example.com", "chicago_manager@example.com"].includes(email.toLowerCase()) ? "event_planner"
+   : ["planner@example.com", "chicago_manager@example.com", "planner@test.com"].includes(email.toLowerCase()) ? "event_planner"
    : "fan";
 
   let userId = crypto.randomUUID();
@@ -190,7 +174,8 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     await supabase.from("profiles").update({ role }).eq("id", data.user.id);
    }
   } catch (e) {
-   console.error("Supabase signup error (falling back to local):", e);
+   console.error("Supabase signup error:", e);
+   return false;
   }
 
   const newMember: Member = {
@@ -209,9 +194,8 @@ export function MemberProvider({ children }: { children: ReactNode }) {
    role: role as Member["role"],
   };
 
-  // Cache in localStorage for fast access
-  accounts[email.toLowerCase()] = { ...newMember, password };
-  localStorage.setItem("7h_accounts", JSON.stringify(accounts));
+  // Cache member profile (NOT the password) for fast access
+  localStorage.setItem("7h_member", JSON.stringify(newMember));
 
   setMember(newMember);
   setIsModalOpen(false);

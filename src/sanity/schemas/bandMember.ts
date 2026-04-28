@@ -31,39 +31,91 @@ const bandMember = {
    options: { hotspot: true },
   },
   {
-   name: "bio",
-   title: "Bio",
+   name: "birthday",
+   title: "Birthday",
+   type: "string",
+  },
+  {
+   name: "zodiac",
+   title: "Zodiac Sign",
+   type: "string",
+  },
+  {
+   name: "favQuote",
+   title: "Favorite Quote",
+   type: "string",
+  },
+  {
+   name: "bestTrait",
+   title: "Best Trait",
+   type: "string",
+  },
+  {
+   name: "worstTrait",
+   title: "Worst Trait",
+   type: "string",
+  },
+  {
+   name: "favBands",
+   title: "Favorite Bands",
+   type: "string",
+  },
+  {
+   name: "favAlbum",
+   title: "Favorite Album",
+   type: "string",
+  },
+  {
+   name: "favMovie",
+   title: "Favorite Movie(s)",
+   type: "string",
+  },
+  {
+   name: "fav7hSong",
+   title: "Favorite 7th Heaven Song",
+   type: "string",
+  },
+  {
+   name: "firstSong",
+   title: "First Song Learned",
+   type: "string",
+  },
+  {
+   name: "bestFeeling",
+   title: "Best Feeling",
+   type: "string",
+  },
+  {
+   name: "hobbies",
+   title: "Hobbies",
+   type: "string",
+  },
+  {
+   name: "influences",
+   title: "Influences",
+   type: "string",
+  },
+  {
+   name: "funFact",
+   title: "Fun Fact",
    type: "text",
-   rows: 6,
-  },
-  {
-   name: "qaPairs",
-   title: "Q&A",
-   type: "array",
-   of: [
-    {
-     type: "object",
-     fields: [
-      { name: "question", title: "Question", type: "string" },
-      { name: "answer", title: "Answer", type: "text", rows: 3 },
-     ],
-     preview: {
-      select: { title: "question" },
-     },
-    },
-   ],
-  },
-  {
-   name: "instruments",
-   title: "Instruments",
-   type: "array",
-   of: [{ type: "string" }],
+   rows: 2,
   },
   {
    name: "order",
    title: "Display Order",
    type: "number",
    initialValue: 0,
+  },
+  {
+   name: "seo",
+   title: "SEO Settings",
+   type: "object",
+   description: "Override global SEO settings for this specific band member profile",
+   fields: [
+    { name: "metaTitle", title: "Meta Title", type: "string", description: "Optimal length: 50-60 characters" },
+    { name: "metaDescription", title: "Meta Description", type: "text", rows: 3, description: "Optimal length: 150-160 characters" },
+   ],
   },
  ],
  orderings: [

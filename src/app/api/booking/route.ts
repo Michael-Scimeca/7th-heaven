@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { bookingStatusUpdate } from "@/lib/email-templates";
+import crypto from "crypto";
 
 const ADMIN_EMAIL = "mikeyscimeca@gmail.com";
 
@@ -7,6 +9,12 @@ const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
+
+// Sanitize user input before injecting into HTML email templates
+function sanitize(str: string | undefined | null): string {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 function generateBookingId() {
   return `7H-BK-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -21,7 +29,7 @@ function buildPlannerEmailHtml(booking: any) {
     </div>
     <div style="padding: 32px;">
       <p style="color: rgba(255,255,255,0.7); font-size: 15px; line-height: 1.6; margin: 0 0 24px;">
-        Hey <strong style="color: #fff;">${booking.name}</strong>, thanks for submitting your booking request! Our team will review your event details and get back to you within 24–48 hours.
+        Hey <strong style="color: #fff;">${sanitize(booking.name)}</strong>, thanks for submitting your booking request! Our team will review your event details and get back to you within 24–48 hours.
       </p>
       <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; margin-bottom: 24px;">
         <p style="margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.3); font-weight: 700;">Booking ID</p>
@@ -29,23 +37,23 @@ function buildPlannerEmailHtml(booking: any) {
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
             <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; width: 120px;">Event</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.eventType}</td>
+            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.eventType)}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Date</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.eventDate}</td>
+            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.eventDate)}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Time</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.startTime || 'TBD'} – ${booking.endTime || 'TBD'}</td>
+            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Venue</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.venueName || 'Not specified'}</td>
+            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueName) || 'Not specified'}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Location</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.venueCity}, ${booking.venueState}</td>
+            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueCity)}, ${sanitize(booking.venueState)}</td>
           </tr>
         </table>
       </div>
@@ -71,52 +79,56 @@ function buildAdminNotificationHtml(booking: any) {
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; width: 130px;">Name</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.name}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.name)}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Email</td>
-            <td style="padding: 6px 0; color: #a855f7; font-size: 14px; font-weight: 600;">${booking.email}</td>
+            <td style="padding: 6px 0; color: #a855f7; font-size: 14px; font-weight: 600;">${sanitize(booking.email)}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Phone</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.phone || 'N/A'}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.phone) || 'N/A'}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Organization</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.organization || 'N/A'}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.organization) || 'N/A'}</td>
           </tr>
           <tr><td colspan="2" style="padding: 10px 0;"><hr style="border: none; border-top: 1px solid rgba(255,255,255,0.05);"></td></tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Event Type</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.eventType}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.eventType)}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Date</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.eventDate}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.eventDate)}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Time</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.startTime || 'TBD'} – ${booking.endTime || 'TBD'}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Venue</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.venueName || 'Not specified'}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueName) || 'Not specified'}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Location</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.venueCity}, ${booking.venueState}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueCity)}, ${sanitize(booking.venueState)}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Indoor/Outdoor</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.indoorOutdoor || 'N/A'}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.indoorOutdoor) || 'N/A'}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Attendance</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${booking.expectedAttendance || 'N/A'}</td>
+            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.expectedAttendance) || 'N/A'}</td>
           </tr>
         </table>
       </div>
-      ${booking.details ? `<div style="background: rgba(168,85,247,0.05); border: 1px solid rgba(168,85,247,0.15); border-radius: 12px; padding: 16px; margin-bottom: 16px;"><p style="margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); font-weight: 700;">Additional Notes</p><p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.5;">${booking.details}</p></div>` : ''}
+      ${booking.details ? `<div style="background: rgba(168,85,247,0.05); border: 1px solid rgba(168,85,247,0.15); border-radius: 12px; padding: 16px; margin-bottom: 16px;"><p style="margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); font-weight: 700;">Additional Notes</p><p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.5;">${sanitize(booking.details)}</p></div>` : ''}
+      <div style="text-align: center; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05);">
+        <p style="margin: 0 0 8px; color: rgba(255,255,255,0.3); font-size: 12px;">Need to cancel this booking?</p>
+        <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/book/cancel?token=${booking.cancelToken}&id=${booking.bookingId}" style="color: #a855f7; font-size: 13px; font-weight: 600; text-decoration: underline;">Cancel Booking →</a>
+      </div>
     </div>
   </div>`;
 }
@@ -182,6 +194,7 @@ export async function POST(request: Request) {
     }
 
     const bookingId = generateBookingId();
+    const cancelToken = crypto.randomBytes(24).toString('hex');
 
     // Insert into Supabase
     const { error } = await supabaseAdmin.from('bookings').insert({
@@ -201,6 +214,7 @@ export async function POST(request: Request) {
       expected_attendance: data.expectedAttendance || null,
       details: data.details || null,
       status: 'pending',
+      cancel_token: cancelToken,
     });
 
     if (error) {
@@ -208,7 +222,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    const booking = { ...data, bookingId };
+    const booking = { ...data, bookingId, cancelToken };
 
     // Send confirmation emails (non-blocking)
     const emailBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -247,12 +261,19 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { bookingId, status } = await request.json();
+    const { bookingId, status, notes } = await request.json();
 
     const update: any = {
-      status,
       updated_at: new Date().toISOString(),
     };
+
+    if (status) {
+      update.status = status;
+    }
+
+    if (notes !== undefined) {
+      update.details = notes;
+    }
 
     if (status === 'cancelled') {
       update.cancelled_at = new Date().toISOString();
@@ -268,6 +289,43 @@ export async function PATCH(request: Request) {
     if (error) {
       console.error('Booking update error:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    // ── Send status notification email to planner ──
+    if (data && data.planner_email && ['approved', 'cancelled', 'completed'].includes(status)) {
+      const emailBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      const plannerName = data.planner_name || 'there';
+      const eventDate = data.event_date || 'TBD';
+
+      // Map DB status to template status
+      const templateStatus = status === 'approved' ? 'confirmed' : status === 'cancelled' ? 'cancelled' : 'completed';
+
+      const html = bookingStatusUpdate({
+        name: plannerName,
+        bookingId: bookingId,
+        status: templateStatus as 'confirmed' | 'cancelled' | 'completed',
+        eventDate: eventDate,
+        eventType: booking.event_type || 'event',
+        venueName: booking.venue_name,
+        venueCity: booking.venue_city || '',
+        venueState: booking.venue_state || '',
+      });
+
+      const statusLabels: Record<string, string> = {
+        approved: '✅ Booking Approved',
+        cancelled: '❌ Booking Cancelled',
+        completed: '🎉 Show Complete',
+      };
+
+      fetch(`${emailBaseUrl}/api/email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: data.planner_email,
+          subject: `${statusLabels[status] || 'Status Update'} — ${bookingId} | 7th Heaven`,
+          html,
+        }),
+      }).catch(err => console.error('Status notification email failed:', err));
     }
 
     return NextResponse.json({ success: true, booking: data });

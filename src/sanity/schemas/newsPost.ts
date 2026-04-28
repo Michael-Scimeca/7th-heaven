@@ -64,6 +64,16 @@ const newsPost = {
    type: "datetime",
    initialValue: () => new Date().toISOString(),
   },
+  {
+   name: "seo",
+   title: "SEO Settings",
+   type: "object",
+   description: "Override global SEO settings for this specific news post",
+   fields: [
+    { name: "metaTitle", title: "Meta Title", type: "string", description: "Optimal length: 50-60 characters" },
+    { name: "metaDescription", title: "Meta Description", type: "text", rows: 3, description: "Optimal length: 150-160 characters" },
+   ],
+  },
  ],
  orderings: [
   {

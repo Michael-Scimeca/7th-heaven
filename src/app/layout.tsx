@@ -9,6 +9,8 @@ import { SanityLive } from "@/sanity/live";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 import { PageNav } from "@/components/PageNav";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+
 const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -109,14 +111,17 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${barlowCondensed.variable}`}>
+    <html lang="en" className={`${inter.variable} ${barlowCondensed.variable}`} suppressHydrationWarning>
       <head>
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(bandLd) }}
         />
       </head>
-      <body style={{ fontFamily: "var(--font-inter)", letterSpacing: "-.02em" }}>
+      <body style={{ fontFamily: "var(--font-inter)", letterSpacing: "-.02em" }} suppressHydrationWarning>
         <Providers>
           <Header />
           <main>{children}</main>

@@ -5,14 +5,15 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
+import { createClient } from "@/lib/supabase/client";
 
 const navLinks = [
  { href: "/", label: "Home" },
  { href: "/tour", label: "Tour" },
  { href: "/bio", label: "Bio" },
  { href: "/video", label: "Video" },
- { href: "/shows", label: "Past Shows" },
  { href: "/live", label: "Live" },
+ { href: "/cruise", label: "Cruise" },
  { href: "/fan-photo-wall", label: "Fan Wall" },
  { href: "/book", label: "Book" },
 ];
@@ -20,11 +21,61 @@ const navLinks = [
 export function Header() {
  const pathname = usePathname();
  const router = useRouter();
- const isShowPlaying = false; // MOCK STATE: True when show is active
  const [scrolled, setScrolled] = useState(false);
  const [mobileOpen, setMobileOpen] = useState(false);
  const [isCrewLive, setIsCrewLive] = useState(false);
+ const [hasLiveStreams, setHasLiveStreams] = useState(false);
  const { member, isLoggedIn, openModal, logout } = useMember();
+
+ // Check for active live streams
+ useEffect(() => {
+  const checkLive = async () => {
+   try {
+    // 1. Check LiveKit API
+    const res = await fetch("/api/live-rooms");
+    const data = await res.json();
+    const allRooms = data.rooms || [];
+    
+    // Count any room that starts with 'live_' as a valid stream
+    const validRooms = allRooms.filter((r: any) => r.name?.startsWith('live_'));
+    
+    if (validRooms.length > 0) {
+      setHasLiveStreams(true);
+      return;
+    }
+    
+    // 3. Fallback: check Supabase directly for live status
+    const supabase = createClient();
+    const { data: dbStreams } = await supabase
+      .from('live_streams')
+      .select('id')
+      .eq('status', 'live')
+      .limit(1);
+      
+    setHasLiveStreams(dbStreams && dbStreams.length > 0);
+    
+   } catch (err) {
+    console.error("Failed to check live status", err);
+   }
+  };
+  checkLive();
+  const interval = setInterval(checkLive, 5000); // Check every 5s for faster toggling
+  
+  // Real-time listener for instant updates
+  const supabase = createClient();
+  const channel = supabase.channel('header_live_events')
+    .on('broadcast', { event: 'stream_state' }, (payload) => {
+      if (payload.payload?.isLive !== undefined) {
+        checkLive(); // Re-evaluate when any stream state changes
+      }
+    })
+    .subscribe();
+    
+  return () => {
+    clearInterval(interval);
+    supabase.removeChannel(channel);
+  };
+ }, []);
 
  // Poll localStorage every second to detect if this crew member is live
  useEffect(() => {
@@ -54,7 +105,17 @@ export function Header() {
  >
  <div className="site-container flex items-center justify-between h-[72px]">
  {/* Logo */}
-  <Link href="/" className="z-10" id="header-logo">
+  <Link 
+    href="/" 
+    className="z-10 relative" 
+    id="header-logo"
+    onClick={(e) => {
+      if (pathname === "/") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }}
+  >
    <div className="w-[160px] h-[32px] md:w-[180px] md:h-[36px]">
     <Logo className="w-full h-full text-white" />
    </div>
@@ -67,34 +128,43 @@ export function Header() {
  }`}
  id="main-nav"
  >
- {navLinks.map((link) => (
-  <Link
-   key={link.href}
-   href={link.href}
-   className={`relative px-4 py-2 text-[0.85rem] font-medium tracking-wide transition-colors duration-150 max-md:text-xl max-md:px-6 max-md:py-3 ${
-   pathname === link.href
-   ? "text-[var(--color-text-primary)]"
-   : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-   }`}
-   id={`nav-${link.label.toLowerCase()}`}
-  >
-   {link.label === "Live" && isShowPlaying && (
-    <span 
-     className="inline-block w-1.5 h-1.5 mr-1 bg-emerald-500 rounded-full animate-pulse z-10" 
-     style={{ boxShadow: "0 0 8px 1px rgba(16, 185, 129, 0.8)" }}
-     title="Live streams are currently active!"
-    />
-   )}
-   {link.label}
-   {pathname === link.href && (
-   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 accent-gradient-bg " />
-   )}
-  </Link>
- ))}
+  {navLinks
+    .filter(link => link.label !== "Live" || hasLiveStreams)
+    .map((link) => (
+   <Link
+    key={link.href}
+    href={link.href}
+    onClick={(e) => {
+      if (pathname === link.href) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setMobileOpen(false);
+      }
+    }}
+    className={`relative px-4 py-2 text-[0.85rem] font-medium tracking-wide transition-colors duration-150 max-md:text-xl max-md:px-6 max-md:py-3 flex items-center gap-2 ${
+    pathname === link.href
+    ? "text-[var(--color-text-primary)]"
+    : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+    }`}
+    id={`nav-${link.label.toLowerCase()}`}
+   >
+    {link.label === "Live" && hasLiveStreams && (
+     <span 
+      className="inline-block w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" 
+      title="Live streams are currently active!"
+     />
+    )}
+    {link.label}
+    {pathname === link.href && (
+    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 accent-gradient-bg " />
+    )}
+   </Link>
+  ))}
 
 
 
- {isShowPlaying && (
+ {isCrewLive && (
   <button
    onClick={() => isLoggedIn ? router.push("/crew") : openModal("login")}
    className="relative flex items-center gap-2 px-4 py-1.5 ml-4 mr-2 text-[0.75rem] font-extrabold tracking-widest text-white uppercase bg-red-600 rounded-full hover:bg-red-500 hover:scale-105 shadow-[0_0_15px_rgba(220,38,38,0.6)] transition-all animate-pulse border border-red-400"

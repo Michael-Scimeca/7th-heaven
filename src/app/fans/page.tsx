@@ -17,23 +17,61 @@ export default function FanAccountPage() {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
   const [nextShow, setNextShow] = useState<any>(null);
   const [referralCopied, setReferralCopied] = useState(false);
+  const [liveAlertPhone, setLiveAlertPhone] = useState('');
+  const [liveAlertStatus, setLiveAlertStatus] = useState<'idle' | 'saving' | 'subscribed' | 'error'>('idle');
+  const [liveAlertSubscribed, setLiveAlertSubscribed] = useState(false);
 
-  const referralCode = member?.name?.replace(/\s+/g, '').toUpperCase().slice(0, 6) + (member?.id?.slice(-4) || '7H');
+  // Check if fan already subscribed to live alerts
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('7h_live_alert_phone');
+      if (saved) { setLiveAlertPhone(saved); setLiveAlertSubscribed(true); setLiveAlertStatus('subscribed'); }
+    } catch {}
+  }, []);
+
+  const handleLiveAlertSubscribe = async () => {
+    const cleaned = liveAlertPhone.replace(/\D/g, '');
+    if (cleaned.length < 10) { alert('Please enter a valid 10-digit phone number.'); return; }
+    setLiveAlertStatus('saving');
+    try {
+      const res = await fetch('/api/sms/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: cleaned, name: member?.name || 'Fan', zipCode: '00000', source: 'live_alert' }),
+      });
+      const data = await res.json();
+      if (data.success || res.ok) {
+        localStorage.setItem('7h_live_alert_phone', cleaned);
+        setLiveAlertSubscribed(true);
+        setLiveAlertStatus('subscribed');
+      } else {
+        setLiveAlertStatus('error');
+      }
+    } catch { setLiveAlertStatus('error'); }
+  };
+
+  const referralCode = (member?.name ? member.name.replace(/\s+/g, '').toUpperCase().slice(0, 6) : 'FAN') + (member?.id?.slice(-4) || '7H');
 
   // Fetch all data
   useEffect(() => {
-    if (!member?.name) return;
-    fetch("/api/fans").then(r => r.json()).then(data => setMyPhotos(data.filter((p: any) => p.name === member.name))).catch(() => {});
     fetch("/api/tour").then(r => r.json()).then(data => {
       const upcoming = (data || []).filter((s: any) => s.date && new Date(s.date + 'T23:59:59') >= new Date());
       setShows(upcoming);
       if (upcoming.length > 0) setNextShow(upcoming[0]);
     }).catch(() => {});
     fetch("/api/merch").then(r => r.json()).then(data => setMerch(data || [])).catch(() => {});
+    // Clear stale session data so dashboard starts fresh
     try {
-      const stored = localStorage.getItem('vip_inbox_messages');
-      if (stored) setInboxMessages(JSON.parse(stored));
+      localStorage.removeItem('vip_inbox_messages');
+      localStorage.removeItem('7h_vip_inbox');
+      Object.keys(localStorage).filter(k => k.includes('is_live') || k.includes('crew_is_live') || k.includes('raffle') || k.includes('pinned')).forEach(k => localStorage.removeItem(k));
     } catch (e) {}
+  }, []);
+
+  // Fetch member-specific data when logged in
+  useEffect(() => {
+    if (!member?.name) return;
+    fetch("/api/fans").then(r => r.json()).then(data => setMyPhotos(data.filter((p: any) => p.name === member.name))).catch(() => {});
   }, [member?.name]);
 
   // Live stream polling — checks actual crew live status + Supabase broadcasts
@@ -45,59 +83,60 @@ export default function FanAccountPage() {
         const feeds: {room: string; title: string; viewers: number}[] = [];
         const seenRooms = new Set<string>();
 
-        // 1. PRIMARY: Query Supabase live_streams table
+        // 1. Get active LiveKit rooms for cross-validation
+        const activeLkRooms = new Set<string>();
+        try {
+          const res = await fetch('/api/live-rooms');
+          const data = await res.json();
+          if (data.rooms?.length > 0) {
+            for (const room of data.rooms) {
+              activeLkRooms.add(room.name);
+            }
+          }
+        } catch {}
+
+        // 2. Query Supabase live_streams — only show LiveKit-confirmed streams
         try {
           const { data: streams } = await supabase
             .from('live_streams')
             .select('*')
             .eq('status', 'live');
           if (streams?.length) {
+            const seenUsers = new Set<string>();
+            const staleIds: string[] = [];
+            
             for (const st of streams) {
-              // Route to /live/live_michael for the crew feed
-              const roomName = 'live_michael';
-              seenRooms.add(roomName);
-              feeds.push({
-                room: roomName,
-                title: st.title || 'Crew Broadcast',
-                viewers: st.viewer_count || 0,
-                host: st.title?.split(' — ')[0] || 'Crew Member',
-              });
-            }
-          }
-        } catch {}
-
-        // 2. FALLBACK: Query LiveKit for active rooms not already found
-        try {
-          const res = await fetch('/api/live-rooms');
-          const data = await res.json();
-          if (data.rooms?.length > 0) {
-            for (const room of data.rooms) {
-              if (!seenRooms.has(room.name)) {
-                seenRooms.add(room.name);
-                feeds.push({ room: room.name, title: 'Live Stream', viewers: room.numParticipants || 0, host: 'Crew' });
+              const roomName = st.stream_url || `live_${st.user_id}`;
+              
+              // Only show if LiveKit confirms it's actually live
+              if (activeLkRooms.has(roomName) && !seenUsers.has(st.user_id) && !seenRooms.has(roomName)) {
+                seenUsers.add(st.user_id);
+                seenRooms.add(roomName);
+                feeds.push({
+                  room: roomName,
+                  title: st.title || 'Crew Broadcast',
+                  viewers: st.viewer_count || 0,
+                  host: st.title?.split(' — ')[0] || 'Crew Member',
+                });
+              } else if (!activeLkRooms.has(roomName)) {
+                staleIds.push(st.id);
               }
             }
+            
+            // Auto-clean stale entries
+            if (staleIds.length > 0) {
+              supabase.from('live_streams').update({ status: 'ended' }).in('id', staleIds).then(null, () => {});
+            }
           }
         } catch {}
-
-        // 3. FALLBACK: Scan localStorage for local crew broadcasts
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (!key) continue;
-          let crewId = '';
-          if (key.startsWith('crew_is_live_') && localStorage.getItem(key) === 'true') {
-            crewId = key.replace('crew_is_live_', '');
-          } else if (key.startsWith('7h_crew_is_live_') && localStorage.getItem(key) === 'true') {
-            crewId = key.replace('7h_crew_is_live_', '');
+        // 3. FALLBACK: Show LiveKit rooms not matched to Supabase entries
+        activeLkRooms.forEach((roomName: string) => {
+          if (!seenRooms.has(roomName)) {
+            seenRooms.add(roomName);
+            const hostName = roomName.replace(/^live_/, '').replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+            feeds.push({ room: roomName, title: 'Crew Broadcast', viewers: 0, host: hostName });
           }
-          if (crewId && !seenRooms.has(`live_${crewId}`)) {
-            seenRooms.add(`live_${crewId}`);
-            const title = localStorage.getItem(`stream_title_${crewId}`) || 'Crew Broadcast';
-            const viewers = parseInt(localStorage.getItem(`live_viewer_count_${crewId}`) || '0');
-            const host = crewId.charAt(0).toUpperCase() + crewId.slice(1);
-            feeds.push({ room: `live_${crewId}`, title, viewers, host });
-          }
-        }
+        });
 
         setLiveFeeds(feeds);
         setIsLive(feeds.length > 0);
@@ -145,7 +184,9 @@ export default function FanAccountPage() {
   }, [nextShow]);
 
 
-  if (!isLoggedIn) {
+  const devBypass = typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
+
+  if (!isLoggedIn && !devBypass) {
     return (
       <section className="py-48 min-h-screen bg-[var(--color-bg-primary)] flex items-center justify-center">
         <div className="text-center">
@@ -163,57 +204,6 @@ export default function FanAccountPage() {
     <section className="py-32 min-h-screen bg-[#050505] border-t border-white/5">
       <div className="site-container">
         
-        {/* 🏆 Rewards & Raffle Wins (Dedicated Section) */}
-        {inboxMessages.some(m => m.color === 'yellow' || m.title?.includes('Win')) && (
-          <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {inboxMessages.filter(m => m.color === 'yellow' || m.title?.includes('Win')).map((win, i) => {
-              const pinMatch = win.desc?.match(/PIN: (\d+)/);
-              const pin = pinMatch ? pinMatch[1] : null;
-              return (
-                <div key={i} className="bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 border-yellow-500/30 rounded-2xl p-6 relative overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <span className="text-8xl">🏆</span>
-                  </div>
-                  <div className="flex items-start justify-between relative z-10">
-                    <div>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-[0.6rem] font-black text-yellow-500 uppercase tracking-widest mb-4">
-                        RAFFLE WINNER
-                      </span>
-                      <h3 className="text-2xl font-black text-white italic tracking-tight mb-2">
-                        {win.title.replace('You Won the Raffle!', '').trim() || 'Prize Claim'}
-                      </h3>
-                      <p className="text-white/50 text-sm max-w-[280px] leading-relaxed mb-6">
-                        {win.desc.split('. Your PIN')[0]}
-                      </p>
-                    </div>
-                    {pin && (
-                      <div className="flex flex-col items-center">
-                        <div className="bg-white p-3 rounded-xl mb-3 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                          {/* Simple QR Mockup */}
-                          <div className="w-24 h-24 bg-black flex flex-wrap gap-1 p-1">
-                            {Array.from({length: 16}).map((_, j) => (
-                              <div key={j} className={`w-5 h-5 ${Math.random() > 0.5 ? 'bg-white' : 'bg-transparent'}`} />
-                            ))}
-                          </div>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-[0.55rem] text-white/40 uppercase font-black tracking-[0.2em] mb-1">Claim PIN</p>
-                          <p className="text-3xl font-black text-yellow-500 font-mono tracking-[0.3em]">{pin}</p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between relative z-10">
-                    <p className="text-[0.6rem] text-white/30 font-bold uppercase tracking-widest">Show this at the merch table</p>
-                    <button className="text-[0.65rem] text-yellow-500 font-black uppercase tracking-widest hover:text-white transition-colors">
-                      Full Details →
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
 
         {/* Account Identity Header */}
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
@@ -289,6 +279,107 @@ export default function FanAccountPage() {
           )}
         </div>
 
+        {/* 📲 Live Alert SMS Opt-In */}
+        <div className="mb-8 p-6 bg-gradient-to-br from-[#0c0c1a] to-[#0a0a14] border border-rose-500/20 rounded-2xl relative overflow-hidden">
+          <div className="absolute -right-20 -top-20 w-56 h-56 bg-rose-500/5 blur-[80px] rounded-full" />
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-rose-400 bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/20">📲 Live Stream Alerts</span>
+            </div>
+            <h3 className="text-xl font-black text-white mb-1">Never Miss a Live Feed</h3>
+            <p className="text-white/40 text-sm mb-5 max-w-md">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
+
+            {liveAlertSubscribed ? (
+              <div className="flex items-center gap-4 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+                <span className="text-2xl">✅</span>
+                <div>
+                  <p className="text-sm font-bold text-emerald-400">Live Alerts Active</p>
+                  <p className="text-[0.7rem] text-white/40">We&apos;ll text <span className="text-white/60 font-mono">({liveAlertPhone.slice(0,3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
+                </div>
+                <button
+                  onClick={() => { localStorage.removeItem('7h_live_alert_phone'); setLiveAlertSubscribed(false); setLiveAlertStatus('idle'); setLiveAlertPhone(''); }}
+                  className="ml-auto text-[0.6rem] text-white/30 hover:text-red-400 uppercase tracking-widest font-bold transition-colors cursor-pointer"
+                >Unsubscribe</button>
+              </div>
+            ) : (
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div className="flex-1 flex items-center bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 focus-within:border-rose-500/40 transition-all">
+                  <span className="text-white/30 text-sm mr-2">📱</span>
+                  <input
+                    type="tel"
+                    placeholder="(312) 555-0199"
+                    value={liveAlertPhone}
+                    onChange={(e) => setLiveAlertPhone(e.target.value)}
+                    className="bg-transparent outline-none text-white text-sm flex-1 placeholder:text-white/20 font-mono"
+                  />
+                </div>
+                <button
+                  onClick={handleLiveAlertSubscribe}
+                  disabled={liveAlertStatus === 'saving'}
+                  className="px-6 py-3 bg-rose-500 hover:bg-rose-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 shadow-[0_0_20px_rgba(244,63,94,0.3)] hover:shadow-[0_0_30px_rgba(244,63,94,0.5)] cursor-pointer"
+                >
+                  {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me 🔔'}
+                </button>
+              </div>
+            )}
+            {liveAlertStatus === 'error' && (
+              <p className="text-red-400 text-[0.7rem] mt-3 font-bold">Something went wrong — please try again.</p>
+            )}
+            <p className="text-white/15 text-[0.6rem] mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
+          </div>
+        </div>
+
+        {/* 🏆 Rewards & Raffle Wins */}
+        {inboxMessages.some(m => m.color === 'yellow' || m.title?.includes('Win')) && (
+          <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {inboxMessages.filter(m => m.color === 'yellow' || m.title?.includes('Win')).map((win, i) => {
+              const pinMatch = win.desc?.match(/PIN: (\d+)/);
+              const pin = pinMatch ? pinMatch[1] : null;
+              return (
+                <div key={i} className="bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 border-yellow-500/30 rounded-2xl p-6 relative overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                    <span className="text-8xl">🏆</span>
+                  </div>
+                  <div className="flex items-start justify-between relative z-10">
+                    <div>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-[0.6rem] font-black text-yellow-500 uppercase tracking-widest mb-4">
+                        RAFFLE WINNER
+                      </span>
+                      <h3 className="text-2xl font-black text-white italic tracking-tight mb-2">
+                        {win.title.replace('You Won the Raffle!', '').trim() || 'Prize Claim'}
+                      </h3>
+                      <p className="text-white/50 text-sm max-w-[280px] leading-relaxed mb-6">
+                        {win.desc.split('. Your PIN')[0]}
+                      </p>
+                    </div>
+                    {pin && (
+                      <div className="flex flex-col items-center">
+                        <div className="bg-white p-3 rounded-xl mb-3 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                          <div className="w-24 h-24 bg-black flex flex-wrap gap-1 p-1">
+                            {Array.from({length: 16}).map((_, j) => (
+                              <div key={j} className={`w-5 h-5 ${Math.random() > 0.5 ? 'bg-white' : 'bg-transparent'}`} />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-[0.55rem] text-white/40 uppercase font-black tracking-[0.2em] mb-1">Claim PIN</p>
+                          <p className="text-3xl font-black text-yellow-500 font-mono tracking-[0.3em]">{pin}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between relative z-10">
+                    <p className="text-[0.6rem] text-white/30 font-bold uppercase tracking-widest">Show this at the merch table</p>
+                    <button className="text-[0.65rem] text-yellow-500 font-black uppercase tracking-widest hover:text-white transition-colors">
+                      Full Details →
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {/* 🔗 Referral Code with QR */}
         <div className="mb-8 p-6 bg-gradient-to-br from-[#0c0c1a] to-[#0a0a14] border border-amber-500/20 rounded-2xl relative overflow-hidden">
           <div className="absolute -left-16 -bottom-16 w-48 h-48 bg-amber-500/5 blur-[80px] rounded-full" />
@@ -297,7 +388,7 @@ export default function FanAccountPage() {
               <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">🔗 Referral Program</span>
             </div>
             <p className="text-white/50 text-sm mb-5 max-w-md">Share your code with friends — when they sign up, you both earn picks and climb the leaderboard!</p>
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6">
               <div className="flex-1">
                 <div className="flex items-center gap-3 p-4 bg-black/40 border border-amber-500/20 rounded-xl">
                   <span className="font-mono text-xl font-black text-amber-400 tracking-[0.15em] flex-1">{referralCode}</span>
@@ -309,6 +400,16 @@ export default function FanAccountPage() {
                   </button>
                 </div>
                 <p className="text-[0.6rem] text-white/25 mt-2 font-mono">7thheavenband.com/join?ref={referralCode}</p>
+                {/* Share buttons */}
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="text-[0.55rem] text-white/20 font-bold uppercase tracking-widest mr-1">Share:</span>
+                  <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Join the 7th Heaven fan community! 🎸🔥 Sign up with my link:`)}&url=${encodeURIComponent(`https://7thheavenband.com/join?ref=${referralCode}`)}`} target="_blank" rel="noopener noreferrer"
+                    className="w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg hover:bg-sky-500/20 hover:border-sky-500/30 hover:text-sky-400 text-white/40 transition-all text-[0.65rem] font-bold">𝕏</a>
+                  <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://7thheavenband.com/join?ref=${referralCode}`)}`} target="_blank" rel="noopener noreferrer"
+                    className="w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg hover:bg-blue-500/20 hover:border-blue-500/30 hover:text-blue-400 text-white/40 transition-all text-[0.65rem] font-bold">f</a>
+                  <a href={`sms:?body=${encodeURIComponent(`Check out 7th Heaven! Sign up here: https://7thheavenband.com/join?ref=${referralCode}`)}`}
+                    className="w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg hover:bg-emerald-500/20 hover:border-emerald-500/30 hover:text-emerald-400 text-white/40 transition-all text-[0.65rem]">💬</a>
+                </div>
               </div>
               {/* QR Code via API */}
               <div className="flex flex-col items-center gap-2">
@@ -320,6 +421,25 @@ export default function FanAccountPage() {
                   />
                 </div>
                 <span className="text-[0.5rem] uppercase tracking-widest text-white/20 font-bold">Scan to Join</span>
+              </div>
+            </div>
+            {/* Milestone tracker */}
+            <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30">Referral Milestones</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {[
+                  { n: 3, reward: "🎸 Rare Pick", color: "text-blue-400" },
+                  { n: 5, reward: "🎟️ Free Ticket", color: "text-amber-400" },
+                  { n: 10, reward: "🎽 Free Merch", color: "text-fuchsia-400" },
+                  { n: 25, reward: "⭐ VIP Status", color: "text-yellow-400" },
+                ].map(m => (
+                  <div key={m.n} className="flex-1 text-center p-2 bg-white/[0.02] border border-white/5 rounded-lg">
+                    <p className={`text-lg font-black ${m.color}`}>{m.n}</p>
+                    <p className="text-[0.5rem] text-white/30 font-bold uppercase tracking-widest mt-0.5">{m.reward}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

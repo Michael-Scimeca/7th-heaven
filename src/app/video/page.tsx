@@ -24,6 +24,7 @@ export default function VideoPage() {
   const [activeFilter, setActiveFilter] = useState("Official Music Videos");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
+  const [heroPlaying, setHeroPlaying] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -31,6 +32,9 @@ export default function VideoPage() {
       .then((r) => r.json())
       .then(setCategories);
   }, []);
+
+  // Featured video = first Official Music Video (latest release)
+  const featuredVideo = categories.find(c => c.category === 'Official Music Videos')?.videos[0];
 
   let filteredVideos =
     categories.find((c) => c.category === activeFilter)?.videos || [];
@@ -45,6 +49,116 @@ export default function VideoPage() {
 
   return (
     <div className="pt-[72px] min-h-screen bg-[var(--color-bg-primary)]">
+
+      {/* ── FEATURED / HERO VIDEO ── */}
+      {featuredVideo && (
+        <section className="relative w-full overflow-hidden bg-black" style={{ minHeight: 'min(70vh, 600px)' }}>
+          {/* Background thumbnail blur layer */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src={`https://img.youtube.com/vi/${featuredVideo.id}/maxresdefault.jpg`}
+              alt=""
+              className="w-full h-full object-cover scale-110 blur-[40px] opacity-30"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${featuredVideo.id}/hq720.jpg`; }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-black/60 to-black/40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
+          </div>
+
+          <div className="relative z-10 site-container py-12 flex flex-col lg:flex-row items-center gap-8 lg:gap-12" style={{ minHeight: 'min(70vh, 600px)' }}>
+            {/* Video Player / Thumbnail */}
+            <div className="w-full lg:w-[65%] shrink-0">
+              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.8)] border border-white/10">
+                {heroPlaying ? (
+                  <InlineYTPlayer
+                    videoId={featuredVideo.id}
+                    title={featuredVideo.title}
+                    onClose={() => setHeroPlaying(false)}
+                  />
+                ) : (
+                  <button
+                    className="absolute inset-0 w-full h-full cursor-pointer group/hero"
+                    onClick={() => setHeroPlaying(true)}
+                    aria-label={`Play ${featuredVideo.title}`}
+                  >
+                    <img
+                      src={`https://img.youtube.com/vi/${featuredVideo.id}/maxresdefault.jpg`}
+                      alt={featuredVideo.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover/hero:scale-105"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${featuredVideo.id}/hq720.jpg`; }}
+                    />
+                    <div className="absolute inset-0 bg-black/30 group-hover/hero:bg-black/10 transition-all duration-500" />
+                    {/* Play button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-sm flex items-center justify-center shadow-[0_0_40px_rgba(133,29,239,0.5)] group-hover/hero:scale-110 group-hover/hero:shadow-[0_0_60px_rgba(133,29,239,0.7)] transition-all duration-300">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="white" className="ml-1">
+                          <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                      </div>
+                    </div>
+                    {/* Duration badge */}
+                    {featuredVideo.duration && (
+                      <span className="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white text-[0.7rem] font-bold px-3 py-1 rounded-lg tracking-wider">
+                        {featuredVideo.duration}
+                      </span>
+                    )}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Info Panel */}
+            <div className="w-full lg:w-[35%] flex flex-col gap-5">
+              <div>
+                <span className="inline-flex items-center gap-2 text-[0.6rem] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-3">
+                  <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
+                  Latest Release
+                </span>
+                <h1 className="text-[clamp(1.5rem,3.5vw,2.8rem)] font-extrabold text-white leading-[1.1] tracking-tight">
+                  {featuredVideo.title}
+                </h1>
+              </div>
+              {featuredVideo.description && (
+                <p className="text-white/40 text-[0.9rem] leading-relaxed">{featuredVideo.description}</p>
+              )}
+              <div className="flex items-center gap-4 text-[0.7rem] text-white/30 font-bold uppercase tracking-widest">
+                <span>{featuredVideo.year}</span>
+                {featuredVideo.duration && (
+                  <>
+                    <span className="w-1 h-1 rounded-full bg-white/20" />
+                    <span>{featuredVideo.duration}</span>
+                  </>
+                )}
+                {featuredVideo.viewCount && (
+                  <>
+                    <span className="w-1 h-1 rounded-full bg-white/20" />
+                    <span>{featuredVideo.viewCount} views</span>
+                  </>
+                )}
+              </div>
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  onClick={() => setHeroPlaying(true)}
+                  className="flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.7rem] uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] hover:shadow-[0_0_30px_rgba(133,29,239,0.5)] cursor-pointer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                  Watch Now
+                </button>
+                <a
+                  href={`https://www.youtube.com/watch?v=${featuredVideo.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-5 py-3 bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-white/60 hover:text-white font-bold text-[0.7rem] uppercase tracking-widest rounded-xl transition-all"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></svg>
+                  YouTube
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       <div className="site-container py-12 flex flex-col gap-10">
 
         {/* NAV & SEARCH */}

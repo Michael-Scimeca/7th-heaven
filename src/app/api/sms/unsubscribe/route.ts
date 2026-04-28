@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import twilio from "twilio";
+import { createClient } from "@supabase/supabase-js";
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioPhone = process.env.TWILIO_PHONE_NUMBER;
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export async function POST(req: NextRequest) {
  try {
@@ -19,17 +20,29 @@ export async function POST(req: NextRequest) {
    return NextResponse.json({ error: "Enter a valid US phone number." }, { status: 400 });
   }
 
-  // TODO: Remove from your database
-  console.log("[SMS Unsubscribe]", { phone: e164, timestamp: new Date().toISOString() });
+  // Opt out in Supabase
+  await supabase
+    .from('sms_subscribers')
+    .update({ opted_in: false, opted_out_at: new Date().toISOString() })
+    .eq('phone', e164);
 
-  // --- Send unsubscribe confirmation ---
-  if (accountSid && authToken && twilioPhone) {
-   const client = twilio(accountSid, authToken);
-   await client.messages.create({
-    body: "7th Heaven: You've been unsubscribed from Show Alerts. You will no longer receive texts. Reply START to re-subscribe.",
-    from: twilioPhone,
-    to: e164,
-   });
+  // Send unsubscribe confirmation via Twilio (if configured)
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const twilioPhone = process.env.TWILIO_PHONE_NUMBER;
+
+  if (accountSid?.startsWith('AC') && authToken && twilioPhone) {
+    try {
+      const twilio = (await import('twilio')).default;
+      const client = twilio(accountSid, authToken);
+      await client.messages.create({
+        body: "7th Heaven: You've been unsubscribed from Show Alerts. Reply START to re-subscribe.",
+        from: twilioPhone,
+        to: e164,
+      });
+    } catch (err) {
+      console.error('[SMS Unsubscribe] Twilio error:', err);
+    }
   }
 
   return NextResponse.json({

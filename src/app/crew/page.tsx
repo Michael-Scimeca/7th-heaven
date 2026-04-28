@@ -43,6 +43,13 @@ export default function CrewDashboard() {
   // Namespaced localStorage helper for synchronization
   const LS = (key: string) => `${key}_${userId?.toString().toLowerCase().trim() || 'michael'}`;
 
+  // Build a stable, human-readable room slug that matches the fan page URL
+  // If userId is a short slug (e.g. 'michael'), use it directly. If it's a UUID, derive from displayName.
+  const memberSlug = (userId && userId.length < 36)
+    ? userId.toLowerCase().replace(/\s+/g, '_')
+    : (displayName || 'michael').split(' ')[0].toLowerCase().replace(/\s+/g, '_');
+  const roomSlug = `live_${memberSlug}`;
+
   // --- Stream State ---
   const [isLive, setIsLive] = useState(false);
   const [streamTitle, setStreamTitle] = useState('');
@@ -98,7 +105,23 @@ export default function CrewDashboard() {
   // --- Raffle Restart State ---
   const [raffleAutoRestartCountdown, setRaffleAutoRestartCountdown] = useState<number | null>(null);
 
+  // --- Global Announcement Banner State ---
+  const [bannerActive, setBannerActive] = useState(false);
+  const [bannerText, setBannerText] = useState('');
+  const [bannerLink, setBannerLink] = useState('');
+  const [bannerUpdating, setBannerUpdating] = useState(false);
+
   useEffect(() => {
+    // Load Global Announcement Banner
+    fetch('/api/announcement')
+      .then(res => res.json())
+      .then(data => {
+        setBannerActive(data.isActive);
+        setBannerText(data.text || '');
+        setBannerLink(data.link || '');
+      })
+      .catch(() => {});
+
     getProducts().then(products => {
       setShopifyProducts(products);
       if (products.length > 0) {
@@ -164,34 +187,84 @@ export default function CrewDashboard() {
       setIsLoading(false);
     };
     checkUser();
-    
-    // Load state from Supabase first, fallback to localStorage
-    const loadStreamState = async (uid: string) => {
+  }, []);
+
+  // Separate effect to load stream state once userId is stable
+  useEffect(() => {
+    if (!userId || isLoading) return;
+
+    const loadStreamState = async () => {
+      const slug = roomSlug; // uses display-name-based slug from component scope
       try {
         const { data, error } = await supabase
           .from('live_streams')
           .select('*')
-          .eq('user_id', uid)
+          .eq('user_id', userId)
           .eq('status', 'live')
           .limit(1)
           .single();
         if (data && !error) {
+          // Stream IS live — load chat
           setIsLive(true);
           setStreamTitle(data.title || '');
           localStorage.setItem(LS('is_live'), 'true');
+
+          try {
+            const { data: chatData } = await supabase
+              .from('chat_messages')
+              .select('*')
+              .eq('room', slug)
+              .order('created_at', { ascending: true })
+              .limit(100);
+            if (chatData && chatData.length > 0) {
+              const mapped = chatData.map((m: any) => ({
+                id: m.id,
+                account: {
+                  id: m.sender_name,
+                  name: m.sender_name,
+                  displayName: m.sender_name,
+                  role: m.sender_role || 'fan',
+                  color: m.sender_role === 'crew' ? '#f97316' : '#8b5cf6',
+                  avatar: m.sender_avatar || m.sender_name.slice(0, 2).toUpperCase(),
+                },
+                text: m.content,
+                timestamp: new Date(m.created_at).getTime(),
+              }));
+              setPosts(mapped);
+            }
+          } catch {}
         } else {
+          // Stream is NOT live — purge ALL stale data
           setIsLive(false);
+          setPosts([]);
+          setActivePinned(null);
+
           localStorage.setItem(LS('is_live'), 'false');
+          localStorage.removeItem(`is_live_${slug.replace('live_', '')}`);
+          localStorage.removeItem('is_live');
+          localStorage.setItem(LS('live_chat_history'), '[]');
+          localStorage.setItem('7h_global_chat_history', '[]');
+          localStorage.removeItem(LS('live_pinned'));
+          localStorage.setItem('7h_global_pinned', 'null');
+
+          // Delete orphaned data from Supabase
+          fetch('/api/live/clear-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room: slug }) }).catch(() => {});
+          fetch('/api/live-rooms/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ roomName: slug }),
+          }).catch(() => {});
         }
       } catch {
-        setIsLive(localStorage.getItem(LS('is_live')) === 'true');
+        setIsLive(false);
+        setPosts([]);
+        setActivePinned(null);
+        localStorage.setItem(LS('is_live'), 'false');
       }
     };
 
-    if (userId) {
-      loadStreamState(userId);
-    }
-    
+    loadStreamState();
+
     try {
       const storedRaffle = localStorage.getItem(LS('live_raffle_sync'));
       if (storedRaffle) {
@@ -199,12 +272,6 @@ export default function CrewDashboard() {
         const safeStatus = (parsed.status === 'open' || parsed.status === 'drawing') ? 'idle' : parsed.status;
         setRaffleStatus(safeStatus);
         setRaffleEntrants(parsed.entrants || []);
-        
-        if (safeStatus === 'idle' && parsed.status !== 'idle') {
-           setTimeout(() => {
-             syncRaffle('idle', [], parsed.minEntrants || 15, parsed.prizes || [], []);
-           }, 1000);
-        }
 
         if (parsed.minEntrants && parsed.prizes) {
           setRaffleQueue(prev => {
@@ -219,45 +286,6 @@ export default function CrewDashboard() {
       }
     } catch {}
 
-    // Load chat from Supabase first, fallback to localStorage
-    const loadChat = async () => {
-      try {
-        const roomId = `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`;
-        const { data, error } = await supabase
-          .from('chat_messages')
-          .select('*')
-          .eq('room', roomId)
-          .order('created_at', { ascending: true })
-          .limit(100);
-        
-        if (data && data.length > 0 && !error) {
-          const mapped = data.map((m: any) => ({
-            id: m.id,
-            account: {
-              id: m.sender_name,
-              name: m.sender_name,
-              displayName: m.sender_name,
-              role: m.sender_role || 'fan',
-              color: m.sender_role === 'crew' ? '#f97316' : '#8b5cf6',
-              avatar: m.sender_avatar || m.sender_name.slice(0, 2).toUpperCase(),
-            },
-            text: m.content,
-            timestamp: new Date(m.created_at).getTime(),
-          }));
-          setPosts(mapped);
-          localStorage.setItem(LS('live_chat_history'), JSON.stringify(mapped));
-        } else {
-          // Fallback to localStorage
-          const storedChat = localStorage.getItem(LS('live_chat_history'));
-          if (storedChat) setPosts(JSON.parse(storedChat));
-        }
-      } catch {
-        const storedChat = localStorage.getItem(LS('live_chat_history'));
-        if (storedChat) setPosts(JSON.parse(storedChat));
-      }
-    };
-    if (userId) loadChat();
-
     const handleStorage = (e: StorageEvent) => {
       // Admin kill switch: detect when is_live is set to 'false' from another tab
       if (e.key === LS('is_live') && e.newValue === 'false') {
@@ -266,6 +294,10 @@ export default function CrewDashboard() {
       }
       if (e.key === LS('live_chat_history') && e.newValue) {
         setPosts(JSON.parse(e.newValue));
+      }
+      // Fan chat sync from other tabs
+      if (e.key === '7h_global_chat_history' && e.newValue) {
+        try { setPosts(JSON.parse(e.newValue)); } catch {}
       }
       if (e.key === LS('live_pinned') && e.newValue) {
         setActivePinned(e.newValue === 'null' ? null : JSON.parse(e.newValue));
@@ -285,6 +317,18 @@ export default function CrewDashboard() {
       })
       .subscribe();
 
+    // Supabase Realtime subscription for fan chat messages
+    const chatChannel = supabase.channel('live_chat')
+      .on('broadcast', { event: 'new_message' }, ({ payload }) => {
+        if (!payload?.id) return;
+        setPosts(prev => {
+          if (prev.find(m => m.id === payload.id)) return prev;
+          const next = [...prev, payload as ChatMsg];
+          return next.length > 100 ? next.slice(-100) : next;
+        });
+      })
+      .subscribe();
+
     const viewerInterval = setInterval(() => {
       const live = localStorage.getItem(LS('viewer_count'));
       if (live) setViewerCount(parseInt(live));
@@ -295,6 +339,7 @@ export default function CrewDashboard() {
     return () => {
       window.removeEventListener('storage', handleStorage);
       supabase.removeChannel(channel);
+      supabase.removeChannel(chatChannel);
       clearInterval(viewerInterval);
     };
   }, [userId]);
@@ -369,8 +414,18 @@ export default function CrewDashboard() {
     setToggling(true);
     try {
       const nextState = !isLive;
-      const roomSlug = `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`;
+      // roomSlug is already computed from displayName in component scope
       if (nextState) {
+        // --- Fresh start: clear all previous chat & pinned data ---
+        setPosts([]);
+        setActivePinned(null);
+        localStorage.setItem('7h_global_chat_history', '[]');
+        localStorage.setItem(LS('live_chat_history'), '[]');
+        localStorage.removeItem(LS('live_pinned'));
+        localStorage.setItem('7h_global_pinned', 'null');
+        // Delete old chat messages from Supabase for a clean slate
+        await fetch('/api/live/clear-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room: roomSlug }) });
+
         localStorage.setItem(LS('live_stream_start'), Date.now().toString());
         
         localStorage.setItem(LS('viewer_count'), '0');
@@ -380,6 +435,10 @@ export default function CrewDashboard() {
         setElapsed(0);
         cancelRaffle();
         setActiveQueueIndex(0);
+
+        // Set localStorage flags the fan page checks
+        localStorage.setItem(`is_live_${roomSlug.replace('live_', '')}`, 'true');
+        localStorage.setItem('is_live', 'true');
 
         const { data: newStream, error: insertErr } = await supabase
           .from('live_streams')
@@ -394,16 +453,44 @@ export default function CrewDashboard() {
         if (insertErr) console.error('❌ live_streams insert failed:', insertErr);
         if (newStream) {
           activeStreamId.current = newStream.id;
+
+          // 📲 Notify opted-in fans via SMS that a live stream just started
+          fetch('/api/sms/live-alert', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ hostName: displayName || 'The Crew' }),
+          }).catch(err => console.error('Live SMS alert failed:', err));
         }
       } else {
         localStorage.removeItem(LS('live_stream_start'));
         localStorage.setItem(LS('live_chat_history'), '[]');
+        localStorage.setItem('7h_global_chat_history', '[]');
         setPosts([]);
+        
+        // Clear pinned message
+        setActivePinned(null);
+        localStorage.removeItem(LS('live_pinned'));
+        localStorage.setItem('7h_global_pinned', 'null');
+        
         localStorage.setItem(LS('viewer_count'), '0');
         localStorage.setItem(LS('presence'), '{}');
         setViewerCount(0);
         setElapsed(0);
         setActiveQueueIndex(0);
+
+        // Delete chat messages from Supabase for this room (via service role API)
+        try {
+          await fetch('/api/live/clear-chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ room: roomSlug }),
+          });
+        } catch {}
+
+        // Clear ALL localStorage flags the fan page checks
+        localStorage.removeItem(`is_live_${roomSlug.replace('live_', '')}`);
+        localStorage.removeItem('is_live');
+        localStorage.removeItem(LS('crew_is_live'));
 
         if (activeStreamId.current) {
           await supabase
@@ -415,8 +502,9 @@ export default function CrewDashboard() {
 
         cancelRaffle();
         
+        // Delete the LiveKit room to kick all participants
         try {
-          fetch('/api/live-rooms/delete', {
+          await fetch('/api/live-rooms/delete', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ roomName: roomSlug })
@@ -704,15 +792,25 @@ export default function CrewDashboard() {
     setPosts(limited);
     localStorage.setItem('7h_global_chat_history', JSON.stringify(limited));
 
+    // Also write the individual message to live_chat_sync for cross-tab fan page pickup
+    localStorage.setItem(LS('live_chat_sync'), JSON.stringify(msg));
+
     // Persist to Supabase chat_messages table
-    const roomId = `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`;
+    // Use display-name-based roomSlug (same as what the fan page expects)
     Promise.resolve(supabase.from('chat_messages').insert({
-      room: roomId,
+      room: roomSlug,
       sender_name: displayName,
       sender_role: 'crew',
       sender_avatar: displayName.slice(0, 2).toUpperCase(),
       content: content.trim(),
     })).catch(() => {});
+
+    // Broadcast via Supabase Realtime for cross-browser sync
+    supabase.channel('live_chat').send({
+      type: 'broadcast',
+      event: 'new_message',
+      payload: msg,
+    }).catch(() => {});
     
     setContent('');
     setPosting(false);
@@ -774,6 +872,21 @@ export default function CrewDashboard() {
      }
   };
 
+  const updateGlobalBanner = async () => {
+    setBannerUpdating(true);
+    try {
+      await fetch('/api/announcement', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isActive: bannerActive, text: bannerText, link: bannerLink })
+      });
+      alert('Global Announcement Banner Updated!');
+    } catch (e) {
+      alert('Failed to update banner.');
+    }
+    setBannerUpdating(false);
+  };
+
   if (isLoading) return <div className="min-h-screen bg-[#050508]" />;
 
   const activeProduct = shopifyProducts.find(p => p.id === selectedProductId) || shopifyProducts[0];
@@ -810,7 +923,8 @@ export default function CrewDashboard() {
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
       <div className="site-container py-8 space-y-6">
-        
+
+
         <div className="flex items-center gap-2 text-white/50 text-sm uppercase tracking-widest font-black">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
           Crew Broadcast <span className="text-white/20 px-2">·</span> <span className="text-[0.65rem]">{viewerCount} viewers</span>
@@ -879,7 +993,8 @@ export default function CrewDashboard() {
               ))}
             </div>
 
-            {/* Live Indicator overlay exactly how it looked */}
+            {/* Live Indicator overlay — only visible when actually broadcasting */}
+            {isLive && (
             <div className="absolute top-4 left-4 flex gap-2 z-20">
                <div className="px-3 py-1 bg-red-600 rounded-full flex items-center gap-1.5 shadow-lg shadow-red-600/30">
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -892,6 +1007,7 @@ export default function CrewDashboard() {
                   <span className="text-[0.6rem] font-medium">⏱ {formatTime(elapsed)}</span>
                </div>
             </div>
+            )}
 
             {/* Video Controls overlay — only when live */}
             {isLive && (
@@ -906,9 +1022,9 @@ export default function CrewDashboard() {
             </div>
             )}
 
-            {/* Go Live CTA — centered on video when not streaming */}
+            {/* Go Live CTA — bottom of video, above A/V controls */}
             {!isLive && (
-            <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40">
+            <div className="absolute inset-x-0 bottom-16 z-20 flex items-center justify-center">
               <button 
                 onClick={attemptEndStream}
                 disabled={toggling}
@@ -1299,22 +1415,16 @@ export default function CrewDashboard() {
                </div>
                <h2 className="text-2xl font-black italic tracking-tighter uppercase mb-2 text-white">End Broadcast?</h2>
                <p className="text-sm text-white/60 leading-relaxed">
-                 You are about to terminate the live broadcast to all fans. Would you like to compress and save this session to the <strong className="text-white">Past Shows Video Gallery</strong>?
+                 You are about to terminate the live broadcast to all fans. Are you sure you want to terminate the stream?
                </p>
              </div>
              
              <div className="flex flex-col gap-3 relative z-10">
                <button 
-                 onClick={confirmEndAndSave}
-                 className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-[0.2em] text-xs transition-colors shadow-[0_0_20px_rgba(16,185,129,0.3)]"
-               >
-                 Save to Video Gallery
-               </button>
-               <button 
                  onClick={confirmEndDiscard}
-                 className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/30 font-bold uppercase tracking-widest text-[0.65rem] transition-colors"
+                 className="w-full py-4 bg-red-500 hover:bg-red-400 text-white font-black uppercase tracking-[0.2em] text-xs transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg"
                >
-                 End without Saving
+                 End Broadcast
                </button>
                <button 
                  onClick={() => setShowEndModal(false)}

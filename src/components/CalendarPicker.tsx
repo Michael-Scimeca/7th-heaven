@@ -12,7 +12,8 @@ export function CalendarPicker({
   customDetails,
   onCustomDetailsChange,
   label,
-  required
+  required,
+  blockedDates = [],
 }: {
   selectedDate: string;
   onSelectDate: (d: string) => void;
@@ -26,8 +27,12 @@ export function CalendarPicker({
   onCustomDetailsChange?: (d: string) => void;
   label: string;
   required?: boolean;
+  blockedDates?: string[];
 }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [showMonthPicker, setShowMonthPicker] = useState(false);
+
+  const blockedSet = useMemo(() => new Set(blockedDates), [blockedDates]);
 
   const daysInMonth = useMemo(() => {
     const year = currentMonth.getFullYear();
@@ -52,7 +57,7 @@ export function CalendarPicker({
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
-  const AVAILABLE_TIMES = ["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM"];
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
     <div className="bg-[#0a0a0f] border border-[var(--color-accent)]/20 p-6 rounded-2xl w-full">
@@ -61,18 +66,51 @@ export function CalendarPicker({
           <h3 className="text-white font-bold tracking-widest uppercase text-[0.8rem]">{label} {required && <span className="text-[var(--color-accent)]">*</span>}</h3>
           <p className="text-white/40 text-[0.65rem] mt-1 uppercase tracking-wide">Select a date and time to secure your slot</p>
         </div>
-        <div className="flex items-center gap-4 text-white font-bold bg-white/5 rounded-full px-4 py-1.5">
-          <button type="button" onClick={handlePrevMonth} className="hover:text-[var(--color-accent)] transition-colors">
+        <div className="flex items-center gap-4 text-white font-bold bg-white/5 rounded-full px-4 py-1.5 relative">
+          <button type="button" onClick={handlePrevMonth} className="hover:text-[var(--color-accent)] transition-colors cursor-pointer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
-          <span className="w-28 text-center text-[0.85rem] tracking-wider uppercase">
+          <button type="button" onClick={() => setShowMonthPicker(!showMonthPicker)} className="w-28 text-center text-[0.85rem] tracking-wider uppercase hover:text-[var(--color-accent)] transition-colors cursor-pointer">
             {currentMonth.toLocaleString("default", { month: "long", year: "numeric" })}
-          </span>
-          <button type="button" onClick={handleNextMonth} className="hover:text-[var(--color-accent)] transition-colors">
+          </button>
+          <button type="button" onClick={handleNextMonth} className="hover:text-[var(--color-accent)] transition-colors cursor-pointer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
+
+          {showMonthPicker && (
+            <div className="absolute z-50 top-full mt-3 right-0 w-64 bg-[#0c0c18] border border-white/10 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
+              <div className="flex items-center justify-between mb-3">
+                <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear() - 1, currentMonth.getMonth(), 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <span className="text-sm font-bold text-white">{currentMonth.getFullYear()}</span>
+                <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear() + 1, currentMonth.getMonth(), 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {monthNames.map((m, i) => {
+                  const isCurrent = currentMonth.getMonth() === i;
+                  const isPast = new Date(currentMonth.getFullYear(), i + 1, 0) < new Date();
+                  return (
+                    <button
+                      key={m} type="button" disabled={isPast}
+                      onClick={() => { setCurrentMonth(new Date(currentMonth.getFullYear(), i, 1)); setShowMonthPicker(false); }}
+                      className={`py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${isPast ? 'text-white/10 cursor-not-allowed' : isCurrent ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(133,29,239,0.3)]' : 'text-white/60 hover:bg-white/10 cursor-pointer'}`}
+                    >
+                      {m}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Legend */}
+      {blockedDates.length > 0 && (
+        <div className="flex items-center gap-5 mb-4 text-[0.6rem] uppercase tracking-widest font-bold">
+          <span className="flex items-center gap-1.5 text-white/30"><span className="w-3 h-3 rounded bg-white/[0.02] border border-white/5 inline-block" /> Available</span>
+          <span className="flex items-center gap-1.5 text-rose-400/60"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1.5fr] gap-8">
         <div>
@@ -92,21 +130,30 @@ export function CalendarPicker({
               cutoffDate.setDate(cutoffDate.getDate() + 1);
               cutoffDate.setHours(23, 59, 59, 999);
               const isTooSoon = date < cutoffDate;
+              const isBlocked = blockedSet.has(dateString);
               
               return (
                 <button
                   key={dateString}
                   type="button"
-                  disabled={isTooSoon}
+                  disabled={isTooSoon || isBlocked}
                   onClick={() => onSelectDate(dateString)}
-                  className={`h-12 w-full flex items-center justify-center rounded-xl font-bold text-[0.85rem] transition-all
-                    ${isTooSoon ? "opacity-20 cursor-not-allowed" : "cursor-pointer"}
-                    ${isSelected 
-                      ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(133,29,239,0.4)]" 
-                      : !isTooSoon ? "bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/50 hover:bg-white/10 text-white" : "text-white"}
+                  title={isBlocked ? "This date is already booked" : undefined}
+                  className={`h-12 w-full flex items-center justify-center rounded-xl font-bold text-[0.85rem] transition-all relative
+                    ${(isTooSoon || isBlocked) ? "cursor-not-allowed" : "cursor-pointer"}
+                    ${isBlocked
+                      ? "bg-rose-500/10 border border-rose-500/20 text-rose-400/40 line-through"
+                      : isSelected 
+                        ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(133,29,239,0.4)]" 
+                        : isTooSoon
+                          ? "opacity-20 text-white"
+                          : "bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/50 hover:bg-white/10 text-white"}
                   `}
                 >
                   {date.getDate()}
+                  {isBlocked && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500" />
+                  )}
                 </button>
               );
             })}

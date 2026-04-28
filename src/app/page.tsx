@@ -6,6 +6,10 @@ import BehindTheScenes from "@/components/BehindTheScenes";
 import HeroLiveHub from "@/components/HeroLiveHub";
 import ProximityNotify from "@/components/ProximityNotify";
 import Logo from "@/components/Logo";
+import LiveStatusSign from "@/components/LiveStatusSign";
+import TourMap from "@/components/TourMap";
+import TourList from "@/components/TourList";
+import { VENUE_LINKS } from "@/lib/venue-links";
 import { sanityFetch } from "@/sanity/live";
 import { queries, SanityBandMember, SanityTourDate, SanitySiteSettings } from "@/lib/sanity";
 
@@ -24,12 +28,9 @@ const FALLBACK_MEMBERS = [
  { name: "Frankie Harchut", role: "Drums", color: "#3b82f6" },
 ];
 
-const FALLBACK_SHOWS = [
- { day: "Fri", date: "January 2", venue: "Station 34", city: "Mt. Prospect, IL", time: "8:30pm", info: "F.A.N. Show - Unplugged" },
- { day: "Sat", date: "January 3", venue: "Old Republic", city: "Elgin, IL", time: "8:00pm", info: "All Age Outdoor" },
- { day: "Fri", date: "January 9", venue: "Rookies", city: "Hoffman Est., IL", time: "8:00pm", info: "F.A.N. Show - Unplugged" },
- { day: "Sun", date: "January 11", venue: "Sundance Saloon", city: "Mundelein, IL", time: "2:00pm", info: "F.A.N. Show - Unplugged" },
-];
+const FALLBACK_SHOWS: { day: string; date: string; venue: string; city: string; time: string; info: string }[] = [];
+
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const [{ data: membersData }, { data: showsData }, { data: settingsData }] = await Promise.all([
@@ -48,15 +49,31 @@ export default async function Home() {
       }))
     : FALLBACK_MEMBERS;
 
-  const upcomingShows = (showsData as SanityTourDate[]).length > 0
-    ? (showsData as SanityTourDate[]).slice(0, 4).map(s => ({
-        day: s.day || "TBD",
-        date: s.date,
-        venue: s.venue,
-        city: `${s.city}${s.state ? `, ${s.state}` : ""}`,
-        time: s.time || "",
-        info: s.notes || ""
-      }))
+  const formatShowDate = (isoDate: string) => {
+    try {
+      const d = new Date(isoDate + 'T12:00:00');
+      return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    } catch { return isoDate; }
+  };
+
+  const now = new Date();
+  const allShows = (showsData as SanityTourDate[]);
+  const upcomingShows = allShows.length > 0
+    ? allShows
+        .map(s => {
+          const fb = VENUE_LINKS[s.venue];
+          return {
+            day: s.day || "TBD",
+            date: formatShowDate(s.date),
+            venue: s.venue,
+            city: s.city || "",
+            state: s.state || "",
+            time: s.time || "",
+            info: s.notes || "",
+            mapUrl: s.directionsLink || fb?.mapUrl || "",
+            websiteUrl: s.ticketLink || fb?.websiteUrl || "",
+          };
+        })
     : FALLBACK_SHOWS;
 
   const stats = settings?.stats?.length ? settings.stats : FALLBACK_STATS;
@@ -67,6 +84,7 @@ export default async function Home() {
 
  return (
  <>
+  <LiveStatusSign />
 
  {/* ====== HERO ====== */}
  <section className="relative min-h-screen flex flex-col justify-center overflow-hidden" id="hero">
@@ -75,144 +93,188 @@ export default async function Home() {
 
   {/* Content */}
   <div className="relative z-[3] site-container pt-[calc(72px+4rem)] text-center">
-   
-   <div className="mb-12 animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.4s_both]">
-    <div className="w-full max-w-[600px] h-[120px] md:h-[180px] mx-auto">
-     <Logo className="w-full h-full text-white" />
-    </div>
-   </div>
+    
+    {/* Global Announcement Banner */}
+    {settings?.announcement?.isActive && settings.announcement.text && (!settings.announcement.expiresAt || new Date(settings.announcement.expiresAt) > now) && (
+     <div className="fixed top-[72px] left-0 w-screen z-40 bg-gradient-to-r from-[var(--color-accent)] to-[#6b1dcf] animate-[fade-in-down_0.5s_var(--ease-out-expo)_0.2s_both] shadow-[0_4px_25px_rgba(133,29,239,0.4)] border-b border-white/20">
+      <div className="site-container py-3 flex flex-col sm:flex-row items-center justify-center gap-4">
+       <div className="flex items-center gap-3">
+        <span className="text-lg animate-pulse shrink-0">⚠️</span>
+        <p className="text-xs sm:text-sm font-black italic text-white uppercase tracking-widest leading-snug">{settings.announcement.text}</p>
+       </div>
+       {settings.announcement.link && (
+        <Link href={settings.announcement.link} className="shrink-0 px-5 py-2 bg-black/30 hover:bg-black/50 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-lg transition-colors border border-white/20">
+         {settings.announcement.linkText || "Read More"}
+        </Link>
+       )}
+      </div>
+     </div>
+    )}
 
-   <p className="text-[clamp(1rem,2vw,1.26rem)] text-[var(--color-text-secondary)] max-w-[600px] mx-auto mb-10 leading-relaxed animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.6s_both]">
-    {tagline}<br />{subTagline}
-   </p>
+
+
 
     {/* Live Hub — Feed + Next Show + Notifications */}
     <div className="mt-12 animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.7s_both]">
      <HeroLiveHub nextShow={upcomingShows[0] ? { venue: upcomingShows[0].venue, date: upcomingShows[0].date, time: upcomingShows[0].time, city: upcomingShows[0].city } : undefined} />
     </div>
+
    </div>
 
-   {/* Stats Strip */}
-  <div className="relative z-[3] flex justify-center gap-12 p-12 mt-auto animate-[fade-in-up_0.8s_var(--ease-out-expo)_1s_both] max-md:flex-wrap max-md:gap-8 bg-white/[0.02] border-y border-white/5">
-   {stats.map((stat) => (
-    <div key={stat.label} className="text-center min-w-[120px]">
-     <span className="block font-[var(--font-heading)] text-[2.2rem] font-extrabold gradient-text leading-none mb-1">{stat.number}</span>
-     <span className="text-[0.65rem] text-[var(--color-text-muted)] uppercase tracking-[0.2em] font-bold">{stat.label}</span>
-    </div>
-   ))}
-  </div>
+
+
  </section>
+
+ {/* ====== TOUR LIST (full — same as /tour page) ====== */}
+ <TourList initialShows={upcomingShows} hideMap maxShows={5} />
+
 
  {/* ====== PROXIMITY NOTIFY ====== */}
  <ProximityNotify />
 
- {/* ====== LATEST RELEASE ====== */}
- <section className="py-32 bg-[var(--color-bg-primary)]" id="latest-release">
- <div className="site-container">
-  <div className="mb-12">
-  <span className="inline-block text-[0.75rem] font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">Latest Release</span>
-  </div>
-
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-  {/* LEFT — Details & Credits */}
-  <div className="flex flex-col justify-center">
-   <h3 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,3.5rem)] font-extrabold text-white leading-[0.95] mb-2">
-   {release?.title ? (
-    <>
-     {release.title.split(' ').slice(0, -1).join(' ')}<br />
-     <span className="gradient-text">{release.title.split(' ').slice(-1)[0]}</span>
-    </>
-   ) : (
-    <>Ain&apos;t That Just<br /><span className="gradient-text">Beautiful</span></>
-   )}
-   </h3>
-   <p className="text-[0.85rem] text-white/40 mb-6 flex items-center gap-2">
-   <span>{release?.year || '2025'}</span>
-   <span className="text-white/15">·</span>
-   <span className="text-[var(--color-accent)]">{release?.duration || '3:35'}</span>
-   <span className="text-white/15">·</span>
-   <span>{release?.type || 'Official Music Video'}</span>
-   </p>
-   <p className="text-[0.95rem] text-[var(--color-text-secondary)] leading-relaxed mb-8">
-   {release?.description || "The latest official music video from 7th heaven — a powerful rock ballad about seeing the beauty in everyday moments. Shot on location in Chicago, the video captures the band's signature high-energy performance style blended with cinematic storytelling."}
-   </p>
-
-   {/* Credits */}
-   <div className="border-t border-white/10 pt-8">
-   <p className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-4">Credits</p>
-   <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-[0.8rem]">
-    {(release?.credits || [
-     { role: 'Written by', name: 'Adam Heisler & Richard Hofherr' },
-     { role: 'Produced by', name: '7th Heaven' },
-     { role: 'Directed by', name: 'Michael Scimeca' },
-     { role: 'Mixed & Mastered', name: 'NTD Studios' },
-    ]).map((credit, i) => (
-     <div key={i}>
-     <span className="text-white/30 block text-[0.65rem] uppercase tracking-wider">{credit.role}</span>
-     <span className="text-white">{credit.name}</span>
-     </div>
-    ))}
-   </div>
-   </div>
-
-   {/* CTAs */}
-   <div className="flex flex-wrap gap-3 mt-8">
-   <a href={release?.buyLink || "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ"} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.8rem] py-3 px-6 transition-all" id="latest-buy-cd">
-    Buy CD
-   </a>
-   <a href={release?.spotifyLink || "https://open.spotify.com"} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.8rem] py-3 px-6 transition-all">
-    Spotify
-   </a>
-   <a href={release?.appleMusicLink || "https://music.apple.com"} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.8rem] py-3 px-6 transition-all">
-    Apple Music
-   </a>
-   </div>
-  </div>
-
-  {/* RIGHT — Video */}
-  <div className="flex flex-col gap-4">
-   <a href={`https://www.youtube.com/watch?v=${release?.youtubeId || 'BzHUNTZ66zY'}`} target="_blank" rel="noopener noreferrer" className="relative aspect-video bg-[#12121a] border border-white/10 overflow-hidden block group">
-    <img
-     src={`https://img.youtube.com/vi/${release?.youtubeId || 'BzHUNTZ66zY'}/maxresdefault.jpg`}
-     alt={release?.title || "Ain't That Just Beautiful — Official Music Video"}
-     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-    />
-    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300" />
-    {/* Play button */}
-    <div className="absolute inset-0 flex items-center justify-center z-10">
-     <svg width="68" height="48" viewBox="0 0 68 48" className="drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
-      <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#851DEF"/>
-      <path d="M45 24L27 14v20" fill="white"/>
-     </svg>
-    </div>
-   </a>
-
-   {/* Behind the scenes photos */}
-   <div className="grid grid-cols-3 gap-3">
-   <div className="relative aspect-square bg-[#12121a] border border-white/10 overflow-hidden group">
-    <Image src="/images/band-performance.png" alt="Behind the scenes" fill style={{ objectFit: "cover" }} className="grayscale group-hover:grayscale-0 transition-all duration-500" />
-   </div>
-   <div className="relative aspect-square bg-[#12121a] border border-white/10 overflow-hidden group">
-    <Image src="/images/hero-banner.png" alt="On set" fill style={{ objectFit: "cover" }} className="grayscale group-hover:grayscale-0 transition-all duration-500" />
-   </div>
-   <div className="relative aspect-square bg-[#12121a] border border-white/10 overflow-hidden group">
-    <img src={`https://img.youtube.com/vi/${release?.youtubeId || 'BzHUNTZ66zY'}/maxresdefault.jpg`} alt="Video thumbnail" className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-   </div>
-   </div>
-
-  </div>
-  </div>
- </div>
- </section>
-
  {/* ====== MUSIC PLAYER ====== */}
  <AudioPlayerSection />
 
- {/* ====== VIDEOS ====== */}
- <VideoSection />
+ {/* ====== MERCH QUICK SHOP ====== */}
+ <section className="py-20 bg-[var(--color-bg-primary)] border-t border-white/5">
+  <div className="site-container">
+   <div className="flex items-center justify-between mb-10">
+    <div>
+     <span className="text-[0.65rem] font-black text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Official Store</span>
+     <h2 className="text-2xl font-black italic tracking-tight text-white uppercase">Merch &amp; Music</h2>
+    </div>
+    <Link href="/store" className="text-[0.65rem] font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-all">
+     Shop All →
+    </Link>
+   </div>
+   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    {[
+     { name: "Be Here", price: "$15", cat: "💿 Latest CD", badge: "NEW", paypalId: "CP5NWKWMEQMMJ", img: "/images/merch-be-here.png" },
+     { name: "Color In Motion", price: "$15", cat: "💿 Original CD", paypalId: "898VXQMC4P56W", img: "/images/merch-color-in-motion.png" },
+     { name: "Covered", price: "$15", cat: "🎵 Covers", paypalId: "B9NB2TDP2HV4Q", img: "/images/merch-covered.png" },
+     { name: "Live on Harmony of the Seas", price: "$20", cat: "📀 Blu-ray", img: "/images/merch-live-bluray.png" },
+     { name: "7th Heaven Logo Tee", price: "$25", cat: "👕 Apparel", comingSoon: true, img: "/images/merch-logo-tee.png" },
+    ].map(item => (
+     <div key={item.name} className="bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden hover:border-[var(--color-accent)]/30 transition-all group">
+      <div className="aspect-square bg-[#0d0d15] relative overflow-hidden">
+        <Image src={item.img} alt={item.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+       {item.badge && (
+        <span className="absolute top-2 left-2 bg-[var(--color-accent)] text-white text-[0.45rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded">{item.badge}</span>
+       )}
+       {item.comingSoon && (
+        <span className="absolute top-2 left-2 bg-white/10 backdrop-blur-sm text-white/50 text-[0.45rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded">Coming Soon</span>
+       )}
+      </div>
+      <div className="p-4">
+       <p className="text-[0.5rem] text-white/20 uppercase tracking-widest mb-1">{item.cat}</p>
+       <h3 className="text-[0.8rem] font-bold text-white truncate mb-1 group-hover:text-[var(--color-accent)] transition-colors">{item.name}</h3>
+       <div className="flex items-center justify-between">
+        <span className="text-[var(--color-accent)] font-bold text-sm">{item.price}</span>
+        {item.paypalId ? (
+         <a href={`https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${item.paypalId}`} target="_blank" rel="noopener noreferrer" className="text-[0.5rem] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">Buy →</a>
+        ) : item.comingSoon ? (
+         <span className="text-[0.5rem] text-white/15 uppercase tracking-widest">Soon</span>
+        ) : (
+         <Link href="/store" className="text-[0.5rem] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">View →</Link>
+        )}
+       </div>
+      </div>
+     </div>
+    ))}
+   </div>
+  </div>
+ </section>
 
- {/* ====== BEHIND THE SCENES ====== */}
- <BehindTheScenes btsVideos={btsVideos} />
+  {/* ====== PHOTOS FROM THE LAST SHOW ====== */}
+  <section className="py-24 relative overflow-hidden bg-[#050508] border-t border-white/5">
+    <div className="site-container relative z-10">
+      <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
+        <div>
+          <span className="text-[0.65rem] font-black text-amber-500 uppercase tracking-[0.2em] mb-4 block flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+            Live & Loud
+          </span>
+          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black italic tracking-tighter text-white uppercase leading-none">
+            Photos From <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">The Last Show</span>
+          </h2>
+        </div>
+        <Link href="/fan-photo-wall" className="shrink-0 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center gap-2">
+          View All Galleries →
+        </Link>
+      </div>
+
+      {/* Grid Display */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+        {/* Large Feature Photo */}
+        <div className="lg:col-span-2 lg:row-span-2 aspect-square lg:aspect-auto bg-[#111116] border border-white/10 relative group overflow-hidden rounded-xl">
+           <Image 
+             src="/images/band-performance.png" 
+             alt="Last Show Performance" 
+             fill 
+             className="object-cover transition-transform duration-700 group-hover:scale-105"
+           />
+           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+             <span className="text-amber-500 text-[0.65rem] font-black uppercase tracking-widest mb-1">House of Blues</span>
+             <h3 className="text-white text-xl font-bold">Chicago, IL</h3>
+           </div>
+        </div>
+
+        {/* Supporting Photos */}
+        {[
+          { src: '/images/hero-banner.png', title: 'Crowd Energy' },
+          { src: '/images/video-placeholder.jpg', title: 'Guitar Solo' },
+          { src: '/images/band-performance.png', title: 'Encore' },
+          { src: '/images/hero-banner.png', title: 'Meet & Greet' }
+        ].map((photo, i) => (
+          <div key={i} className="aspect-square bg-[#111116] border border-white/10 relative group overflow-hidden rounded-xl">
+             <Image 
+               src={photo.src} 
+               alt={photo.title} 
+               fill 
+               className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+             />
+             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+               <span className="text-[0.6rem] font-bold text-white uppercase tracking-widest">{photo.title}</span>
+             </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+ {/* ====== CRUISE PROMO ====== */}
+ <section className="py-16 bg-[var(--color-bg-primary)] border-b border-white/5">
+  <div className="site-container">
+   <div className="relative overflow-hidden rounded-2xl border border-[var(--color-accent)]/20 bg-gradient-to-r from-[var(--color-accent)]/10 via-[#0d0d14] to-cyan-500/10">
+    <div className="absolute inset-0 bg-[url('/images/cruise-hero.png')] bg-cover bg-center opacity-10" />
+    <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 p-8 md:p-12">
+     <div className="flex-1">
+      <div className="flex items-center gap-2 mb-3">
+       <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+       <span className="text-[0.6rem] font-black uppercase tracking-[0.25em] text-cyan-400">Now Accepting Interest</span>
+      </div>
+      <h2 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter text-white mb-3" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+       7th Heaven <span className="accent-gradient-text">Caribbean Cruise</span>
+      </h2>
+      <p className="text-white/45 text-sm leading-relaxed max-w-lg mb-2">
+       7 nights. 3 islands. 6 live shows. Sign up free to help us negotiate the best group rate — the more fans, the better the deal.
+      </p>
+      <div className="flex flex-wrap gap-4 text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/25">
+       <span>🚢 Miami → Caribbean</span>
+       <span>🏝️ Cozumel · Grand Cayman · Roatán</span>
+       <span>🎸 6 Performances</span>
+      </div>
+     </div>
+
+    </div>
+   </div>
+  </div>
+ </section>
+
+ {/* ====== VIDEOS (removed) ====== */}
+
+ {/* ====== BEHIND THE SCENES (removed) ====== */}
 
  </>
  );

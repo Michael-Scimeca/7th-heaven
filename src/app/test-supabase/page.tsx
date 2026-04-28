@@ -5,6 +5,11 @@ import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
 export default function TestSupabasePage() {
+ // Block in production
+ if (process.env.NODE_ENV === 'production') {
+  return <section className="py-32 min-h-screen bg-[var(--color-bg-primary)] flex items-center justify-center"><p className="text-white/30">Page not found.</p></section>;
+ }
+
  const { user, profile, isLoading, isAuthenticated, role, signUp, signIn, signOut } = useAuth();
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');

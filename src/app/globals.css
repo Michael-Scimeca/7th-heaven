@@ -6,7 +6,7 @@
 
 @theme {
  /* Layout */
- --container-width: 1400px;
+ --container-width: 1440px;
 
  /* Colors */
  --color-bg-primary: #000000;
@@ -126,7 +126,53 @@
  .scrollbar-hide::-webkit-scrollbar { display: none !important; width: 0 !important; }
 }
 
-/* --- Utilities --- */
+/* --- Typography Utilities --- */
+@utility heading-hero {
+ font-family: var(--font-barlow-condensed);
+ font-size: clamp(3.5rem, 8vw, 7rem);
+ font-weight: 900;
+ font-style: italic;
+ text-transform: uppercase;
+ letter-spacing: -0.05em;
+ line-height: 0.9;
+}
+
+@utility heading-section {
+ font-family: var(--font-barlow-condensed);
+ font-size: clamp(2.5rem, 5vw, 4rem);
+ font-weight: 900;
+ font-style: italic;
+ text-transform: uppercase;
+ letter-spacing: -0.02em;
+ line-height: 1;
+}
+
+@utility heading-card {
+ font-family: var(--font-barlow-condensed);
+ font-size: 1.5rem;
+ font-weight: 800;
+ text-transform: uppercase;
+ letter-spacing: -0.01em;
+}
+
+@utility text-body {
+ font-family: var(--font-barlow);
+ font-size: 1rem;
+ font-weight: 400;
+ line-height: 1.7;
+ color: rgba(255, 255, 255, 0.65);
+}
+
+@utility text-eyebrow {
+ font-family: var(--font-barlow);
+ font-size: 0.7rem;
+ font-weight: 900;
+ text-transform: uppercase;
+ letter-spacing: 0.2em;
+ color: var(--color-accent);
+}
+
+/* --- Base Utilities --- */
 @utility gradient-text {
  color: var(--color-accent);
 }
@@ -198,8 +244,6 @@
  max-width: var(--container-width);
  margin-left: auto;
  margin-right: auto;
- padding-left: 2rem;
- padding-right: 2rem;
 }
 
 /* Video grid: full bleed edge to edge */

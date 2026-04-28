@@ -6,7 +6,7 @@ import "leaflet/dist/leaflet.css";
 import TourMap from "./TourMap";
 import CountdownTimer from "./CountdownTimer";
 
-const shows = [
+export const shows = [
  { day: "Fri", date: "January 2", venue: "Station 34", city: "Mt. Prospect", state: "IL", time: "8:30pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=34%20S%20Main%20St,%20Mount%20Prospect,%20IL%2060056,%20United%20States&coordinate=42.064738,-87.936988&name=34%20S%20Main%20St&map=explore", websiteUrl: "https://stationthirtyfour.com/events/" },
  { day: "Sat", date: "January 3", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
  { day: "Fri", date: "January 9", venue: "Rookies", city: "Hoffman Est.", state: "IL", time: "8:00pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=4607%20W%20Higgins%20Rd,%20Hoffman%20Estates,%20IL%2060192,%20United%20States&coordinate=42.074379,-88.191220&name=4607%20W%20Higgins%20Rd", websiteUrl: "https://www.rookiespub.com/hoffmanestates.html" },
@@ -83,9 +83,11 @@ const activeSelect = "!border-[var(--color-accent)] !text-[var(--color-accent)]"
 
 interface TourListProps {
  initialShows?: any[];
+ hideMap?: boolean;
+ maxShows?: number;
 }
 
-export default function TourList({ initialShows }: TourListProps) {
+export default function TourList({ initialShows, hideMap, maxShows }: TourListProps) {
  const [activeMonth, setActiveMonth] = useState("All");
  const [activeType, setActiveType] = useState("All");
  const [activeCity, setActiveCity] = useState("All");
@@ -125,6 +127,19 @@ export default function TourList({ initialShows }: TourListProps) {
   }, 100);
  }, []);
 
+ // Map pin click — scroll WITHOUT clearing filters (row is already visible since map is filter-synced)
+ const handleMapPinClick = useCallback((venue: string, date: string) => {
+  const id = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
+  setTimeout(() => {
+   const el = document.getElementById(id);
+   if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setHighlightedId(id);
+    setTimeout(() => setHighlightedId(null), 3000);
+   }
+  }, 100);
+ }, []);
+
  const filtered = useMemo(() => {
   const q = searchQuery.toLowerCase().trim();
   return displayShows.filter((s) => {
@@ -154,23 +169,36 @@ export default function TourList({ initialShows }: TourListProps) {
  if (searchQuery) activeLabels.push(`"${searchQuery}"`);
 
   // Find the next upcoming show
+  // Parse a show date like "January 2" or "May 30" into a proper Date object
+  const parseShowDate = useCallback((dateStr: string): Date => {
+    const currentYear = new Date().getFullYear();
+    const d = new Date(`${dateStr}, ${currentYear}`);
+    // If parsed date is valid, return it; otherwise return far past
+    return isNaN(d.getTime()) ? new Date(0) : d;
+  }, []);
+
   const getUpcomingShow = () => {
     const now = new Date();
-    const currentYear = now.getFullYear();
+    // Strip to start of today for day-level comparison (so today's shows still count)
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
     for (const show of displayShows) {
-      const showDate = new Date(`${show.date}, ${currentYear}`);
-      if (showDate >= now && show.city) return show;
+      if (!show.city) continue; // skip private events
+      const showDate = parseShowDate(show.date);
+      if (showDate >= today) return show;
     }
-    return displayShows.find((s: any) => s.city) || displayShows[0]; // fallback to first show with a city
+    return null; // no upcoming shows
   };
 
   const upNext = getUpcomingShow();
 
   // Calculate days until show
   const getDaysUntil = () => {
+    if (!upNext) return "";
     const now = new Date();
-    const showDate = new Date(`${upNext.date}, ${now.getFullYear()}`);
-    const diff = Math.ceil((showDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const showDate = parseShowDate(upNext.date);
+    const diff = Math.round((showDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     if (diff === 0) return "Tonight";
     if (diff === 1) return "Tomorrow";
     if (diff < 0) return "";
@@ -190,17 +218,12 @@ export default function TourList({ initialShows }: TourListProps) {
       <h2 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight">
        Upcoming <span className="gradient-text">Shows</span>
       </h2>
-      <p className="text-[0.75rem] font-bold uppercase tracking-[0.15em] text-white/30 mt-1">Tour Dates — Live in Concert</p>
      </div>
 
-     {/* Full-Width Map */}
-     <div className="mb-0">
-      <TourMap />
-     </div>
-
-      {/* Up Next — Neon Glow / Festival (below map) */}
-      <div className="mb-12">
-       <div className="relative border border-white/10 border-t-0 bg-[rgba(20,15,30,0.8)] overflow-hidden">
+     {/* Up Next — Neon Glow / Festival */}
+     {upNext && (
+      <div className="mb-0">
+       <div className="relative border border-white/10 bg-[rgba(20,15,30,0.8)] overflow-hidden rounded-t-xl">
          {/* Subtle purple gradient from right */}
          <div className="absolute inset-0 bg-gradient-to-l from-[rgba(133,29,239,0.15)] via-transparent to-transparent pointer-events-none" />
 
@@ -221,33 +244,34 @@ export default function TourList({ initialShows }: TourListProps) {
                )}
              </div>
 
-             {/* Venue name — stacked words */}
-             <h3 className="font-[var(--font-heading)] text-[2.8rem] md:text-[3.8rem] font-extrabold text-white leading-[0.92] mb-4 uppercase">
-               {upNext.venue.split(' ').map((word: string, i: number) => (
-                 <span key={i} className="block">{word}</span>
-               ))}
+             {/* Venue name */}
+             <h3 className="font-[var(--font-heading)] text-[2.2rem] md:text-[3rem] font-extrabold text-white leading-[1] mb-4 uppercase whitespace-nowrap">
+               {upNext.venue}
              </h3>
 
-             {/* Location + time */}
-             <div className="flex items-center gap-2">
-               <span className="text-[0.85rem] text-white/70 font-medium">
-                 📍 {upNext.city}{upNext.state ? `, ${upNext.state}` : ""}
-               </span>
-               {upNext.time && (
-                 <>
-                   <span className="text-white/20">·</span>
-                   <span className="text-[0.85rem] text-white/50">{upNext.time}</span>
-                 </>
-               )}
-             </div>
+             {/* Date + Location + Time */}
+              <div className="flex items-center gap-2 text-[0.85rem] text-white/70 font-medium">
+                <span>
+                  {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
+                </span>
+                <span className="text-white/20">·</span>
+                <span>📍 {upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
+                {upNext.time && (
+                  <>
+                    <span className="text-white/20">·</span>
+                    <span className="text-white/50">{upNext.time}</span>
+                  </>
+                )}
+              </div>
+              {upNext.info && (
+                <p className="mt-3 text-[0.7rem] font-bold uppercase tracking-[0.15em] text-[var(--color-accent)]/70">
+                  {getShowIcon(upNext.info)} {upNext.info}
+                </p>
+              )}
            </div>
 
-           {/* Right Column: Date + Timer + Buttons */}
+           {/* Right Column: Timer + Buttons */}
            <div className="flex flex-col items-start md:items-end justify-between gap-4 shrink-0">
-             {/* Date */}
-             <span className="text-[0.7rem] text-white/40 font-medium italic">
-               {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
-             </span>
 
              {/* Countdown Timer */}
              <CountdownTimer targetDate={`${upNext.date}, ${new Date().getFullYear()}`} targetTime={upNext.time} />
@@ -270,6 +294,16 @@ export default function TourList({ initialShows }: TourListProps) {
          </div>
        </div>
       </div>
+     )}
+
+     {/* Full-Width Map — synced with filters */}
+     {!hideMap && (
+      <div className="mb-12">
+       <TourMap shows={hasActiveFilters ? filtered : displayShows} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
+      </div>
+     )}
+
+
 
 
      {/* Show count + Clear */}
@@ -287,12 +321,22 @@ export default function TourList({ initialShows }: TourListProps) {
         </span>
        )}
       </p>
-      {hasActiveFilters && (
-       <button
-        onClick={clearAll}
-        className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[rgba(133,29,239,0.3)] hover:border-[rgba(133,29,239,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(133,29,239,0.08)]"
-       >Clear</button>
-      )}
+      <div className="flex items-center gap-3">
+       {upNext?.venue && (
+        <button
+         onClick={() => scrollToShow(upNext!.venue, upNext!.date)}
+         className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] text-white bg-[var(--color-accent)] hover:brightness-125 rounded-lg px-5 py-2.5 transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 shadow-[0_0_20px_rgba(133,29,239,0.4)] hover:shadow-[0_0_30px_rgba(133,29,239,0.6)]"
+        >
+         <span className="text-base">⚡</span> Jump to Next Show
+        </button>
+       )}
+       {hasActiveFilters && (
+        <button
+         onClick={clearAll}
+         className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[rgba(133,29,239,0.3)] hover:border-[rgba(133,29,239,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(133,29,239,0.08)]"
+        >Clear</button>
+       )}
+      </div>
      </div>
 
      {/* Header Row with Inline Filters */}
@@ -380,9 +424,18 @@ export default function TourList({ initialShows }: TourListProps) {
      </div>
 
      {/* Rows */}
-     <div className="flex flex-col gap-1.5">
-      {filtered.map((show, i) => {
-       const isUpNext = show.date === upNext.date && show.venue === upNext.venue;
+     <div className="flex flex-col gap-1.5 overflow-visible pt-4">
+      {(() => {
+        let rows = filtered;
+        if (maxShows && upNext) {
+          const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue);
+          rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + maxShows);
+        } else if (maxShows) {
+          rows = filtered.slice(0, maxShows);
+        }
+        return rows;
+      })().map((show, i) => {
+       const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue) : false;
        const rowId = `tour-${show.venue}-${show.date}`.replace(/\s+/g, '-').toLowerCase();
        const isHighlighted = highlightedId === rowId;
        return (

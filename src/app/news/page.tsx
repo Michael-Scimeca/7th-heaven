@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/live";
 import { queries, SanityNewsPost } from "@/lib/sanity";
 
+export const metadata: Metadata = {
+  title: "News & Updates — 7th Heaven",
+  description: "Latest news, announcements, and updates from 7th Heaven — new tour dates, album releases, website updates, and band milestones.",
+  openGraph: {
+    title: "News & Updates — 7th Heaven",
+    description: "Latest news and announcements from 7th Heaven.",
+    type: "website",
+    url: "https://7thheavenband.com/news",
+  },
+};
 
 const FALLBACK_NEWS = [
  {

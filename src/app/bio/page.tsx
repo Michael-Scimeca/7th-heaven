@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { sanityFetch } from "@/sanity/live";
-import { queries, SanitySiteSettings } from "@/lib/sanity";
+import { queries, SanitySiteSettings, SanityBandMember, urlFor } from "@/lib/sanity";
 
 export const metadata: Metadata = {
  title: "Bio — 7th Heaven",
  description: "Meet the members of 7th heaven and learn about their 40-year journey of rocking stages worldwide.",
 };
 
-const FALLBACK_MEMBERS = [
+const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
  {
   name: "Adam Heisler", role: "Lead Vocals",
   birthday: "March 13", zodiac: "Pisces",
@@ -94,93 +94,93 @@ const FALLBACK_PERFORMED_WITH = [
 
 export default async function BioPage() {
  const { data: settingsData } = await sanityFetch({ query: queries.siteSettings });
+ const { data: bandMembersData } = await sanityFetch({ query: queries.allBandMembers });
  const settings = settingsData as SanitySiteSettings | null;
+ 
+ const sanityMembers = bandMembersData as SanityBandMember[] | null;
+ const members = sanityMembers?.length ? sanityMembers : FALLBACK_MEMBERS;
 
- const members = FALLBACK_MEMBERS; // Members data stays local for now (Q&A format doesn't map 1:1 to Sanity bandMember schema)
  const accomplishments = settings?.accomplishments?.length ? settings.accomplishments : FALLBACK_ACCOMPLISHMENTS;
  const performedWith = settings?.performedWith?.length ? settings.performedWith : FALLBACK_PERFORMED_WITH;
- const bioIntro = settings?.bioIntro || "7th heaven is an experience you just have to see and hear! 7th heaven has charted #1 on the Midwest Billboard Charts three times; and has had 7 major radio hits. The band has toured the world; playing: U.K., Ireland, Greece, Amsterdam, Panama, Mexico and all over the United States.";
- const bioIntro2 = settings?.bioIntro2 || 'The band has played Las Vegas numerous times, as well as played on 20 international cruise ships. Known for the famous "30 Songs in 30 Minutes" medley of songs from the 70\'s and 80\'s, 7th heaven has been an entertainment staple for 40 years. Playing around 200 shows a year, with an average of 100 outdoor events, 7th heaven has earned the right to say ..."We\'ve seen a million faces and rocked them all!"';
 
  return (
  <div className="pt-[72px]">
- {/* Hero */}
- <section className="pt-24 pb-10 text-center bg-gradient-to-b from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)]">
- <div className="site-container">
- <span className="inline-block text-[0.75rem] font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">About</span>
- <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-tight tracking-tight">
- The <span className="gradient-text">7th Heaven</span> Story
- </h1>
- <p className="text-lg text-[var(--color-text-secondary)] max-w-[600px] mx-auto mt-4">{settings?.tagline || "An experience you just have to see and hear."}</p>
- </div>
- </section>
 
- {/* Bio Text */}
- <section className="py-32 bg-[var(--color-bg-primary)]">
- <div className="max-w-[800px] mx-auto px-6 text-center">
- <p className="text-[var(--color-text-secondary)] text-[1.05rem] leading-loose mb-6">{bioIntro}</p>
- <p className="text-[var(--color-text-secondary)] text-[1.05rem] leading-loose">{bioIntro2}</p>
- </div>
- </section>
 
  {/* Members */}
- <section className="py-32 bg-[var(--color-bg-secondary)]">
+ <section className="pt-16 pb-32 bg-[var(--color-bg-secondary)]">
  <div className="site-container">
- <div className="text-center mb-16">
- <span className="inline-block text-[0.75rem] font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Band Members</span>
- <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">
-  Meet the <span className="gradient-text">Players</span>
- </h2>
- </div>
- <div className="flex flex-col gap-8">
+ <div className="flex flex-col gap-12">
  {members.map((m, i) => (
-  <div key={m.name} className="bg-[var(--color-bg-card)] border border-[var(--color-border)] overflow-hidden transition-all hover:border-[var(--color-border-hover)]" id={`bio-member-${i}`}>
-   {/* Top bar */}
-   <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 md:p-8 border-b border-white/5">
-    <div className="flex items-center gap-5">
-     <div className="w-16 h-16 shrink-0 flex items-center justify-center accent-gradient-bg">
-      <span className="font-[var(--font-heading)] text-[1.4rem] font-extrabold text-white">{m.name.charAt(0)}</span>
-     </div>
+  <div key={m.name} className="flex flex-col lg:flex-row bg-[var(--color-bg-card)] border border-[var(--color-border)] overflow-hidden transition-all hover:border-[var(--color-border-hover)] relative group" id={`bio-member-${i}`}>
+   
+   {/* Left Side: Full Body Image */}
+   <div className="w-full lg:w-[35%] relative bg-gradient-to-b from-transparent to-[var(--color-accent)]/10 flex items-end justify-center overflow-hidden min-h-[400px] lg:min-h-0 border-b lg:border-b-0 lg:border-r border-white/5 pt-8">
+     {/* Background glow */}
+     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[var(--color-accent)]/20 blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+     {m.image ? (
+       <img 
+         src={urlFor(m.image).url()} 
+         alt={m.name} 
+         className="w-full max-w-[320px] h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative z-10 transition-transform duration-500 group-hover:scale-105 origin-bottom" 
+       />
+     ) : (
+       <img 
+         src={`/images/members/${m.name?.split(' ')[0].toLowerCase()}.png`} 
+         alt={m.name} 
+         className="w-full max-w-[320px] h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative z-10 transition-transform duration-500 group-hover:scale-105 origin-bottom" 
+       />
+     )}
+   </div>
+
+   {/* Right Side: Details */}
+   <div className="w-full lg:w-[65%] flex flex-col">
+    {/* Top bar */}
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 md:p-8 border-b border-white/5">
      <div>
-      <h3 className="font-[var(--font-heading)] text-xl font-bold">{m.name}</h3>
-      <p className="text-sm text-[var(--color-accent)]">{m.role}</p>
+      <h3 className="heading-card mb-1">{m.name}</h3>
+      <p className="text-sm font-bold tracking-widest uppercase text-[var(--color-accent)]">{m.role}</p>
+     </div>
+     <div className="flex items-center gap-4 mt-4 sm:mt-0">
+      {m.zodiac && <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 font-bold">{m.zodiac}</span>}
+      {m.birthday && <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/50 font-bold bg-white/[0.04] px-3 py-1 border border-white/5">🎂 {m.birthday}</span>}
      </div>
     </div>
-    <div className="flex items-center gap-4 mt-3 md:mt-0">
-     <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/25 font-bold">{m.zodiac}</span>
-     <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 font-bold bg-white/[0.04] px-3 py-1">🎂 {m.birthday}</span>
+
+    {/* Quote */}
+    {m.favQuote && (
+      <div className="px-6 md:px-8 py-5 bg-[var(--color-accent)]/5 border-b border-white/5">
+       <p className="text-[0.95rem] text-white/80 italic leading-relaxed">&ldquo;{m.favQuote}&rdquo;</p>
+      </div>
+    )}
+
+    {/* Details grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-[1px] bg-white/[0.03] grow">
+     {[
+      { label: "Best Trait", value: m.bestTrait },
+      { label: "Favorite Bands", value: m.favBands },
+      { label: "Favorite Album", value: m.favAlbum },
+      { label: "Favorite Movie(s)", value: m.favMovie },
+      { label: "Fav 7H Song", value: m.fav7hSong },
+      { label: "First Song Learned", value: m.firstSong },
+      { label: "Best Feeling", value: m.bestFeeling },
+      { label: "Hobbies", value: m.hobbies },
+      { label: "Influences", value: m.influences },
+     ].filter(detail => detail.value).map((detail) => (
+      <div key={detail.label} className="p-5 md:p-6 bg-[var(--color-bg-card)]">
+       <p className="text-[0.55rem] uppercase tracking-[0.15em] text-[var(--color-accent)] font-bold mb-2">{detail.label}</p>
+       <p className="text-[0.85rem] text-white/60 leading-relaxed">{detail.value}</p>
+      </div>
+     ))}
     </div>
-   </div>
 
-   {/* Quote */}
-   <div className="px-6 md:px-8 py-4 bg-[var(--color-accent)]/5 border-b border-white/5">
-    <p className="text-[0.85rem] text-white/60 italic">&ldquo;{m.favQuote}&rdquo;</p>
-   </div>
-
-   {/* Details grid */}
-   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[1px] bg-white/[0.03]">
-    {[
-     { label: "Best Trait", value: m.bestTrait },
-     { label: "Favorite Bands", value: m.favBands },
-     { label: "Favorite Album", value: m.favAlbum },
-     { label: "Favorite Movie(s)", value: m.favMovie },
-     { label: "Fav 7H Song", value: m.fav7hSong },
-     { label: "First Song Learned", value: m.firstSong },
-     { label: "Best Feeling", value: m.bestFeeling },
-     { label: "Hobbies", value: m.hobbies },
-     { label: "Influences", value: m.influences },
-    ].map((detail) => (
-     <div key={detail.label} className="p-4 bg-[var(--color-bg-card)]">
-      <p className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25 font-bold mb-1">{detail.label}</p>
-      <p className="text-[0.8rem] text-white/60 leading-relaxed">{detail.value}</p>
-     </div>
-    ))}
-   </div>
-
-   {/* Fun fact */}
-   <div className="px-6 md:px-8 py-4 border-t border-white/5 flex items-start gap-3">
-    <span className="text-[0.6rem] uppercase tracking-[0.15em] text-[var(--color-accent)] font-bold shrink-0 mt-0.5">Fun Fact</span>
-    <p className="text-[0.8rem] text-white/50">{m.funFact}</p>
+    {/* Fun fact */}
+    {m.funFact && (
+      <div className="px-6 md:px-8 py-5 bg-[var(--color-bg-primary)] flex flex-col sm:flex-row sm:items-start gap-3">
+       <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white font-black shrink-0 mt-0.5 bg-[var(--color-accent)] px-2 py-1 rounded-sm">Fun Fact</span>
+       <p className="text-[0.85rem] text-white/70 leading-relaxed">{m.funFact}</p>
+      </div>
+    )}
    </div>
   </div>
  ))}

@@ -18,6 +18,10 @@ interface BookingData {
   organization: string;
   status: "pending" | "confirmed" | "cancelled";
   cancelledAt?: string;
+  soundSystem?: string;
+  stageAvailable?: string;
+  loadInTime?: string;
+  notes?: string;
 }
 
 const defaultBooking: BookingData = {
@@ -47,10 +51,14 @@ export default function PlannerDashboard() {
   const { member, isLoggedIn, hydrated, openModal, login } = useMember();
   const [mounted, setMounted] = useState(false);
   const [booking, setBooking] = useState<BookingData>(defaultBooking);
+  const [allBookings, setAllBookings] = useState<BookingData[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editDraft, setEditDraft] = useState<BookingData>(defaultBooking);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [reviveTimeLeft, setReviveTimeLeft] = useState<string | null>(null);
+  const [plannerNotes, setPlannerNotes] = useState('');
+  const [notesSaving, setNotesSaving] = useState(false);
+  const [notesSaved, setNotesSaved] = useState(false);
   const REVIVE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
   // Planner login state
@@ -99,7 +107,7 @@ export default function PlannerDashboard() {
 
   useEffect(() => {
     setMounted(true);
-    // Fetch bookings from Supabase via API
+    // Fetch ALL bookings from Supabase via API
     const fetchBookings = async () => {
       try {
         const stored = localStorage.getItem('7h_member');
@@ -108,25 +116,32 @@ export default function PlannerDashboard() {
         const res = await fetch(`/api/booking?email=${encodeURIComponent(email)}`);
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          const latest = data[0]; // most recent booking
-          const mapped: BookingData = {
-            id: latest.bookingId || latest.booking_id || defaultBooking.id,
-            eventName: latest.eventType ? (eventTypeLabels[latest.eventType] || latest.eventType) : defaultBooking.eventName,
-            eventType: latest.eventType || defaultBooking.eventType,
-            date: latest.eventDate || latest.event_date || defaultBooking.date,
-            startTime: latest.startTime || latest.start_time || defaultBooking.startTime,
-            endTime: latest.endTime || latest.end_time || defaultBooking.endTime,
-            venueName: latest.venueName || latest.venue_name || defaultBooking.venueName,
-            venueCity: latest.venueCity || latest.venue_city || defaultBooking.venueCity,
-            venueState: latest.venueState || latest.venue_state || defaultBooking.venueState,
-            indoorOutdoor: latest.indoorOutdoor || latest.indoor_outdoor || defaultBooking.indoorOutdoor,
-            expectedAttendance: latest.expectedAttendance || latest.expected_attendance || defaultBooking.expectedAttendance,
-            organization: latest.organization || defaultBooking.organization,
-            status: latest.status || defaultBooking.status,
-            cancelledAt: latest.cancelledAt || latest.cancelled_at,
-          };
-          setBooking(mapped);
-          setEditDraft(mapped);
+          const mapped: BookingData[] = data.map((item: any) => ({
+            id: item.bookingId || item.booking_id || defaultBooking.id,
+            eventName: item.eventType ? (eventTypeLabels[item.eventType] || item.eventType) : defaultBooking.eventName,
+            eventType: item.eventType || defaultBooking.eventType,
+            date: item.eventDate || item.event_date || defaultBooking.date,
+            startTime: item.startTime || item.start_time || defaultBooking.startTime,
+            endTime: item.endTime || item.end_time || defaultBooking.endTime,
+            venueName: item.venueName || item.venue_name || defaultBooking.venueName,
+            venueCity: item.venueCity || item.venue_city || defaultBooking.venueCity,
+            venueState: item.venueState || item.venue_state || defaultBooking.venueState,
+            indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || defaultBooking.indoorOutdoor,
+            expectedAttendance: item.expectedAttendance || item.expected_attendance || defaultBooking.expectedAttendance,
+            organization: item.organization || defaultBooking.organization,
+            status: item.status || defaultBooking.status,
+            cancelledAt: item.cancelledAt || item.cancelled_at,
+            soundSystem: item.soundSystem || item.sound_system || '',
+            stageAvailable: item.stageAvailable || item.stage_available || '',
+            loadInTime: item.loadInTime || item.load_in_time || '',
+            notes: item.details || item.notes || '',
+          }));
+          setAllBookings(mapped);
+          // Active booking = most recent non-cancelled, or just the first
+          const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
+          setBooking(active);
+          setEditDraft(active);
+          setPlannerNotes(active.notes || '');
         }
       } catch (e) {
         console.error('Failed to fetch bookings:', e);
@@ -166,7 +181,7 @@ export default function PlannerDashboard() {
   }, [booking.status, booking.cancelledAt, REVIVE_WINDOW_MS]);
 
   // Developer Bypass Check — allows viewing the dashboard UI for dev work
-  const isDevBypass = typeof window !== "undefined" && localStorage.getItem('7h_dev_bypass') === 'true';
+  const isDevBypass = typeof window !== "undefined" && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
   // Footer link uses ?login=true to force showing the login form
   const forceLogin = typeof window !== "undefined" && new URLSearchParams(window.location.search).get('login') === 'true';
   const hasAccess = (!forceLogin && isDevBypass) || (isLoggedIn && member?.role === "event_planner");
@@ -275,9 +290,38 @@ export default function PlannerDashboard() {
 
   const s = statusConfig[booking.status];
 
+  const rebookUrl = (b: BookingData) => {
+    const p = new URLSearchParams();
+    p.set("from", "rebook"); p.set("organization", b.organization);
+    p.set("venueName", b.venueName); p.set("venueCity", b.venueCity);
+    p.set("venueState", b.venueState); p.set("eventType", b.eventType);
+    p.set("startTime", b.startTime); p.set("endTime", b.endTime);
+    p.set("indoorOutdoor", b.indoorOutdoor); p.set("expectedAttendance", b.expectedAttendance);
+    return `/book?${p.toString()}`;
+  };
+
+  const done = [!!booking.date, !!(booking.startTime && booking.endTime), !!booking.venueName, !!booking.indoorOutdoor, !!booking.soundSystem, !!booking.stageAvailable, !!booking.loadInTime, !!booking.expectedAttendance].filter(Boolean).length;
+  const checklistItems = [
+    { label: "Event date confirmed", ok: !!booking.date },
+    { label: "Show time set", ok: !!(booking.startTime && booking.endTime) },
+    { label: "Venue details provided", ok: !!booking.venueName },
+    { label: "Indoor/Outdoor specified", ok: !!booking.indoorOutdoor },
+    { label: "Sound system confirmed", ok: !!booking.soundSystem },
+    { label: "Stage availability", ok: !!booking.stageAvailable },
+    { label: "Load-in time set", ok: !!booking.loadInTime },
+    { label: "Expected attendance", ok: !!booking.expectedAttendance },
+  ];
+  const pct = Math.round((done / checklistItems.length) * 100);
+  const pastBookings = allBookings.filter(b => b.id !== booking.id);
+  const statusSteps = [
+    { label: "Pending", active: booking.status === "pending" || booking.status === "confirmed" },
+    { label: "Confirmed", active: booking.status === "confirmed" },
+    { label: "Completed", active: false },
+  ];
+
   return (
-    <section className="py-24 bg-[#050508] min-h-screen font-sans">
-      <div className="site-container">
+    <section className="bg-[#050508] min-h-screen font-sans pt-24 pb-16">
+      <div className="max-w-[1400px] mx-auto px-6">
         
 
         {/* Account Identity Header — matches fan/crew layout */}
@@ -531,6 +575,225 @@ export default function PlannerDashboard() {
            </div>
 
         </div>
+
+        {/* ── Planner Notes ── */}
+        <div className="mt-8">
+          <div className="bg-[#0b0b12] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📝</div>
+                <div>
+                  <h3 className="text-lg font-bold text-white tracking-tight">Event Notes</h3>
+                  <p className="text-[0.6rem] uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">Private notes for your event — visible to you and the 7th Heaven team</p>
+                </div>
+              </div>
+              {notesSaved && (
+                <span className="text-[0.6rem] font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 animate-[fade-in-up_0.3s_ease-out]">✓ Saved</span>
+              )}
+            </div>
+            <textarea
+              value={plannerNotes}
+              onChange={e => { setPlannerNotes(e.target.value); setNotesSaved(false); }}
+              placeholder="Add notes about your event... (e.g. parking instructions, green room needs, special requests, AV contact info)"
+              rows={4}
+              className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-[0.85rem] text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all resize-none mb-3"
+            />
+            <div className="flex items-center justify-between">
+              <p className="text-[0.6rem] text-white/20">{plannerNotes.length}/2000 characters</p>
+              <button
+                onClick={async () => {
+                  setNotesSaving(true);
+                  try {
+                    await fetch('/api/booking', {
+                      method: 'PATCH',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ bookingId: booking.id, notes: plannerNotes }),
+                    });
+                    setNotesSaved(true);
+                    setTimeout(() => setNotesSaved(false), 3000);
+                  } catch {}
+                  setNotesSaving(false);
+                }}
+                disabled={notesSaving}
+                className="px-5 py-2 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-[0.65rem] uppercase tracking-wider rounded-xl transition-all disabled:opacity-50 cursor-pointer"
+              >
+                {notesSaving ? 'Saving...' : 'Save Notes'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Day-of Checklist ── */}
+        {booking.status !== 'cancelled' && (
+          <div className="mt-8">
+            <div className="bg-[#0b0b12] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg">✅</div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white tracking-tight">Event Readiness Checklist</h3>
+                    <p className="text-[0.6rem] uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">Auto-generated from your booking details</p>
+                  </div>
+                </div>
+                {(() => {
+                  const items = [
+                    { done: !!booking.date },
+                    { done: !!booking.startTime && !!booking.endTime },
+                    { done: !!booking.venueName },
+                    { done: !!booking.indoorOutdoor },
+                    { done: !!booking.soundSystem },
+                    { done: !!booking.stageAvailable },
+                    { done: !!booking.loadInTime },
+                    { done: !!booking.expectedAttendance },
+                  ];
+                  const done = items.filter(i => i.done).length;
+                  const pct = Math.round((done / items.length) * 100);
+                  return (
+                    <div className="flex items-center gap-3">
+                      <div className="w-32 h-2 bg-white/5 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full transition-all duration-500 ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-amber-500' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className={`text-[0.65rem] font-bold uppercase tracking-widest ${pct === 100 ? 'text-emerald-400' : 'text-white/40'}`}>
+                        {done}/{items.length}
+                      </span>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {[
+                  { label: 'Event date confirmed', done: !!booking.date, detail: booking.date || 'Not set' },
+                  { label: 'Show time set', done: !!booking.startTime && !!booking.endTime, detail: booking.startTime && booking.endTime ? `${booking.startTime} – ${booking.endTime}` : 'Not set' },
+                  { label: 'Venue details provided', done: !!booking.venueName, detail: booking.venueName || 'Not set' },
+                  { label: 'Indoor/Outdoor specified', done: !!booking.indoorOutdoor, detail: booking.indoorOutdoor || 'Not set' },
+                  { label: 'Sound system confirmed', done: !!booking.soundSystem, detail: booking.soundSystem || 'Not confirmed' },
+                  { label: 'Stage availability confirmed', done: !!booking.stageAvailable, detail: booking.stageAvailable || 'Not confirmed' },
+                  { label: 'Load-in / setup time', done: !!booking.loadInTime, detail: booking.loadInTime || 'Not set' },
+                  { label: 'Expected attendance', done: !!booking.expectedAttendance, detail: booking.expectedAttendance ? `~${booking.expectedAttendance} guests` : 'Not set' },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
+                      item.done
+                        ? 'bg-emerald-500/5 border-emerald-500/15'
+                        : 'bg-white/[0.02] border-white/5 hover:border-amber-500/20'
+                    }`}
+                  >
+                    <span className="text-lg shrink-0">{item.done ? '✅' : '⬜'}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-[0.75rem] font-bold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</p>
+                      <p className={`text-[0.65rem] truncate ${item.done ? 'text-emerald-400/70' : 'text-amber-400/60'}`}>
+                        {item.detail}
+                      </p>
+                    </div>
+                    {!item.done && (
+                      <span className="text-[0.5rem] font-bold uppercase tracking-widest text-amber-400/50 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/15 shrink-0">
+                        Needed
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {(() => {
+                const missing = [
+                  !!booking.date, !!booking.startTime, !!booking.venueName,
+                  !!booking.indoorOutdoor, !!booking.soundSystem,
+                  !!booking.stageAvailable, !!booking.loadInTime, !!booking.expectedAttendance,
+                ].filter(i => !i).length;
+                if (missing === 0) return (
+                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+                    <span className="text-emerald-400 text-sm">🎉</span>
+                    <p className="text-[0.75rem] font-bold text-emerald-400">All set! Your event details are complete.</p>
+                  </div>
+                );
+                return (
+                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-amber-500/5 border border-amber-500/15 rounded-xl">
+                    <span className="text-amber-400 text-sm">💡</span>
+                    <p className="text-[0.75rem] text-white/40">
+                      {missing} item{missing !== 1 ? 's' : ''} still needed.{' '}
+                      <button onClick={handleEditStart} className="text-[var(--color-accent)] hover:text-white font-bold underline transition-colors cursor-pointer">
+                        Edit logistics
+                      </button>{' '}
+                      to fill them in, or contact us for help.
+                    </p>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        )}
+
+        {/* ── Booking History Timeline ── */}
+        {allBookings.length > 1 && (
+          <div className="mt-10">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📜</div>
+              <div>
+                <h3 className="text-lg font-bold text-white tracking-tight">Booking History</h3>
+                <p className="text-[0.6rem] uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
+              </div>
+            </div>
+
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute top-0 bottom-0 left-[19px] w-[2px] bg-white/5" />
+
+              <div className="flex flex-col gap-4">
+                {allBookings.map((b, i) => {
+                  const isActive = b.id === booking.id;
+                  const sc = b.status === 'confirmed'
+                    ? { dot: 'bg-emerald-500', border: 'border-emerald-500/20', bg: 'bg-emerald-500/5', text: 'text-emerald-400', label: 'Confirmed' }
+                    : b.status === 'cancelled'
+                    ? { dot: 'bg-rose-500', border: 'border-rose-500/20', bg: 'bg-rose-500/5', text: 'text-rose-400', label: 'Cancelled' }
+                    : { dot: 'bg-amber-500', border: 'border-amber-500/20', bg: 'bg-amber-500/5', text: 'text-amber-400', label: 'Pending' };
+
+                  return (
+                    <div key={b.id} className="flex gap-4 relative">
+                      {/* Timeline dot */}
+                      <div className="shrink-0 mt-5 z-10">
+                        <div className={`w-[10px] h-[10px] rounded-full ${sc.dot} ring-4 ring-[#050508]`} />
+                      </div>
+
+                      {/* Card */}
+                      <button
+                        onClick={() => { setBooking(b); setEditDraft(b); }}
+                        className={`flex-1 text-left px-5 py-4 rounded-2xl border transition-all cursor-pointer ${
+                          isActive
+                            ? `${sc.bg} ${sc.border} border shadow-lg`
+                            : 'bg-[#0b0b12] border-white/5 hover:border-white/10'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-2">
+                            <span className={`text-[0.6rem] font-bold uppercase tracking-widest ${sc.text} px-2 py-0.5 ${sc.bg} ${sc.border} border rounded-full`}>
+                              {sc.label}
+                            </span>
+                            <span className="text-[0.6rem] text-white/30 font-mono">{b.id}</span>
+                            {isActive && (
+                              <span className="text-[0.5rem] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">
+                                Active
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <h4 className={`text-sm font-bold tracking-tight mb-0.5 ${b.status === 'cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
+                          {b.eventName}
+                        </h4>
+                        <div className="flex items-center gap-4 text-[0.65rem] text-white/40">
+                          <span>📅 {b.date}</span>
+                          <span>📍 {b.venueName}, {b.venueCity}</span>
+                          {b.startTime && <span>🕗 {b.startTime}</span>}
+                        </div>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </section>

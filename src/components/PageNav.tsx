@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 const PAGES = [
   { path: "/admin", label: "🔒 Admin Panel" },
+  { path: "/admin/emails", label: "📧 Email Templates" },
   { path: "/crew", label: "🎸 Crew Dashboard" },
   { path: "/fans", label: "⭐ Fan Dashboard" },
   { path: "/planner", label: "🗓️ Planner Dashboard" },
@@ -17,8 +18,11 @@ const PAGES = [
   { path: "/live", label: "Live Hub" },
   { path: "/live/live_michael", label: "Live Room (Demo)" },
   { path: "/store", label: "Store" },
+  { path: "/cruise", label: "🚢 Cruise" },
   { path: "/contact", label: "Contact" },
   { path: "/book", label: "Book" },
+  { path: "/privacy", label: "📜 Privacy Policy" },
+  { path: "/terms", label: "📜 Terms of Service" },
   { path: "/sitemap", label: "Sitemap" },
 ];
 
@@ -26,6 +30,9 @@ export function PageNav() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Only available in development
+  if (process.env.NODE_ENV !== 'development') return null;
 
   // Close when clicking outside
   useEffect(() => {
@@ -61,7 +68,7 @@ export function PageNav() {
                   onClick={() => {
                     setIsOpen(false);
                     // Bypasses login for Restricted pages in dev mode
-                    if (['/crew', '/admin', '/fans', '/planner'].includes(page.path)) {
+                    if (['/crew', '/admin', '/admin/emails', '/fans', '/planner'].includes(page.path)) {
                       localStorage.setItem('7h_dev_bypass', 'true');
                     }
                   }}

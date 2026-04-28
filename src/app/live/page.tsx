@@ -28,64 +28,27 @@ export default function LiveHubPage() {
     }
 
     const fetchRooms = async () => {
-      const rooms: LiveRoom[] = [];
-      const seenNames = new Set<string>();
-
       try {
-        // 1. Get ALL active LiveKit rooms from the server
-        const lkRes = await fetch("/api/live-rooms");
-        const lkData = await lkRes.json();
-        const activeLkRooms = new Map();
-        if (lkData.rooms) {
-          lkData.rooms.forEach((r: any) => activeLkRooms.set(r.name, r));
-        }
-
-        // 2. Fetch AUTHENTICATED live streams from Supabase
-        const { data: streams } = await supabase
-          .from("live_streams")
-          .select("*")
-          .eq("status", "live");
-
-        if (streams && streams.length > 0) {
-          for (const s of streams) {
-            const roomName = s.stream_url || `live_${s.user_id}`;
-            const lkRoom = activeLkRooms.get(roomName);
-            
-            // CROSS-VALIDATION with Grace Period
-            // Show if: 
-            // 1. LiveKit says the room is active
-            // 2. OR it was created in Supabase in the last 60 seconds (Grace Period for new streams)
-            const isNew = s.created_at && (Date.now() - new Date(s.created_at).getTime()) < 60000;
-            
-            if ((lkRoom || isNew) && !seenNames.has(roomName)) {
-              seenNames.add(roomName);
-              rooms.push({
-                name: roomName,
-                title: s.title || "Crew Broadcast",
-                numParticipants: lkRoom ? lkRoom.numParticipants : (s.viewer_count || 0),
-                creationTime: s.created_at
-                  ? new Date(s.created_at).getTime() / 1000
-                  : Date.now() / 1000,
-                source: lkRoom ? "livekit" : "supabase",
-              });
-            } else if (!seenNames.has(roomName)) {
-              console.log(`Hiding stale ghost stream: ${roomName}`);
-            }
-          }
-        }
+        const res = await fetch("/api/live-rooms");
+        const data = await res.json();
+        const rooms = (data.rooms || []).filter((r: any) => r.name?.startsWith('live_'));
+        
+        setActiveRooms(rooms.map((r: any) => ({
+          name: r.name,
+          title: r.title,
+          numParticipants: r.numParticipants,
+          creationTime: r.creationTime,
+          source: "livekit"
+        })));
       } catch (e) {
         console.error("Aggregation failed", e);
+      } finally {
+        setLoading(false);
       }
-
-      const filteredRooms = rooms.filter(r => !/test/i.test(r.name));
-      console.log('LiveHubPage fetched rooms:', filteredRooms.length, filteredRooms);
-      
-      setActiveRooms(filteredRooms);
-      setLoading(false);
     };
 
     fetchRooms();
-    const interval = setInterval(fetchRooms, 5000);
+    const interval = setInterval(fetchRooms, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -209,10 +172,32 @@ const getElapsed = (creationTime: number) => {
             })}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-white/50">
-  <svg className="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
-  <span>No live feed available</span>
-</div>
+          <div className="flex flex-col items-center justify-center py-20">
+            <svg className="w-16 h-16 mb-6 text-white/20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
+            <span className="text-2xl font-black italic tracking-tight text-white/50 mb-8">No live feed available</span>
+            
+            <div className="max-w-2xl w-full bg-white/[0.02] border border-white/5 rounded-2xl p-8 text-left">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-[#c084fc] mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#c084fc] animate-pulse" />
+                What to expect when we go live
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  { icon: "🎬", text: "Behind-the-scenes stories" },
+                  { icon: "🎵", text: "Live song requests" },
+                  { icon: "💬", text: "Interactive live Q&As" },
+                  { icon: "🎧", text: "Exclusive studio snippets" },
+                  { icon: "⭐", text: "Band member spotlights" }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10 hover:border-[#8a1cfc]/30 hover:bg-white/10 transition-colors">
+                    <span className="text-xl">{item.icon}</span>
+                    <span className="text-sm font-bold text-white/80">{item.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </section>

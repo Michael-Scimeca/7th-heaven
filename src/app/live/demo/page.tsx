@@ -59,6 +59,7 @@ const CREW_CONFIG: Record<string, { id: string; name: string; displayName: strin
   sammy:   { id: 'crew-sammy', name: 'Sammy D', displayName: 'SAMMY D', badge: '🥁', avatar: 'SD', color: '#ec4899', gradient: 'from-[#ec4899] to-[#f97316]', instrument: 'Drums' },
   ryan:    { id: 'crew-ryan',  name: 'Ryan K',  displayName: 'RYAN K',  badge: '🎹', avatar: 'RK', color: '#06b6d4', gradient: 'from-[#06b6d4] to-[#8a1cfc]', instrument: 'Keys' },
   tony:    { id: 'crew-tony',  name: 'Tony M',  displayName: 'TONY M',  badge: '🎤', avatar: 'TM', color: '#f97316', gradient: 'from-[#f97316] to-[#ef4444]', instrument: 'Vocals' },
+  john:    { id: 'crew-john',  name: 'John W',  displayName: 'JOHN W',  badge: '🎸', avatar: 'JW', color: '#3b82f6', gradient: 'from-[#3b82f6] to-[#8a1cfc]', instrument: 'Guitar' },
 };
 
 const ALL_ROOMS = [
@@ -136,7 +137,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const otherRooms = ALL_ROOMS.filter(r => r.key !== memberId);
   const thisRoom = ALL_ROOMS.find(r => r.key === memberId);
   const baseViewers = thisRoom?.viewers ?? 1247;
-  const { member, isLoggedIn, openModal } = useMember();
+  const { member, isLoggedIn, openModal, logout } = useMember();
   const supabase = createClient();
 
   // Namespace localStorage keys per crew member so feeds are independent
@@ -148,6 +149,12 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const chatChannelRef = useRef<any>(null);
+
+  // Chat moderation — banned user IDs
+  const [bannedUsers, setBannedUsers] = useState<Set<string>>(new Set());
+  const isModRole = member?.role === 'crew' || member?.role === 'admin';
+  const banUser = (userId: string) => setBannedUsers(prev => new Set(prev).add(userId));
+  const unbanUser = (userId: string) => setBannedUsers(prev => { const s = new Set(prev); s.delete(userId); return s; });
 
   // Viewer count — real, tracked from actual page loads
   const [viewerCount, setViewerCount] = useState(0);
@@ -196,32 +203,51 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   // On mount: check if a feed is actually live via Supabase, LiveKit, or localStorage
   const checkIfLiveRef = useRef(async () => {
     // 1. Check localStorage (same-tab)
+    if (localStorage.getItem(`is_live_${memberId}`) === 'true') return true;
+    if (localStorage.getItem('is_live') === 'true') return true; // Global fallback
     if (localStorage.getItem(LS('crew_is_live')) === 'true') return true;
-    // 2. Check Supabase live_streams table (specifically for THIS member)
+    
+    // 2. Check LiveKit active rooms FIRST (most reliable source of truth)
+    try {
+      const res = await fetch('/api/live-rooms');
+      const lkData = await res.json();
+      if (lkData.rooms?.some((r: any) => 
+        r.name === `live_${memberId}` || r.name === memberId
+      )) return true;
+    } catch {}
+
+    // 3. Check Supabase live_streams table — match by stream_url slug since user_id is a UUID
     try {
       const sb = createClient();
       const { data } = await sb
         .from('live_streams')
-        .select('id')
-        .eq('status', 'live')
-        .eq('user_id', memberId)
-        .limit(1);
-      if (data?.length) {
-        localStorage.setItem(LS('is_live'), 'true');
+        .select('id, stream_url, user_id')
+        .eq('status', 'live');
+      if (data?.some((s: any) => 
+        s.user_id === memberId || 
+        s.stream_url === `live_${memberId}` ||
+        s.stream_url?.includes(memberId)
+      )) {
+        localStorage.setItem(`is_live_${memberId}`, 'true');
         return true;
       }
     } catch {}
-    // 3. Check LiveKit active rooms
-    try {
-      const res = await fetch('/api/live-rooms');
-      const lkData = await res.json();
-      if (lkData.rooms?.some((r: any) => r.name === `live_${memberId}`)) return true;
-    } catch {}
+    
     return false;
   });
 
   useEffect(() => {
-    checkIfLiveRef.current().then(live => setFeedActive(live));
+    checkIfLiveRef.current().then(live => {
+      if (!live) {
+        // Clean up stale localStorage flags so the page doesn't think we're still live
+        try {
+          localStorage.removeItem(`is_live_${memberId}`);
+          localStorage.removeItem('is_live');
+          localStorage.removeItem(LS('crew_is_live'));
+        } catch {}
+      }
+      setFeedActive(live);
+    });
   }, []);
 
   // Track real viewer count via heartbeat presence system
@@ -401,7 +427,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         if (e.newValue) setActivePinned(JSON.parse(e.newValue));
         else setActivePinned(null);
       }
-      // Crew chat message bridge
+      // Crew chat message bridge (same-browser cross-tab)
       if (e.key === LS('live_chat_sync') && e.newValue) {
         try {
           const msg = JSON.parse(e.newValue);
@@ -414,7 +440,23 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       }
     };
     window.addEventListener('storage', storageHandler);
-    return () => window.removeEventListener('storage', storageHandler);
+
+    // Supabase Realtime subscription for cross-browser chat sync
+    const chatChannel = supabase.channel('live_chat')
+      .on('broadcast', { event: 'new_message' }, ({ payload }) => {
+        if (!payload?.id) return;
+        setMessages(prev => {
+          if (prev.find(m => m.id === payload.id)) return prev;
+          const next = [...prev, payload as ChatMsg];
+          return next.length > 80 ? next.slice(-80) : next;
+        });
+      })
+      .subscribe();
+
+    return () => {
+      window.removeEventListener('storage', storageHandler);
+      supabase.removeChannel(chatChannel);
+    };
   }, []);
 
   // When stream ended AND merch sale is done → start the 30s countdown
@@ -424,7 +466,67 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     }
   }, [streamEnded, showFlashDrop, disconnectCountdown]);
 
-  // Stream-ended polling removed in favor of Supabase broadcast events
+  // When stream ends, reset UI state and clear stale live flags
+  useEffect(() => {
+    if (streamEnded) {
+      // Force UI back to offline mode
+      setFeedActive(false);
+      // Remove any lingering localStorage live markers
+      try {
+        localStorage.removeItem(`is_live_${memberId}`);
+        localStorage.removeItem('is_live');
+        localStorage.removeItem(LS('crew_is_live'));
+      } catch {}
+    }
+  }, [streamEnded]);
+
+  // Stream-ended polling fallback — checks Supabase + LiveKit every 5s
+  // This catches when the crew ends the stream even if the broadcast event
+  // didn't fire (different tabs, network lag, UUID vs slug mismatch)
+  useEffect(() => {
+    if (!feedActive || streamEnded) return;
+
+    const pollStreamAlive = async () => {
+      try {
+        // Check Supabase: are there any live streams for this member?
+        const sb = createClient();
+        const { data: liveStreams } = await sb
+          .from('live_streams')
+          .select('id')
+          .eq('status', 'live');
+
+        // Check if ANY live stream exists (the member's Supabase user_id won't match the slug,
+        // so we also check LiveKit rooms as a cross-reference)
+        const hasSupabaseStream = liveStreams && liveStreams.length > 0;
+
+        // Check LiveKit rooms
+        let hasLiveKitRoom = false;
+        try {
+          const res = await fetch('/api/live-rooms');
+          const lkData = await res.json();
+          hasLiveKitRoom = lkData.rooms?.some((r: any) =>
+            r.name === `live_${memberId}` || r.name === memberId
+          ) ?? false;
+        } catch {}
+
+        // Also check localStorage flags
+        const lsLive = localStorage.getItem(`is_live_${memberId}`) === 'true' ||
+                        localStorage.getItem('is_live') === 'true' ||
+                        localStorage.getItem(LS('crew_is_live')) === 'true';
+
+        // If ALL sources say no → stream is dead
+        if (!hasSupabaseStream && !hasLiveKitRoom && !lsLive) {
+          console.log('📡 [StreamPoll] Stream confirmed ended — triggering disconnect');
+          setStreamEnded(true);
+        }
+      } catch (err) {
+        console.warn('Stream poll failed:', err);
+      }
+    };
+
+    const interval = setInterval(pollStreamAlive, 5000);
+    return () => clearInterval(interval);
+  }, [feedActive, streamEnded, memberId]);
 
   // Raffle state polling — runs every 1s to catch status transitions 
   // (same-tab storage events don't fire, Supabase can lag in local dev)
@@ -715,10 +817,9 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
   /* ── Sync real-time multi-tab Fan chat, Reactions & Merch ── */
   useEffect(() => {
-    // --- Load Persistent Chat History and Local Storage Sync ---
+    // --- Load Pinned State from Local Storage ---
+    // Chat is loaded from Supabase (source of truth) in loadChatAndInbox above
     try {
-      const storedChat = localStorage.getItem('7h_global_chat_history');
-      if (storedChat) setMessages(JSON.parse(storedChat));
       const storedPin = localStorage.getItem('7h_global_pinned');
       if (storedPin && storedPin !== 'null') setActivePinned(JSON.parse(storedPin));
     } catch {}
@@ -776,7 +877,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       })
       .on('broadcast', { event: 'stream_state' }, (payload) => {
         const data = payload.payload;
-        if (data.isLive === false && data.userId === memberId) {
+        // Accept stream end if: userId matches directly, OR userId contains the memberId slug,
+        // OR this is the only stream we're watching (single-room page)
+        if (data.isLive === false && (
+          data.userId === memberId ||
+          data.userId?.toLowerCase?.().includes?.(memberId.toLowerCase()) ||
+          memberId.length <= 20 // slug-based memberId means we're on a dynamic room page
+        )) {
           setStreamEnded(true);
           setRaffleState(null); // Clear raffle on stream end
         }
@@ -997,12 +1104,12 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     const msg: ChatMsg = {
       id: `user-${Date.now()}`,
       account: {
-        id: 'you',
-        name: 'You',
-        displayName: 'You',
+        id: member?.id || 'you',
+        name: member?.name || 'You',
+        displayName: member?.name || 'You',
         role: 'fan',
         color: '#8b5cf6',
-        avatar: 'YO',
+        avatar: member?.avatar || member?.name?.slice(0, 2).toUpperCase() || 'YO',
         tier: 'Gold',
         joinYear: 2023,
       },
@@ -1027,6 +1134,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       sender_avatar: member?.avatar || 'YO',
       content: userMessage.trim(),
     })).catch(() => {});
+
+    // Broadcast via Supabase Realtime for cross-browser/tab sync
+    supabase.channel('live_chat').send({
+      type: 'broadcast',
+      event: 'new_message',
+      payload: msg,
+    }).catch(() => {});
 
     setUserMessage('');
   };
@@ -1151,6 +1265,26 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
           {/* Other live feeds mock removed per design update */}
           {/* Mobile elapsed time */}
           <span className="sm:hidden text-white/40 text-[0.6rem] font-mono">{formatTime(elapsed)}</span>
+
+          {isLoggedIn ? (
+            <div className="flex items-center gap-2 ml-1 sm:ml-2">
+              <Link
+                href={member?.role === 'event_planner' ? '/planner' : member?.role === 'crew' ? '/crew' : member?.role === 'admin' ? '/admin' : '/fans'}
+                className="relative w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-[0.6rem] sm:text-xs font-bold hover:bg-[var(--color-accent)]/30 transition-all rounded-full"
+                title="Dashboard"
+              >
+                {member?.name ? member.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : member?.avatar}
+              </Link>
+              <button
+                onClick={() => { logout(); window.location.href = '/'; }}
+                className="h-7 sm:h-8 px-2 sm:px-3 flex items-center justify-center gap-1.5 border border-white/10 text-white/30 hover:border-rose-500/40 hover:text-rose-400 transition-all cursor-pointer bg-white/[0.02] rounded-md"
+                title="Sign Out"
+              >
+                <svg width="10" height="10" className="sm:w-3 sm:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span className="text-[0.55rem] sm:text-[0.6rem] font-bold uppercase tracking-widest hidden sm:block">Sign Out</span>
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -1162,22 +1296,19 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         <div className="w-full lg:flex-1 lg:min-w-0 lg:min-h-0 relative shrink-0 lg:shrink">
           {/* Mobile: aspect ratio container. Desktop: absolute fill */}
           {streamEnded ? (
-            /* ── STREAM ENDED: "Thanks for watching" in the video area ── */
-            <div className="aspect-video lg:aspect-auto lg:absolute lg:inset-0 bg-[#0d0d14] flex items-center justify-center">
-              <div className="text-center px-6 animate-in fade-in duration-700">
-                <span className="text-5xl mb-4 block">👋</span>
-                <h2 className="text-xl sm:text-2xl font-black text-white uppercase italic tracking-tighter mb-2" style={{ fontFamily: 'var(--font-barlow-condensed)' }}>
-                  Thanks For Watching
-                </h2>
-                <p className="text-white/30 text-xs max-w-xs mx-auto">
-                  The show has ended. We hope you enjoyed it!
+            <div className="aspect-video lg:aspect-auto lg:absolute lg:inset-0 flex flex-col items-center justify-center text-center p-6" style={{ background: stageGradient }}>
+              <span className="text-5xl mb-4 block">👋</span>
+              <h2 className="text-xl sm:text-2xl font-black text-white uppercase italic tracking-tighter mb-2" style={{ fontFamily: 'var(--font-barlow-condensed)' }}>
+                Thanks For Watching
+              </h2>
+              <p className="text-white/30 text-xs max-w-xs mx-auto">
+                The show has ended. We hope you enjoyed it!
+              </p>
+              {disconnectCountdown !== null && (
+                <p className="text-white/20 text-[0.65rem] mt-4 font-mono">
+                  Redirecting to Tour Dates in <span className="text-pink-400 font-bold">{disconnectCountdown}s</span>
                 </p>
-                {disconnectCountdown !== null && (
-                  <p className="text-white/20 text-[0.65rem] mt-4 font-mono">
-                    Redirecting to Tour Dates in <span className="text-pink-400 font-bold">{disconnectCountdown}s</span>
-                  </p>
                 )}
-              </div>
             </div>
           ) : (
           <div className="aspect-video lg:aspect-auto lg:absolute lg:inset-0" style={{ background: stageGradient }}>
@@ -1718,7 +1849,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                 className="flex-1 flex items-center justify-center gap-2 bg-black/50 backdrop-blur-md rounded-full px-4 py-1.5 sm:py-2 border border-white/15 hover:border-[#8a1cfc]/60 hover:bg-[#8a1cfc]/20 transition-all cursor-pointer group"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40 group-hover:text-[#8a1cfc] transition-colors"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                <span className="text-xs sm:text-sm text-white/50 group-hover:text-white transition-colors font-medium">Sign in to chat</span>
+                <span className="text-xs sm:text-sm text-white/50 group-hover:text-white transition-colors font-medium">Sign in to comment</span>
               </button>
               )}
             </div>
@@ -1736,6 +1867,25 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
               <span className="text-white/90 text-sm font-bold uppercase tracking-widest">Live Chat</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             </div>
+            {isModRole && bannedUsers.size > 0 && (
+              <div className="relative group/muted">
+                <button className="text-[0.55rem] text-rose-400/80 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded-full font-bold uppercase tracking-widest cursor-pointer hover:bg-rose-500/20 transition-colors">
+                  🚫 {bannedUsers.size} muted
+                </button>
+                <div className="hidden group-hover/muted:block absolute right-0 top-full mt-1 bg-[#0d0d14] border border-white/10 rounded-lg shadow-xl z-50 min-w-[160px] p-2">
+                  <p className="text-[0.55rem] text-white/30 font-bold uppercase tracking-widest mb-2 px-1">Muted Users</p>
+                  {Array.from(bannedUsers).map(id => {
+                    const acc = [...(FAN_ACCOUNTS || [])].find(a => a.id === id);
+                    return (
+                      <div key={id} className="flex items-center justify-between gap-2 px-2 py-1 rounded hover:bg-white/5">
+                        <span className="text-[0.7rem] text-white/60">{acc?.displayName || id}</span>
+                        <button onClick={() => unbanUser(id)} className="text-[0.5rem] text-emerald-400 hover:text-emerald-300 cursor-pointer font-bold uppercase">Unmute</button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 📌 Pinned Message */}
@@ -1759,10 +1909,10 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
               className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-2 space-y-0.5 scrollbar-hide min-h-0"
               style={{ overscrollBehavior: 'contain' }}
             >
-              {messages.map(msg => (
+              {messages.filter(msg => !bannedUsers.has(msg.account.id)).map(msg => (
                 <div
                   key={msg.id}
-                  className="flex items-start gap-2 py-1 px-2 rounded-lg hover:bg-white/[0.03] transition-colors group animate-[slideIn_0.3s_ease-out]"
+                  className="flex items-start gap-2 py-1 px-2 rounded-lg hover:bg-white/[0.03] transition-colors group/msg animate-[slideIn_0.3s_ease-out]"
                 >
                   <div
                     className="w-6 h-6 rounded-full flex items-center justify-center text-[0.5rem] font-black shrink-0 mt-0.5 border border-white/10"
@@ -1776,6 +1926,16 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                         {msg.account.displayName}
                       </span>
                       <RoleBadge account={msg.account} />
+                      {/* Ban button — crew/admin only, fan messages only */}
+                      {isModRole && msg.account.role === 'fan' && (
+                        <button
+                          onClick={() => banUser(msg.account.id)}
+                          title={`Mute ${msg.account.displayName}`}
+                          className="ml-auto opacity-0 group-hover/msg:opacity-100 transition-opacity text-[0.55rem] text-rose-400/60 hover:text-rose-400 hover:bg-rose-500/10 px-1.5 py-0.5 rounded border border-transparent hover:border-rose-500/30 cursor-pointer"
+                        >
+                          🚫
+                        </button>
+                      )}
                     </div>
                     <p className="text-white/80 text-[0.75rem] leading-snug break-words">
                       {msg.text}

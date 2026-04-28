@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { CalendarPicker } from "@/components/CalendarPicker";
 import { useMember } from "@/context/MemberContext";
 
@@ -21,36 +22,7 @@ const budgetRanges = [
   "Prefer not to say",
 ];
 
-const faqs = [
-  {
-    q: "How far in advance should I book?",
-    a: "We recommend booking at least 4-8 weeks in advance for bar/club shows and 3-6 months for festivals, weddings, and corporate events. Popular dates (holidays, summer weekends) fill up fast.",
-  },
-  {
-    q: "Is a deposit required?",
-    a: "Yes, a 50% non-refundable deposit is required to secure your date. The remaining balance is due 7 days before the event.",
-  },
-  {
-    q: "What is your cancellation policy?",
-    a: "Cancellations made 30+ days before the event receive a 50% credit toward a future date. Cancellations within 30 days forfeit the deposit. Weather-related cancellations for outdoor events are handled on a case-by-case basis.",
-  },
-  {
-    q: "Do you travel outside the Chicago area?",
-    a: "Absolutely. We perform nationwide and internationally. Travel fees may apply for events beyond 100 miles from Chicago and will be discussed during the booking process.",
-  },
-  {
-    q: "What equipment do you bring?",
-    a: "We bring all of our own instruments, microphones, and monitoring. For venues without a PA system, we can provide full sound reinforcement for an additional fee. Let us know your venue's setup in the form.",
-  },
-  {
-    q: "Can you customize the setlist?",
-    a: "Yes! We can tailor the setlist to your event — whether you want all originals, covers, a mix, or specific songs for special moments like a first dance.",
-  },
-  {
-    q: "What's the difference between a full show and unplugged?",
-    a: "A full show is the complete 5-piece band with full backline and PA at concert volume. An unplugged set is a stripped-down acoustic performance, perfect for intimate venues, restaurants, and cocktail hours.",
-  },
-];
+
 
 export default function BookPage() {
   return (
@@ -60,13 +32,95 @@ export default function BookPage() {
   );
 }
 
+function MiniDatePicker({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  const [showCal, setShowCal] = useState(false);
+  const [calMonth, setCalMonth] = useState(new Date());
+  const [showMonthGrid, setShowMonthGrid] = useState(false);
+  const minDate = new Date(Date.now() + 86400000);
+  const year = calMonth.getFullYear();
+  const month = calMonth.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysCount = new Date(year, month + 1, 0).getDate();
+  const mNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  return (
+    <div className="relative">
+      <label className="text-[0.875rem] font-bold uppercase tracking-widest text-white/40 block mb-1.5">{label}</label>
+      <button
+        type="button"
+        onClick={() => setShowCal(!showCal)}
+        className={`w-full bg-white/[0.03] border ${value ? 'border-[var(--color-accent)]/40' : 'border-white/10'} px-4 py-3 rounded-xl text-[1.05rem] text-left transition-all hover:border-[var(--color-accent)]/50 cursor-pointer flex items-center justify-between ${value ? 'text-white' : 'text-white/30'}`}
+      >
+        {value ? new Date(value + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Pick a date…'}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-40"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </button>
+      {showCal && (
+        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[#0c0c18] border border-white/10 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
+          <div className="flex items-center justify-between mb-3">
+            <button type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-white/60 hover:text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
+            <button type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+          {showMonthGrid ? (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-white/40 hover:text-white text-[1rem] font-bold cursor-pointer">← {year - 1}</button>
+                <span className="text-xs font-bold text-white">{year}</span>
+                <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-white/40 hover:text-white text-[1rem] font-bold cursor-pointer">{year + 1} →</button>
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                {mNames.map((m, i) => {
+                  const isCur = month === i;
+                  const isPast = new Date(year, i + 1, 0) < new Date();
+                  return (
+                    <button key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
+                      className={`py-2 rounded-lg text-[1rem] font-bold uppercase tracking-wider transition-all ${isPast ? 'text-white/10 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-white/50 hover:bg-white/10 cursor-pointer'}`}
+                    >{m}</button>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <>
+          <div className="grid grid-cols-7 mb-1">
+            {['S','M','T','W','T','F','S'].map((d,i) => <div key={i} className="text-center text-[1.05rem] font-bold text-white/25 uppercase">{d}</div>)}
+          </div>
+          <div className="grid grid-cols-7 gap-1">
+            {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
+            {Array.from({ length: daysCount }).map((_, i) => {
+              const d = new Date(year, month, i + 1);
+              const ds = d.toISOString().split('T')[0];
+              const isPast = d < minDate;
+              const isSel = value === ds;
+              return (
+                <button
+                  key={ds} type="button" disabled={isPast}
+                  onClick={() => { onChange(ds); setShowCal(false); }}
+                  className={`h-8 w-full rounded-lg text-xs font-bold transition-all ${isPast ? 'text-white/15 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.4)]' : 'text-white/70 hover:bg-white/10 cursor-pointer'}`}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
+          </div>
+          {value && (
+            <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-[1rem] text-rose-400/60 hover:text-rose-400 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
+          )}
+          </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function BookPageContent() {
   const { member, isLoggedIn, openModal, signup } = useMember();
   const searchParams = useSearchParams();
   const fromParam = searchParams.get("from");
   const isFromPlanner = fromParam === "planner" || fromParam === "rebook";
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -95,6 +149,24 @@ function BookPageContent() {
   const [submitting, setSubmitting] = useState(false);
   const [accountPassword, setAccountPassword] = useState("");
   const [creatingAccount, setCreatingAccount] = useState(false);
+  const [accountEmail, setAccountEmail] = useState("");
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [addOns, setAddOns] = useState<string[]>([]);
+
+  // Blocked dates from confirmed bookings
+  const [blockedDates, setBlockedDates] = useState<string[]>([]);
+
+  // Alternate dates (multi-date hold)
+  const [altDate1, setAltDate1] = useState("");
+  const [altDate2, setAltDate2] = useState("");
+
+  // Fetch blocked dates on mount
+  useEffect(() => {
+    fetch('/api/booking/availability')
+      .then(r => r.json())
+      .then(d => setBlockedDates(d.blockedDates || []))
+      .catch(() => {});
+  }, []);
 
   // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
   useEffect(() => {
@@ -234,7 +306,7 @@ function BookPageContent() {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, eventType: selectedType }),
+        body: JSON.stringify({ ...formData, eventType: selectedType, altDate1, altDate2, addOns }),
       });
       if (res.ok) {
 
@@ -271,18 +343,18 @@ function BookPageContent() {
 
   const InputField = ({ label, required, ...props }: { label: string; required?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) => (
     <div>
-      <label className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
+      <label className="text-[1rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
       <input {...props} required={required}
-        className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-[0.85rem] text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
+        className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-[1.05rem] text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
       />
     </div>
   );
 
   const SelectField = ({ label, options, required, ...props }: { label: string; options: string[]; required?: boolean } & React.SelectHTMLAttributes<HTMLSelectElement>) => (
     <div>
-      <label className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
+      <label className="text-[1rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
       <select {...props} required={required}
-        className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-[0.85rem] text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
+        className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-[1.05rem] text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
       >
         <option value="" className="bg-[#0a0a0f]">Select</option>
         {options.map(o => <option key={o} value={o} className="bg-[#0a0a0f]">{o}</option>)}
@@ -292,14 +364,14 @@ function BookPageContent() {
 
   const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
     <div className="mb-2">
-      <label className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-3">{label}{required && " *"}</label>
+      <label className="text-[1rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-3">{label}{required && " *"}</label>
       <div className="flex flex-wrap gap-2">
         {options.map(o => (
           <button
             key={o}
             type="button"
             onClick={() => onChange({ target: { name, value: o } } as any)}
-            className={`py-2 px-4 rounded-xl text-[0.7rem] font-bold tracking-wide transition-all border
+            className={`py-2 px-4 rounded-xl text-[1.05rem] font-bold tracking-wide transition-all border
               ${value === o 
                 ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_15px_rgba(133,29,239,0.3)]" 
                 : "bg-white/[0.03] border-white/10 text-white/50 hover:bg-white/10 hover:border-white/30 hover:text-white"
@@ -313,6 +385,11 @@ function BookPageContent() {
     </div>
   );
 
+  const [setlistSongs, setSetlistSongs] = useState<string[]>(['', '', '']);
+  const [setlistNotes, setSetlistNotes] = useState('');
+  const [setlistSubmitted, setSetlistSubmitted] = useState(false);
+  const [setlistSubmitting, setSetlistSubmitting] = useState(false);
+
   if (submitted) {
     return (
       <section className="min-h-screen flex items-center justify-center bg-[#050508] px-6 relative overflow-hidden">
@@ -324,64 +401,79 @@ function BookPageContent() {
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
           <h1 className="text-3xl font-extrabold text-white mb-3 tracking-tight">Request Received</h1>
-          <p className="text-white/50 text-[0.95rem] leading-relaxed mb-8">
+          <p className="text-white/50 text-[1.05rem] leading-relaxed mb-8">
             Thank you for your interest in booking 7th Heaven! We&apos;ll review the details and get back to you within 24-48 hours.
+            <br /><span className="text-[1rem] text-emerald-400/70 mt-2 inline-block">✓ Confirmation emails sent to you and our team</span>
           </p>
 
-          {!isLoggedIn ? (
-            <div className="bg-[#0c0c11] border border-white/5 p-8 rounded-3xl mb-8 flex flex-col items-center shadow-[0_10px_40px_min(rgba(133,29,239,0.05),10%)] relative">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent opacity-50" />
-              <h3 className="text-white font-extrabold text-[1.2rem] mb-2 tracking-tight">Save this booking to your profile?</h3>
-              <p className="text-white/40 text-[0.85rem] mb-6 leading-relaxed max-w-sm">
-                We can link this request to <span className="text-white font-bold">{formData.email}</span>. Just set a password below so you never have to re-type venue details again.
-              </p>
-              
-              <div className="w-full relative mb-4">
-                 <input 
-                   type="password" 
-                   placeholder="Create a password"
-                   value={accountPassword}
-                   onChange={e => setAccountPassword(e.target.value)}
-                   className="w-full bg-[#050508] border border-white/10 px-5 py-4 rounded-xl text-[0.95rem] text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
-                 />
-              </div>
-
-              <button 
-                onClick={async () => {
-                  if (!accountPassword || accountPassword.length < 4) return;
-                  setCreatingAccount(true);
-                  const success = await signup(formData.name, formData.email, accountPassword, formData.phone);
-                  if (success) {
-                    // Update the account role to event_planner since they booked
-                    const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
-                    const key = formData.email.toLowerCase();
-                    if (accounts[key]) {
-                      accounts[key].role = 'event_planner';
-                      if (formData.phone) accounts[key].phone = formData.phone;
-                      localStorage.setItem('7h_accounts', JSON.stringify(accounts));
-                    }
-                    // Redirect to planner dashboard
-                    window.location.href = '/planner';
-                  }
-                  setCreatingAccount(false);
-                }}
-                disabled={creatingAccount || !accountPassword}
-                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold tracking-wider uppercase text-[0.75rem] py-4 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] hover:shadow-[0_0_30px_rgba(133,29,239,0.5)] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {creatingAccount ? 'Creating...' : 'Create Account'}
-              </button>
-            </div>
-          ) : (
-             <div className="mb-8">
-                <span className="inline-block px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[0.7rem] font-bold uppercase tracking-widest rounded-full">
-                  Saved to Profile
-                </span>
-             </div>
-          )}
-
-          <a href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-[0.75rem] py-4 px-8 rounded-xl transition-all border border-white/5">
-            Return to Homepage
-          </a>
+          <div className="flex flex-col gap-3 w-full">
+            <a href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-[0.875rem] py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] hover:shadow-[0_0_30px_rgba(133,29,239,0.5)]">
+              Book Another Show
+            </a>
+            {!isLoggedIn && (
+              creatingAccount ? (
+                <div className="bg-white/[0.03] border border-[var(--color-accent)]/30 rounded-xl p-5">
+                  <div className="mb-3">
+                    <span className="text-[0.875rem] text-white/30 uppercase tracking-widest font-bold block mb-1.5">Account Email</span>
+                    {editingEmail ? (
+                      <div className="flex gap-2">
+                        <input
+                          type="email"
+                          value={accountEmail}
+                          onChange={e => setAccountEmail(e.target.value)}
+                          autoFocus
+                          className="flex-1 bg-[#050508] border border-white/10 px-4 py-2.5 rounded-lg text-[1.05rem] text-white focus:border-[var(--color-accent)] outline-none transition-all"
+                        />
+                        <button type="button" onClick={() => setEditingEmail(false)} className="text-[1rem] text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <span className="text-[1.05rem] text-white font-bold">{accountEmail}</span>
+                        <button type="button" onClick={() => setEditingEmail(true)} className="text-[0.875rem] text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold cursor-pointer transition-colors">Edit</button>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="password"
+                      placeholder="Set a password (6+ chars)"
+                      value={accountPassword}
+                      onChange={e => setAccountPassword(e.target.value)}
+                      className="flex-1 bg-[#050508] border border-white/10 px-4 py-3 rounded-xl text-[1.05rem] text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all"
+                    />
+                    <button
+                      type="button"
+                      disabled={!accountPassword || accountPassword.length < 6 || !accountEmail}
+                      onClick={async () => {
+                        const success = await signup(formData.name, accountEmail, accountPassword, formData.phone);
+                        if (success) window.location.href = '/planner';
+                      }}
+                      className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-[1.05rem] font-bold uppercase tracking-wider rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                    >
+                      Go →
+                    </button>
+                  </div>
+                  <button type="button" onClick={() => { setCreatingAccount(false); setEditingEmail(false); }} className="text-[1rem] text-white/30 hover:text-white/50 mt-2 cursor-pointer transition-colors">Cancel</button>
+                </div>
+              ) : (
+                <div>
+                  <div className="flex items-center justify-center gap-2 mb-1.5">
+                    <span className="text-[1.05rem] text-white/40">{formData.email}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
+                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-[0.875rem] py-4 px-8 rounded-xl transition-all border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
+                  >
+                    Create Account
+                  </button>
+                </div>
+              )
+            )}
+            <a href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-[0.875rem] py-4 px-8 rounded-xl transition-all border border-white/5">
+              Return to Homepage
+            </a>
+          </div>
         </div>
       </section>
     );
@@ -410,39 +502,62 @@ function BookPageContent() {
               <div className="text-left">
                 <div className="flex items-center gap-2">
                   <h2 className="text-xl font-black italic tracking-tight text-white">{member.name}</h2>
-                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.15em] border rounded-full ${
+                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-[0.875rem] font-bold uppercase tracking-[0.15em] border rounded-full ${
                     member.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30'
                   }`}>
                     {member.role === 'event_planner' ? '📋 Event Planner' : member.role === 'admin' ? '🛡️ Admin' : member.role === 'crew' ? '🛡️ Crew' : '★ Fan'}
                   </span>
                 </div>
-                <p className="text-[0.8rem] text-white/40 font-mono mt-0.5">{member.email}</p>
+                <p className="text-[1rem] text-white/40 font-mono mt-0.5">{member.email}</p>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-[0.65rem] text-emerald-400/80 bg-emerald-500/5 border border-emerald-500/20 px-4 py-2 rounded-xl">
+            <div className="hidden md:flex items-center gap-2 text-[1rem] text-emerald-400/80 bg-emerald-500/5 border border-emerald-500/20 px-4 py-2 rounded-xl">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               Account data auto-filled
             </div>
           </div>
         )}
 
-        {/* Header */}
-        <div className="mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 border-b border-white/5 pb-10">
-          <div>
-            <span className="inline-block text-[0.75rem] font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4 bg-[var(--color-accent)]/10 px-4 py-1.5 rounded-full border border-[var(--color-accent)]/20">
-              Book 7th Heaven
-            </span>
-            <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-extrabold leading-[1.1] tracking-tight text-white mb-2">
-              Bring the Show to <br className="hidden md:block"/> Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-accent)] to-[#b084f5]">Stage</span>
-            </h1>
-          </div>
-          <p className="text-white/40 max-w-sm text-[0.95rem] leading-relaxed">
-            Fill out the details below. We'll review your request and get back to you within 24-48 hours.
-          </p>
-        </div>
+
+        {/* Planner Account CTA */}
+        {!isFromPlanner && (
+          member?.role === 'event_planner' ? (
+            <div className="relative bg-gradient-to-r from-purple-600/10 via-fuchsia-500/10 to-purple-600/10 border border-purple-500/25 rounded-2xl px-8 py-6 flex items-center justify-between gap-6 overflow-hidden mb-8">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_rgba(147,51,234,0.08),_transparent_60%)]" />
+              <div className="flex items-center gap-5 relative">
+                <div className="w-14 h-14 rounded-2xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(147,51,234,0.15)]">
+                  <span className="text-lg font-black text-purple-400">{member?.name?.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() || '👋'}</span>
+                </div>
+                <div>
+                  <p className="text-white text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-400">{member?.name?.split(' ')[0]}</span></p>
+                  <p className="text-white/40 text-[0.875rem]">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
+                </div>
+              </div>
+              <Link href="/planner" className="relative px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
+                My Dashboard →
+              </Link>
+            </div>
+          ) : (
+            <div className="relative bg-gradient-to-r from-purple-600/10 via-fuchsia-500/10 to-purple-600/10 border border-purple-500/25 rounded-2xl px-8 py-6 flex items-center justify-between gap-6 overflow-hidden mb-8">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_rgba(147,51,234,0.08),_transparent_60%)]" />
+              <div className="flex items-center gap-5 relative">
+                <div className="w-14 h-14 rounded-2xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(147,51,234,0.15)]">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <div>
+                  <p className="text-white text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-400">Get Your Own Dashboard</span></p>
+                  <p className="text-white/40 text-[0.875rem]">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
+                </div>
+              </div>
+              <Link href="/planner?login=true" className="relative px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
+                Planner Portal →
+              </Link>
+            </div>
+          )
+        )}
 
         {/* DEV: Auto-fill Test Button */}
-        {typeof window !== 'undefined' && localStorage.getItem('7h_dev_bypass') === 'true' && (
+        {typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true' && (
           <button
             type="button"
             onClick={() => {
@@ -472,26 +587,11 @@ function BookPageContent() {
                 hearAbout: 'Referred by a friend',
               });
             }}
-            className="mb-6 px-4 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[0.65rem] font-bold uppercase tracking-widest rounded-lg hover:bg-amber-500/20 transition-all cursor-pointer flex items-center gap-2"
+            className="mb-6 px-4 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[1rem] font-bold uppercase tracking-widest rounded-lg hover:bg-amber-500/20 transition-all cursor-pointer flex items-center gap-2"
           >
             ⚡ Dev: Auto-Fill Form
           </button>
         )}
-
-        {/* Testimonial */}
-        <div className="mb-16 border border-white/10 bg-white/[0.02] p-8 relative">
-          <div className="absolute top-4 left-6 text-4xl text-[var(--color-accent)]/30 leading-none">&ldquo;</div>
-          <p className="text-white/60 text-[0.9rem] leading-relaxed italic pl-8 pr-4 mb-4">
-            7th Heaven absolutely crushed it. Our guests couldn&apos;t stop talking about the band for weeks. From the first call to the last song, everything was professional and seamless. Already booked them again for next year.
-          </p>
-          <div className="pl-8 flex items-center gap-3">
-            <div className="w-8 h-8 bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.65rem] font-bold text-[var(--color-accent)]">JM</div>
-            <div>
-              <span className="text-[0.75rem] font-bold text-white block">Jake M.</span>
-              <span className="text-[0.6rem] text-white/30">Corporate Event Manager — Chicago, IL</span>
-            </div>
-          </div>
-        </div>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
           <div className="flex flex-col gap-8">
@@ -502,15 +602,15 @@ function BookPageContent() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                 </div>
                 <div>
-                  <p className="text-fuchsia-300 text-[0.8rem] font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
-                  <p className="text-white/40 text-[0.7rem]">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
+                  <p className="text-fuchsia-300 text-[1rem] font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
+                  <p className="text-white/40 text-[1.05rem]">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
                 </div>
               </div>
             )}
 
             {/* Step 1: Calendar & Format */}
             <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-            <h2 className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white/40 mb-6">
+            <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-white/40 mb-6">
               1 — Event Schedule & Format
             </h2>
             <div className="mb-6">
@@ -527,11 +627,35 @@ function BookPageContent() {
                 onSelectType={(t) => setSelectedType(t)}
                 customDetails={formData.customEventType}
                 onCustomDetailsChange={(d) => setFormData(p => ({ ...p, customEventType: d }))}
+                blockedDates={blockedDates}
               />
+
+              {/* Alternate Dates */}
+              <div className="mt-6 p-5 bg-white/[0.02] border border-white/10 rounded-xl">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-lg">📅</span>
+                  <div>
+                    <h4 className="text-[0.875rem] font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
+                    <p className="text-[1rem] text-white/30">Increase your chances — we&apos;ll try your preferred date first</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <MiniDatePicker label="2nd Choice" value={altDate1} onChange={setAltDate1} />
+                  <MiniDatePicker label="3rd Choice" value={altDate2} onChange={setAltDate2} />
+                </div>
+                {(altDate1 || altDate2) && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <span className="text-[1rem] text-white/30 uppercase tracking-widest font-bold">Priority:</span>
+                    <span className="text-[1rem] bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded font-bold">1st: {formData.eventDate ? new Date(formData.eventDate + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '—'}</span>
+                    {altDate1 && <span className="text-[1rem] bg-white/5 text-white/50 px-2 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                    {altDate2 && <span className="text-[1rem] bg-white/5 text-white/50 px-2 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                  </div>
+                )}
+              </div>
             </div>
             {/* Pricing hint per type */}
             {selectedType && (
-              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-[0.75rem] text-white/50 rounded-xl mb-4">
+              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-[0.875rem] text-white/50 rounded-xl mb-4">
                 <span className="text-[var(--color-accent)] font-bold">Pricing Guide:</span>{" "}
                 {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
                 {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
@@ -543,8 +667,8 @@ function BookPageContent() {
 
             {/* Step 2: Contact Information */}
             <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-              <h2 className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.55rem]">2</span>
+              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">2</span>
                 Contact Information
               </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -557,8 +681,8 @@ function BookPageContent() {
 
             {/* Step 3: Venue Details */}
             <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-              <h2 className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.55rem]">3</span>
+              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">3</span>
                 Venue Details
               </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -571,8 +695,8 @@ function BookPageContent() {
 
             {/* Step 4: Technical & Logistics */}
             <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-              <h2 className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.55rem]">4</span>
+              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">4</span>
                 Technical & Logistics
               </h2>
             <div className="flex flex-col gap-8">
@@ -589,40 +713,136 @@ function BookPageContent() {
             </div>
             </div>
 
+            {/* Step 5: Additional Options */}
+            <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">5</span>
+                Production & Extras
+              </h2>
+              <p className="text-white/30 text-[1.05rem] mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { id: 'stage_lighting', icon: '💡', label: 'Stage Lighting Package', desc: 'Full LED stage rig with color washes & spots' },
+                  { id: 'projector_visuals', icon: '📽️', label: 'Projector & Visuals', desc: 'HD projector with live visuals & lyric display' },
+                  { id: 'fog_haze', icon: '🌫️', label: 'Fog / Haze Machine', desc: 'Atmospheric effects for a concert feel' },
+                  { id: 'sound_system', icon: '🔊', label: 'Full Sound System', desc: 'PA, monitors, mixing board — we bring everything' },
+                  { id: 'led_wall', icon: '🖥️', label: 'LED Video Wall', desc: 'Large format screen with custom graphics' },
+                  { id: 'laser_show', icon: '✨', label: 'Laser Show', desc: 'Concert-grade laser effects synced to music' },
+                  { id: 'confetti_co2', icon: '🎊', label: 'Confetti / CO2 Cannons', desc: 'Big moment effects for finales & encores' },
+                  { id: 'wireless_mics', icon: '🎤', label: 'Wireless Mic Package', desc: 'Extra wireless mics for speeches or MC' },
+                  { id: 'stage_risers', icon: '🏗️', label: 'Portable Stage / Risers', desc: 'Modular staging for flat-ground venues' },
+                  { id: 'merch_table', icon: '👕', label: 'Merchandise Table', desc: 'On-site merch booth at your event' },
+                ].map(option => {
+                  const isActive = addOns.includes(option.id);
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
+                      className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3 group
+                        ${isActive
+                          ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-[0_0_15px_rgba(133,29,239,0.1)]'
+                          : 'border-white/5 bg-white/[0.01] hover:border-white/15 hover:bg-white/[0.03]'
+                        }`}
+                    >
+                      <span className="text-xl mt-0.5">{option.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-[1rem] font-bold block ${isActive ? 'text-[var(--color-accent)]' : 'text-white/80'}`}>{option.label}</span>
+                          {isActive && (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                          )}
+                        </div>
+                        <span className="text-[1rem] text-white/30 block leading-snug">{option.desc}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+              {addOns.length > 0 && (
+                <div className="mt-5 pt-4 border-t border-white/5 flex items-center gap-3 flex-wrap">
+                  <span className="text-[0.875rem] font-bold uppercase tracking-widest text-white/30">Selected:</span>
+                  {addOns.map(id => (
+                    <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-accent)]/10 text-[var(--color-accent)] text-[1rem] font-bold rounded-full border border-[var(--color-accent)]/20">
+                      {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                      <button type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5 text-[var(--color-accent)]/50 hover:text-[var(--color-accent)] cursor-pointer">×</button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Step 6: Notes & Questions */}
+            <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">6</span>
+                Notes & Questions
+              </h2>
+              <p className="text-white/30 text-[1.05rem] mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
+              <textarea
+                name="details"
+                value={formData.details}
+                onChange={handleChange}
+                rows={5}
+                placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
+                className="w-full bg-white/[0.02] border border-white/10 text-white text-[1.05rem] leading-relaxed px-5 py-4 rounded-2xl focus:border-[var(--color-accent)]/50 outline-none transition-all resize-none placeholder:text-white/15 [color-scheme:dark]"
+              />
+              {formData.details && (
+                <div className="mt-3 flex items-center gap-2 text-[1rem] text-emerald-400/60">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span className="uppercase tracking-widest font-bold">Note attached to your booking</span>
+                </div>
+              )}
+            </div>
+
           </div>
 
           {/* Right Column: Sticky Summary Sidebar */}
           <div>
             <div className="sticky top-32">
             <div className="bg-[var(--color-accent)]/[0.03] border border-[var(--color-accent)]/20 rounded-3xl p-6 shadow-[0_10px_40px_min(rgba(133,29,239,0.1),10%)]">
-               <h3 className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-white/60 mb-6 pb-4 border-b border-white/5">Booking Summary</h3>
+               <h3 className="text-[1.05rem] font-bold tracking-[0.2em] uppercase text-white/60 mb-6 pb-4 border-b border-white/5">Booking Summary</h3>
                
                <div className="flex flex-col gap-4 mb-8">
                   <div className="flex justify-between items-start">
-                     <span className="text-[0.7rem] text-white/40 uppercase tracking-widest mt-1">Date</span>
-                     <span className="text-[0.9rem] font-bold text-white text-right">
+                     <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Date</span>
+                     <span className="text-[1rem] font-bold text-white text-right">
                        {formData.eventDate ? new Date(formData.eventDate + "T12:00:00Z").toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric'}) : <span className="text-white/20">—</span>}
                      </span>
                   </div>
                   <div className="flex justify-between items-start">
-                     <span className="text-[0.7rem] text-white/40 uppercase tracking-widest mt-1">Time</span>
-                     <span className="text-[0.9rem] font-bold text-white text-right">
+                     <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Time</span>
+                     <span className="text-[1rem] font-bold text-white text-right">
                        {formData.startTime && formData.endTime ? `${formData.startTime} – ${formData.endTime}` : <span className="text-white/20">—</span>}
                      </span>
                   </div>
                   <div className="flex justify-between items-start">
-                     <span className="text-[0.7rem] text-white/40 uppercase tracking-widest mt-1">Format</span>
-                     <span className="text-[0.9rem] font-bold text-[var(--color-accent)] text-right">
+                     <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Format</span>
+                     <span className="text-[1rem] font-bold text-[var(--color-accent)] text-right">
                        {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="text-[var(--color-accent)]/30">—</span>}
                      </span>
                   </div>
                   <div className="flex justify-between items-start pt-4 border-t border-white/5">
-                     <span className="text-[0.7rem] text-white/40 uppercase tracking-widest mt-1">Venue</span>
-                     <span className="text-[0.9rem] font-bold text-white text-right break-words max-w-[150px]">
+                     <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Venue</span>
+                     <span className="text-[1rem] font-bold text-white text-right break-words max-w-[150px]">
                        {formData.venueName ? formData.venueName : <span className="text-white/20">—</span>}
-                       {formData.venueCity && <span className="block text-[0.65rem] text-white/40 font-normal">{formData.venueCity}, {formData.venueState}</span>}
+                       {formData.venueCity && <span className="block text-[1rem] text-white/40 font-normal">{formData.venueCity}, {formData.venueState}</span>}
                      </span>
                   </div>
+                  {addOns.length > 0 && (
+                    <div className="flex justify-between items-start pt-4 border-t border-white/5">
+                      <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Add-Ons</span>
+                      <div className="text-right">
+                        <span className="text-[1rem] font-bold text-[var(--color-accent)]">{addOns.length} selected</span>
+                        <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
+                          {addOns.slice(0, 3).map(id => (
+                            <span key={id} className="text-[1.05rem] bg-[var(--color-accent)]/10 text-[var(--color-accent)]/70 px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
+                          ))}
+                          {addOns.length > 3 && <span className="text-[1.05rem] text-white/30 font-bold">+{addOns.length - 3} more</span>}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                </div>
 
                {/* Validation Errors */}
@@ -630,11 +850,11 @@ function BookPageContent() {
                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-4">
                    <div className="flex items-center gap-2 mb-2">
                      <span className="text-red-400 text-sm">⚠</span>
-                     <span className="text-red-400 text-[0.7rem] font-bold uppercase tracking-widest">Please fix the following</span>
+                     <span className="text-red-400 text-[1.05rem] font-bold uppercase tracking-widest">Please fix the following</span>
                    </div>
                    <ul className="space-y-1">
                      {validationErrors.map((err, i) => (
-                       <li key={i} className="text-red-300/80 text-[0.75rem] pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500/50">{err}</li>
+                       <li key={i} className="text-red-300/80 text-[0.875rem] pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500/50">{err}</li>
                      ))}
                    </ul>
                  </div>
@@ -643,52 +863,65 @@ function BookPageContent() {
                <button 
                 type="submit" 
                 disabled={submitting || !selectedType || !formData.eventDate || !formData.startTime || !formData.endTime || !formData.email}
-                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-[0.8rem] py-4 rounded-xl transition-all shadow-lg hover:shadow-[0_0_20px_rgba(133,29,239,0.4)]"
+                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-[1rem] py-4 rounded-xl transition-all shadow-lg hover:shadow-[0_0_20px_rgba(133,29,239,0.4)]"
                >
                  {submitting ? "Submitting..." : "Submit Request"}
                </button>
-               <p className="text-[0.6rem] text-white/30 text-center mt-4">
-                 No payment is required to request a date.
+               <p className="text-[1rem] text-white/30 text-center mt-4">
+                 No payment is required to request a date. By submitting, you agree to our <a href="/privacy" className="underline hover:text-white/50 transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-white/50 transition-colors">Terms</a>.
                </p>
             </div>
             </div>
           </div>
         </form>
 
-        {/* FAQ Section */}
-        <div className="border-t border-white/10 pt-20">
-          <div className="text-center mb-12">
-            <h2 className="text-[clamp(1.5rem,3vw,2rem)] font-extrabold text-white">
-              Frequently Asked <span className="gradient-text">Questions</span>
-            </h2>
+        {/* Testimonial */}
+        <div className="mt-16 mb-8 border border-white/10 bg-white/[0.02] p-8 relative">
+          <div className="absolute top-4 left-6 text-4xl text-[var(--color-accent)]/30 leading-none">&ldquo;</div>
+          <p className="text-white/60 text-[1rem] leading-relaxed italic pl-8 pr-4 mb-4">
+            7th Heaven absolutely crushed it. Our guests couldn&apos;t stop talking about the band for weeks. From the first call to the last song, everything was professional and seamless. Already booked them again for next year.
+          </p>
+          <div className="pl-8 flex items-center gap-3">
+            <div className="w-8 h-8 bg-[var(--color-accent)]/20 flex items-center justify-center text-[1rem] font-bold text-[var(--color-accent)]">JM</div>
+            <div>
+              <span className="text-[0.875rem] font-bold text-white block">Jake M.</span>
+              <span className="text-[1rem] text-white/30">Corporate Event Manager — Chicago, IL</span>
+            </div>
           </div>
-          <div className="flex flex-col gap-2">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border border-white/10 bg-white/[0.02]">
-                <button
-                  type="button"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between p-5 text-left cursor-pointer group"
-                >
-                  <span className={`text-[0.85rem] font-bold transition-colors ${openFaq === i ? "text-[var(--color-accent)]" : "text-white group-hover:text-white/80"}`}>
-                    {faq.q}
-                  </span>
-                  <svg
-                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                    className={`text-white/30 shrink-0 ml-4 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`}
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-                <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}>
-                  <p className="px-5 pb-5 text-[0.8rem] text-white/40 leading-relaxed">
-                    {faq.a}
-                  </p>
+        </div>
+
+        {/* Past Event Gallery */}
+        <div className="border-t border-white/10 pt-20 mb-20">
+          <div className="text-center mb-12">
+            <span className="inline-block text-[1.05rem] font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 bg-[var(--color-accent)]/10 px-4 py-1.5 rounded-full border border-[var(--color-accent)]/20">See Us In Action</span>
+            <h2 className="text-[clamp(1.5rem,3vw,2.5rem)] font-extrabold text-white">Past <span className="gradient-text">Events</span></h2>
+            <p className="text-white/40 text-[1rem] mt-3 max-w-lg mx-auto">From packed festival stages to intimate cocktail hours — we bring the energy everywhere.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { img: '/images/events/festival.png', title: 'Summer Music Festival', venue: 'Millennium Park, Chicago', type: 'Full Band', guests: '5,000+' },
+              { img: '/images/events/wedding.png', title: 'Anderson Wedding Reception', venue: 'The Drake Hotel, Chicago', type: 'Private Event', guests: '250' },
+              { img: '/images/events/corporate.png', title: 'Annual Corporate Gala', venue: 'Four Seasons Ballroom, IL', type: 'Full Band', guests: '400' },
+              { img: '/images/events/bar.png', title: 'Friday Night Residency', venue: "Joe's Bar, Chicago", type: 'Full Band', guests: '300' },
+              { img: '/images/events/acoustic.png', title: 'Wine & Dine Series', venue: 'Vino & Vine, Naperville', type: 'Unplugged', guests: '60' },
+              { img: '/images/events/private-party.png', title: 'Luxury Pool Party', venue: 'Private Estate, Lake Forest', type: 'Private Event', guests: '150' },
+            ].map((event, i) => (
+              <div key={i} className="group relative rounded-2xl overflow-hidden border border-white/5 bg-[#0b0b12]">
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img src={event.img} alt={event.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <span className="inline-block text-[0.875rem] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/20 px-2 py-0.5 rounded mb-2">{event.type}</span>
+                  <h3 className="text-white font-bold text-[1rem] mb-0.5">{event.title}</h3>
+                  <p className="text-white/40 text-[1.05rem]">{event.venue} · {event.guests} guests</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+
       </div>
       </section>
     </div>

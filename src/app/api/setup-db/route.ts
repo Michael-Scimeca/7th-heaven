@@ -3,6 +3,11 @@ import { NextResponse } from 'next/server';
 // Creates the missing live_feed, feed_reactions, and live_streams tables
 // Uses the Supabase SQL endpoint with the service_role key
 export async function POST() {
+ // Block in production — this route should only run during development setup
+ if (process.env.NODE_ENV === 'production') {
+  return NextResponse.json({ error: 'This endpoint is disabled in production' }, { status: 403 });
+ }
+
  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
@@ -51,6 +56,12 @@ CREATE TABLE IF NOT EXISTS public.live_streams (
  ended_at timestamptz,
  created_at timestamptz NOT NULL DEFAULT now()
 );
+
+-- Ensure missing columns exist (for backward compatibility if table already existed)
+ALTER TABLE public.live_streams ADD COLUMN IF NOT EXISTS stream_url text;
+ALTER TABLE public.live_streams ADD COLUMN IF NOT EXISTS show_on_homepage boolean DEFAULT false;
+ALTER TABLE public.live_streams ADD COLUMN IF NOT EXISTS pinned_message text;
+ALTER TABLE public.live_streams ADD COLUMN IF NOT EXISTS is_featured boolean DEFAULT false;
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_live_feed_created ON public.live_feed(created_at DESC);
