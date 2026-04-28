@@ -21,11 +21,26 @@ const DEMO_SHOW = {
 type Step = "signup" | "sms" | "show";
 
 export default function ProximityDemoPage() {
-  const { member, isLoggedIn } = useMember();
+  const { member, isLoggedIn, openModal } = useMember();
   const [step, setStep] = useState<Step>("signup");
   const [notificationVisible, setNotificationVisible] = useState(false);
   const [notificationDismissed, setNotificationDismissed] = useState(false);
   const [phoneNumber] = useState("(312) 555-0199");
+  const [rsvpStatus, setRsvpStatus] = useState<"idle" | "going" | "there" | "loading">("idle");
+
+  const handleRsvp = async (status: "going" | "there") => {
+    if (!isLoggedIn) {
+      openModal("login");
+      return;
+    }
+    setRsvpStatus("loading");
+    await fetch("/api/proximity/attendees", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ showId: DEMO_SHOW.id, status, anonymous: false }),
+    });
+    setRsvpStatus(status);
+  };
 
   // Auto-show notification after entering sms step
   useEffect(() => {
@@ -234,6 +249,40 @@ export default function ProximityDemoPage() {
                   <span className="text-white/30 text-xs">Reply STOP to unsubscribe</span>
                 </p>
               </div>
+
+              {/* RSVP quick buttons */}
+              <div className="mt-4 pt-4 border-t border-emerald-500/10">
+                <p className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold mb-3">Quick RSVP from this message:</p>
+                {rsvpStatus === "going" || rsvpStatus === "there" ? (
+                  <div className="flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+                    <span className="text-emerald-400 text-lg">{rsvpStatus === "there" ? "✓" : "🎸"}</span>
+                    <div>
+                      <p className="text-emerald-400 text-sm font-bold">
+                        {rsvpStatus === "there" ? "You\'re checked in!" : "You\'re going!"}
+                      </p>
+                      <p className="text-white/30 text-xs">You\'re on the list — <Link href={DEMO_SHOW.url} className="text-purple-400 underline">see who else is going</Link></p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleRsvp("going")}
+                      disabled={rsvpStatus === "loading"}
+                      className="flex-1 py-3 bg-purple-600/20 border border-purple-500/30 text-purple-300 text-[0.65rem] font-black uppercase tracking-widest hover:bg-purple-600/40 transition-all disabled:opacity-50 rounded-lg cursor-pointer"
+                    >
+                      {rsvpStatus === "loading" ? "…" : "🎸 I'm Going"}
+                    </button>
+                    <button
+                      onClick={() => handleRsvp("there")}
+                      disabled={rsvpStatus === "loading"}
+                      className="flex-1 py-3 bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-[0.65rem] font-black uppercase tracking-widest hover:bg-emerald-600/40 transition-all disabled:opacity-50 rounded-lg cursor-pointer"
+                    >
+                      {rsvpStatus === "loading" ? "…" : "✓ I'm There"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
             </div>
 
             {!notificationVisible && (
