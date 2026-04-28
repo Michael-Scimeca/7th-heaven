@@ -283,7 +283,6 @@ export default function ProximityDemoPage() {
                 )}
               </div>
             </div>
-            </div>
 
             {!notificationVisible && (
               <button onClick={() => setNotificationVisible(true)} className="w-full py-3 border border-white/10 text-white/50 text-sm font-bold uppercase tracking-widest hover:border-white/30 hover:text-white transition-all">
