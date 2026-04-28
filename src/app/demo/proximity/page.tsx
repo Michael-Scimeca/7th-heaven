@@ -256,69 +256,167 @@ export default function ProximityDemoPage() {
           </div>
         )}
 
-        {/* ── STEP 3: Show Page ── */}
+        {/* ── STEP 3: Show Page UI Mockup ── */}
         {step === "show" && (
-          <div className="space-y-6">
-            <div className="p-5 bg-white/[0.02] border border-white/[0.06]">
-              <p className="text-[0.6rem] uppercase tracking-widest text-white/30 font-bold mb-2">You tapped the SMS link and landed here:</p>
-              <p className="font-mono text-purple-400 text-sm break-all">7thheavenband.com/shows/{DEMO_SHOW.id}</p>
+          <div className="space-y-4">
+
+            {/* URL bar */}
+            <div className="flex items-center gap-3 px-4 py-2 bg-white/[0.03] border border-white/[0.06]">
+              <span className="text-emerald-400 text-xs">🔒</span>
+              <span className="font-mono text-white/40 text-xs">7thheavenband.com/shows/{DEMO_SHOW.id.slice(0,8)}…</span>
             </div>
 
-            {/* Preview of the show page */}
-            <div className="border border-white/10 overflow-hidden">
-              {/* Mini hero */}
-              <div className="bg-gradient-to-br from-[#0d0718] to-[#050505] p-8 border-b border-white/5">
-                <span className="text-[0.55rem] uppercase tracking-widest text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
-                <h2 className="text-3xl font-extrabold tracking-tight mt-4 mb-1">{DEMO_SHOW.venue}</h2>
+            {/* ── LIVE FEED BANNER ── */}
+            <div className="bg-gradient-to-r from-red-950/80 via-red-900/60 to-red-950/80 border border-red-500/20 px-5 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500" />
+                </span>
+                <div>
+                  <p className="text-sm font-black text-white uppercase tracking-wide">🎥 Mike is LIVE from the show</p>
+                  <p className="text-[0.55rem] text-red-300/60 mt-0.5">42 people watching · Backstage feed</p>
+                </div>
+              </div>
+              <span className="px-3 py-1.5 bg-red-500 text-white text-[0.55rem] font-black uppercase tracking-widest shrink-0">Watch Now →</span>
+            </div>
+
+            {/* ── HERO ── */}
+            <div className="relative bg-gradient-to-b from-[#0d0718] to-[#080810] border border-white/5 overflow-hidden p-7">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(133,29,239,0.15)_0%,_transparent_60%)]" />
+              <div className="relative z-10">
+                <div className="flex flex-wrap items-center gap-2 mb-4">
+                  <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
+                  <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-white/30">12 fans going</span>
+                </div>
+
+                <h1 className="text-4xl font-extrabold tracking-tight mb-1">{DEMO_SHOW.venue}</h1>
                 <p className="text-white/50">{DEMO_SHOW.city}, {DEMO_SHOW.state}</p>
-                <p className="text-white/30 text-sm mt-1">{DEMO_SHOW.date} · {DEMO_SHOW.time}</p>
+                <p className="text-white/30 text-sm mt-1">Friday, May 1, 2026</p>
+
+                {/* Detail pills */}
+                <div className="flex flex-wrap items-center gap-2 mt-4">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">🚪 Doors {DEMO_SHOW.doorsTime}</span>
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">🎸 Show {DEMO_SHOW.time}</span>
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-[0.65rem] font-bold uppercase tracking-widest text-amber-400">🔞 21+</span>
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">💵 Cover: {DEMO_SHOW.cover}</span>
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 mt-6">
+                  <div className="px-8 py-4 text-sm font-black uppercase tracking-widest bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(133,29,239,0.4)] text-center cursor-default">
+                    🎸 I&apos;m Going
+                  </div>
+                  {/* Anonymous toggle */}
+                  <div className="flex items-center gap-2 px-4 py-2 border border-white/[0.06] text-[0.6rem] font-bold uppercase tracking-widest text-white/30">
+                    <span className="w-7 h-4 rounded-full relative bg-white/10 shrink-0">
+                      <span className="absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white" />
+                    </span>
+                    Go anonymously
+                  </div>
+                  <div className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center">📍 Directions</div>
+                  <div className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center">🔗 Share</div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── GOING COUNT — clickable ── */}
+            <div>
+              <div className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] border-b-0">
+                <div className="flex items-center gap-6">
+                  <div className="text-left">
+                    <p className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold mb-1">Fans Going</p>
+                    <p className="text-3xl font-extrabold text-white">11</p>
+                  </div>
+                  <div className="w-px h-10 bg-white/10" />
+                  <div className="text-left">
+                    <p className="text-[0.55rem] uppercase tracking-widest text-emerald-400/60 font-bold mb-1">Here Now</p>
+                    <p className="text-3xl font-extrabold text-emerald-400">1</p>
+                  </div>
+                </div>
+                <span className="text-white/40 text-xl rotate-180">↓</span>
               </div>
 
-              {/* Login / RSVP prompt */}
-              {!isLoggedIn ? (
-                <div className="p-8 bg-[#0a0a14] flex flex-col items-center text-center gap-4">
-                  <span className="text-4xl">🎸</span>
-                  <div>
-                    <p className="font-bold text-white text-lg">Want to RSVP and see who&apos;s going?</p>
-                    <p className="text-white/40 text-sm mt-1">Sign in to your fan account to join the attendee list.</p>
+              {/* Expanded attendee list */}
+              <div className="border border-white/[0.06] border-t-0 bg-white/[0.01] p-5">
+                {/* Filter tabs */}
+                <div className="flex items-center gap-1 mb-5 bg-white/[0.03] border border-white/5 p-1 w-fit">
+                  {["All (12)", "Going (11)", "Here Now (1)"].map((label, i) => (
+                    <div key={i} className={`px-4 py-1.5 text-[0.6rem] font-black uppercase tracking-widest ${i === 0 ? "bg-white/10 text-white" : "text-white/30"}`}>{label}</div>
+                  ))}
+                </div>
+
+                {/* Attendee grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Checked in fan */}
+                  <div className="flex items-center gap-4 p-4 border border-emerald-500/30 bg-emerald-500/[0.03]">
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-yellow-500/40 text-yellow-400 bg-white/[0.04]">AJ</div>
+                    <div>
+                      <p className="font-bold text-sm text-white">Alex Johnson <span className="ml-1 text-[0.5rem] uppercase tracking-widest text-purple-400 font-black">You</span></p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[0.45rem] font-black uppercase text-yellow-400">Gold</span>
+                        <span className="text-[0.5rem] font-black uppercase text-emerald-400">✓ Here Now</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex gap-3">
-                    <Link href={`/shows/${DEMO_SHOW.id}`} className="px-6 py-3 bg-purple-600 text-white text-sm font-black uppercase tracking-widest hover:bg-purple-500 transition-all">
-                      Go to Show Page
-                    </Link>
+
+                  {/* Regular going fan */}
+                  <div className="flex items-center gap-4 p-4 border border-white/[0.06] bg-white/[0.02]">
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-amber-700/40 text-amber-600 bg-white/[0.04]">SR</div>
+                    <div>
+                      <p className="font-bold text-sm text-white">Sarah R.</p>
+                      <span className="text-[0.45rem] font-black uppercase text-white/25">Going</span>
+                    </div>
+                  </div>
+
+                  {/* Anonymous fan */}
+                  <div className="flex items-center gap-4 p-4 border border-white/[0.06] bg-white/[0.02]">
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 border-2 border-white/10 bg-white/[0.04] text-lg">👤</div>
+                    <div>
+                      <p className="font-bold text-sm text-white/50 italic">Anonymous Fan</p>
+                      <span className="text-[0.45rem] font-black uppercase text-white/25">Going</span>
+                    </div>
+                  </div>
+
+                  {/* Platinum fan */}
+                  <div className="flex items-center gap-4 p-4 border border-white/[0.06] bg-white/[0.02] shadow-[0_0_12px_rgba(168,85,247,0.2)]">
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-purple-500/40 text-purple-400 bg-white/[0.04]">TK</div>
+                    <div>
+                      <p className="font-bold text-sm text-white">Tyler K.</p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[0.45rem] font-black uppercase text-purple-400">Platinum</span>
+                        <span className="text-[0.45rem] font-black uppercase text-white/25">Going</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* +8 more pill */}
+                  <div className="flex items-center justify-center p-4 border border-dashed border-white/[0.06] sm:col-span-2">
+                    <span className="text-white/25 text-sm font-bold">+ 8 more fans going</span>
                   </div>
                 </div>
-              ) : (
-                <div className="p-8 bg-[#0a0a14] flex flex-col items-center text-center gap-4">
-                  <span className="text-4xl">✅</span>
-                  <div>
-                    <p className="font-bold text-white text-lg">You&apos;re logged in as {member?.name}!</p>
-                    <p className="text-white/40 text-sm mt-1">Go to the live show page to RSVP and see who else is going.</p>
-                  </div>
-                  <Link href={`/shows/${DEMO_SHOW.id}`} className="px-8 py-4 bg-purple-600 text-white text-sm font-black uppercase tracking-widest hover:bg-purple-500 transition-all">
-                    🎸 Open Show Page →
-                  </Link>
-                </div>
-              )}
+
+                <p className="text-[0.55rem] text-white/15 mt-4 text-center">Fans who chose to go anonymously appear as &ldquo;Anonymous Fan&rdquo;</p>
+              </div>
             </div>
 
-            {/* Big CTA to the real page */}
+            {/* ── SHARE CTA ── */}
+            <div className="p-6 bg-white/[0.02] border border-white/[0.06] text-center">
+              <p className="text-white/40 text-sm mb-1">Know someone who might be going?</p>
+              <p className="text-white font-bold text-base mb-5">Share this show page</p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="px-6 py-3 bg-purple-600 text-white text-[0.7rem] font-black uppercase tracking-widest">🔗 Copy Link</div>
+                <div className="px-6 py-3 border border-white/10 text-white/50 text-[0.7rem] font-black uppercase tracking-widest">💬 Text a Friend</div>
+              </div>
+            </div>
+
+            {/* CTA to real page */}
             <Link
               href={`/shows/${DEMO_SHOW.id}`}
               className="block w-full py-5 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-all text-center shadow-[0_0_40px_rgba(133,29,239,0.3)]"
             >
               Open the Live Show Page →
             </Link>
-
-            <div className="p-5 bg-white/[0.02] border border-white/[0.06]">
-              <p className="text-[0.6rem] uppercase tracking-widest text-white/30 font-bold mb-3">On the show page you can:</p>
-              <ul className="space-y-2 text-sm text-white/50">
-                <li className="flex items-start gap-2"><span className="text-purple-400">✓</span> Hit <strong className="text-white/70">&ldquo;I&apos;m Going&rdquo;</strong> — you appear in the attendee list instantly</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400">✓</span> See every other fan who RSVPed with their tier badge</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400">✓</span> Get directions straight to Google Maps</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400">✓</span> Share the link via SMS to bring friends</li>
-              </ul>
-            </div>
           </div>
         )}
 
