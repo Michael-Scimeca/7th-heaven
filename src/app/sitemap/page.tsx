@@ -176,6 +176,33 @@ const siteStructure = [
         border: "border-gray-500/30",
         bg: "bg-gray-500/5",
       },
+      {
+        path: "/shows/[id]",
+        name: "Show Page",
+        sections: ["Show Hero", "RSVP Controls", "Attendee List", "Invite Challenge", "QR Share Code", "Fan Who's Going"],
+        features: ["Proximity RSVP Tracking", "Supabase show_attendance", "Dynamic QR Generation", "Invite Challenge Progress"],
+        color: "text-purple-400",
+        border: "border-purple-500/30",
+        bg: "bg-purple-500/5",
+      },
+      {
+        path: "/tour/map",
+        name: "Tour Map",
+        sections: ["Interactive Venue Pins", "Geo-Located Shows", "Clickable Markers"],
+        features: ["Leaflet.js", "Sanity Show Data", "Client-Side Map Rendering"],
+        color: "text-blue-400",
+        border: "border-blue-500/30",
+        bg: "bg-blue-500/5",
+      },
+      {
+        path: "/members",
+        name: "Band Members Directory",
+        sections: ["Member Cards Grid", "Headshot Gallery", "Links to Profiles"],
+        features: ["Sanity CMS Data", "Dynamic Routing"],
+        color: "text-amber-400",
+        border: "border-amber-500/30",
+        bg: "bg-amber-500/5",
+      },
     ],
   },
   {
@@ -216,6 +243,38 @@ const siteStructure = [
         color: "text-green-400",
         border: "border-green-500/30",
         bg: "bg-green-500/5",
+      },
+    ],
+  },
+  {
+    title: "Demos & Interactive Features",
+    routes: [
+      {
+        path: "/demo",
+        name: "Feature Demos Hub",
+        sections: ["Demo Index", "Feature Links"],
+        features: ["Standalone Demo Pages"],
+        color: "text-indigo-400",
+        border: "border-indigo-500/30",
+        bg: "bg-indigo-500/5",
+      },
+      {
+        path: "/demo/proximity",
+        name: "Proximity Show Discovery Demo",
+        sections: ["GPS Detection Simulation", "Show Card Hero", "RSVP Controls", "Invite Challenge Card", "Attendee List Expander", "QR Share Code"],
+        features: ["rsvpStatus State Machine", "SMS Pre-fill by Status", "Inline Attendee Expansion", "Invite Progress Bar"],
+        color: "text-indigo-400",
+        border: "border-indigo-500/30",
+        bg: "bg-indigo-500/5",
+      },
+      {
+        path: "/live/demo",
+        name: "Live Broadcast Demo",
+        sections: ["Mock Livestream", "Chat", "Raffle Engine", "Merch Flash Drop"],
+        features: ["Simulated LiveKit Room", "Real-Time Chat", "Supabase Raffle State"],
+        color: "text-rose-400",
+        border: "border-rose-500/30",
+        bg: "bg-rose-500/5",
       },
     ],
   },
@@ -617,6 +676,10 @@ export default function SitemapPage() {
               { route: "/api/seed-content", method: "POST", desc: "Database content seeding tool", color: "text-gray-400" },
               { route: "/api/seed-tours", method: "POST", desc: "Tour dates sanity seeding tool", color: "text-gray-400" },
               { route: "/api/setup-db", method: "POST", desc: "Initial Supabase schema bootstrap", color: "text-gray-400" },
+              { route: "/api/admin/invite-challenge", method: "GET / POST", desc: "Per-show invite challenge config (admin)", color: "text-red-400" },
+              { route: "/api/fans/memories", method: "GET / POST", desc: "Post-show fan memory submissions", color: "text-cyan-400" },
+              { route: "/api/proximity/shows", method: "GET", desc: "Shows near a lat/lng coordinate", color: "text-indigo-400" },
+              { route: "/api/proximity/rsvp", method: "POST", desc: "Fan RSVP to a nearby show", color: "text-indigo-400" },
               { route: "/api/shopify/auth", method: "GET", desc: "Shopify OAuth initiation", color: "text-green-400" },
               { route: "/api/shopify/inventory", method: "GET", desc: "Shopify stock level syncing", color: "text-green-400" },
             ].map((api, i) => (
@@ -636,20 +699,24 @@ export default function SitemapPage() {
           <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-3 border-b border-white/10 pb-4">
             🗄️ Database Migrations
           </h2>
-          <p className="text-white/30 text-xs mb-8">Supabase Postgres schema — 9 migration files in order of execution.</p>
+          <p className="text-white/30 text-xs mb-8">Supabase Postgres schema — 13 migration files in order of execution.</p>
           <div className="space-y-2">
             {[
               { file: "migration_001.sql", desc: "Core tables — profiles, bookings, feed_posts, feed_comments, sms_subscribers", status: "applied" },
               { file: "migration_002.sql", desc: "Live streams table + show_checkins + fan_points + raffle system tables", status: "applied" },
               { file: "migration_003_fan_feed.sql", desc: "Feed enhancements — likes, comments, image uploads", status: "applied" },
+              { file: "migration_003_cancel_token.sql", desc: "Add cancel_token column to bookings for unauthenticated cancellation", status: "applied" },
+              { file: "migration_004_auto_blast.sql", desc: "site_settings + sms_blast_log tables for auto-blast system", status: "applied" },
+              { file: "migration_004_pinned_message.sql", desc: "Adds pinned_message column to live_streams for persistent sync", status: "applied" },
               { file: "migration_005_unique_email.sql", desc: "Unique email constraint on profiles table", status: "applied" },
               { file: "migration_006_newsletter.sql", desc: "Newsletter subscribers table + chat delete policy", status: "applied" },
               { file: "migration_007_sms_setlist.sql", desc: "SMS subscribers + setlist request tables", status: "applied" },
               { file: "migration_008_cruise_signups.sql", desc: "cruise_signups table — email, name, token, referral tracking", status: "applied" },
               { file: "migration_009_referrals.sql", desc: "Referral system — user_id linking for signup attribution", status: "applied" },
-              { file: "migration_003_cancel_token.sql", desc: "Add cancel_token column to bookings for unauthenticated cancellation", status: "live" },
-              { file: "migration_004_auto_blast.sql", desc: "site_settings + sms_blast_log tables for auto-blast system", status: "live" },
-              { file: "migration_004_pinned_message.sql", desc: "Adds pinned_message column to live_streams for persistent sync", status: "live" },
+              { file: "migration_010_cruise_anonymous.sql", desc: "Anonymous cruise signup support + anon referral attribution", status: "applied" },
+              { file: "migration_011_proximity_profiles.sql", desc: "proximity_profiles table — fan GPS opt-in, RSVP tracking, anonymous toggle", status: "applied" },
+              { file: "migration_012_invite_challenge.sql", desc: "show_invite_challenges + show_invite_referrals — per-show merch reward system", status: "applied" },
+              { file: "migration_013_show_memories.sql", desc: "show_memories — post-show fan memory & photo submissions", status: "applied" },
             ].map((m, i) => (
               <div key={i} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <span className="text-[0.55rem] font-mono font-bold text-white/20 w-4 text-right">{i + 1}</span>
@@ -703,6 +770,10 @@ export default function SitemapPage() {
               <TreeNode path="/cruise" label="Caribbean Cruise" color="text-cyan-400">
                 <TreeNode path="/cruise/cancel" label="Cruise Cancellation" color="text-cyan-400/60" />
               </TreeNode>
+              <TreeNode path="/shows/[id]" label="Show Page" color="text-purple-400" />
+              <TreeNode path="/demo" label="Feature Demos" color="text-indigo-400">
+                <TreeNode path="/demo/proximity" label="Proximity Demo" color="text-indigo-400/60" />
+              </TreeNode>
             </div>
 
             {/* Auth / Dashboards */}
@@ -729,6 +800,7 @@ export default function SitemapPage() {
                 </TreeNode>
                 <TreeNode path="/studio" label="Sanity Studio (CMS)" color="text-red-400" />
                 <TreeNode path="/sitemap" label="Site Map (This Page)" color="text-purple-400" />
+                <TreeNode path="/test-supabase" label="DB Diagnostic" color="text-gray-400" />
               </div>
             </div>
 
@@ -757,6 +829,14 @@ export default function SitemapPage() {
                   <TreeNode path="/api/admin/fans" label="Fan Analytics" color="text-red-400/40" />
                   <TreeNode path="/api/admin/newsletter" label="Newsletter" color="text-red-400/40" />
                   <TreeNode path="/api/admin/crew-alert" label="Crew Alert" color="text-red-400/40" />
+                  <TreeNode path="/api/admin/invite-challenge" label="Invite Challenge" color="text-red-400/40" />
+                </TreeNode>
+                <TreeNode path="/api/proximity" label="Proximity" color="text-indigo-400/60">
+                  <TreeNode path="/api/proximity/shows" label="Nearby Shows" color="text-indigo-400/40" />
+                  <TreeNode path="/api/proximity/rsvp" label="RSVP" color="text-indigo-400/40" />
+                </TreeNode>
+                <TreeNode path="/api/fans" label="Fan Profiles" color="text-cyan-400/60">
+                  <TreeNode path="/api/fans/memories" label="Show Memories" color="text-cyan-400/40" />
                 </TreeNode>
                 <TreeNode path="/api/live" label="Live Streams" color="text-rose-400/60" />
                 <TreeNode path="/api/feed" label="Social Feed" color="text-emerald-400/60" />
