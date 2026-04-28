@@ -883,7 +883,7 @@ export default function SitemapPage() {
                   <SiteNode href="/book" label="EVENT PLANNER" sub="booking form" color="white" wide />
                   <VertLine />
                   <div className="flex flex-col gap-2 w-full">
-                    <SiteNode href="/fan-wall" label="FAN WALL" sub="/fan-wall" color="white" />
+                    <SiteNode href="/fan-photo-wall" label="FAN WALL" sub="/fan-photo-wall" color="white" />
                     <SiteNode href="/demo/proximity" label="PROXIMITY DEMO" sub="/demo/proximity" color="purple" />
                     <SiteNode href="/sitemap" label="SITE MAP" sub="/sitemap" color="white" />
                   </div>
