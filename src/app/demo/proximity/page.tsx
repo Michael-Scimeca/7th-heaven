@@ -70,43 +70,7 @@ export default function ProximityDemoPage() {
           </p>
         </div>
 
-        {/* ── QR Share Block ── */}
-        <div className="mb-12 p-6 bg-white/[0.02] border border-white/[0.06] text-center">
-          <p className="text-white/40 text-sm mb-1">Know someone who might be going?</p>
-          <p className="text-white font-bold text-lg mb-5">Share this show page</p>
-          <div className="flex flex-col items-center mb-5">
-            <div className="p-4 bg-white inline-block shadow-[0_0_40px_rgba(133,29,239,0.25)] mb-3">
-              <QRCode
-                value={`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`}
-                size={140}
-                bgColor="#ffffff"
-                fgColor="#0a0a0a"
-                level="M"
-              />
-            </div>
-            <p className="text-[0.55rem] uppercase tracking-widest text-white/25 font-bold">Scan to open the show page</p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-3">
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`);
-                setShareConfirm(true);
-                setTimeout(() => setShareConfirm(false), 2000);
-              }}
-              className="px-5 py-2.5 bg-purple-600 text-white text-[0.65rem] font-black uppercase tracking-widest hover:bg-purple-500 transition-all"
-            >
-              {shareConfirm ? "\u2713 Copied!" : "\ud83d\udd17 Copy Link"}
-            </button>
-            <a
-              href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${DEMO_SHOW.venue} in ${DEMO_SHOW.city}! See who\u2019s going: ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`)}`}
-              className="px-5 py-2.5 border border-white/10 text-white/50 text-[0.65rem] font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-all"
-            >
-              \ud83d\udcac Text a Friend
-            </a>
-          </div>
-        </div>
-
-        {/* Step indicators */}
+        {/* Step indicators */}}
         <div className="flex items-center gap-0 mb-14">
           {[
             { id: "signup", label: "1. Sign Up", icon: "👤" },
@@ -383,72 +347,88 @@ export default function ProximityDemoPage() {
             {/* ── HERO ── */}
             <div className="relative bg-gradient-to-b from-[#0d0718] to-[#080810] border border-white/5 overflow-hidden p-7">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(133,29,239,0.15)_0%,_transparent_60%)]" />
-              <div className="relative z-10">
-                <div className="flex flex-wrap items-center gap-2 mb-4">
-                  <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
-                  <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-white/30">12 fans going</span>
+              <div className="relative z-10 flex gap-6">
+
+                {/* LEFT — show info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
+                    <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-white/30">12 fans going</span>
+                  </div>
+
+                  <h1 className="text-4xl font-extrabold tracking-tight mb-1">{DEMO_SHOW.venue}</h1>
+                  <p className="text-white/50">{DEMO_SHOW.city}, {DEMO_SHOW.state}</p>
+                  <p className="text-white/30 text-sm mt-1">Friday, May 1, 2026</p>
+
+                  {/* Detail pills */}
+                  <div className="flex flex-wrap items-center gap-2 mt-4">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">🚪 Doors {DEMO_SHOW.doorsTime}</span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">🎸 Show {DEMO_SHOW.time}</span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-[0.65rem] font-bold uppercase tracking-widest text-amber-400">🔞 21+</span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">💵 Cover: {DEMO_SHOW.cover}</span>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3 mt-6">
+                    <button
+                      onClick={() => handleRsvp("going")}
+                      disabled={rsvpStatus === "loading"}
+                      className={`px-8 py-4 text-sm font-black uppercase tracking-widest text-white text-center transition-all ${
+                        rsvpStatus === "going"
+                          ? "bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.4)]"
+                          : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(133,29,239,0.4)] hover:brightness-110"
+                      }`}
+                    >
+                      {rsvpStatus === "loading" ? "…" : rsvpStatus === "going" ? "✓ You're Going!" : "🎸 I'm Going"}
+                    </button>
+
+                    <button
+                      onClick={() => setAnonToggle((v) => !v)}
+                      className="flex items-center gap-2 px-4 py-2 border border-white/[0.06] text-[0.6rem] font-bold uppercase tracking-widest text-white/50 hover:border-white/20 transition-all cursor-pointer"
+                    >
+                      <span className={`w-7 h-4 rounded-full relative shrink-0 transition-colors ${anonToggle ? "bg-purple-500" : "bg-white/10"}`}>
+                        <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${anonToggle ? "left-3.5" : "left-0.5"}`} />
+                      </span>
+                      {anonToggle ? <span className="text-purple-300">Anonymous On</span> : "Go anonymously"}
+                    </button>
+
+                    <a
+                      href={`https://maps.google.com/?q=${encodeURIComponent(`${DEMO_SHOW.venue}, ${DEMO_SHOW.city}, ${DEMO_SHOW.state}`)}`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center hover:border-white/30 hover:text-white transition-all"
+                    >
+                      📍 Directions
+                    </a>
+
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(`${window.location.origin}${DEMO_SHOW.url}`);
+                        setShareConfirm(true);
+                        setTimeout(() => setShareConfirm(false), 2000);
+                      }}
+                      className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center hover:border-white/30 hover:text-white transition-all"
+                    >
+                      {shareConfirm ? "✓ Copied!" : "🔗 Share"}
+                    </button>
+                  </div>
                 </div>
 
-                <h1 className="text-4xl font-extrabold tracking-tight mb-1">{DEMO_SHOW.venue}</h1>
-                <p className="text-white/50">{DEMO_SHOW.city}, {DEMO_SHOW.state}</p>
-                <p className="text-white/30 text-sm mt-1">Friday, May 1, 2026</p>
-
-                {/* Detail pills */}
-                <div className="flex flex-wrap items-center gap-2 mt-4">
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">🚪 Doors {DEMO_SHOW.doorsTime}</span>
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">🎸 Show {DEMO_SHOW.time}</span>
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-[0.65rem] font-bold uppercase tracking-widest text-amber-400">🔞 21+</span>
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">💵 Cover: {DEMO_SHOW.cover}</span>
+                {/* RIGHT — QR code */}
+                <div className="hidden sm:flex flex-col items-center shrink-0 text-center">
+                  <p className="text-white/30 text-[0.6rem] mb-1">Know someone who might be going?</p>
+                  <p className="text-white text-xs font-bold mb-3">Share this show page</p>
+                  <div className="p-3 bg-white shadow-[0_0_30px_rgba(133,29,239,0.3)] mb-2">
+                    <QRCode
+                      value={`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`}
+                      size={110}
+                      bgColor="#ffffff"
+                      fgColor="#0a0a0a"
+                      level="M"
+                    />
+                  </div>
+                  <p className="text-[0.45rem] uppercase tracking-widest text-white/20 font-bold">Scan to open show page</p>
                 </div>
 
-                {/* Action buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                  {/* I'm Going */}
-                  <button
-                    onClick={() => handleRsvp("going")}
-                    disabled={rsvpStatus === "loading"}
-                    className={`px-8 py-4 text-sm font-black uppercase tracking-widest text-white text-center transition-all ${
-                      rsvpStatus === "going"
-                        ? "bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.4)]"
-                        : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(133,29,239,0.4)] hover:brightness-110"
-                    }`}
-                  >
-                    {rsvpStatus === "loading" ? "…" : rsvpStatus === "going" ? "✓ You\'re Going!" : "🎸 I\'m Going"}
-                  </button>
-
-                  {/* Anonymous toggle */}
-                  <button
-                    onClick={() => setAnonToggle((v) => !v)}
-                    className="flex items-center gap-2 px-4 py-2 border border-white/[0.06] text-[0.6rem] font-bold uppercase tracking-widest text-white/50 hover:border-white/20 transition-all cursor-pointer"
-                  >
-                    <span className={`w-7 h-4 rounded-full relative shrink-0 transition-colors ${anonToggle ? "bg-purple-500" : "bg-white/10"}`}>
-                      <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${anonToggle ? "left-3.5" : "left-0.5"}`} />
-                    </span>
-                    {anonToggle ? <span className="text-purple-300">Anonymous On</span> : "Go anonymously"}
-                  </button>
-
-                  {/* Directions */}
-                  <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(`${DEMO_SHOW.venue}, ${DEMO_SHOW.city}, ${DEMO_SHOW.state}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center hover:border-white/30 hover:text-white transition-all"
-                  >
-                    📍 Directions
-                  </a>
-
-                  {/* Share */}
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(`${window.location.origin}${DEMO_SHOW.url}`);
-                      setShareConfirm(true);
-                      setTimeout(() => setShareConfirm(false), 2000);
-                    }}
-                    className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center hover:border-white/30 hover:text-white transition-all"
-                  >
-                    {shareConfirm ? "✓ Copied!" : "🔗 Share"}
-                  </button>
-                </div>
               </div>
             </div>
 
