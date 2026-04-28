@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import FanUploadForm from "@/components/FanUploadForm";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import ProximityPanel from "@/components/ProximityPanel";
 
 export default function FanAccountPage() {
   const { member, isLoggedIn, openModal } = useMember();
@@ -379,6 +380,11 @@ export default function FanAccountPage() {
             })}
           </div>
         )}
+
+        {/* 📍 Proximity Alerts & Who's Going */}
+        <div className="mb-8">
+          <ProximityPanel />
+        </div>
 
         {/* 🔗 Referral Code with QR */}
         <div className="mb-8 p-6 bg-gradient-to-br from-[#0c0c1a] to-[#0a0a14] border border-amber-500/20 rounded-2xl relative overflow-hidden">

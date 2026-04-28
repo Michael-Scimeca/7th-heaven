@@ -47,17 +47,25 @@ export default function LoginModal() {
    if (wantNotifications && !zipCode.trim()) { setError("Enter your zip code to receive local show alerts"); setLoading(false); return; }
    const ok = await signup(name, email, password);
    if (!ok) {
-    setError("An account with this email already exists.");
+     setError("An account with this email already exists.");
    } else {
-    // Subscribe to newsletter if opted in
-    if (wantNewsletter) {
-     fetch('/api/newsletter/subscribe', {
-       method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ email, name, source: 'signup' }),
-     }).catch(() => {});
-    }
-    window.location.href = '/fans';
+     // Subscribe to newsletter if opted in
+     if (wantNewsletter) {
+      fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name, source: 'signup' }),
+      }).catch(() => {});
+     }
+     // Save proximity settings if opted in
+     if (wantNotifications && zipCode.trim()) {
+      fetch('/api/proximity/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ zip: zipCode.trim(), notificationRadius: 50, notificationsEnabled: true }),
+      }).catch(() => {});
+     }
+     window.location.href = '/fans';
    }
   }
   setLoading(false);
