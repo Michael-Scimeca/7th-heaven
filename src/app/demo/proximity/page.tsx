@@ -501,54 +501,7 @@ export default function ProximityDemoPage() {
               </div>
             </div>
 
-            {/* ── SHARE CTA ── */}
-            <div className="p-6 bg-white/[0.02] border border-white/[0.06] text-center">
-              <p className="text-white/40 text-sm mb-1">Know someone who might be going?</p>
-              <p className="text-white font-bold text-base mb-5">Share this show page</p>
 
-              {/* QR Code */}
-              <div className="flex flex-col items-center mb-6">
-                <div className="p-3 bg-white inline-block shadow-[0_0_30px_rgba(133,29,239,0.3)] mb-2">
-                  <QRCode
-                    value={`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`}
-                    size={120}
-                    bgColor="#ffffff"
-                    fgColor="#0a0a0a"
-                    level="M"
-                  />
-                </div>
-                <p className="text-[0.5rem] uppercase tracking-widest text-white/20 font-bold">Scan to open show page</p>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`);
-                    setShareConfirm(true);
-                    setTimeout(() => setShareConfirm(false), 2000);
-                  }}
-                  className="px-6 py-3 bg-purple-600 text-white text-[0.7rem] font-black uppercase tracking-widest hover:bg-purple-500 transition-all"
-                >
-                  {shareConfirm ? "✓ Copied!" : "🔗 Copy Link"}
-                </button>
-                <a
-                  href={`sms:?body=${encodeURIComponent(
-                    rsvpStatus === "going"
-                      ? `I'm going to see ${DEMO_SHOW.venue} in ${DEMO_SHOW.city} on May 1st — you should come! ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
-                      : rsvpStatus === "there"
-                      ? `I'm already at the show — ${DEMO_SHOW.venue} in ${DEMO_SHOW.city}! Get here! ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
-                      : `Are you going to ${DEMO_SHOW.venue} in ${DEMO_SHOW.city} on May 1st? Check it out: ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
-                  )}`}
-                  className="px-6 py-3 border border-white/10 text-white/50 text-[0.7rem] font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-all"
-                >
-                  {rsvpStatus === "going"
-                    ? "💬 Text — I'm Going!"
-                    : rsvpStatus === "there"
-                    ? "💬 Text — I'm There!"
-                    : "💬 Text a Friend"}
-                </a>
-              </div>
-            </div>
 
             {/* CTA to real page */}
             <Link
