@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
       .select(`
         id,
         status,
+        anonymous,
         checked_in_at,
         profiles (
           id,
@@ -42,10 +43,16 @@ export async function POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
-    const { showId, status } = body; // status: "going" | "there"
+    const { showId, status, anonymous } = body; // status: "going" | "there", anonymous: boolean
 
     const { error } = await supabase.from("show_attendance").upsert(
-      { show_id: showId, user_id: user.id, status, checked_in_at: status === "there" ? new Date().toISOString() : null },
+      {
+        show_id: showId,
+        user_id: user.id,
+        status,
+        anonymous: anonymous ?? false,
+        checked_in_at: status === "there" ? new Date().toISOString() : null,
+      },
       { onConflict: "show_id,user_id" }
     );
 
