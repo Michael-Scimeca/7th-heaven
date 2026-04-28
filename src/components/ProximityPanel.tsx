@@ -14,6 +14,7 @@ interface NearbyShow {
   distanceMiles: number;
   latitude: number;
   longitude: number;
+  showPageUrl: string;
 }
 
 interface Attendee {
@@ -273,9 +274,26 @@ export default function ProximityPanel() {
                   {/* Attendees preview */}
                   {selectedShow?.id === show.id && (
                     <div className="mt-4 pt-4 border-t border-white/[0.06]">
-                      <p className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold mb-3">
-                        {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
-                      </p>
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold">
+                          {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <a
+                            href={show.showPageUrl || `/shows/${show.id}`}
+                            className="text-[0.55rem] uppercase tracking-widest text-blue-400 hover:text-white font-bold transition-colors"
+                          >
+                            View Show Page →
+                          </a>
+                          <span className="text-white/10">·</span>
+                          <a
+                            href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
+                            className="text-[0.55rem] uppercase tracking-widest text-white/30 hover:text-white font-bold transition-colors"
+                          >
+                            💬 Share
+                          </a>
+                        </div>
+                      </div>
                       {attendeeLoading ? (
                         <span className="text-xs text-white/30 animate-pulse">Loading…</span>
                       ) : attendees.length === 0 ? (

@@ -79,6 +79,8 @@ export async function GET(req: NextRequest) {
       .eq("status", "upcoming")
       .not("latitude", "is", null);
 
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+
     const nearbyShows = (shows || []).filter((show) => {
       if (!show.latitude || !show.longitude) return false;
       const dist = haversine(userLat!, userLng!, show.latitude, show.longitude);
@@ -86,6 +88,7 @@ export async function GET(req: NextRequest) {
     }).map((show) => ({
       ...show,
       distanceMiles: Math.round(haversine(userLat!, userLng!, show.latitude, show.longitude)),
+      showPageUrl: `${baseUrl}/shows/${show.id}`,
     }));
 
     return NextResponse.json({ shows: nearbyShows });
