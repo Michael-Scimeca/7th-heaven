@@ -21,6 +21,14 @@ export default function FanAccountPage() {
   const [liveAlertPhone, setLiveAlertPhone] = useState('');
   const [liveAlertStatus, setLiveAlertStatus] = useState<'idle' | 'saving' | 'subscribed' | 'error'>('idle');
   const [liveAlertSubscribed, setLiveAlertSubscribed] = useState(false);
+  const [memoryText, setMemoryText] = useState('');
+  const [memorySubmitting, setMemorySubmitting] = useState(false);
+  const [memorySubmitted, setMemorySubmitted] = useState(false);
+
+  // Check if show has already passed
+  const showHasPassed = nextShow?.date
+    ? new Date(nextShow.date + 'T23:59:59') < new Date()
+    : false;
 
   // Check if fan already subscribed to live alerts
   useEffect(() => {
@@ -329,6 +337,67 @@ export default function FanAccountPage() {
             <p className="text-white/15 text-[0.6rem] mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
           </div>
         </div>
+
+        {/* 🎸 Post-Show Memory Prompt */}
+        {showHasPassed && !memorySubmitted && (
+          <div className="mb-8 bg-[#0f0f17] border border-white/[0.06] overflow-hidden">
+            <div className="h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
+            <div className="p-6">
+              <div className="flex items-start gap-4 mb-5">
+                <span className="text-3xl">🎸</span>
+                <div>
+                  <p className="text-[0.6rem] uppercase tracking-[0.15em] text-purple-400 font-bold mb-0.5">Post-Show</p>
+                  <h3 className="text-white font-black text-base">
+                    How was {nextShow?.venue}?
+                  </h3>
+                  <p className="text-white/30 text-xs mt-0.5">
+                    {nextShow?.date ? new Date(nextShow.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''}
+                  </p>
+                </div>
+              </div>
+
+              <textarea
+                value={memoryText}
+                onChange={(e) => setMemoryText(e.target.value.slice(0, 280))}
+                placeholder="Share a memory from the show…"
+                rows={3}
+                className="w-full bg-white/[0.03] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500/50 placeholder:text-white/20 resize-none mb-2"
+              />
+              <div className="flex items-center justify-between">
+                <p className="text-[0.5rem] text-white/20 font-bold">{memoryText.length}/280</p>
+                <button
+                  onClick={async () => {
+                    if (!memoryText.trim()) return;
+                    setMemorySubmitting(true);
+                    try {
+                      await fetch('/api/fans/memories', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          show_id: nextShow?._id,
+                          memory_text: memoryText,
+                          display_name: member?.name || 'Fan',
+                        }),
+                      });
+                    } catch {}
+                    setMemorySubmitting(false);
+                    setMemorySubmitted(true);
+                  }}
+                  disabled={memorySubmitting || !memoryText.trim()}
+                  className="px-6 py-2.5 bg-purple-600 text-white text-[0.65rem] font-black uppercase tracking-widest hover:bg-purple-500 transition-all disabled:opacity-40"
+                >
+                  {memorySubmitting ? 'Saving…' : '✍ Share Memory'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {memorySubmitted && (
+          <div className="mb-8 p-5 border border-emerald-500/20 bg-emerald-500/[0.04] text-center">
+            <p className="text-emerald-400 font-bold text-sm">🎶 Memory saved! See you at the next show.</p>
+          </div>
+        )}
 
         {/* 🏆 Rewards & Raffle Wins */}
         {inboxMessages.some(m => m.color === 'yellow' || m.title?.includes('Win')) && (

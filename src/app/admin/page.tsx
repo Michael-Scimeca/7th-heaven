@@ -8,6 +8,7 @@ import { useMember } from "@/context/MemberContext";
 
 import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember, adminResetPassword } from "./actions";
 import ShowCrewPanel from "@/components/ShowCrewPanel";
+import InviteChallengePanel from "@/components/admin/InviteChallengePanel";
 import dynamic from 'next/dynamic';
 
 const AdminMap = dynamic(() => import('@/components/AdminMap'), {
@@ -1533,6 +1534,11 @@ export default function AdminDashboard() {
               </div>
             </section>
 
+
+            {/* ── Invite Challenge ── */}
+            <section className="mt-8">
+              <InviteChallengePanel shows={smsShows} />
+            </section>
 
             {/* ── SMS Proximity Blast — Fan Show Alerts ── */}
             <section className="bg-[#0f0f13] border border-rose-500/20 rounded-2xl overflow-hidden shadow-2xl mt-8">

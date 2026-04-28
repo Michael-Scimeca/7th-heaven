@@ -422,6 +422,48 @@ export default function ProximityDemoPage() {
               </div>
             </div>
 
+            {/* ── INVITE CHALLENGE ── */}
+            <div className="border border-purple-500/20 bg-purple-500/[0.04] p-5">
+              <div className="flex items-start gap-4">
+                <span className="text-3xl shrink-0">🎁</span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between flex-wrap gap-2 mb-1">
+                    <p className="text-white font-bold text-sm">
+                      Invite <span className="text-purple-300">20 fans</span> → get a free{" "}
+                      <span className="text-purple-300">Band Tee</span>
+                    </p>
+                    <span className="text-[0.5rem] font-black uppercase tracking-widest text-purple-400 border border-purple-500/30 px-2 py-0.5">
+                      Invite Challenge
+                    </span>
+                  </div>
+                  <p className="text-white/30 text-xs mb-3">Claim at the merch table, night of show</p>
+
+                  {/* Progress bar */}
+                  <div className="mb-1.5">
+                    <div className="h-2 bg-white/[0.05] w-full">
+                      <div
+                        className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all"
+                        style={{ width: rsvpStatus !== "idle" ? "35%" : "30%" }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p className="text-[0.5rem] text-white/25 font-bold">
+                      {rsvpStatus !== "idle" ? "7" : "6"} / 20 fans invited
+                    </p>
+                    <a
+                      href={`sms:?body=${encodeURIComponent(
+                        `Come see 7th Heaven at ${DEMO_SHOW.venue} in ${DEMO_SHOW.city} on May 1st! ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
+                      )}`}
+                      className="text-[0.55rem] font-black uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors"
+                    >
+                      💬 Invite a Friend →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* ── GOING COUNT — clickable ── */}
             <div>
               <div className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] border-b-0">
