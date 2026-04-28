@@ -70,7 +70,7 @@ export default function ProximityDemoPage() {
           </p>
         </div>
 
-        {/* Step indicators */}}
+        {/* Step indicators */}
         <div className="flex items-center gap-0 mb-14">
           {[
             { id: "signup", label: "1. Sign Up", icon: "👤" },
