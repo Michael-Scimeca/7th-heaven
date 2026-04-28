@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
+import QRCode from "react-qr-code";
 
 // Hardcoded demo show for the simulation
 const DEMO_SHOW = {
@@ -464,6 +465,21 @@ export default function ProximityDemoPage() {
             <div className="p-6 bg-white/[0.02] border border-white/[0.06] text-center">
               <p className="text-white/40 text-sm mb-1">Know someone who might be going?</p>
               <p className="text-white font-bold text-base mb-5">Share this show page</p>
+
+              {/* QR Code */}
+              <div className="flex flex-col items-center mb-6">
+                <div className="p-3 bg-white inline-block shadow-[0_0_30px_rgba(133,29,239,0.3)] mb-2">
+                  <QRCode
+                    value={`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`}
+                    size={120}
+                    bgColor="#ffffff"
+                    fgColor="#0a0a0a"
+                    level="M"
+                  />
+                </div>
+                <p className="text-[0.5rem] uppercase tracking-widest text-white/20 font-bold">Scan to open show page</p>
+              </div>
+
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <div className="px-6 py-3 bg-purple-600 text-white text-[0.7rem] font-black uppercase tracking-widest">🔗 Copy Link</div>
                 <div className="px-6 py-3 border border-white/10 text-white/50 text-[0.7rem] font-black uppercase tracking-widest">💬 Text a Friend</div>

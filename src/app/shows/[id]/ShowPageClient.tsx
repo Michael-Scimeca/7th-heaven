@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import QRCode from "react-qr-code";
 
 interface Attendee {
   id: string;
@@ -462,6 +463,21 @@ export default function ShowPageClient({
             <div className="mt-12 p-8 bg-white/[0.02] border border-white/[0.06] text-center">
               <p className="text-white/40 text-sm mb-1">Know someone who might be going?</p>
               <p className="text-white font-bold text-lg mb-6">Share this show page</p>
+
+              {/* QR Code */}
+              <div className="flex flex-col items-center mb-8">
+                <div className="p-4 bg-white inline-block shadow-[0_0_40px_rgba(133,29,239,0.25)] mb-3">
+                  <QRCode
+                    value={shareUrl}
+                    size={140}
+                    bgColor="#ffffff"
+                    fgColor="#0a0a0a"
+                    level="M"
+                  />
+                </div>
+                <p className="text-[0.55rem] uppercase tracking-widest text-white/25 font-bold">Scan to open the show page</p>
+              </div>
+
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <button onClick={copyLink} className="px-6 py-3 bg-purple-600 text-white text-[0.7rem] font-black uppercase tracking-widest hover:bg-purple-500 transition-all">
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
