@@ -215,6 +215,21 @@ export default function ProximityDemoPage() {
                             <p className="text-blue-300 text-[0.6rem] mt-1.5 font-medium underline">
                               7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}...
                             </p>
+                            {/* Going / There quick actions */}
+                            <div className="flex gap-2 mt-2 pt-2 border-t border-white/10">
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
+                                className="flex-1 py-1 rounded bg-purple-500/30 border border-purple-400/30 text-purple-200 text-[0.6rem] font-black uppercase tracking-widest hover:bg-purple-500/50 transition-all"
+                              >
+                                🎸 Going
+                              </button>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
+                                className="flex-1 py-1 rounded bg-emerald-500/30 border border-emerald-400/30 text-emerald-200 text-[0.6rem] font-black uppercase tracking-widest hover:bg-emerald-500/50 transition-all"
+                              >
+                                ✓ There
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -246,15 +261,11 @@ export default function ProximityDemoPage() {
                   💵 Cover: {DEMO_SHOW.cover}<br /><br />
                   See who&apos;s going &amp; RSVP:<br />
                   <span className="text-blue-400 underline">7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…</span><br /><br />
-                  <strong className="text-white/60 text-xs uppercase tracking-wider">Quick reply:</strong><br />
-                  <span className="text-blue-400 underline cursor-pointer">
-                    7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…?rsvp=going
-                  </span>
-                  <span className="text-white/30 text-xs"> ← I&apos;m Going</span><br />
-                  <span className="text-blue-400 underline cursor-pointer">
-                    7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…?rsvp=there
-                  </span>
-                  <span className="text-white/30 text-xs"> ← I&apos;m There</span><br /><br />
+                  <strong className="text-white/60 text-xs uppercase tracking-wider">Tap to RSVP:</strong><br />
+                  <span className="text-blue-400 underline cursor-pointer">Going</span>
+                  <span className="text-white/30 text-xs"> → 7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…?rsvp=going</span><br />
+                  <span className="text-blue-400 underline cursor-pointer">There</span>
+                  <span className="text-white/30 text-xs"> → 7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…?rsvp=there</span><br /><br />
                   <span className="text-white/30 text-xs">Reply STOP to unsubscribe</span>
                 </p>
               </div>
