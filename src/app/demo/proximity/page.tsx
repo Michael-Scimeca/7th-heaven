@@ -70,6 +70,42 @@ export default function ProximityDemoPage() {
           </p>
         </div>
 
+        {/* ── QR Share Block ── */}
+        <div className="mb-12 p-6 bg-white/[0.02] border border-white/[0.06] text-center">
+          <p className="text-white/40 text-sm mb-1">Know someone who might be going?</p>
+          <p className="text-white font-bold text-lg mb-5">Share this show page</p>
+          <div className="flex flex-col items-center mb-5">
+            <div className="p-4 bg-white inline-block shadow-[0_0_40px_rgba(133,29,239,0.25)] mb-3">
+              <QRCode
+                value={`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`}
+                size={140}
+                bgColor="#ffffff"
+                fgColor="#0a0a0a"
+                level="M"
+              />
+            </div>
+            <p className="text-[0.55rem] uppercase tracking-widest text-white/25 font-bold">Scan to open the show page</p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`);
+                setShareConfirm(true);
+                setTimeout(() => setShareConfirm(false), 2000);
+              }}
+              className="px-5 py-2.5 bg-purple-600 text-white text-[0.65rem] font-black uppercase tracking-widest hover:bg-purple-500 transition-all"
+            >
+              {shareConfirm ? "\u2713 Copied!" : "\ud83d\udd17 Copy Link"}
+            </button>
+            <a
+              href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${DEMO_SHOW.venue} in ${DEMO_SHOW.city}! See who\u2019s going: ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`)}`}
+              className="px-5 py-2.5 border border-white/10 text-white/50 text-[0.65rem] font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-all"
+            >
+              \ud83d\udcac Text a Friend
+            </a>
+          </div>
+        </div>
+
         {/* Step indicators */}
         <div className="flex items-center gap-0 mb-14">
           {[
