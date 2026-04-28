@@ -246,6 +246,15 @@ export default function ProximityDemoPage() {
                   💵 Cover: {DEMO_SHOW.cover}<br /><br />
                   See who&apos;s going &amp; RSVP:<br />
                   <span className="text-blue-400 underline">7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…</span><br /><br />
+                  <strong className="text-white/60 text-xs uppercase tracking-wider">Quick reply:</strong><br />
+                  <span className="text-blue-400 underline cursor-pointer">
+                    7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…?rsvp=going
+                  </span>
+                  <span className="text-white/30 text-xs"> ← I&apos;m Going</span><br />
+                  <span className="text-blue-400 underline cursor-pointer">
+                    7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…?rsvp=there
+                  </span>
+                  <span className="text-white/30 text-xs"> ← I&apos;m There</span><br /><br />
                   <span className="text-white/30 text-xs">Reply STOP to unsubscribe</span>
                 </p>
               </div>

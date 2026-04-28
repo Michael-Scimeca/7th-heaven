@@ -68,6 +68,30 @@ export default function ShowPageClient({
   const [goingFilter, setGoingFilter] = useState<"all" | "going" | "there">("all");
   const [wantAnonymous, setWantAnonymous] = useState(false);
   const [liveFeeds, setLiveFeeds] = useState<LiveFeed[]>([]);
+  const [autoRsvpDone, setAutoRsvpDone] = useState(false);
+
+  // ── Auto-RSVP from ?rsvp=going|there SMS link ──────────────────
+  useEffect(() => {
+    if (autoRsvpDone) return;
+    const params = new URLSearchParams(window.location.search);
+    const rsvpParam = params.get("rsvp");
+    if (rsvpParam !== "going" && rsvpParam !== "there") return;
+
+    if (isLoggedIn) {
+      setAutoRsvpDone(true);
+      fetch("/api/proximity/attendees", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ showId: show.id, status: rsvpParam, anonymous: false }),
+      }).then(() => {
+        fetch(`/api/proximity/attendees?showId=${show.id}`)
+          .then((r) => r.json())
+          .then((d) => { setAttendees(d.attendees || []); setAttendeeListOpen(true); });
+      });
+    } else {
+      openModal("login");
+    }
+  }, [isLoggedIn, autoRsvpDone, show.id, openModal]);
 
   const myAttendee = attendees.find((a) => a.profiles?.id === member?.id);
   const isGoing = !!myAttendee;
