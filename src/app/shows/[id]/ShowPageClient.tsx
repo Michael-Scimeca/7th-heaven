@@ -23,6 +23,9 @@ interface Show {
   state: string;
   date: string;
   time: string;
+  doors_time: string | null;
+  all_ages: boolean | null;
+  cover: string | null;
   latitude: number | null;
   longitude: number | null;
   status: string;
@@ -133,9 +136,38 @@ export default function ShowPageClient({
               <p className="text-lg text-white/50">
                 {show.city}{show.state ? `, ${show.state}` : ""}
               </p>
-              <p className="text-sm text-white/35 mt-1">
-                {dateStr}{show.time ? ` · ${show.time}` : ""}
-              </p>
+              <p className="text-sm text-white/35 mt-1">{dateStr}</p>
+
+              {/* Show detail pills */}
+              <div className="flex flex-wrap items-center gap-2 mt-4">
+                {show.doors_time && (
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                    🚪 Doors {show.doors_time}
+                  </span>
+                )}
+                {show.time && (
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                    🎸 Show {show.time}
+                  </span>
+                )}
+                {show.all_ages !== null && (
+                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border text-[0.65rem] font-bold uppercase tracking-widest ${
+                    show.all_ages
+                      ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                      : "bg-amber-500/10 border-amber-500/30 text-amber-400"
+                  }`}>
+                    {show.all_ages ? "✅ All Ages" : "🔞 21+"}
+                  </span>
+                )}
+                {show.cover && (
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                    💵 Cover: {show.cover}
+                  </span>
+                )}
+                {!show.doors_time && !show.time && show.all_ages === null && !show.cover && (
+                  <span className="text-[0.6rem] text-white/20 italic">Show details coming soon</span>
+                )}
+              </div>
             </div>
 
             {/* Action buttons */}

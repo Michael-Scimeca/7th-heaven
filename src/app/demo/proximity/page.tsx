@@ -11,7 +11,10 @@ const DEMO_SHOW = {
   city: "Mt. Prospect",
   state: "IL",
   date: "May 1, 2026",
-  time: "8:00 PM",
+  time: "9:00 PM",
+  doorsTime: "8:00 PM",
+  allAges: false,
+  cover: "$5",
   url: "/shows/34f3a136-3220-4355-b396-74a46d244640",
 };
 
@@ -227,9 +230,14 @@ export default function ProximityDemoPage() {
               <div className="bg-[#1a2a1a] border border-emerald-500/20 rounded-2xl p-5">
                 <p className="text-sm text-white/80 leading-relaxed">
                   🎸 <strong>7th Heaven is playing near you!</strong><br /><br />
-                  <strong>{DEMO_SHOW.venue}</strong> in {DEMO_SHOW.city}, {DEMO_SHOW.state}<br />
-                  📅 {DEMO_SHOW.date} · {DEMO_SHOW.time}<br /><br />
-                  See who&apos;s going and RSVP:<br />
+                  <strong>{DEMO_SHOW.venue}</strong><br />
+                  📍 {DEMO_SHOW.city}, {DEMO_SHOW.state}<br />
+                  📅 {DEMO_SHOW.date}<br />
+                  🚪 Doors: {DEMO_SHOW.doorsTime}<br />
+                  🎤 Show: {DEMO_SHOW.time}<br />
+                  {DEMO_SHOW.allAges ? "✅ All Ages" : "🔞 21+ Only"}<br />
+                  💵 Cover: {DEMO_SHOW.cover}<br /><br />
+                  See who&apos;s going &amp; RSVP:<br />
                   <span className="text-blue-400 underline">7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…</span><br /><br />
                   <span className="text-white/30 text-xs">Reply STOP to unsubscribe</span>
                 </p>
