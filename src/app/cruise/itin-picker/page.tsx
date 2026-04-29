@@ -15,6 +15,8 @@ const LAYOUTS = [
   { id: "j", label: "Photo Bento Grid",      tag: "Photos", desc: "Bento grid with all tiles as full-bleed photos, varied sizes.", emoji: "🎨", photo: true },
   { id: "k", label: "Full-Screen Scroll",    tag: "Photos · Most Cinematic", desc: "Each day is full viewport height with full-bleed photo and giant typography.", emoji: "🎬", photo: true },
   { id: "l", label: "Film Strip Scroll",     tag: "Photos", desc: "Horizontal scrolling tall portrait cards + compact route map below.", emoji: "🎞️", photo: true },
+  { id: "m", label: "Full Schedule Timeline", tag: "Photos · Detailed", desc: "Photo header per day + full time-by-time schedule with color-coded event chips.", emoji: "📅", photo: true },
+  { id: "n", label: "Photo Rows + Schedule",  tag: "Photos · Detailed · ⭐ New", desc: "Layout G's alternating photo rows, but the text side is a full daily schedule timeline.", emoji: "⏱️", photo: true },
 ];
 
 const PHOTOS: Record<string, string> = {
@@ -30,9 +32,11 @@ const PHOTOS: Record<string, string> = {
   j: "/images/cruise/cozumel.png",
   k: "/images/cruise/concert.png",
   l: "/images/cruise/at-sea.png",
+  m: "/images/cruise/miami.png",
+  n: "/images/cruise/cozumel.png",
 };
 
-const STAR = ["e", "i", "k"]; // recommended picks
+const STAR = ["e", "i", "k", "n"]; // recommended picks
 
 export default function ItinPicker() {
   const [filter, setFilter] = useState<"all" | "photos" | "no-photos">("all");
