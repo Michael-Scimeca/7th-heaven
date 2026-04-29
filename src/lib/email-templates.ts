@@ -41,27 +41,57 @@ const btnGold = `display:inline-block;background:#FBBF24;color:#000;font-weight:
 export function bookingConfirmation(b: {
   name: string; bookingId: string; eventType: string; eventDate: string;
   startTime?: string; endTime?: string; venueName?: string; venueCity: string; venueState: string;
+  phone?: string; organization?: string; indoorOutdoor?: string; expectedAttendance?: string;
+  details?: string; cancelToken?: string;
 }) {
+  const cancelUrl = b.cancelToken ? `https://7thheavenband.com/book/cancel?token=${b.cancelToken}&id=${b.bookingId}` : 'https://7thheavenband.com/planner';
+  const dashboardUrl = 'https://7thheavenband.com/planner';
+  const td1 = 'padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;';
+  const td2 = 'padding:8px 0;color:#fff;font-size:14px;font-weight:600;';
   return wrap(`
     <h1 style="margin:0 0 8px;color:#fff;font-size:26px;font-weight:900;text-align:center;">Booking Request Received</h1>
     <p style="margin:0 0 28px;color:rgba(255,255,255,0.4);font-size:13px;text-align:center;">We'll review your details and get back to you within 24–48 hours.</p>
-    <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 28px;">
-      Hey <strong style="color:#fff;">${sanitize(b.name)}</strong>, thanks for submitting your booking request!
+    <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 24px;">
+      Hey <strong style="color:#fff;">${sanitize(b.name)}</strong>, thanks for reaching out! Here's a full summary of what you submitted.
     </p>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:24px;">
-      <p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Booking ID</p>
-      <p style="margin:0 0 20px;font-size:20px;font-weight:800;color:#a855f7;">${sanitize(b.bookingId)}</p>
+    <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);border-radius:12px;padding:18px 24px;margin-bottom:24px;">
+      <p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.35);font-weight:700;">Your Booking ID</p>
+      <p style="margin:0;font-size:22px;font-weight:900;color:#a855f7;">${sanitize(b.bookingId)}</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:20px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Event Details</p>
       <table style="width:100%;border-collapse:collapse;">
-        <tr><td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:110px;">Event</td><td style="padding:8px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.eventType)}</td></tr>
-        <tr><td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Date</td><td style="padding:8px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.eventDate)}</td></tr>
-        <tr><td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Time</td><td style="padding:8px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.startTime) || 'TBD'} – ${sanitize(b.endTime) || 'TBD'}</td></tr>
-        <tr><td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Venue</td><td style="padding:8px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.venueName) || 'Not specified'}</td></tr>
-        <tr><td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Location</td><td style="padding:8px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.venueCity)}, ${sanitize(b.venueState)}</td></tr>
+        <tr><td style="${td1}">Event Type</td><td style="${td2}">${sanitize(b.eventType)}</td></tr>
+        <tr><td style="${td1}">Date</td><td style="${td2}">${sanitize(b.eventDate)}</td></tr>
+        <tr><td style="${td1}">Time</td><td style="${td2}">${sanitize(b.startTime) || 'TBD'} – ${sanitize(b.endTime) || 'TBD'}</td></tr>
+        <tr><td style="${td1}">Venue</td><td style="${td2}">${sanitize(b.venueName) || 'Not specified'}</td></tr>
+        <tr><td style="${td1}">Location</td><td style="${td2}">${sanitize(b.venueCity)}, ${sanitize(b.venueState)}</td></tr>
+        ${b.indoorOutdoor ? `<tr><td style="${td1}">Indoor/Outdoor</td><td style="${td2}">${sanitize(b.indoorOutdoor)}</td></tr>` : ''}
+        ${b.expectedAttendance ? `<tr><td style="${td1}">Attendance</td><td style="${td2}">${sanitize(b.expectedAttendance)}</td></tr>` : ''}
       </table>
     </div>
-    <p style="color:rgba(255,255,255,0.4);font-size:13px;line-height:1.6;margin:0;">
-      Questions? Reply to this email or contact <a href="mailto:7thheaven@gmail.com" style="color:#a855f7;text-decoration:none;">7thheaven@gmail.com</a>.
-    </p>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:20px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Your Contact Info</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="${td1}">Name</td><td style="${td2}">${sanitize(b.name)}</td></tr>
+        ${b.phone ? `<tr><td style="${td1}">Phone</td><td style="${td2}">${sanitize(b.phone)}</td></tr>` : ''}
+        ${b.organization ? `<tr><td style="${td1}">Organization</td><td style="${td2}">${sanitize(b.organization)}</td></tr>` : ''}
+      </table>
+    </div>
+    ${b.details ? `<div style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.15);border-radius:12px;padding:20px;margin-bottom:20px;"><p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Additional Notes</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.6;">${sanitize(b.details)}</p></div>` : ''}
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin-bottom:24px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a855f7;font-weight:800;">What Happens Next</p>
+      <table style="width:100%;border-spacing:0 8px;">
+        <tr><td style="color:#a855f7;font-weight:900;font-size:15px;width:28px;vertical-align:top;padding-right:12px;">1</td><td style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;">Our team reviews your request within <strong style="color:#fff;">24–48 hours</strong>.</td></tr>
+        <tr><td style="color:#a855f7;font-weight:900;font-size:15px;width:28px;vertical-align:top;padding-right:12px;">2</td><td style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;">We reach out to confirm availability and discuss your event.</td></tr>
+        <tr><td style="color:#a855f7;font-weight:900;font-size:15px;width:28px;vertical-align:top;padding-right:12px;">3</td><td style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;">You'll receive a final quote and contract once confirmed.</td></tr>
+      </table>
+    </div>
+    <div style="text-align:center;margin-bottom:24px;">
+      <a href="${dashboardUrl}" style="${btnStyle}">View My Booking Dashboard</a>
+    </div>
+    <p style="color:rgba(255,255,255,0.35);font-size:13px;text-align:center;margin:0 0 12px;">Questions? <a href="mailto:7thheaven@gmail.com" style="color:#a855f7;text-decoration:none;">7thheaven@gmail.com</a></p>
+    <p style="text-align:center;margin:0;"><a href="${cancelUrl}" style="color:rgba(255,255,255,0.2);font-size:12px;text-decoration:underline;">Cancel this booking request</a></p>
   `);
 }
 
@@ -74,26 +104,38 @@ export function bookingAdminNotification(b: {
   venueName?: string; venueCity: string; venueState: string;
   indoorOutdoor?: string; expectedAttendance?: string; details?: string;
 }) {
+  const replyMailto = `mailto:${b.email}?subject=Re: Booking ${b.bookingId} — 7th Heaven`;
+  const td1 = 'padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;';
+  const td2 = 'padding:6px 0;color:#fff;font-size:14px;font-weight:600;';
   return wrap(`
     <p style="margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#a855f7;font-weight:800;text-align:center;">⚡ New Booking Request</p>
-    <h1 style="margin:0 0 24px;font-size:24px;font-weight:900;color:#fff;text-align:center;">${sanitize(b.bookingId)}</h1>
+    <h1 style="margin:0 0 20px;font-size:24px;font-weight:900;color:#fff;text-align:center;">${sanitize(b.bookingId)}</h1>
+    <div style="text-align:center;margin-bottom:24px;">
+      <a href="${replyMailto}" style="${btnStyle}">Reply to ${sanitize(b.name)} →</a>
+      ${b.phone ? `<br/><a href="tel:${sanitize(b.phone)}" style="display:inline-block;margin-top:8px;color:#a855f7;font-size:14px;font-weight:600;text-decoration:none;">${sanitize(b.phone)}</a>` : ''}
+    </div>
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:16px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Planner Contact</p>
       <table style="width:100%;border-collapse:collapse;">
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:130px;">Name</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.name)}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Email</td><td style="padding:6px 0;color:#a855f7;font-size:14px;font-weight:600;">${sanitize(b.email)}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Phone</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.phone) || 'N/A'}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Organization</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.organization) || 'N/A'}</td></tr>
-        <tr><td colspan="2" style="padding:10px 0;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.05);"></td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Event</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.eventType)}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Date</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.eventDate)}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Time</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.startTime) || 'TBD'} – ${sanitize(b.endTime) || 'TBD'}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Venue</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.venueName) || 'Not specified'}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Location</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.venueCity)}, ${sanitize(b.venueState)}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Indoor/Outdoor</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.indoorOutdoor) || 'N/A'}</td></tr>
-        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Attendance</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(b.expectedAttendance) || 'N/A'}</td></tr>
+        <tr><td style="${td1}">Name</td><td style="${td2}">${sanitize(b.name)}</td></tr>
+        <tr><td style="${td1}">Email</td><td style="${td2};color:#a855f7;">${sanitize(b.email)}</td></tr>
+        <tr><td style="${td1}">Phone</td><td style="${td2}">${sanitize(b.phone) || 'N/A'}</td></tr>
+        <tr><td style="${td1}">Organization</td><td style="${td2}">${sanitize(b.organization) || 'N/A'}</td></tr>
       </table>
     </div>
-    ${b.details ? `<div style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.15);border-radius:12px;padding:16px;"><p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Additional Notes</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.5;">${sanitize(b.details)}</p></div>` : ''}
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:16px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Event Details</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="${td1}">Event Type</td><td style="${td2}">${sanitize(b.eventType)}</td></tr>
+        <tr><td style="${td1}">Date</td><td style="${td2}">${sanitize(b.eventDate)}</td></tr>
+        <tr><td style="${td1}">Time</td><td style="${td2}">${sanitize(b.startTime) || 'TBD'} – ${sanitize(b.endTime) || 'TBD'}</td></tr>
+        <tr><td style="${td1}">Venue</td><td style="${td2}">${sanitize(b.venueName) || 'Not specified'}</td></tr>
+        <tr><td style="${td1}">Location</td><td style="${td2}">${sanitize(b.venueCity)}, ${sanitize(b.venueState)}</td></tr>
+        <tr><td style="${td1}">Indoor/Outdoor</td><td style="${td2}">${sanitize(b.indoorOutdoor) || 'N/A'}</td></tr>
+        <tr><td style="${td1}">Attendance</td><td style="${td2}">${sanitize(b.expectedAttendance) || 'N/A'}</td></tr>
+      </table>
+    </div>
+    ${b.details ? `<div style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.15);border-radius:12px;padding:16px;"><p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Notes from Planner</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.5;">${sanitize(b.details)}</p></div>` : ''}
   `);
 }
 
@@ -291,6 +333,10 @@ export const EMAIL_TEMPLATES = [
       name: 'Marcus Rivera', bookingId: '7H-BK-4821', eventType: 'Full Band',
       eventDate: 'June 14, 2026', startTime: '7:00 PM', endTime: '10:00 PM',
       venueName: 'The Chicago Theatre', venueCity: 'Chicago', venueState: 'IL',
+      phone: '(312) 555-0187', organization: 'Rivera Entertainment',
+      indoorOutdoor: 'Indoor', expectedAttendance: '500',
+      details: 'Annual summer gala fundraiser. Please bring full PA setup.',
+      cancelToken: 'demo-cancel-token-preview',
     }),
   },
   {
