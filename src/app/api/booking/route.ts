@@ -21,60 +21,88 @@ function generateBookingId() {
 }
 
 function buildPlannerEmailHtml(booking: any) {
+  const cancelUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/book/cancel?token=${booking.cancelToken}&id=${booking.bookingId}`;
+  const dashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/planner`;
+  const td1 = `padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;`;
+  const td2 = `padding:8px 0;color:#fff;font-size:14px;font-weight:600;`;
   return `
-  <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0f; color: #fff; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
-    <div style="padding: 40px 32px; text-align: center; background: linear-gradient(135deg, #1a0030, #0a0a0f);">
-      <h1 style="margin: 0 0 8px; font-size: 28px; font-weight: 900; letter-spacing: -0.5px;">Booking Request Received</h1>
-      <p style="margin: 0; color: rgba(255,255,255,0.4); font-size: 14px;">7th Heaven Live — Event Booking</p>
+  <div style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0f;color:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);">
+    <div style="padding:40px 32px;text-align:center;background:linear-gradient(135deg,#1a0030,#0a0a0f);">
+      <p style="margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:4px;color:#a855f7;font-weight:800;">7th Heaven Live</p>
+      <h1 style="margin:0 0 8px;font-size:28px;font-weight:900;">Booking Request Received</h1>
+      <p style="margin:0;color:rgba(255,255,255,0.4);font-size:14px;">We'll review your details and get back to you within 24–48 hours.</p>
     </div>
-    <div style="padding: 32px;">
-      <p style="color: rgba(255,255,255,0.7); font-size: 15px; line-height: 1.6; margin: 0 0 24px;">
-        Hey <strong style="color: #fff;">${sanitize(booking.name)}</strong>, thanks for submitting your booking request! Our team will review your event details and get back to you within 24–48 hours.
+    <div style="padding:32px;">
+      <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 24px;">
+        Hey <strong style="color:#fff;">${sanitize(booking.name)}</strong>, thanks for reaching out! Here's a full summary of what you submitted.
       </p>
-      <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-        <p style="margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.3); font-weight: 700;">Booking ID</p>
-        <p style="margin: 0 0 20px; font-size: 18px; font-weight: 800; color: #a855f7;">${booking.bookingId}</p>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; width: 120px;">Event</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.eventType)}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Date</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.eventDate)}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Time</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Venue</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueName) || 'Not specified'}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Location</td>
-            <td style="padding: 8px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueCity)}, ${sanitize(booking.venueState)}</td>
-          </tr>
+      <!-- Booking ID -->
+      <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);border-radius:12px;padding:18px 24px;margin-bottom:24px;">
+        <p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.35);font-weight:700;">Your Booking ID</p>
+        <p style="margin:0;font-size:22px;font-weight:900;color:#a855f7;">${sanitize(booking.bookingId)}</p>
+      </div>
+      <!-- Event Details -->
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:20px;">
+        <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Event Details</p>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="${td1}">Event Type</td><td style="${td2}">${sanitize(booking.eventType)}</td></tr>
+          <tr><td style="${td1}">Date</td><td style="${td2}">${sanitize(booking.eventDate)}</td></tr>
+          <tr><td style="${td1}">Time</td><td style="${td2}">${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}</td></tr>
+          <tr><td style="${td1}">Venue</td><td style="${td2}">${sanitize(booking.venueName) || 'Not specified'}</td></tr>
+          <tr><td style="${td1}">Location</td><td style="${td2}">${sanitize(booking.venueCity)}, ${sanitize(booking.venueState)}</td></tr>
+          ${booking.indoorOutdoor ? `<tr><td style="${td1}">Indoor/Outdoor</td><td style="${td2}">${sanitize(booking.indoorOutdoor)}</td></tr>` : ''}
+          ${booking.expectedAttendance ? `<tr><td style="${td1}">Attendance</td><td style="${td2}">${sanitize(booking.expectedAttendance)}</td></tr>` : ''}
         </table>
       </div>
-      <p style="color: rgba(255,255,255,0.4); font-size: 13px; line-height: 1.6; margin: 0;">
-        If you have any questions, reply directly to this email or contact us at <a href="mailto:7thheaven@gmail.com" style="color: #a855f7; text-decoration: none;">7thheaven@gmail.com</a>.
-      </p>
+      <!-- Contact Info -->
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:20px;">
+        <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Your Contact Info</p>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="${td1}">Name</td><td style="${td2}">${sanitize(booking.name)}</td></tr>
+          <tr><td style="${td1}">Email</td><td style="${td2}">${sanitize(booking.email)}</td></tr>
+          ${booking.phone ? `<tr><td style="${td1}">Phone</td><td style="${td2}">${sanitize(booking.phone)}</td></tr>` : ''}
+          ${booking.organization ? `<tr><td style="${td1}">Organization</td><td style="${td2}">${sanitize(booking.organization)}</td></tr>` : ''}
+        </table>
+      </div>
+      ${booking.details ? `<div style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.15);border-radius:12px;padding:20px;margin-bottom:20px;"><p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Additional Notes</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.6;">${sanitize(booking.details)}</p></div>` : ''}
+      <!-- What Happens Next -->
+      <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin-bottom:24px;">
+        <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a855f7;font-weight:800;">What Happens Next</p>
+        <table style="width:100%;border-spacing:0 8px;">
+          <tr><td style="color:#a855f7;font-weight:900;font-size:15px;width:28px;vertical-align:top;padding-right:12px;">1</td><td style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;">Our team reviews your request within <strong style="color:#fff;">24–48 hours</strong>.</td></tr>
+          <tr><td style="color:#a855f7;font-weight:900;font-size:15px;width:28px;vertical-align:top;padding-right:12px;">2</td><td style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;">We reach out to confirm availability and discuss your event.</td></tr>
+          <tr><td style="color:#a855f7;font-weight:900;font-size:15px;width:28px;vertical-align:top;padding-right:12px;">3</td><td style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;">You'll receive a final quote and contract once confirmed.</td></tr>
+        </table>
+      </div>
+      <!-- CTA -->
+      <div style="text-align:center;margin-bottom:24px;">
+        <a href="${dashboardUrl}" style="display:inline-block;background:#7c3aed;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;">View My Booking Dashboard</a>
+      </div>
+      <p style="color:rgba(255,255,255,0.35);font-size:13px;text-align:center;margin:0 0 12px;">Questions? Reply to this email or contact <a href="mailto:7thheaven@gmail.com" style="color:#a855f7;text-decoration:none;">7thheaven@gmail.com</a></p>
+      <p style="text-align:center;margin:0;"><a href="${cancelUrl}" style="color:rgba(255,255,255,0.2);font-size:12px;text-decoration:underline;">Cancel this booking request</a></p>
     </div>
-    <div style="padding: 20px 32px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
-      <p style="margin: 0; color: rgba(255,255,255,0.2); font-size: 11px;">© 7th Heaven Live — All rights reserved</p>
+    <div style="padding:20px 32px;border-top:1px solid rgba(255,255,255,0.05);text-align:center;">
+      <p style="margin:0;color:rgba(255,255,255,0.2);font-size:11px;">© 7th Heaven Live · Chicago, IL · All rights reserved</p>
     </div>
   </div>`;
 }
 
 function buildAdminNotificationHtml(booking: any) {
+  const replyMailto = `mailto:${booking.email}?subject=Re: Booking ${booking.bookingId} — 7th Heaven`;
+  const td1 = `padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;`;
+  const td2 = `padding:6px 0;color:#fff;font-size:14px;font-weight:600;`;
   return `
-  <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0f; color: #fff; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
-    <div style="padding: 32px; text-align: center; background: linear-gradient(135deg, #1a0030, #0a0a0f);">
-      <p style="margin: 0 0 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: #a855f7; font-weight: 800;">⚡ New Booking Request</p>
-      <h1 style="margin: 0; font-size: 24px; font-weight: 900;">${booking.bookingId}</h1>
+  <div style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0f;color:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);">
+    <div style="padding:32px;text-align:center;background:linear-gradient(135deg,#1a0030,#0a0a0f);">
+      <p style="margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#a855f7;font-weight:800;">⚡ New Booking Request</p>
+      <h1 style="margin:0;font-size:24px;font-weight:900;">${sanitize(booking.bookingId)}</h1>
     </div>
-    <div style="padding: 32px;">
+    <div style="padding:32px;">
+      <!-- Reply CTA up top -->
+      <div style="text-align:center;margin-bottom:24px;">
+        <a href="${replyMailto}" style="display:inline-block;background:#7c3aed;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:12px 32px;border-radius:10px;">Reply to ${sanitize(booking.name)} →</a>
+        ${booking.phone ? `<br/><a href="tel:${sanitize(booking.phone)}" style="display:inline-block;margin-top:8px;color:#a855f7;font-size:13px;font-weight:600;text-decoration:none;">${sanitize(booking.phone)}</a>` : ''}
+      </div>
       <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; margin-bottom: 16px;">
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
@@ -305,10 +333,10 @@ export async function PATCH(request: Request) {
         bookingId: bookingId,
         status: templateStatus as 'confirmed' | 'cancelled' | 'completed',
         eventDate: eventDate,
-        eventType: booking.event_type || 'event',
-        venueName: booking.venue_name,
-        venueCity: booking.venue_city || '',
-        venueState: booking.venue_state || '',
+        eventType: data.event_type || 'event',
+        venueName: data.venue_name,
+        venueCity: data.venue_city || '',
+        venueState: data.venue_state || '',
       });
 
       const statusLabels: Record<string, string> = {
