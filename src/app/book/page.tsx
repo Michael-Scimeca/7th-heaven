@@ -721,18 +721,7 @@ function BookPageContent() {
               </h2>
               <p className="text-white/30 text-[1.05rem] mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {[
-                  { id: 'stage_lighting', icon: '💡', label: 'Stage Lighting Package', desc: 'Full LED stage rig with color washes & spots' },
-                  { id: 'projector_visuals', icon: '📽️', label: 'Projector & Visuals', desc: 'HD projector with live visuals & lyric display' },
-                  { id: 'fog_haze', icon: '🌫️', label: 'Fog / Haze Machine', desc: 'Atmospheric effects for a concert feel' },
-                  { id: 'sound_system', icon: '🔊', label: 'Full Sound System', desc: 'PA, monitors, mixing board — we bring everything' },
-                  { id: 'led_wall', icon: '🖥️', label: 'LED Video Wall', desc: 'Large format screen with custom graphics' },
-                  { id: 'laser_show', icon: '✨', label: 'Laser Show', desc: 'Concert-grade laser effects synced to music' },
-                  { id: 'confetti_co2', icon: '🎊', label: 'Confetti / CO2 Cannons', desc: 'Big moment effects for finales & encores' },
-                  { id: 'wireless_mics', icon: '🎤', label: 'Wireless Mic Package', desc: 'Extra wireless mics for speeches or MC' },
-                  { id: 'stage_risers', icon: '🏗️', label: 'Portable Stage / Risers', desc: 'Modular staging for flat-ground venues' },
-                  { id: 'merch_table', icon: '👕', label: 'Merchandise Table', desc: 'On-site merch booth at your event' },
-                ].map(option => {
+                {([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
                   const isActive = addOns.includes(option.id);
                   return (
                     <button
