@@ -1,92 +1,85 @@
 "use client";
 
-import { useState } from "react";
-
 const ITINERARY = [
-  { day: 1, port: "Miami, FL", label: "Embarkation", icon: "🚢", desc: "Board the ship and join the Sail-Away Party with 7th Heaven on the pool deck.", highlights: ["Sail-Away Party", "Welcome Dinner", "First Night Meet"], type: "depart" },
-  { day: 2, port: "At Sea", label: "Sea Day", icon: "🌊", desc: "Acoustic set by the pool. Meet & Greet. Full electric show in the main theater.", highlights: ["Pool Acoustic Set", "Band Meet & Greet", "Theater Concert"], type: "sea" },
-  { day: 3, port: "Cozumel, Mexico", label: "Port Day", icon: "🏝️", desc: "Explore Mayan ruins, snorkel crystal reefs, or chill on the beach.", highlights: ["Mayan Ruins Tour", "Reef Snorkeling", "Beach Day"], type: "island" },
-  { day: 4, port: "Grand Cayman", label: "Port Day", icon: "🐢", desc: "Stingray City, Seven Mile Beach. Sunset deck session with the band.", highlights: ["Stingray City", "Seven Mile Beach", "Sunset Deck Jam"], type: "island" },
-  { day: 5, port: "Roatán, Honduras", label: "Port Day", icon: "🤿", desc: "World-class diving and zip-lining through the jungle canopy.", highlights: ["Scuba Diving", "Jungle Zip-line", "Island Exploration"], type: "island" },
-  { day: 6, port: "At Sea", label: "Sea Day", icon: "🎸", desc: "Grand Finale — full 2-hour concert, fan-request setlist, after-party.", highlights: ["2-Hour Concert", "Fan Request Set", "Grand After-Party"], type: "sea" },
-  { day: 7, port: "Miami, FL", label: "Disembarkation", icon: "⚓", desc: "Farewell breakfast and group photo before heading home.", highlights: ["Farewell Breakfast", "Group Photo", "Until Next Time"], type: "depart" },
+  { day: 1, port: "Miami, FL", label: "Embarkation", icon: "🚢", desc: "Board the ship and join the Sail-Away Party with 7th Heaven on the pool deck.", type: "depart" },
+  { day: 2, port: "At Sea", label: "Sea Day", icon: "🌊", desc: "Acoustic set by the pool. Meet & Greet. Full electric show in the main theater.", type: "sea" },
+  { day: 3, port: "Cozumel, Mexico", label: "Port Day", icon: "🏝️", desc: "Explore Mayan ruins, snorkel crystal reefs, or chill on the beach.", type: "island" },
+  { day: 4, port: "Grand Cayman", label: "Port Day", icon: "🐢", desc: "Stingray City, Seven Mile Beach. Sunset deck session with the band.", type: "island" },
+  { day: 5, port: "Roatán, Honduras", label: "Port Day", icon: "🤿", desc: "World-class diving and zip-lining through the jungle canopy.", type: "island" },
+  { day: 6, port: "At Sea", label: "Sea Day", icon: "🎸", desc: "Grand Finale — full 2-hour concert, fan-request setlist, after-party.", type: "sea" },
+  { day: 7, port: "Miami, FL", label: "Disembarkation", icon: "⚓", desc: "Farewell breakfast and group photo before heading home.", type: "depart" },
 ];
 
+const dot: Record<string, string> = {
+  island: "bg-cyan-400 shadow-cyan-400/50",
+  sea:    "bg-[var(--color-accent)] shadow-[var(--color-accent)]/50",
+  depart: "bg-amber-400 shadow-amber-400/50",
+};
+const lineColor: Record<string, string> = {
+  island: "border-cyan-500/30",
+  sea:    "border-purple-500/30",
+  depart: "border-amber-500/30",
+};
+
 export default function ItineraryB() {
-  const [activeDay, setActiveDay] = useState(0);
-  const day = ITINERARY[activeDay];
-
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] pt-[72px]">
-      <div className="site-container max-w-4xl py-16">
-        <h2 className="text-3xl font-black uppercase italic tracking-tight mb-12 text-center" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-          Day-by-Day <span className="accent-gradient-text">Itinerary</span>
-        </h2>
-
-        {/* Tab-style day selector */}
-        <div className="flex justify-center gap-2 mb-8">
-          {ITINERARY.map((d, i) => (
-            <button key={d.day} onClick={() => setActiveDay(i)}
-              className={`flex flex-col items-center px-4 py-3 rounded-xl transition-all cursor-pointer border ${
-                activeDay === i
-                  ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/50 shadow-[0_0_15px_rgba(133,29,239,0.2)]"
-                  : "bg-white/[0.02] border-white/5 hover:border-white/15"
-              }`}
-            >
-              <span className="text-lg">{d.icon}</span>
-              <span className={`text-[0.5rem] font-black uppercase tracking-widest mt-1 ${activeDay === i ? "text-[var(--color-accent)]" : "text-white/30"}`}>Day {d.day}</span>
-            </button>
-          ))}
+    <div className="min-h-screen bg-[#050508] pt-[72px]">
+      <div className="site-container max-w-3xl py-16">
+        <div className="text-center mb-16">
+          <p className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2">7 Nights · Caribbean</p>
+          <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-black italic uppercase text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            Day-by-Day <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-accent)] to-cyan-400">Journey</span>
+          </h1>
         </div>
 
-        {/* Active day detail card */}
-        <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-10 relative overflow-hidden">
-          {/* Background glow */}
-          <div className="absolute -right-20 -top-20 w-60 h-60 bg-[var(--color-accent)]/5 blur-[100px] rounded-full" />
+        {/* Classic vertical timeline */}
+        <div className="relative">
+          {/* Vertical spine */}
+          <div className="absolute left-6 top-2 bottom-2 w-px bg-gradient-to-b from-[var(--color-accent)]/40 via-white/10 to-amber-400/30" />
 
-          <div className="relative z-10">
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-5xl">{day.icon}</span>
-              <div>
-                <span className="text-[0.6rem] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Day {day.day}</span>
-                <h3 className="text-3xl font-black text-white tracking-tight" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{day.port}</h3>
-                <span className={`inline-block mt-1 px-2.5 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest ${
-                  day.type === "island" ? "bg-cyan-500/10 text-cyan-400" : day.type === "sea" ? "bg-blue-500/10 text-blue-400" : "bg-amber-500/10 text-amber-400"
-                }`}>{day.label}</span>
+          <div className="space-y-0">
+            {ITINERARY.map((day, i) => (
+              <div key={day.day} className="relative flex gap-8 pb-10 last:pb-0 group">
+                {/* Dot */}
+                <div className="relative z-10 shrink-0">
+                  <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center text-xl shadow-lg ${lineColor[day.type]} bg-[#0c0c18]`}>
+                    {day.icon}
+                  </div>
+                  <div className={`absolute inset-1 rounded-full opacity-0 group-hover:opacity-20 ${dot[day.type]} transition-opacity blur-md`} />
+                </div>
+
+                {/* Card */}
+                <div className={`flex-1 bg-white/[0.02] border rounded-2xl p-6 group-hover:border-white/10 transition-all ${lineColor[day.type]} group-hover:bg-white/[0.03]`}>
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <div>
+                      <span className="text-[0.5rem] font-black uppercase tracking-[0.3em] text-white/25 block mb-1">Day {day.day}</span>
+                      <h2 className="text-lg font-black text-white leading-tight">{day.port}</h2>
+                    </div>
+                    <span className={`shrink-0 text-[0.5rem] font-black uppercase tracking-[0.2em] px-2.5 py-1 rounded-full border ${
+                      day.type === "island" ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/20" :
+                      day.type === "sea"    ? "bg-purple-500/10 text-purple-400 border-purple-500/20" :
+                                              "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                    }`}>{day.label}</span>
+                  </div>
+                  <p className="text-white/40 text-sm leading-relaxed">{day.desc}</p>
+
+                  {/* Progress line to next */}
+                  {i < ITINERARY.length - 1 && (
+                    <div className="mt-5 flex items-center gap-2">
+                      <div className="h-px flex-1 bg-white/5" />
+                      <span className="text-[0.4rem] text-white/15 uppercase tracking-widest font-bold">next stop</span>
+                      <div className="h-px flex-1 bg-white/5" />
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-
-            <p className="text-white/45 leading-relaxed mb-8 max-w-lg">{day.desc}</p>
-
-            {/* Highlights */}
-            <div>
-              <p className="text-[0.55rem] font-bold uppercase tracking-widest text-white/20 mb-3">Highlights</p>
-              <div className="flex flex-wrap gap-3">
-                {day.highlights.map(h => (
-                  <span key={h} className="px-4 py-2 bg-white/[0.03] border border-white/5 rounded-xl text-[0.75rem] text-white/50 font-medium hover:border-[var(--color-accent)]/30 hover:text-white/70 transition-all">
-                    {h}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Nav arrows */}
-            <div className="flex justify-between mt-8 pt-6 border-t border-white/5">
-              <button onClick={() => setActiveDay(Math.max(0, activeDay - 1))} disabled={activeDay === 0}
-                className="text-[0.6rem] font-bold uppercase tracking-widest text-white/30 hover:text-white disabled:opacity-20 cursor-pointer transition-colors">
-                ← Previous Day
-              </button>
-              <button onClick={() => setActiveDay(Math.min(6, activeDay + 1))} disabled={activeDay === 6}
-                className="text-[0.6rem] font-bold uppercase tracking-widest text-white/30 hover:text-white disabled:opacity-20 cursor-pointer transition-colors">
-                Next Day →
-              </button>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-cyan-500 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
-        Itinerary B — Tabbed Detail
+      <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
+        Layout B — Vertical Timeline
       </div>
     </div>
   );

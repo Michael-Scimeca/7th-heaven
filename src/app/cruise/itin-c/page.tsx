@@ -10,85 +10,90 @@ const ITINERARY = [
   { day: 7, port: "Miami, FL", label: "Disembarkation", icon: "⚓", desc: "Farewell breakfast and group photo before heading home.", type: "depart" },
 ];
 
+const cardGrad: Record<string, string> = {
+  island: "from-cyan-900/60 via-emerald-900/30 to-[#0a0a14]",
+  sea:    "from-violet-900/60 via-blue-900/30 to-[#0a0a14]",
+  depart: "from-amber-900/60 via-orange-900/30 to-[#0a0a14]",
+};
+const glow: Record<string, string> = {
+  island: "shadow-cyan-500/20",
+  sea:    "shadow-purple-500/20",
+  depart: "shadow-amber-500/20",
+};
+const border: Record<string, string> = {
+  island: "border-cyan-500/20 hover:border-cyan-500/50",
+  sea:    "border-purple-500/20 hover:border-purple-500/50",
+  depart: "border-amber-500/20 hover:border-amber-500/50",
+};
+const accentText: Record<string, string> = {
+  island: "text-cyan-400",
+  sea:    "text-purple-400",
+  depart: "text-amber-400",
+};
+
 export default function ItineraryC() {
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] pt-[72px]">
-      <div className="site-container max-w-5xl py-16">
-        <h2 className="text-3xl font-black uppercase italic tracking-tight mb-12 text-center" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-          Day-by-Day <span className="accent-gradient-text">Itinerary</span>
-        </h2>
-
-        {/* Grid layout — alternating large/small cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {ITINERARY.map((day, i) => {
-            // First and last are full-width, islands are tall, sea days are standard
-            const isWide = i === 0 || i === 6;
-            const isTall = day.type === "island";
-
-            return (
-              <div key={day.day}
-                className={`relative bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden hover:border-[var(--color-accent)]/30 transition-all group ${
-                  isWide ? "md:col-span-3" : isTall ? "md:row-span-2" : ""
-                }`}
-              >
-                {/* Accent left border */}
-                <div className={`absolute left-0 top-0 bottom-0 w-1 ${
-                  day.type === "island" ? "bg-gradient-to-b from-cyan-500 to-emerald-500" :
-                  day.type === "sea" ? "bg-gradient-to-b from-[var(--color-accent)] to-blue-500" :
-                  "bg-gradient-to-b from-amber-500 to-orange-500"
-                }`} />
-
-                <div className={`p-6 ${isWide ? "flex items-center gap-6" : ""}`}>
-                  <div className={`flex items-center gap-3 ${isWide ? "" : "mb-3"}`}>
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 ${
-                      day.type === "island" ? "bg-cyan-500/10 border border-cyan-500/20" :
-                      day.type === "sea" ? "bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20" :
-                      "bg-amber-500/10 border border-amber-500/20"
-                    }`}>
-                      {day.icon}
-                    </div>
-                    <div>
-                      <span className="text-[0.55rem] font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Day {day.day}</span>
-                      <h3 className="text-lg font-bold text-white leading-tight">{day.port}</h3>
-                    </div>
-                  </div>
-
-                  <div className={isWide ? "flex-1" : ""}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className={`px-2 py-0.5 rounded text-[0.45rem] font-bold uppercase tracking-widest ${
-                        day.type === "island" ? "bg-cyan-500/10 text-cyan-400" : day.type === "sea" ? "bg-blue-500/10 text-blue-400" : "bg-amber-500/10 text-amber-400"
-                      }`}>{day.label}</span>
-                      {day.type === "sea" && <span className="text-[0.45rem] text-white/15 font-bold uppercase tracking-widest">🎵 Live Music</span>}
-                    </div>
-                    <p className="text-[0.8rem] text-white/35 leading-relaxed">{day.desc}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+    <div className="min-h-screen bg-[#050508] pt-[72px]">
+      {/* Ocean wave header */}
+      <div className="relative overflow-hidden py-20 text-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent)]/10 via-blue-900/5 to-cyan-900/10 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+        <p className="text-[0.6rem] font-black uppercase tracking-[0.35em] text-cyan-400 mb-4">7 Nights · Caribbean Adventure</p>
+        <h1 className="text-[clamp(2.5rem,7vw,5rem)] font-black italic uppercase leading-none text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+          The <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-[var(--color-accent)] to-blue-400">Voyage</span>
+        </h1>
+        {/* Route string */}
+        <div className="flex items-center justify-center gap-1.5 mt-6 flex-wrap px-4">
+          {ITINERARY.map((d, i) => (
+            <span key={d.day} className="flex items-center gap-1.5">
+              <span className={`text-[0.55rem] font-bold ${accentText[d.type]}`}>{d.port.split(",")[0]}</span>
+              {i < ITINERARY.length - 1 && <span className="text-white/15 text-[0.55rem]">→</span>}
+            </span>
+          ))}
         </div>
+      </div>
 
-        {/* Quick Summary Row */}
-        <div className="flex justify-center gap-8 mt-10 pt-8 border-t border-white/5">
-          {[
-            { n: "7", label: "Nights", icon: "🌙" },
-            { n: "3", label: "Islands", icon: "🏝️" },
-            { n: "6", label: "Shows", icon: "🎸" },
-            { n: "2", label: "Sea Days", icon: "🌊" },
-          ].map(s => (
-            <div key={s.label} className="flex items-center gap-2">
-              <span className="text-lg">{s.icon}</span>
-              <div>
-                <p className="text-xl font-black text-white leading-none">{s.n}</p>
-                <p className="text-[0.5rem] font-bold uppercase tracking-[0.2em] text-white/20">{s.label}</p>
+      {/* 7-column grid on desktop, 2-col on tablet, 1 on mobile */}
+      <div className="site-container max-w-7xl py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4">
+          {ITINERARY.map(day => (
+            <div key={day.day} className={`relative rounded-2xl border bg-gradient-to-b ${cardGrad[day.type]} ${border[day.type]} shadow-xl ${glow[day.type]} transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col overflow-hidden group`}>
+              {/* Top accent bar */}
+              <div className={`h-[3px] ${
+                day.type === "island" ? "bg-gradient-to-r from-cyan-500 to-emerald-400" :
+                day.type === "sea"    ? "bg-gradient-to-r from-[var(--color-accent)] to-blue-400" :
+                                        "bg-gradient-to-r from-amber-500 to-orange-400"
+              }`} />
+
+              <div className="p-5 flex flex-col flex-1">
+                <div className="flex items-center justify-between mb-4">
+                  <span className={`text-[0.45rem] font-black uppercase tracking-[0.25em] ${accentText[day.type]}`}>Day {day.day}</span>
+                  <span className="text-2xl group-hover:scale-110 transition-transform">{day.icon}</span>
+                </div>
+
+                <div className="flex-1">
+                  <h2 className="text-base font-black text-white leading-tight mb-1">{day.port}</h2>
+                  <span className={`text-[0.45rem] font-bold uppercase tracking-widest ${accentText[day.type]} opacity-70`}>{day.label}</span>
+                  <p className="text-white/30 text-[0.65rem] leading-relaxed mt-3">{day.desc}</p>
+                </div>
+
+                {/* Bottom day counter */}
+                <div className={`mt-4 pt-3 border-t border-white/[0.04] flex items-center gap-1`}>
+                  {ITINERARY.map(d => (
+                    <div key={d.day} className={`flex-1 h-0.5 rounded-full ${d.day <= day.day ? (
+                      day.type === "island" ? "bg-cyan-400" :
+                      day.type === "sea" ? "bg-purple-400" : "bg-amber-400"
+                    ) : "bg-white/10"}`} />
+                  ))}
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-amber-500 text-black text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
-        Itinerary C — Bento Grid
+      <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
+        Layout C — 7-Column Grid
       </div>
     </div>
   );
