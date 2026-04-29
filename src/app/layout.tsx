@@ -10,6 +10,7 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 import { PageNav } from "@/components/PageNav";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -130,7 +131,8 @@ export default async function RootLayout({
           {isDraftMode && <VisualEditing />}
           
           <PageNav />
-          
+          <CookieConsentBanner />
+
           {/* Global Edit Button */}
           <a
             href="/studio"
