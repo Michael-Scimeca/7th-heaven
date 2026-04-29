@@ -5,6 +5,7 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { applyRateLimit, getClientIp, isValidEmail, sanitizeText, isSpam } from '@/lib/api-utils';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -13,19 +14,31 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
-    const { email, name, source, userId } = await request.json();
+    const ip = await getClientIp();
+    const rateLimited = await applyRateLimit(ip, "7h:newsletter", 10, "60 s");
+    if (rateLimited) return rateLimited;
 
-    if (!email || !email.includes('@')) {
+    let body: Record<string, unknown>;
+    try { body = await request.json(); } catch { return NextResponse.json({ error: 'Invalid request' }, { status: 400 }); }
+
+    // Honeypot + timing spam check — silent drop
+    if (isSpam(body)) return NextResponse.json({ success: true });
+
+    const { email, name, source, userId } = body as Record<string, string>;
+
+    if (!isValidEmail(email)) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
     }
 
-    // Upsert — if they already exist, just update subscribed to true
+    const safeName = sanitizeText(name, 100);
+    const safeSource = ['website', 'cruise', 'fan-dashboard', 'book', 'live'].includes(source) ? source : 'website';
+
     const { data, error } = await supabase
       .from('newsletter_subscribers')
       .upsert({
         email: email.toLowerCase().trim(),
-        name: name || '',
-        source: source || 'website',
+        name: safeName,
+        source: safeSource,
         user_id: userId || null,
         subscribed: true,
         unsubscribed_at: null,
@@ -34,11 +47,10 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      // If upsert fails due to unique constraint, try update
       if (error.code === '23505') {
         await supabase
           .from('newsletter_subscribers')
-          .update({ subscribed: true, unsubscribed_at: null, name: name || '' })
+          .update({ subscribed: true, unsubscribed_at: null, name: safeName })
           .eq('email', email.toLowerCase().trim());
         return NextResponse.json({ success: true, resubscribed: true });
       }
@@ -46,8 +58,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true, id: data?.id });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Newsletter subscribe error:', err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

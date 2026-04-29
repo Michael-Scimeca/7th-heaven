@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { applyRateLimit, getClientIp, sanitizeText, isSpam } from "@/lib/api-utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -8,10 +9,21 @@ const supabase = createClient(
 
 // POST /api/fans/memories
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { show_id, memory_text, display_name, photo_url } = body;
+  const ip = await getClientIp();
+  const rateLimited = await applyRateLimit(ip, "7h:memories", 5, "60 s");
+  if (rateLimited) return rateLimited;
 
-  if (!show_id || !memory_text) {
+  let body: Record<string, unknown>;
+  try { body = await req.json(); } catch { return NextResponse.json({ error: 'Invalid request' }, { status: 400 }); }
+
+  if (isSpam(body)) return NextResponse.json({ ok: true }); // silent drop
+
+  const show_id = sanitizeText(body.show_id as string, 100);
+  const memory_text = sanitizeText(body.memory_text as string, 280);
+  const display_name = sanitizeText(body.display_name as string, 100);
+  const photo_url = typeof body.photo_url === 'string' && body.photo_url.startsWith('https://') ? body.photo_url : null;
+
+  if (!show_id || !memory_text || memory_text.length < 3) {
     return NextResponse.json({ error: "show_id and memory_text required" }, { status: 400 });
   }
 
