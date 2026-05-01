@@ -141,7 +141,7 @@ export async function seedMockData() {
   return { success: true };
 }
 
-export async function adminCreateCrewMember({ name, email, password: providedPassword, phone }: { name: string; email: string; password?: string; phone?: string }) {
+export async function adminCreateCrewMember({ name, email, password: providedPassword, phone, username }: { name: string; email: string; password?: string; phone?: string; username?: string }) {
   console.log(`[Admin] Creating crew member ${email}`);
   // Use provided password or generate a secure temporary one
   const password = providedPassword || (Math.random().toString(36).slice(-10) + "!A1");
@@ -150,7 +150,7 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
     email,
     password,
     email_confirm: true,
-    user_metadata: { full_name: name },
+    user_metadata: { full_name: name, username: username || '' },
   });
   if (authErr) {
     console.error('Auth error creating crew member:', authErr);
@@ -160,6 +160,7 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
   if (authData?.user) {
     const updateData: any = { role: 'crew' };
     if (phone) updateData.phone = phone;
+    if (username) updateData.username = username;
     const { error } = await supabaseAdmin
       .from('profiles')
       .update(updateData)
@@ -169,6 +170,41 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
       return { success: false, error: error.message };
     }
   }
+
+  // ── Send emails ──
+  try {
+    const { welcomeCrew, newAccountAdminAlert } = await import('@/lib/email-templates');
+    const { sendEmail } = await import('@/lib/email');
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.RESEND_FROM_EMAIL || '';
+
+    // 1. Welcome email to the new crew member
+    await sendEmail({
+      to: email,
+      subject: '🛡️ Welcome to the 7th Heaven Crew',
+      html: welcomeCrew({ name, email, username: username || undefined, tempPassword: password }),
+    });
+    console.log(`[Admin] Welcome email sent to crew member ${email}`);
+
+    // 2. Alert email to site admin
+    if (adminEmail) {
+      await sendEmail({
+        to: adminEmail,
+        subject: `🔔 New Crew Account: ${name}`,
+        html: newAccountAdminAlert({
+          accountName: name,
+          accountEmail: email,
+          accountUsername: username || undefined,
+          accountRole: 'crew',
+          createdBy: 'Admin Dashboard',
+        }),
+      });
+      console.log(`[Admin] Account alert sent to ${adminEmail}`);
+    }
+  } catch (emailErr) {
+    // Don't fail the account creation if email fails
+    console.error('[Admin] Email send failed (non-fatal):', emailErr);
+  }
+
   revalidatePath('/admin');
   revalidatePath('/crew');
   return { success: true, password };

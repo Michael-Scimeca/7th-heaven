@@ -188,7 +188,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const [disconnectCountdown, setDisconnectCountdown] = useState<number | null>(null);
   
   // 🎰 Live Raffle
-  const [raffleState, setRaffleState] = useState<{status: string, entrants: number, prizes: any[], winners: string[], timer: number, minEntrants?: number, countdown?: number, winnerPins?: string[]} | null>(null);
+  const [raffleState, setRaffleState] = useState<{status: string, entrants: number, prizes: any[], winners: string[], timer: number, minEntrants?: number, countdown?: number, winnerPins?: string[], timestamp?: number} | null>(null);
 
   const [hasEnteredRaffle, setHasEnteredRaffle] = useState(false);
   const [raffleWidgetClosed, setRaffleWidgetClosed] = useState(false);
@@ -371,7 +371,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
           .limit(100);
         
         if (chatData && chatData.length > 0) {
-          const mapped = chatData.map((m: any) => ({
+          const mapped: ChatMsg[] = chatData.map((m: any) => ({
             id: m.id,
             account: {
               id: m.sender_name,
@@ -380,6 +380,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
               role: m.sender_role || 'fan',
               color: m.sender_role === 'crew' ? '#f97316' : '#8b5cf6',
               avatar: m.sender_avatar || m.sender_name.slice(0, 2).toUpperCase(),
+              joinYear: 2024,
             },
             text: m.content,
             timestamp: new Date(m.created_at).getTime(),
@@ -652,7 +653,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   useEffect(() => {
     if (raffleState?.status === 'complete' && raffleState.timestamp) {
       const t = setInterval(() => {
-        const diff = Math.floor((raffleState.timestamp + 120000 - Date.now()) / 1000);
+        const diff = Math.floor((raffleState.timestamp! + 120000 - Date.now()) / 1000);
         setNextRaffleCountdown(Math.max(0, diff));
       }, 1000);
       return () => clearInterval(t);
@@ -1125,15 +1126,19 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     setMessages(limited);
     localStorage.setItem('7h_global_chat_history', JSON.stringify(limited));
 
-    // Persist to Supabase chat_messages table
+    // Persist securely to chat_messages via API
     const roomId = `live_${memberId?.toString().toLowerCase().trim()}`;
-    Promise.resolve(supabase.from('chat_messages').insert({
-      room: roomId,
-      sender_name: member?.name || 'You',
-      sender_role: 'fan',
-      sender_avatar: member?.avatar || 'YO',
-      content: userMessage.trim(),
-    })).catch(() => {});
+    fetch('/api/chat/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        room: roomId,
+        sender_name: member?.name || 'You',
+        sender_role: 'fan',
+        sender_avatar: member?.avatar || 'YO',
+        content: userMessage.trim(),
+      })
+    }).catch(err => console.error('Failed to send chat message to API:', err));
 
     // Broadcast via Supabase Realtime for cross-browser/tab sync
     supabase.channel('live_chat').send({
@@ -1595,8 +1600,8 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                       <div className="text-center mb-5">
                         <span className="text-4xl mb-2 block">🏆</span>
                         <h3 className="text-xl font-black text-white uppercase tracking-wider">You Won!</h3>
-                        {raffleState.prizes?.[winnerIdx]?.name && (
-                          <p className="text-sm font-bold text-yellow-500 mt-1 uppercase tracking-widest">{raffleState.prizes[winnerIdx].name}</p>
+                        {raffleState?.prizes?.[winnerIdx]?.name && (
+                          <p className="text-sm font-bold text-yellow-500 mt-1 uppercase tracking-widest">{raffleState?.prizes[winnerIdx].name}</p>
                         )}
                         <p className="text-xs text-white/40 mt-1">Show your PIN to the crew at the merch table</p>
                       </div>

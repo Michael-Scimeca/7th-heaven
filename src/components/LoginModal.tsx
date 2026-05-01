@@ -14,6 +14,9 @@ export default function LoginModal() {
  const [error, setError] = useState("");
  const [loading, setLoading] = useState(false);
  const [loginRole, setLoginRole] = useState<'fan' | 'crew'>('fan');
+ const [confirmationRequired, setConfirmationRequired] = useState(false);
+ const [website, setWebsite] = useState(""); // Honeypot
+ const [usernameField, setUsernameField] = useState("");
 
  if (!isModalOpen) return null;
 
@@ -45,16 +48,26 @@ export default function LoginModal() {
    if (!email.includes("@")) { setError("Valid email required"); setLoading(false); return; }
    if (password.length < 4) { setError("Password must be 4+ characters"); setLoading(false); return; }
    if (wantNotifications && !zipCode.trim()) { setError("Enter your zip code to receive local show alerts"); setLoading(false); return; }
-   const ok = await signup(name, email, password);
-   if (!ok) {
-     setError("An account with this email already exists.");
+   
+   if (website) {
+     // Honeypot triggered
+     console.warn("Honeypot triggered");
+     setLoading(false);
+     return;
+   }
+
+   const result = await signup(name, email, password, undefined, usernameField.trim() || undefined);
+   if (!result.success) {
+     setError(result.error || "An account with this email already exists.");
+   } else if (result.confirmationRequired) {
+     setConfirmationRequired(true);
    } else {
      // Subscribe to newsletter if opted in
      if (wantNewsletter) {
       fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, source: 'signup' }),
+        body: JSON.stringify({ email, name, source: 'signup', website }),
       }).catch(() => {});
      }
      // Save proximity settings if opted in
@@ -62,7 +75,7 @@ export default function LoginModal() {
       fetch('/api/proximity/profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ zip: zipCode.trim(), notificationRadius: 50, notificationsEnabled: true }),
+        body: JSON.stringify({ zip: zipCode.trim(), notificationRadius: 50, notificationsEnabled: true, website }),
       }).catch(() => {});
      }
      window.location.href = '/fans';
@@ -144,7 +157,37 @@ export default function LoginModal() {
      </div>
      )}
 
-     <form onSubmit={handleSubmit} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
+     {confirmationRequired ? (
+      <div className="text-center py-10 animate-[fadeIn_0.3s_ease]">
+       <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+        📧
+       </div>
+       <h3 className="text-xl font-bold mb-4">Check Your Email</h3>
+       <p className="text-white/40 text-sm leading-relaxed mb-8">
+        We&apos;ve sent a verification link to <strong className="text-white">{email}</strong>.<br/>
+        Please click the link to confirm your account and join the 7th Heaven family.
+       </p>
+       <button 
+        onClick={closeModal}
+        className="w-full py-3 border border-white/10 text-white font-bold text-[0.7rem] uppercase tracking-widest hover:bg-white/5 transition-all cursor-pointer"
+       >
+        Got it, thanks
+       </button>
+      </div>
+     ) : (
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
+       {/* Honeypot field (hidden) */}
+       <div className="hidden" aria-hidden="true">
+        <input 
+         type="text" 
+         name="website" 
+         value={website} 
+         onChange={(e) => setWebsite(e.target.value)} 
+         tabIndex={-1} 
+         autoComplete="off" 
+        />
+       </div>
+
       {modalMode === "signup" && (
        <>
         <div>
@@ -156,6 +199,19 @@ export default function LoginModal() {
           placeholder="Your name"
           className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
          />
+        </div>
+
+        <div>
+         <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block">Username</label>
+         <input
+          type="text"
+          value={usernameField}
+          onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+          placeholder="e.g. rocknroller_7h"
+          maxLength={24}
+          className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+         />
+         <p className="text-[0.5rem] text-white/20 mt-1">Letters, numbers & underscores only. This is your display handle.</p>
         </div>
 
         {loginRole === 'fan' && (
@@ -267,6 +323,7 @@ export default function LoginModal() {
        </p>
       )}
      </form>
+     )}
 
      {/* OAuth Social Login for Fans */}
      {loginRole === 'fan' && (

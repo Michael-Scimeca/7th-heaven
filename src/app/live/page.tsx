@@ -174,21 +174,21 @@ const getElapsed = (creationTime: number) => {
         ) : (
           <div className="flex flex-col items-center justify-center py-20">
             <svg className="w-16 h-16 mb-6 text-white/20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
-            <span className="text-2xl font-black italic tracking-tight text-white/50 mb-8">No live feed available</span>
+            <span className="text-2xl font-black italic tracking-tight text-white/50 mb-3">No crew feeds are live right now</span>
+            <p className="text-white/25 text-sm mb-10 max-w-md text-center">Check back during the next show — or follow us on socials for stream announcements.</p>
             
             <div className="max-w-2xl w-full bg-white/[0.02] border border-white/5 rounded-2xl p-8 text-left">
               <h3 className="text-sm font-bold uppercase tracking-widest text-[#c084fc] mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#c084fc] animate-pulse" />
-                What to expect when we go live
+                <span className="w-2 h-2 rounded-full bg-[#c084fc]" />
+                When the crew goes live, you get
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
-                  { icon: "🎬", text: "Behind-the-scenes stories" },
-                  { icon: "🎵", text: "Live song requests" },
-                  { icon: "💬", text: "Interactive live Q&As" },
-                  { icon: "🎧", text: "Exclusive studio snippets" },
-                  { icon: "⭐", text: "Band member spotlights" }
+                  { icon: "📡", text: "Real-time crew broadcasts" },
+                  { icon: "💬", text: "Live chat with other fans" },
+                  { icon: "🎟️", text: "Live merch & prize raffles" },
+                  { icon: "🔥", text: "Real-time emoji reactions" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10 hover:border-[#8a1cfc]/30 hover:bg-white/10 transition-colors">
                     <span className="text-xl">{item.icon}</span>

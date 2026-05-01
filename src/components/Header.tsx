@@ -52,7 +52,7 @@ export function Header() {
       .eq('status', 'live')
       .limit(1);
       
-    setHasLiveStreams(dbStreams && dbStreams.length > 0);
+    setHasLiveStreams(!!(dbStreams && dbStreams.length > 0));
     
    } catch (err) {
     console.error("Failed to check live status", err);

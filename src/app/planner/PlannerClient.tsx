@@ -76,8 +76,15 @@ export default function PlannerClient() {
     e.preventDefault(); setLoginErr(''); setLoginLoading(true);
     if (mode === 'signup') {
       if (!name.trim()) { setLoginErr('Name is required.'); setLoginLoading(false); return; }
-      const ok = await signup(name.trim(), email, password);
-      if (!ok) setLoginErr('Signup failed. Try a different email or stronger password (6+ chars).');
+      const result = await signup(name.trim(), email, password);
+      if (!result.success) {
+        setLoginErr(result.error || 'Signup failed. Try a different email or stronger password.');
+      } else if (result.confirmationRequired) {
+        setLoginErr('CONFIRMATION_REQUIRED');
+      } else {
+        // Success (auto-login or redirect)
+        window.location.reload();
+      }
       setLoginLoading(false);
       return;
     }
@@ -108,9 +115,19 @@ export default function PlannerClient() {
                 {mode === 'signup' && <div><label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Full Name</label><input type="text" value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>}
                 <div><label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="planner@company.com" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>
                 <div><label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>
-                {loginErr && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 rounded-lg border border-rose-400/20">{loginErr}</p>}
-                <button type="submit" disabled={loginLoading} className="w-full py-3 bg-purple-600 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 disabled:opacity-50 cursor-pointer">{loginLoading ? 'Authenticating...' : mode === 'signup' ? 'Create Account' : 'Sign In'}</button>
-                <button type="button" onClick={()=>{setMode(m=>m==='login'?'signup':'login');setLoginErr('');}} className="text-[0.65rem] text-purple-400/60 hover:text-purple-400 uppercase tracking-[0.15em] font-bold cursor-pointer text-center">{mode==='login'?'Need an account? Create one':'Already have one? Sign in'}</button>
+                {loginErr === 'CONFIRMATION_REQUIRED' ? (
+                  <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-center">
+                    <span className="text-xl block mb-2">📧</span>
+                    <p className="text-[0.7rem] font-bold text-emerald-400 uppercase tracking-widest mb-1">Check Your Email</p>
+                    <p className="text-[0.65rem] text-white/40 leading-relaxed">We&apos;ve sent a verification link to <strong className="text-white">{email}</strong>. Please confirm to access your dashboard.</p>
+                  </div>
+                ) : (
+                  <>
+                  {loginErr && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 rounded-lg border border-rose-400/20">{loginErr}</p>}
+                  <button type="submit" disabled={loginLoading} className="w-full py-3 bg-purple-600 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 disabled:opacity-50 cursor-pointer">{loginLoading ? 'Authenticating...' : mode === 'signup' ? 'Create Account' : 'Sign In'}</button>
+                  <button type="button" onClick={()=>{setMode(m=>m==='login'?'signup':'login');setLoginErr('');}} className="text-[0.65rem] text-purple-400/60 hover:text-purple-400 uppercase tracking-[0.15em] font-bold cursor-pointer text-center">{mode==='login'?'Need an account? Create one':'Already have one? Sign in'}</button>
+                  </>
+                )}
               </form>
             </div>
           </div>

@@ -20,10 +20,10 @@ export async function POST(request: Request) {
     const result = await sendEmail({ to, subject, html });
 
     if (!result.success) {
-      throw new Error(result.error?.message || 'Failed to send email via Resend');
+      throw new Error((result.error as any)?.message || 'Failed to send email via Resend');
     }
 
-    return NextResponse.json({ success: true, ...result });
+    return NextResponse.json({ ...result, success: true });
   } catch (error: any) {
     console.error('Email API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });

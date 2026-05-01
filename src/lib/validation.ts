@@ -22,8 +22,8 @@ export const signupSchema = z.object({
   .string()
   .regex(/^\d{5}$/, "Zip code must be 5 digits"),
  radius: z
-  .enum(["25", "50", "100", "200"], {
-   errorMap: () => ({ message: "Invalid radius" }),
+  .enum(["25", "50", "100", "200"] as const, {
+   error: "Invalid radius",
   }),
 });
 

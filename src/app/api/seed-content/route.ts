@@ -168,7 +168,7 @@ export async function POST() {
 
   let created = 0;
   for (const td of tourDates) {
-   await sanityWriteClient.create({ _type: 'tourDate', isSoldOut: false, isFestival: false, ...td });
+   await sanityWriteClient.create({ _type: 'tourDate', isSoldOut: false, isFestival: false, ...td } as any);
    created++;
   }
 

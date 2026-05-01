@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { bookingStatusUpdate } from "@/lib/email-templates";
+import { protectAction, sanitize as securitySanitize } from "@/lib/security";
 import crypto from "crypto";
 
-const ADMIN_EMAIL = "mikeyscimeca@gmail.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "mikeyscimeca@gmail.com";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,8 +13,7 @@ const supabaseAdmin = createClient(
 
 // Sanitize user input before injecting into HTML email templates
 function sanitize(str: string | undefined | null): string {
-  if (!str) return '';
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return securitySanitize(str);
 }
 
 function generateBookingId() {
@@ -212,6 +212,16 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
+
+    // ── Protection ──
+    const ip = request.headers.get('x-forwarded-for') || 'anonymous';
+    const protection = await protectAction({
+      identifier: `booking:${ip}`,
+      honeypotValue: data.website, // bot bait
+    });
+    if (!protection.success) {
+      return NextResponse.json({ error: protection.error }, { status: protection.status });
+    }
 
     // Validate required fields
     if (!data.name || !data.email || !data.eventDate || !data.eventType || !data.venueCity || !data.venueState) {

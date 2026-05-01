@@ -89,7 +89,7 @@ export default function FanAccountPage() {
   useEffect(() => {
     const check = async () => {
       try {
-        const feeds: {room: string; title: string; viewers: number}[] = [];
+        const feeds: {room: string; title: string; viewers: number; host: string}[] = [];
         const seenRooms = new Set<string>();
 
         // 1. Get active LiveKit rooms for cross-validation

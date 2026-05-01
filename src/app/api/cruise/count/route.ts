@@ -18,7 +18,7 @@ export async function GET() {
       const fallback = await supabaseAdmin.from('cruise_signups')
         .select('name,guest_count,created_at')
         .order('created_at', { ascending: false });
-      data = fallback.data;
+      data = fallback.data as typeof data;
     }
 
     const totalGuests = (data || []).reduce((sum: number, r: any) => sum + (r.guest_count || 1), 0);

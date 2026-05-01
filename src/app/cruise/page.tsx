@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useMember } from "@/context/MemberContext";
 
 const ITINERARY = [
   {
@@ -110,8 +111,12 @@ const FAQS = [
 
 export default function CruisePage() {
   const supabase = createClient();
+  const { isLoggedIn, member, openModal } = useMember();
   const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [form, setForm] = useState({ name: "", email: "", phone: "", notes: "", anonymous: false });
+  const [formData, setFormData] = useState({ 
+    name: "", email: "", phone: "", notes: "", anonymous: false, 
+    joinCommunity: true, website: "", guestCount: 1 
+  });
   const [guests, setGuests] = useState<{name: string; email: string; phone: string; age: string; type: "adult" | "child"}[]>([]);
   const [openPanel, setOpenPanel] = useState<number>(-1); // -1 = primary booker open by default handled below
   const [primaryOpen, setPrimaryOpen] = useState(true);
@@ -154,20 +159,34 @@ export default function CruisePage() {
     loadStats();
   }, []);
 
+  // Pre-fill form if user is logged in
+  useEffect(() => {
+    if (isLoggedIn && member) {
+      setFormData(prev => ({
+        ...prev,
+        name: member.name || prev.name,
+        email: member.email || prev.email,
+        phone: prev.phone || "", // If member has phone, use it, else empty
+      }));
+    }
+  }, [isLoggedIn, member]);
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.website) return; // Honeypot trap
     setSignupStatus("submitting");
     try {
       const res = await fetch('/api/cruise/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: form.name,
-          email: form.email.toLowerCase().trim(),
-          phone: form.phone || null,
+          name: formData.name,
+          email: formData.email.toLowerCase().trim(),
+          phone: formData.phone || null,
           guest_count: 1 + guests.length,
-          notes: form.notes || null,
-          anonymous: form.anonymous,
+          notes: formData.notes || null,
+          anonymous: formData.anonymous,
+          joinCommunity: formData.joinCommunity,
           guests: guests.filter(g => g.name).map(g => ({
             name: g.name,
             email: g.email || null,
@@ -188,7 +207,7 @@ export default function CruisePage() {
       setSignupStatus("success");
       setSignupCount(prev => prev + 1);
       setTotalGuests(prev => prev + 1 + guests.length);
-      setForm({ name: "", email: "", phone: "", notes: "", anonymous: false });
+      setFormData({ name: "", email: "", phone: "", notes: "", anonymous: false, joinCommunity: true, website: "", guestCount: 1 });
       setGuests([]);
     } catch {
       setSignupStatus("error");
@@ -238,19 +257,78 @@ export default function CruisePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Form */}
             <div>
-              <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-                Join the <span className="accent-gradient-text">Journey</span>
-              </h2>
-              <p className="text-white/40 text-sm mb-6">Free, non-binding. Just show us you&apos;re interested.</p>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+                <div>
+                  <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                    Join the <span className="accent-gradient-text">Journey</span>
+                  </h2>
+                  <p className="text-white/40 text-sm">Free, non-binding. Just show us you&apos;re interested.</p>
+                </div>
+                {!isLoggedIn && (
+                  <button 
+                    onClick={() => openModal("login")}
+                    className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] hover:text-white transition-all flex items-center gap-2 group cursor-pointer"
+                  >
+                    <span className="w-6 h-6 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center group-hover:border-[var(--color-accent)] transition-all">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </span>
+                    Already have an account? Sign In
+                  </button>
+                )}
+                {isLoggedIn && (
+                  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all ${
+                    member?.role === 'crew' ? 'bg-rose-500/10 border-rose-500/20 text-rose-400' :
+                    member?.role === 'admin' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
+                    'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                  }`}>
+                    <span className={`w-2 h-2 rounded-full animate-pulse ${
+                      member?.role === 'crew' ? 'bg-rose-500' :
+                      member?.role === 'admin' ? 'bg-amber-500' :
+                      'bg-emerald-500'
+                    }`} />
+                    <span className="text-[0.6rem] font-bold uppercase tracking-widest">
+                      Signed In as {member?.role === 'crew' ? 'Crew Member' : member?.role === 'admin' ? 'Admin' : 'Fan'}: {member?.name || 'User'}
+                    </span>
+                  </div>
+                )}
+              </div>
               {signupStatus === "success" ? (
                 <div className="p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center">
                   <span className="text-3xl block mb-3">🚢</span>
-                  <p className="text-white font-bold text-lg">You&apos;re on the list!</p>
-                  <p className="text-emerald-400 text-sm mt-2">Check your email for a confirmation with all the cruise details.</p>
+                  <p className="text-white font-bold text-lg">You&apos;re on the list, {formData.name ? formData.name.split(' ')[0] : 'Captain'}!</p>
+                  <p className="text-emerald-400 text-sm mt-2">Check <strong className="text-white">{formData.email}</strong> for your confirmation email. Please click the link inside to verify your request.</p>
                   <p className="text-white/30 text-xs mt-3">If you change your mind, you can cancel from the email anytime.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSignup} className="space-y-4">
+                  {/* Party Size Selector */}
+                  <div className="flex items-center justify-between p-4 bg-white/[0.03] border border-white/10 rounded-2xl">
+                    <div>
+                      <p className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-1">Party Size</p>
+                      <p className="text-sm font-bold text-white">How many guests in your party?</p>
+                    </div>
+                    <select 
+                      value={formData.guestCount} 
+                      onChange={e => {
+                        const count = parseInt(e.target.value);
+                        setFormData({ ...formData, guestCount: count });
+                        const diff = count - 1 - guests.length;
+                        if (diff > 0) {
+                          const newGuests = [...guests];
+                          for (let i = 0; i < diff; i++) {
+                            newGuests.push({ name: "", email: "", phone: "", age: "", type: "adult" });
+                          }
+                          setGuests(newGuests);
+                        } else if (diff < 0) {
+                          setGuests(guests.slice(0, count - 1));
+                        }
+                      }}
+                      className="bg-[#0c0c18] border border-white/20 rounded-lg px-3 py-1.5 text-sm font-bold text-white outline-none focus:border-[var(--color-accent)] cursor-pointer"
+                    >
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => <option key={n} value={n}>{n} {n === 1 ? 'Person' : 'People'}</option>)}
+                    </select>
+                  </div>
+
                   {/* ── Collapsible Guest List ── */}
                   <div className="space-y-2">
                     {/* Primary Booker */}
@@ -258,22 +336,22 @@ export default function CruisePage() {
                       <button type="button" onClick={() => { setPrimaryOpen(!primaryOpen); setOpenPanel(-1); }}
                         className="w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-all bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/25">
                         <span className="w-8 h-8 rounded-full flex items-center justify-center text-[0.55rem] font-bold text-white shrink-0 bg-[var(--color-accent)]">
-                          {form.name ? form.name[0].toUpperCase() : "1"}
+                          {formData.name ? formData.name[0].toUpperCase() : "1"}
                         </span>
                         <div className="flex-1 text-left">
                           <p className="text-[0.5rem] font-bold uppercase tracking-widest text-white/40">Primary Booker</p>
-                          <p className="text-sm font-bold text-white">{form.name || "—"}</p>
+                          <p className="text-sm font-bold text-white">{formData.name || "—"}</p>
                         </div>
                         <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/20 mr-2">Adult</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/30 transition-transform ${primaryOpen ? "rotate-180" : ""}`}><polyline points="6 9 12 15 18 9"/></svg>
                       </button>
                       {primaryOpen && (
                         <div className="px-4 pb-4 pt-3 space-y-2.5 bg-white/[0.01]">
-                          <input type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
+                          <input type="text" required placeholder="Full Name" value={formData.name} onChange={e => setFormData(f => ({...f, name: e.target.value}))}
                             className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
-                          <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
+                          <input type="email" required placeholder="Email" value={formData.email} onChange={e => setFormData(f => ({...f, email: e.target.value}))}
                             className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
-                          <input type="tel" required placeholder="Phone" value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))}
+                          <input type="tel" required placeholder="Phone" value={formData.phone} onChange={e => setFormData(f => ({...f, phone: e.target.value}))}
                             className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
                         </div>
                       )}
@@ -341,13 +419,25 @@ export default function CruisePage() {
                       + Add a Guest
                     </button>
                   </div>
-                  <textarea placeholder="Anything else? (optional)" value={form.notes} onChange={e => setForm(f => ({...f, notes: e.target.value}))} rows={2}
+                  <textarea placeholder="Anything else? (optional)" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2}
                     className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors resize-none" />
                   <label className="flex items-center gap-3 cursor-pointer group">
-                    <input type="checkbox" checked={form.anonymous} onChange={e => setForm(f => ({...f, anonymous: e.target.checked}))}
+                    <input type="checkbox" checked={formData.anonymous} onChange={e => setFormData(f => ({...f, anonymous: e.target.checked}))}
                       className="w-4 h-4 rounded border-white/20 bg-white/5 accent-[var(--color-accent)] cursor-pointer" />
                     <span className="text-[0.75rem] text-white/40 group-hover:text-white/60 transition-colors">Keep my name anonymous on the public list</span>
                   </label>
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" checked={formData.joinCommunity} onChange={e => setFormData(f => ({...f, joinCommunity: e.target.checked}))}
+                      className="w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" />
+                    <div className="flex-1">
+                      <p className="text-[0.75rem] text-white/60 group-hover:text-white transition-colors font-bold">Join the 7th Heaven Cruise Community</p>
+                      <p className="text-[0.6rem] text-white/30">Get early access to deck plans, song polls, and group chat.</p>
+                    </div>
+                  </label>
+                  {/* Honeypot */}
+                  <div className="hidden" aria-hidden="true">
+                    <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+                  </div>
                   <button type="submit" disabled={signupStatus === "submitting"}
                     className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] disabled:opacity-70 cursor-pointer">
                     {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Count Me In"}
@@ -520,6 +610,29 @@ export default function CruisePage() {
               )}
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── CRUISE COMMUNITY CTA ── */}
+      <section className="site-container mb-16 pb-16">
+        <div className="relative p-10 md:p-16 rounded-[2.5rem] overflow-hidden text-center bg-[#0d0d14] border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.1)]">
+          <div className="absolute inset-0 opacity-10">
+            <img src="/images/cruise-hero.png" alt="" className="w-full h-full object-cover grayscale" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/40 to-transparent" />
+          </div>
+          <div className="relative z-10">
+            <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[0.6rem] font-bold uppercase tracking-widest mb-6">Authenticated Experience</span>
+            <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tight mb-4" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              The Cruise <span className="text-cyan-400">Community</span>
+            </h2>
+            <p className="text-white/50 text-base max-w-xl mx-auto mb-10 leading-relaxed">
+              Don&apos;t just book — belong. Join the private hub for cruise attendees to vote on setlists, view deck maps, and meet other fans before we set sail.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a href="#signup" className="px-10 py-4 bg-cyan-500 hover:bg-cyan-400 text-[#0d0d14] font-black uppercase tracking-widest text-sm rounded-xl transition-all shadow-lg shadow-cyan-500/20">Join the Community</a>
+              <a href="/fans" className="px-10 py-4 bg-white/5 hover:bg-white/10 text-white font-black uppercase tracking-widest text-sm rounded-xl border border-white/10 transition-all">Go to Fan Hub</a>
+            </div>
+          </div>
         </div>
       </section>
     </div>

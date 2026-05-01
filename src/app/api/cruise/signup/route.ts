@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
+import { protectAction, sanitize } from '@/lib/security';
 import crypto from 'crypto';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
+
+import { cruiseCommunityWelcome } from '@/lib/email-templates';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -159,16 +162,23 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
         Changed your mind?
         <a href="${cancelUrl}" style="color:rgba(138,28,252,0.6);text-decoration:underline;">Cancel your signup</a>
       </p>
-    </div>
-  </div>
-</body>
-</html>`;
+    </div>`;
 }
 
 // POST — new signup
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, guest_count, notes, anonymous, guests } = await req.json();
+    const { name, email, phone, guest_count, notes, anonymous, guests, joinCommunity, website } = await req.json();
+
+    // ── Protection ──
+    const ip = req.headers.get('x-forwarded-for') || 'anonymous';
+    const protection = await protectAction({
+      identifier: `cruise:${ip}`,
+      honeypotValue: website,
+    });
+    if (!protection.success) {
+      return NextResponse.json({ error: protection.error }, { status: protection.status });
+    }
 
     if (!name || !email || !phone) {
       return NextResponse.json({ error: 'Name, email, and phone are required' }, { status: 400 });
@@ -205,6 +215,57 @@ export async function POST(req: NextRequest) {
       subject: '🚢 You\'re on the Cruise List! — 7th Heaven',
       html: buildConfirmationEmail(name, guest_count || 1, cancelToken, guests || []),
     });
+
+    // Send Community Welcome if opted in — triggers Supabase Auth Invitation
+    if (joinCommunity) {
+      try {
+        // Use generateLink to create the user and get the secure confirmation link without sending Supabase's default email
+        const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+          type: 'invite',
+          email: email.toLowerCase().trim(),
+          options: {
+            data: { 
+              full_name: name, 
+              role: 'fan',
+              cruise_signup_id: data?.id,
+              source: 'cruise_signup'
+            },
+            redirectTo: `${SITE_URL}/cruise/dashboard`,
+          }
+        });
+
+        if (linkError) {
+          // If user already exists (likely error code for existing email), just update their profile
+          const { data: existingUser } = await supabase.from('profiles').select('id').eq('email', email.toLowerCase().trim()).single();
+          
+          if (existingUser) {
+            await supabase.from('profiles').update({ 
+              cruise_signup_id: data?.id,
+              signup_source: 'cruise_signup_optin' 
+            }).eq('id', existingUser.id);
+          }
+
+          // Send a regular welcome email (no invite link since they already have an account)
+          await sendEmail({
+            to: email.toLowerCase().trim(),
+            subject: '🚢 Welcome to the Cruise Community! — 7th Heaven',
+            html: cruiseCommunityWelcome({ name }),
+          });
+        } else if (linkData?.properties?.action_link) {
+          // New user created, send our custom branded invite email with the confirmation link
+          await sendEmail({
+            to: email.toLowerCase().trim(),
+            subject: '🚢 Confirm Your Cruise Community Account — 7th Heaven',
+            html: cruiseCommunityWelcome({ 
+              name, 
+              inviteLink: linkData.properties.action_link 
+            }),
+          });
+        }
+      } catch (authErr) {
+        console.error('Community invitation process error:', authErr);
+      }
+    }
 
     // Send notification emails to each additional guest
     if (guests && guests.length > 0) {

@@ -14,7 +14,7 @@ export async function POST() {
   try {
     const results = [];
     for (const td of tourDates) {
-      const res = await sanityWriteClient.create(td);
+      const res = await sanityWriteClient.create(td as any);
       results.push({ id: res._id, venue: td.venue });
     }
     return NextResponse.json({ success: true, created: results });

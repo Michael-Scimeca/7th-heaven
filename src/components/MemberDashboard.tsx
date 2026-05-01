@@ -326,7 +326,7 @@ export default function MemberDashboard() {
      ].map((s) => (
       <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
        <p className="text-[0.55rem] uppercase tracking-[0.2em] text-white/25 mb-1">{s.label}</p>
-       <p className={`text-2xl font-bold ${s.accent ? "text-[var(--color-accent)]" : ""}`} style={s.color ? { color: s.color } : undefined}>
+       <p className={`text-2xl font-bold ${s.accent ? "text-[var(--color-accent)]" : ""}`}>
         {s.value}
        </p>
       </div>

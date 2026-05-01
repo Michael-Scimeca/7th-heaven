@@ -23,6 +23,7 @@ interface AuthContextType extends AuthState {
 
 interface SignUpMetadata {
  full_name: string;
+ username?: string;
  date_of_birth: string;
  phone?: string;
  zip?: string;
@@ -135,8 +136,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    password,
    options: {
     data: {
-     full_name: metadata.full_name,
-     date_of_birth: metadata.date_of_birth,
+      full_name: metadata.full_name,
+      username: metadata.username || '',
+      date_of_birth: metadata.date_of_birth,
      phone: metadata.phone || null,
      zip: metadata.zip || null,
     },

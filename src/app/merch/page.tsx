@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
+
+
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface PickupOrder {
@@ -52,7 +54,7 @@ function getRaffleWins(): RaffleWin[] {
 
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function MerchDashboard() {
+function MerchDashboard() {
   const { member, isLoggedIn, openModal } = useMember();
   const searchParams = useSearchParams();
   const isDemo = searchParams.get('demo') === 'merch';
@@ -280,5 +282,13 @@ export default function MerchDashboard() {
 
       </div>
     </div>
+  );
+}
+
+export default function MerchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#08080d]" />}>
+      <MerchDashboard />
+    </Suspense>
   );
 }

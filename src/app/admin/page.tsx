@@ -16,6 +16,9 @@ const AdminMap = dynamic(() => import('@/components/AdminMap'), {
   loading: () => <div className="w-full h-[400px] bg-black/40 rounded-xl animate-pulse" />
 });
 
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+import 'react-quill-new/dist/quill.snow.css';
+
 export default function AdminDashboard() {
   const { member, isLoggedIn, login, logout } = useMember();
   const [feeds, setFeeds] = useState<any[]>([]);
@@ -24,6 +27,9 @@ export default function AdminDashboard() {
   const [moderationQueue, setModerationQueue] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [adminTab, setAdminTab] = useState<'band' | 'cruise'>('band');
+  const adminTabRef = useRef<'band' | 'cruise'>('band');
+  const [unreadCruiseChat, setUnreadCruiseChat] = useState(0);
   const supabase = createClient();
 
   // Global Announcement State
@@ -32,6 +38,17 @@ export default function AdminDashboard() {
   const [bannerLink, setBannerLink] = useState('');
   const [bannerExpiresAt, setBannerExpiresAt] = useState<string | null>(null);
   const [bannerUpdating, setBannerUpdating] = useState(false);
+
+  // Cruise Announcement State
+  const [cruiseMessage, setCruiseMessage] = useState('');
+  const [cruiseUpdating, setCruiseUpdating] = useState(false);
+  const [cruiseSaveStatus, setCruiseSaveStatus] = useState<string | null>(null);
+
+  // Cruise Community Blast State
+  const [cruiseBlastSubject, setCruiseBlastSubject] = useState('');
+  const [cruiseBlastBody, setCruiseBlastBody] = useState('');
+  const [cruiseBlastSending, setCruiseBlastSending] = useState(false);
+  const [cruiseBlastResult, setCruiseBlastResult] = useState<{ success: boolean; message: string } | null>(null);
 
   // Admin login state
   const [adminEmail, setAdminEmail] = useState('');
@@ -44,7 +61,8 @@ export default function AdminDashboard() {
   const [newCrewEmail, setNewCrewEmail] = useState('');
   const [newCrewPassword, setNewCrewPassword] = useState('');
   const [newCrewPhone, setNewCrewPhone] = useState('');
-  const [createdCrew, setCreatedCrew] = useState<{ name: string; email: string; password: string; phone: string } | null>(null);
+  const [newCrewUsername, setNewCrewUsername] = useState('');
+  const [createdCrew, setCreatedCrew] = useState<{ name: string; email: string; password: string; phone: string; username: string } | null>(null);
   const [crewError, setCrewError] = useState('');
   const [crewLoading, setCrewLoading] = useState(false);
   const [viewingUser, setViewingUser] = useState<string | null>(null);
@@ -119,6 +137,38 @@ export default function AdminDashboard() {
   const [smsAutoBlast, setSmsAutoBlast] = useState(true);
   const [smsAutoBlastDays, setSmsAutoBlastDays] = useState(3);
 
+  // Cruise Itinerary Builder
+  type ItineraryEvent = { id: string; time: string; title: string; subtitle: string; };
+  type ItineraryDay = { id: string; dayLabel: string; location: string; theme: string; events: ItineraryEvent[]; colorTheme: string; };
+  const [itinerary, setItinerary] = useState<ItineraryDay[]>([]);
+  const [itineraryUpdating, setItineraryUpdating] = useState(false);
+  const [itinerarySaveStatus, setItinerarySaveStatus] = useState<'saved' | 'error' | null>(null);
+
+  // Cruise Chat Pin
+  const [cruiseChatPin, setCruiseChatPin] = useState('');
+  const [cruiseChatPinUpdating, setCruiseChatPinUpdating] = useState(false);
+  const [cruiseChatPinSaveStatus, setCruiseChatPinSaveStatus] = useState<'saved' | 'error' | null>(null);
+
+  // Cruise Chat Enable/Disable
+  const [cruiseChatEnabled, setCruiseChatEnabled] = useState(true);
+  const [cruiseChatToggling, setCruiseChatToggling] = useState(false);
+
+  // Admin Live Chat Feed
+  type AdminChatMsg = { id: string; sender_name: string; sender_role: string; sender_avatar: string; content: string; created_at: string; };
+  const [adminChatMessages, setAdminChatMessages] = useState<AdminChatMsg[]>([]);
+  const [adminChatInput, setAdminChatInput] = useState('');
+  const [adminChatSending, setAdminChatSending] = useState(false);
+  const adminChatEndRef = useRef<HTMLDivElement>(null);
+  const adminChatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Cruise Important Links
+  const [importantLinks, setImportantLinks] = useState<{title: string, url: string, icon: string}[]>([]);
+  const [linksUpdating, setLinksUpdating] = useState(false);
+  const [linksSaveStatus, setLinksSaveStatus] = useState<'saved' | 'error' | null>(null);
+
+  // Cruise Stats
+  const [cruiseStats, setCruiseStats] = useState<{ total: number; adults: number; children: number; signups: number; recentSignups: { name: string; email: string; phone: string; date: string; partySize: number }[] }>({ total: 0, adults: 0, children: 0, signups: 0, recentSignups: [] });
+
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setAdminLoginError('');
@@ -148,13 +198,15 @@ export default function AdminDashboard() {
     const savedEmail = newCrewEmail;
     const savedPassword = newCrewPassword;
     const savedPhone = newCrewPhone;
-    const res = await adminCreateCrewMember({ name: newCrewName, email: newCrewEmail, password: newCrewPassword, phone: newCrewPhone || undefined });
+    const savedUsername = newCrewUsername;
+    const res = await adminCreateCrewMember({ name: newCrewName, email: newCrewEmail, password: newCrewPassword, phone: newCrewPhone || undefined, username: newCrewUsername || undefined });
     if (res.success) {
-      setCreatedCrew({ name: savedName, email: savedEmail, password: savedPassword, phone: savedPhone });
+      setCreatedCrew({ name: savedName, email: savedEmail, password: savedPassword, phone: savedPhone, username: savedUsername });
       setNewCrewName('');
       setNewCrewEmail('');
       setNewCrewPassword('');
       setNewCrewPhone('');
+      setNewCrewUsername('');
 
       // Also save to localStorage so crew can login via the standard modal
       const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
@@ -201,6 +253,104 @@ export default function AdminDashboard() {
         setBannerText(data.text || '');
         setBannerLink(data.link || '');
         setBannerExpiresAt(data.expiresAt || null);
+      })
+      .catch(() => {});
+      
+    // Load Cruise Announcement
+    fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        let actualData = data;
+        let attempts = 0;
+        while (typeof actualData === 'string' && attempts < 3) {
+          try { actualData = JSON.parse(actualData); } catch(e) { break; }
+          attempts++;
+        }
+        if (actualData?.message) setCruiseMessage(actualData.message);
+      })
+      .catch(() => {});
+
+    // Load Cruise Chat Pin + enabled state
+    fetch(`/api/cruise/chat-pin`)
+      .then(res => res.json())
+      .then(data => {
+        if (data?.pin) setCruiseChatPin(data.pin);
+        if (data?.chatEnabled !== undefined) setCruiseChatEnabled(data.chatEnabled);
+      })
+      .catch(() => {});
+
+    // Load Cruise Chat History for admin view
+    supabase
+      .from('chat_messages')
+      .select('*')
+      .eq('room', 'cruise_dashboard')
+      .order('created_at', { ascending: false })
+      .limit(80)
+      .then(({ data }) => {
+        if (data) {
+          setAdminChatMessages(data.reverse());
+          if (adminTabRef.current !== 'cruise' && data.length > 0) {
+            setUnreadCruiseChat(data.length);
+          }
+        }
+      });
+
+    // Realtime subscription for admin chat feed
+    const adminChatChannel = supabase
+      .channel('admin_cruise_chat')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'chat_messages',
+        filter: 'room=eq.cruise_dashboard'
+      }, (payload) => {
+        const msg = payload.new as AdminChatMsg;
+        setAdminChatMessages(prev => [...prev.slice(-79), msg]);
+        if (adminTabRef.current !== 'cruise') {
+          setUnreadCruiseChat(prev => prev + 1);
+        }
+      })
+      .subscribe();
+
+    // Load Important Links
+    fetch(`/api/cruise/important-links?t=${Date.now()}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.links && Array.isArray(data.links)) {
+          setImportantLinks(data.links);
+        }
+      })
+      .catch(() => {});
+
+    // Load Cruise Stats
+    fetch(`/api/admin/cruise-stats?t=${Date.now()}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && !data.error) setCruiseStats(data);
+      })
+      .catch(() => {});
+
+    // Load Cruise Itinerary
+    fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        let actualData = data;
+        let attempts = 0;
+        while (typeof actualData === 'string' && attempts < 3) {
+          try { actualData = JSON.parse(actualData); } catch(e) { break; }
+          attempts++;
+        }
+        if (Array.isArray(actualData) && actualData.length > 0) {
+          setItinerary(actualData);
+        } else {
+          // Default empty state or fallback template
+          setItinerary([
+            { id: 'day1', dayLabel: 'Day 1', location: 'Miami, FL', theme: 'Embarkation', colorTheme: 'var(--color-accent)', events: [
+              { id: 'e1', time: '15:00', title: 'Welcome Aboard Party', subtitle: 'Lido Deck Poolside' },
+              { id: 'e2', time: '20:00', title: 'Main Stage Kickoff', subtitle: 'Starlight Theater' }
+            ] }
+          ]);
+        }
       })
       .catch(() => {});
     
@@ -352,8 +502,14 @@ export default function AdminDashboard() {
     return () => {
       if (pollLocal) clearInterval(pollLocal);
       clearInterval(bookingPoll);
+      supabase.removeChannel(adminChatChannel);
     };
   }, [supabase]);
+
+  // Auto-scroll admin chat feed
+  useEffect(() => {
+    adminChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [adminChatMessages]);
 
   const [chatRate, setChatRate] = useState(0);
   useEffect(() => {
@@ -435,6 +591,102 @@ export default function AdminDashboard() {
       setTimeout(() => setBannerSaveStatus(null), 4000);
     }
     setBannerUpdating(false);
+  };
+
+  const updateCruiseMessage = async (msgOverride?: string) => {
+    const finalMessage = msgOverride !== undefined ? msgOverride : cruiseMessage;
+    setCruiseUpdating(true);
+    setCruiseSaveStatus(null);
+    try {
+      await fetch('/api/cruise/announcement', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: finalMessage })
+      });
+      if (msgOverride !== undefined) setCruiseMessage(msgOverride);
+      setCruiseSaveStatus('saved');
+      setTimeout(() => setCruiseSaveStatus(null), 3000);
+    } catch (e) {
+      setCruiseSaveStatus('error');
+      setTimeout(() => setCruiseSaveStatus(null), 4000);
+    }
+    setCruiseUpdating(false);
+  };
+
+  const updateItinerary = async (newItin: ItineraryDay[]) => {
+    setItineraryUpdating(true);
+    setItinerarySaveStatus(null);
+    try {
+      await fetch('/api/cruise/itinerary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itinerary: newItin })
+      });
+      setItinerary(newItin);
+      setItinerarySaveStatus('saved');
+      setTimeout(() => setItinerarySaveStatus(null), 3000);
+    } catch (e) {
+      setItinerarySaveStatus('error');
+      setTimeout(() => setItinerarySaveStatus(null), 4000);
+    }
+    setItineraryUpdating(false);
+  };
+
+  const updateCruiseChatPin = async (msgOverride?: string) => {
+    const finalMessage = msgOverride !== undefined ? msgOverride : cruiseChatPin;
+    setCruiseChatPinUpdating(true);
+    setCruiseChatPinSaveStatus(null);
+    try {
+      await fetch('/api/cruise/chat-pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin: finalMessage })
+      });
+      if (msgOverride !== undefined) setCruiseChatPin(msgOverride);
+      setCruiseChatPinSaveStatus('saved');
+      setTimeout(() => setCruiseChatPinSaveStatus(null), 3000);
+    } catch (e) {
+      setCruiseChatPinSaveStatus('error');
+      setTimeout(() => setCruiseChatPinSaveStatus(null), 4000);
+    } finally {
+      setCruiseChatPinUpdating(false);
+    }
+  };
+
+  const toggleCruiseChat = async () => {
+    const newVal = !cruiseChatEnabled;
+    setCruiseChatToggling(true);
+    try {
+      await fetch('/api/cruise/chat-pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chatEnabled: newVal }),
+      });
+      setCruiseChatEnabled(newVal);
+    } catch {
+      // revert on failure
+    } finally {
+      setCruiseChatToggling(false);
+    }
+  };
+
+  const updateImportantLinks = async () => {
+    setLinksUpdating(true);
+    setLinksSaveStatus(null);
+    try {
+      await fetch('/api/cruise/important-links', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ links: importantLinks })
+      });
+      setLinksSaveStatus('saved');
+      setTimeout(() => setLinksSaveStatus(null), 3000);
+    } catch {
+      setLinksSaveStatus('error');
+      setTimeout(() => setLinksSaveStatus(null), 4000);
+    } finally {
+      setLinksUpdating(false);
+    }
   };
 
   const filteredUsers = users.filter(u => filterRole === "All" || u.role === filterRole);
@@ -542,13 +794,13 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white pt-24 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative">
+    <div className="min-h-screen bg-[#050508] text-white pt-24 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-hidden">
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
       <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
 
-      <div className="site-container relative z-10">
+      <div className="site-container relative z-10 px-4 md:px-6">
         
         <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
           <div className="flex items-center gap-5">
@@ -579,131 +831,189 @@ export default function AdminDashboard() {
           </Link>
         </div>
 
-        {/* Global Announcement Banner Control */}
-        <div className={`bg-[#111116] border ${bannerActive ? 'border-[var(--color-accent)]/50' : 'border-white/10'} rounded-2xl p-6 shadow-2xl relative overflow-hidden mb-10 transition-all duration-500`}>
-          <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500`} />
-          <div className="relative z-10 flex flex-col gap-5">
-            {/* Header row */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 rounded-xl ${bannerActive ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/30' : 'bg-white/5 border-white/10'} border flex items-center justify-center text-2xl transition-all duration-300`}>📢</div>
-                <div>
-                  <h3 className="text-lg font-black italic tracking-wide text-white">Global Alert Banner</h3>
-                  <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Pin an urgent notice across the entire site (e.g. weather, canceled show)</p>
+        {/* === ADMIN TAB TOGGLE === */}
+        <div className="flex items-center gap-1 mb-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-1.5 w-fit mx-auto shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+          <button
+            onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
+            className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
+              adminTab === 'band'
+                ? 'bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent)]/80 text-white shadow-[0_0_20px_rgba(133,29,239,0.4)] border border-[var(--color-accent)]/50'
+                : 'text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent'
+            }`}
+          >
+            <span className="flex items-center gap-2.5">
+              <span className="text-base">🎸</span>
+              Band & Site
+            </span>
+          </button>
+          <button
+            onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
+            className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
+              adminTab === 'cruise'
+                ? 'bg-gradient-to-r from-cyan-600 to-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-cyan-400/50'
+                : 'text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent'
+            }`}
+          >
+            <span className="flex items-center gap-2.5">
+              <span className="text-base">🚢</span>
+              Cruise
+            </span>
+            {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
+              <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] flex items-center justify-center rounded-full bg-rose-500 text-white text-[0.55rem] font-black px-1.5 shadow-[0_0_10px_rgba(244,63,94,0.6)] animate-[bounce_1s_ease-in-out_2] border-2 border-[#0a0a0f]">
+                {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* ═══════════════════════════════════════════════ */}
+        {/* ═══  BAND & SITE TAB  ═══════════════════════ */}
+        {/* ═══════════════════════════════════════════════ */}
+        {adminTab === 'band' && (
+          <>
+
+        {/* === SITE ANNOUNCEMENTS === */}
+        <div className="mb-14 relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[var(--color-accent)] to-[var(--color-accent)]/60 flex items-center justify-center shadow-lg shadow-[var(--color-accent)]/20 p-[1px]">
+              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
+                <span className="text-lg">📡</span>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Band Announcements</h2>
+              <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Post band updates & alerts across the entire site</p>
+            </div>
+          </div>
+
+          <div className="relative">
+            {/* Ambient background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-[var(--color-accent)]/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
+            
+            {/* Global Announcement Banner Control */}
+            <div className={`relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(133,29,239,0.15)]' : 'border-white/5 hover:border-white/10'} rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
+              <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500 rounded-2xl`} />
+              
+              <div className="relative z-10 flex flex-col gap-6">
+                {/* Header row */}
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 shrink-0 rounded-xl ${bannerActive ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(133,29,239,0.3)]' : 'bg-white/5 border-white/10 group-hover:bg-white/10'} border flex items-center justify-center text-2xl transition-all duration-500`}>📢</div>
+                    <div>
+                      <h3 className="text-lg font-black italic tracking-wide text-white">Global Alert Banner</h3>
+                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Pin a band announcement or urgent notice sitewide</p>
+                    </div>
+                  </div>
+                  {/* Main toggle — auto-saves */}
+                  <button 
+                    onClick={async () => {
+                      const newActive = !bannerActive;
+                      setBannerActive(newActive);
+                      await updateGlobalBanner({ isActive: newActive });
+                    }} 
+                    disabled={bannerUpdating}
+                    className={`relative px-6 py-2.5 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive 
+                      ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:shadow-[0_0_30px_rgba(133,29,239,0.8)] hover:scale-[1.02]' 
+                      : 'bg-[#1c1c24] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)] hover:bg-[#252530]'
+                    } disabled:opacity-50 disabled:hover:scale-100`}
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
+                      {bannerActive ? 'LIVE ON SITE' : 'OFF'}
+                    </span>
+                    {bannerActive && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
+                  </button>
+                </div>
+                
+                {/* Save status toast */}
+                {bannerSaveStatus && (
+                  <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${
+                    bannerSaveStatus === 'saved' 
+                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
+                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+                  }`}>
+                    {bannerSaveStatus === 'saved' ? '✓ Banner updated successfully' : '✕ Failed to update — try again'}
+                  </div>
+                )}
+
+                {/* Message input */}
+                <div className="flex flex-col gap-3 mt-auto">
+                  <div className="w-full text-black [&_.ql-editor]:min-h-[200px]">
+                    <ReactQuill 
+                      theme="snow" 
+                      value={bannerText} 
+                      onChange={setBannerText} 
+                      placeholder="Alert message (e.g. Weather delay tonight)" 
+                      className="bg-white rounded-xl overflow-hidden"
+                    />
+                  </div>
+
+                  {/* Controls row */}
+                  <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-2 rounded-xl border border-white/5">
+                    <button 
+                      onClick={() => updateGlobalBanner()}
+                      disabled={bannerUpdating}
+                      className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(133,29,239,0.3)] hover:shadow-[0_6px_20px_rgba(133,29,239,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                    >
+                      {bannerUpdating ? 'Saving...' : 'Dispatch'}
+                    </button>
+
+                    {/* Auto-expire buttons */}
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
+                      <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
+                      {[
+                        { label: '1h', hours: 1 },
+                        { label: '3h', hours: 3 },
+                        { label: '12h', hours: 12 },
+                        { label: '24h', hours: 24 },
+                      ].map(({ label, hours }) => {
+                        const expiry = new Date(Date.now() + hours * 3600000).toISOString();
+                        const isSelected = bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - Date.now() - hours * 3600000) < 60000;
+                        return (
+                          <button 
+                            key={label} 
+                            type="button" 
+                            onClick={async () => {
+                              setBannerExpiresAt(expiry);
+                              await updateGlobalBanner({ expiresAt: expiry });
+                            }}
+                            className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                              isSelected
+                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(133,29,239,0.2)]'
+                                : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                            }`}
+                          >{label}</button>
+                        );
+                      })}
+                      <button 
+                        type="button" 
+                        onClick={async () => {
+                          setBannerExpiresAt(null);
+                          await updateGlobalBanner({ expiresAt: null });
+                        }}
+                        className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                          !bannerExpiresAt ? 'border-amber-500/50 bg-amber-500/15 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                        }`}
+                      >Off</button>
+                    </div>
+                  </div>
+                  
+                  {/* Expiry info */}
+                  {bannerExpiresAt && (
+                    <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
+                      <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
+                      <span className="font-bold text-amber-400 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
+                      {new Date(bannerExpiresAt) < new Date() && (
+                        <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
-              {/* Main toggle — auto-saves */}
-              <button 
-                onClick={async () => {
-                  const newActive = !bannerActive;
-                  setBannerActive(newActive);
-                  await updateGlobalBanner({ isActive: newActive });
-                }} 
-                disabled={bannerUpdating}
-                className={`relative px-8 py-3 rounded-xl text-[0.65rem] font-black uppercase tracking-widest transition-all border cursor-pointer shrink-0 ${bannerActive 
-                  ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_25px_rgba(133,29,239,0.5)] hover:shadow-[0_0_35px_rgba(133,29,239,0.7)]' 
-                  : 'bg-[#1c1c24] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)]'
-                } disabled:opacity-50`}
-              >
-                <span className="flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full ${bannerActive ? 'bg-white animate-pulse' : 'bg-white/30'}`} />
-                  {bannerActive ? 'LIVE ON SITE' : 'OFF'}
-                </span>
-              </button>
             </div>
-            
-            {/* Save status toast */}
-            {bannerSaveStatus && (
-              <div className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] ${
-                bannerSaveStatus === 'saved' 
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
-                  : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-              }`}>
-                {bannerSaveStatus === 'saved' ? '✓ Banner updated — live on site now' : '✕ Failed to update — try again'}
-              </div>
-            )}
-
-            {/* Message + Link inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3">
-              <input 
-                type="text" 
-                value={bannerText} 
-                onChange={e => setBannerText(e.target.value)} 
-                placeholder="Alert message (e.g. Due to severe weather, tonight's show is canceled)" 
-                className="w-full bg-[#1c1c24] border border-white/10 rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-white/20"
-              />
-              <input 
-                type="url" 
-                value={bannerLink} 
-                onChange={e => setBannerLink(e.target.value)} 
-                placeholder="Link URL (optional)" 
-                className="w-full md:w-[240px] bg-[#1c1c24] border border-white/10 rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-white/20"
-              />
-            </div>
-
-            {/* Controls row */}
-            <div className="flex flex-wrap items-center gap-3">
-              <button 
-                onClick={() => updateGlobalBanner()}
-                disabled={bannerUpdating}
-                className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)] transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_15px_rgba(133,29,239,0.3)]"
-              >
-                {bannerUpdating ? 'Saving...' : '💾 Save Message & Link'}
-              </button>
-
-              <div className="h-6 w-px bg-white/10" />
-
-              {/* Auto-expire buttons */}
-              <span className="text-[0.55rem] font-bold text-white/25 uppercase tracking-widest shrink-0">Schedule off:</span>
-              {[
-                { label: '1h', hours: 1 },
-                { label: '3h', hours: 3 },
-                { label: '6h', hours: 6 },
-                { label: '12h', hours: 12 },
-                { label: '24h', hours: 24 },
-              ].map(({ label, hours }) => {
-                const expiry = new Date(Date.now() + hours * 3600000).toISOString();
-                const isSelected = bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - Date.now() - hours * 3600000) < 60000;
-                return (
-                  <button 
-                    key={label} 
-                    type="button" 
-                    onClick={async () => {
-                      setBannerExpiresAt(expiry);
-                      await updateGlobalBanner({ expiresAt: expiry });
-                    }}
-                    className={`px-3 py-1.5 rounded-lg text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                      isSelected
-                        ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]'
-                        : 'border-white/10 text-white/30 hover:border-white/20 hover:text-white/50'
-                    }`}
-                  >{label}</button>
-                );
-              })}
-              <button 
-                type="button" 
-                onClick={async () => {
-                  setBannerExpiresAt(null);
-                  await updateGlobalBanner({ expiresAt: null });
-                }}
-                className={`px-3 py-1.5 rounded-lg text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                  !bannerExpiresAt ? 'border-amber-500/50 bg-amber-500/10 text-amber-400' : 'border-white/10 text-white/30 hover:border-white/20'
-                }`}
-              >∞ No Expiry</button>
-            </div>
-
-            {/* Expiry info */}
-            {bannerExpiresAt && (
-              <div className="flex items-center gap-2 text-[0.6rem]">
-                <span className="text-white/25 font-bold">Auto-off:</span>
-                <span className="font-bold text-amber-400">{new Date(bannerExpiresAt).toLocaleString()}</span>
-                {new Date(bannerExpiresAt) < new Date() && (
-                  <span className="font-bold text-rose-400 uppercase tracking-widest bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">⚠ Expired — banner is hidden</span>
-                )}
-              </div>
-            )}
           </div>
         </div>
+
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {METRICS.map((metric, i) => (
@@ -1719,16 +2029,14 @@ export default function AdminDashboard() {
                     <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
                       Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
                     </label>
-                    <textarea
-                      value={smsCustomMsg}
-                      onChange={e => setSmsCustomMsg(e.target.value)}
-                      placeholder="Leave empty to use the auto-generated message above"
-                      rows={2}
-                      maxLength={320}
-                      className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-rose-500/50 transition-colors resize-none"
-                    />
-                    <div className="flex justify-end mt-1">
-                      <span className="text-[0.55rem] text-white/20">{smsCustomMsg.length}/320</span>
+                    <div className="w-full text-black [&_.ql-editor]:min-h-[120px] relative z-20">
+                      <ReactQuill
+                        theme="snow"
+                        value={smsCustomMsg}
+                        onChange={setSmsCustomMsg}
+                        placeholder="Leave empty to use the auto-generated message above"
+                        className="bg-white rounded-xl overflow-hidden"
+                      />
                     </div>
                   </div>
 
@@ -1765,8 +2073,8 @@ export default function AdminDashboard() {
                             lat: show.lat,
                             lng: show.lng,
                           };
-                          if (smsCustomMsg.trim()) {
-                            body.message = smsCustomMsg.trim();
+                          if (smsCustomMsg.replace(/<[^>]*>/g, '').trim()) {
+                            body.message = smsCustomMsg;
                           } else {
                             const d = new Date(show.date + 'T12:00:00');
                             body.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
@@ -2121,7 +2429,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
               <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_auto] gap-4 items-end">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
                   <div>
                     <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
                     <input
@@ -2129,6 +2437,17 @@ export default function AdminDashboard() {
                       placeholder="e.g. Alex Rivera"
                       value={newCrewName}
                       onChange={e => setNewCrewName(e.target.value)}
+                      className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. alex_7h"
+                      value={newCrewUsername}
+                      onChange={e => setNewCrewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+                      maxLength={24}
                       className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
                     />
                   </div>
@@ -2254,8 +2573,480 @@ export default function AdminDashboard() {
               </div>
             </section>
           </div>
+          </div>
 
+        </>
+        )}
+
+        {adminTab === 'cruise' && (
+          <>
+        {/* === CRUISE BROADCAST CENTER === */}
+        <div className="mb-14 relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 p-[1px]">
+              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
+                <span className="text-lg">🚢</span>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Cruise Command Center</h2>
+              <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Manage cruise dashboard announcements, links & chat</p>
+            </div>
+          </div>
+
+          {/* Row 1: Passenger Notice + Passenger Lounge */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 relative items-start">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
+
+            {/* Passenger Notice */}
+            <div className={`relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden`}>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-cyan-500/10 transition-all duration-700 pointer-events-none" />
+              <div className="relative z-10 flex flex-col gap-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 shrink-0 rounded-xl bg-cyan-500/10 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-all duration-500">📋</div>
+                    <div>
+                      <h3 className="text-lg font-black italic tracking-wide text-white">Passenger Notice</h3>
+                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard</p>
+                    </div>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2 mt-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_5px_cyan]" />
+                    <span className="text-[0.5rem] font-bold text-cyan-400 uppercase tracking-widest">Active</span>
+                  </div>
+                </div>
+                {cruiseSaveStatus && (
+                  <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                    {cruiseSaveStatus === 'saved' ? '✓ Notice updated — live on cruise dashboard' : '✕ Failed to update — try again'}
+                  </div>
+                )}
+                <div className="flex flex-col gap-3 mt-auto bg-black/20 p-3 md:p-4 rounded-xl border border-white/5">
+                  <div className="w-full text-black [&_.ql-editor]:min-h-[200px]">
+                    <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white rounded-xl overflow-hidden" />
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 justify-end mt-2">
+                    <div className="text-[0.55rem] text-white/30 font-medium italic mr-auto px-2">Press the trash icon to remove the active notice.</div>
+                    <button onClick={() => updateCruiseMessage()} disabled={cruiseUpdating} className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center">
+                      <span className="relative z-10">{cruiseUpdating ? 'Dispatching...' : 'Dispatch Update'}</span>
+                    </button>
+                    <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice" className="w-10 h-10 flex items-center justify-center rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 group/trash">
+                      <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Admin Live Chat Panel */}
+            <div className={`relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border ${cruiseChatEnabled ? 'border-[var(--color-accent)]/20' : 'border-rose-500/15'} rounded-2xl transition-all duration-500 flex flex-col overflow-hidden`}>
+              {/* Header with toggle */}
+              <div className="bg-black/40 px-5 py-4 border-b border-white/5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`w-9 h-9 rounded-full ${cruiseChatEnabled ? 'bg-[var(--color-accent)]/20' : 'bg-rose-500/10'} flex items-center justify-center text-lg`}>💬</div>
+                  <div>
+                    <h3 className="font-bold text-white text-sm tracking-wide">Passenger Lounge</h3>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span className={`w-1.5 h-1.5 rounded-full ${cruiseChatEnabled ? 'bg-emerald-500 animate-pulse shadow-[0_0_5px_rgba(16,185,129,0.5)]' : 'bg-white/20'}`} />
+                      <span className={`text-[0.55rem] font-bold uppercase tracking-widest ${cruiseChatEnabled ? 'text-emerald-400' : 'text-white/20'}`}>{cruiseChatEnabled ? 'Live' : 'Offline'}</span>
+                      <span className="text-[0.55rem] text-white/20 ml-2">{adminChatMessages.length} messages</span>
+                    </div>
+                  </div>
+                </div>
+                <button 
+                  onClick={toggleCruiseChat}
+                  disabled={cruiseChatToggling}
+                  className={`relative px-5 py-2 rounded-xl text-[0.55rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${cruiseChatEnabled 
+                    ? 'bg-emerald-500 text-white border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:scale-[1.02]' 
+                    : 'bg-[#1c1c24] text-rose-400 border-rose-500/30 hover:bg-rose-500/10'
+                  } disabled:opacity-50`}
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <span className={`w-1.5 h-1.5 rounded-full ${cruiseChatEnabled ? 'bg-white animate-pulse' : 'bg-rose-400'}`} />
+                    {cruiseChatEnabled ? 'LIVE' : 'OFF'}
+                  </span>
+                  {cruiseChatEnabled && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
+                </button>
+              </div>
+
+              {/* Pinned Message Bar */}
+              {cruiseChatPin && cruiseChatPin !== '<p><br></p>' && (
+                <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2.5 flex items-center gap-2">
+                  <span className="text-amber-400 text-xs shrink-0">📌</span>
+                  <p className="text-amber-100/80 text-[0.7rem] font-medium truncate flex-1" dangerouslySetInnerHTML={{ __html: cruiseChatPin.replace(/<[^>]+>/g, ' ').trim() }} />
+                </div>
+              )}
+
+              {/* Chat Messages Feed */}
+              <div ref={adminChatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[360px] min-h-[200px] scrollbar-hide">
+                {adminChatMessages.length === 0 ? (
+                  <div className="h-full flex flex-col items-center justify-center py-12 text-white/20">
+                    <span className="text-2xl mb-2 opacity-50">💬</span>
+                    <p className="text-[0.6rem] font-bold uppercase tracking-widest">No messages yet</p>
+                    <p className="text-[0.55rem] mt-1 text-center max-w-[200px]">Cruise members will appear here when they start chatting.</p>
+                  </div>
+                ) : (
+                  adminChatMessages.map((msg) => {
+                    const isAdmin = msg.sender_role === 'admin';
+                    const isCrew = msg.sender_role === 'crew';
+                    return (
+                      <div key={msg.id} className={`flex gap-2.5 ${isAdmin ? 'flex-row-reverse' : ''}`}>
+                        <div className={`w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[0.5rem] font-black border ${
+                          isAdmin ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400' :
+                          isCrew ? 'border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 text-[var(--color-accent)]' :
+                          'border-white/10 bg-[#15151f] text-white/60'
+                        }`}>
+                          {msg.sender_avatar.substring(0, 2).toUpperCase()}
+                        </div>
+                        <div className={`flex flex-col ${isAdmin ? 'items-end' : ''} flex-1 max-w-[85%]`}>
+                          <div className={`flex items-baseline gap-2 mb-0.5 ${isAdmin ? 'flex-row-reverse' : ''}`}>
+                            <span className="text-[0.65rem] font-bold text-white/70">{msg.sender_name}</span>
+                            <span className={`text-[0.45rem] font-bold uppercase tracking-widest px-1 py-0.5 rounded border ${
+                              isAdmin ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' :
+                              isCrew ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20' :
+                              'text-white/40 bg-white/5 border-white/5'
+                            }`}>{msg.sender_role}</span>
+                            <span className="text-[0.5rem] text-white/20 font-mono">
+                              {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                          <div className={`${isAdmin ? 'bg-emerald-500/10 border-emerald-500/10 rounded-2xl rounded-tr-none' : 'bg-white/5 border-white/[0.02] rounded-2xl rounded-tl-none'} px-3 py-2 text-[0.75rem] text-white/70 inline-block w-fit leading-relaxed border`}>
+                            {msg.content}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+                <div ref={adminChatEndRef} />
+              </div>
+
+              {/* Admin Message Input */}
+              <div className="p-3 bg-black/40 border-t border-white/5">
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (!adminChatInput.trim() || adminChatSending) return;
+                  setAdminChatSending(true);
+                  try {
+                    const res = await fetch('/api/chat/send', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        room: 'cruise_dashboard',
+                        sender_name: member?.name || 'Admin',
+                        sender_role: 'admin',
+                        sender_avatar: member?.name?.substring(0, 2) || 'AD',
+                        content: adminChatInput.trim(),
+                      })
+                    });
+                    if (res.ok) setAdminChatInput('');
+                  } catch (err) { console.error(err); }
+                  setAdminChatSending(false);
+                }} className="relative flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={adminChatInput}
+                    onChange={(e) => setAdminChatInput(e.target.value)}
+                    placeholder="Send a message as admin..."
+                    className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-4 pr-12 py-2.5 text-sm text-white outline-none focus:border-emerald-500/50 focus:bg-white/5 transition-all"
+                    maxLength={500}
+                  />
+                  <button
+                    type="submit"
+                    disabled={!adminChatInput.trim() || adminChatSending}
+                    className="absolute right-2 w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-30"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                  </button>
+                </form>
+              </div>
+
+              {/* Pin Controls (collapsible) */}
+              <div className="px-4 py-3 bg-black/20 border-t border-white/5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-sm">📌</span>
+                  <span className="text-[0.55rem] font-bold text-white/40 uppercase tracking-widest">Pin a message</span>
+                  {cruiseChatPinSaveStatus && (
+                    <span className={`text-[0.5rem] font-bold uppercase tracking-widest ml-auto ${cruiseChatPinSaveStatus === 'saved' ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      {cruiseChatPinSaveStatus === 'saved' ? '✓ Pinned' : '✕ Failed'}
+                    </span>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={cruiseChatPin.replace(/<[^>]+>/g, '')}
+                    onChange={(e) => setCruiseChatPin(e.target.value)}
+                    placeholder="e.g. Welcome aboard! Band drops in at 3 PM."
+                    className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500/50 transition-all placeholder:text-white/15"
+                  />
+                  <button onClick={() => updateCruiseChatPin()} disabled={cruiseChatPinUpdating} className="px-4 py-2 bg-amber-500/20 hover:bg-amber-500 text-amber-400 hover:text-white text-[0.55rem] font-bold uppercase tracking-widest rounded-lg transition-all disabled:opacity-50 border border-amber-500/20">
+                    {cruiseChatPinUpdating ? '...' : 'Pin'}
+                  </button>
+                  <button onClick={() => updateCruiseChatPin('')} disabled={cruiseChatPinUpdating} title="Remove Pin" className="w-9 h-9 flex items-center justify-center rounded-lg border border-rose-500/20 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Row 2: Important Links + Roster Export */}
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 relative items-start mt-6">
+            {/* Important Links — 2 cols */}
+            <div className="xl:col-span-2 relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-fuchsia-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-fuchsia-500/10 transition-all duration-700 pointer-events-none" />
+              <div className="relative z-10 flex flex-col gap-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 shrink-0 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/30 shadow-[0_0_15px_rgba(217,70,239,0.15)] flex items-center justify-center text-2xl transition-all duration-500">🔗</div>
+                    <div>
+                      <h3 className="text-lg font-black italic tracking-wide text-white">Important Links</h3>
+                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Quick Links (Drink Packages, Excursions)</p>
+                    </div>
+                  </div>
+                </div>
+                {linksSaveStatus && (
+                  <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] ${linksSaveStatus === 'saved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                    {linksSaveStatus === 'saved' ? '✓ Links updated successfully' : '✕ Failed to update — try again'}
+                  </div>
+                )}
+                <div className="flex flex-col gap-3 mt-auto">
+                  {importantLinks.map((link, i) => (
+                    <div key={i} className="flex flex-col md:flex-row gap-3 bg-black/20 p-3 rounded-xl border border-white/5">
+                      <input type="text" value={link.icon} onChange={e => { const n=[...importantLinks]; n[i].icon=e.target.value; setImportantLinks(n); }} placeholder="🍹" className="w-full md:w-24 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-center text-white outline-none focus:border-fuchsia-500/60 transition-all" />
+                      <input type="text" value={link.title} onChange={e => { const n=[...importantLinks]; n[i].title=e.target.value; setImportantLinks(n); }} placeholder="Title" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-fuchsia-500/60 transition-all" />
+                      <input type="text" value={link.url} onChange={e => { const n=[...importantLinks]; n[i].url=e.target.value; setImportantLinks(n); }} placeholder="URL" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-fuchsia-500/60 transition-all" />
+                      <button onClick={() => setImportantLinks(importantLinks.filter((_,idx)=>idx!==i))} className="w-12 h-[46px] flex items-center justify-center rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all shrink-0">✕</button>
+                    </div>
+                  ))}
+                  <div className="flex gap-3 mt-2">
+                    <button onClick={() => setImportantLinks([...importantLinks, { title: '', url: '', icon: '🔗' }])} className="flex-1 py-3 border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all">+ Add Link</button>
+                    <button onClick={updateImportantLinks} disabled={linksUpdating} className="px-6 py-3 bg-gradient-to-r from-fuchsia-600 to-fuchsia-500 hover:from-fuchsia-500 hover:to-fuchsia-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 border border-fuchsia-400/30 shadow-[0_4px_15px_rgba(217,70,239,0.25)] min-w-[120px]">{linksUpdating ? 'Saving...' : 'Save All'}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Cruise Roster & Signup Stats — 1 col */}
+            <div className="relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-emerald-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-all duration-700 pointer-events-none" />
+              <div className="relative z-10 flex flex-col gap-5">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 shrink-0 rounded-xl bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-all duration-500">📊</div>
+                  <div>
+                    <h3 className="text-lg font-black italic tracking-wide text-white">Cruise Roster</h3>
+                    <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
+                  </div>
+                </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+                    <p className="text-2xl font-black text-emerald-400">{cruiseStats.signups || 0}</p>
+                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
+                  </div>
+                  <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+                    <p className="text-2xl font-black text-white">{cruiseStats.total}</p>
+                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
+                  </div>
+                  <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+                    <p className="text-lg font-black text-white/60">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
+                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Adult / Child</p>
+                  </div>
+                </div>
+
+                {/* Recent Signups */}
+                {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
+                  <div>
+                    <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
+                    <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
+                      {(cruiseStats.recentSignups || []).map((s, i) => (
+                        <div key={i} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover:border-emerald-500/20 transition-all group/row">
+                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-[0.5rem] font-black text-emerald-400 shrink-0">
+                            {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-bold text-white truncate">{s.name}</p>
+                            <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="text-[0.55rem] text-white/20 font-mono">{s.phone || '—'}</p>
+                            <p className="text-[0.5rem] text-white/15">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Download CSV */}
+                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border border-emerald-400/30 flex items-center justify-center gap-2 mt-auto">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                  Download Full CSV
+                </button>
+                <p className="text-[0.5rem] text-white/20 text-center -mt-2">Includes names, emails, phone numbers, guest details</p>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* === CRUISE COMMUNITY BLAST === */}
+        <div className="mb-14 relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-teal-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 p-[1px]">
+              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
+                <span className="text-lg">📡</span>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Cruise Community Blast</h2>
+              <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Send an email update to all cruise signups</p>
+            </div>
+          </div>
+
+          <div className="relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+            <div className="relative z-10 flex flex-col gap-5">
+
+              {cruiseBlastResult && (
+                <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseBlastResult.success ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                  {cruiseBlastResult.message}
+                </div>
+              )}
+
+              <div>
+                <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-2">Subject Line</label>
+                <input
+                  type="text"
+                  value={cruiseBlastSubject}
+                  onChange={e => setCruiseBlastSubject(e.target.value)}
+                  placeholder="🚢 Cruise Update: Big news for the community!"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-cyan-500/60 transition-all placeholder:text-white/15"
+                />
+              </div>
+
+              <div>
+                <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-2">Message Body (HTML supported)</label>
+                <div className="w-full text-black [&_.ql-editor]:min-h-[200px] relative z-20">
+                  <ReactQuill
+                    theme="snow"
+                    value={cruiseBlastBody}
+                    onChange={setCruiseBlastBody}
+                    placeholder="Write your cruise community update here..."
+                    className="bg-white rounded-xl overflow-hidden"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between gap-4 mt-2">
+                <p className="text-[0.6rem] text-white/30 leading-relaxed">
+                  This will send to <strong className="text-cyan-400">all cruise signups</strong> in the database. Make sure the content is ready.
+                </p>
+                <button
+                  onClick={async () => {
+                    if (!cruiseBlastSubject.trim() || !cruiseBlastBody.trim()) {
+                      setCruiseBlastResult({ success: false, message: 'Subject and body are required' });
+                      return;
+                    }
+                    if (!confirm(`Send this cruise update to ALL cruise signups? This cannot be undone.`)) return;
+                    setCruiseBlastSending(true);
+                    setCruiseBlastResult(null);
+                    try {
+                      const res = await fetch('/api/cruise/blast', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ subject: cruiseBlastSubject, body: cruiseBlastBody }),
+                      });
+                      const data = await res.json();
+                      if (data.success) {
+                        setCruiseBlastResult({ success: true, message: `✓ Sent to ${data.sent}/${data.total} cruise signups` });
+                        setCruiseBlastSubject('');
+                        setCruiseBlastBody('');
+                      } else {
+                        throw new Error(data.error || 'Blast failed');
+                      }
+                    } catch (err: any) {
+                      setCruiseBlastResult({ success: false, message: `✕ ${err.message}` });
+                    } finally {
+                      setCruiseBlastSending(false);
+                    }
+                  }}
+                  disabled={cruiseBlastSending}
+                  className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 border border-cyan-400/30 shadow-[0_4px_15px_rgba(6,182,212,0.25)] shrink-0 cursor-pointer"
+                >
+                  {cruiseBlastSending ? 'Sending...' : '🚀 Send Blast'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* === ITINERARY BUILDER === */}
+        <div className="mb-14 relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/20 p-[1px]">
+              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
+                <span className="text-lg">⚓</span>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Cruise Itinerary Builder</h2>
+              <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Manage passenger dashboard daily schedules</p>
+            </div>
+          </div>
+
+          <div className="bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 rounded-2xl p-6 md:p-8 relative">
+            <div className="flex flex-wrap gap-4 items-center justify-between mb-8 pb-6 border-b border-white/5">
+              <button onClick={() => setItinerary([...itinerary, { id: 'day' + Date.now(), dayLabel: 'Day ' + (itinerary.length + 1), location: 'Port', theme: 'Theme', events: [], colorTheme: 'var(--color-accent)' }])} className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white text-[0.65rem] font-bold uppercase tracking-widest rounded-lg transition-all border border-white/10 flex items-center gap-2">
+                <span>+ Add Day</span>
+              </button>
+              <button onClick={() => updateItinerary(itinerary)} disabled={itineraryUpdating} className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_15px_rgba(133,29,239,0.3)] disabled:opacity-50 border border-[var(--color-accent)]/30">
+                {itineraryUpdating ? 'Saving...' : '💾 Save Itinerary Live'}
+              </button>
+            </div>
+            {itinerarySaveStatus && (
+              <div className={`mb-6 flex items-center gap-2 px-4 py-3 rounded-xl text-[0.65rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] ${itinerarySaveStatus === 'saved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                {itinerarySaveStatus === 'saved' ? '✓ Itinerary updated — live on cruise dashboard' : '✕ Failed to update — try again'}
+              </div>
+            )}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              {itinerary.map((day, dayIndex) => (
+                <div key={day.id} className="bg-black/40 border border-white/10 rounded-xl p-5 md:p-6 relative group transition-all hover:border-white/20">
+                  <button onClick={() => setItinerary(itinerary.filter((_,i) => i !== dayIndex))} className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white border border-rose-500/20 opacity-0 group-hover:opacity-100 transition-all text-xs">✕</button>
+                  <div className="flex flex-col gap-3 mb-4">
+                    <input type="text" value={day.dayLabel} onChange={e => { const n=[...itinerary]; n[dayIndex].dayLabel=e.target.value; setItinerary(n); }} className="bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm font-bold text-white outline-none focus:border-[var(--color-accent)]/50 transition-all" placeholder="Day 1" />
+                    <div className="flex gap-2">
+                      <input type="text" value={day.location} onChange={e => { const n=[...itinerary]; n[dayIndex].location=e.target.value; setItinerary(n); }} className="flex-1 bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/70 outline-none focus:border-[var(--color-accent)]/50 transition-all" placeholder="Location" />
+                      <input type="text" value={day.theme} onChange={e => { const n=[...itinerary]; n[dayIndex].theme=e.target.value; setItinerary(n); }} className="flex-1 bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/70 outline-none focus:border-[var(--color-accent)]/50 transition-all" placeholder="Theme" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {day.events.map((evt: any, evtIndex: number) => (
+                      <div key={evtIndex} className="flex gap-2 items-center bg-black/20 p-2 rounded-lg border border-white/5">
+                        <input type="text" value={evt.time} onChange={e => { const n=[...itinerary]; n[dayIndex].events[evtIndex].time=e.target.value; setItinerary(n); }} className="w-20 bg-black/30 border border-white/10 rounded px-2 py-1.5 text-[0.7rem] text-white/60 outline-none" placeholder="9:00 AM" />
+                        <input type="text" value={evt.title} onChange={e => { const n=[...itinerary]; n[dayIndex].events[evtIndex].title=e.target.value; setItinerary(n); }} className="flex-1 bg-black/30 border border-white/10 rounded px-2 py-1.5 text-[0.7rem] text-white outline-none" placeholder="Event name" />
+                        <input type="text" value={evt.icon || ''} onChange={e => { const n=[...itinerary]; (n[dayIndex].events[evtIndex] as any).icon=e.target.value; setItinerary(n); }} className="w-12 bg-black/30 border border-white/10 rounded px-2 py-1.5 text-center text-[0.7rem] outline-none" placeholder="🎵" />
+                        <button onClick={() => { const n=[...itinerary]; n[dayIndex].events.splice(evtIndex,1); setItinerary(n); }} className="w-7 h-7 flex items-center justify-center rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white text-xs transition-all shrink-0">✕</button>
+                      </div>
+                    ))}
+                    <button onClick={() => { const n=[...itinerary]; n[dayIndex].events.push({ id: 'evt'+Date.now(), time: '', title: '', subtitle: '' } as any); setItinerary(n); }} className="w-full py-2 border border-dashed border-white/10 rounded-lg text-white/30 hover:text-white/60 hover:border-white/20 text-[0.65rem] font-bold uppercase tracking-widest transition-all">+ Add Event</button>
+                  </div>
+                </div>
+              ))}
+              {itinerary.length === 0 && (
+                <div className="col-span-1 xl:col-span-2 py-12 text-center border border-dashed border-white/10 rounded-2xl bg-white/5">
+                  <span className="text-4xl block mb-4 opacity-30">🗓️</span>
+                  <p className="text-sm font-bold text-white/40 uppercase tracking-widest">No Itinerary Days configured</p>
+                  <p className="text-xs text-white/20 mt-2">Click &quot;+ Add Day&quot; to start building the schedule.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+          </>
+        )}
+
       </div>
     </div>
   );

@@ -432,6 +432,56 @@ export const EMAIL_TEMPLATES = [
       ],
     }),
   },
+  {
+    id: 'cruise_community',
+    name: 'Cruise Community Welcome',
+    description: 'Sent to fans who opt-in to the community during cruise signup.',
+    category: 'Cruise',
+    status: 'live' as const,
+    render: () => cruiseCommunityWelcome({ name: 'Michael Scimeca' }),
+  },
+  {
+    id: 'cruise_cancellation',
+    name: 'Cruise Cancellation',
+    description: 'Sent when a fan cancels their cruise interest via token link.',
+    category: 'Cruise',
+    status: 'live' as const,
+    render: () => wrap(`
+      <div style="text-align:center;">
+        <p style="font-size:48px;margin:0 0 16px;">❌</p>
+        <h1 style="margin:0 0 12px;color:#fff;font-size:24px;font-weight:900;">Cruise Interest Cancelled</h1>
+        <p style="margin:0 0 24px;color:rgba(255,255,255,0.5);font-size:14px;line-height:1.6;">Your cruise interest signup has been removed. If this was a mistake, you can sign up again anytime.</p>
+        <a href="https://7thheavenband.com/cruise" style="${btnStyle}">Re-Sign Up</a>
+      </div>
+    `),
+  },
+  {
+    id: 'welcome_crew',
+    name: 'Welcome — Crew',
+    description: 'Sent to a new crew member when their account is created by admin.',
+    category: 'Account',
+    status: 'live' as const,
+    render: () => welcomeCrew({ name: 'Alex Rivera', email: 'alex@7thheaven.com', username: 'alex_7h', tempPassword: 'x8k2mQ!A1' }),
+  },
+  {
+    id: 'new_account_admin_alert',
+    name: 'New Account Alert — Admin',
+    description: 'Sent to the site manager when a new account is created (crew, fan, or planner).',
+    category: 'Account',
+    status: 'live' as const,
+    render: () => newAccountAdminAlert({ accountName: 'Alex Rivera', accountEmail: 'alex@7thheaven.com', accountUsername: 'alex_7h', accountRole: 'crew', createdBy: 'Michael Scimeca (Admin)' }),
+  },
+  {
+    id: 'cruise_community_blast',
+    name: 'Cruise Community Blast',
+    description: 'Sent to all cruise signups with the latest news, updates, and announcements.',
+    category: 'Cruise',
+    status: 'live' as const,
+    render: () => cruiseCommunityBlast({
+      subject: '🚢 Cruise Update: Cabin Pricing Preview Coming Soon!',
+      body: `<p>Hey Cruiser!</p><p>We're getting closer to locking in our <strong>group rate</strong> with the cruise line. Here's what you need to know:</p><ul><li>📊 <strong>412 fans</strong> have signed up — we're blowing past our goal!</li><li>💰 Cabin pricing preview drops <strong>next Friday, June 6th</strong></li><li>🎵 The onboard setlist vote opens next week in the Cruise Hub</li><li>🏝️ Shore excursion packages will be available for pre-booking soon</li></ul><p>Stay tuned — this is going to be <strong>epic</strong>.</p>`,
+    }),
+  },
 ];
 
 // ═══════════════════════════════════════════════
@@ -526,4 +576,159 @@ export function bookingStatusUpdate(b: {
       <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com'}/planner" style="${btnStyle}">View in Dashboard</a>
     </div>
   `);
+}
+
+// ═══════════════════════════════════════════════
+// 11. CRUISE COMMUNITY WELCOME
+// ═══════════════════════════════════════════════
+export function cruiseCommunityWelcome(b: { name: string; inviteLink?: string }) {
+  return wrap(`
+    <div style="text-align:center;">
+      <span style="display:inline-block;padding:4px 12px;background:rgba(6,182,212,0.1);color:#06b6d4;font-size:10px;font-weight:900;border-radius:6px;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;border:1px solid rgba(6,182,212,0.2);">Community Invite</span>
+      <h1 style="margin:0 0 12px;color:#fff;font-size:26px;font-weight:900;">Welcome to the Cruise Community 🚢</h1>
+      <p style="margin:0 0 16px;color:rgba(255,255,255,0.6);font-size:15px;line-height:1.6;">
+        Hey <strong style="color:#fff;">${sanitize(b.name)}</strong>, you're now part of the inner circle for the 7th Heaven Caribbean Cruise!
+      </p>
+      <p style="margin:0 0 24px;color:rgba(255,255,255,0.6);font-size:15px;line-height:1.6;">
+        Because you signed up as the <strong style="color:#06b6d4;">primary guest</strong> for your group, we've automatically created an official 7th Heaven Fan Account for you.
+      </p>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin-bottom:28px;text-align:left;">
+        <p style="margin:0 0 12px;color:rgba(255,255,255,0.3);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;">YOUR COMMUNITY PERKS</p>
+        <ul style="margin:0;padding:0;list-style:none;color:rgba(255,255,255,0.7);font-size:13px;line-height:1.8;">
+          <li>🗳️ <strong>Vote on Setlists</strong> for the deck parties</li>
+          <li>🗺️ <strong>Exclusive Deck Maps</strong> & band hangout spots</li>
+          <li>📸 <strong>Early Access</strong> to the Cruise Gallery</li>
+          <li>💬 <strong>Pre-Cruise Chat</strong> with other fans</li>
+        </ul>
+      </div>
+      <a href="${b.inviteLink || 'https://7thheavenband.com/cruise/dashboard'}" style="${btnStyle}">${b.inviteLink ? 'Confirm Email & Access Hub' : 'Access My Cruise Hub'}</a>
+      ${b.inviteLink ? `<p style="margin:16px 0 0;color:rgba(255,255,255,0.4);font-size:13px;">Please click the button above to confirm your email and securely set your password.</p>` : ''}
+      <p style="margin:24px 0 0;color:rgba(255,255,255,0.2);font-size:11px;">You can opt out of community alerts in your Fan Dashboard settings.</p>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 12. WELCOME — CREW (sent to new crew member by admin)
+// ═══════════════════════════════════════════════
+export function welcomeCrew(data: { name: string; email: string; username?: string; tempPassword: string }) {
+  return wrap(`
+    <h1 style="margin:0 0 8px;color:#fff;font-size:26px;font-weight:900;text-align:center;">Welcome to the Crew 🛡️</h1>
+    <p style="margin:0 0 28px;color:rgba(255,255,255,0.4);font-size:13px;text-align:center;">You've been added to the 7th Heaven crew by an admin.</p>
+    <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 28px;">
+      Hey <strong style="color:#fff;">${sanitize(data.name)}</strong>, welcome aboard! Your crew account is live. Here are your login credentials — please change your password after your first login.
+    </p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+      <tr><td style="padding:16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:12px;">
+        <p style="margin:0 0 12px;color:#10b981;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">YOUR LOGIN CREDENTIALS</p>
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:120px;">Email</td>
+            <td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;font-family:monospace;">${sanitize(data.email)}</td>
+          </tr>
+          ${data.username ? `<tr>
+            <td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Username</td>
+            <td style="padding:6px 0;color:#10b981;font-size:14px;font-weight:700;">@${sanitize(data.username)}</td>
+          </tr>` : ''}
+          <tr>
+            <td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Temp Password</td>
+            <td style="padding:6px 0;color:#fbbf24;font-size:16px;font-weight:900;font-family:monospace;letter-spacing:2px;">${sanitize(data.tempPassword)}</td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+      <tr><td style="padding:12px 16px;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.15);border-radius:10px;">
+        <p style="margin:0 0 6px;color:#a78bfa;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">CREW TOOLS</p>
+        <p style="margin:0;color:rgba(255,255,255,0.6);font-size:13px;line-height:1.8;">
+          📡 Go live and broadcast to fans<br/>
+          🎟️ Run live raffles and giveaways<br/>
+          📸 Moderate fan photo submissions<br/>
+          💬 Post to the live feed during shows<br/>
+          👥 View and manage fan accounts
+        </p>
+      </td></tr>
+    </table>
+    <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:10px;padding:14px 16px;margin-bottom:24px;">
+      <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.6;">⚠️ <strong style="color:#fbbf24;">Security Notice:</strong> Please change your password immediately after logging in. Never share your credentials via email or text.</p>
+    </div>
+    <div style="text-align:center;margin:24px 0;">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com'}/crew" style="${btnStyle}">Open Crew Dashboard</a>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 13. NEW ACCOUNT ADMIN ALERT (sent to site manager)
+// ═══════════════════════════════════════════════
+export function newAccountAdminAlert(data: {
+  accountName: string; accountEmail: string; accountUsername?: string;
+  accountRole: string; createdBy?: string;
+}) {
+  const roleColors: Record<string, string> = {
+    crew: '#10b981', admin: '#f59e0b', fan: '#a855f7', event_planner: '#d946ef', merch: '#06b6d4',
+  };
+  const color = roleColors[data.accountRole] || '#a855f7';
+  const roleLabel = data.accountRole === 'event_planner' ? 'Event Planner' : data.accountRole.charAt(0).toUpperCase() + data.accountRole.slice(1);
+  const dashboardUrl = 'https://7thheavenband.com/admin';
+  const td1 = 'padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:120px;vertical-align:top;';
+  const td2 = 'padding:6px 0;color:#fff;font-size:14px;font-weight:600;';
+
+  return wrap(`
+    <p style="margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:${color};font-weight:800;text-align:center;">🔔 New Account Created</p>
+    <h1 style="margin:0 0 24px;font-size:24px;font-weight:900;color:#fff;text-align:center;">New ${sanitize(roleLabel)} Account</h1>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:20px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Account Details</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="${td1}">Name</td><td style="${td2}">${sanitize(data.accountName)}</td></tr>
+        <tr><td style="${td1}">Email</td><td style="${td2};color:${color};">${sanitize(data.accountEmail)}</td></tr>
+        ${data.accountUsername ? `<tr><td style="${td1}">Username</td><td style="${td2}">@${sanitize(data.accountUsername)}</td></tr>` : ''}
+        <tr><td style="${td1}">Role</td><td style="${td2}"><span style="display:inline-block;padding:3px 10px;background:${color}22;color:${color};font-size:11px;font-weight:800;border-radius:6px;letter-spacing:1px;text-transform:uppercase;">${sanitize(roleLabel)}</span></td></tr>
+        ${data.createdBy ? `<tr><td style="${td1}">Created By</td><td style="${td2}">${sanitize(data.createdBy)}</td></tr>` : ''}
+        <tr><td style="${td1}">Created At</td><td style="${td2}">${new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}</td></tr>
+      </table>
+    </div>
+    <div style="text-align:center;margin:24px 0;">
+      <a href="${dashboardUrl}" style="${btnStyle}">Open Admin Dashboard</a>
+    </div>
+    <p style="margin:0;color:rgba(255,255,255,0.25);font-size:11px;text-align:center;">This is an automated notification. No action required unless this account was not expected.</p>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 14. CRUISE COMMUNITY BLAST (sent to all cruise signups)
+// ═══════════════════════════════════════════════
+export function cruiseCommunityBlast(data: { subject: string; body: string }) {
+  const btnCruise = `display:inline-block;background:#06b6d4;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
+
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#050508;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#050508;padding:40px 16px;">
+<tr><td align="center">
+<table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;">
+<!-- Cruise Header -->
+<tr><td style="background:linear-gradient(135deg,#0e7490,#06b6d4,#0891b2);padding:24px 40px;text-align:center;border-radius:16px 16px 0 0;">
+<p style="margin:0 0 4px;font-size:28px;">🚢</p>
+<p style="margin:0 0 4px;color:#fff;font-size:18px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN CRUISE</p>
+<p style="margin:0;color:rgba(255,255,255,0.6);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;">Community Update</p>
+</td></tr>
+<!-- Body -->
+<tr><td style="background:#0a0a0f;padding:40px 32px;border-left:1px solid rgba(6,182,212,0.15);border-right:1px solid rgba(6,182,212,0.15);">
+<h1 style="margin:0 0 24px;color:#fff;font-size:24px;font-weight:900;text-align:center;letter-spacing:-0.5px;">${sanitize(data.subject).replace('🚢 ', '')}</h1>
+<div style="color:rgba(255,255,255,0.75);font-size:15px;line-height:1.7;margin-bottom:32px;">${data.body}</div>
+<div style="text-align:center;margin-bottom:24px;">
+  <a href="https://7thheavenband.com/cruise/dashboard" style="${btnCruise}">Open Cruise Hub</a>
+</div>
+<div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:12px;padding:16px;text-align:center;">
+  <p style="margin:0;color:rgba(255,255,255,0.5);font-size:12px;line-height:1.6;">Know someone who'd love to sail with us?<br/><a href="https://7thheavenband.com/cruise" style="color:#06b6d4;text-decoration:underline;font-weight:700;">Share the Cruise Page</a> — the more fans, the better rate we get!</p>
+</div>
+</td></tr>
+<!-- Footer -->
+<tr><td style="background:#08080c;padding:24px 32px;text-align:center;border:1px solid rgba(6,182,212,0.1);border-top:none;border-radius:0 0 16px 16px;">
+<p style="margin:0 0 8px;color:#444;font-size:11px;">© ${new Date().getFullYear()} 7th Heaven — All rights reserved</p>
+<p style="margin:0 0 8px;color:#06b6d4;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7thheavenband.com/cruise</p>
+<p style="margin:0 0 6px;color:#333;font-size:10px;">7th Heaven · Chicago, IL 60601</p>
+<p style="margin:0;font-size:10px;"><a href="https://7thheavenband.com/api/newsletter/unsubscribe?email={{email}}" style="color:#555;text-decoration:underline;">Unsubscribe</a> · <a href="https://7thheavenband.com/privacy" style="color:#555;text-decoration:underline;">Privacy Policy</a></p>
+</td></tr>
+</table></td></tr></table></body></html>`;
 }

@@ -37,6 +37,7 @@ export default async function ShowPage({ params }: { params: Promise<{ id: strin
     .select(`
       id,
       status,
+      anonymous,
       checked_in_at,
       profiles (
         id,
@@ -48,5 +49,5 @@ export default async function ShowPage({ params }: { params: Promise<{ id: strin
     .eq("show_id", id)
     .order("created_at", { ascending: false });
 
-  return <ShowPageClient show={show} initialAttendees={attendees || []} />;
+  return <ShowPageClient show={show} initialAttendees={(attendees || []) as any} />;
 }

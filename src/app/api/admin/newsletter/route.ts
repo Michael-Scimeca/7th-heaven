@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'No subscribers found', sent: 0 }, { status: 404 });
     }
 
-    const html = newsletterBlast({ subject, body });
+    const baseHtml = newsletterBlast({ subject, body });
     const emailBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
     // Send to each fan (batch)
@@ -47,14 +47,16 @@ export async function POST(request: Request) {
     for (let i = 0; i < emails.length; i += batchSize) {
       const batch = emails.slice(i, i + batchSize);
       const results = await Promise.allSettled(
-        batch.map(email =>
-          fetch(`${emailBaseUrl}/api/email`, {
+        batch.map(email => {
+          // Replace {{email}} placeholder with actual recipient for unsubscribe links
+          const personalizedHtml = baseHtml.replace(/\{\{email\}\}/g, encodeURIComponent(email));
+          return fetch(`${emailBaseUrl}/api/email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ to: email, subject: `${subject} — 7th Heaven`, html }),
-          }).then(r => r.ok ? 'ok' : 'fail')
-        )
-      );
+            body: JSON.stringify({ to: email, subject: `${subject} — 7th Heaven`, html: personalizedHtml }),
+          }).then(r => r.ok ? 'ok' : 'fail');
+         })
+       );
       results.forEach(r => {
         if (r.status === 'fulfilled' && r.value === 'ok') sent++;
         else failed++;

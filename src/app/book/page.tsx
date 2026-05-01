@@ -144,6 +144,7 @@ function BookPageContent() {
     loadInTime: "",
     details: "",
     hearAbout: "",
+    website: "", // Honeypot
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -306,7 +307,7 @@ function BookPageContent() {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, eventType: selectedType, altDate1, altDate2, addOns }),
+        body: JSON.stringify({ ...formData, eventType: selectedType, altDate1, altDate2, addOns, website: formData.website }),
       });
       if (res.ok) {
 
@@ -402,8 +403,8 @@ function BookPageContent() {
           </div>
           <h1 className="text-3xl font-extrabold text-white mb-3 tracking-tight">Request Received</h1>
           <p className="text-white/50 text-[1.05rem] leading-relaxed mb-8">
-            Thank you for your interest in booking 7th Heaven! We&apos;ll review the details and get back to you within 24-48 hours.
-            <br /><span className="text-[1rem] text-emerald-400/70 mt-2 inline-block">✓ Confirmation emails sent to you and our team</span>
+            Thank you for your interest in booking 7th Heaven! We&apos;ve sent a confirmation email to <strong className="text-white">{formData.email}</strong>. Please check your inbox to verify your request.
+            <br /><span className="text-[1rem] text-emerald-400/70 mt-2 inline-block">✓ Notification sent to band management</span>
           </p>
 
           <div className="flex flex-col gap-3 w-full">
@@ -445,8 +446,15 @@ function BookPageContent() {
                       type="button"
                       disabled={!accountPassword || accountPassword.length < 6 || !accountEmail}
                       onClick={async () => {
-                        const success = await signup(formData.name, accountEmail, accountPassword, formData.phone);
-                        if (success) window.location.href = '/planner';
+                        const result = await signup(formData.name, accountEmail, accountPassword, formData.phone);
+                        if (result.success) {
+                          if (result.confirmationRequired) {
+                            alert(`Account created! Please check ${accountEmail} to verify your account before logging in.`);
+                            window.location.href = '/';
+                          } else {
+                            window.location.href = '/planner';
+                          }
+                        }
                       }}
                       className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-[1.05rem] font-bold uppercase tracking-wider rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
                     >
@@ -566,7 +574,7 @@ function BookPageContent() {
                 name: 'Marcus Rivera',
                 email: 'marcus@riveraentertainment.com',
                 phone: '(312) 555-0187',
-                organization: 'Rivera Entertainment Group',
+                organization: 'Rivera Entertainment',
                 eventDate: '2026-06-14',
                 startTime: '7:00 PM',
                 endTime: '10:00 PM',
@@ -585,6 +593,7 @@ function BookPageContent() {
                 loadInTime: '3:00 PM',
                 details: 'Annual summer gala fundraiser. We need high-energy rock covers mixed with originals. VIP section stage-left. Green room required for band.',
                 hearAbout: 'Referred by a friend',
+                website: '',
               });
             }}
             className="mb-6 px-4 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[1rem] font-bold uppercase tracking-widest rounded-lg hover:bg-amber-500/20 transition-all cursor-pointer flex items-center gap-2"
@@ -784,7 +793,14 @@ function BookPageContent() {
               )}
             </div>
 
+            {/* Honeypot */}
+            <div className="hidden" aria-hidden="true">
+              <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+            </div>
+
           </div>
+
+
 
           {/* Right Column: Sticky Summary Sidebar */}
           <div>

@@ -5,6 +5,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 export interface Member {
  id: string;
  name: string;
+ username: string;
  email: string;
  joinDate: string;
  avatar: string;
@@ -29,7 +30,7 @@ interface MemberContextType {
  modalMode: "login" | "signup";
  setModalMode: (mode: "login" | "signup") => void;
  login: (email: string, password: string) => Promise<boolean>;
- signup: (name: string, email: string, password: string, phone?: string) => Promise<boolean>;
+ signup: (name: string, email: string, password: string, phone?: string, username?: string) => Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }>;
  logout: () => void;
  addPoints: (amount: number) => void;
  updateLocation: (lat: number, lng: number) => void;
@@ -115,13 +116,15 @@ export function MemberProvider({ children }: { children: ReactNode }) {
    if (error || !data.user) return false;
 
    // Fetch profile for role
-   const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).single();
+   const { data: profile } = await supabase.from("profiles").select("role, username").eq("id", data.user.id).single();
    const role = profile?.role || "fan";
    const fullName = data.user.user_metadata?.full_name || data.user.email?.split("@")[0] || "User";
+   const profileUsername = profile?.username || data.user.user_metadata?.username || '';
 
    const supabaseMember: Member = {
     id: data.user.id,
     name: fullName,
+    username: profileUsername,
     email: data.user.email?.toLowerCase() || email.toLowerCase(),
     joinDate: data.user.created_at || new Date().toISOString(),
     avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
@@ -147,7 +150,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   }
  };
 
- const signup = async (name: string, email: string, password: string, phone?: string): Promise<boolean> => {
+ const signup = async (name: string, email: string, password: string, phone?: string, username?: string): Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }> => {
   // Determine role based on email
   const role = ["mikeyscimeca@gmail.com"].includes(email.toLowerCase()) ? "admin"
    : ["mike@test.com", "mikeyscimeca.dev@gmail.com"].includes(email.toLowerCase()) ? "crew"
@@ -158,29 +161,41 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   let userId = crypto.randomUUID();
 
   // Create account in Supabase Auth (persistent, cross-device)
-  try {
-   const { createClient } = await import("@/utils/supabase/client");
-   const supabase = createClient();
-   const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-     data: { full_name: name, role, phone: phone || '' },
-    },
-   });
-   if (!error && data.user) {
-    userId = data.user.id;
-    // Update role in profiles if trigger didn't set it correctly
-    await supabase.from("profiles").update({ role }).eq("id", data.user.id);
-   }
-  } catch (e) {
-   console.error("Supabase signup error:", e);
-   return false;
-  }
+    try {
+      const { createClient } = await import("@/utils/supabase/client");
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: name, username: username || '', role, phone: phone || '' },
+          emailRedirectTo: `${window.location.origin}/fans`,
+        },
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      if (data.user && !data.session) {
+        // Confirmation required
+        return { success: true, confirmationRequired: true };
+      }
+
+      if (data.user && data.session) {
+        userId = data.user.id;
+        // Update role in profiles if trigger didn't set it correctly
+        await supabase.from("profiles").update({ role, username: username || '' }).eq("id", data.user.id);
+      }
+    } catch (e) {
+      console.error("Supabase signup error:", e);
+      return { success: false, error: "Network error" };
+    }
 
   const newMember: Member = {
    id: userId,
    name,
+   username: username || '',
    email: email.toLowerCase(),
    phone: phone || undefined,
    joinDate: new Date().toISOString(),
@@ -200,7 +215,44 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   setMember(newMember);
   setIsModalOpen(false);
   localStorage.removeItem('vip_inbox_messages');
-  return true;
+
+  // ── Send welcome + admin alert emails (fire-and-forget) ──
+  try {
+    const { welcomeFan, welcomePlanner, newAccountAdminAlert } = await import('@/lib/email-templates');
+    const welcomeHtml = role === 'event_planner'
+      ? welcomePlanner({ name, email })
+      : welcomeFan({ name });
+    const welcomeSubject = role === 'event_planner'
+      ? '📋 Your Planner Account is Ready — 7th Heaven'
+      : '🎸 Welcome to the 7th Heaven Family';
+
+    // Send welcome email to new member
+    fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to: email, subject: welcomeSubject, html: welcomeHtml }),
+    }).catch(() => {});
+
+    // Send admin alert
+    const roleLabel = role === 'event_planner' ? 'Planner' : role.charAt(0).toUpperCase() + role.slice(1);
+    const alertHtml = newAccountAdminAlert({
+      accountName: name,
+      accountEmail: email,
+      accountUsername: username || undefined,
+      accountRole: role,
+    });
+    fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: 'mikeyscimeca@gmail.com',
+        subject: `🔔 New ${roleLabel} Account: ${name}`,
+        html: alertHtml,
+      }),
+    }).catch(() => {});
+  } catch {}
+
+  return { success: true, confirmationRequired: false };
  };
 
  const logout = async () => {

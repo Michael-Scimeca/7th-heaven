@@ -86,15 +86,7 @@ const siteStructure = [
         border: "border-rose-500/30",
         bg: "bg-rose-500/5",
       },
-      {
-        path: "/news",
-        name: "News & Updates",
-        sections: ["Featured Article Layout", "Chronological Updates", "Band Announcements"],
-        features: ["Sanity CMS Integration", "Server-Side Rendering"],
-        color: "text-violet-400",
-        border: "border-violet-500/30",
-        bg: "bg-violet-500/5",
-      },
+
       {
         path: "/store",
         name: "Merch Store",
@@ -107,8 +99,8 @@ const siteStructure = [
       {
         path: "/book",
         name: "Book the Band",
-        sections: ["Multi-Step Booking Form", "Event Type Selection", "Production & Extras", "Planner Dashboard Access", "Inline Account Creation"],
-        features: ["Supabase Form Submission", "Role-Based Planner Accounts", "Token-Based Cancellation Links", "Cancel Token Generation"],
+        sections: ["Multi-Step Booking Form", "Event Type Selection", "Production & Extras", "Planner Dashboard Access", "Inline Account Creation with Username"],
+        features: ["Supabase Form Submission", "Role-Based Planner Accounts", "Token-Based Cancellation Links", "Cancel Token Generation", "Welcome + Admin Alert Emails on Signup"],
         color: "text-fuchsia-400",
         border: "border-fuchsia-500/30",
         bg: "bg-fuchsia-500/5",
@@ -134,8 +126,8 @@ const siteStructure = [
       {
         path: "/cruise",
         name: "Caribbean Cruise",
-        sections: ["Cinematic Hero", "Interest Signup Form", "Live Fan Counter", "Day-by-Day Itinerary", "What's Included", "FAQ Accordion"],
-        features: ["Supabase Interest Tracking", "Resend Email Confirmation", "Token-Based Cancellation", "Referral Tracking"],
+        sections: ["Cinematic Hero", "Interest Signup Form", "Live Fan Counter", "Day-by-Day Itinerary", "What's Included", "FAQ Accordion", "Community Opt-In (Account Creation)"],
+        features: ["Supabase Interest Tracking", "Resend Email Confirmation", "Token-Based Cancellation", "Auth Invite Link for Community", "Cruise Community Welcome Email"],
         color: "text-cyan-400",
         border: "border-cyan-500/30",
         bg: "bg-cyan-500/5",
@@ -211,8 +203,8 @@ const siteStructure = [
       {
         path: "/fans",
         name: "Fan Dashboard",
-        sections: ["Fan vs Crew Pathing", "VIP Rewards & Loyalty", "Secure Supabase Login", "VIP Inbox", "Referral QR Code"],
-        features: ["Role-Based Automatic Routing", "JWT Session Management", "Frictionless UI/UX Access"],
+        sections: ["Fan vs Crew Pathing", "VIP Rewards & Loyalty", "Secure Supabase Login", "VIP Inbox", "Referral QR Code", "Username Profile Field"],
+        features: ["Role-Based Automatic Routing", "JWT Session Management", "Frictionless UI/UX Access", "Welcome Email on Signup", "Admin Alert Email on Signup"],
         color: "text-cyan-400",
         border: "border-cyan-500/30",
         bg: "bg-cyan-500/5",
@@ -220,11 +212,20 @@ const siteStructure = [
       {
         path: "/planner",
         name: "Planner Dashboard",
-        sections: ["Booking Status Tracker", "Event Details View", "Re-Book Flow", "Inline Checklist Editing", "Public Landing with Login"],
-        features: ["Role-Based Access", "Supabase Row-Level Security", "Real-Time Status Updates", "Non-Authenticated Browse Mode"],
+        sections: ["Booking Status Tracker", "Event Details View", "Re-Book Flow", "Inline Checklist Editing", "Public Landing with Login/Signup", "Username Capture on Signup"],
+        features: ["Role-Based Access", "Supabase Row-Level Security", "Real-Time Status Updates", "Non-Authenticated Browse Mode", "Welcome Planner Email", "Admin Alert Email"],
         color: "text-teal-400",
         border: "border-teal-500/30",
         bg: "bg-teal-500/5",
+      },
+      {
+        path: "/cruise/dashboard",
+        name: "Cruise Passenger Dashboard",
+        sections: ["Passenger Account Setup (via Auth Invite)", "Admin Important Updates (WYSIWYG)", "Pinned Lounge Messages", "Important Links Panel", "Cruise Chat", "Day-by-Day Itinerary", "Embarkation Countdown", "Passengers Widget"],
+        features: ["Cruise Member Account via generateLink Invite", "Supabase site_settings Messaging", "Real-time Admin Notifications", "Role-Based Access", "Community Welcome Email"],
+        color: "text-cyan-400",
+        border: "border-cyan-500/30",
+        bg: "bg-cyan-500/5",
       },
       {
         path: "/claim",
@@ -284,8 +285,8 @@ const siteStructure = [
       {
         path: "/crew",
         name: "Crew Dashboard",
-        sections: ["Live Broadcast Studio", "Live Chat & Reactions", "Interactive Raffle Engine", "Shopify Flash Drops"],
-        features: ["LiveKit Streaming", "Cross-Tab Synchronization", "Real-Time Broadcast Toggles", "Supabase Subscriptions"],
+        sections: ["Live Broadcast Studio", "Live Chat & Reactions", "Interactive Raffle Engine", "Shopify Flash Drops", "Fan Account Management"],
+        features: ["LiveKit Streaming", "Cross-Tab Synchronization", "Real-Time Broadcast Toggles", "Supabase Subscriptions", "Username in Profile"],
         color: "text-orange-400",
         border: "border-orange-500/30",
         bg: "bg-orange-500/5",
@@ -293,8 +294,8 @@ const siteStructure = [
       {
         path: "/admin",
         name: "Master Admin Command Center",
-        sections: ["Real-Time Analytics Dashboard", "Shopify Sales Data", "Booking Request Approval", "Interactive Traffic Heatmap", "Event Planners Directory", "Fan Photo Moderation Queue", "Live Stream Status", "SMS / Newsletter Proximity Blasts", "Crew Alert System", "Community Registry"],
-        features: ["Leaflet Mapbox Integration", "Secure Role-Based Access", "Supabase Read/Write", "Shopify API Aggregation"],
+        sections: ["🎸 Band & Site Tab: Band Announcements (WYSIWYG), Analytics, Shopify Sales, Booking Approval, Live Streams, Fan Photo Moderation, SMS/Newsletter Blasts, Community Registry, Crew Account Creator (with Username), Audit Log", "🚢 Cruise Tab: Passenger Notice (WYSIWYG), Roster Export, Lounge Chat Pin, Important Links Manager, Itinerary Builder"],
+        features: ["Band/Cruise Tab Toggle", "Leaflet Mapbox Integration", "Secure Role-Based Access", "Supabase Read/Write", "Shopify API Aggregation", "ReactQuill WYSIWYG Editors", "Welcome Crew + Admin Alert Emails"],
         color: "text-red-400",
         border: "border-red-500/30",
         bg: "bg-red-500/5",
@@ -308,20 +309,30 @@ const siteStructure = [
         border: "border-white/30",
         bg: "bg-white/5",
       },
-      {
-        path: "/test-supabase",
-        name: "Database Diagnostic Tool",
-        sections: ["Connection Tester", "Permissions Check"],
-        features: ["Client-Side DB Diagnostics"],
-        color: "text-gray-400",
-        border: "border-gray-500/30",
-        bg: "bg-gray-500/5",
-      },
+
       {
         path: "/admin/emails",
         name: "Email Template Previews",
-        sections: ["Template Sidebar", "Live HTML Preview", "Code View", "Send Test Email"],
-        features: ["Centralized Template Registry", "Category Filtering", "Resend Test Integration"],
+        sections: ["Template Sidebar", "Live HTML Preview", "Code View", "Send Test Email", "14 Templates (Booking, Account, Cruise, Live Stream, Newsletter)"],
+        features: ["Centralized Template Registry", "Category Filtering", "Resend Test Integration", "Welcome Crew + Admin Alert Templates"],
+        color: "text-red-400",
+        border: "border-red-500/30",
+        bg: "bg-red-500/5",
+      },
+      {
+        path: "/admin/emails/booking-confirmation",
+        name: "Booking Confirmation Email",
+        sections: ["Planner Email Preview", "HTML View", "Send Test"],
+        features: ["Template preview", "Resend integration"],
+        color: "text-red-400",
+        border: "border-red-500/30",
+        bg: "bg-red-500/5",
+      },
+      {
+        path: "/admin/emails/booking-admin-alert",
+        name: "Booking Admin Alert Email",
+        sections: ["Admin Email Preview", "HTML View", "Send Test"],
+        features: ["Template preview", "Resend integration"],
         color: "text-red-400",
         border: "border-red-500/30",
         bg: "bg-red-500/5",
@@ -523,7 +534,7 @@ export default function SitemapPage() {
           <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-3 border-b border-white/10 pb-4">
             📧 Email Templates
           </h2>
-          <p className="text-white/30 text-xs mb-8">All transactional emails sent via Resend — 11 templates total. <a href="/admin/emails" className="text-[var(--color-accent)] hover:text-white transition-colors">Preview all →</a></p>
+          <p className="text-white/30 text-xs mb-8">All transactional emails sent via Resend — 12 templates total. <a href="/admin/emails" className="text-[var(--color-accent)] hover:text-white transition-colors">Preview all →</a></p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { name: "Booking Confirmation", desc: "Sent to the event planner after submitting a booking request.", category: "Booking", status: "live", icon: "📋" },
@@ -532,6 +543,7 @@ export default function SitemapPage() {
               { name: "Raffle Winner", desc: "Sent to the fan who wins a live raffle with their claim PIN.", category: "Live Stream", status: "live", icon: "🏆" },
               { name: "Raffle Entry Confirmation", desc: "Sent when a fan enters a live raffle.", category: "Live Stream", status: "live", icon: "🎟️" },
               { name: "Cruise Signup Confirmation", desc: "Branded HTML email confirming cruise interest with cancellation link.", category: "Cruise", status: "live", icon: "🚢" },
+              { name: "Cruise Community Welcome", desc: "Sent to primary booker providing a secure account confirmation link.", category: "Cruise", status: "live", icon: "🛳️" },
               { name: "Cruise Cancellation", desc: "Sent when a fan cancels their cruise interest via token link.", category: "Cruise", status: "live", icon: "❌" },
               { name: "Welcome — Fan", desc: "Sent after a fan creates their account.", category: "Account", status: "live", icon: "🎸" },
               { name: "Welcome — Planner", desc: "Sent after a planner creates their account from the booking flow.", category: "Account", status: "live", icon: "📋" },
@@ -746,7 +758,7 @@ export default function SitemapPage() {
               <TreeNode path="/tour" label="Tour Dates" color="text-blue-400" />
               <TreeNode path="/video" label="Video Gallery" color="text-pink-400" />
               <TreeNode path="/bio" label="Band Bio" color="text-amber-400" />
-              <TreeNode path="/news" label="News & Updates" color="text-violet-400" />
+              <TreeNode path="/members" label="Band Members" color="text-amber-400" />
               <TreeNode path="/fan-photo-wall" label="Fan Photo Wall" color="text-emerald-400" />
               <TreeNode path="/contact" label="Contact" color="text-sky-400" />
               <TreeNode path="/privacy" label="Privacy Policy" color="text-gray-400" />
@@ -768,6 +780,10 @@ export default function SitemapPage() {
 
               {/* Cruise */}
               <TreeNode path="/cruise" label="Caribbean Cruise" color="text-cyan-400">
+                <TreeNode path="/cruise#signup" label="Cruise Interest Signup" color="text-cyan-400/60" />
+                <TreeNode path="/cruise/dashboard" label="Cruise Dashboard" color="text-[var(--color-accent)]">
+                  <TreeNode path="/cruise/dashboard#account" label="Account Setup (via invite)" color="text-emerald-400/60" />
+                </TreeNode>
                 <TreeNode path="/cruise/cancel" label="Cruise Cancellation" color="text-cyan-400/60" />
               </TreeNode>
               <TreeNode path="/shows/[id]" label="Show Page" color="text-purple-400" />
@@ -794,13 +810,14 @@ export default function SitemapPage() {
               <div className="text-white/50 text-[0.6rem] uppercase tracking-widest mb-2">⚙️ Admin</div>
               <div className="ml-6 border-l border-white/10 pl-4 space-y-0.5">
                 <TreeNode path="/admin" label="Admin Dashboard" color="text-red-400">
+                  <TreeNode path="/admin?tab=band" label="🎸 Band & Site Tab" color="text-purple-400/60" />
+                  <TreeNode path="/admin?tab=cruise" label="🚢 Cruise Tab" color="text-cyan-400/60" />
                   <TreeNode path="/admin/emails" label="Email Template Previews" color="text-red-400/60" />
                   <TreeNode path="/admin/features" label="Feature Flags" color="text-red-400/60" />
                   <TreeNode path="/admin/feed" label="Feed Moderation" color="text-red-400/60" />
                 </TreeNode>
                 <TreeNode path="/studio" label="Sanity Studio (CMS)" color="text-red-400" />
                 <TreeNode path="/sitemap" label="Site Map (This Page)" color="text-purple-400" />
-                <TreeNode path="/test-supabase" label="DB Diagnostic" color="text-gray-400" />
               </div>
             </div>
 
@@ -819,9 +836,11 @@ export default function SitemapPage() {
                   <TreeNode path="/api/sms/live-alert" label="Live Alert" color="text-amber-400/40" />
                 </TreeNode>
                 <TreeNode path="/api/cruise" label="Cruise System" color="text-cyan-400/60">
-                  <TreeNode path="/api/cruise/signup" label="Signup" color="text-cyan-400/40" />
+                  <TreeNode path="/api/cruise/signup" label="Signup + Account Invite" color="text-cyan-400/40" />
                   <TreeNode path="/api/cruise/cancel" label="Cancel" color="text-cyan-400/40" />
                   <TreeNode path="/api/cruise/count" label="Count" color="text-cyan-400/40" />
+                  <TreeNode path="/api/cruise/announcement" label="Announcement" color="text-cyan-400/40" />
+                  <TreeNode path="/api/cruise/itinerary" label="Itinerary" color="text-cyan-400/40" />
                 </TreeNode>
                 <TreeNode path="/api/admin" label="Admin APIs" color="text-red-400/60">
                   <TreeNode path="/api/admin/settings" label="Settings Store" color="text-red-400/40" />
@@ -841,7 +860,9 @@ export default function SitemapPage() {
                 <TreeNode path="/api/live" label="Live Streams" color="text-rose-400/60" />
                 <TreeNode path="/api/feed" label="Social Feed" color="text-emerald-400/60" />
                 <TreeNode path="/api/shopify" label="Shopify" color="text-green-400/60" />
-                <TreeNode path="/api/email" label="Email Sender" color="text-blue-400/60" />
+                <TreeNode path="/api/email" label="Email Sender (Resend)" color="text-blue-400/60">
+                  <TreeNode path="/api/email" label="Welcome + Admin Alert" color="text-blue-400/40" />
+                </TreeNode>
                 <TreeNode path="/api/tour" label="Tour Dates" color="text-blue-400/60" />
               </div>
             </div>
@@ -905,6 +926,10 @@ export default function SitemapPage() {
                 <div className="flex flex-col items-center gap-1">
                   <VertLine />
                   <SiteNode href="/cruise/cancel" label="CANCEL RSVP" sub="/cruise/cancel" color="white" />
+                  <VertLine />
+                  <SiteNode href="/cruise/dashboard" label="CRUISE HUB" sub="passenger area" color="purple" />
+                  <VertLine />
+                  <SiteNode href="/cruise/dashboard" label="ACCOUNT SETUP" sub="invite link" color="purple" small />
                 </div>
                 <div className="flex flex-col items-center gap-1">
                   <VertLine />
@@ -948,13 +973,15 @@ export default function SitemapPage() {
                 <div className="flex flex-col items-center">
                   <SiteNode href="/admin" label="ADMIN" sub="/admin" color="amber" wide />
                   <VertLine />
-                  <SiteNode href="/admin" label="CONTENT PANEL" sub="manage site" color="amber" wide />
+                  <SiteNode href="/admin" label="BAND / CRUISE" sub="tab toggle" color="amber" wide />
                   <VertLine />
                   <div className="grid grid-cols-2 gap-2 w-full">
                     <SiteNode href="/admin" label="TOUR DATES" sub="Sanity sync" color="amber" small />
                     <SiteNode href="/admin" label="ALERT BANNER" sub="site-wide msg" color="amber" small />
-                    <SiteNode href="/admin" label="SYNC SHOWS" sub="/api/sync-shows" color="amber" small />
+                    <SiteNode href="/admin" label="CREW ACCOUNTS" sub="username + email" color="amber" small />
                     <SiteNode href="/admin" label="SUBSCRIBERS" sub="newsletter+SMS" color="amber" small />
+                    <SiteNode href="/admin/emails" label="EMAIL TEMPLATES" sub="14 templates" color="amber" small />
+                    <SiteNode href="/admin" label="WYSIWYG" sub="announcements" color="amber" small />
                   </div>
                 </div>
                 <div className="flex flex-col items-center">
