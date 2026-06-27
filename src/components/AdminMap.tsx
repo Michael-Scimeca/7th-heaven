@@ -69,8 +69,8 @@ export default function AdminMap({ locations }: { locations: any[] }) {
             >
               <Tooltip direction="top" offset={[0, -10]} opacity={1} className="custom-tooltip">
                 <div className="font-sans">
-                  <p className="font-bold text-[0.7rem] uppercase tracking-wider text-black m-0">{loc.city}</p>
-                  <p className="text-black/70 text-[0.6rem] m-0">{loc.percentage}% of Traffic</p>
+                  <p className="font-bold text-sm uppercase tracking-wider text-black m-0">{loc.city}</p>
+                  <p className="text-black/70 text-xs m-0">{loc.percentage}% of Traffic</p>
                 </div>
               </Tooltip>
             </CircleMarker>

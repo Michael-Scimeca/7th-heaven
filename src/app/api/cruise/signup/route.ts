@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
 import { protectAction, sanitize } from '@/lib/security';
+import { isValidEmail, isValidPhone, sanitizeName, sanitizeNotes } from '@/lib/validation';
 import crypto from 'crypto';
 
 const supabase = createClient(
@@ -180,24 +181,51 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: protection.error }, { status: protection.status });
     }
 
+    // ── Validation ──
     if (!name || !email || !phone) {
       return NextResponse.json({ error: 'Name, email, and phone are required' }, { status: 400 });
     }
 
+    // Validate email format
+    if (!isValidEmail(email)) {
+      return NextResponse.json({ error: 'Please enter a valid email address' }, { status: 400 });
+    }
+
+    // Validate phone format (at least 10 digits)
+    if (!isValidPhone(phone)) {
+      return NextResponse.json({ error: 'Please enter a valid phone number (10+ digits)' }, { status: 400 });
+    }
+
+    // Sanitize name to prevent injection
+    const safeName = sanitizeName(name);
+
+    // ── Extended Sanitization ──
+    const safeNotes = sanitizeNotes(notes);
+
+    if (!safeName || safeName.length < 2) {
+      return NextResponse.json({ error: 'Name must be at least 2 characters' }, { status: 400 });
+    }
+
     const cancelToken = generateCancelToken();
 
-    // Build guest details JSON for storage
+    // Build guest details JSON for storage — sanitize each guest
     const guestDetails = guests && guests.length > 0
-      ? JSON.stringify(guests.map((g: any) => ({ name: g.name, email: g.email, phone: g.phone, age: g.age || null, type: g.type || 'adult' })))
+      ? JSON.stringify(guests.map((g: any) => ({
+          name: sanitizeName(g.name),
+          email: g.email ? g.email.toLowerCase().trim() : null,
+          phone: g.phone || null,
+          age: g.age || null,
+          type: g.type === 'child' ? 'child' : 'adult',
+        })))
       : null;
 
     // Insert primary booker into Supabase
     const { data, error } = await supabase.from('cruise_signups').insert({
-      name,
+      name: safeName,
       email: email.toLowerCase().trim(),
       phone: phone || null,
       guest_count: guest_count || 1,
-      notes: notes ? `${notes}${guestDetails ? `\n\nGuest Details: ${guestDetails}` : ''}` : (guestDetails ? `Guest Details: ${guestDetails}` : null),
+      notes: safeNotes ? `${safeNotes}${guestDetails ? `\n\nGuest Details: ${guestDetails}` : ''}` : (guestDetails ? `Guest Details: ${guestDetails}` : null),
       cancel_token: cancelToken,
       anonymous: anonymous || false,
     }).select().single();

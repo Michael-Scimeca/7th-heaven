@@ -49,13 +49,13 @@ export default function LiveStatusSign() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
             </span>
-            <span className="text-[0.7rem] font-black uppercase tracking-[0.2em] text-white">Live Now</span>
+            <span className="text-sm font-black uppercase tracking-[0.2em] text-white">Live Now</span>
           </div>
           
           <div className="h-4 w-px bg-white/10" />
           
           <div className="flex items-center gap-3">
-            <span className="text-[0.65rem] font-bold text-white/60 tracking-wide uppercase">
+            <span className="text-xs font-bold text-white/60 tracking-wide uppercase">
               {liveCount} Active {liveCount === 1 ? 'Feed' : 'Feeds'}
             </span>
             <div className="flex items-center justify-center w-6 h-6 rounded-full bg-white/5 border border-white/10 group-hover:bg-red-500 group-hover:border-red-500 transition-all duration-300">

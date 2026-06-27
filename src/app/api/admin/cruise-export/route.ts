@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { requireAdmin } from '@/lib/api-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,7 +9,10 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export async function GET() {
+export async function GET(request: Request) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
+
   try {
     const { data, error } = await supabase
       .from('cruise_signups')

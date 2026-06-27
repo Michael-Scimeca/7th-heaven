@@ -146,6 +146,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   // Chat state
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [userMessage, setUserMessage] = useState('');
+  const [chatError, setChatError] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const chatChannelRef = useRef<any>(null);
@@ -531,19 +532,31 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
   // Raffle state polling — runs every 1s to catch status transitions 
   // (same-tab storage events don't fire, Supabase can lag in local dev)
-  // Initial raffle state check on mount
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(LS('live_raffle_sync'));
-      if (raw) {
-        const pb = JSON.parse(raw);
-        if (pb && (pb.userId === memberId || memberId === 'michael')) {
-          if (pb.status === 'idle') setRaffleState(null);
-          else setRaffleState(pb);
+    const checkRaffle = () => {
+      try {
+        if (feedActive === false) {
+          localStorage.removeItem(LS('live_raffle_sync'));
+          setRaffleState(null);
+          return;
         }
-      }
-    } catch {}
-  }, [memberId]);
+        const raw = localStorage.getItem(LS('live_raffle_sync'));
+        if (raw) {
+          const pb = JSON.parse(raw);
+          if (pb && (pb.userId === memberId || memberId === 'michael')) {
+            if (pb.status === 'idle') setRaffleState(null);
+            else setRaffleState(pb);
+          }
+        } else {
+          setRaffleState(null);
+        }
+      } catch {}
+    };
+
+    checkRaffle();
+    const pollInterval = setInterval(checkRaffle, 1000);
+    return () => clearInterval(pollInterval);
+  }, [memberId, LS, feedActive]);
 
 
 
@@ -1098,10 +1111,58 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     }, 1500);
   };
 
+  /* ── Client-side PG pre-filter (mirrors server blocklist) ── */
+  const PG_BLOCKED = [
+    // Profanity
+    /\bfuck|f\*ck|fuk|fvck|fuq\b/i,
+    /\bshit|sh1t\b/i,
+    /\bass\b/i,
+    /\bbitch|b1tch\b/i,
+    /\bcrap\b/i,
+    /\bbastard\b/i,
+    /\bpiss\b/i,
+    /\bcock|c0ck\b/i,
+    /\bdick|d1ck\b/i,
+    /\bpussy\b/i,
+    /\bcunt\b/i,
+    /\bwhore|wh0re\b/i,
+    /\bslut\b/i,
+    /\bnigga|nigger\b/i,
+    /\bfag|faggot\b/i,
+    /\bretard\b/i,
+    /\brape\b/i,
+    /\bporn|xxx\b/i,
+    // Political
+    /\btrump|biden|obama|maga\b/i,
+    /\bdemocrat|republican|gop\b/i,
+    /\bliberal|conservative\b/i,
+    /\bcommunist|socialism|socialist\b/i,
+    /\bfascist|fascism\b/i,
+    /\bantifa|blm\b/i,
+    /\bkkk|klan\b/i,
+    /\bnazi|n4zi\b/i,
+    /\babortion|pro-life|pro-choice\b/i,
+    /\bimpeach\b/i,
+    /\belection|ballot|voter fraud\b/i,
+    /\bdeep state|qanon\b/i,
+    /\bwoke\b/i,
+  ];
+
+  const isPgViolation = (text: string) => PG_BLOCKED.some(re => re.test(text));
+
   /* ── Handle user sending a message ── */
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!isLoggedIn) { openModal('login'); return; }
     if (!userMessage.trim()) return;
+
+    // Client-side PG pre-check — catch it before any optimistic update
+    if (isPgViolation(userMessage)) {
+      setChatError('Keep it PG! No swearing or political topics please 🙏');
+      setTimeout(() => setChatError(null), 4000);
+      return;
+    }
+
+    const msgText = userMessage.trim();
     const msg: ChatMsg = {
       id: `user-${Date.now()}`,
       account: {
@@ -1114,31 +1175,47 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         tier: 'Gold',
         joinYear: 2023,
       },
-      text: userMessage.trim(),
+      text: msgText,
       timestamp: Date.now(),
     };
-    
-    // Sync to persistence history
+
+    // Clear input immediately for snappy UX
+    setUserMessage('');
+
+    // Persist securely to chat_messages via API (await to catch server-side rejections)
+    const roomId = `live_${memberId?.toString().toLowerCase().trim()}`;
+    try {
+      const res = await fetch('/api/chat/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          room: roomId,
+          sender_name: member?.name || 'You',
+          sender_role: 'fan',
+          sender_avatar: member?.avatar || 'YO',
+          content: msgText,
+        })
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const errMsg = data?.error || 'Message could not be sent.';
+        setChatError(errMsg);
+        setTimeout(() => setChatError(null), 4000);
+        // Don't add the message locally if the server rejected it
+        return;
+      }
+    } catch (err) {
+      console.error('Failed to send chat message to API:', err);
+      // Network error — still show locally so UX isn\'t broken
+    }
+
+    // Optimistic local update (only after server confirms or network error)
     const stored = JSON.parse(localStorage.getItem('7h_global_chat_history') || '[]');
     const nextPosts = [...stored, msg];
     const limited = nextPosts.length > 100 ? nextPosts.slice(-100) : nextPosts;
-    
     setMessages(limited);
     localStorage.setItem('7h_global_chat_history', JSON.stringify(limited));
-
-    // Persist securely to chat_messages via API
-    const roomId = `live_${memberId?.toString().toLowerCase().trim()}`;
-    fetch('/api/chat/send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        room: roomId,
-        sender_name: member?.name || 'You',
-        sender_role: 'fan',
-        sender_avatar: member?.avatar || 'YO',
-        content: userMessage.trim(),
-      })
-    }).catch(err => console.error('Failed to send chat message to API:', err));
 
     // Broadcast via Supabase Realtime for cross-browser/tab sync
     supabase.channel('live_chat').send({
@@ -1146,8 +1223,6 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       event: 'new_message',
       payload: msg,
     }).catch(() => {});
-
-    setUserMessage('');
   };
 
   /* ── Tier badge colors ── */
@@ -1162,7 +1237,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const RoleBadge = ({ account }: { account: FakeAccount }) => {
     if (account.role === 'crew' || account.role === 'admin') {
       return (
-        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[#8a1cfc]/20 border border-[#8a1cfc]/40 rounded text-[0.55rem] font-bold uppercase tracking-wider text-[#c084fc] ml-1.5">
+        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[#8a1cfc]/20 border border-[#8a1cfc]/40 rounded text-xs font-bold uppercase tracking-wider text-[#c084fc] ml-1.5">
           {account.badge || '⭐'} CREW
         </span>
       );
@@ -1255,13 +1330,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
           </Link>
 
           <div className="flex items-center gap-2 min-w-0">
-            <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br ${crewConfig.gradient} flex items-center justify-center text-white text-[0.5rem] sm:text-[0.6rem] font-black shrink-0`}>{crewConfig.avatar}</span>
+            <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br ${crewConfig.gradient} flex items-center justify-center text-white text-2xs sm:text-xs font-black shrink-0`}>{crewConfig.avatar}</span>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <span className="text-white/90 text-xs sm:text-sm font-bold truncate">Crew Cam: {crewConfig.displayName}</span>
-                <span className="hidden xs:inline-flex px-1.5 py-0.5 bg-[#8a1cfc]/20 border border-[#8a1cfc]/40 rounded text-[0.45rem] sm:text-[0.5rem] font-bold uppercase tracking-wider text-[#c084fc] shrink-0">{crewConfig.badge} CREW</span>
+                <span className="hidden xs:inline-flex px-1.5 py-0.5 bg-[#8a1cfc]/20 border border-[#8a1cfc]/40 rounded text-2xs sm:text-2xs font-bold uppercase tracking-wider text-[#c084fc] shrink-0">{crewConfig.badge} CREW</span>
               </div>
-              <p className="text-white/30 text-[0.55rem] sm:text-[0.65rem] truncate hidden sm:block">7th Heaven · House of Blues, Chicago · {formatTime(elapsed)}</p>
+              <p className="text-white/30 text-xs sm:text-xs truncate hidden sm:block">7th Heaven · House of Blues, Chicago · {formatTime(elapsed)}</p>
             </div>
           </div>
         </div>
@@ -1269,13 +1344,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Other live feeds mock removed per design update */}
           {/* Mobile elapsed time */}
-          <span className="sm:hidden text-white/40 text-[0.6rem] font-mono">{formatTime(elapsed)}</span>
+          <span className="sm:hidden text-white/40 text-xs font-mono">{formatTime(elapsed)}</span>
 
           {isLoggedIn ? (
             <div className="flex items-center gap-2 ml-1 sm:ml-2">
               <Link
                 href={member?.role === 'event_planner' ? '/planner' : member?.role === 'crew' ? '/crew' : member?.role === 'admin' ? '/admin' : '/fans'}
-                className="relative w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-[0.6rem] sm:text-xs font-bold hover:bg-[var(--color-accent)]/30 transition-all rounded-full"
+                className="relative w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-xs sm:text-xs font-bold hover:bg-[var(--color-accent)]/30 transition-all rounded-full"
                 title="Dashboard"
               >
                 {member?.name ? member.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : member?.avatar}
@@ -1286,7 +1361,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                 title="Sign Out"
               >
                 <svg width="10" height="10" className="sm:w-3 sm:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                <span className="text-[0.55rem] sm:text-[0.6rem] font-bold uppercase tracking-widest hidden sm:block">Sign Out</span>
+                <span className="text-xs sm:text-xs font-bold uppercase tracking-widest hidden sm:block">Sign Out</span>
               </button>
             </div>
           ) : null}
@@ -1310,7 +1385,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                 The show has ended. We hope you enjoyed it!
               </p>
               {disconnectCountdown !== null && (
-                <p className="text-white/20 text-[0.65rem] mt-4 font-mono">
+                <p className="text-white/20 text-xs mt-4 font-mono">
                   Redirecting to Tour Dates in <span className="text-pink-400 font-bold">{disconnectCountdown}s</span>
                 </p>
                 )}
@@ -1353,7 +1428,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                 <div className="text-white/[0.06] text-[clamp(1.5rem,6vw,5rem)] font-black italic tracking-widest uppercase" style={{ fontFamily: 'var(--font-barlow-condensed)' }}>
                   7TH HEAVEN
                 </div>
-                <div className="text-white/[0.04] text-[0.5rem] sm:text-xs tracking-[0.3em] sm:tracking-[0.4em] uppercase mt-1">LIVE FROM CHICAGO</div>
+                <div className="text-white/[0.04] text-2xs sm:text-xs tracking-[0.3em] sm:tracking-[0.4em] uppercase mt-1">LIVE FROM CHICAGO</div>
               </div>
             </div>
 
@@ -1381,20 +1456,20 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
             {/* Top-left: LIVE badge + viewer count */}
             <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-30 flex items-center gap-1.5 sm:gap-2">
-              <span className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 bg-red-600 rounded-full text-white text-[0.6rem] sm:text-xs font-bold uppercase tracking-wider shadow-lg">
+              <span className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 bg-red-600 rounded-full text-white text-xs sm:text-xs font-bold uppercase tracking-wider shadow-lg">
                 <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                 LIVE
               </span>
               <button
                 onClick={() => setShowViewers(v => !v)}
-                className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 bg-black/60 backdrop-blur-sm rounded-full text-white text-[0.6rem] sm:text-xs font-semibold hover:bg-black/80 transition-colors cursor-pointer"
+                className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 bg-black/60 backdrop-blur-sm rounded-full text-white text-xs sm:text-xs font-semibold hover:bg-black/80 transition-colors cursor-pointer"
               >
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="sm:w-3 sm:h-3"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 {viewerCount.toLocaleString()}
               </button>
               <button
                 onClick={() => setReactionsHidden(h => !h)}
-                className={`flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 backdrop-blur-sm rounded-full text-[0.55rem] sm:text-[0.65rem] font-semibold transition-colors cursor-pointer ${
+                className={`flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 backdrop-blur-sm rounded-full text-xs sm:text-xs font-semibold transition-colors cursor-pointer ${
                   reactionsHidden ? 'bg-white/10 text-white/40' : 'bg-black/60 text-white/70'
                 }`}
               >
@@ -1405,7 +1480,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             {/* Top-right: elapsed time + hype meter */}
             <div className="absolute top-2 sm:top-3 right-2 sm:right-3 z-30 flex items-center gap-2">
 
-              <div className="px-2 sm:px-2.5 py-0.5 sm:py-1 bg-black/60 backdrop-blur-sm rounded-full text-white/80 text-[0.6rem] sm:text-xs font-mono tracking-wider">
+              <div className="px-2 sm:px-2.5 py-0.5 sm:py-1 bg-black/60 backdrop-blur-sm rounded-full text-white/80 text-xs sm:text-xs font-mono tracking-wider">
                 ⏱ {formatTime(elapsed)}
               </div>
             </div>
@@ -1418,7 +1493,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             )}
 
             {/* LIVE RAFFLE WIDGET */}
-            {raffleState && !raffleWidgetClosed && (() => {
+            {feedActive && raffleState && !raffleWidgetClosed && (() => {
               const isCurrentUserWinner = hasEnteredRaffle && !!member?.name &&
                 raffleState.winners?.some((w: any) => (w?.name || w)?.toLowerCase().trim() === member!.name.toLowerCase().trim());
               return (
@@ -1438,15 +1513,15 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                    <>
                     <div className="flex items-center gap-2 text-yellow-400 mb-4 pr-6">
                      <span className="text-xl animate-pulse">🎰</span>
-                     <span className="font-black text-[0.8rem] uppercase tracking-widest leading-tight mt-1">Live Raffle</span>
-                     <span className="ml-auto px-2.5 py-1 bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 rounded text-[0.6rem] font-bold uppercase tracking-widest animate-pulse">OPEN</span>
+                     <span className="font-black text-sm uppercase tracking-widest leading-tight mt-1">Live Raffle</span>
+                     <span className="ml-auto px-2.5 py-1 bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 rounded text-xs font-bold uppercase tracking-widest animate-pulse">OPEN</span>
                     </div>
 
                     {/* Entrant count + progress */}
                     <div className="mb-4">
                      <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[0.55rem] font-bold text-white/40 uppercase tracking-widest">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entered</span>
-                      <span className="text-[0.55rem] font-bold text-yellow-500/70 uppercase tracking-widest">{raffleState.minEntrants ?? '?'} needed</span>
+                      <span className="text-xs font-bold text-white/40 uppercase tracking-widest">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entered</span>
+                      <span className="text-xs font-bold text-yellow-500/70 uppercase tracking-widest">{raffleState.minEntrants ?? '?'} needed</span>
                      </div>
                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                       <div className="h-full bg-yellow-400 rounded-full transition-all duration-500"
@@ -1457,13 +1532,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                     {/* Prize */}
                     {raffleState.prizes[0]?.name && (
                      <div className="mb-4 px-3 py-2.5 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                      <p className="text-[0.5rem] font-bold text-yellow-500/60 uppercase tracking-[0.15em] mb-1">You could win</p>
+                      <p className="text-2xs font-bold text-yellow-500/60 uppercase tracking-[0.15em] mb-1">You could win</p>
                       <p className="text-yellow-300 font-black text-base leading-tight">
                          {raffleState.prizes[0].qty > 1 ? <span className="text-white bg-yellow-500/30 px-1.5 py-0.5 rounded text-xs mr-2">{raffleState.prizes[0].qty}x</span> : null}
                          {raffleState.prizes[0].name}
                       </p>
                       {raffleState.prizes.filter((p:any) => p.name).length > 1 && (
-                       <p className="text-yellow-500/70 text-[0.65rem] mt-1">+ {raffleState.prizes.filter((p:any) => p.name).length - 1} more prizes</p>
+                       <p className="text-yellow-500/70 text-xs mt-1">+ {raffleState.prizes.filter((p:any) => p.name).length - 1} more prizes</p>
                       )}
                      </div>
                     )}
@@ -1491,11 +1566,11 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                        inbox.unshift({ id: Date.now(), icon: '🎰', title: 'Raffle Entry Confirmed!', desc: `You've entered the live raffle. Stay tuned!`, time: 'Just now', isNew: true, color: 'yellow' });
                        localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
                       } catch {}
-                     }} className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-[0.7rem] uppercase tracking-[0.15em] rounded-xl transition-colors shadow-[0_0_15px_rgba(234,179,8,0.4)]">
+                     }} className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-sm uppercase tracking-[0.15em] rounded-xl transition-colors shadow-[0_0_15px_rgba(234,179,8,0.4)]">
                       Enter Raffle
                      </button>
                     ) : (
-                     <div className="w-full py-3 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 text-center font-black text-[0.7rem] uppercase tracking-[0.15em] rounded-xl flex items-center justify-center gap-2">
+                     <div className="w-full py-3 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 text-center font-black text-sm uppercase tracking-[0.15em] rounded-xl flex items-center justify-center gap-2">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                       You're Entered!
                      </div>
@@ -1508,10 +1583,10 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                    <div className="py-8 text-center flex flex-col items-center gap-3">
                     <span className="text-4xl">🎟️</span>
                     <p className="text-yellow-300 font-black text-sm uppercase tracking-wider">Drawing Coming Up!</p>
-                    <p className="text-white/40 text-[0.6rem]">{raffleState.entrants} entries locked in</p>
+                    <p className="text-white/40 text-xs">{raffleState.entrants} entries locked in</p>
                     {hasEnteredRaffle && (
                      <div className="mt-1 px-4 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                      <p className="text-yellow-400 text-[0.65rem] font-bold">✓ You're in the drawing!</p>
+                      <p className="text-yellow-400 text-xs font-bold">✓ You're in the drawing!</p>
                      </div>
                     )}
                    </div>
@@ -1530,7 +1605,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                    <div className="py-2">
                     <div className="flex items-center gap-2 text-yellow-400 mb-4 pr-6">
                      <span className="text-xl">🏆</span>
-                     <span className="font-black text-[0.8rem] uppercase tracking-widest">Raffle Winner</span>
+                     <span className="font-black text-sm uppercase tracking-widest">Raffle Winner</span>
                     </div>
                     <div className="space-y-2">
                      {raffleState.winners.map((wObj: any, i: number) => {
@@ -1538,14 +1613,14 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                       const isMine = isCurrentUserWinner && i === 0;
                       return (
                        <div key={i} className={`rounded-xl overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-white/10'}`}>
-                        <div className={`px-3 py-1 text-[0.45rem] font-black uppercase tracking-[0.2em] text-center ${isMine ? 'bg-yellow-500 text-black' : 'bg-white/5 text-white/30'}`}>
+                        <div className={`px-3 py-1 text-2xs font-black uppercase tracking-[0.2em] text-center ${isMine ? 'bg-yellow-500 text-black' : 'bg-white/5 text-white/30'}`}>
                          {i === 0 ? '1st Place' : i === 1 ? '2nd Place' : '3rd Place'}{raffleState.prizes[i]?.name ? ` · ${raffleState.prizes[i].name}` : ''}
                         </div>
                         <div className={`px-4 py-3 text-center ${isMine ? 'bg-yellow-500/10' : ''}`}>
                          <p className={`font-black text-xl leading-tight ${isMine ? 'text-yellow-400' : 'text-white'}`}>{w}</p>
                          {isMine && (
                           <button onClick={() => setShowClaimModal(true)}
-                           className="mt-2 w-full py-2 bg-yellow-400 hover:bg-yellow-300 text-black font-black text-[0.6rem] uppercase tracking-widest rounded-lg transition-colors">
+                           className="mt-2 w-full py-2 bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase tracking-widest rounded-lg transition-colors">
                            Claim Reward
                           </button>
                          )}
@@ -1556,8 +1631,8 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                     </div>
                     
                     <div className="mt-4 p-3 bg-white/5 border border-white/10 rounded-xl text-center">
-                     <p className="text-[0.65rem] text-white/70 leading-relaxed font-semibold">
-                      <span className="text-yellow-400 font-bold uppercase tracking-widest text-[0.55rem] block mb-1">How to Claim</span>
+                     <p className="text-xs text-white/70 leading-relaxed font-semibold">
+                      <span className="text-yellow-400 font-bold uppercase tracking-widest text-xs block mb-1">How to Claim</span>
                       Winners: Check your <strong className="text-white">Email</strong> or your <strong className="text-white">Fan Profile Dashboard</strong> for your unique Verification PIN. Show your PIN to the crew at the merch table!
                      </p>
                     </div>
@@ -1565,10 +1640,10 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                     {nextRaffleCountdown !== null && nextRaffleCountdown > 0 && (
                      <div className="mt-5 pt-5 border-t border-white/5 text-center px-4 relative">
                       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                      <p className="text-[0.55rem] text-white/40 uppercase tracking-[0.2em] font-bold mb-2">Next Raffle Drawing In</p>
+                      <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-bold mb-2">Next Raffle Drawing In</p>
                       <div className="inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded border border-white/10 shadow-inner">
                        <span className="text-[10px] animate-pulse">⏳</span>
-                       <span className="text-[1.1rem] font-mono font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-200">
+                       <span className="text-lg font-mono font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-200">
                         {Math.floor(nextRaffleCountdown / 60)}:{(nextRaffleCountdown % 60).toString().padStart(2, '0')}
                        </span>
                       </div>
@@ -1608,7 +1683,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
                       {pin && (
                         <div className="bg-yellow-500/5 border-2 border-yellow-500/40 rounded-xl p-4 mb-4 text-center">
-                          <p className="text-[0.5rem] font-black uppercase tracking-[0.2em] text-yellow-500/60 mb-3">Your Verification PIN</p>
+                          <p className="text-2xs font-black uppercase tracking-[0.2em] text-yellow-500/60 mb-3">Your Verification PIN</p>
                           <div className="flex items-center justify-center gap-2 mb-3">
                             {pin.split('').map((digit: string, i: number) => (
                               <div key={i} className="w-9 h-12 bg-black/60 border-2 border-yellow-500/40 rounded-lg flex items-center justify-center">
@@ -1617,15 +1692,15 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                             ))}
                           </div>
                           <a href={claimUrl} target="_blank" rel="noreferrer"
-                            className="block w-full py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-[0.65rem] uppercase tracking-widest rounded-lg transition-colors mb-2">
+                            className="block w-full py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs uppercase tracking-widest rounded-lg transition-colors mb-2">
                             Open Full Claim Page
                           </a>
-                          <p className="text-[0.5rem] text-white/20">This link is unique to you — show it to the crew</p>
+                          <p className="text-2xs text-white/20">This link is unique to you — show it to the crew</p>
                         </div>
                       )}
 
                       <div className="space-y-2">
-                        <p className="text-[0.55rem] text-white/30 uppercase tracking-widest text-center mb-2">Or choose how to receive your prize</p>
+                        <p className="text-xs text-white/30 uppercase tracking-widest text-center mb-2">Or choose how to receive your prize</p>
                         <button onClick={() => setClaimMethod('shipping')}
                           className="w-full p-3 border border-white/10 hover:border-yellow-500/30 bg-white/5 rounded-xl flex items-center gap-3 transition-all text-left">
                           <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
@@ -1633,7 +1708,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                           </div>
                           <div>
                             <p className="font-bold text-xs text-white uppercase tracking-wider">Ship it to me</p>
-                            <p className="text-[0.6rem] text-white/30 mt-0.5">100% off Shopify checkout link</p>
+                            <p className="text-xs text-white/30 mt-0.5">100% off Shopify checkout link</p>
                           </div>
                         </button>
                         <button onClick={() => setClaimMethod('merch_table')}
@@ -1643,7 +1718,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                           </div>
                           <div>
                             <p className="font-bold text-xs text-white uppercase tracking-wider">Pick up at Merch Table</p>
-                            <p className="text-[0.6rem] text-white/30 mt-0.5">Show PIN or open claim page</p>
+                            <p className="text-xs text-white/30 mt-0.5">Show PIN or open claim page</p>
                           </div>
                         </button>
                       </div>
@@ -1654,16 +1729,16 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                       </div>
                       <h3 className="text-lg font-black text-white uppercase tracking-wider mb-2">Shipping Claim</h3>
-                      <p className="text-[0.7rem] text-white/50 mb-6 px-4">Your 100% off voucher is being generated. You'll be transferred to Shopify to enter your shipping details.</p>
+                      <p className="text-sm text-white/50 mb-6 px-4">Your 100% off voucher is being generated. You'll be transferred to Shopify to enter your shipping details.</p>
                       <button onClick={() => { alert('In production, this opens a Shopify Cart with discount applied!'); setShowClaimModal(false); setClaimMethod(null); }} className="w-full py-3 bg-blue-500 hover:bg-blue-400 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-colors">
                         Open Secure Checkout
                       </button>
-                      <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-white/30 hover:text-white/60 text-[0.6rem] font-bold uppercase tracking-widest transition-colors">Back</button>
+                      <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-white/30 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
                     </div>
                   ) : claimMethod === 'merch_table' ? (
                     <div className="text-center py-4">
                       <h3 className="text-lg font-black text-emerald-400 uppercase tracking-wider mb-1">Merch Table Pickup</h3>
-                      <p className="text-[0.65rem] text-white/40 mb-5 uppercase tracking-widest">Show this PIN or page to the crew</p>
+                      <p className="text-xs text-white/40 mb-5 uppercase tracking-widest">Show this PIN or page to the crew</p>
                       {pin && (
                         <div className="bg-yellow-500/5 border border-yellow-500/30 rounded-xl p-4 mb-4">
                           <div className="flex items-center justify-center gap-2 mb-2">
@@ -1673,11 +1748,11 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                               </div>
                             ))}
                           </div>
-                          <a href={claimUrl} target="_blank" rel="noreferrer" className="text-yellow-500/60 text-[0.55rem] underline">Open full claim page →</a>
+                          <a href={claimUrl} target="_blank" rel="noreferrer" className="text-yellow-500/60 text-xs underline">Open full claim page →</a>
                         </div>
                       )}
                       <button onClick={() => { setShowClaimModal(false); setClaimMethod(null); }} className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-colors">Done</button>
-                      <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-white/30 hover:text-white/60 text-[0.6rem] font-bold uppercase tracking-widest transition-colors">Back</button>
+                      <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-white/30 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
                     </div>
                   ) : null}
                 </div>
@@ -1706,10 +1781,10 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                   </div>
                   {/* Right: info + buy */}
                   <div className="w-2/3 p-4 flex flex-col justify-center relative">
-                        <div className="flex items-center gap-1.5 mb-1 text-pink-400 font-black text-[0.65rem] uppercase tracking-widest">
+                        <div className="flex items-center gap-1.5 mb-1 text-pink-400 font-black text-xs uppercase tracking-widest">
                           <span className="animate-pulse">🔥</span> FLASH DROP
                           <div className="ml-auto flex items-center gap-1 bg-pink-500/20 px-2 py-0.5 rounded-full border border-pink-500/30">
-                            <span className="text-[0.6rem] text-pink-400 font-bold tabular-nums">
+                            <span className="text-xs text-pink-400 font-bold tabular-nums">
                               {!feedActive ? 'WAITING FOR LIVE' : formatFlashTime(flashTimeLeft)}
                             </span>
                           </div>
@@ -1720,34 +1795,34 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                           <div className="h-1 flex-1 bg-white/10 rounded-full overflow-hidden">
                             <div className={`h-full transition-all duration-500 ${flashStock <= 0 ? 'bg-zinc-600' : 'bg-pink-500'}`} style={{ width: `${Math.max(0, Math.min(100, (flashStock / 50) * 100))}%` }} />
                           </div>
-                          <span className="text-[0.65rem] text-white/50 font-bold uppercase whitespace-nowrap"><span className={flashStock <= 0 ? "text-red-500 font-black" : "text-white"}>{flashStock}</span> LEFT</span>
+                          <span className="text-xs text-white/50 font-bold uppercase whitespace-nowrap"><span className={flashStock <= 0 ? "text-red-500 font-black" : "text-white"}>{flashStock}</span> LEFT</span>
                         </div>
                         
                         {flashStock <= 0 ? (
                           <div className="mt-3 py-2 bg-red-500/10 border border-red-500/30 rounded-lg text-center flex flex-col items-center justify-center">
-                             <p className="text-red-500 font-black text-[0.7rem] uppercase tracking-widest">All Sold Out</p>
-                             <p className="text-white/40 text-[0.48rem] mt-0.5 uppercase tracking-widest">Drop Sale Is Over</p>
+                             <p className="text-red-500 font-black text-sm uppercase tracking-widest">All Sold Out</p>
+                             <p className="text-white/40 text-2xs mt-0.5 uppercase tracking-widest">Drop Sale Is Over</p>
                           </div>
                         ) : hasPurchased ? (
                           fulfillmentChoice === 'pickup' && pickupCode ? (
                             <div className="mt-3 py-2 bg-emerald-500/10 border border-emerald-500/40 rounded-lg text-center">
-                              <p className="text-emerald-400 font-black text-[0.6rem] uppercase tracking-widest">✓ Pickup Reserved</p>
+                              <p className="text-emerald-400 font-black text-xs uppercase tracking-widest">✓ Pickup Reserved</p>
                               <p className="text-white font-black text-sm tracking-widest">{pickupCode}</p>
-                              <p className="text-white/30 text-[0.48rem]">Show at merch table</p>
+                              <p className="text-white/30 text-2xs">Show at merch table</p>
                             </div>
                           ) : (
-                            <button disabled className="w-full mt-3 py-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-black text-[0.7rem] uppercase tracking-wider rounded-lg flex items-center justify-center gap-1 opacity-90">
+                            <button disabled className="w-full mt-3 py-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-black text-sm uppercase tracking-wider rounded-lg flex items-center justify-center gap-1 opacity-90">
                               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
                               ORDER PLACED
                             </button>
                           )
                         ) : (
-                          <button onClick={handlePurchase} className="w-full mt-3 py-2 bg-white text-black font-black text-[0.75rem] uppercase tracking-wider rounded-lg hover:bg-pink-400 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg hover:shadow-pink-500/50">
+                          <button onClick={handlePurchase} className="w-full mt-3 py-2 bg-white text-black font-black text-sm uppercase tracking-wider rounded-lg hover:bg-pink-400 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg hover:shadow-pink-500/50">
                             {flashAllowPickup ? '🛍️ Buy / Pick Up' : 'Buy Now'}
                           </button>
                         )}
                         {flashAllowPickup && !hasPurchased && flashStock > 0 && (
-                          <p className="text-[0.48rem] text-pink-400/60 text-center mt-1">Pickup at merch table available tonight</p>
+                          <p className="text-2xs text-pink-400/60 text-center mt-1">Pickup at merch table available tonight</p>
                         )}
                       </div>
                 </div>
@@ -1759,7 +1834,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
               <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6 pointer-events-auto">
                 <div className="bg-[#0f0f18] border border-pink-500/30 rounded-2xl w-full max-w-xs overflow-hidden shadow-2xl">
                   <div className="bg-gradient-to-r from-pink-600/20 to-transparent px-5 py-4 border-b border-white/10">
-                    <p className="text-[0.55rem] text-pink-400 font-black uppercase tracking-widest mb-0.5">🔥 Flash Drop</p>
+                    <p className="text-xs text-pink-400 font-black uppercase tracking-widest mb-0.5">🔥 Flash Drop</p>
                     <h3 className="text-white font-black text-sm">{flashName}</h3>
                     <p className="text-pink-400 font-black">${flashPrice}</p>
                   </div>
@@ -1770,17 +1845,17 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                         className="flex flex-col items-center gap-2 p-4 bg-emerald-500/10 border-2 border-emerald-500/40 hover:border-emerald-500 rounded-xl transition-all">
                         <span className="text-2xl">🛍️</span>
                         <p className="text-emerald-400 font-black text-xs uppercase tracking-widest">Pickup</p>
-                        <p className="text-white/30 text-[0.55rem] text-center">Collect at the merch table tonight</p>
+                        <p className="text-white/30 text-xs text-center">Collect at the merch table tonight</p>
                       </button>
                       <button onClick={() => handleFulfillmentChoice('ship')}
                         className="flex flex-col items-center gap-2 p-4 bg-white/5 border-2 border-white/10 hover:border-white/30 rounded-xl transition-all">
                         <span className="text-2xl">📦</span>
                         <p className="text-white font-black text-xs uppercase tracking-widest">Ship</p>
-                        <p className="text-white/30 text-[0.55rem] text-center">Delivered to your address</p>
+                        <p className="text-white/30 text-xs text-center">Delivered to your address</p>
                       </button>
                     </div>
                     <button onClick={() => setShowFulfillmentModal(false)}
-                      className="w-full mt-4 text-white/30 hover:text-white/60 text-[0.6rem] font-bold uppercase tracking-widest transition-colors">
+                      className="w-full mt-4 text-white/30 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-colors">
                       Cancel
                     </button>
                   </div>
@@ -1814,7 +1889,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
               </div>
               {streamEnded ? (
                 <div className="flex-1 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-center">
-                  <span className="text-[0.65rem] font-bold text-white/30 uppercase tracking-[0.2em]">Stream Ended</span>
+                  <span className="text-xs font-bold text-white/30 uppercase tracking-[0.2em]">Stream Ended</span>
                 </div>
               ) : isLoggedIn ? (
               <div className="flex-1 relative flex items-center bg-black/50 backdrop-blur-md rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5 border border-white/15 focus-within:border-[#8a1cfc]/60 transition-colors">
@@ -1834,7 +1909,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                 >😊</button>
                 <button
                   onClick={handleSend}
-                  className="ml-1.5 sm:ml-2 px-2.5 sm:px-3 py-0.5 sm:py-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 rounded-full text-white text-[0.6rem] sm:text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                  className="ml-1.5 sm:ml-2 px-2.5 sm:px-3 py-0.5 sm:py-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 rounded-full text-white text-xs sm:text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
                 >Send</button>
                 {emojiPickerOpen && (
                   <div className="absolute bottom-full right-0 mb-2 p-2 bg-[#1a1727] border border-white/10 rounded-xl shadow-2xl grid grid-cols-5 gap-1.5 w-48 sm:w-52 pointer-events-auto z-40">
@@ -1858,6 +1933,14 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
               </button>
               )}
             </div>
+
+            {/* PG error toast */}
+            {chatError && (
+              <div className="absolute bottom-16 left-3 right-3 z-40 px-4 py-2.5 bg-rose-500/15 border border-rose-500/30 rounded-xl flex items-center gap-2.5" style={{ animation: 'slideIn 0.25s ease-out' }}>
+                <span className="text-rose-400 shrink-0 text-base">🚫</span>
+                <p className="text-rose-300/90 text-xs font-medium leading-snug">{chatError}</p>
+              </div>
+            )}
           </div>
           )}
         </div>
@@ -1874,17 +1957,17 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             </div>
             {isModRole && bannedUsers.size > 0 && (
               <div className="relative group/muted">
-                <button className="text-[0.55rem] text-rose-400/80 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded-full font-bold uppercase tracking-widest cursor-pointer hover:bg-rose-500/20 transition-colors">
+                <button className="text-xs text-rose-400/80 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded-full font-bold uppercase tracking-widest cursor-pointer hover:bg-rose-500/20 transition-colors">
                   🚫 {bannedUsers.size} muted
                 </button>
                 <div className="hidden group-hover/muted:block absolute right-0 top-full mt-1 bg-[#0d0d14] border border-white/10 rounded-lg shadow-xl z-50 min-w-[160px] p-2">
-                  <p className="text-[0.55rem] text-white/30 font-bold uppercase tracking-widest mb-2 px-1">Muted Users</p>
+                  <p className="text-xs text-white/30 font-bold uppercase tracking-widest mb-2 px-1">Muted Users</p>
                   {Array.from(bannedUsers).map(id => {
                     const acc = [...(FAN_ACCOUNTS || [])].find(a => a.id === id);
                     return (
                       <div key={id} className="flex items-center justify-between gap-2 px-2 py-1 rounded hover:bg-white/5">
-                        <span className="text-[0.7rem] text-white/60">{acc?.displayName || id}</span>
-                        <button onClick={() => unbanUser(id)} className="text-[0.5rem] text-emerald-400 hover:text-emerald-300 cursor-pointer font-bold uppercase">Unmute</button>
+                        <span className="text-sm text-white/60">{acc?.displayName || id}</span>
+                        <button onClick={() => unbanUser(id)} className="text-2xs text-emerald-400 hover:text-emerald-300 cursor-pointer font-bold uppercase">Unmute</button>
                       </div>
                     );
                   })}
@@ -1902,7 +1985,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                  <p className="text-white/90 text-sm leading-snug font-medium" style={{ animation: 'slideIn 0.4s ease-out' }}>
                    {activePinned.text}
                  </p>
-                 <p className="text-white/30 text-[0.6rem] mt-1">— {activePinned.by} · Pinned</p>
+                 <p className="text-white/30 text-xs mt-1">— {activePinned.by} · Pinned</p>
                </div>
              </div>
            </div>
@@ -1920,14 +2003,14 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                   className="flex items-start gap-2 py-1 px-2 rounded-lg hover:bg-white/[0.03] transition-colors group/msg animate-[slideIn_0.3s_ease-out]"
                 >
                   <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-[0.5rem] font-black shrink-0 mt-0.5 border border-white/10"
+                    className="w-6 h-6 rounded-full flex items-center justify-center text-2xs font-black shrink-0 mt-0.5 border border-white/10"
                     style={{ background: `${msg.account.color}30`, color: msg.account.color }}
                   >
                     {msg.account.avatar}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1 flex-wrap">
-                      <span className="font-bold text-[0.7rem]" style={{ color: msg.account.color }}>
+                      <span className="font-bold text-sm" style={{ color: msg.account.color }}>
                         {msg.account.displayName}
                       </span>
                       <RoleBadge account={msg.account} />
@@ -1936,13 +2019,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                         <button
                           onClick={() => banUser(msg.account.id)}
                           title={`Mute ${msg.account.displayName}`}
-                          className="ml-auto opacity-0 group-hover/msg:opacity-100 transition-opacity text-[0.55rem] text-rose-400/60 hover:text-rose-400 hover:bg-rose-500/10 px-1.5 py-0.5 rounded border border-transparent hover:border-rose-500/30 cursor-pointer"
+                          className="ml-auto opacity-0 group-hover/msg:opacity-100 transition-opacity text-xs text-rose-400/60 hover:text-rose-400 hover:bg-rose-500/10 px-1.5 py-0.5 rounded border border-transparent hover:border-rose-500/30 cursor-pointer"
                         >
                           🚫
                         </button>
                       )}
                     </div>
-                    <p className="text-white/80 text-[0.75rem] leading-snug break-words">
+                    <p className="text-white/80 text-sm leading-snug break-words">
                       {msg.text}
                     </p>
                   </div>
@@ -1955,7 +2038,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
           {/* Active viewers panel */}
           {showViewers && (
             <div className="border-t border-white/[0.06] bg-[#0d0d14] px-3 py-2 max-h-[160px] overflow-y-auto scrollbar-hide shrink-0">
-              <p className="text-white/40 text-[0.55rem] font-bold uppercase tracking-widest mb-1.5">Active Viewers ({ALL_ACCOUNTS.length}+)</p>
+              <p className="text-white/40 text-xs font-bold uppercase tracking-widest mb-1.5">Active Viewers ({ALL_ACCOUNTS.length}+)</p>
               <div className="flex flex-wrap gap-1">
                 {ALL_ACCOUNTS.map(a => (
                   <div
@@ -1963,13 +2046,13 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                     className="flex items-center gap-1 px-1.5 py-0.5 bg-white/[0.03] border border-white/5 rounded-full"
                   >
                     <div
-                      className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[0.35rem] font-black"
+                      className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-2xs font-black"
                       style={{ background: `${a.color}30`, color: a.color }}
                     >
                       {a.avatar}
                     </div>
-                    <span className="text-white/60 text-[0.55rem] font-medium">{a.displayName}</span>
-                    {a.role === 'crew' && <span className="text-[0.45rem]">{a.badge}</span>}
+                    <span className="text-white/60 text-xs font-medium">{a.displayName}</span>
+                    {a.role === 'crew' && <span className="text-2xs">{a.badge}</span>}
                   </div>
                 ))}
               </div>
@@ -1979,7 +2062,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
           {/* Viewer toggle */}
           <button
             onClick={() => setShowViewers(v => !v)}
-            className="px-4 py-1.5 border-t border-white/[0.06] text-white/30 hover:text-white/60 text-[0.55rem] font-bold uppercase tracking-widest transition-colors hover:bg-white/[0.02] cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
+            className="px-4 py-1.5 border-t border-white/[0.06] text-white/30 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-colors hover:bg-white/[0.02] cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
           >
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
             {showViewers ? 'Hide Viewers' : 'Show Active Viewers'}
@@ -2028,8 +2111,8 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                   <span className="text-emerald-400 mt-0.5">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                   </span>
-                  <p className="text-[0.7rem] text-emerald-400/90 leading-tight">
-                    <strong className="text-emerald-400 block mb-0.5 uppercase tracking-wider text-[0.65rem] font-black">Secure Shopify Gateway</strong>
+                  <p className="text-sm text-emerald-400/90 leading-tight">
+                    <strong className="text-emerald-400 block mb-0.5 uppercase tracking-wider text-xs font-black">Secure Shopify Gateway</strong>
                     You will be securely redirected to our official checkout portal to provide your shipping address and payment details.
                   </p>
                 </div>

@@ -2,6 +2,7 @@
 
 import { useMember } from "@/context/MemberContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import CruiseChat from "@/components/CruiseChat";
@@ -17,10 +18,10 @@ function PassengersWidget() {
       
       <div className="flex justify-between items-end mb-5 relative z-10">
         <div>
-          <h2 className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
           <div className="flex items-center gap-2">
             <span className="text-white font-black text-2xl italic tracking-wide">{totalFans}</span>
-            <span className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-[0.65rem]">Fans Onboard</span>
+            <span className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Fans Onboard</span>
           </div>
         </div>
       </div>
@@ -31,17 +32,17 @@ function PassengersWidget() {
             const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-amber-500', 'bg-violet-500', 'bg-pink-500'];
             return (
               <div key={i} className={`w-10 h-10 rounded-full border-2 border-[#0b0b12] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10-i}]`}>
-                <span className="text-[0.55rem] font-black text-white/90 tracking-widest">{initials}</span>
+                <span className="text-xs font-black text-white/90 tracking-widest">{initials}</span>
               </div>
             );
           })}
-          <div className="w-10 h-10 rounded-full border-2 border-[#0b0b12] bg-[var(--color-accent)]/20 flex items-center justify-center shadow-lg text-[var(--color-accent)] font-bold text-[0.65rem] relative z-0">
+          <div className="w-10 h-10 rounded-full border-2 border-[#0b0b12] bg-[var(--color-accent)]/20 flex items-center justify-center shadow-lg text-[var(--color-accent)] font-bold text-xs relative z-0">
             +{totalFans - avatars.length}
           </div>
         </div>
       </div>
       
-      <p className="text-white/30 text-[0.65rem] leading-relaxed relative z-10 border-t border-white/5 pt-4">
+      <p className="text-white/30 text-xs leading-relaxed relative z-10 border-t border-white/5 pt-4">
         Join the official 7th Heaven cruise community. See who else is sailing, coordinate shore excursions, and make new friends!
       </p>
     </div>
@@ -110,7 +111,7 @@ export default function CruiseDashboard() {
               <span className="text-4xl">🚢</span>
               <div>
                 <h1 className="text-3xl font-black uppercase tracking-widest text-white">Cruise Hub</h1>
-                <p className="text-[var(--color-accent)] font-bold text-[0.75rem] tracking-widest uppercase mt-1">Passenger Area</p>
+                <p className="text-[var(--color-accent)] font-bold text-sm tracking-widest uppercase mt-1">Passenger Area</p>
               </div>
             </div>
             <p className="text-white/60 text-lg max-w-xl">Welcome aboard, <strong className="text-white">{member?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
@@ -132,7 +133,7 @@ export default function CruiseDashboard() {
                   <span className="animate-pulse">🔔</span>
                 </div>
                 <h3 className="text-lg font-black italic tracking-wider text-white uppercase">Captain's Log</h3>
-                <span className="ml-auto text-[0.6rem] font-bold tracking-[0.2em] uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
+                <span className="ml-auto text-xs font-bold tracking-[0.2em] uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
               </div>
               <div 
                 className="text-white/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
@@ -141,6 +142,27 @@ export default function CruiseDashboard() {
             </div>
           </div>
         )}
+
+        {/* 🎸 Fan Dashboard Promo — nudge cruisers to join the fan community */}
+        <Link href="/fans" className="block mb-8 group">
+          <div className="relative overflow-hidden bg-gradient-to-r from-[#1a0a28] via-[#140a20] to-[#1a0a28] border border-[var(--color-accent)]/20 rounded-2xl p-5 md:p-6 hover:border-[var(--color-accent)]/40 transition-all shadow-[0_0_25px_rgba(133,29,239,0.05)] hover:shadow-[0_0_35px_rgba(133,29,239,0.15)]">
+            <div className="absolute -right-20 -top-20 w-48 h-48 bg-[var(--color-accent)]/8 rounded-full blur-[60px] group-hover:bg-[var(--color-accent)]/15 transition-all duration-700" />
+            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <span className="text-3xl group-hover:scale-110 transition-transform duration-300">🎸</span>
+                <div>
+                  <h3 className="text-sm font-black text-white uppercase tracking-wide mb-0.5">Unlock Your Fan Dashboard</h3>
+                  <p className="text-white/40 text-sm max-w-md leading-relaxed">
+                    Get show alerts, enter raffles, collect picks, and access your full fan profile — all from one place.
+                  </p>
+                </div>
+              </div>
+              <span className="shrink-0 px-5 py-2.5 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-xl group-hover:brightness-110 transition-all shadow-[0_0_15px_rgba(133,29,239,0.3)]">
+                Go to Fan Hub →
+              </span>
+            </div>
+          </div>
+        </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Column */}
@@ -153,7 +175,7 @@ export default function CruiseDashboard() {
             {itinerary.length > 0 && (
               <div>
                 <h2 className="text-xl font-black italic tracking-wide text-white uppercase mb-6 flex items-center gap-3">
-                  <span className="text-[var(--color-accent)]">⚓</span> Official Itinerary <span className="text-[0.65rem] font-bold text-white/30 tracking-widest not-italic ml-2 uppercase">Subject to Change</span>
+                  <span className="text-[var(--color-accent)]">⚓</span> Official Itinerary <span className="text-xs font-bold text-white/30 tracking-widest not-italic ml-2 uppercase">Subject to Change</span>
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -166,10 +188,10 @@ export default function CruiseDashboard() {
                       <div className="relative z-10">
                         <div className="flex items-center justify-between mb-5">
                           <span 
-                            className="text-[0.65rem] font-bold uppercase tracking-widest px-2.5 py-1 rounded border" 
+                            className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded border" 
                             style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}
                           >{day.dayLabel}</span>
-                          <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest">{day.location}</span>
+                          <span className="text-xs font-bold text-white/40 uppercase tracking-widest">{day.location}</span>
                         </div>
                         <h3 className="text-lg font-black uppercase tracking-wide text-white mb-2">{day.theme}</h3>
                         <ul className="space-y-4 mt-5 border-t border-white/5 pt-5">

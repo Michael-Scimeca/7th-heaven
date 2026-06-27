@@ -57,6 +57,16 @@ CREATE TABLE IF NOT EXISTS public.live_streams (
  created_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- Create client_notes if not exists
+CREATE TABLE IF NOT EXISTS public.client_notes (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  page_path text NOT NULL,
+  content text NOT NULL DEFAULT '',
+  x_position double precision NOT NULL DEFAULT 100,
+  y_position double precision NOT NULL DEFAULT 100,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
 -- Ensure missing columns exist (for backward compatibility if table already existed)
 ALTER TABLE public.live_streams ADD COLUMN IF NOT EXISTS stream_url text;
 ALTER TABLE public.live_streams ADD COLUMN IF NOT EXISTS show_on_homepage boolean DEFAULT false;
@@ -68,11 +78,13 @@ CREATE INDEX IF NOT EXISTS idx_live_feed_created ON public.live_feed(created_at 
 CREATE INDEX IF NOT EXISTS idx_live_feed_user ON public.live_feed(user_id);
 CREATE INDEX IF NOT EXISTS idx_feed_reactions_post ON public.feed_reactions(post_id);
 CREATE INDEX IF NOT EXISTS idx_live_streams_status ON public.live_streams(status);
+CREATE INDEX IF NOT EXISTS idx_client_notes_path ON public.client_notes(page_path);
 
 -- Enable RLS
 ALTER TABLE public.live_feed ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.feed_reactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.live_streams ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.client_notes ENABLE ROW LEVEL SECURITY;
 
 -- Allow everyone to SELECT (read) from all tables
 DO $$ BEGIN
@@ -99,6 +111,20 @@ DO $$ BEGIN
   END IF;
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'live_streams_update_all') THEN
     CREATE POLICY "live_streams_update_all" ON public.live_streams FOR UPDATE USING (true);
+  END IF;
+  
+  -- Client notes policies
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'client_notes_select_all') THEN
+    CREATE POLICY "client_notes_select_all" ON public.client_notes FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'client_notes_insert_all') THEN
+    CREATE POLICY "client_notes_insert_all" ON public.client_notes FOR INSERT WITH CHECK (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'client_notes_update_all') THEN
+    CREATE POLICY "client_notes_update_all" ON public.client_notes FOR UPDATE USING (true) WITH CHECK (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'client_notes_delete_all') THEN
+    CREATE POLICY "client_notes_delete_all" ON public.client_notes FOR DELETE USING (true);
   END IF;
 END $$;
 

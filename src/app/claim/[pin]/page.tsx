@@ -57,13 +57,23 @@ export default function ClaimPage() {
   }, [pin, isLoggedIn, member]);
 
   return (
-    <div className="min-h-screen bg-[#08080d] flex flex-col items-center justify-center p-6"
+    <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${status === 'valid' ? 'flash-bg' : 'bg-[#08080d]'}`}
       style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}>
+      <style>{`
+        @keyframes winnerFlash {
+          0%, 100% { background-color: #08080d; }
+          50% { background-color: #9333ea; }
+        }
+        .flash-bg {
+          background-color: #08080d;
+          animation: winnerFlash 0.6s ease-in-out 6;
+        }
+      `}</style>
 
       {/* Header */}
       <div className="w-full max-w-sm mb-8 text-center">
-        <p className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-purple-500 mb-1">7th Heaven</p>
-        <p className="text-[0.55rem] text-white/20 uppercase tracking-widest">Live Raffle · Claim Verification</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-purple-500 mb-1">7th Heaven</p>
+        <p className="text-xs text-white/20 uppercase tracking-widest">Live Raffle · Claim Verification</p>
       </div>
 
       {/* Card */}
@@ -102,7 +112,7 @@ export default function ClaimPage() {
             <p className="text-white/40 text-sm mb-4">
               This PIN belongs to a different account. You must be signed in as the winning account to verify.
             </p>
-            <p className="text-white/20 text-[0.6rem] font-mono bg-black/40 px-3 py-2 rounded-lg inline-block">
+            <p className="text-white/20 text-xs font-mono bg-black/40 px-3 py-2 rounded-lg inline-block">
               Signed in as: <span className="text-white/50">{member?.name}</span>
             </p>
           </div>
@@ -124,19 +134,19 @@ export default function ClaimPage() {
 
               {/* Winner name */}
               <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl px-6 py-4 mb-4">
-                <p className="text-yellow-500/60 text-[0.5rem] font-black uppercase tracking-[0.2em] mb-1">Account Name</p>
+                <p className="text-yellow-500/60 text-2xs font-black uppercase tracking-[0.2em] mb-1">Account Name</p>
                 <p className="text-yellow-400 font-black text-2xl leading-tight">{winnerName}</p>
               </div>
 
               {/* Prize */}
               <div className="bg-white/[0.03] border border-white/10 rounded-xl px-6 py-4 mb-8">
-                <p className="text-white/30 text-[0.5rem] font-black uppercase tracking-[0.2em] mb-1">Prize</p>
+                <p className="text-white/30 text-2xs font-black uppercase tracking-[0.2em] mb-1">Prize</p>
                 <p className="text-white font-black text-lg leading-tight">{prizeName}</p>
               </div>
 
               {/* PIN display */}
               <div className="mb-6">
-                <p className="text-white/30 text-[0.5rem] font-black uppercase tracking-[0.2em] mb-3">Verification PIN</p>
+                <p className="text-white/30 text-2xs font-black uppercase tracking-[0.2em] mb-3">Verification PIN</p>
                 <div className="flex items-center justify-center gap-2">
                   {pin.split('').map((digit, i) => (
                     <div key={i} className="w-10 h-14 bg-black/60 border-2 border-yellow-500/40 rounded-lg flex items-center justify-center shadow-[0_0_8px_rgba(251,191,36,0.15)]">
@@ -146,14 +156,14 @@ export default function ClaimPage() {
                 </div>
               </div>
 
-              <p className="text-white/20 text-[0.55rem]">
+              <p className="text-white/20 text-xs">
                 Only visible to the winning account. One claim per raffle.
               </p>
             </div>
 
             {/* Footer */}
             <div className="bg-black/30 px-6 py-3 text-center border-t border-white/5">
-              <p className="text-white/20 text-[0.5rem] uppercase tracking-widest">7th Heaven · Live Raffle</p>
+              <p className="text-white/20 text-2xs uppercase tracking-widest">7th Heaven · Live Raffle</p>
             </div>
           </div>
         )}
@@ -166,13 +176,13 @@ export default function ClaimPage() {
             <p className="text-white/40 text-sm mb-6">
               This PIN doesn't match an active raffle winner, or the raffle has ended.
             </p>
-            <p className="text-white/20 text-[0.6rem] font-mono bg-black/40 px-3 py-2 rounded-lg inline-block">PIN: {pin}</p>
+            <p className="text-white/20 text-xs font-mono bg-black/40 px-3 py-2 rounded-lg inline-block">PIN: {pin}</p>
           </div>
         )}
 
       </div>
 
-      <p className="text-white/15 text-[0.55rem] text-center mt-8 max-w-xs uppercase tracking-widest">
+      <p className="text-white/15 text-xs text-center mt-8 max-w-xs uppercase tracking-widest">
         This page is for prize redemption only. One claim per raffle.
       </p>
     </div>

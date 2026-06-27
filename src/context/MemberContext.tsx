@@ -68,29 +68,105 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  const [isModalOpen, setIsModalOpen] = useState(false);
  const [modalMode, setModalMode] = useState<"login" | "signup">("login");
 
- // Load member from localStorage on mount
- useEffect(() => {
-  const stored = localStorage.getItem("7h_member");
-  if (stored) {
-   try {
-    const parsed = JSON.parse(stored);
-    // Role email lists
-    const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
-    const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
-    const plannerEmails = ["planner@example.com", "chicago_manager@example.com", "planner@test.com"];
-    // Ensure role field exists for legacy accounts
-    if (!parsed.role) {
-     parsed.role = crewEmails.includes(parsed.email) ? "crew" : merchEmails.includes(parsed.email) ? "merch" : plannerEmails.includes(parsed.email) ? "event_planner" : "fan";
-    }
-    // Auto-promote by email
-    if (crewEmails.includes(parsed.email) && parsed.role !== "crew") parsed.role = "crew";
-    if (merchEmails.includes(parsed.email) && parsed.role !== "merch") parsed.role = "merch";
-    if (plannerEmails.includes(parsed.email) && parsed.role !== "event_planner") parsed.role = "event_planner";
-    setMember(parsed);
-   } catch {}
-  }
-  setHydrated(true);
- }, []);
+  // Load member and setup auth listener
+  useEffect(() => {
+    let active = true;
+
+    const initAndListen = async () => {
+      const { createClient } = await import("@/utils/supabase/client");
+      const supabase = createClient();
+
+      const syncUser = async (user: any) => {
+        if (!user) {
+          if (active) setMember(null);
+          return;
+        }
+
+        try {
+          // Fetch profile details
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius")
+            .eq("id", user.id)
+            .single();
+
+          if (!active) return;
+
+          const role = profile?.role || "fan";
+          const fullName = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
+          const profileUsername = profile?.username || user.user_metadata?.username || "";
+
+          // Role email lists
+          const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
+          const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
+          const plannerEmails = ["planner@example.com", "chicago_manager@example.com", "planner@test.com"];
+
+          let resolvedRole = role;
+          if (crewEmails.includes(user.email || "") && resolvedRole !== "crew") resolvedRole = "crew";
+          if (merchEmails.includes(user.email || "") && resolvedRole !== "merch") resolvedRole = "merch";
+          if (plannerEmails.includes(user.email || "") && resolvedRole !== "event_planner") resolvedRole = "event_planner";
+
+          const syncedMember: Member = {
+            id: user.id,
+            name: fullName,
+            username: profileUsername,
+            email: user.email?.toLowerCase() || "",
+            joinDate: user.created_at || new Date().toISOString(),
+            avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
+            points: profile?.points ?? 0,
+            tier: (profile?.tier as Member["tier"]) ?? "Bronze",
+            showsAttended: profile?.shows_attended ?? 0,
+            favoriteVenues: [],
+            notificationsEnabled: profile?.notifications_enabled ?? false,
+            notificationRadius: profile?.notification_radius ?? 25,
+            role: resolvedRole as Member["role"],
+          };
+
+          setMember(syncedMember);
+        } catch (e) {
+          console.error("Error fetching user profile:", e);
+        }
+      };
+
+      // Get initial session
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          await syncUser(session.user);
+        } else {
+          // Fallback to local storage on initial load if offline/no session
+          const stored = localStorage.getItem("7h_member");
+          if (stored) {
+            try {
+              setMember(JSON.parse(stored));
+            } catch {}
+          }
+        }
+      } catch (e) {
+        console.error("Supabase getSession error:", e);
+      } finally {
+        if (active) setHydrated(true);
+      }
+
+      // Listen for auth changes
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === "SIGNED_IN" && session?.user) {
+          await syncUser(session.user);
+        } else if (event === "SIGNED_OUT") {
+          if (active) setMember(null);
+        }
+      });
+
+      return subscription;
+    };
+
+    const subPromise = initAndListen();
+
+    return () => {
+      active = false;
+      subPromise.then(sub => sub?.unsubscribe());
+    };
+  }, []);
 
  // Persist member to localStorage
  useEffect(() => {

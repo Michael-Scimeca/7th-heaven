@@ -28,7 +28,19 @@ export async function GET(req: NextRequest) {
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    return NextResponse.json({ attendees: attendees || [] });
+    // Filter out "Here Now" check-ins that are older than 12 hours
+    const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
+    const now = Date.now();
+    
+    const validAttendees = (attendees || []).filter(a => {
+      if (a.status === 'there' && a.checked_in_at) {
+        const checkInTime = new Date(a.checked_in_at).getTime();
+        if (now - checkInTime > TWELVE_HOURS_MS) return false; // Expired
+      }
+      return true;
+    });
+
+    return NextResponse.json({ attendees: validAttendees });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }

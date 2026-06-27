@@ -180,15 +180,15 @@ export default function LiveShowFeed() {
        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
       </span>
-      <span className="text-[0.65rem] font-black uppercase tracking-[0.15em] text-red-400">Live</span>
+      <span className="text-xs font-black uppercase tracking-[0.15em] text-red-400">Live</span>
      </div>
-     <span className="text-[0.65rem] font-bold text-white/30 uppercase tracking-[0.15em]">
+     <span className="text-xs font-bold text-white/30 uppercase tracking-[0.15em]">
       From the Show
      </span>
     </div>
     <div className="flex items-center gap-2">
      <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
-     <span className="text-[0.6rem] font-bold text-white/30 tabular-nums">
+     <span className="text-xs font-bold text-white/30 tabular-nums">
       {viewerCount.toLocaleString()} watching
      </span>
     </div>
@@ -218,14 +218,14 @@ export default function LiveShowFeed() {
       <div className="absolute bottom-0 left-0 right-0 p-5">
        <div className="flex items-center gap-2 mb-2">
         <div
-         className="w-7 h-7 rounded-full flex items-center justify-center text-[0.5rem] font-bold border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15"
+         className="w-7 h-7 rounded-full flex items-center justify-center text-2xs font-bold border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15"
         >
          {selectedMedia.member_avatar}
         </div>
-        <span className="text-[0.7rem] font-semibold text-white/80">{selectedMedia.member_name}</span>
-        <span className="text-[0.6rem] text-white/30">{timeAgo(selectedMedia.created_at)}</span>
+        <span className="text-sm font-semibold text-white/80">{selectedMedia.member_name}</span>
+        <span className="text-xs text-white/30">{timeAgo(selectedMedia.created_at)}</span>
        </div>
-       <p className="text-[0.85rem] text-white/90 leading-relaxed">{selectedMedia.content}</p>
+       <p className="text-base text-white/90 leading-relaxed">{selectedMedia.content}</p>
       </div>
      </div>
     ) : (
@@ -276,7 +276,7 @@ export default function LiveShowFeed() {
         )}
         {/* Type badge */}
         <div className="absolute top-1 left-1">
-         <span className="text-[0.45rem] font-bold uppercase tracking-wider bg-black/60 text-white/70 px-1.5 py-0.5">
+         <span className="text-2xs font-bold uppercase tracking-wider bg-black/60 text-white/70 px-1.5 py-0.5">
           {isVideo ? "🎬" : "📸"} {timeAgo(post.created_at)}
          </span>
         </div>
@@ -302,20 +302,20 @@ export default function LiveShowFeed() {
         className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-all hover:bg-white/[0.04]"
        >
         <div
-         className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-[0.5rem] font-bold border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10"
+         className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-2xs font-bold border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10"
         >
          {post.member_avatar}
         </div>
         <div className="flex-1 min-w-0">
          <div className="flex items-center gap-2 mb-0.5">
-          <span className="text-[0.7rem] font-semibold text-white/70">{post.member_name}</span>
-          <span className="text-[0.55rem] text-white/20">{timeAgo(post.created_at)}</span>
+          <span className="text-sm font-semibold text-white/70">{post.member_name}</span>
+          <span className="text-xs text-white/20">{timeAgo(post.created_at)}</span>
          </div>
-         <p className="text-[0.8rem] text-white/50 leading-relaxed truncate">{post.content}</p>
+         <p className="text-sm text-white/50 leading-relaxed truncate">{post.content}</p>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
          {Object.entries(post.reactions).slice(0, 2).map(([emoji, count]) => (
-          <span key={emoji} className="text-[0.6rem] text-white/30">
+          <span key={emoji} className="text-xs text-white/30">
            {emoji} {count as number}
           </span>
          ))}

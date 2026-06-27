@@ -1,0 +1,22 @@
+            {/* ── Referral Program ── */}
+            <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
+              <div onClick={() => toggleSection('referral')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('referral')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
+                    <span className="text-lg">🤝</span>
+                    Referral Program
+                  </h3>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('referral') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: isSectionOpen('referral') ? undefined : 'none' }} className="p-6">
+                <ReferralProgramPanel />
+              </div>
+            </section>

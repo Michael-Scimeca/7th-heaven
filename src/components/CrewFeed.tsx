@@ -229,18 +229,18 @@ export default function CrewFeed() {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
          </span>
-         <span className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-red-400">
+         <span className="text-xs font-bold uppercase tracking-[0.15em] text-red-400">
           Live Now{liveStatus.venue ? ` — ${liveStatus.venue}` : ""}
          </span>
         </div>
        ) : (
         <div className="flex items-center gap-2">
          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-         <span className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-green-500">Crew Feed</span>
+         <span className="text-xs font-bold uppercase tracking-[0.15em] text-green-500">Crew Feed</span>
         </div>
        )}
        <span className="text-white/20">·</span>
-       <span className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/30">{posts.length} posts</span>
+       <span className="text-xs font-bold uppercase tracking-[0.15em] text-white/30">{posts.length} posts</span>
       </div>
       <h2 className="text-[clamp(1.8rem,3.5vw,2.5rem)] leading-tight tracking-tight">
        {liveStatus.live ? (
@@ -249,7 +249,7 @@ export default function CrewFeed() {
         <>Crew <span className="gradient-text">Feed</span></>
        )}
       </h2>
-      <p className="text-[0.85rem] text-white/40 mt-2">
+      <p className="text-base text-white/40 mt-2">
        {liveStatus.live
         ? "Real-time updates from the stage and backstage"
         : "Behind the scenes with the 7th Heaven crew"}
@@ -304,7 +304,7 @@ export default function CrewFeed() {
           <div className="flex items-start justify-between mb-4">
            <div className="flex items-center gap-3">
             <div
-             className="w-10 h-10 rounded-full flex items-center justify-center text-[0.65rem] font-bold border"
+             className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold border"
              style={{
               borderColor: config.color,
               color: config.color,
@@ -315,21 +315,21 @@ export default function CrewFeed() {
             </div>
             <div>
              <div className="flex items-center gap-2">
-              <span className="text-[0.85rem] font-semibold text-white">{post.member_name}</span>
+              <span className="text-base font-semibold text-white">{post.member_name}</span>
               {post.post_type === "announcement" && (
-               <span className="text-[0.5rem] font-bold uppercase tracking-[0.15em] px-2 py-0.5 bg-amber-500/20 text-amber-400 border border-amber-500/30">
+               <span className="text-2xs font-bold uppercase tracking-[0.15em] px-2 py-0.5 bg-amber-500/20 text-amber-400 border border-amber-500/30">
                 Official
                </span>
               )}
              </div>
-             <span className="text-[0.7rem] text-white/30">{post.member_role}</span>
+             <span className="text-sm text-white/30">{post.member_role}</span>
             </div>
            </div>
 
            <div className="flex flex-col items-end gap-1">
-            <span className="text-[0.6rem] text-white/30">{timeAgo(post.created_at)}</span>
+            <span className="text-xs text-white/30">{timeAgo(post.created_at)}</span>
             <span
-             className="text-[0.5rem] font-bold uppercase tracking-[0.15em] px-2 py-0.5"
+             className="text-2xs font-bold uppercase tracking-[0.15em] px-2 py-0.5"
              style={{
               color: config.color,
               background: `${config.color}15`,
@@ -342,7 +342,7 @@ export default function CrewFeed() {
           </div>
 
           {/* Content */}
-          <p className="text-[0.9rem] text-white/70 leading-relaxed mb-4">{post.content}</p>
+          <p className="text-base text-white/70 leading-relaxed mb-4">{post.content}</p>
 
           {/* Image attachment */}
           {post.image_url && (
@@ -355,7 +355,7 @@ export default function CrewFeed() {
           <div className="flex items-center justify-between">
            <div className="flex items-center gap-3">
             {Object.entries(reactions).map(([emoji, count], ri) => (
-             <span key={ri} className="flex items-center gap-1 text-[0.75rem] text-white/40 hover:text-white/70 transition-colors cursor-pointer">
+             <span key={ri} className="flex items-center gap-1 text-sm text-white/40 hover:text-white/70 transition-colors cursor-pointer">
               <span>{emoji}</span>
               <span className="tabular-nums">{count as number}</span>
              </span>
@@ -371,7 +371,7 @@ export default function CrewFeed() {
 
     {/* Load More */}
     <div className="text-center mt-8">
-     <button className="btn-outline btn-outline-hover text-[0.7rem] py-2.5 px-8">
+     <button className="btn-outline btn-outline-hover text-sm py-2.5 px-8">
       Load More Posts
      </button>
     </div>

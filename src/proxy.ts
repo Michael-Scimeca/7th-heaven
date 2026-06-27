@@ -1,8 +1,22 @@
 import { updateSession } from '@/lib/supabase/middleware';
-import { type NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
+
+/**
+ * Protected route prefixes that need Supabase session refresh.
+ * All other routes get an instant pass-through for maximum speed.
+ */
+const PROTECTED_PREFIXES = ['/admin', '/crew', '/fans', '/planner'];
 
 export async function proxy(request: NextRequest) {
- return await updateSession(request);
+ const { pathname } = request.nextUrl;
+
+ // Only run the (async) Supabase session check on protected routes
+ if (PROTECTED_PREFIXES.some((p) => pathname.startsWith(p))) {
+  return await updateSession(request);
+ }
+
+ // Public routes — fast pass-through, no Supabase round-trip
+ return NextResponse.next();
 }
 
 export const config = {

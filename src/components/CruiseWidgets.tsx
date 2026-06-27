@@ -40,7 +40,7 @@ export function EmbarkationCountdown() {
         <span className="text-4xl animate-bounce">🛳️</span>
         <div>
           <h2 className="text-white font-black italic tracking-wide text-lg">Embarkation</h2>
-          <p className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-[0.6rem]">Port of Miami</p>
+          <p className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Port of Miami</p>
         </div>
       </div>
 
@@ -50,7 +50,7 @@ export function EmbarkationCountdown() {
             <div className="bg-black/40 border border-white/10 rounded-lg w-12 h-14 flex items-center justify-center text-white font-mono font-bold text-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               {value.toString().padStart(2, '0')}
             </div>
-            <span className="text-[0.55rem] font-bold text-white/40 uppercase tracking-widest mt-2">{unit}</span>
+            <span className="text-xs font-bold text-white/40 uppercase tracking-widest mt-2">{unit}</span>
           </div>
         ))}
       </div>
@@ -122,7 +122,7 @@ export function DailyPoll() {
         })}
       </div>
       
-      <p className="text-[0.6rem] text-white/30 uppercase tracking-widest mt-5 font-bold">
+      <p className="text-xs text-white/30 uppercase tracking-widest mt-5 font-bold">
         {totalVotes} Total Votes • Poll closes in 24h
       </p>
     </div>
@@ -143,12 +143,12 @@ export function OriginStats() {
 
   return (
     <div className="bg-[#0b0b12] border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
-      <h2 className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
+      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
       
       <div className="space-y-4">
         {stats.map((stat, i) => (
           <div key={i}>
-            <div className="flex justify-between text-[0.65rem] font-bold uppercase tracking-wider mb-1.5">
+            <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-1.5">
               <span className="text-white/70">{stat.location}</span>
               <span className="text-[var(--color-accent)]">{stat.count} fans</span>
             </div>
@@ -181,7 +181,7 @@ export function PhotoWall() {
       <div className="flex items-end justify-between mb-8">
         <div>
           <h2 className="text-xl font-black italic tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
-          <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Share your prep and packing photos!</p>
+          <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Share your prep and packing photos!</p>
         </div>
         <button className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-all uppercase tracking-widest">
           + Upload
@@ -217,7 +217,10 @@ export function BookingManager({ email }: { email?: string }) {
   const [saveStatus, setSaveStatus] = useState('');
 
   useEffect(() => {
-    if (!email) return;
+    if (!email) {
+      setLoading(false);
+      return;
+    }
     fetch(`/api/cruise/booking?email=${encodeURIComponent(email)}`)
       .then(res => res.json())
       .then(data => {
@@ -257,7 +260,9 @@ export function BookingManager({ email }: { email?: string }) {
   };
 
   if (loading) return (
-    <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 p-8 rounded-2xl animate-pulse h-64" />
+    <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 p-8 rounded-2xl animate-pulse h-32 flex items-center justify-center">
+      <span className="text-white/30 text-xs font-bold uppercase tracking-widest">Loading Priority Status...</span>
+    </div>
   );
 
   if (!booking) return (
@@ -277,7 +282,7 @@ export function BookingManager({ email }: { email?: string }) {
          <div className="flex justify-between items-center mb-6 relative z-10">
            <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40">Priority Status</h2>
            {!isEditing && (
-             <button onClick={() => setIsEditing(true)} className="text-[var(--color-accent)] text-[0.65rem] font-bold uppercase tracking-widest hover:text-white transition-colors">
+             <button onClick={() => setIsEditing(true)} className="text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">
                Edit Info
              </button>
            )}
@@ -292,7 +297,7 @@ export function BookingManager({ email }: { email?: string }) {
        {isEditing ? (
          <div className="space-y-4 relative z-10 bg-black/40 p-4 rounded-xl border border-white/5">
            <div>
-             <label className="block text-[0.6rem] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size</label>
+             <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Party Size</label>
              <input 
                type="number" min="1" max="10"
                value={formData.guest_count} 
@@ -301,7 +306,7 @@ export function BookingManager({ email }: { email?: string }) {
              />
            </div>
            <div>
-             <label className="block text-[0.6rem] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number</label>
+             <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number</label>
              <input 
                type="text" 
                value={formData.phone} 
@@ -317,13 +322,13 @@ export function BookingManager({ email }: { email?: string }) {
                onChange={e => setFormData({...formData, anonymous: e.target.checked})}
                className="accent-[var(--color-accent)]"
              />
-             <label htmlFor="anon-check" className="text-[0.65rem] font-bold text-white/60 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
+             <label htmlFor="anon-check" className="text-xs font-bold text-white/60 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
            </div>
            
            <div className="pt-2 border-t border-white/5">
              <div className="flex justify-between items-center mb-2">
-               <label className="block text-[0.6rem] font-bold text-white/40 uppercase tracking-widest">Additional Guests</label>
-               <button onClick={() => setFormData({...formData, guests: [...formData.guests, {name: '', type: 'adult'}]})} className="text-[0.6rem] font-bold text-[var(--color-accent)] hover:text-white uppercase tracking-widest">+ Add Guest</button>
+               <label className="block text-xs font-bold text-white/40 uppercase tracking-widest">Additional Guests</label>
+               <button onClick={() => setFormData({...formData, guests: [...formData.guests, {name: '', type: 'adult'}]})} className="text-xs font-bold text-[var(--color-accent)] hover:text-white uppercase tracking-widest">+ Add Guest</button>
              </div>
              <div className="space-y-2">
                {formData.guests.map((g: any, i: number) => (
@@ -363,10 +368,10 @@ export function BookingManager({ email }: { email?: string }) {
              </div>
            </div>
            <div className="flex gap-2 mt-4 pt-2 border-t border-white/5">
-             <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-[0.65rem] font-bold uppercase tracking-widest hover:bg-[var(--color-accent)]/80 transition-all">
+             <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-[var(--color-accent)]/80 transition-all">
                {saveStatus || 'Save'}
              </button>
-             <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-white/5 text-white/60 rounded-lg text-[0.65rem] font-bold uppercase tracking-widest hover:bg-white/10 transition-all">
+             <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-white/5 text-white/60 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-all">
                Cancel
              </button>
            </div>
@@ -374,21 +379,21 @@ export function BookingManager({ email }: { email?: string }) {
        ) : (
          <div className="relative z-10 space-y-3 bg-white/5 p-4 rounded-xl border border-white/5">
            <div className="flex justify-between items-center border-b border-white/5 pb-2">
-             <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Name</span>
+             <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Name</span>
              <span className="text-sm font-medium text-white">{booking.name}</span>
            </div>
            <div className="flex justify-between items-center border-b border-white/5 pb-2">
-             <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Party Size</span>
-             <span className="text-sm font-black text-[var(--color-accent)]">{booking.guest_count} <span className="text-[0.65rem] font-normal text-white/40 ml-1">Guests</span></span>
+             <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Party Size</span>
+             <span className="text-sm font-black text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-white/40 ml-1">Guests</span></span>
            </div>
            <div className="flex justify-between items-center">
-             <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Phone</span>
+             <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Phone</span>
              <span className="text-sm font-medium text-white">{booking.phone || '—'}</span>
            </div>
            
            {booking.guests && booking.guests.length > 0 && (
              <div className="mt-4 border-t border-white/5 pt-4">
-               <h3 className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest mb-3">Guest List</h3>
+               <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Guest List</h3>
                <div className="space-y-2">
                  {booking.guests.map((g: any, i: number) => (
                    <div key={i} className="flex justify-between items-center text-xs">
@@ -479,7 +484,7 @@ export function SongRequestLeaderboard() {
         <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-500 text-sm">🎸</div>
         <div>
           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-amber-400">Setlist Requests</h2>
-          <p className="text-white/40 text-[0.65rem] uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
         </div>
       </div>
 
@@ -524,7 +529,7 @@ export function CaptainsLog() {
 
   return (
     <div className="bg-gradient-to-br from-[#0b0b12] to-[#120b18] border border-purple-500/20 rounded-2xl p-6 shadow-xl relative">
-      <h2 className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-purple-400 mb-4">Captain's Log</h2>
+      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-4">Captain's Log</h2>
       
       <div className="flex items-center gap-4 bg-black/40 p-4 rounded-xl border border-white/5">
         <button 
@@ -541,14 +546,14 @@ export function CaptainsLog() {
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-end mb-2">
             <span className="text-sm font-bold text-white truncate">Rehearsal Update!</span>
-            <span className="text-[0.65rem] text-purple-400/80 font-mono">0:42</span>
+            <span className="text-xs text-purple-400/80 font-mono">0:42</span>
           </div>
           <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer">
             <div className="h-full bg-purple-500 rounded-full" style={{ width: `${progress}%` }} />
           </div>
         </div>
       </div>
-      <p className="text-[0.65rem] text-white/40 mt-3 italic text-center">
+      <p className="text-xs text-white/40 mt-3 italic text-center">
         "Hey everyone, Richard here! We are running through the 80s set right now..."
       </p>
     </div>
@@ -566,18 +571,18 @@ export function ExcursionTeasers() {
 
   return (
     <div className="bg-[#0b0b12] border border-cyan-500/20 rounded-2xl p-6">
-      <h2 className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-cyan-400 mb-5">Band Excursions</h2>
+      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-5">Band Excursions</h2>
       
       <div className="space-y-3">
         {excursions.map((ex, i) => (
           <div key={i} className="p-3 rounded-xl bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
             <div>
               <div className="text-sm font-bold text-white mb-0.5">{ex.title}</div>
-              <div className="text-[0.65rem] text-cyan-400/80 uppercase tracking-wider">Join {ex.bandMember}</div>
+              <div className="text-xs text-cyan-400/80 uppercase tracking-wider">Join {ex.bandMember}</div>
             </div>
             <div className="text-right">
               <div className="text-xs font-black text-white">{ex.spots}</div>
-              <div className="text-[0.55rem] text-white/40 uppercase tracking-widest">Spots Left</div>
+              <div className="text-xs text-white/40 uppercase tracking-widest">Spots Left</div>
             </div>
           </div>
         ))}

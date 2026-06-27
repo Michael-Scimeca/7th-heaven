@@ -5,6 +5,8 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { protectAction } from '@/lib/security';
+import { isValidEmail, sanitizeName, sanitizeNotes } from '@/lib/validation';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,20 +17,27 @@ export async function POST(request: Request) {
   try {
     const { email, name, songs, notes } = await request.json();
 
-    if (!email) {
-      return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+    // Rate limiting
+    const ip = request.headers.get('x-forwarded-for') || 'anonymous';
+    const protection = await protectAction({ identifier: `setlist:${ip}` });
+    if (!protection.success) {
+      return NextResponse.json({ error: protection.error }, { status: protection.status as number });
     }
 
-    // Filter out empty song entries
-    const cleanSongs = (songs || []).filter((s: string) => s.trim());
+    if (!email || !isValidEmail(email)) {
+      return NextResponse.json({ error: 'Valid email is required' }, { status: 400 });
+    }
+
+    // Filter out empty song entries and sanitize
+    const cleanSongs = (songs || []).filter((s: string) => s.trim()).map((s: string) => sanitizeName(s, 200));
 
     const { data, error } = await supabase
       .from('setlist_requests')
       .insert({
         booking_email: email.toLowerCase().trim(),
-        booking_name: name || '',
+        booking_name: sanitizeName(name),
         songs: cleanSongs,
-        notes: notes || '',
+        notes: sanitizeNotes(notes, 1000),
       })
       .select()
       .single();

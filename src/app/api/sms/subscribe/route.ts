@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { geocodeZip } from "@/lib/geo";
+import { protectAction } from "@/lib/security";
+import { sanitizeName } from "@/lib/validation";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -18,9 +20,22 @@ export async function POST(req: NextRequest) {
   const { name, zipCode, zip, phone, radius } = body;
   const zipVal = zipCode || zip || '';
 
+  // --- Rate limiting ---
+  const ip = req.headers.get('x-forwarded-for') || 'anonymous';
+  const protection = await protectAction({
+    identifier: `sms-subscribe:${ip}`,
+  });
+  if (!protection.success) {
+    return NextResponse.json({ error: protection.error }, { status: protection.status as number });
+  }
+
   // --- Validate ---
   if (!phone || !zipVal) {
    return NextResponse.json({ error: "Phone and zip code are required." }, { status: 400 });
+  }
+
+  if (!/^\d{5}$/.test(zipVal)) {
+   return NextResponse.json({ error: "Zip code must be exactly 5 digits." }, { status: 400 });
   }
 
   // Normalize phone to E.164 (US numbers)
@@ -30,6 +45,8 @@ export async function POST(req: NextRequest) {
    return NextResponse.json({ error: "Enter a valid US phone number." }, { status: 400 });
   }
 
+  const safeName = sanitizeName(name);
+
   // --- Geocode the zip code for proximity matching ---
   const geo = await geocodeZip(zipVal);
 
@@ -38,7 +55,7 @@ export async function POST(req: NextRequest) {
     .from('sms_subscribers')
     .upsert({
       phone: e164,
-      name: name || '',
+      name: safeName,
       zip_code: zipVal,
       opted_in: true,
       opted_out_at: null,

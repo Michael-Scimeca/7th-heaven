@@ -1,0 +1,17 @@
+[
+  {
+    "email": "bulk-fan-invited@test.com",
+    "pin": "945961",
+    "expiresAt": 1782755081312
+  },
+  {
+    "email": "fan2@gmail.com",
+    "pin": "578384",
+    "expiresAt": 1782513212632
+  },
+  {
+    "email": "testfan_123456@example.com",
+    "pin": "647542",
+    "expiresAt": 1782602304508
+  }
+]

@@ -1,6 +1,12 @@
 import type { MetadataRoute } from 'next';
 import { sanityFetch } from '@/sanity/live';
 import { queries, SanityTourDate } from '@/lib/sanity';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://7thheavenband.com';
@@ -10,6 +16,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { data } = await sanityFetch({ query: queries.allTourDates });
     tourDates = data as SanityTourDate[];
+  } catch {}
+
+  // Fetch shows from Supabase for /shows/[id] pages
+  let showPages: MetadataRoute.Sitemap = [];
+  try {
+    const { data: shows } = await supabase
+      .from("shows")
+      .select("id, date")
+      .order("date", { ascending: false });
+    if (shows?.length) {
+      showPages = shows.map((show) => ({
+        url: `${baseUrl}/shows/${show.id}`,
+        lastModified: new Date(show.date + "T12:00:00"),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }));
+    }
   } catch {}
 
   // Static pages
@@ -46,12 +69,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/tour/map`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
     },
 
     // ── Cruise ──
@@ -183,5 +200,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...tourDatePages];
+  return [...staticPages, ...tourDatePages, ...showPages];
 }

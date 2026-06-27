@@ -48,7 +48,7 @@ export default function NotFound() {
      </Link>
     </div>
 
-    <p className="mt-16 text-[0.6rem] uppercase tracking-[0.25em] text-white/15 font-bold">
+    <p className="mt-16 text-xs uppercase tracking-[0.25em] text-white/15 font-bold">
      7th Heaven — Lost in the mix
     </p>
    </div>

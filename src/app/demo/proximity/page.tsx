@@ -32,6 +32,11 @@ export default function ProximityDemoPage() {
   const [shareConfirm, setShareConfirm] = useState(false);
   const [showAllAttendees, setShowAllAttendees] = useState(false);
 
+  // Lock challenge at midnight on the day of the show
+  const showDateForLock = new Date(DEMO_SHOW.date);
+  showDateForLock.setHours(23, 59, 59, 999);
+  const isChallengeLocked = Date.now() > showDateForLock.getTime();
+
   const handleRsvp = async (status: "going" | "there") => {
     if (!isLoggedIn) {
       openModal("login");
@@ -60,7 +65,7 @@ export default function ProximityDemoPage() {
 
         {/* Header */}
         <div className="text-center mb-14">
-          <span className="inline-block text-[0.65rem] font-black uppercase tracking-[0.25em] text-purple-400 border border-purple-500/30 px-4 py-1.5 mb-6">
+          <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-purple-400 border border-purple-500/30 px-4 py-1.5 mb-6">
             Feature Demo
           </span>
           <h1 className="text-4xl font-extrabold tracking-tight mb-3">
@@ -88,7 +93,7 @@ export default function ProximityDemoPage() {
                 }`}
               >
                 <span className="text-xl">{s.icon}</span>
-                <span className="text-[0.6rem] font-black uppercase tracking-widest">{s.label}</span>
+                <span className="text-xs font-black uppercase tracking-widest">{s.label}</span>
               </button>
               {i < 2 && <div className="w-px h-8 bg-white/10 shrink-0" />}
             </div>
@@ -106,16 +111,16 @@ export default function ProximityDemoPage() {
                   <h2 className="text-2xl font-bold">
                     <span className="text-purple-400">7</span>th <em className="text-purple-400">heaven</em>
                   </h2>
-                  <p className="text-[0.65rem] uppercase tracking-[0.2em] text-white/30 mt-1">Join the Family</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-white/30 mt-1">Join the Family</p>
                 </div>
 
                 <div className="flex flex-col gap-4">
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Full Name</label>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Full Name</label>
                     <div className="px-4 py-3 bg-white/[0.04] border border-white/10 text-sm text-white/60 font-mono">Alex Johnson</div>
                   </div>
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Email</label>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Email</label>
                     <div className="px-4 py-3 bg-white/[0.04] border border-white/10 text-sm text-white/60 font-mono">alex@example.com</div>
                   </div>
 
@@ -124,19 +129,19 @@ export default function ProximityDemoPage() {
                     <div className="relative w-9 h-5 rounded-full bg-purple-500 shrink-0">
                       <span className="absolute top-0.5 left-[18px] w-4 h-4 rounded-full bg-white" />
                     </div>
-                    <span className="text-[0.75rem] text-white/70">📍 Notify me when 7th Heaven books a show near me</span>
+                    <span className="text-sm text-white/70">📍 Notify me when 7th Heaven books a show near me</span>
                   </div>
 
                   {/* Zip code */}
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Zip Code</label>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Zip Code</label>
                     <div className="px-4 py-3 bg-white/[0.04] border border-purple-500/30 text-sm text-purple-300 font-mono">60016</div>
                   </div>
 
                   <div className="px-4 py-3.5 bg-purple-600 text-white text-center text-sm font-black uppercase tracking-[0.15em] mt-2 cursor-pointer hover:bg-purple-500 transition-colors" onClick={() => setStep("sms")}>
                     Create Account →
                   </div>
-                  <p className="text-[0.55rem] text-white/20 text-center">
+                  <p className="text-xs text-white/20 text-center">
                     Zip code is geocoded to match nearby shows within your radius
                   </p>
                 </div>
@@ -144,7 +149,7 @@ export default function ProximityDemoPage() {
             </div>
 
             <div className="p-5 bg-white/[0.02] border border-white/[0.06]">
-              <p className="text-[0.6rem] uppercase tracking-widest text-white/30 font-bold mb-2">What happens at signup</p>
+              <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-2">What happens at signup</p>
               <ul className="space-y-1.5 text-sm text-white/50">
                 <li className="flex items-start gap-2"><span className="text-purple-400 shrink-0">✓</span> Account created in Supabase Auth</li>
                 <li className="flex items-start gap-2"><span className="text-purple-400 shrink-0">✓</span> Zip code geocoded to lat/lng via Zippopotam API</li>
@@ -208,28 +213,28 @@ export default function ProximityDemoPage() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-white text-xs font-bold">7th Heaven</span>
-                              <span className="text-white/50 text-[0.6rem]">now</span>
+                              <span className="text-white/50 text-xs">now</span>
                             </div>
                             <p className="text-white text-xs font-bold mb-1">🎸 Show near you!</p>
-                            <div className="text-white/85 text-[0.65rem] leading-relaxed space-y-0.5">
+                            <div className="text-white/85 text-xs leading-relaxed space-y-0.5">
                               <p><span className="font-bold">{DEMO_SHOW.venue}</span> · {DEMO_SHOW.city}, {DEMO_SHOW.state}</p>
                               <p>🚪 Doors {DEMO_SHOW.doorsTime} · 🎤 Show {DEMO_SHOW.time}</p>
                               <p>{DEMO_SHOW.allAges ? "✅ All Ages" : "🔞 21+"} · 💵 {DEMO_SHOW.cover}</p>
                             </div>
-                            <p className="text-blue-300 text-[0.6rem] mt-1.5 font-medium underline">
+                            <p className="text-blue-300 text-xs mt-1.5 font-medium underline">
                               7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}...
                             </p>
                             {/* Going / There quick actions */}
                             <div className="flex gap-2 mt-2 pt-2 border-t border-white/10">
                               <button
                                 onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
-                                className="flex-1 py-1 rounded bg-purple-500/30 border border-purple-400/30 text-purple-200 text-[0.6rem] font-black uppercase tracking-widest hover:bg-purple-500/50 transition-all"
+                                className="flex-1 py-1 rounded bg-purple-500/30 border border-purple-400/30 text-purple-200 text-xs font-black uppercase tracking-widest hover:bg-purple-500/50 transition-all"
                               >
                                 🎸 Going
                               </button>
                               <button
                                 onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
-                                className="flex-1 py-1 rounded bg-emerald-500/30 border border-emerald-400/30 text-emerald-200 text-[0.6rem] font-black uppercase tracking-widest hover:bg-emerald-500/50 transition-all"
+                                className="flex-1 py-1 rounded bg-emerald-500/30 border border-emerald-400/30 text-emerald-200 text-xs font-black uppercase tracking-widest hover:bg-emerald-500/50 transition-all"
                               >
                                 ✓ There
                               </button>
@@ -239,7 +244,7 @@ export default function ProximityDemoPage() {
                       </div>
                       {/* Tap hint */}
                       <div className="flex justify-center mt-3 animate-pulse">
-                        <span className="text-white/30 text-[0.6rem] uppercase tracking-widest">Tap to open →</span>
+                        <span className="text-white/30 text-xs uppercase tracking-widest">Tap to open →</span>
                       </div>
                     </div>
                   </div>
@@ -252,7 +257,7 @@ export default function ProximityDemoPage() {
 
             {/* SMS text body */}
             <div className="p-6 bg-[#0c0c18] border border-white/10 space-y-4">
-              <p className="text-[0.6rem] uppercase tracking-widest text-white/30 font-bold">SMS text sent to {phoneNumber}</p>
+              <p className="text-xs uppercase tracking-widest text-white/30 font-bold">SMS text sent to {phoneNumber}</p>
               <div className="bg-[#1a2a1a] border border-emerald-500/20 rounded-2xl p-5">
                 <p className="text-sm text-white/80 leading-relaxed">
                   🎸 <strong>7th Heaven is playing near you!</strong><br /><br />
@@ -276,7 +281,7 @@ export default function ProximityDemoPage() {
 
               {/* RSVP quick buttons */}
               <div className="mt-4 pt-4 border-t border-emerald-500/10">
-                <p className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold mb-3">Quick RSVP from this message:</p>
+                <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-3">Quick RSVP from this message:</p>
                 {rsvpStatus === "going" || rsvpStatus === "there" ? (
                   <div className="flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                     <span className="text-emerald-400 text-lg">{rsvpStatus === "there" ? "✓" : "🎸"}</span>
@@ -292,14 +297,14 @@ export default function ProximityDemoPage() {
                     <button
                       onClick={() => handleRsvp("going")}
                       disabled={rsvpStatus === "loading"}
-                      className="flex-1 py-3 bg-purple-600/20 border border-purple-500/30 text-purple-300 text-[0.65rem] font-black uppercase tracking-widest hover:bg-purple-600/40 transition-all disabled:opacity-50 rounded-lg cursor-pointer"
+                      className="flex-1 py-3 bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-black uppercase tracking-widest hover:bg-purple-600/40 transition-all disabled:opacity-50 rounded-lg cursor-pointer"
                     >
                       {rsvpStatus === "loading" ? "…" : "🎸 I'm Going"}
                     </button>
                     <button
                       onClick={() => handleRsvp("there")}
                       disabled={rsvpStatus === "loading"}
-                      className="flex-1 py-3 bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-[0.65rem] font-black uppercase tracking-widest hover:bg-emerald-600/40 transition-all disabled:opacity-50 rounded-lg cursor-pointer"
+                      className="flex-1 py-3 bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-xs font-black uppercase tracking-widest hover:bg-emerald-600/40 transition-all disabled:opacity-50 rounded-lg cursor-pointer"
                     >
                       {rsvpStatus === "loading" ? "…" : "✓ I'm There"}
                     </button>
@@ -339,10 +344,10 @@ export default function ProximityDemoPage() {
                 </span>
                 <div>
                   <p className="text-sm font-black text-white uppercase tracking-wide">🎥 Mike is LIVE from the show</p>
-                  <p className="text-[0.55rem] text-red-300/60 mt-0.5">42 people watching · Backstage feed</p>
+                  <p className="text-xs text-red-300/60 mt-0.5">42 people watching · Backstage feed</p>
                 </div>
               </div>
-              <Link href="/live" className="px-3 py-1.5 bg-red-500 text-white text-[0.55rem] font-black uppercase tracking-widest shrink-0 hover:bg-red-400 transition-colors">Watch Now →</Link>
+              <Link href="/live" className="px-3 py-1.5 bg-red-500 text-white text-xs font-black uppercase tracking-widest shrink-0 hover:bg-red-400 transition-colors">Watch Now →</Link>
             </div>
 
             {/* ── HERO ── */}
@@ -353,8 +358,8 @@ export default function ProximityDemoPage() {
                 {/* LEFT — show info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
-                    <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-white/30">12 fans going</span>
+                    <span className="text-xs uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
+                    <span className="text-xs uppercase tracking-[0.2em] font-bold text-white/30">12 fans going</span>
                   </div>
 
                   <h1 className="text-4xl font-extrabold tracking-tight mb-1">{DEMO_SHOW.venue}</h1>
@@ -363,10 +368,10 @@ export default function ProximityDemoPage() {
 
                   {/* Detail pills */}
                   <div className="flex flex-wrap items-center gap-2 mt-4">
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">🚪 Doors {DEMO_SHOW.doorsTime}</span>
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">🎸 Show {DEMO_SHOW.time}</span>
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-[0.65rem] font-bold uppercase tracking-widest text-amber-400">🔞 21+</span>
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">💵 Cover: {DEMO_SHOW.cover}</span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">🚪 Doors {DEMO_SHOW.doorsTime}</span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">🎸 Show {DEMO_SHOW.time}</span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-xs font-bold uppercase tracking-widest text-amber-400">🔞 21+</span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">💵 Cover: {DEMO_SHOW.cover}</span>
                   </div>
 
                   {/* Action buttons */}
@@ -385,7 +390,7 @@ export default function ProximityDemoPage() {
 
                     <button
                       onClick={() => setAnonToggle((v) => !v)}
-                      className="flex items-center gap-2 px-4 py-2 border border-white/[0.06] text-[0.6rem] font-bold uppercase tracking-widest text-white/50 hover:border-white/20 transition-all cursor-pointer"
+                      className="flex items-center gap-2 px-4 py-2 border border-white/[0.06] text-xs font-bold uppercase tracking-widest text-white/50 hover:border-white/20 transition-all cursor-pointer"
                     >
                       <span className={`w-7 h-4 rounded-full relative shrink-0 transition-colors ${anonToggle ? "bg-purple-500" : "bg-white/10"}`}>
                         <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${anonToggle ? "left-3.5" : "left-0.5"}`} />
@@ -405,7 +410,7 @@ export default function ProximityDemoPage() {
 
                 {/* RIGHT — QR code */}
                 <div className="hidden sm:flex flex-col items-center shrink-0 text-center">
-                  <p className="text-white/30 text-[0.6rem] mb-1">Know someone who might be going?</p>
+                  <p className="text-white/30 text-xs mb-1">Know someone who might be going?</p>
                   <p className="text-white text-xs font-bold mb-3">Share this show page</p>
                   <div className="p-3 bg-white shadow-[0_0_30px_rgba(133,29,239,0.3)] mb-2">
                     <QRCode
@@ -416,7 +421,7 @@ export default function ProximityDemoPage() {
                       level="M"
                     />
                   </div>
-                  <p className="text-[0.45rem] uppercase tracking-widest text-white/20 font-bold">Scan to open show page</p>
+                  <p className="text-2xs uppercase tracking-widest text-white/20 font-bold">Scan to open show page</p>
                 </div>
 
               </div>
@@ -432,34 +437,42 @@ export default function ProximityDemoPage() {
                       Invite <span className="text-purple-300">20 fans</span> → get a free{" "}
                       <span className="text-purple-300">Band Tee</span>
                     </p>
-                    <span className="text-[0.5rem] font-black uppercase tracking-widest text-purple-400 border border-purple-500/30 px-2 py-0.5">
+                    <span className="text-2xs font-black uppercase tracking-widest text-purple-400 border border-purple-500/30 px-2 py-0.5">
                       Invite Challenge
                     </span>
                   </div>
                   <p className="text-white/30 text-xs mb-3">Claim at the merch table, night of show</p>
 
-                  {/* Progress bar */}
-                  <div className="mb-1.5">
-                    <div className="h-2 bg-white/[0.05] w-full">
-                      <div
-                        className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all"
-                        style={{ width: rsvpStatus !== "idle" ? "35%" : "30%" }}
-                      />
+                  {isChallengeLocked ? (
+                    <div className="flex items-center justify-center p-3 border border-white/5 bg-white/5 text-center mt-2">
+                      <p className="text-xs font-bold uppercase tracking-widest text-white/40">🔒 Challenge Locked (Show Ended)</p>
                     </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-[0.5rem] text-white/25 font-bold">
-                      {rsvpStatus !== "idle" ? "7" : "6"} / 20 fans invited
-                    </p>
-                    <a
-                      href={`sms:?body=${encodeURIComponent(
-                        `Come see 7th Heaven at ${DEMO_SHOW.venue} in ${DEMO_SHOW.city} on May 1st! ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
-                      )}`}
-                      className="text-[0.55rem] font-black uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors"
-                    >
-                      💬 Invite a Friend →
-                    </a>
-                  </div>
+                  ) : (
+                    <>
+                      {/* Progress bar */}
+                      <div className="mb-1.5">
+                        <div className="h-2 bg-white/[0.05] w-full">
+                          <div
+                            className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all"
+                            style={{ width: rsvpStatus !== "idle" ? "35%" : "30%" }}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <p className="text-2xs text-white/25 font-bold">
+                          {rsvpStatus !== "idle" ? "7" : "6"} / 20 fans invited
+                        </p>
+                        <a
+                          href={`sms:?body=${encodeURIComponent(
+                            `Come see 7th Heaven at ${DEMO_SHOW.venue} in ${DEMO_SHOW.city} on May 1st! ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
+                          )}`}
+                          className="text-xs font-black uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors"
+                        >
+                          💬 Invite a Friend →
+                        </a>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -469,12 +482,12 @@ export default function ProximityDemoPage() {
               <div className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] border-b-0">
                 <div className="flex items-center gap-6">
                   <div className="text-left">
-                    <p className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold mb-1">Fans Going</p>
+                    <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-1">Fans Going</p>
                     <p className="text-3xl font-extrabold text-white">11</p>
                   </div>
                   <div className="w-px h-10 bg-white/10" />
                   <div className="text-left">
-                    <p className="text-[0.55rem] uppercase tracking-widest text-emerald-400/60 font-bold mb-1">Here Now</p>
+                    <p className="text-xs uppercase tracking-widest text-emerald-400/60 font-bold mb-1">Here Now</p>
                     <p className="text-3xl font-extrabold text-emerald-400">1</p>
                   </div>
                 </div>
@@ -486,7 +499,7 @@ export default function ProximityDemoPage() {
                 {/* Filter tabs */}
                 <div className="flex items-center gap-1 mb-5 bg-white/[0.03] border border-white/5 p-1 w-fit">
                   {["All (12)", "Going (11)", "Here Now (1)"].map((label, i) => (
-                    <div key={i} className={`px-4 py-1.5 text-[0.6rem] font-black uppercase tracking-widest ${i === 0 ? "bg-white/10 text-white" : "text-white/30"}`}>{label}</div>
+                    <div key={i} className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest ${i === 0 ? "bg-white/10 text-white" : "text-white/30"}`}>{label}</div>
                   ))}
                 </div>
 
@@ -496,10 +509,10 @@ export default function ProximityDemoPage() {
                   <div className="flex items-center gap-4 p-4 border border-emerald-500/30 bg-emerald-500/[0.03]">
                     <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-yellow-500/40 text-yellow-400 bg-white/[0.04]">AJ</div>
                     <div>
-                      <p className="font-bold text-sm text-white">Alex Johnson <span className="ml-1 text-[0.5rem] uppercase tracking-widest text-purple-400 font-black">You</span></p>
+                      <p className="font-bold text-sm text-white">Alex Johnson <span className="ml-1 text-2xs uppercase tracking-widest text-purple-400 font-black">You</span></p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-[0.45rem] font-black uppercase text-yellow-400">Gold</span>
-                        <span className="text-[0.5rem] font-black uppercase text-emerald-400">✓ Here Now</span>
+                        <span className="text-2xs font-black uppercase text-yellow-400">Gold</span>
+                        <span className="text-2xs font-black uppercase text-emerald-400">✓ Here Now</span>
                       </div>
                     </div>
                   </div>
@@ -509,7 +522,7 @@ export default function ProximityDemoPage() {
                     <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-amber-700/40 text-amber-600 bg-white/[0.04]">SR</div>
                     <div>
                       <p className="font-bold text-sm text-white">Sarah R.</p>
-                      <span className="text-[0.45rem] font-black uppercase text-white/25">Going</span>
+                      <span className="text-2xs font-black uppercase text-white/25">Going</span>
                     </div>
                   </div>
 
@@ -518,7 +531,7 @@ export default function ProximityDemoPage() {
                     <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 border-2 border-white/10 bg-white/[0.04] text-lg">👤</div>
                     <div>
                       <p className="font-bold text-sm text-white/50 italic">Anonymous Fan</p>
-                      <span className="text-[0.45rem] font-black uppercase text-white/25">Going</span>
+                      <span className="text-2xs font-black uppercase text-white/25">Going</span>
                     </div>
                   </div>
 
@@ -528,8 +541,8 @@ export default function ProximityDemoPage() {
                     <div>
                       <p className="font-bold text-sm text-white">Tyler K.</p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-[0.45rem] font-black uppercase text-purple-400">Platinum</span>
-                        <span className="text-[0.45rem] font-black uppercase text-white/25">Going</span>
+                        <span className="text-2xs font-black uppercase text-purple-400">Platinum</span>
+                        <span className="text-2xs font-black uppercase text-white/25">Going</span>
                       </div>
                     </div>
                   </div>
@@ -559,8 +572,8 @@ export default function ProximityDemoPage() {
                           <div>
                             <p className="font-bold text-sm text-white/70">{fan.name}</p>
                             <div className="flex items-center gap-2 mt-0.5">
-                              {fan.tier && <span className="text-[0.45rem] font-black uppercase text-white/30">{fan.tier}</span>}
-                              <span className={`text-[0.45rem] font-black uppercase ${fan.status === "there" ? "text-emerald-400" : "text-white/30"}`}>
+                              {fan.tier && <span className="text-2xs font-black uppercase text-white/30">{fan.tier}</span>}
+                              <span className={`text-2xs font-black uppercase ${fan.status === "there" ? "text-emerald-400" : "text-white/30"}`}>
                                 {fan.status === "there" ? "✓ Here Now" : "Going"}
                               </span>
                             </div>
@@ -577,7 +590,7 @@ export default function ProximityDemoPage() {
                   )}
                 </div>
 
-                <p className="text-[0.55rem] text-white/15 mt-4 text-center">Fans who chose to go anonymously appear as &ldquo;Anonymous Fan&rdquo;</p>
+                <p className="text-xs text-white/15 mt-4 text-center">Fans who chose to go anonymously appear as &ldquo;Anonymous Fan&rdquo;</p>
               </div>
             </div>
 

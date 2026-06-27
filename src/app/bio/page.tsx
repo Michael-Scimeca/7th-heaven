@@ -8,6 +8,8 @@ export const metadata: Metadata = {
  description: "Meet the members of 7th heaven and learn about their 40-year journey of rocking stages worldwide.",
 };
 
+export const revalidate = 60;
+
 const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
  {
   name: "Adam Heisler", role: "Lead Vocals",
@@ -93,8 +95,11 @@ const FALLBACK_PERFORMED_WITH = [
 ];
 
 export default async function BioPage() {
- const { data: settingsData } = await sanityFetch({ query: queries.siteSettings });
- const { data: bandMembersData } = await sanityFetch({ query: queries.allBandMembers });
+ // Run both queries in parallel instead of sequentially
+ const [{ data: settingsData }, { data: bandMembersData }] = await Promise.all([
+  sanityFetch({ query: queries.siteSettings }),
+  sanityFetch({ query: queries.allBandMembers }),
+ ]);
  const settings = settingsData as SanitySiteSettings | null;
  
  const sanityMembers = bandMembersData as SanityBandMember[] | null;
@@ -142,15 +147,15 @@ export default async function BioPage() {
       <p className="text-sm font-bold tracking-widest uppercase text-[var(--color-accent)]">{m.role}</p>
      </div>
      <div className="flex items-center gap-4 mt-4 sm:mt-0">
-      {m.zodiac && <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 font-bold">{m.zodiac}</span>}
-      {m.birthday && <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/50 font-bold bg-white/[0.04] px-3 py-1 border border-white/5">🎂 {m.birthday}</span>}
+      {m.zodiac && <span className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold">{m.zodiac}</span>}
+      {m.birthday && <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-bold bg-white/[0.04] px-3 py-1 border border-white/5">🎂 {m.birthday}</span>}
      </div>
     </div>
 
     {/* Quote */}
     {m.favQuote && (
       <div className="px-6 md:px-8 py-5 bg-[var(--color-accent)]/5 border-b border-white/5">
-       <p className="text-[0.95rem] text-white/80 italic leading-relaxed">&ldquo;{m.favQuote}&rdquo;</p>
+       <p className="text-base text-white/80 italic leading-relaxed">&ldquo;{m.favQuote}&rdquo;</p>
       </div>
     )}
 
@@ -168,8 +173,8 @@ export default async function BioPage() {
       { label: "Influences", value: m.influences },
      ].filter(detail => detail.value).map((detail) => (
       <div key={detail.label} className="p-5 md:p-6 bg-[var(--color-bg-card)]">
-       <p className="text-[0.55rem] uppercase tracking-[0.15em] text-[var(--color-accent)] font-bold mb-2">{detail.label}</p>
-       <p className="text-[0.85rem] text-white/60 leading-relaxed">{detail.value}</p>
+       <p className="text-xs uppercase tracking-[0.15em] text-[var(--color-accent)] font-bold mb-2">{detail.label}</p>
+       <p className="text-base text-white/60 leading-relaxed">{detail.value}</p>
       </div>
      ))}
     </div>
@@ -177,8 +182,8 @@ export default async function BioPage() {
     {/* Fun fact */}
     {m.funFact && (
       <div className="px-6 md:px-8 py-5 bg-[var(--color-bg-primary)] flex flex-col sm:flex-row sm:items-start gap-3">
-       <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white font-black shrink-0 mt-0.5 bg-[var(--color-accent)] px-2 py-1 rounded-sm">Fun Fact</span>
-       <p className="text-[0.85rem] text-white/70 leading-relaxed">{m.funFact}</p>
+       <span className="text-xs uppercase tracking-[0.15em] text-white font-black shrink-0 mt-0.5 bg-[var(--color-accent)] px-2 py-1 rounded-sm">Fun Fact</span>
+       <p className="text-base text-white/70 leading-relaxed">{m.funFact}</p>
       </div>
     )}
    </div>
@@ -192,7 +197,7 @@ export default async function BioPage() {
  <section className="py-32 bg-[var(--color-bg-primary)]">
  <div className="site-container">
  <div className="text-center mb-16">
- <span className="inline-block text-[0.75rem] font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Accomplishments</span>
+ <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Accomplishments</span>
  <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">
  40 Years of <span className="gradient-text">Achievements</span>
  </h2>
@@ -212,18 +217,18 @@ export default async function BioPage() {
  <section className="py-32 bg-[var(--color-bg-secondary)]">
  <div className="site-container">
  <div className="text-center mb-16">
- <span className="inline-block text-[0.75rem] font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Shared the Stage With</span>
+ <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Shared the Stage With</span>
  <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">
  Major Label <span className="gradient-text">Artists</span>
  </h2>
  </div>
  <div className="flex flex-wrap justify-center gap-2 max-w-[1000px] mx-auto">
  {performedWith.map((artist, i) => (
- <span key={i} className="inline-block px-4 py-1.5 text-[0.85rem] text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] border border-[var(--color-border)] transition-all duration-150 hover:text-[var(--color-text-primary)] hover:border-[var(--color-accent)] hover:bg-[rgba(133,29,239,0.1)]">
+ <span key={i} className="inline-block px-4 py-1.5 text-base text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] border border-[var(--color-border)] transition-all duration-150 hover:text-[var(--color-text-primary)] hover:border-[var(--color-accent)] hover:bg-[rgba(133,29,239,0.1)]">
  {artist}
  </span>
  ))}
- <span className="inline-block px-4 py-1.5 text-[0.85rem] text-[var(--color-text-secondary)] opacity-50">and many more...</span>
+ <span className="inline-block px-4 py-1.5 text-base text-[var(--color-text-secondary)] opacity-50">and many more...</span>
  </div>
  </div>
  </section>

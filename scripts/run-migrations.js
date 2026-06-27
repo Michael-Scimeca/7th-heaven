@@ -9,6 +9,7 @@ const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 const migrations = [
   path.join(__dirname, '../supabase/migration_012_invite_challenge.sql'),
   path.join(__dirname, '../supabase/migration_013_show_memories.sql'),
+  path.join(__dirname, '../supabase/migration_015_featured_tracks.sql'),
 ];
 
 async function runMigration(filePath) {

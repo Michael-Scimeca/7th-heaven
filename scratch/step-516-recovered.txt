@@ -1,0 +1,39 @@
+"  const isSectionOpen = (key: string) => !collapsedSections[key];
+
+  const handleSyncTourDates = async () => {
+    setSyncLoading(true);
+    setSyncResult(null);
+    try {
+      const res = await fetch("/api/sync-shows", { method: "POST" });
+      const data = await res.json();
+      setSyncResult(data);
+
+      if (data.success) {
+        // Refresh the tour dates list
+        const tourRes = await fetch("/api/tour");
+        if (tourRes.ok) {
+          setTourDates(await tourRes.json());
+        }
+        // Log to audit trail
+        setAuditLog(prev => [{
+          id: crypto.randomUUID(),
+          text: `🔄 Synced tour dates: Scraped ${data.scraped} shows from official site.`,
+          time: "Just now",
+          color: "bg-emerald-500"
+        }, ...prev]);
+      } else {
+        setAuditLog(prev => [{
+          id: crypto.randomUUID(),
+          text: `❌ Tour sync failed: ${data.error || "Unknown error"}`,
+          time: "Just now",
+          color: "bg-rose-500"
+        }, ...prev]);
+      }
+    } catch (err: any) {
+      setSyncResult({ success: false, error: err.message || "Network error" });
+    } finally {
+      setSyncLoading(false);
+    }
+  };
+
+  const handleAdminLogin = async (e: React.FormEvent) => {"

@@ -39,6 +39,7 @@ export async function GET() {
                   title
                   handle
                   description
+                  tags
                   totalInventory
                   images(first: 1) {
                     edges {
@@ -54,6 +55,7 @@ export async function GET() {
                         id
                         title
                         price
+                        compareAtPrice
                         inventoryQuantity
                       }
                     }
@@ -70,11 +72,13 @@ export async function GET() {
       const products = data.data?.products?.edges?.map((e: any) => ({
         ...e.node,
         quantityAvailable: e.node.totalInventory,
+        tags: e.node.tags || [],
         variants: {
           edges: e.node.variants.edges.map((v: any) => ({
             node: {
               id: v.node.id,
               price: { amount: v.node.price, currencyCode: 'USD' },
+              compareAtPrice: v.node.compareAtPrice ? { amount: v.node.compareAtPrice, currencyCode: 'USD' } : null,
               quantityAvailable: v.node.inventoryQuantity,
             }
           }))
@@ -106,6 +110,7 @@ export async function GET() {
                 title
                 handle
                 description
+                tags
                 images(first: 1) {
                   edges {
                     node {
@@ -119,6 +124,7 @@ export async function GET() {
                     node {
                       id
                       price { amount currencyCode }
+                      compareAtPrice { amount currencyCode }
                       quantityAvailable
                     }
                   }
@@ -134,6 +140,7 @@ export async function GET() {
     const data = await res.json();
     const products = data.data?.products?.edges?.map((e: any) => ({
       ...e.node,
+      tags: e.node.tags || [],
       quantityAvailable: e.node.variants?.edges?.[0]?.node?.quantityAvailable ?? null,
     })) || [];
 

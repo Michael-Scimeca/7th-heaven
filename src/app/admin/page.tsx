@@ -19,6 +19,11 @@ const AdminMap = dynamic(() => import('@/components/AdminMap'), {
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 import 'react-quill-new/dist/quill.snow.css';
 
+import ReferralProgramPanel from "@/components/admin/ReferralProgramPanel";
+import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
+import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
+import CustomScrollbar from "@/components/CustomScrollbar";
+
 export default function AdminDashboard() {
   const { member, isLoggedIn, login, logout } = useMember();
   const [feeds, setFeeds] = useState<any[]>([]);
@@ -27,10 +32,215 @@ export default function AdminDashboard() {
   const [moderationQueue, setModerationQueue] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const [adminTab, setAdminTab] = useState<'band' | 'cruise'>('band');
   const adminTabRef = useRef<'band' | 'cruise'>('band');
   const [unreadCruiseChat, setUnreadCruiseChat] = useState(0);
   const supabase = createClient();
+  // ── Collapsible Sections (persisted via localStorage & Supabase) ──
+  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() => {
+    if (typeof window === 'undefined') return {};
+    try {
+      const saved = localStorage.getItem('7h_admin_collapsed');
+      return saved ? JSON.parse(saved) : {};
+    } catch { return {}; }
+  });
+
+  const toggleSection = (key: string) => {
+    setCollapsedSections(prev => {
+      const next = { ...prev, [key]: !prev[key] };
+      try { 
+        localStorage.setItem('7h_admin_collapsed', JSON.stringify(next));
+        saveLayoutToSupabase(sectionOrder, next);
+      } catch {}
+      return next;
+    });
+  };
+
+  const isSectionOpen = (key: string) => !collapsedSections[key];
+
+  // ── Drag & Drop Sortable Sections State & Handlers ──
+  const DEFAULT_SECTION_ORDER = [
+    'shopify',
+    'toursync',
+    'bookings',
+    'planners',
+    'featuredtrack',
+    'photomod',
+    'memorymod',
+    'referral',
+    'invitechallenge',
+    'livealerts',
+    'smsblast',
+    'crewsms',
+    'newsletter',
+    'registry',
+    'crewcreation',
+    'bulkinvites',
+    'awardpicks'
+  ];
+
+  const [sectionOrder, setSectionOrder] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return DEFAULT_SECTION_ORDER;
+    try {
+      const saved = localStorage.getItem('7h_admin_section_order');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const uniqueList = Array.from(new Set([...parsed, ...DEFAULT_SECTION_ORDER]));
+        return uniqueList.filter(item => DEFAULT_SECTION_ORDER.includes(item));
+      }
+      return DEFAULT_SECTION_ORDER;
+    } catch {
+      return DEFAULT_SECTION_ORDER;
+    }
+  });
+
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+
+  // Helper to save layout to Supabase User Metadata
+  const saveLayoutToSupabase = async (order: string[], collapsed: Record<string, boolean>) => {
+    if (!isLoggedIn) return;
+    try {
+      const { createClient: createSupabaseClient } = await import("@/utils/supabase/client");
+      const client = createSupabaseClient();
+      await client.auth.updateUser({
+        data: {
+          admin_section_order: order,
+          admin_collapsed_sections: collapsed
+        }
+      });
+      console.log("Admin layout saved to Supabase user metadata.");
+    } catch (err) {
+      console.error("Failed to save layout to Supabase:", err);
+    }
+  };
+
+  // Load layout from Supabase User Metadata on mount/login
+  useEffect(() => {
+    if (!isLoggedIn || !member) return;
+    const loadSavedLayout = async () => {
+      try {
+        const { createClient: createSupabaseClient } = await import("@/utils/supabase/client");
+        const client = createSupabaseClient();
+        const { data: { user } } = await client.auth.getUser();
+        
+        if (user?.user_metadata) {
+          const savedOrder = user.user_metadata.admin_section_order;
+          const savedCollapsed = user.user_metadata.admin_collapsed_sections;
+          
+          if (savedOrder && Array.isArray(savedOrder)) {
+            const uniqueList = Array.from(new Set([...savedOrder, ...DEFAULT_SECTION_ORDER]));
+            const filtered = uniqueList.filter(item => DEFAULT_SECTION_ORDER.includes(item));
+            setSectionOrder(filtered);
+            localStorage.setItem('7h_admin_section_order', JSON.stringify(filtered));
+          }
+          
+          if (savedCollapsed) {
+            setCollapsedSections(savedCollapsed);
+            localStorage.setItem('7h_admin_collapsed', JSON.stringify(savedCollapsed));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load layout from Supabase:", err);
+      }
+    };
+    loadSavedLayout();
+  }, [isLoggedIn, member]);
+
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    const updated = [...sectionOrder];
+    const item = updated.splice(draggedIndex, 1)[0];
+    updated.splice(index, 0, item);
+    setDraggedIndex(index);
+    setSectionOrder(updated);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    try {
+      localStorage.setItem('7h_admin_section_order', JSON.stringify(sectionOrder));
+      saveLayoutToSupabase(sectionOrder, collapsedSections);
+    } catch {}
+  };
+
+  // ── Tour Dates Sync State & Handlers ──
+  const [tourDates, setTourDates] = useState<any[]>([]);
+  const [syncLoading, setSyncLoading] = useState(false);
+  const [syncResult, setSyncResult] = useState<any>(null);
+
+  const handleSyncTourDates = async () => {
+    setSyncLoading(true);
+    setSyncResult(null);
+    try {
+      const res = await fetch("/api/sync-shows", { method: "POST" });
+      const data = await res.json();
+      setSyncResult(data);
+
+      if (data.success) {
+        const tourRes = await fetch("/api/tour");
+        if (tourRes.ok) {
+          setTourDates(await tourRes.json());
+        }
+        setAuditLog(prev => [{
+          id: crypto.randomUUID(),
+          text: "🔄 Synced tour dates: Scraped " + data.scraped + " shows from official site.",
+          time: "Just now",
+          color: "bg-emerald-500"
+        }, ...prev]);
+      } else {
+        setAuditLog(prev => [{
+          id: crypto.randomUUID(),
+          text: "❌ Tour sync failed: " + (data.error || "Unknown error"),
+          time: "Just now",
+          color: "bg-rose-500"
+        }, ...prev]);
+      }
+    } catch (err: any) {
+      setSyncResult({ success: false, error: err.message || "Network error" });
+    } finally {
+      setSyncLoading(false);
+    }
+  };
+
+  // ── Memory Moderation Queue State & Handlers ──
+  const [memoryQueue, setMemoryQueue] = useState<any[]>([]);
+
+  const moderateMemory = async (id: string, action: 'approve' | 'reject') => {
+    setMemoryQueue(current => current.filter(m => m.id !== id));
+    try {
+      await fetch('/api/fans/memories', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action })
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
+  // Featured Track State
+  const [activeFeaturedTrack, setActiveFeaturedTrack] = useState<any>(null);
+  const [trackTitle, setTrackTitle] = useState(''); // Serves as Drop / Album Name
+  const [dropSongs, setDropSongs] = useState<{ title: string; file: File | null }[]>([{ title: '', file: null }]);
+  const [trackVisibility, setTrackVisibility] = useState<'everyone' | 'fans'>('everyone');
+  const [trackDurationType, setTrackDurationType] = useState<'indefinite' | 'temporary'>('indefinite');
+  const [trackDurationHours, setTrackDurationHours] = useState('24');
+  const [trackCustomExpiresAt, setTrackCustomExpiresAt] = useState('');
+  const [trackCompression, setTrackCompression] = useState<'superb' | 'standard' | 'high' | 'none'>('standard');
+  const [trackNormalize, setTrackNormalize] = useState(true);
+  const [uploadingTrack, setUploadingTrack] = useState(false);
+  const [trackUploadError, setTrackUploadError] = useState('');
+  const [trackUploadSuccess, setTrackUploadSuccess] = useState(false);
 
   // Global Announcement State
   const [bannerActive, setBannerActive] = useState(false);
@@ -429,7 +639,20 @@ export default function AdminDashboard() {
         })));
       }
 
+      
       try {
+        const tourRes = await fetch('/api/tour');
+        if (tourRes.ok) setTourDates(await tourRes.json());
+      } catch (err) {}
+
+      try {
+        const memRes = await fetch('/api/fans/memories?all=true');
+        if (memRes.ok) {
+          const allMems = await memRes.json();
+          setMemoryQueue(allMems.filter((m: any) => !m.approved));
+        }
+      } catch (err) {}
+try {
         const photoRes = await fetch('/api/fans?all=true');
         if (photoRes.ok) {
           const allPhotos = await photoRes.json();
@@ -486,6 +709,21 @@ export default function AdminDashboard() {
           if (autoBlastDays) setSmsAutoBlastDays(parseInt(autoBlastDays.value, 10) || 3);
         }
       } catch {}
+
+      // Load Active Featured Track
+      try {
+        const trackRes = await fetch('/api/featured-track');
+        if (trackRes.ok) {
+          const trackData = await trackRes.json();
+          if (trackData.track) {
+            setActiveFeaturedTrack(trackData.track);
+          } else {
+            setActiveFeaturedTrack(null);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load active featured track:", err);
+      }
 
       setIsLoading(false);
     }
@@ -565,6 +803,101 @@ export default function AdminDashboard() {
       });
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleCloseTrack = async () => {
+    try {
+      const res = await fetch('/api/featured-track', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'close' })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setActiveFeaturedTrack(null);
+        setAuditLog(prev => [{
+          id: crypto.randomUUID(),
+          text: "🎵 Closed featured song/track.",
+          time: "Just now",
+          color: "bg-amber-500"
+        }, ...prev]);
+      }
+    } catch (err) {
+      console.error("Failed to close featured track:", err);
+    }
+  };
+
+  const handleUploadTrack = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!trackTitle || dropSongs.length === 0) return;
+
+    const hasIncomplete = dropSongs.some(s => !s.title || !s.file);
+    if (hasIncomplete) {
+      setTrackUploadError('Please provide a song title and select an audio file for all tracks.');
+      return;
+    }
+
+    setUploadingTrack(true);
+    setTrackUploadError('');
+    setTrackUploadSuccess(false);
+
+    try {
+      const formData = new FormData();
+      formData.append('title', trackTitle);
+      formData.append('visibility', trackVisibility);
+      formData.append('compression', trackCompression);
+      formData.append('normalize', String(trackNormalize));
+
+      // Append multiple songs
+      dropSongs.forEach((song, idx) => {
+        if (song.file) {
+          formData.append(`audio_${idx}`, song.file);
+          formData.append(`title_${idx}`, song.title);
+        }
+      });
+
+      if (trackDurationType === 'temporary') {
+        let expiresAtDate: Date | null = null;
+        if (trackDurationHours === 'custom' && trackCustomExpiresAt) {
+          expiresAtDate = new Date(trackCustomExpiresAt);
+        } else if (trackDurationHours !== 'custom') {
+          const hours = parseInt(trackDurationHours, 10);
+          expiresAtDate = new Date(Date.now() + hours * 60 * 60 * 1000);
+        }
+        if (expiresAtDate) {
+          formData.append('expires_at', expiresAtDate.toISOString());
+        }
+      }
+
+      const res = await fetch('/api/featured-track', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setTrackUploadSuccess(true);
+        setActiveFeaturedTrack(data.track);
+        setTrackTitle('');
+        setDropSongs([{ title: '', file: null }]);
+        try {
+          (e.target as HTMLFormElement).reset();
+        } catch {}
+        
+        setAuditLog(prev => [{
+          id: crypto.randomUUID(),
+          text: `🎵 Uploaded featured track: "${data.track.title}"`,
+          time: "Just now",
+          color: "bg-emerald-500"
+        }, ...prev]);
+      } else {
+        setTrackUploadError(data.error || 'Upload failed');
+      }
+    } catch (err: any) {
+      setTrackUploadError(err.message || 'Network error during upload');
+    } finally {
+      setUploadingTrack(false);
     }
   };
 
@@ -703,6 +1036,10 @@ export default function AdminDashboard() {
   const devBypass = typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
   const forceLogin = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('login') === 'true';
 
+  if (!mounted) {
+    return <div className="min-h-screen bg-[#050508]" />;
+  }
+
   if ((forceLogin || !devBypass) && (!isLoggedIn || member?.role !== 'admin')) {
     const isWrongRole = isLoggedIn && member?.role !== 'admin';
 
@@ -793,446 +1130,22 @@ export default function AdminDashboard() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-[#050508] text-white pt-24 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-hidden">
-      <style>{`
-        @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-      `}</style>
-      <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
-
-      <div className="site-container relative z-10 px-4 md:px-6">
-        
-        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
-          <div className="flex items-center gap-5">
-            <div className="relative w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-xl font-black text-amber-400">
-              {(member?.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}
-              <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-amber-400 border-2 border-[#0a0a0f] flex items-center justify-center">
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="#0a0a0f"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
-              </span>
-            </div>
-            <div>
-              <div className="flex items-center gap-3 mb-1">
-                <h1 className="text-2xl md:text-3xl font-black italic tracking-tight text-white">{member?.name || "System Admin"}</h1>
-                <span className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-400/30 rounded-full text-amber-400 text-[0.55rem] font-bold uppercase tracking-[0.15em]">
-                  👑 Admin
-                </span>
-                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600/20 border border-red-500/50 rounded-full text-red-500 text-[0.55rem] font-bold uppercase tracking-widest animate-pulse">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                  God Mode
-                </span>
-              </div>
-              <p className="text-[0.8rem] text-white/40 font-mono">{member?.email || "admin@7thheaven.com"}</p>
-              <p className="text-[0.7rem] text-white/30 mt-1">Oversee activity, intercept live feeds, and manage community access in real-time.</p>
-            </div>
-          </div>
-          
-          <Link href="/" className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10">
-            Exit to Site →
-          </Link>
-        </div>
-
-        {/* === ADMIN TAB TOGGLE === */}
-        <div className="flex items-center gap-1 mb-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-1.5 w-fit mx-auto shadow-[0_0_30px_rgba(0,0,0,0.3)]">
-          <button
-            onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
-            className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
-              adminTab === 'band'
-                ? 'bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent)]/80 text-white shadow-[0_0_20px_rgba(133,29,239,0.4)] border border-[var(--color-accent)]/50'
-                : 'text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent'
-            }`}
-          >
-            <span className="flex items-center gap-2.5">
-              <span className="text-base">🎸</span>
-              Band & Site
-            </span>
-          </button>
-          <button
-            onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
-            className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
-              adminTab === 'cruise'
-                ? 'bg-gradient-to-r from-cyan-600 to-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-cyan-400/50'
-                : 'text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent'
-            }`}
-          >
-            <span className="flex items-center gap-2.5">
-              <span className="text-base">🚢</span>
-              Cruise
-            </span>
-            {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
-              <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] flex items-center justify-center rounded-full bg-rose-500 text-white text-[0.55rem] font-black px-1.5 shadow-[0_0_10px_rgba(244,63,94,0.6)] animate-[bounce_1s_ease-in-out_2] border-2 border-[#0a0a0f]">
-                {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
-              </span>
-            )}
-          </button>
-        </div>
-
-        {/* ═══════════════════════════════════════════════ */}
-        {/* ═══  BAND & SITE TAB  ═══════════════════════ */}
-        {/* ═══════════════════════════════════════════════ */}
-        {adminTab === 'band' && (
-          <>
-
-        {/* === SITE ANNOUNCEMENTS === */}
-        <div className="mb-14 relative">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[var(--color-accent)] to-[var(--color-accent)]/60 flex items-center justify-center shadow-lg shadow-[var(--color-accent)]/20 p-[1px]">
-              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
-                <span className="text-lg">📡</span>
-              </div>
-            </div>
-            <div>
-              <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Band Announcements</h2>
-              <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Post band updates & alerts across the entire site</p>
-            </div>
-          </div>
-
-          <div className="relative">
-            {/* Ambient background glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-[var(--color-accent)]/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
-            
-            {/* Global Announcement Banner Control */}
-            <div className={`relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(133,29,239,0.15)]' : 'border-white/5 hover:border-white/10'} rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
-              <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500 rounded-2xl`} />
-              
-              <div className="relative z-10 flex flex-col gap-6">
-                {/* Header row */}
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 shrink-0 rounded-xl ${bannerActive ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(133,29,239,0.3)]' : 'bg-white/5 border-white/10 group-hover:bg-white/10'} border flex items-center justify-center text-2xl transition-all duration-500`}>📢</div>
-                    <div>
-                      <h3 className="text-lg font-black italic tracking-wide text-white">Global Alert Banner</h3>
-                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Pin a band announcement or urgent notice sitewide</p>
-                    </div>
+  
+  // ── Section Helper Render Functions for Movable Layout ──
+  const renderShopify = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('shopify')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
                   </div>
-                  {/* Main toggle — auto-saves */}
-                  <button 
-                    onClick={async () => {
-                      const newActive = !bannerActive;
-                      setBannerActive(newActive);
-                      await updateGlobalBanner({ isActive: newActive });
-                    }} 
-                    disabled={bannerUpdating}
-                    className={`relative px-6 py-2.5 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive 
-                      ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:shadow-[0_0_30px_rgba(133,29,239,0.8)] hover:scale-[1.02]' 
-                      : 'bg-[#1c1c24] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)] hover:bg-[#252530]'
-                    } disabled:opacity-50 disabled:hover:scale-100`}
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
-                      {bannerActive ? 'LIVE ON SITE' : 'OFF'}
-                    </span>
-                    {bannerActive && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
-                  </button>
-                </div>
-                
-                {/* Save status toast */}
-                {bannerSaveStatus && (
-                  <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${
-                    bannerSaveStatus === 'saved' 
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
-                  }`}>
-                    {bannerSaveStatus === 'saved' ? '✓ Banner updated successfully' : '✕ Failed to update — try again'}
-                  </div>
-                )}
-
-                {/* Message input */}
-                <div className="flex flex-col gap-3 mt-auto">
-                  <div className="w-full text-black [&_.ql-editor]:min-h-[200px]">
-                    <ReactQuill 
-                      theme="snow" 
-                      value={bannerText} 
-                      onChange={setBannerText} 
-                      placeholder="Alert message (e.g. Weather delay tonight)" 
-                      className="bg-white rounded-xl overflow-hidden"
-                    />
-                  </div>
-
-                  {/* Controls row */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-2 rounded-xl border border-white/5">
-                    <button 
-                      onClick={() => updateGlobalBanner()}
-                      disabled={bannerUpdating}
-                      className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(133,29,239,0.3)] hover:shadow-[0_6px_20px_rgba(133,29,239,0.4)] hover:-translate-y-0.5 active:translate-y-0"
-                    >
-                      {bannerUpdating ? 'Saving...' : 'Dispatch'}
-                    </button>
-
-                    {/* Auto-expire buttons */}
-                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
-                      <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
-                      {[
-                        { label: '1h', hours: 1 },
-                        { label: '3h', hours: 3 },
-                        { label: '12h', hours: 12 },
-                        { label: '24h', hours: 24 },
-                      ].map(({ label, hours }) => {
-                        const expiry = new Date(Date.now() + hours * 3600000).toISOString();
-                        const isSelected = bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - Date.now() - hours * 3600000) < 60000;
-                        return (
-                          <button 
-                            key={label} 
-                            type="button" 
-                            onClick={async () => {
-                              setBannerExpiresAt(expiry);
-                              await updateGlobalBanner({ expiresAt: expiry });
-                            }}
-                            className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                              isSelected
-                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(133,29,239,0.2)]'
-                                : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
-                            }`}
-                          >{label}</button>
-                        );
-                      })}
-                      <button 
-                        type="button" 
-                        onClick={async () => {
-                          setBannerExpiresAt(null);
-                          await updateGlobalBanner({ expiresAt: null });
-                        }}
-                        className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                          !bannerExpiresAt ? 'border-amber-500/50 bg-amber-500/15 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
-                        }`}
-                      >Off</button>
-                    </div>
-                  </div>
-                  
-                  {/* Expiry info */}
-                  {bannerExpiresAt && (
-                    <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
-                      <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
-                      <span className="font-bold text-amber-400 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
-                      {new Date(bannerExpiresAt) < new Date() && (
-                        <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {METRICS.map((metric, i) => (
-            <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`bg-[#0f0f13] border border-white/5 p-6 rounded-xl flex flex-col justify-between shadow-2xl relative overflow-hidden group ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
-              <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <p className="text-[0.65rem] font-bold uppercase tracking-[0.1em] text-white/40 mb-2">{metric.label}</p>
-              <div className="flex items-end justify-between">
-                <span className="text-3xl font-black">{metric.value}</span>
-                <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-1 bg-white/5 rounded ${metric.color}`}>
-                  {metric.trend}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-          
-          <div className="xl:col-span-2 flex flex-col gap-8">
-
-            {/* ── Google Analytics ── */}
-            <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
-              <div className="p-6 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-black/20">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285F4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-                  Google Analytics
-                </h3>
-                <div className="flex items-center gap-3">
-                  <span className="flex items-center gap-1.5 px-2 py-1 bg-blue-500/10 border border-blue-500/20 rounded text-[0.6rem] font-bold text-blue-400 uppercase tracking-widest animate-pulse">
-                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                    Live Data
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-6">
-                {/* GA Metric Cards */}
-                <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
-                  <div className="bg-black/30 border border-blue-500/20 rounded-xl p-5 hover:border-blue-500/40 transition-colors col-span-2 lg:col-span-1">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-blue-400/60 mb-2">Active Users</p>
-                    <p className="text-2xl font-black text-blue-400">{gaData.activeUsers}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Right now</p>
-                  </div>
-                  <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Sessions</p>
-                    <p className="text-2xl font-black text-white">{gaData.sessions.toLocaleString()}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last 30 days</p>
-                  </div>
-                  <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Page Views</p>
-                    <p className="text-2xl font-black text-white">{gaData.pageViews.toLocaleString()}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Total traffic</p>
-                  </div>
-                  <div className="bg-black/30 border border-emerald-500/20 rounded-xl p-5 col-span-2 lg:col-span-1">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-emerald-400/60 mb-2">Conv. Rate</p>
-                    <p className="text-2xl font-black text-emerald-400">{gaData.conversionRate}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Traffic → Sale</p>
-                  </div>
-                  <div className="bg-black/30 border border-emerald-500/20 rounded-xl p-5 col-span-2 lg:col-span-1">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-emerald-400/60 mb-2">Rev / Session</p>
-                    <p className="text-2xl font-black text-emerald-400">{gaData.revenuePerSession}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Avg Value</p>
-                  </div>
-                  <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Bounce Rate</p>
-                    <p className="text-2xl font-black text-white">{gaData.bounceRate}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Engagement</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Traffic Sources */}
-                  <div className="bg-black/20 border border-white/5 rounded-xl p-5">
-                    <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-6 flex items-center gap-2">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg>
-                      Traffic Sources
-                    </h4>
-                    <div className="space-y-4">
-                      {gaData.sources.map((source: any) => (
-                        <div key={source.name} className="space-y-1.5">
-                          <div className="flex justify-between text-[0.65rem] font-bold uppercase tracking-wider">
-                            <span className="text-white/60">{source.name}</span>
-                            <span className="text-white/40">{source.value}%</span>
-                          </div>
-                          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                            <div 
-                              className="h-full bg-blue-500/60 rounded-full"
-                              style={{ width: `${source.value}%` }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Top Locations */}
-                  <div className="bg-black/20 border border-white/5 rounded-xl p-5">
-                    <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-6 flex items-center gap-2">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                      Top Locations
-                    </h4>
-                    <div className="space-y-4">
-                      {gaData.locations.map((loc: any) => (
-                        <div key={loc.city} className="space-y-1.5">
-                          <div className="flex justify-between text-[0.65rem] font-bold uppercase tracking-wider">
-                            <span className="text-white/60">{loc.city}</span>
-                            <span className="text-white/40">{loc.percentage}%</span>
-                          </div>
-                          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                            <div 
-                              className="h-full bg-purple-500/60 rounded-full"
-                              style={{ width: `${loc.percentage}%` }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Conversion Funnel */}
-                  <div className="bg-black/20 border border-white/5 rounded-xl p-5">
-                    <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-6 flex items-center gap-2">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-                      Conversion Funnel
-                    </h4>
-                    <div className="space-y-4 relative">
-                      <div className="absolute left-4 top-2 bottom-2 w-px bg-white/10" />
-                      <div className="relative z-10 flex items-center gap-4">
-                        <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-[0.6rem] font-black text-blue-400">100%</div>
-                        <div>
-                          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/60">Site Visitors</p>
-                          <p className="text-[0.55rem] text-white/30">{gaData.sessions.toLocaleString()} sessions</p>
-                        </div>
-                      </div>
-                      <div className="relative z-10 flex items-center gap-4">
-                        <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-[0.6rem] font-black text-purple-400">12%</div>
-                        <div>
-                          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/60">Added to Cart</p>
-                          <p className="text-[0.55rem] text-white/30">{Math.floor(gaData.sessions * 0.12)} sessions</p>
-                        </div>
-                      </div>
-                      <div className="relative z-10 flex items-center gap-4">
-                        <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-[0.6rem] font-black text-emerald-400">{gaData.conversionRate}</div>
-                        <div>
-                          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/60">Purchased</p>
-                          <p className="text-[0.55rem] text-white/30">{Math.floor(gaData.sessions * 0.038)} orders</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Hotspot Analytics Map */}
-                <div className="mt-6 bg-black/20 border border-white/5 rounded-xl p-5 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(66,133,244,0.1)_0%,transparent_70%)] opacity-50 pointer-events-none" />
-                  <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-                    <div className="flex-1 w-full relative">
-                      <AdminMap locations={gaData.locations} />
-                    </div>
-                    <div className="w-full md:w-64 shrink-0 space-y-4">
-                      <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-2 flex items-center gap-2">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Traffic Heatmap
-                      </h4>
-                      <p className="text-[0.6rem] text-white/40 leading-relaxed mb-4">
-                        Real-time visualization of high-density traffic areas to assist with targeted tour routing.
-                      </p>
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
-                          <span className="w-2 h-2 rounded-full bg-[#10b981]" /> Chicago (Primary)
-                        </div>
-                        <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
-                          <span className="w-2 h-2 rounded-full bg-[#f59e0b]" /> Nashville (Growing)
-                        </div>
-                        <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
-                          <span className="w-2 h-2 rounded-full bg-[#a855f7]" /> Los Angeles
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Connection Notice */}
-                <div className="mt-8 p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4">
-                  <div className="flex items-start gap-3">
-                    <span className="text-xl mt-1 sm:mt-0">✅</span>
-                    <div>
-                      <p className="text-xs font-bold text-white/80">Google Analytics Active</p>
-                      <p className="text-[0.6rem] text-white/40 uppercase tracking-widest leading-relaxed">
-                        Tracking Live with ID: <span className="text-emerald-400 font-mono">G-HS8X0ZD66V</span>
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* Handoff Reminder Notice */}
-                  <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 w-full sm:w-auto">
-                    <div className="flex items-start gap-2">
-                      <span className="text-amber-400 text-sm">⚠️</span>
-                      <div>
-                        <p className="text-[0.65rem] font-bold text-amber-400 uppercase tracking-widest">Handoff Reminder</p>
-                        <p className="text-[0.6rem] text-white/60 leading-snug mt-1 max-w-[280px]">
-                          To link GA4 with Shopify data: Go to Shopify Admin → Online Store → Preferences. Scroll to Google Analytics and paste the same ID: <strong className="text-white">G-HS8X0ZD66V</strong>.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-
-            {/* ── Shopify Sales Dashboard ── */}
-            <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
-              <div className="p-6 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-black/20">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
+                  <h3 onClick={() => toggleSection('shopify')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#96bf48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                   Shopify Sales
                 </h3>
-                <div className="flex items-center gap-3">
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex items-center gap-3">
                   <div className="flex bg-black rounded p-1 border border-white/10">
                     {[7, 30, 90].map(d => (
                       <button
@@ -1266,9 +1179,13 @@ export default function AdminDashboard() {
                     ↻ Refresh
                   </button>
                 </div>
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('shopify') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
               </div>
-
-              {shopifyLoading ? (
+              <div style={{ display: isSectionOpen('shopify') ? undefined : 'none' }}>
+                {shopifyLoading ? (
                 <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
               ) : shopifyError ? (
                 <div className="p-16 text-center">
@@ -1311,7 +1228,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="bg-black/20 border border-white/5 rounded-xl overflow-hidden">
                     <div className="p-4 border-b border-white/5"><h4 className="text-sm font-bold flex items-center gap-2">📦 Product Inventory</h4></div>
-                    <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                    <div className="max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
                       <table className="w-full text-left">
                         <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
                           <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
@@ -1464,7 +1381,7 @@ export default function AdminDashboard() {
                       </h4>
                       <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{shopifyData.orders.length} orders</span>
                     </div>
-                    <div className="max-h-[350px] overflow-y-auto custom-scrollbar">
+                    <div className="max-h-[350px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
                       {shopifyData.orders.length === 0 ? (
                         <div className="p-8 text-center text-white/30 text-xs">No orders in this period</div>
                       ) : (
@@ -1562,93 +1479,114 @@ export default function AdminDashboard() {
                   )}
                 </div>
               ) : null}
-            </section>
-
-
-            <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
-              <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                  Active Live Streams
-                </h3>
-                <span className="text-[0.65rem] text-white/40 uppercase tracking-widest">{feeds.length} Online</span>
               </div>
-              <div className="p-0">
-                {isLoading ? (
-                  <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Scanning network...</div>
-                ) : feeds.length === 0 ? (
-                  <div className="p-12 text-center text-white/30 font-mono text-xs">No active streams detected across infrastructure.</div>
-                ) : (
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-white/[0.02] text-white/30 text-[0.6rem] uppercase tracking-widest">
-                        <th className="p-4 font-bold border-b border-white/5 w-1/3">Stream Name</th>
-                        <th className="p-4 font-bold border-b border-white/5">Host</th>
-                        <th className="p-4 font-bold border-b border-white/5">Viewers</th>
-                        <th className="p-4 font-bold border-b border-white/5">Merch Sales</th>
-                        <th className="p-4 font-bold border-b border-white/5 text-right w-1/6">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {feeds.map((feed) => (
-                        <tr key={feed.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                          <td className="p-4">
-                            <div className="font-bold flex items-center gap-2 text-sm">
-                              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
-                              {feed.isSimulated && feed.route ? (
-                                <Link href={feed.route} className="truncate block hover:text-[var(--color-accent)] transition-colors">{feed.name}</Link>
-                              ) : (
-                                <span className="truncate block">{feed.name}</span>
-                              )}
-                              {feed.isSimulated && (
-                                <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] font-bold uppercase tracking-wider text-emerald-400 shrink-0">Demo</span>
-                              )}
-                            </div>
-                            <div className="text-white/40 text-[0.6rem] uppercase tracking-wider mt-1">Uptime: {feed.uptime}</div>
-                          </td>
-                          <td className="p-4 text-sm text-white/70">{feed.host}</td>
-                          <td className="p-4 font-mono text-sm">{feed.viewers.toLocaleString()}</td>
-                          <td className="p-4 font-mono text-sm font-bold text-emerald-400">
-                             {feed.revenue !== undefined ? `$${feed.revenue.toLocaleString()}` : '$0'}
-                          </td>
-                          <td className="p-4 text-right">
-                            <div className="flex items-center justify-end gap-2">
-                              <Link 
-                                href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
-                                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all inline-block"
-                              >
-                                View
-                              </Link>
-                              <button 
-                                onClick={() => killStream(feed)}
-                                className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
-                              >
-                                Shut Down
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+            </section>
+  );
+
+  const renderTourSync = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
+              <div onClick={() => toggleSection('toursync')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('toursync')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    Tour Dates Sync
+                  </h3>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    {tourDates.length} Shows Loaded
+                  </span>
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('toursync') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: isSectionOpen('toursync') ? undefined : 'none' }} className="p-6">
+                <p className="text-sm text-white/40 mb-6 leading-relaxed">
+                  Automatically scrapes the legacy 7th Heaven website (<a href="https://7thheavenband.com/tour.html" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com/tour.html</a>), extracts dates and venues, parses the location data, geocodes coordinates using nominatim cache, and syncs both Sanity CMS & Supabase database.
+                </p>
+                
+                {syncResult && (
+                  <div className={`p-4 rounded-xl mb-6 text-xs border ${
+                    syncResult.success 
+                      ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
+                      : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                  }`}>
+                    {syncResult.success ? (
+                      <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                        <div>
+                          <p className="opacity-60 uppercase font-bold tracking-wider mb-1">Scraped</p>
+                          <p className="text-xl font-black">{syncResult.scraped}</p>
+                        </div>
+                        <div>
+                          <p className="opacity-60 uppercase font-bold tracking-wider mb-1">Sanity Created</p>
+                          <p className="text-xl font-black">{syncResult.sanityCreated}</p>
+                        </div>
+                        <div>
+                          <p className="opacity-60 uppercase font-bold tracking-wider mb-1">Sanity Deleted</p>
+                          <p className="text-xl font-black">{syncResult.sanityDeleted || 0}</p>
+                        </div>
+                        <div>
+                          <p className="opacity-60 uppercase font-bold tracking-wider mb-1">Supabase Synced</p>
+                          <p className="text-xl font-black">{syncResult.supabaseUpserted}</p>
+                        </div>
+                        <div>
+                          <p className="opacity-60 uppercase font-bold tracking-wider mb-1">Geocoded</p>
+                          <p className="text-xl font-black">{syncResult.geocoded}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <p><strong>Error syncing:</strong> {syncResult.error}</p>
+                    )}
+                  </div>
                 )}
+
+                <button
+                  onClick={handleSyncTourDates}
+                  disabled={syncLoading}
+                  className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-xs font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-all disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+                >
+                  {syncLoading ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Syncing Dates...
+                    </>
+                  ) : (
+                    'Sync Tour Dates'
+                  )}
+                </button>
               </div>
             </section>
+  );
 
-            
-            {/* Booking Requests Section */}
-            <section id="booking-requests-section" className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
-              <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
+  const renderBookings = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('bookings')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('bookings')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                   Booking Requests
                 </h3>
-                <span className={`px-3 py-1 ${pendingBookings.length > 0 ? 'bg-amber-500/20 text-amber-500 border-amber-500/30' : 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30'} border rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2`}>
-                  {pendingBookings.length > 0 && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />}
-                  {pendingBookings.length} Pending
-                </span>
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bookings') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
               </div>
-              <div className="p-0">
+              <div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
+                <div className="p-0">
                 {bookings.length === 0 ? (
                   <div className="p-12 text-center text-white/30 font-mono text-xs">No booking requests received yet.</div>
                 ) : (
@@ -1712,7 +1650,45 @@ export default function AdminDashboard() {
                         </tr>
                         {expandedBooking === b.bookingId && (
                           <tr>
-                            <td colSpan={6} className="p-4 bg-[#060609]">
+                            <td colSpan={6} className="p-6 bg-[#060609] border-t border-b border-white/10">
+                              <div className="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-left border-b border-white/5 pb-6">
+                                <div>
+                                  <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Age Limit</p>
+                                  <p className="text-sm font-semibold text-white">
+                                    {b.ageRestriction === "21_plus" ? "🔞 21 & Over" : b.ageRestriction === "18_plus" ? "🔞 18 & Over" : "✅ All Ages"}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Doors Time</p>
+                                  <p className="text-sm font-semibold text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Cover / Price</p>
+                                  <p className="text-sm font-semibold text-white">{b.cover || 'Free / No Cover'}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Ticket Link</p>
+                                  {b.ticketLink ? (
+                                    <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-[var(--color-accent)] hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
+                                      {b.ticketLink}
+                                    </a>
+                                  ) : (
+                                    <p className="text-sm text-white/20">—</p>
+                                  )}
+                                </div>
+                                {b.details && (
+                                  <div className="col-span-2 sm:col-span-4 mt-2">
+                                    <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Public Notes (displayed to fans)</p>
+                                    <p className="text-xs text-white/70 italic bg-white/[0.02] p-3 rounded-lg border border-white/5">"{b.details}"</p>
+                                  </div>
+                                )}
+                                {b.plannerNotes && (
+                                  <div className="col-span-2 sm:col-span-4 mt-2">
+                                    <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Planner's Internal Notes</p>
+                                    <p className="text-xs text-white/70 bg-white/[0.02] p-3 rounded-lg border border-white/5">{b.plannerNotes}</p>
+                                  </div>
+                                )}
+                              </div>
                               <ShowCrewPanel bookingId={b.bookingId} eventDate={b.eventDate} venueName={b.venueName || 'TBD'} />
                             </td>
                           </tr>
@@ -1723,20 +1699,33 @@ export default function AdminDashboard() {
                   </table>
                 )}
               </div>
+              </div>
             </section>
+  );
 
-            {/* ── Event Planners Directory ── */}
-            <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
-              <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
+  const renderPlanners = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('planners')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('planners')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                   Event Planners Directory
                 </h3>
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2 text-white/40">
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2 text-white/40">
                   {Array.from(new Map(bookings.filter(b => b.email).map(b => [b.email, b])).values()).length} Planners
                 </span>
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('planners') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
               </div>
-              <div className="p-0">
+              <div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
+                <div className="p-0" data-lenis-prevent="true">
                 {bookings.length === 0 ? (
                   <div className="p-12 text-center text-white/30 font-mono text-xs">No planners found.</div>
                 ) : (
@@ -1791,21 +1780,31 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
+              </div>
             </section>
+  );
 
-
-            <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
-              <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
+  const renderPhotoMod = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('photomod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('photomod')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                   Fan Photo Moderation Queue
                 </h3>
-                <span className="px-3 py-1 bg-amber-500/20 text-amber-500 border border-amber-500/30 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                  {moderationQueue.length} Pending
-                </span>
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('photomod') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
               </div>
-              <div className="p-0">
+              <div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
+                <div className="p-0">
                 {moderationQueue.length === 0 ? (
                   <div className="p-16 text-center text-white/30 text-sm">
                      <span className="text-4xl opacity-20 block mb-4">🏆</span>
@@ -1842,25 +1841,568 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
+              </div>
             </section>
+  );
 
-
-            {/* ── Invite Challenge ── */}
-            <section className="mt-8">
-              <InviteChallengePanel shows={smsShows} />
-            </section>
-
-            {/* ── SMS Proximity Blast — Fan Show Alerts ── */}
-            <section className="bg-[#0f0f13] border border-rose-500/20 rounded-2xl overflow-hidden shadow-2xl mt-8">
-              <div className="p-6 border-b border-rose-500/10 flex items-center justify-between bg-gradient-to-r from-rose-500/5 to-transparent">
+  const renderMemoryMod = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
+              <div onClick={() => toggleSection('memorymod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('memorymod')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/><path d="M12 8v4l3 3"/></svg>
+                    Memory Moderation Queue
+                  </h3>
+                </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-xl">📡</div>
-                  <div>
-                    <h3 className="text-lg font-bold tracking-tight text-white">SMS Proximity Blast</h3>
-                    <p className="text-[0.6rem] uppercase tracking-[0.2em] text-rose-400/60 font-bold mt-0.5">Auto-text fans near an upcoming show</p>
+                  <span className="px-3 py-1 bg-amber-500/20 text-amber-500 border border-amber-500/30 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                    {memoryQueue.length} Pending
+                  </span>
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('memorymod') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+              </div>
+              <div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="p-6">
+                {memoryQueue.length === 0 ? (
+                  <div className="p-10 text-center text-white/30 text-sm">
+                    <span className="text-4xl opacity-20 block mb-4">🏆</span>
+                    Queue is entirely empty. All fan content is categorized.
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {memoryQueue.map((mem) => (
+                      <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-black/20 border border-white/5 rounded-xl">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-white/80">{mem.fan_name || 'Anonymous Fan'}</span>
+                            <span className="text-[0.6rem] text-white/30">{new Date(mem.created_at || mem.submittedAt).toLocaleDateString()}</span>
+                          </div>
+                          <p className="text-sm text-white/70 italic mt-1">"{mem.text || mem.caption}"</p>
+                          {mem.show_id && (
+                            <p className="text-xs text-white/30 mt-2 font-bold uppercase tracking-widest">Show ID: {mem.show_id}</p>
+                          )}
+                          {mem.photo_url && (
+                            <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
+                              <img src={mem.photo_url} alt="" className="w-full h-full object-cover" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex gap-2 shrink-0">
+                          <button
+                            onClick={() => moderateMemory(mem.id, 'reject')}
+                            className="px-4 py-2 text-xs font-black uppercase tracking-widest text-white/40 border border-white/10 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all rounded-lg"
+                          >
+                            Reject
+                          </button>
+                          <button
+                            onClick={() => moderateMemory(mem.id, 'approve')}
+                            className="px-4 py-2 text-xs font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-all rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]"
+                          >
+                            Approve
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+  );
+
+  const renderFeaturedTrack = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
+      <div onClick={() => toggleSection('featuredtrack')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+          </div>
+          <h3 onClick={() => toggleSection('featuredtrack')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/60"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            Featured Song / Soundtrack Drop
+          </h3>
+        </div>
+        <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+          {activeFeaturedTrack ? (
+            <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Active
+            </span>
+          ) : (
+            <span className="px-3 py-1 bg-white/5 text-white/40 border border-white/10 rounded-full text-[0.6rem] uppercase font-bold tracking-widest">
+              Closed
+            </span>
+          )}
+          <div onClick={() => toggleSection('featuredtrack')} className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center cursor-pointer transition-transform duration-300 " + (isSectionOpen('featuredtrack') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      <div style={{ display: isSectionOpen('featuredtrack') ? undefined : 'none' }} className="p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Side: Upload Form */}
+          <div className="bg-black/20 border border-white/5 p-6 rounded-xl">
+            <h4 className="text-sm font-bold uppercase tracking-widest text-white/60 mb-4">Feature a New Track</h4>
+            <form onSubmit={handleUploadTrack} className="space-y-5">
+              {/* Album / EP Title */}
+              <div>
+                <label className="block text-2xs font-bold uppercase tracking-widest text-white/40 mb-2">Album / EP Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Luminous EP or Greatest Hits Live"
+                  value={trackTitle}
+                  onChange={(e) => setTrackTitle(e.target.value)}
+                  className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                />
+              </div>
+
+              {/* Dynamic Songs playlist manager */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                  <label className="block text-2xs font-bold uppercase tracking-widest text-white/40">Drop Songs Playlist</label>
+                  <button
+                    type="button"
+                    onClick={() => setDropSongs(prev => [...prev, { title: '', file: null }])}
+                    className="px-2.5 py-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/35 text-[var(--color-accent)] hover:text-white border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/50 text-[0.65rem] uppercase font-bold tracking-wider rounded-md transition-all flex items-center gap-1 cursor-pointer select-none"
+                  >
+                    ➕ Add Song
+                  </button>
+                </div>
+
+                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+                  {dropSongs.map((song, index) => (
+                    <div key={index} className="p-4 bg-black/30 border border-white/5 rounded-xl space-y-3 relative group">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[0.65rem] font-bold text-white/30 uppercase tracking-wider">Track #{index + 1}</span>
+                        {dropSongs.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => setDropSongs(prev => prev.filter((_, idx) => idx !== index))}
+                            className="text-xs text-rose-400 hover:text-rose-300 opacity-60 hover:opacity-100 transition-opacity cursor-pointer select-none flex items-center gap-0.5"
+                            title="Remove this song"
+                          >
+                            ✕ Remove
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="space-y-3">
+                        {/* Song Title Input */}
+                        <div>
+                          <label className="block text-[0.6rem] font-bold uppercase tracking-widest text-white/30 mb-1">Song Title</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Track Name"
+                            value={song.title}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setDropSongs(prev => prev.map((s, idx) => idx === index ? { ...s, title: val } : s));
+                            }}
+                            className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                          />
+                        </div>
+
+                        {/* Song File Input */}
+                        <div>
+                          <label className="block text-[0.6rem] font-bold uppercase tracking-widest text-white/30 mb-1">Audio File</label>
+                          <input
+                            type="file"
+                            required
+                            accept="audio/*"
+                            onChange={(e) => {
+                              const files = e.target.files;
+                              setDropSongs(prev => prev.map((s, idx) => idx === index ? { ...s, file: files?.[0] || null } : s));
+                            }}
+                            className="w-full text-xs text-white/40 file:mr-3 file:py-1.5 file:px-3.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-wider file:bg-[var(--color-accent)]/20 file:text-white hover:file:bg-[var(--color-accent)]/30 file:cursor-pointer cursor-pointer focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Audio Compression & Mastering Options */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-2xs font-bold uppercase tracking-widest text-white/40 mb-2">Compression Quality</label>
+                  <select
+                    value={trackCompression}
+                    onChange={(e: any) => setTrackCompression(e.target.value)}
+                    className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 text-xs text-white/80 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                  >
+                    <option value="standard">Standard (192kbps MP3 - Recommended)</option>
+                    <option value="superb">Superb (320kbps MP3 - Best Quality)</option>
+                    <option value="high">Compact (128kbps MP3 - Smallest Size)</option>
+                    <option value="none">Lossless / None (Keep Original File)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-2xs font-bold uppercase tracking-widest text-white/40 mb-2">Audio Processing</label>
+                  <div className="h-[38px] flex items-center">
+                    <label className="flex items-center gap-2 text-xs text-white/70 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={trackNormalize}
+                        onChange={(e) => setTrackNormalize(e.target.checked)}
+                        className="accent-[var(--color-accent)] w-4 h-4 rounded bg-black/40 border-white/10"
+                      />
+                      <span className="flex items-center gap-1">Master Loudness & Dynamics <span className="animate-pulse">⚡</span></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Visibility Gate */}
+              <div>
+                <label className="block text-2xs font-bold uppercase tracking-widest text-white/40 mb-2">Visibility</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2 text-sm text-white/70 cursor-pointer select-none">
+                    <input
+                      type="radio"
+                      name="visibility"
+                      checked={trackVisibility === 'everyone'}
+                      onChange={() => setTrackVisibility('everyone')}
+                      className="accent-[var(--color-accent)]"
+                    />
+                    Everyone (Public)
+                  </label>
+                  <label className="flex items-center gap-2 text-sm text-white/70 cursor-pointer select-none">
+                    <input
+                      type="radio"
+                      name="visibility"
+                      checked={trackVisibility === 'fans'}
+                      onChange={() => setTrackVisibility('fans')}
+                      className="accent-[var(--color-accent)]"
+                    />
+                    Fans Only (Logged In Users)
+                  </label>
+                </div>
+              </div>
+
+              {/* Expiration Configuration */}
+              <div>
+                <label className="block text-2xs font-bold uppercase tracking-widest text-white/40 mb-2">Feature Duration</label>
+                <div className="flex gap-4 mb-3">
+                  <label className="flex items-center gap-2 text-sm text-white/70 cursor-pointer select-none">
+                    <input
+                      type="radio"
+                      name="durationType"
+                      checked={trackDurationType === 'indefinite'}
+                      onChange={() => setTrackDurationType('indefinite')}
+                      className="accent-[var(--color-accent)]"
+                    />
+                    Keep Open Indefinitely
+                  </label>
+                  <label className="flex items-center gap-2 text-sm text-white/70 cursor-pointer select-none">
+                    <input
+                      type="radio"
+                      name="durationType"
+                      checked={trackDurationType === 'temporary'}
+                      onChange={() => setTrackDurationType('temporary')}
+                      className="accent-[var(--color-accent)]"
+                    />
+                    Temporary Drop (Auto-Expire)
+                  </label>
+                </div>
+
+                {trackDurationType === 'temporary' && (
+                  <div className="space-y-3 bg-black/40 border border-white/5 p-4 rounded-lg">
+                    <div>
+                      <label className="block text-3xs font-bold uppercase tracking-widest text-white/30 mb-2">Availability Limit</label>
+                      <select
+                        value={trackDurationHours}
+                        onChange={(e) => setTrackDurationHours(e.target.value)}
+                        className="bg-black/80 border border-white/10 rounded-md px-3 py-1.5 text-xs text-white/80 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                      >
+                        <option value="1">1 Hour</option>
+                        <option value="3">3 Hours</option>
+                        <option value="24">24 Hours (1 Day)</option>
+                        <option value="72">72 Hours (3 Days)</option>
+                        <option value="168">168 Hours (7 Days)</option>
+                        <option value="custom">Custom Date & Time</option>
+                      </select>
+                    </div>
+
+                    {trackDurationHours === 'custom' && (
+                      <div>
+                        <label className="block text-3xs font-bold uppercase tracking-widest text-white/30 mb-2">Select Expiration Date & Time</label>
+                        <input
+                          type="datetime-local"
+                          required
+                          value={trackCustomExpiresAt}
+                          onChange={(e) => setTrackCustomExpiresAt(e.target.value)}
+                          className="bg-black/80 border border-white/10 rounded-md px-3 py-1.5 text-xs text-white/80 focus:outline-none focus:border-[var(--color-accent)]/50"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {trackUploadError && (
+                <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs rounded-lg">
+                  ⚠️ {trackUploadError}
+                </div>
+              )}
+
+              {trackUploadSuccess && (
+                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-lg">
+                  ✓ Track has been successfully uploaded and featured!
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={uploadingTrack}
+                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:bg-white/5 disabled:text-white/20 text-white font-bold text-xs uppercase tracking-widest py-3 rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(133,29,239,0.3)]"
+              >
+                {uploadingTrack ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Uploading & Launching Track...
+                  </>
+                ) : (
+                  <>⚡ Launch Featured Track</>
+                )}
+              </button>
+            </form>
+          </div>
+
+          {/* Right Side: Active Track Info */}
+          <div className="bg-black/20 border border-white/5 p-6 rounded-xl flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-sm font-bold uppercase tracking-widest text-white/60">Currently Featured Drop</h4>
+                {activeFeaturedTrack && (
+                  <button
+                    type="button"
+                    onClick={handleCloseTrack}
+                    className="text-3xs uppercase tracking-widest font-black text-rose-400 hover:text-rose-300 border border-rose-500/20 hover:border-rose-500/40 rounded px-2.5 py-1 transition-all cursor-pointer flex items-center gap-1 bg-rose-950/20"
+                    title="Remove and Deactivate"
+                  >
+                    🗑️ Remove
+                  </button>
+                )}
+              </div>
+              
+              {activeFeaturedTrack ? (
+                <div className="space-y-4">
+                  <div className="p-4 bg-[#0a0a0f] border border-white/10 rounded-xl flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 rounded-xl flex items-center justify-center text-xl shrink-0 shadow-lg text-[var(--color-accent)] animate-pulse">
+                      🎛️
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h5 className="text-white font-bold text-base truncate">{activeFeaturedTrack.title}</h5>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`text-[0.6rem] uppercase tracking-widest px-2 py-0.5 rounded-full font-bold border ${activeFeaturedTrack.visibility === 'fans' ? 'bg-purple-500/10 border-purple-500/30 text-purple-400' : 'bg-blue-500/10 border-blue-500/30 text-blue-400'}`}>
+                          {activeFeaturedTrack.visibility === 'fans' ? 'Fans Only 🔒' : 'Everyone 🔓'}
+                        </span>
+                        <span className="text-[0.6rem] text-white/30">
+                          Uploaded {new Date(activeFeaturedTrack.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 text-xs text-white/50">
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                      <span>Visibility Gate</span>
+                      <span className="font-bold text-white/80">{activeFeaturedTrack.visibility === 'fans' ? 'Premium Fans (Logged In)' : 'Public (Everyone)'}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                      <span>Status</span>
+                      <span className="font-bold text-emerald-400 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        Live on Homepage
+                      </span>
+                    </div>
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                      <span>Expiration</span>
+                      <span className="font-bold text-white/80">
+                        {activeFeaturedTrack.expires_at ? (
+                          new Date(activeFeaturedTrack.expires_at) < new Date() ? (
+                            <span className="text-rose-400">Expired</span>
+                          ) : (
+                            new Date(activeFeaturedTrack.expires_at).toLocaleString()
+                          )
+                        ) : (
+                          'Manual Close Required'
+                        )}
+                      </span>
+                    </div>
+                    
+                    {/* Track Songs List Overview */}
+                    <div className="pt-2">
+                      <span className="block text-[0.65rem] font-bold uppercase tracking-widest text-white/40 mb-2">Track Playlist</span>
+                      <div className="space-y-1.5 pl-3 border-l border-white/10 max-h-[140px] overflow-y-auto pr-1">
+                        {activeFeaturedTrack.songs && activeFeaturedTrack.songs.length > 0 ? (
+                          activeFeaturedTrack.songs.map((song: any, idx: number) => (
+                            <div key={song.id || idx} className="text-2xs text-white/60 flex items-center justify-between gap-2">
+                              <span className="truncate">
+                                <span className="text-[var(--color-accent)] font-mono font-bold mr-1.5">{idx + 1}.</span>
+                                {song.title}
+                              </span>
+                              <span className="text-white/20 shrink-0 text-3xs">MP3</span>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-3xs italic text-white/30">No songs recorded for this drop.</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="p-8 text-center border border-dashed border-white/10 rounded-xl text-white/30 text-sm">
+                  <span className="text-3xl block mb-2 opacity-30">🔇</span>
+                  No audio track is currently featured on the homepage.
+                </div>
+              )}
+            </div>
+
+            {activeFeaturedTrack && (
+              <div className="mt-8">
+                <button
+                  type="button"
+                  onClick={handleCloseTrack}
+                  className="w-full bg-transparent hover:bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:border-rose-500/40 font-bold text-xs uppercase tracking-widest py-3 rounded-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  ⏹ Close & Deactivate Featured Track
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const renderReferral = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
+              <div onClick={() => toggleSection('referral')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('referral')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
+                    <span className="text-lg">🤝</span>
+                    Referral Program
+                  </h3>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('referral') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: isSectionOpen('referral') ? undefined : 'none' }} className="p-6">
+                <ReferralProgramPanel />
+              </div>
+            </section>
+  );
+
+  const renderLiveAlerts = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('livealerts')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('livealerts')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                  Active Live Streams
+                </h3>
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('livealerts') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: isSectionOpen('livealerts') ? undefined : 'none' }}>
+                <div className="p-0">
+                {isLoading ? (
+                  <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Scanning network...</div>
+                ) : feeds.length === 0 ? (
+                  <div className="p-12 text-center text-white/30 font-mono text-xs">No active streams detected across infrastructure.</div>
+                ) : (
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-white/[0.02] text-white/30 text-[0.6rem] uppercase tracking-widest">
+                        <th className="p-4 font-bold border-b border-white/5 w-1/3">Stream Name</th>
+                        <th className="p-4 font-bold border-b border-white/5">Host</th>
+                        <th className="p-4 font-bold border-b border-white/5">Viewers</th>
+                        <th className="p-4 font-bold border-b border-white/5">Merch Sales</th>
+                        <th className="p-4 font-bold border-b border-white/5 text-right w-1/6">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {feeds.map((feed) => (
+                        <tr key={feed.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <td className="p-4">
+                            <div className="font-bold flex items-center gap-2 text-sm">
+                              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
+                              {feed.isSimulated && feed.route ? (
+                                <Link href={feed.route} className="truncate block hover:text-[var(--color-accent)] transition-colors">{feed.name}</Link>
+                              ) : (
+                                <span className="truncate block">{feed.name}</span>
+                              )}
+                              {feed.isSimulated && (
+                                <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] font-bold uppercase tracking-wider text-emerald-400 shrink-0">Demo</span>
+                              )}
+                            </div>
+                            <div className="text-white/40 text-[0.6rem] uppercase tracking-wider mt-1">Uptime: {feed.uptime}</div>
+                          </td>
+                          <td className="p-4 text-sm text-white/70">{feed.host}</td>
+                          <td className="p-4 font-mono text-sm">{feed.viewers.toLocaleString()}</td>
+                          <td className="p-4 font-mono text-sm font-bold text-emerald-400">
+                             {feed.revenue !== undefined ? `$${feed.revenue.toLocaleString()}` : '$0'}
+                          </td>
+                          <td className="p-4 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <Link 
+                                href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
+                                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all inline-block"
+                              >
+                                View
+                              </Link>
+                              <button 
+                                onClick={() => killStream(feed)}
+                                className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
+                              >
+                                Shut Down
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+              </div>
+            </section>
+  );
+
+  const renderSmsBlast = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('smsblast')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('smsblast')} className="cursor-pointer text-lg font-bold tracking-tight text-white">SMS Proximity Blast</h3>
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex items-center gap-4">
                   {/* Auto-blast toggle */}
                   <div className="flex items-center gap-2">
                     <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30">Auto-Blast</span>
@@ -1885,9 +2427,13 @@ export default function AdminDashboard() {
                     {smsShows.length} upcoming show{smsShows.length !== 1 ? 's' : ''}
                   </span>
                 </div>
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('smsblast') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
               </div>
-
-              {/* Auto-blast info bar */}
+              <div style={{ display: isSectionOpen('smsblast') ? undefined : 'none' }}>
+                {/* Auto-blast info bar */}
               <div className={`px-6 py-3 border-b border-white/5 flex items-center justify-between ${smsAutoBlast ? 'bg-emerald-500/5' : 'bg-white/[0.01]'}`}>
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-emerald-500 animate-pulse' : 'bg-white/10'}`} />
@@ -2106,23 +2652,31 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
+              </div>
             </section>
+  );
 
-
-            {/* ── Crew SMS Alert ── */}
-            <section className="bg-[#0f0f13] border border-amber-500/20 rounded-2xl overflow-hidden shadow-2xl mt-8">
-              <div className="p-6 border-b border-amber-500/10 flex items-center justify-between bg-gradient-to-r from-amber-500/5 to-transparent">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
+  const renderCrewSms = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('crewsms')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('crewsms')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   🛡️ Crew SMS Alert
                 </h3>
-                {crewAlertStats && (
-                  <span className="text-[0.6rem] text-amber-400/60 uppercase tracking-widest font-bold">
-                    {crewAlertStats.totalCrew} crew · {crewAlertStats.withPhone} with phone
-                  </span>
-                )}
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewsms') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
               </div>
-              <div className="p-6">
+              <div style={{ display: isSectionOpen('crewsms') ? undefined : 'none' }}>
+                <div className="p-6">
                 <p className="text-[0.7rem] text-white/40 mb-4">
                   Send an instant text message to all crew members & admins. Use for urgent updates, schedule changes, or show-day alerts.
                 </p>
@@ -2186,19 +2740,31 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
+              </div>
             </section>
+  );
 
-
-            {/* ── Newsletter Blast ── */}
-            <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
-              <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
+  const renderNewsletter = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('newsletter')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('newsletter')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                   Newsletter Blast
                 </h3>
-                {fanData && <span className="text-[0.6rem] text-white/30 uppercase tracking-widest">{fanData.total + (fanData.newsletterSubscribers || 0)} recipients ({fanData.total} fans + {fanData.newsletterSubscribers || 0} subscribers)</span>}
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('newsletter') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
               </div>
-              <div className="p-6">
+              <div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
+                <div className="p-6">
                 <div className="space-y-4">
                   <div>
                     <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
@@ -2260,23 +2826,24 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
+              </div>
             </section>
+  );
 
-
-            {/* ── Community Registry ── */}
-            <section ref={registryRef} className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl scroll-mt-24">
-              <div className="p-6 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-black/20">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
+  const renderRegistry = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('registry')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                  </div>
+                  <h3 onClick={() => toggleSection('registry')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                   Community Registry
                 </h3>
-                <div className="flex items-center gap-4 w-full sm:w-auto">
-  {users.length === 0 && (
-    <button onClick={seedData} className="px-3 py-1.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded text-[0.6rem] uppercase font-bold tracking-widest hover:bg-emerald-500 transition-colors hover:text-white shrink-0">
-      Generate Mock Profiles
-    </button>
-  )}
-  <div className="flex bg-black rounded p-1 border border-white/10 overflow-x-auto shrink-0 w-full sm:w-auto">
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex bg-black rounded p-1 border border-white/10 overflow-x-auto shrink-0 w-full sm:w-auto">
     {['All', 'fan', 'crew', 'admin'].map(role => (
       <button
         key={role}
@@ -2287,12 +2854,13 @@ export default function AdminDashboard() {
       </button>
     ))}
   </div>
-</div>
-               </div>
-
-              
-
-              <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar">
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('registry') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: isSectionOpen('registry') ? undefined : 'none' }}>
+                <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
                 {isLoading ? (
                   <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Pulling registry data...</div>
                 ) : filteredUsers.length === 0 ? (
@@ -2412,23 +2980,28 @@ export default function AdminDashboard() {
                   </table>
                 )}
               </div>
+              </div>
             </section>
+  );
 
-
-            {/* ── Crew Account Creation ── */}
-            <section className="bg-gradient-to-br from-[#0f0f13] to-[#12101a] border border-emerald-500/20 rounded-2xl overflow-hidden shadow-2xl">
-              <div className="p-6 border-b border-emerald-500/10 bg-emerald-500/[0.03]">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+  const renderCrewCreation = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div onClick={() => toggleSection('crewcreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold tracking-tight text-white">Create Crew Account</h3>
-                    <p className="text-[0.6rem] uppercase tracking-[0.2em] text-emerald-400/60 font-bold mt-0.5">Admin Only · Set credentials manually</p>
+                  <h3 onClick={() => toggleSection('crewcreation')} className="cursor-pointer text-lg font-bold tracking-tight text-white">Create Crew Account</h3>
+                </div>
+                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+                  
+                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewcreation') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
                   </div>
                 </div>
               </div>
-              <div className="p-6">
+              <div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
+                <div className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
                   <div>
                     <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
@@ -2543,7 +3116,581 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
+              </div>
             </section>
+  );
+
+  const renderInviteChallenge = () => (
+    <section className="mt-8">
+              <InviteChallengePanel shows={smsShows} />
+            </section>
+  );
+
+  const renderBulkInvites = () => (
+    <section className="mt-8">
+      <BulkInvitePanel />
+    </section>
+  );
+
+  const renderAwardPicks = () => (
+    <section className="mt-8">
+      <AwardPicksPanel />
+    </section>
+  );
+return (
+    <div className="min-h-screen bg-[#050508] text-white pt-24 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-hidden">
+      <style>{`
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+      `}</style>
+      
+      {/* Floating Quick Scroll Nav */}
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[#0a0a0f]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300">
+        <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0">
+          <span>Jump To Section</span>
+        </div>
+        <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
+          <div className="flex flex-col gap-1 text-xs pr-1">
+            {adminTab === 'band' ? (
+              <>
+                <button
+                  onClick={() => document.getElementById('admin-sec-announcements')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                >
+                  <span>📡</span> Announcements
+                </button>
+                <button
+                  onClick={() => document.getElementById('admin-sec-analytics')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                >
+                  <span>📊</span> Google Analytics
+                </button>
+                {sectionOrder.map((key) => {
+                  const labelMap: Record<string, { label: string; icon: string }> = {
+                    shopify: { label: 'Shopify Store', icon: '🛒' },
+                    toursync: { label: 'Tour Sync', icon: '🔄' },
+                    bookings: { label: 'Booking Requests', icon: '📅' },
+                    planners: { label: 'Planners Directory', icon: '👥' },
+                    featuredtrack: { label: 'Featured Track', icon: '🎵' },
+                    photomod: { label: 'Photo Wall Mod', icon: '📸' },
+                    memorymod: { label: 'Memory Mod', icon: '🧠' },
+                    referral: { label: 'Referrals', icon: '🤝' },
+                    invitechallenge: { label: 'Invite Challenge', icon: '🏆' },
+                    livealerts: { label: 'Live Alerts', icon: '🚨' },
+                    smsblast: { label: 'SMS Blast', icon: '💬' },
+                    crewsms: { label: 'Crew SMS', icon: '👥' },
+                    newsletter: { label: 'Newsletter', icon: '✉️' },
+                    registry: { label: 'Fan Registry', icon: '📝' },
+                    crewcreation: { label: 'Crew Management', icon: '🛠️' },
+                    bulkinvites: { label: 'Bulk Invites', icon: '📨' },
+                    awardpicks: { label: 'Award Picks', icon: '🏅' }
+                  };
+                  const section = labelMap[key] || { label: key, icon: '⚙️' };
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    >
+                      <span>{section.icon}</span> {section.label}
+                    </button>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                >
+                  <span>🚢</span> Command Center
+                </button>
+                <button
+                  onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                >
+                  <span>📊</span> Cruise Roster & Links
+                </button>
+                <button
+                  onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                >
+                  <span>📡</span> Cruise Blast
+                </button>
+              </>
+            )}
+          </div>
+        </CustomScrollbar>
+      </div>
+
+      <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
+      <div className="site-container relative z-10 px-4 md:px-6">
+        
+        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
+          <div className="flex items-center gap-5">
+            <div className="relative w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-xl font-black text-amber-400">
+              {(member?.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}
+              <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-amber-400 border-2 border-[#0a0a0f] flex items-center justify-center">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="#0a0a0f"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
+              </span>
+            </div>
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <h1 className="text-2xl md:text-3xl font-black italic tracking-tight text-white">{member?.name || "System Admin"}</h1>
+                <span className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-400/30 rounded-full text-amber-400 text-[0.55rem] font-bold uppercase tracking-[0.15em]">
+                  👑 Admin
+                </span>
+                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600/20 border border-red-500/50 rounded-full text-red-500 text-[0.55rem] font-bold uppercase tracking-widest animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                  God Mode
+                </span>
+              </div>
+              <p className="text-[0.8rem] text-white/40 font-mono">{member?.email || "admin@7thheaven.com"}</p>
+              <p className="text-[0.7rem] text-white/30 mt-1">Oversee activity, intercept live feeds, and manage community access in real-time.</p>
+            </div>
+          </div>
+          
+          <Link href="/" className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10">
+            Exit to Site →
+          </Link>
+        </div>
+
+        {/* === ADMIN TAB TOGGLE === */}
+        <div className="flex items-center gap-1 mb-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-1.5 w-fit mx-auto shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+          <button
+            onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
+            className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
+              adminTab === 'band'
+                ? 'bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent)]/80 text-white shadow-[0_0_20px_rgba(133,29,239,0.4)] border border-[var(--color-accent)]/50'
+                : 'text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent'
+            }`}
+          >
+            <span className="flex items-center gap-2.5">
+              <span className="text-base">🎸</span>
+              Band & Site
+            </span>
+          </button>
+          <button
+            onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
+            className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
+              adminTab === 'cruise'
+                ? 'bg-gradient-to-r from-cyan-600 to-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-cyan-400/50'
+                : 'text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent'
+            }`}
+          >
+            <span className="flex items-center gap-2.5">
+              <span className="text-base">🚢</span>
+              Cruise
+            </span>
+            {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
+              <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] flex items-center justify-center rounded-full bg-rose-500 text-white text-[0.55rem] font-black px-1.5 shadow-[0_0_10px_rgba(244,63,94,0.6)] animate-[bounce_1s_ease-in-out_2] border-2 border-[#0a0a0f]">
+                {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* ═══════════════════════════════════════════════ */}
+        {/* ═══  BAND & SITE TAB  ═══════════════════════ */}
+        {/* ═══════════════════════════════════════════════ */}
+        {adminTab === 'band' && (
+          <>
+
+        {/* === SITE ANNOUNCEMENTS === */}
+        <div id="admin-sec-announcements" className="mb-14 relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[var(--color-accent)] to-[var(--color-accent)]/60 flex items-center justify-center shadow-lg shadow-[var(--color-accent)]/20 p-[1px]">
+              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
+                <span className="text-lg">📡</span>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Band Announcements</h2>
+              <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Post band updates & alerts across the entire site</p>
+            </div>
+          </div>
+
+          <div className="relative">
+            {/* Ambient background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-[var(--color-accent)]/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
+            
+            {/* Global Announcement Banner Control */}
+            <div className={`relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(133,29,239,0.15)]' : 'border-white/5 hover:border-white/10'} rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
+              <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500 rounded-2xl`} />
+              
+              <div className="relative z-10 flex flex-col gap-6">
+                {/* Header row */}
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 shrink-0 rounded-xl ${bannerActive ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(133,29,239,0.3)]' : 'bg-white/5 border-white/10 group-hover:bg-white/10'} border flex items-center justify-center text-2xl transition-all duration-500`}>📢</div>
+                    <div>
+                      <h3 className="text-lg font-black italic tracking-wide text-white">Global Alert Banner</h3>
+                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Pin a band announcement or urgent notice sitewide</p>
+                    </div>
+                  </div>
+                  {/* Main toggle — auto-saves */}
+                  <button 
+                    onClick={async () => {
+                      const newActive = !bannerActive;
+                      setBannerActive(newActive);
+                      await updateGlobalBanner({ isActive: newActive });
+                    }} 
+                    disabled={bannerUpdating}
+                    className={`relative px-6 py-2.5 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive 
+                      ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:shadow-[0_0_30px_rgba(133,29,239,0.8)] hover:scale-[1.02]' 
+                      : 'bg-[#1c1c24] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)] hover:bg-[#252530]'
+                    } disabled:opacity-50 disabled:hover:scale-100`}
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
+                      {bannerActive ? 'LIVE ON SITE' : 'OFF'}
+                    </span>
+                    {bannerActive && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
+                  </button>
+                </div>
+                
+                {/* Save status toast */}
+                {bannerSaveStatus && (
+                  <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${
+                    bannerSaveStatus === 'saved' 
+                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
+                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+                  }`}>
+                    {bannerSaveStatus === 'saved' ? '✓ Banner updated successfully' : '✕ Failed to update — try again'}
+                  </div>
+                )}
+
+                {/* Message input */}
+                <div className="flex flex-col gap-3 mt-auto">
+                  <div className="w-full text-black [&_.ql-editor]:min-h-[200px]">
+                    <ReactQuill 
+                      theme="snow" 
+                      value={bannerText} 
+                      onChange={setBannerText} 
+                      placeholder="Alert message (e.g. Weather delay tonight)" 
+                      className="bg-white rounded-xl overflow-hidden"
+                    />
+                  </div>
+
+                  {/* Controls row */}
+                  <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-2 rounded-xl border border-white/5">
+                    <button 
+                      onClick={() => updateGlobalBanner()}
+                      disabled={bannerUpdating}
+                      className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(133,29,239,0.3)] hover:shadow-[0_6px_20px_rgba(133,29,239,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                    >
+                      {bannerUpdating ? 'Saving...' : 'Dispatch'}
+                    </button>
+
+                    {/* Auto-expire buttons */}
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
+                      <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
+                      {[
+                        { label: '1h', hours: 1 },
+                        { label: '3h', hours: 3 },
+                        { label: '12h', hours: 12 },
+                        { label: '24h', hours: 24 },
+                      ].map(({ label, hours }) => {
+                        const expiry = new Date(Date.now() + hours * 3600000).toISOString();
+                        const isSelected = bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - Date.now() - hours * 3600000) < 60000;
+                        return (
+                          <button 
+                            key={label} 
+                            type="button" 
+                            onClick={async () => {
+                              setBannerExpiresAt(expiry);
+                              await updateGlobalBanner({ expiresAt: expiry });
+                            }}
+                            className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                              isSelected
+                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(133,29,239,0.2)]'
+                                : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                            }`}
+                          >{label}</button>
+                        );
+                      })}
+                      <button 
+                        type="button" 
+                        onClick={async () => {
+                          setBannerExpiresAt(null);
+                          await updateGlobalBanner({ expiresAt: null });
+                        }}
+                        className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                          !bannerExpiresAt ? 'border-amber-500/50 bg-amber-500/15 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                        }`}
+                      >Off</button>
+                    </div>
+                  </div>
+                  
+                  {/* Expiry info */}
+                  {bannerExpiresAt && (
+                    <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
+                      <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
+                      <span className="font-bold text-amber-400 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
+                      {new Date(bannerExpiresAt) < new Date() && (
+                        <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          {METRICS.map((metric, i) => (
+            <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`bg-[#0f0f13] border border-white/5 p-6 rounded-xl flex flex-col justify-between shadow-2xl relative overflow-hidden group ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
+              <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <p className="text-[0.65rem] font-bold uppercase tracking-[0.1em] text-white/40 mb-2">{metric.label}</p>
+              <div className="flex items-end justify-between">
+                <span className="text-3xl font-black">{metric.value}</span>
+                <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-1 bg-white/5 rounded ${metric.color}`}>
+                  {metric.trend}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          
+          <div className="xl:col-span-2 flex flex-col gap-8">
+
+            {/* ── Google Analytics ── */}
+            <section id="admin-sec-analytics" className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="p-6 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-black/20">
+                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285F4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                  Google Analytics
+                </h3>
+                <div className="flex items-center gap-3">
+                  <span className="flex items-center gap-1.5 px-2 py-1 bg-blue-500/10 border border-blue-500/20 rounded text-[0.6rem] font-bold text-blue-400 uppercase tracking-widest animate-pulse">
+                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                    Live Data
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-6">
+                {/* GA Metric Cards */}
+                <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
+                  <div className="bg-black/30 border border-blue-500/20 rounded-xl p-5 hover:border-blue-500/40 transition-colors col-span-2 lg:col-span-1">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-blue-400/60 mb-2">Active Users</p>
+                    <p className="text-2xl font-black text-blue-400">{gaData.activeUsers}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Right now</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Sessions</p>
+                    <p className="text-2xl font-black text-white">{gaData.sessions.toLocaleString()}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last 30 days</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Page Views</p>
+                    <p className="text-2xl font-black text-white">{gaData.pageViews.toLocaleString()}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Total traffic</p>
+                  </div>
+                  <div className="bg-black/30 border border-emerald-500/20 rounded-xl p-5 col-span-2 lg:col-span-1">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-emerald-400/60 mb-2">Conv. Rate</p>
+                    <p className="text-2xl font-black text-emerald-400">{gaData.conversionRate}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Traffic → Sale</p>
+                  </div>
+                  <div className="bg-black/30 border border-emerald-500/20 rounded-xl p-5 col-span-2 lg:col-span-1">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-emerald-400/60 mb-2">Rev / Session</p>
+                    <p className="text-2xl font-black text-emerald-400">{gaData.revenuePerSession}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Avg Value</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Bounce Rate</p>
+                    <p className="text-2xl font-black text-white">{gaData.bounceRate}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Engagement</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Traffic Sources */}
+                  <div className="bg-black/20 border border-white/5 rounded-xl p-5">
+                    <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-6 flex items-center gap-2">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg>
+                      Traffic Sources
+                    </h4>
+                    <div className="space-y-4">
+                      {gaData.sources.map((source: any) => (
+                        <div key={source.name} className="space-y-1.5">
+                          <div className="flex justify-between text-[0.65rem] font-bold uppercase tracking-wider">
+                            <span className="text-white/60">{source.name}</span>
+                            <span className="text-white/40">{source.value}%</span>
+                          </div>
+                          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-blue-500/60 rounded-full"
+                              style={{ width: `${source.value}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Top Locations */}
+                  <div className="bg-black/20 border border-white/5 rounded-xl p-5">
+                    <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-6 flex items-center gap-2">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Top Locations
+                    </h4>
+                    <div className="space-y-4">
+                      {gaData.locations.map((loc: any) => (
+                        <div key={loc.city} className="space-y-1.5">
+                          <div className="flex justify-between text-[0.65rem] font-bold uppercase tracking-wider">
+                            <span className="text-white/60">{loc.city}</span>
+                            <span className="text-white/40">{loc.percentage}%</span>
+                          </div>
+                          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-purple-500/60 rounded-full"
+                              style={{ width: `${loc.percentage}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Conversion Funnel */}
+                  <div className="bg-black/20 border border-white/5 rounded-xl p-5">
+                    <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-6 flex items-center gap-2">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                      Conversion Funnel
+                    </h4>
+                    <div className="space-y-4 relative">
+                      <div className="absolute left-4 top-2 bottom-2 w-px bg-white/10" />
+                      <div className="relative z-10 flex items-center gap-4">
+                        <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-[0.6rem] font-black text-blue-400">100%</div>
+                        <div>
+                          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/60">Site Visitors</p>
+                          <p className="text-[0.55rem] text-white/30">{gaData.sessions.toLocaleString()} sessions</p>
+                        </div>
+                      </div>
+                      <div className="relative z-10 flex items-center gap-4">
+                        <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-[0.6rem] font-black text-purple-400">12%</div>
+                        <div>
+                          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/60">Added to Cart</p>
+                          <p className="text-[0.55rem] text-white/30">{Math.floor(gaData.sessions * 0.12)} sessions</p>
+                        </div>
+                      </div>
+                      <div className="relative z-10 flex items-center gap-4">
+                        <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-[0.6rem] font-black text-emerald-400">{gaData.conversionRate}</div>
+                        <div>
+                          <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/60">Purchased</p>
+                          <p className="text-[0.55rem] text-white/30">{Math.floor(gaData.sessions * 0.038)} orders</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hotspot Analytics Map */}
+                <div className="mt-6 bg-black/20 border border-white/5 rounded-xl p-5 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(66,133,244,0.1)_0%,transparent_70%)] opacity-50 pointer-events-none" />
+                  <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                    <div className="flex-1 w-full relative">
+                      <AdminMap locations={gaData.locations} />
+                    </div>
+                    <div className="w-full md:w-64 shrink-0 space-y-4">
+                      <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-2 flex items-center gap-2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Traffic Heatmap
+                      </h4>
+                      <p className="text-[0.6rem] text-white/40 leading-relaxed mb-4">
+                        Real-time visualization of high-density traffic areas to assist with targeted tour routing.
+                      </p>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                          <span className="w-2 h-2 rounded-full bg-[#10b981]" /> Chicago (Primary)
+                        </div>
+                        <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                          <span className="w-2 h-2 rounded-full bg-[#f59e0b]" /> Nashville (Growing)
+                        </div>
+                        <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                          <span className="w-2 h-2 rounded-full bg-[#a855f7]" /> Los Angeles
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connection Notice */}
+                <div className="mt-8 p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl mt-1 sm:mt-0">✅</span>
+                    <div>
+                      <p className="text-xs font-bold text-white/80">Google Analytics Active</p>
+                      <p className="text-[0.6rem] text-white/40 uppercase tracking-widest leading-relaxed">
+                        Tracking Live with ID: <span className="text-emerald-400 font-mono">G-HS8X0ZD66V</span>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Handoff Reminder Notice */}
+                  <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 w-full sm:w-auto">
+                    <div className="flex items-start gap-2">
+                      <span className="text-amber-400 text-sm">⚠️</span>
+                      <div>
+                        <p className="text-[0.65rem] font-bold text-amber-400 uppercase tracking-widest">Handoff Reminder</p>
+                        <p className="text-[0.6rem] text-white/60 leading-snug mt-1 max-w-[280px]">
+                          To link GA4 with Shopify data: Go to Shopify Admin → Online Store → Preferences. Scroll to Google Analytics and paste the same ID: <strong className="text-white">G-HS8X0ZD66V</strong>.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+
+            {sectionOrder.map((key, index) => {
+              const dragProps = {
+                draggable: true,
+                onDragStart: (e: any) => {
+                  if (!e.target.closest('.drag-handle')) {
+                    e.preventDefault();
+                    return;
+                  }
+                  handleDragStart(index);
+                },
+                onDragOver: (e: any) => handleDragOver(e, index),
+                onDragEnd: handleDragEnd,
+                className: "transition-all duration-300 " + (draggedIndex === index ? 'opacity-40 scale-[0.98]' : '')
+              };
+
+              let component = null;
+              switch (key) {
+                case 'shopify': component = renderShopify(); break;
+                case 'toursync': component = renderTourSync(); break;
+                case 'bookings': component = renderBookings(); break;
+                case 'planners': component = renderPlanners(); break;
+                case 'featuredtrack': component = renderFeaturedTrack(); break;
+                case 'photomod': component = renderPhotoMod(); break;
+                case 'memorymod': component = renderMemoryMod(); break;
+                case 'referral': component = renderReferral(); break;
+                case 'livealerts': component = renderLiveAlerts(); break;
+                case 'smsblast': component = renderSmsBlast(); break;
+                case 'crewsms': component = renderCrewSms(); break;
+                case 'newsletter': component = renderNewsletter(); break;
+                case 'registry': component = renderRegistry(); break;
+                case 'crewcreation': component = renderCrewCreation(); break;
+                case 'invitechallenge': component = renderInviteChallenge(); break;
+                case 'bulkinvites': component = renderBulkInvites(); break;
+                case 'awardpicks': component = renderAwardPicks(); break;
+              }
+
+              return (
+                <div key={key} id={`admin-sec-${key}`} {...dragProps}>
+                  {component}
+                </div>
+              );
+            })}
+
           </div>
 
           <div className="xl:col-span-1 flex flex-col gap-8">
@@ -2581,7 +3728,7 @@ export default function AdminDashboard() {
         {adminTab === 'cruise' && (
           <>
         {/* === CRUISE BROADCAST CENTER === */}
-        <div className="mb-14 relative">
+        <div id="admin-sec-cruise-command" className="mb-14 relative">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 p-[1px]">
               <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
@@ -2792,7 +3939,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Row 2: Important Links + Roster Export */}
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 relative items-start mt-6">
+          <div id="admin-sec-cruise-roster" className="grid grid-cols-1 xl:grid-cols-3 gap-6 relative items-start mt-6">
             {/* Important Links — 2 cols */}
             <div className="xl:col-span-2 relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-fuchsia-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-fuchsia-500/10 transition-all duration-700 pointer-events-none" />
@@ -2892,7 +4039,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* === CRUISE COMMUNITY BLAST === */}
-        <div className="mb-14 relative">
+        <div id="admin-sec-cruise-blast" className="mb-14 relative">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-teal-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 p-[1px]">
               <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">

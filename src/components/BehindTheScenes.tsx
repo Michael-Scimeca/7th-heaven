@@ -72,7 +72,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
           <div className="relative z-[3] w-full px-8 md:px-16 pb-16 pt-32">
             <div className="max-w-[700px]">
               {/* Label */}
-              <span className="inline-block text-[0.65rem] font-bold tracking-[0.2em] uppercase text-white/50 mb-4">
+              <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-white/50 mb-4">
                 Official YouTube
               </span>
 
@@ -90,7 +90,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               {/* Play CTA */}
               <button
                 onClick={() => setPlayingId(featured.id)}
-                className="group inline-flex items-center gap-3 bg-white text-black font-bold text-[0.75rem] uppercase tracking-[0.15em] px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-all duration-300 cursor-pointer"
+                className="group inline-flex items-center gap-3 bg-white text-black font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-all duration-300 cursor-pointer"
               >
                 <svg width="14" height="16" viewBox="0 0 20 22" fill="none" className="transition-colors">
                   <path d="M19 11L1 21V1L19 11Z" fill="currentColor" strokeLinejoin="round" />
@@ -103,7 +103,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
 
               {/* Director credit */}
               <div className="mt-10 border-t border-white/10 pt-6">
-                <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-white/30 mb-1">
+                <p className="text-sm font-bold tracking-[0.15em] uppercase text-white/30 mb-1">
                   Directed by
                 </p>
                 <p className="text-xl font-bold text-white tracking-tight">
@@ -118,7 +118,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
       {/* BTS Grid — additional clips */}
       {btsVideos.length > 1 && (
         <div className="px-8 md:px-16 py-16 bg-[var(--color-bg-primary)]">
-          <p className="text-[0.7rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-6">
+          <p className="text-sm font-bold uppercase tracking-[0.15em] text-white/40 mb-6">
             More Behind the Scenes
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -157,14 +157,14 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                 </div>
                 <div className="mt-2.5">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-[0.75rem] font-bold uppercase tracking-[0.05em] text-white leading-tight line-clamp-1">
+                    <h3 className="text-sm font-bold uppercase tracking-[0.05em] text-white leading-tight line-clamp-1">
                       {video.title}
                     </h3>
-                    <div className="flex items-center gap-1.5 shrink-0 text-[0.6rem] text-white/40 tabular-nums">
+                    <div className="flex items-center gap-1.5 shrink-0 text-xs text-white/40 tabular-nums">
                       <span>{video.year}</span>
                     </div>
                   </div>
-                  <p className="text-[0.65rem] text-white/40 mt-1 line-clamp-1">{video.subtitle}</p>
+                  <p className="text-xs text-white/40 mt-1 line-clamp-1">{video.subtitle}</p>
                 </div>
               </div>
             ))}

@@ -1,0 +1,12 @@
+"  const [bookingView, setBookingView] = useState<'table' | 'calendar'>('table');
+  const [syncLoading, setSyncLoading] = useState(false);
+  const [syncResult, setSyncResult] = useState<{
+    success: boolean;
+    scraped?: number;
+    sanityDeleted?: number;
+    sanityCreated?: number;
+    supabaseUpserted?: number;
+    geocoded?: number;
+    error?: string;
+  } | null>(null);
+  const [calMonth, setCalMonth] = useState(new Date().getMonth());"

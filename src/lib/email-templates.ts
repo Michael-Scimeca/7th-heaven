@@ -482,6 +482,14 @@ export const EMAIL_TEMPLATES = [
       body: `<p>Hey Cruiser!</p><p>We're getting closer to locking in our <strong>group rate</strong> with the cruise line. Here's what you need to know:</p><ul><li>📊 <strong>412 fans</strong> have signed up — we're blowing past our goal!</li><li>💰 Cabin pricing preview drops <strong>next Friday, June 6th</strong></li><li>🎵 The onboard setlist vote opens next week in the Cruise Hub</li><li>🏝️ Shore excursion packages will be available for pre-booking soon</li></ul><p>Stay tuned — this is going to be <strong>epic</strong>.</p>`,
     }),
   },
+  {
+    id: 'fan_invitation',
+    name: 'Fan Invitation',
+    description: 'Sent when an administrator invites a fan via CSV or text bulk list.',
+    category: 'Account',
+    status: 'live' as const,
+    render: () => fanInvitation({ name: 'Jane Doe', email: 'jane.doe@example.com', pin: '891043' }),
+  },
 ];
 
 // ═══════════════════════════════════════════════
@@ -731,4 +739,39 @@ export function cruiseCommunityBlast(data: { subject: string; body: string }) {
 <p style="margin:0;font-size:10px;"><a href="https://7thheavenband.com/api/newsletter/unsubscribe?email={{email}}" style="color:#555;text-decoration:underline;">Unsubscribe</a> · <a href="https://7thheavenband.com/privacy" style="color:#555;text-decoration:underline;">Privacy Policy</a></p>
 </td></tr>
 </table></td></tr></table></body></html>`;
+}
+
+// ═══════════════════════════════════════════════
+// 15. FAN INVITATION (sent when an admin invites fans in bulk)
+// ═══════════════════════════════════════════════
+export function fanInvitation(data: { name?: string; email: string; pin: string }) {
+  const pinDigits = data.pin.split('').map(d =>
+    `<td style="width:48px;height:56px;background:#0a0a0e;border:2px solid #7c3aed;border-radius:8px;text-align:center;font-size:28px;font-weight:900;color:#a78bfa;font-family:monospace;">${d}</td>`
+  ).join('<td style="width:8px;"></td>');
+
+  const greeting = data.name ? `Hey <strong>${sanitize(data.name)}</strong>` : `Hello there`;
+  const claimUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/?inviteEmail=${encodeURIComponent(data.email)}&invitePin=${data.pin}${data.name ? `&inviteName=${encodeURIComponent(data.name)}` : ''}`;
+
+  return wrap(`
+    <h1 style="margin:0 0 8px;color:#fff;font-size:26px;font-weight:900;text-align:center;">You're Invited! 🎸</h1>
+    <p style="margin:0 0 28px;color:rgba(255,255,255,0.4);font-size:13px;text-align:center;">Join the official 7th Heaven Fan Club</p>
+    <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 24px;">
+      ${greeting}, we've invited you to create your official 7th Heaven Fan Club membership!
+    </p>
+    <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 24px;">
+      Once registered, you'll unlock immediate access to exclusive music drops, live chat feeds, proximity show alerts, and early cruise signups. Your name and email are already on file — just choose a username, set a password, and pick your notification preferences.
+    </p>
+    
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:28px;text-align:center;">
+      <p style="margin:0 0 12px;color:rgba(255,255,255,0.4);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Verification Code</p>
+      <table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table>
+      <p style="margin:0;color:rgba(255,255,255,0.3);font-size:11px;">Use this PIN to verify your email instantly during signup</p>
+    </div>
+
+    <div style="text-align:center;margin:24px 0;">
+      <a href="${claimUrl}" style="${btnStyle}">Claim Invitation & Sign Up</a>
+    </div>
+    
+    <p style="margin:24px 0 0;color:rgba(255,255,255,0.15);font-size:11px;text-align:center;">If you did not expect this invitation, you can safely ignore this email.</p>
+  `);
 }

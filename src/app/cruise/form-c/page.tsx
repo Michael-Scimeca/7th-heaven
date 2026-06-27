@@ -70,22 +70,22 @@ export default function FormLayoutC() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Name</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Name</label>
                 <input type="text" required placeholder="Your full name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
                   className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/15 focus:border-amber-500 focus:outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Email</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Email</label>
                 <input type="email" required placeholder="you@email.com" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
                   className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/15 focus:border-amber-500 focus:outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Phone</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Phone</label>
                 <input type="tel" placeholder="Optional" value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))}
                   className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/15 focus:border-amber-500 focus:outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/30 mb-2 block">Guests</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-white/30 mb-2 block">Guests</label>
                 <div className="flex gap-2">
                   {guestOptions.map(g => (
                     <button key={g} type="button" onClick={() => setForm(f => ({...f, guests: g}))}
@@ -116,8 +116,8 @@ export default function FormLayoutC() {
             { icon: "✓", text: "Cancel Anytime" },
           ].map(badge => (
             <div key={badge.text} className="flex items-center gap-1.5 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg">
-              <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[0.5rem] font-bold flex items-center justify-center">{badge.icon}</span>
-              <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30">{badge.text}</span>
+              <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-2xs font-bold flex items-center justify-center">{badge.icon}</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-white/30">{badge.text}</span>
             </div>
           ))}
         </div>

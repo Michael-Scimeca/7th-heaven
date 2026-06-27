@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name, email, phone, zip, radius } = validation.data;
+    const { name, email, phone, zip, radius, notifyAreaShows, notifyNextShow, showTypes } = validation.data;
 
     // ── 4. Optional: Verify hCaptcha token ──
     const captchaToken = (body as Record<string, unknown>)?.captchaToken;
@@ -69,6 +69,9 @@ export async function POST(request: Request) {
       zip,
       radius,
       notificationsEnabled: true,
+      notifyAreaShows: notifyAreaShows ?? true,
+      notifyNextShow: notifyNextShow ?? true,
+      preferredShowTypes: showTypes ?? [],
       emailConfirmed: false,
       createdAt: new Date().toISOString(),
       lastLogin: null,

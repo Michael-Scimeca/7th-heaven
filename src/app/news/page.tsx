@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Revalidate every 60 seconds — news doesn't change by the second
+export const revalidate = 60;
+
 const FALLBACK_NEWS = [
  {
  date: "January 2026",
@@ -51,7 +54,7 @@ export default async function NewsPage() {
  <div className="pt-[72px]">
  <section className="pt-24 pb-10 text-center bg-gradient-to-b from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)]">
  <div className="site-container">
- <span className="inline-block text-[0.75rem] font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Updates</span>
+ <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Updates</span>
  <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-tight tracking-tight">
  Latest <span className="gradient-text">News</span>
  </h1>
@@ -76,11 +79,11 @@ export default async function NewsPage() {
      <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0e] via-[#0a0a0e]/80 to-transparent" />
      
      <div className="relative z-10 p-10 md:p-16 lg:p-24 max-w-[800px]">
-      <span className="inline-block px-3 py-1 mb-6 text-[0.75rem] font-bold tracking-widest uppercase text-white bg-[var(--color-accent)] rounded-sm">Featured</span>
+      <span className="inline-block px-3 py-1 mb-6 text-sm font-bold tracking-widest uppercase text-white bg-[var(--color-accent)] rounded-sm">Featured</span>
       <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-tight mb-6 text-white text-balance drop-shadow-lg">{featured.title}</h2>
       <p className="text-[var(--color-text-secondary)] text-lg md:text-xl leading-relaxed mb-8 max-w-[90%]">{featured.content}</p>
       <div className="flex items-center justify-between">
-       <span className="text-[0.8rem] font-semibold text-white/50 tracking-widest uppercase">{featured.date}</span>
+       <span className="text-sm font-semibold text-white/50 tracking-widest uppercase">{featured.date}</span>
        <button className="text-[var(--color-accent)] font-bold text-sm tracking-widest uppercase hover:text-white transition-colors flex items-center gap-2">
         Read Story <span className="text-lg">→</span>
        </button>
@@ -96,13 +99,13 @@ export default async function NewsPage() {
     {newsItems.slice(1).map((item, i) => (
      <article key={i} className="flex flex-col p-8 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-xl transition-all duration-300 hover:border-[var(--color-border-hover)] hover:bg-[var(--color-bg-card-hover)] hover:-translate-y-1 hover:shadow-xl" id={`news-item-${i + 1}`}>
       <div className="mb-6 flex justify-between items-center">
-       <span className="inline-block px-3 py-1 text-[0.65rem] tracking-widest font-bold uppercase text-[var(--color-accent)] bg-[rgba(133,29,239,0.1)] border border-[rgba(133,29,239,0.2)] rounded-sm">{item.date}</span>
+       <span className="inline-block px-3 py-1 text-xs tracking-widest font-bold uppercase text-[var(--color-accent)] bg-[rgba(133,29,239,0.1)] border border-[rgba(133,29,239,0.2)] rounded-sm">{item.date}</span>
       </div>
       <h3 className="font-[var(--font-heading)] text-xl font-bold mb-4 leading-tight text-white/90 group-hover:text-white">{item.title}</h3>
-      <p className="text-[var(--color-text-secondary)] text-[0.9rem] leading-relaxed flex-grow line-clamp-4">{item.content}</p>
+      <p className="text-[var(--color-text-secondary)] text-base leading-relaxed flex-grow line-clamp-4">{item.content}</p>
       
       <div className="mt-8 pt-6 border-t border-white/5">
-       <button className="text-white/40 hover:text-[var(--color-accent)] transition-colors text-[0.75rem] font-bold uppercase tracking-widest flex items-center gap-2">
+       <button className="text-white/40 hover:text-[var(--color-accent)] transition-colors text-sm font-bold uppercase tracking-widest flex items-center gap-2">
         Read More <span className="text-lg">→</span>
        </button>
       </div>

@@ -109,23 +109,23 @@ export default function PlannerClient() {
             <div className="p-8">
               <div className="text-center mb-6">
                 <h2 className="text-xl font-black">Planner <span className="text-purple-400">Portal</span></h2>
-                <p className="text-[0.7rem] text-white/30 mt-1">Sign in to manage your bookings, or book a show below</p>
+                <p className="text-sm text-white/30 mt-1">Sign in to manage your bookings, or book a show below</p>
               </div>
               <form onSubmit={handleLogin} className="flex flex-col gap-3 max-w-sm mx-auto">
-                {mode === 'signup' && <div><label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Full Name</label><input type="text" value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>}
-                <div><label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="planner@company.com" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>
-                <div><label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>
+                {mode === 'signup' && <div><label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Full Name</label><input type="text" value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>}
+                <div><label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="planner@company.com" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>
+                <div><label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>
                 {loginErr === 'CONFIRMATION_REQUIRED' ? (
                   <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-center">
                     <span className="text-xl block mb-2">📧</span>
-                    <p className="text-[0.7rem] font-bold text-emerald-400 uppercase tracking-widest mb-1">Check Your Email</p>
-                    <p className="text-[0.65rem] text-white/40 leading-relaxed">We&apos;ve sent a verification link to <strong className="text-white">{email}</strong>. Please confirm to access your dashboard.</p>
+                    <p className="text-sm font-bold text-emerald-400 uppercase tracking-widest mb-1">Check Your Email</p>
+                    <p className="text-xs text-white/40 leading-relaxed">We&apos;ve sent a verification link to <strong className="text-white">{email}</strong>. Please confirm to access your dashboard.</p>
                   </div>
                 ) : (
                   <>
                   {loginErr && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 rounded-lg border border-rose-400/20">{loginErr}</p>}
                   <button type="submit" disabled={loginLoading} className="w-full py-3 bg-purple-600 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 disabled:opacity-50 cursor-pointer">{loginLoading ? 'Authenticating...' : mode === 'signup' ? 'Create Account' : 'Sign In'}</button>
-                  <button type="button" onClick={()=>{setMode(m=>m==='login'?'signup':'login');setLoginErr('');}} className="text-[0.65rem] text-purple-400/60 hover:text-purple-400 uppercase tracking-[0.15em] font-bold cursor-pointer text-center">{mode==='login'?'Need an account? Create one':'Already have one? Sign in'}</button>
+                  <button type="button" onClick={()=>{setMode(m=>m==='login'?'signup':'login');setLoginErr('');}} className="text-xs text-purple-400/60 hover:text-purple-400 uppercase tracking-[0.15em] font-bold cursor-pointer text-center">{mode==='login'?'Need an account? Create one':'Already have one? Sign in'}</button>
                   </>
                 )}
               </form>
@@ -158,7 +158,7 @@ export default function PlannerClient() {
               <div key={i} className="bg-[#0a0a12] border border-white/5 rounded-2xl p-5 text-center">
                 <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black text-purple-400">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
-                <p className="text-[0.65rem] text-white/30 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-white/30 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -208,7 +208,7 @@ export default function PlannerClient() {
               <div key={i} className="bg-[#0a0a12] border border-white/5 rounded-2xl p-5 text-center">
                 <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black text-purple-400">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
-                <p className="text-[0.65rem] text-white/30 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-white/30 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -260,11 +260,11 @@ export default function PlannerClient() {
                 </div>
               </div>
               <div className="mt-10 pt-6 border-t border-white/5">
-                <p className="text-[0.6rem] uppercase tracking-widest text-white/20 font-bold mb-2">Booking ID</p>
+                <p className="text-xs uppercase tracking-widest text-white/20 font-bold mb-2">Booking ID</p>
                 <p className="text-sm font-mono text-purple-400">{booking.id}</p>
               </div>
               <div className="mt-6">
-                <p className="text-[0.6rem] uppercase tracking-widest text-white/20 font-bold mb-2">Planner</p>
+                <p className="text-xs uppercase tracking-widest text-white/20 font-bold mb-2">Planner</p>
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-[10px] font-bold">{initials}</div>
                   <span className="text-xs text-white/60">{member?.name || 'Planner'}</span>
@@ -281,8 +281,8 @@ export default function PlannerClient() {
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <span className={`text-[0.6rem] font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${statusColor}`}>{statusLabel}</span>
-                    <span className="text-[0.6rem] text-white/20 font-mono">{booking.id}</span>
+                    <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${statusColor}`}>{statusLabel}</span>
+                    <span className="text-xs text-white/20 font-mono">{booking.id}</span>
                   </div>
                   <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all">+ New Booking</Link>
                 </div>
@@ -299,7 +299,7 @@ export default function PlannerClient() {
                     { label: "City", value: `${booking.venueCity}, ${booking.venueState}` },
                   ].map((item, i) => (
                     <div key={i}>
-                      <p className="text-[0.55rem] uppercase tracking-widest text-white/25 font-bold mb-1">{item.label}</p>
+                      <p className="text-xs uppercase tracking-widest text-white/25 font-bold mb-1">{item.label}</p>
                       <p className="text-sm font-bold text-white">{item.value}</p>
                     </div>
                   ))}
@@ -313,12 +313,12 @@ export default function PlannerClient() {
               <div className="bg-[#0a0a12] border border-white/5 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold">Event Notes</h3></div>
-                  {notesSaved && <span className="text-[0.55rem] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">✓ Saved</span>}
+                  {notesSaved && <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">✓ Saved</span>}
                 </div>
                 <textarea value={notes} onChange={e=>{setNotes(e.target.value);setNotesSaved(false);}} placeholder="Parking info, green room needs, AV contact..." rows={5}
                   className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 rounded-xl text-xs text-white placeholder:text-white/15 outline-none focus:border-purple-500/50 resize-none transition-colors" />
                 <button onClick={async()=>{setNotesSaving(true);try{await fetch('/api/booking',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({bookingId:booking.id,notes})});setNotesSaved(true);setTimeout(()=>setNotesSaved(false),3000);}catch{}setNotesSaving(false);}} disabled={notesSaving}
-                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-purple-400 hover:text-white text-[0.6rem] font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50">
+                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}
                 </button>
               </div>
@@ -327,7 +327,7 @@ export default function PlannerClient() {
               <div className="bg-[#0a0a12] border border-white/5 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold">Readiness</h3></div>
-                  <span className={`text-[0.6rem] font-bold ${pct===100?'text-emerald-400':'text-white/40'}`}>{done}/{checklist.length}</span>
+                  <span className={`text-xs font-bold ${pct===100?'text-emerald-400':'text-white/40'}`}>{done}/{checklist.length}</span>
                 </div>
                 <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4">
                   <div className={`h-full rounded-full transition-all ${pct===100?'bg-emerald-500':pct>=50?'bg-amber-500':'bg-rose-500'}`} style={{width:`${pct}%`}} />
@@ -345,7 +345,7 @@ export default function PlannerClient() {
                     <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done?'bg-emerald-500/5 border-emerald-500/10':'bg-white/[0.01] border-white/5'}`}>
                       <span className="text-xs shrink-0">{item.done ? '✅' : '⬜'}</span>
                       <div className="flex-1 min-w-0">
-                        <span className={`text-[0.65rem] font-semibold ${item.done?'text-white/60':'text-white/30'}`}>{item.label}</span>
+                        <span className={`text-xs font-semibold ${item.done?'text-white/60':'text-white/30'}`}>{item.label}</span>
                         {isEditing ? (
                           <div className="flex gap-1.5 mt-1">
                             <input
@@ -353,20 +353,20 @@ export default function PlannerClient() {
                               defaultValue={item.val || ''}
                               autoFocus
                               onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({...booking, [fieldKey]: v} as Booking); setEditField(null); } }}}
-                              className="flex-1 bg-[#050508] border border-white/10 px-2 py-1 rounded text-[0.7rem] text-white focus:border-purple-500 outline-none"
+                              className="flex-1 bg-[#050508] border border-white/10 px-2 py-1 rounded text-sm text-white focus:border-purple-500 outline-none"
                             />
-                            <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({...booking, [fieldKey]: input.value} as Booking); setEditField(null); } }} className="text-[0.5rem] text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
-                            <button type="button" onClick={() => setEditField(null)} className="text-[0.5rem] text-white/30 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
+                            <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({...booking, [fieldKey]: input.value} as Booking); setEditField(null); } }} className="text-2xs text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
+                            <button type="button" onClick={() => setEditField(null)} className="text-2xs text-white/30 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
                           </div>
                         ) : (
-                          item.done && item.val && <p className="text-[0.55rem] text-emerald-400/60 truncate">{item.val}</p>
+                          item.done && item.val && <p className="text-xs text-emerald-400/60 truncate">{item.val}</p>
                         )}
                       </div>
                       {!isEditing && (
                         item.done ? (
-                          <button type="button" onClick={() => setEditField(i)} className="text-[0.45rem] font-bold text-white/20 hover:text-purple-400 uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
+                          <button type="button" onClick={() => setEditField(i)} className="text-2xs font-bold text-white/20 hover:text-purple-400 uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
                         ) : (
-                          <button type="button" onClick={() => setEditField(i)} className="text-[0.45rem] font-bold text-amber-400/50 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/15 shrink-0 hover:bg-amber-500/20 cursor-pointer transition-all">NEEDED</button>
+                          <button type="button" onClick={() => setEditField(i)} className="text-2xs font-bold text-amber-400/50 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/15 shrink-0 hover:bg-amber-500/20 cursor-pointer transition-all">NEEDED</button>
                         )
                       )}
                     </div>
@@ -374,7 +374,7 @@ export default function PlannerClient() {
                   })}
                   {done < checklist.length && (
                     <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}`}
-                      className="mt-2 text-center py-2 bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/15 text-amber-400/70 hover:text-amber-400 text-[0.6rem] font-bold uppercase tracking-wider rounded-lg transition-all">
+                      className="mt-2 text-center py-2 bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/15 text-amber-400/70 hover:text-amber-400 text-xs font-bold uppercase tracking-wider rounded-lg transition-all">
                       Fill Missing Details →
                     </Link>
                   )}
@@ -411,7 +411,7 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-base">📜</span>
                   <h3 className="text-sm font-bold">Past Events</h3>
-                  <span className="text-[0.55rem] font-bold text-white/25 bg-white/5 px-2 py-0.5 rounded">{pastBookings.length} events</span>
+                  <span className="text-xs font-bold text-white/25 bg-white/5 px-2 py-0.5 rounded">{pastBookings.length} events</span>
                 </div>
                 <div className="flex flex-col gap-3">
                   {pastBookings.map((pb, i) => {
@@ -425,13 +425,13 @@ export default function PlannerClient() {
                         <div className={`w-2.5 h-2.5 rounded-full ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-bold text-white/80 truncate">{pb.eventName}</h4>
-                          <div className="flex items-center gap-3 text-[0.6rem] text-white/30 mt-0.5">
+                          <div className="flex items-center gap-3 text-xs text-white/30 mt-0.5">
                             <span>📅 {pb.date}</span><span>📍 {pb.venueName}</span><span className="font-mono">{pb.id}</span>
                           </div>
                         </div>
-                        <span className={`text-[0.5rem] font-bold uppercase tracking-widest ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
+                        <span className={`text-2xs font-bold uppercase tracking-widest ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
                         <Link href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
-                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-purple-400 hover:text-white text-[0.6rem] font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer shrink-0">
+                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer shrink-0">
                           Rebook →
                         </Link>
                       </div>

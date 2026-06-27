@@ -1,0 +1,69 @@
+import { NextResponse } from 'next/server';
+import { createClient } from '@/utils/supabase/server';
+
+export async function GET(request: Request) {
+  const { searchParams, origin } = new URL(request.url);
+  const code = searchParams.get('code');
+  const next = searchParams.get('next') ?? '/fans';
+
+  if (code) {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    
+    if (!error && data?.user) {
+      const user = data.user;
+      
+      // Check if profile exists
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      let resolvedUsername = profile?.username;
+
+      if (!profile) {
+        // Profile is missing, let's insert it
+        const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
+        const email = user.email || '';
+        
+        // Auto-role assignment by email
+        const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
+        const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
+        const plannerEmails = ["planner@example.com", "chicago_manager@example.com", "planner@test.com"];
+        
+        let role = 'fan';
+        if (crewEmails.includes(email.toLowerCase())) role = 'crew';
+        else if (merchEmails.includes(email.toLowerCase())) role = 'merch';
+        else if (plannerEmails.includes(email.toLowerCase())) role = 'event_planner';
+        else if (email.toLowerCase() === 'mikeyscimeca@gmail.com') role = 'admin';
+
+        // Base username suggestions
+        const baseUsername = user.user_metadata?.username || fullName.trim().toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 20);
+        resolvedUsername = baseUsername || `user_${Math.floor(Math.random() * 10000)}`;
+
+        await supabase.from('profiles').insert({
+          id: user.id,
+          email: email.toLowerCase(),
+          full_name: fullName,
+          role: role,
+          username: resolvedUsername,
+          avatar_url: user.user_metadata?.avatar_url || null,
+          date_of_birth: new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString().split('T')[0], // default adult DOB
+          points: 0,
+          tier: 'Bronze',
+          shows_attended: 0,
+          notifications_enabled: false,
+          notification_radius: 25
+        });
+      }
+      
+      // Redirect to next or their specific profile username
+      const finalRedirect = resolvedUsername ? `${origin}/fans/${resolvedUsername}` : `${origin}${next}`;
+      return NextResponse.redirect(finalRedirect);
+    }
+  }
+
+  // Return the user to home page on error
+  return NextResponse.redirect(`${origin}/`);
+}

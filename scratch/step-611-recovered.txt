@@ -1,0 +1,61 @@
+"  // ── Collapsible Sections (persisted via localStorage & Supabase) ──
+  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() => {
+    if (typeof window === 'undefined') return {};
+    try {
+      const saved = localStorage.getItem('7h_admin_collapsed');
+      return saved ? JSON.parse(saved) : {};
+    } catch { return {}; }
+  });
+
+  const toggleSection = (key: string) => {
+    setCollapsedSections(prev => {
+      const next = { ...prev, [key]: !prev[key] };
+      try { 
+        localStorage.setItem('7h_admin_collapsed', JSON.stringify(next));
+        saveLayoutToSupabase(sectionOrder, next);
+      } catch {}
+      return next;
+    });
+  };
+
+  const isSectionOpen = (key: string) => !collapsedSections[key];
+  // ── Drag & Drop Sortable Sections State & Handlers ──
+  const DEFAULT_SECTION_ORDER = [
+    'shopify',
+    'toursync',
+    'bookings',
+    'planners',
+    'photomod',
+    'memorymod',
+    'referral',
+    'livealerts',
+    'smsblast',
+    'crewsms',
+    'newsletter',
+    'registry',
+    'crewcreation'
+  ];
+
+  const [sectionOrder, setSectionOrder] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return DEFAULT_SECTION_ORDER;
+    try {
+      const saved = localStorage.getItem('7h_admin_section_order');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const uniqueList = Array.from(new Set([...parsed, ...DEFAULT_SECTION_ORDER]));
+        return uniqueList.filter(item => DEFAULT_SECTION_ORDER.includes(item));
+      }
+      return DEFAULT_SECTION_ORDER;
+    } catch {
+      return DEFAULT_SECTION_ORDER;
+    }
+  });
+
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+
+  // Helper to save layout to Supabase User Metadata
+  const saveLayoutToSupabase = async (order: string[], collapsed: Record<string, boolean>) => {
+    if (!isLoggedIn) return;
+    try {
+      const { createClient: createSupabaseClient } = await import("@/utils/supabase/client");\
+<truncated 2428 bytes>

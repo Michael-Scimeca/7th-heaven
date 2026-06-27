@@ -3,8 +3,9 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { CalendarPicker } from "@/components/CalendarPicker";
+import { CalendarPicker, BookingSlot } from "@/components/CalendarPicker";
 import { useMember } from "@/context/MemberContext";
+import { formatPhoneDisplay } from "@/lib/validation";
 
 const eventTypes = [
   { id: "full_band", label: "Full Band", icon: "🎸", desc: "High energy, full 5-piece concert setup" },
@@ -45,11 +46,11 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
   return (
     <div className="relative">
-      <label className="text-[0.875rem] font-bold uppercase tracking-widest text-white/40 block mb-1.5">{label}</label>
+      <label className="text-base font-bold uppercase tracking-widest text-white/40 block mb-1.5">{label}</label>
       <button
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`w-full bg-white/[0.03] border ${value ? 'border-[var(--color-accent)]/40' : 'border-white/10'} px-4 py-3 rounded-xl text-[1.05rem] text-left transition-all hover:border-[var(--color-accent)]/50 cursor-pointer flex items-center justify-between ${value ? 'text-white' : 'text-white/30'}`}
+        className={`w-full bg-white/[0.03] border ${value ? 'border-[var(--color-accent)]/40' : 'border-white/10'} px-4 py-3 rounded-xl text-lg text-left transition-all hover:border-[var(--color-accent)]/50 cursor-pointer flex items-center justify-between ${value ? 'text-white' : 'text-white/30'}`}
       >
         {value ? new Date(value + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Pick a date…'}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-40"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -64,9 +65,9 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
           {showMonthGrid ? (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-white/40 hover:text-white text-[1rem] font-bold cursor-pointer">← {year - 1}</button>
+                <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-white/40 hover:text-white text-base font-bold cursor-pointer">← {year - 1}</button>
                 <span className="text-xs font-bold text-white">{year}</span>
-                <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-white/40 hover:text-white text-[1rem] font-bold cursor-pointer">{year + 1} →</button>
+                <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-white/40 hover:text-white text-base font-bold cursor-pointer">{year + 1} →</button>
               </div>
               <div className="grid grid-cols-3 gap-1.5">
                 {mNames.map((m, i) => {
@@ -74,7 +75,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                   const isPast = new Date(year, i + 1, 0) < new Date();
                   return (
                     <button key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
-                      className={`py-2 rounded-lg text-[1rem] font-bold uppercase tracking-wider transition-all ${isPast ? 'text-white/10 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-white/50 hover:bg-white/10 cursor-pointer'}`}
+                      className={`py-2 rounded-lg text-base font-bold uppercase tracking-wider transition-all ${isPast ? 'text-white/10 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-white/50 hover:bg-white/10 cursor-pointer'}`}
                     >{m}</button>
                   );
                 })}
@@ -83,7 +84,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
           ) : (
             <>
           <div className="grid grid-cols-7 mb-1">
-            {['S','M','T','W','T','F','S'].map((d,i) => <div key={i} className="text-center text-[1.05rem] font-bold text-white/25 uppercase">{d}</div>)}
+            {['S','M','T','W','T','F','S'].map((d,i) => <div key={i} className="text-center text-lg font-bold text-white/25 uppercase">{d}</div>)}
           </div>
           <div className="grid grid-cols-7 gap-1">
             {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
@@ -104,7 +105,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
             })}
           </div>
           {value && (
-            <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-[1rem] text-rose-400/60 hover:text-rose-400 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
+            <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-400/60 hover:text-rose-400 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
           )}
           </>
           )}
@@ -114,8 +115,52 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
   );
 }
 
+const InputField = ({ label, required, ...props }: { label: string; required?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) => (
+  <div>
+    <label className="text-base font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
+    <input {...props} required={required}
+      className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
+    />
+  </div>
+);
+
+const SelectField = ({ label, options, required, ...props }: { label: string; options: string[]; required?: boolean } & React.SelectHTMLAttributes<HTMLSelectElement>) => (
+  <div>
+    <label className="text-base font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
+    <select {...props} required={required}
+      className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-lg text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
+    >
+      <option value="" className="bg-[#0a0a0f]">Select</option>
+      {options.map(o => <option key={o} value={o} className="bg-[#0a0a0f]">{o}</option>)}
+    </select>
+  </div>
+);
+
+const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
+  <div className="mb-2">
+    <label className="text-base font-bold uppercase tracking-[0.15em] text-white/30 block mb-3">{label}{required && " *"}</label>
+    <div className="flex flex-wrap gap-2">
+      {options.map(o => (
+        <button
+          key={o}
+          type="button"
+          onClick={() => onChange({ target: { name, value: o } } as any)}
+          className={`py-2 px-4 rounded-xl text-lg font-bold tracking-wide transition-all border
+            ${value === o 
+              ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_15px_rgba(133,29,239,0.3)]" 
+              : "bg-white/[0.03] border-white/10 text-white/50 hover:bg-white/10 hover:border-white/30 hover:text-white"
+            }
+          `}
+        >
+          {o}
+        </button>
+      ))}
+    </div>
+  </div>
+);
+
 function BookPageContent() {
-  const { member, isLoggedIn, openModal, signup } = useMember();
+  const { member, isLoggedIn, openModal, signup, login } = useMember();
   const searchParams = useSearchParams();
   const fromParam = searchParams.get("from");
   const isFromPlanner = fromParam === "planner" || fromParam === "rebook";
@@ -152,14 +197,31 @@ function BookPageContent() {
   const [creatingAccount, setCreatingAccount] = useState(false);
   const [accountEmail, setAccountEmail] = useState("");
   const [editingEmail, setEditingEmail] = useState(false);
+  const [pinCode, setPinCode] = useState("");
+  const [pinSent, setPinSent] = useState(false);
+  const [pinError, setPinError] = useState("");
+  const [pinLoading, setPinLoading] = useState(false);
   const [addOns, setAddOns] = useState<string[]>([]);
 
   // Blocked dates from confirmed bookings
   const [blockedDates, setBlockedDates] = useState<string[]>([]);
 
+  // Selected slots for booking (multiple date/time slot support)
+  const [bookingSlots, setBookingSlots] = useState<BookingSlot[]>([]);
+  const [expandedMetadata, setExpandedMetadata] = useState<Record<string, boolean>>({});
+  const [hasSavedForm, setHasSavedForm] = useState(false);
+
   // Alternate dates (multi-date hold)
   const [altDate1, setAltDate1] = useState("");
   const [altDate2, setAltDate2] = useState("");
+
+  // Synchronize first booking slot date to formData.eventDate for legacy/display compatibility
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      eventDate: bookingSlots[0]?.date || "",
+    }));
+  }, [bookingSlots]);
 
   // Fetch blocked dates on mount
   useEffect(() => {
@@ -167,6 +229,13 @@ function BookPageContent() {
       .then(r => r.json())
       .then(d => setBlockedDates(d.blockedDates || []))
       .catch(() => {});
+
+    try {
+      const saved = localStorage.getItem('7h_planner_last_form');
+      if (saved) {
+        setHasSavedForm(true);
+      }
+    } catch {}
   }, []);
 
   // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
@@ -186,6 +255,24 @@ function BookPageContent() {
             endTime: '',
           }));
           if (parsed.eventType) setSelectedType(parsed.eventType);
+          if (parsed.bookingSlots) setBookingSlots(parsed.bookingSlots);
+          else if (parsed.eventDates) {
+            setBookingSlots(parsed.eventDates.map((d: string) => ({
+              id: Math.random().toString(36).substring(2, 9),
+              date: d,
+              startTime: parsed.startTime || '7:00 PM',
+              endTime: parsed.endTime || '10:00 PM',
+              eventType: parsed.eventType || 'full_band'
+            })));
+          } else if (parsed.eventDate) {
+            setBookingSlots([{
+              id: Math.random().toString(36).substring(2, 9),
+              date: parsed.eventDate,
+              startTime: parsed.startTime || '7:00 PM',
+              endTime: parsed.endTime || '10:00 PM',
+              eventType: parsed.eventType || 'full_band'
+            }]);
+          }
         }
       } catch {}
 
@@ -201,6 +288,26 @@ function BookPageContent() {
       });
       const eventType = searchParams.get("eventType");
       if (eventType) setSelectedType(eventType);
+
+      const dateParam = searchParams.get("eventDate");
+      const datesParam = searchParams.get("eventDates");
+      if (datesParam) {
+        setBookingSlots(datesParam.split(",").map((d: string) => ({
+          id: Math.random().toString(36).substring(2, 9),
+          date: d,
+          startTime: searchParams.get("startTime") || "7:00 PM",
+          endTime: searchParams.get("endTime") || "10:00 PM",
+          eventType: searchParams.get("eventType") || "full_band",
+        })));
+      } else if (dateParam) {
+        setBookingSlots([{
+          id: Math.random().toString(36).substring(2, 9),
+          date: dateParam,
+          startTime: searchParams.get("startTime") || "7:00 PM",
+          endTime: searchParams.get("endTime") || "10:00 PM",
+          eventType: searchParams.get("eventType") || "full_band",
+        }]);
+      }
     }
   }, [isFromPlanner, searchParams]);
 
@@ -216,13 +323,110 @@ function BookPageContent() {
     }
   }, [member, isFromPlanner]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    // Clear validation errors when user edits
-    if (validationErrors.length > 0) setValidationErrors([]);
+  const handleLoadLastForm = () => {
+    try {
+      const saved = localStorage.getItem('7h_planner_last_form');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setFormData(prev => ({
+          ...prev,
+          name: parsed.name || prev.name,
+          email: parsed.email || prev.email,
+          phone: parsed.phone || prev.phone,
+          organization: parsed.organization || prev.organization,
+          venueName: parsed.venueName || prev.venueName,
+          venueCity: parsed.venueCity || prev.venueCity,
+          venueState: parsed.venueState || prev.venueState,
+          indoorOutdoor: parsed.indoorOutdoor || prev.indoorOutdoor,
+          soundSystem: parsed.soundSystem || prev.soundSystem,
+          stageAvailable: parsed.stageAvailable || prev.stageAvailable,
+          backlineProvided: parsed.backlineProvided || prev.backlineProvided,
+          expectedAttendance: parsed.expectedAttendance || prev.expectedAttendance,
+          details: parsed.details || prev.details,
+        }));
+        if (parsed.eventType) {
+          setSelectedType(parsed.eventType);
+        }
+        if (parsed.addOns) {
+          setAddOns(parsed.addOns);
+        }
+      }
+    } catch {}
+  };
+
+  const handleSendPin = async () => {
+    if (!accountEmail) {
+      setPinError("Email address is required.");
+      return;
+    }
+    setPinLoading(true);
+    setPinError("");
+    try {
+      const res = await fetch("/api/auth/send-pin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: accountEmail }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setPinError(data.error || "Failed to send verification code.");
+      } else {
+        setPinSent(true);
+      }
+    } catch (err) {
+      setPinError("Failed to send verification code. Please try again.");
+    } finally {
+      setPinLoading(false);
+    }
+  };
+
+  const handleVerifyPin = async () => {
+    if (!pinCode || pinCode.length !== 6) {
+      setPinError("Please enter a 6-digit verification code.");
+      return;
+    }
+    setPinLoading(true);
+    setPinError("");
+    try {
+      const res = await fetch("/api/auth/verify-pin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: accountEmail,
+          pin: pinCode,
+          name: formData.name,
+          password: accountPassword,
+          phone: formData.phone,
+          wantNotifications: true,
+          wantNewsletter: true,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setPinError(data.error || "Verification failed.");
+      } else {
+        const loginOk = await login(accountEmail, accountPassword);
+        if (loginOk) {
+          window.location.href = "/planner";
+        } else {
+          setPinError("Account created, but auto-login failed. Please sign in manually.");
+        }
+      }
+    } catch (err) {
+      setPinError("Failed to verify code. Please try again.");
+    } finally {
+      setPinLoading(false);
+    }
   };
 
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const value = e.target.type === 'tel' ? formatPhoneDisplay(e.target.value) : e.target.value;
+    setFormData(prev => ({ ...prev, [e.target.name]: value }));
+    // Clear validation errors when user edits
+    if (validationErrors.length > 0) setValidationErrors([]);
+  };
 
   const validateBooking = (): string[] => {
     const errors: string[] = [];
@@ -231,7 +435,7 @@ function BookPageContent() {
     if (!selectedType) errors.push("Please select an event type.");
     if (!formData.name.trim()) errors.push("Full name is required.");
     if (!formData.email.trim()) errors.push("Email is required.");
-    if (!formData.eventDate) errors.push("Please select an event date.");
+    if (bookingSlots.length === 0) errors.push("Please select at least one show date on the calendar.");
     if (!formData.startTime) errors.push("Start time is required.");
     if (!formData.venueName.trim()) errors.push("Venue name is required.");
     if (!formData.venueCity.trim()) errors.push("Venue city is required.");
@@ -246,36 +450,33 @@ function BookPageContent() {
       errors.push("Phone number must be at least 10 digits.");
     }
 
-    // Date validation — must be at least 7 days out
-    if (formData.eventDate) {
-      const eventDate = new Date(formData.eventDate + 'T12:00:00');
+    // Date & Time validation for each slot
+    bookingSlots.forEach((slot, idx) => {
+      const eventDate = new Date(slot.date + 'T12:00:00');
       const now = new Date();
       const daysOut = Math.ceil((eventDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
       
       if (daysOut < 0) {
-        errors.push("Cannot book a date in the past.");
+        errors.push(`Show #${idx + 1} (${slot.date}): Cannot book a date in the past.`);
       } else if (daysOut > 365) {
-        errors.push("Bookings cannot be made more than 1 year in advance.");
+        errors.push(`Show #${idx + 1} (${slot.date}): Bookings cannot be made more than 1 year in advance.`);
       }
-    }
 
-    // Time validation — end time after start time (if both provided)
-    if (formData.startTime && formData.endTime) {
-      const parseTime = (t: string) => {
-        const match = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
-        if (!match) return 0;
-        let h = parseInt(match[1]);
-        const m = parseInt(match[2]);
-        if (match[3].toUpperCase() === 'PM' && h !== 12) h += 12;
-        if (match[3].toUpperCase() === 'AM' && h === 12) h = 0;
-        return h * 60 + m;
-      };
-      if (parseTime(formData.endTime) <= parseTime(formData.startTime)) {
-        errors.push("End time must be after start time.");
+      if (slot.startTime && slot.endTime) {
+        const parseTime = (t: string) => {
+          const match = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
+          if (!match) return 0;
+          let h = parseInt(match[1]);
+          const m = parseInt(match[2]);
+          if (match[3].toUpperCase() === 'PM' && h !== 12) h += 12;
+          if (match[3].toUpperCase() === 'AM' && h === 12) h = 0;
+          return h * 60 + m;
+        };
+        if (parseTime(slot.endTime) <= parseTime(slot.startTime)) {
+          errors.push(`Show #${idx + 1} (${slot.date}): End time must be after start time.`);
+        }
       }
-    }
-
-
+    });
 
     // Rate limiting — max 3 submissions per hour
     try {
@@ -307,19 +508,34 @@ function BookPageContent() {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, eventType: selectedType, altDate1, altDate2, addOns, website: formData.website }),
+        body: JSON.stringify({ 
+          ...formData, 
+          bookingSlots,
+          eventDates: bookingSlots.map(s => s.date),
+          eventDate: bookingSlots[0]?.date || "",
+          eventType: selectedType, 
+          altDate1, 
+          altDate2, 
+          addOns, 
+          website: formData.website 
+        }),
       });
-      if (res.ok) {
+      const result = await res.json();
 
-
+      if (res.ok && result.success) {
         // Save full form data for rebook auto-fill
-        localStorage.setItem('7h_planner_last_form', JSON.stringify({ ...formData, eventType: selectedType }));
+        localStorage.setItem('7h_planner_last_form', JSON.stringify({ 
+          ...formData, 
+          eventType: selectedType,
+          bookingSlots,
+          eventDates: bookingSlots.map(s => s.date),
+          eventDate: bookingSlots[0]?.date || ""
+        }));
 
         // Track submission timestamp for rate limiting
         try {
           const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps') || '[]');
           timestamps.push(Date.now());
-          // Keep only last hour
           const oneHourAgo = Date.now() - 60 * 60 * 1000;
           localStorage.setItem('7h_booking_timestamps', JSON.stringify(timestamps.filter(t => t > oneHourAgo)));
         } catch {}
@@ -333,58 +549,31 @@ function BookPageContent() {
           }
         }
 
+        // Stripe mode: redirect to Stripe Checkout
+        if (result.mode === "stripe" && result.url) {
+          window.location.href = result.url;
+          return;
+        }
+
+        // Free mode (no Stripe configured): redirect to success page
+        if (result.redirectUrl) {
+          window.location.href = result.redirectUrl;
+          return;
+        }
+
         setSubmitted(true);
+      } else {
+        setValidationErrors([result.error || "Something went wrong. Please try again."]);
       }
     } catch (err) {
       console.error("Booking error:", err);
+      setValidationErrors(["Network error. Please try again."]);
     } finally {
       setSubmitting(false);
     }
   };
 
-  const InputField = ({ label, required, ...props }: { label: string; required?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) => (
-    <div>
-      <label className="text-[1rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
-      <input {...props} required={required}
-        className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-[1.05rem] text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
-      />
-    </div>
-  );
 
-  const SelectField = ({ label, options, required, ...props }: { label: string; options: string[]; required?: boolean } & React.SelectHTMLAttributes<HTMLSelectElement>) => (
-    <div>
-      <label className="text-[1rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
-      <select {...props} required={required}
-        className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-[1.05rem] text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
-      >
-        <option value="" className="bg-[#0a0a0f]">Select</option>
-        {options.map(o => <option key={o} value={o} className="bg-[#0a0a0f]">{o}</option>)}
-      </select>
-    </div>
-  );
-
-  const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
-    <div className="mb-2">
-      <label className="text-[1rem] font-bold uppercase tracking-[0.15em] text-white/30 block mb-3">{label}{required && " *"}</label>
-      <div className="flex flex-wrap gap-2">
-        {options.map(o => (
-          <button
-            key={o}
-            type="button"
-            onClick={() => onChange({ target: { name, value: o } } as any)}
-            className={`py-2 px-4 rounded-xl text-[1.05rem] font-bold tracking-wide transition-all border
-              ${value === o 
-                ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_15px_rgba(133,29,239,0.3)]" 
-                : "bg-white/[0.03] border-white/10 text-white/50 hover:bg-white/10 hover:border-white/30 hover:text-white"
-              }
-            `}
-          >
-            {o}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
 
   const [setlistSongs, setSetlistSongs] = useState<string[]>(['', '', '']);
   const [setlistNotes, setSetlistNotes] = useState('');
@@ -402,20 +591,20 @@ function BookPageContent() {
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
           <h1 className="text-3xl font-extrabold text-white mb-3 tracking-tight">Request Received</h1>
-          <p className="text-white/50 text-[1.05rem] leading-relaxed mb-8">
+          <p className="text-white/50 text-lg leading-relaxed mb-8">
             Thank you for your interest in booking 7th Heaven! We&apos;ve sent a confirmation email to <strong className="text-white">{formData.email}</strong>. Please check your inbox to verify your request.
-            <br /><span className="text-[1rem] text-emerald-400/70 mt-2 inline-block">✓ Notification sent to band management</span>
+            <br /><span className="text-base text-emerald-400/70 mt-2 inline-block">✓ Notification sent to band management</span>
           </p>
 
           <div className="flex flex-col gap-3 w-full">
-            <a href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-[0.875rem] py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] hover:shadow-[0_0_30px_rgba(133,29,239,0.5)]">
+            <a href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] hover:shadow-[0_0_30px_rgba(133,29,239,0.5)]">
               Book Another Show
             </a>
             {!isLoggedIn && (
               creatingAccount ? (
-                <div className="bg-white/[0.03] border border-[var(--color-accent)]/30 rounded-xl p-5">
-                  <div className="mb-3">
-                    <span className="text-[0.875rem] text-white/30 uppercase tracking-widest font-bold block mb-1.5">Account Email</span>
+                <div className="bg-white/[0.03] border border-[var(--color-accent)]/30 rounded-xl p-5 text-left">
+                  <div className="mb-4">
+                    <span className="text-base text-white/30 uppercase tracking-widest font-bold block mb-1.5">Account Email</span>
                     {editingEmail ? (
                       <div className="flex gap-2">
                         <input
@@ -423,62 +612,129 @@ function BookPageContent() {
                           value={accountEmail}
                           onChange={e => setAccountEmail(e.target.value)}
                           autoFocus
-                          className="flex-1 bg-[#050508] border border-white/10 px-4 py-2.5 rounded-lg text-[1.05rem] text-white focus:border-[var(--color-accent)] outline-none transition-all"
+                          disabled={pinSent || pinLoading}
+                          className="flex-1 bg-[#050508] border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
                         />
-                        <button type="button" onClick={() => setEditingEmail(false)} className="text-[1rem] text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
+                        <button type="button" onClick={() => setEditingEmail(false)} className="text-base text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
-                        <span className="text-[1.05rem] text-white font-bold">{accountEmail}</span>
-                        <button type="button" onClick={() => setEditingEmail(true)} className="text-[0.875rem] text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold cursor-pointer transition-colors">Edit</button>
+                        <span className="text-lg text-white font-bold">{accountEmail}</span>
+                        {!pinSent && (
+                          <button type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold cursor-pointer transition-colors">Edit</button>
+                        )}
                       </div>
                     )}
                   </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="password"
-                      placeholder="Set a password (6+ chars)"
-                      value={accountPassword}
-                      onChange={e => setAccountPassword(e.target.value)}
-                      className="flex-1 bg-[#050508] border border-white/10 px-4 py-3 rounded-xl text-[1.05rem] text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all"
-                    />
-                    <button
-                      type="button"
-                      disabled={!accountPassword || accountPassword.length < 6 || !accountEmail}
-                      onClick={async () => {
-                        const result = await signup(formData.name, accountEmail, accountPassword, formData.phone);
-                        if (result.success) {
-                          if (result.confirmationRequired) {
-                            alert(`Account created! Please check ${accountEmail} to verify your account before logging in.`);
-                            window.location.href = '/';
-                          } else {
-                            window.location.href = '/planner';
-                          }
-                        }
-                      }}
-                      className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-[1.05rem] font-bold uppercase tracking-wider rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
-                    >
-                      Go →
-                    </button>
-                  </div>
-                  <button type="button" onClick={() => { setCreatingAccount(false); setEditingEmail(false); }} className="text-[1rem] text-white/30 hover:text-white/50 mt-2 cursor-pointer transition-colors">Cancel</button>
+
+                  {!pinSent ? (
+                    <div>
+                      <div className="flex gap-2">
+                        <input
+                          type="password"
+                          placeholder="Set a password (6+ chars)"
+                          value={accountPassword}
+                          onChange={e => setAccountPassword(e.target.value)}
+                          disabled={pinLoading}
+                          className="flex-1 bg-[#050508] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
+                        />
+                        <button
+                          type="button"
+                          disabled={!accountPassword || accountPassword.length < 6 || !accountEmail || pinLoading}
+                          onClick={handleSendPin}
+                          className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase tracking-wider rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
+                        >
+                          {pinLoading ? (
+                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          ) : (
+                            "Go →"
+                          )}
+                        </button>
+                      </div>
+                      <p className="text-white/40 text-sm mt-2">We will send a 6-digit verification code to your email.</p>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="flex gap-2 mb-2">
+                        <input
+                          type="text"
+                          maxLength={6}
+                          placeholder="Enter 6-digit code"
+                          value={pinCode}
+                          onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
+                          disabled={pinLoading}
+                          className="flex-1 bg-[#050508] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all text-center tracking-[0.2em] font-mono disabled:opacity-50"
+                        />
+                        <button
+                          type="button"
+                          disabled={pinCode.length !== 6 || pinLoading}
+                          onClick={handleVerifyPin}
+                          className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase tracking-wider rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
+                        >
+                          {pinLoading ? (
+                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          ) : (
+                            "Verify & Create"
+                          )}
+                        </button>
+                      </div>
+                      <div className="flex justify-between items-center text-sm mt-2">
+                        <button 
+                          type="button" 
+                          onClick={handleSendPin} 
+                          disabled={pinLoading}
+                          className="text-[var(--color-accent)] hover:underline font-bold disabled:opacity-40"
+                        >
+                          Resend Code
+                        </button>
+                        <button 
+                          type="button" 
+                          onClick={() => { setPinSent(false); setPinCode(""); setPinError(""); }} 
+                          disabled={pinLoading}
+                          className="text-white/30 hover:text-white/60 hover:underline"
+                        >
+                          Back to Password
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {pinError && (
+                    <div className="mt-3 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-300 text-sm font-bold text-left animate-[fade-in-up_0.15s_ease-out_both]">
+                      ⚠️ {pinError}
+                    </div>
+                  )}
+
+                  <button 
+                    type="button" 
+                    onClick={() => { 
+                      setCreatingAccount(false); 
+                      setEditingEmail(false); 
+                      setPinSent(false); 
+                      setPinError(""); 
+                      setPinCode(""); 
+                    }} 
+                    className="text-base text-white/30 hover:text-white/50 mt-4 cursor-pointer transition-colors block text-center w-full"
+                  >
+                    Cancel
+                  </button>
                 </div>
               ) : (
                 <div>
                   <div className="flex items-center justify-center gap-2 mb-1.5">
-                    <span className="text-[1.05rem] text-white/40">{formData.email}</span>
+                    <span className="text-lg text-white/40">{formData.email}</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
-                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-[0.875rem] py-4 px-8 rounded-xl transition-all border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
+                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 rounded-xl transition-all border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
                   >
                     Create Account
                   </button>
                 </div>
               )
             )}
-            <a href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-[0.875rem] py-4 px-8 rounded-xl transition-all border border-white/5">
+            <a href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 rounded-xl transition-all border border-white/5">
               Return to Homepage
             </a>
           </div>
@@ -510,16 +766,16 @@ function BookPageContent() {
               <div className="text-left">
                 <div className="flex items-center gap-2">
                   <h2 className="text-xl font-black italic tracking-tight text-white">{member.name}</h2>
-                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-[0.875rem] font-bold uppercase tracking-[0.15em] border rounded-full ${
+                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full ${
                     member.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30'
                   }`}>
                     {member.role === 'event_planner' ? '📋 Event Planner' : member.role === 'admin' ? '🛡️ Admin' : member.role === 'crew' ? '🛡️ Crew' : '★ Fan'}
                   </span>
                 </div>
-                <p className="text-[1rem] text-white/40 font-mono mt-0.5">{member.email}</p>
+                <p className="text-base text-white/40 font-mono mt-0.5">{member.email}</p>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-[1rem] text-emerald-400/80 bg-emerald-500/5 border border-emerald-500/20 px-4 py-2 rounded-xl">
+            <div className="hidden md:flex items-center gap-2 text-base text-emerald-400/80 bg-emerald-500/5 border border-emerald-500/20 px-4 py-2 rounded-xl">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               Account data auto-filled
             </div>
@@ -538,7 +794,7 @@ function BookPageContent() {
                 </div>
                 <div>
                   <p className="text-white text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-400">{member?.name?.split(' ')[0]}</span></p>
-                  <p className="text-white/40 text-[0.875rem]">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
+                  <p className="text-white/40 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
                 </div>
               </div>
               <Link href="/planner" className="relative px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
@@ -554,7 +810,7 @@ function BookPageContent() {
                 </div>
                 <div>
                   <p className="text-white text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-400">Get Your Own Dashboard</span></p>
-                  <p className="text-white/40 text-[0.875rem]">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
+                  <p className="text-white/40 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
                 </div>
               </div>
               <Link href="/planner?login=true" className="relative px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
@@ -596,38 +852,63 @@ function BookPageContent() {
                 website: '',
               });
             }}
-            className="mb-6 px-4 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[1rem] font-bold uppercase tracking-widest rounded-lg hover:bg-amber-500/20 transition-all cursor-pointer flex items-center gap-2"
+            className="mb-6 px-4 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-base font-bold uppercase tracking-widest rounded-lg hover:bg-amber-500/20 transition-all cursor-pointer flex items-center gap-2"
           >
             ⚡ Dev: Auto-Fill Form
           </button>
         )}
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
-          <div className="flex flex-col gap-8">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {isFromPlanner && (
+            <div className="bg-fuchsia-500/5 border border-fuchsia-500/20 px-6 py-4 rounded-2xl flex items-center gap-4">
+              <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 flex items-center justify-center flex-shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              </div>
+              <div>
+                <p className="text-fuchsia-300 text-base font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
+                <p className="text-white/40 text-lg">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
+              </div>
+            </div>
+          )}
 
-            {isFromPlanner && (
-              <div className="bg-fuchsia-500/5 border border-fuchsia-500/20 px-6 py-4 rounded-2xl flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 flex items-center justify-center flex-shrink-0">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                </div>
+          {hasSavedForm && !isFromPlanner && (
+            <div className="p-5 bg-purple-600/10 border border-purple-500/20 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
+              <div className="flex items-center gap-3">
+                <span className="text-xl shrink-0">📋</span>
                 <div>
-                  <p className="text-fuchsia-300 text-[1rem] font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
-                  <p className="text-white/40 text-[1.05rem]">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
+                  <p className="text-white font-bold text-base">Re-fill with details from your last booking?</p>
+                  <p className="text-white/40 text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
                 </div>
               </div>
-            )}
+              <button
+                type="button"
+                onClick={handleLoadLastForm}
+                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
+              >
+                ⚡ Populate
+              </button>
+            </div>
+          )}
 
-            {/* Step 1: Calendar & Format */}
-            <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-            <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-white/40 mb-6">
-              1 — Event Schedule & Format
+          {/* Step 1: Event Schedule & Format */}
+          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
+              <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">1</span>
+              Event Schedule & Format
             </h2>
+            <div className="mb-6 p-4 bg-purple-600/5 border border-purple-500/20 rounded-2xl flex items-start gap-3">
+              <span className="text-xl mt-0.5">💡</span>
+              <div>
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider">Multi-Date Bookings Supported</h4>
+                <p className="text-white/40 text-sm mt-1">You can select **multiple dates** on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
+              </div>
+            </div>
             <div className="mb-6">
               <CalendarPicker 
                 label="Primary Event Schedule"
                 required
-                selectedDate={formData.eventDate}
-                onSelectDate={(d) => setFormData(p => ({ ...p, eventDate: d }))}
+                slots={bookingSlots}
+                onChangeSlots={setBookingSlots}
                 startTime={formData.startTime}
                 onStartTimeChange={(t) => setFormData(p => ({ ...p, startTime: t }))}
                 endTime={formData.endTime}
@@ -644,8 +925,8 @@ function BookPageContent() {
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-lg">📅</span>
                   <div>
-                    <h4 className="text-[0.875rem] font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
-                    <p className="text-[1rem] text-white/30">Increase your chances — we&apos;ll try your preferred date first</p>
+                    <h4 className="text-base font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
+                    <p className="text-base text-white/30">Increase your chances — we&apos;ll try your preferred date first</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -654,17 +935,17 @@ function BookPageContent() {
                 </div>
                 {(altDate1 || altDate2) && (
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="text-[1rem] text-white/30 uppercase tracking-widest font-bold">Priority:</span>
-                    <span className="text-[1rem] bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded font-bold">1st: {formData.eventDate ? new Date(formData.eventDate + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '—'}</span>
-                    {altDate1 && <span className="text-[1rem] bg-white/5 text-white/50 px-2 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
-                    {altDate2 && <span className="text-[1rem] bg-white/5 text-white/50 px-2 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                    <span className="text-base text-white/30 uppercase tracking-widest font-bold">Priority:</span>
+                    <span className="text-base bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
+                    {altDate1 && <span className="text-base bg-white/5 text-white/50 px-2 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                    {altDate2 && <span className="text-base bg-white/5 text-white/50 px-2 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
                   </div>
                 )}
               </div>
             </div>
             {/* Pricing hint per type */}
             {selectedType && (
-              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-[0.875rem] text-white/50 rounded-xl mb-4">
+              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-base text-white/50 rounded-xl mb-4">
                 <span className="text-[var(--color-accent)] font-bold">Pricing Guide:</span>{" "}
                 {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
                 {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
@@ -672,40 +953,507 @@ function BookPageContent() {
                 {selectedType === "custom" && "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
               </div>
             )}
-            </div>
+          </div>
 
-            {/* Step 2: Contact Information */}
-            <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">2</span>
-                Contact Information
-              </h2>
+          {/* Your Scheduled Shows (Full Width Grid) */}
+          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+            {bookingSlots.length === 0 ? (
+              <div className="text-center py-12 border-2 border-dashed border-white/10 rounded-2xl bg-white/[0.01]">
+                <span className="text-4xl block mb-4">📅</span>
+                <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
+                <p className="text-white/40 text-base max-w-md mx-auto">
+                  Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                  <div>
+                    <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
+                    <p className="text-base text-white/40 mt-1 uppercase">Configure individual times and formats for each show below</p>
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/25">
+                    {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {bookingSlots.map((slot, index) => {
+                    const formattedDate = new Date(slot.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                    return (
+                      <div 
+                        key={slot.id} 
+                        className="bg-[#0a0a0f] border border-white/5 hover:border-[var(--color-accent)]/30 rounded-2xl p-6 relative group transition-all"
+                      >
+                        {/* Duplicate and Remove buttons */}
+                        <div className="absolute top-4 right-4 flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newSlot = {
+                                ...slot,
+                                id: Math.random().toString(36).substring(2, 9),
+                              };
+                              setBookingSlots([...bookingSlots, newSlot]);
+                            }}
+                            className="text-white/30 hover:text-[var(--color-accent)] transition-colors cursor-pointer text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg hover:bg-[var(--color-accent)]/10 border border-white/5 hover:border-[var(--color-accent)]/25"
+                            title="Add another show on this date"
+                          >
+                            ➕ Add Another
+                          </button>
+                          <button 
+                            type="button" 
+                            onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
+                            className="text-white/30 hover:text-rose-400 transition-colors cursor-pointer text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/25"
+                            title="Remove this show"
+                          >
+                            ✕ Remove
+                          </button>
+                        </div>
+
+                        <div className="mb-4">
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] block mb-1">Show #{index + 1}</span>
+                          <h5 className="text-base font-bold text-white tracking-wide">{formattedDate}</h5>
+                        </div>
+
+                        <div className="space-y-3 mt-4 border-t border-white/5 pt-4">
+                          {/* Format */}
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Show Format</label>
+                            <div className="relative">
+                              <select 
+                                value={slot.eventType}
+                                onChange={(e) => {
+                                  const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: e.target.value } : s);
+                                  setBookingSlots(updated);
+                                }}
+                                className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                              >
+                                <option value="full_band" className="bg-[#050508]">🎸 Full Band</option>
+                                <option value="unplugged" className="bg-[#050508]">🎤 Unplugged</option>
+                                <option value="private" className="bg-[#050508]">🎉 Private Event</option>
+                                <option value="custom" className="bg-[#050508]">✨ Custom Booking</option>
+                              </select>
+                              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                              </div>
+                            </div>
+                            {slot.eventType === 'custom' && (
+                              <input 
+                                type="text"
+                                placeholder="Describe show type (e.g. Street Fest)..."
+                                value={slot.customEventType || ""}
+                                onChange={(e) => {
+                                  const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
+                                  setBookingSlots(updated);
+                                }}
+                                className="w-full mt-1.5 bg-[#050508] border border-[var(--color-accent)]/20 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                              />
+                            )}
+                          </div>
+
+                          {/* Times */}
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Start Time</label>
+                              <div className="relative">
+                                <select 
+                                  value={slot.startTime}
+                                  onChange={(e) => {
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: e.target.value } : s);
+                                    setBookingSlots(updated);
+                                  }}
+                                  className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                >
+                                  {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
+                                    <option key={t} value={t} className="bg-[#050508]">{t}</option>
+                                  ))}
+                                </select>
+                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-1.5">End Time</label>
+                              <div className="relative">
+                                <select 
+                                  value={slot.endTime}
+                                  onChange={(e) => {
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: e.target.value } : s);
+                                    setBookingSlots(updated);
+                                  }}
+                                  className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                >
+                                  {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(t => (
+                                    <option key={t} value={t} className="bg-[#050508]">{t}</option>
+                                  ))}
+                                </select>
+                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Separate Contact/Venue details toggle buttons & form fields */}
+                        <div className="mt-4 pt-4 border-t border-white/5">
+                          <div className="mb-3">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-2">Contact & Venue Details</label>
+                            <div className="grid grid-cols-2 gap-1.5 bg-[#050508] p-1 rounded-xl border border-white/5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const updated = bookingSlots.map(s => s.id === slot.id ? { 
+                                    ...s, 
+                                    useSeparateInfo: false,
+                                    contactName: "",
+                                    contactEmail: "",
+                                    contactPhone: "",
+                                    venueName: "",
+                                    venueCity: "",
+                                    venueState: "",
+                                  } : s);
+                                  setBookingSlots(updated);
+                                }}
+                                className={`py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                              >
+                                Share Main Info
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const updated = bookingSlots.map(s => s.id === slot.id ? { 
+                                    ...s, 
+                                    useSeparateInfo: true,
+                                    contactName: s.contactName || formData.name || "",
+                                    contactEmail: s.contactEmail || formData.email || "",
+                                    contactPhone: s.contactPhone || formData.phone || "",
+                                    venueName: s.venueName || formData.venueName || "",
+                                    venueCity: s.venueCity || formData.venueCity || "",
+                                    venueState: s.venueState || formData.venueState || "",
+                                  } : s);
+                                  setBookingSlots(updated);
+                                }}
+                                className={`py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                              >
+                                Use Separate Info
+                              </button>
+                            </div>
+                          </div>
+                          
+                          {!slot.useSeparateInfo ? (
+                            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl text-[10px] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
+                              <div className="flex justify-between items-start gap-2">
+                                <span className="font-bold text-white/20 uppercase tracking-widest text-[9px] mt-0.5">Contact:</span>
+                                <span className="text-white font-medium text-right break-all">
+                                  {formData.name || <span className="text-white/20 italic">(empty)</span>}
+                                  {formData.email && <span className="block text-[9px] text-white/40 font-mono mt-0.5">{formData.email}</span>}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-start gap-2">
+                                <span className="font-bold text-white/20 uppercase tracking-widest text-[9px] mt-0.5">Venue:</span>
+                                <span className="text-white font-medium text-right break-all">
+                                  {formData.venueName || <span className="text-white/20 italic">(empty)</span>}
+                                  {(formData.venueCity || formData.venueState) && (
+                                    <span className="block text-[9px] text-white/40 mt-0.5">{formData.venueCity || '—'}, {formData.venueState || '—'}</span>
+                                  )}
+                                </span>
+                              </div>
+                              <p className="text-[9px] text-[var(--color-accent)] font-bold tracking-wide italic mt-2 pt-1.5 border-t border-white/5 text-right flex items-center justify-end gap-1">
+                                <span>🔗 Link Active: Shares contact & venue data</span>
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.02] border border-white/5 rounded-xl">
+                              <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
+                                <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
+                                <div className="flex gap-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { 
+                                        ...s,
+                                        contactName: formData.name,
+                                        contactEmail: formData.email,
+                                        contactPhone: formData.phone,
+                                        venueName: formData.venueName,
+                                        venueCity: formData.venueCity,
+                                        venueState: formData.venueState,
+                                      } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="text-[9px] font-bold text-[var(--color-accent)] hover:underline cursor-pointer"
+                                  >
+                                    ⚡ Copy Main
+                                  </button>
+                                  {hasSavedForm && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        try {
+                                          const saved = localStorage.getItem('7h_planner_last_form');
+                                          if (saved) {
+                                            const parsed = JSON.parse(saved);
+                                            const updated = bookingSlots.map(s => s.id === slot.id ? { 
+                                              ...s,
+                                              contactName: parsed.name || s.contactName,
+                                              contactEmail: parsed.email || s.contactEmail,
+                                              contactPhone: parsed.phone || s.contactPhone,
+                                              venueName: parsed.venueName || s.venueName,
+                                              venueCity: parsed.venueCity || s.venueCity,
+                                              venueState: parsed.venueState || s.venueState,
+                                            } : s);
+                                            setBookingSlots(updated);
+                                          }
+                                        } catch {}
+                                      }}
+                                      className="text-[9px] font-bold text-fuchsia-400 hover:underline cursor-pointer"
+                                    >
+                                      ⚡ Load Last
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              <div className="grid grid-cols-2 gap-2">
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Contact Name</label>
+                                  <input 
+                                    type="text"
+                                    placeholder="e.g. Jane Doe"
+                                    value={slot.contactName || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Contact Email</label>
+                                  <input 
+                                    type="email"
+                                    placeholder="e.g. jane@email.com"
+                                    value={slot.contactEmail || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                  />
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Venue Name</label>
+                                <input 
+                                  type="text"
+                                  placeholder="e.g. House of Blues"
+                                  value={slot.venueName || ""}
+                                  onChange={(e) => {
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
+                                    setBookingSlots(updated);
+                                  }}
+                                  className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                />
+                              </div>
+                              
+                              <div className="grid grid-cols-2 gap-2">
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">City</label>
+                                  <input 
+                                    type="text"
+                                    placeholder="Chicago"
+                                    value={slot.venueCity || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">State</label>
+                                  <input 
+                                    type="text"
+                                    placeholder="IL"
+                                    value={slot.venueState || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="mt-4 pt-4 border-t border-white/5">
+                          <button
+                            type="button"
+                            onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
+                            className="w-full text-left flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] hover:text-purple-300 transition-colors"
+                          >
+                            <span>📢 Tour Page Details {expandedMetadata[slot.id] ? "▼" : "▶"}</span>
+                            <span className="text-[9px] text-white/30 lowercase font-normal">(optional: age limit, tickets, notes)</span>
+                          </button>
+                          
+                          {expandedMetadata[slot.id] && (
+                            <div className="mt-4 space-y-3 animate-[fade-in-up_0.15s_ease-out_both]">
+                              {/* Age Restriction & Doors Time */}
+                              <div className="grid grid-cols-2 gap-2">
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Age Limit</label>
+                                  <div className="relative">
+                                    <select 
+                                      value={slot.ageRestriction || "all_ages"}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                    >
+                                      <option value="all_ages" className="bg-[#050508]">All Ages</option>
+                                      <option value="21_plus" className="bg-[#050508]">21 & Over</option>
+                                      <option value="18_plus" className="bg-[#050508]">18 & Over</option>
+                                    </select>
+                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Doors Time</label>
+                                  <div className="relative">
+                                    <select 
+                                      value={slot.doorsTime || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                    >
+                                      <option value="" className="bg-[#050508]">Same as Start</option>
+                                      {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
+                                        <option key={t} value={t} className="bg-[#050508]">{t}</option>
+                                      ))}
+                                    </select>
+                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Ticket Price & Link */}
+                              <div className="grid grid-cols-2 gap-2">
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Cover / Price</label>
+                                  <input 
+                                    type="text"
+                                    placeholder="e.g. Free, $15..."
+                                    value={slot.cover || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="w-full bg-[#050508] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Ticket Link</label>
+                                  <input 
+                                    type="text"
+                                    placeholder="https://..."
+                                    value={slot.ticketLink || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="w-full bg-[#050508] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                  />
+                                </div>
+                              </div>
+
+                              {/* Show Type Checkbox & Notes */}
+                              <div className="space-y-2">
+                                <label className="flex items-center gap-2 text-xs text-white/60 cursor-pointer select-none">
+                                  <input 
+                                    type="checkbox"
+                                    checked={slot.isFestival || false}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, isFestival: e.target.checked } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="accent-[var(--color-accent)] cursor-pointer"
+                                  />
+                                  <span className="text-[9px] font-bold uppercase tracking-wider">This is a Festival / Fair show</span>
+                                </label>
+                                
+                                <div>
+                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Public Notes (shown to fans)</label>
+                                  <textarea 
+                                    placeholder="e.g. All Age Outdoor Beer Garden show, unplugged set..."
+                                    value={slot.notes || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, notes: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    rows={2}
+                                    className="w-full bg-[#050508] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20 resize-none [color-scheme:dark]"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Step 2: Contact Information */}
+          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
+              <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">2</span>
+              Contact Information
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="John Smith" />
               <InputField label="Organization" name="organization" value={formData.organization} onChange={handleChange} placeholder="Venue or company name" />
               <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="you@email.com" />
               <InputField label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="(555) 123-4567" />
             </div>
-            </div>
+          </div>
 
-            {/* Step 3: Venue Details */}
-            <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">3</span>
-                Venue Details
-              </h2>
+          {/* Step 3: Venue Details */}
+          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
+              <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">3</span>
+              Venue Details
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <InputField label="Load-in / Setup Time" name="loadInTime" value={formData.loadInTime} onChange={handleChange} placeholder="e.g. 3:00 PM, 2 hours before" />
               <InputField label="Venue Name" name="venueName" value={formData.venueName} onChange={handleChange} placeholder="Venue name" />
               <InputField label="City" name="venueCity" value={formData.venueCity} onChange={handleChange} required placeholder="Chicago" />
               <InputField label="State" name="venueState" value={formData.venueState} onChange={handleChange} required placeholder="IL" />
             </div>
-            </div>
+          </div>
+
+          {/* Steps 4-6 and Sidebar 2-Column Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
+            <div className="flex flex-col gap-8">
 
             {/* Step 4: Technical & Logistics */}
             <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">4</span>
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">4</span>
                 Technical & Logistics
               </h2>
             <div className="flex flex-col gap-8">
@@ -724,11 +1472,11 @@ function BookPageContent() {
 
             {/* Step 5: Additional Options */}
             <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">5</span>
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">5</span>
                 Production & Extras
               </h2>
-              <p className="text-white/30 text-[1.05rem] mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
+              <p className="text-white/30 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
                   const isActive = addOns.includes(option.id);
@@ -746,12 +1494,12 @@ function BookPageContent() {
                       <span className="text-xl mt-0.5">{option.icon}</span>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className={`text-[1rem] font-bold block ${isActive ? 'text-[var(--color-accent)]' : 'text-white/80'}`}>{option.label}</span>
+                          <span className={`text-base font-bold block ${isActive ? 'text-[var(--color-accent)]' : 'text-white/80'}`}>{option.label}</span>
                           {isActive && (
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                           )}
                         </div>
-                        <span className="text-[1rem] text-white/30 block leading-snug">{option.desc}</span>
+                        <span className="text-base text-white/30 block leading-snug">{option.desc}</span>
                       </div>
                     </button>
                   );
@@ -759,9 +1507,9 @@ function BookPageContent() {
               </div>
               {addOns.length > 0 && (
                 <div className="mt-5 pt-4 border-t border-white/5 flex items-center gap-3 flex-wrap">
-                  <span className="text-[0.875rem] font-bold uppercase tracking-widest text-white/30">Selected:</span>
+                  <span className="text-base font-bold uppercase tracking-widest text-white/30">Selected:</span>
                   {addOns.map(id => (
-                    <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-accent)]/10 text-[var(--color-accent)] text-[1rem] font-bold rounded-full border border-[var(--color-accent)]/20">
+                    <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-accent)]/10 text-[var(--color-accent)] text-base font-bold rounded-full border border-[var(--color-accent)]/20">
                       {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                       <button type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5 text-[var(--color-accent)]/50 hover:text-[var(--color-accent)] cursor-pointer">×</button>
                     </span>
@@ -772,21 +1520,21 @@ function BookPageContent() {
 
             {/* Step 6: Notes & Questions */}
             <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
-              <h2 className="text-[1.05rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-[0.875rem]">6</span>
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">6</span>
                 Notes & Questions
               </h2>
-              <p className="text-white/30 text-[1.05rem] mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
+              <p className="text-white/30 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
               <textarea
                 name="details"
                 value={formData.details}
                 onChange={handleChange}
                 rows={5}
                 placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                className="w-full bg-white/[0.02] border border-white/10 text-white text-[1.05rem] leading-relaxed px-5 py-4 rounded-2xl focus:border-[var(--color-accent)]/50 outline-none transition-all resize-none placeholder:text-white/15 [color-scheme:dark]"
+                className="w-full bg-white/[0.02] border border-white/10 text-white text-lg leading-relaxed px-5 py-4 rounded-2xl focus:border-[var(--color-accent)]/50 outline-none transition-all resize-none placeholder:text-white/15 [color-scheme:dark]"
               />
               {formData.details && (
-                <div className="mt-3 flex items-center gap-2 text-[1rem] text-emerald-400/60">
+                <div className="mt-3 flex items-center gap-2 text-base text-emerald-400/60">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   <span className="uppercase tracking-widest font-bold">Note attached to your booking</span>
                 </div>
@@ -806,60 +1554,74 @@ function BookPageContent() {
           <div>
             <div className="sticky top-32">
             <div className="bg-[var(--color-accent)]/[0.03] border border-[var(--color-accent)]/20 rounded-3xl p-6 shadow-[0_10px_40px_min(rgba(133,29,239,0.1),10%)]">
-               <h3 className="text-[1.05rem] font-bold tracking-[0.2em] uppercase text-white/60 mb-6 pb-4 border-b border-white/5">Booking Summary</h3>
+               <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-white/60 mb-6 pb-4 border-b border-white/5">Booking Summary</h3>
                
                <div className="flex flex-col gap-4 mb-8">
                   <div className="flex justify-between items-start">
-                     <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Date</span>
-                     <span className="text-[1rem] font-bold text-white text-right">
-                       {formData.eventDate ? new Date(formData.eventDate + "T12:00:00Z").toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric'}) : <span className="text-white/20">—</span>}
+                     <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Date</span>
+                     <span className="text-base font-bold text-white text-right">
+                       {bookingSlots.length === 1 ? (
+                         new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric'})
+                       ) : bookingSlots.length > 1 ? (
+                         `${bookingSlots.length} Shows Scheduled`
+                       ) : (
+                         <span className="text-white/20">—</span>
+                       )}
                      </span>
                   </div>
                   <div className="flex justify-between items-start">
-                     <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Time</span>
-                     <span className="text-[1rem] font-bold text-white text-right">
-                       {formData.startTime && formData.endTime ? `${formData.startTime} – ${formData.endTime}` : <span className="text-white/20">—</span>}
+                     <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Time</span>
+                     <span className="text-base font-bold text-white text-right">
+                       {bookingSlots.length === 1 ? (
+                         `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
+                       ) : bookingSlots.length > 1 ? (
+                         "Varies by show"
+                       ) : (
+                         <span className="text-white/20">—</span>
+                       )}
                      </span>
                   </div>
                   <div className="flex justify-between items-start">
-                     <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Format</span>
-                     <span className="text-[1rem] font-bold text-[var(--color-accent)] text-right">
+                     <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Format</span>
+                     <span className="text-base font-bold text-[var(--color-accent)] text-right">
                        {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="text-[var(--color-accent)]/30">—</span>}
                      </span>
                   </div>
                   <div className="flex justify-between items-start pt-4 border-t border-white/5">
-                     <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Venue</span>
-                     <span className="text-[1rem] font-bold text-white text-right break-words max-w-[150px]">
+                     <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Venue</span>
+                     <span className="text-base font-bold text-white text-right break-words max-w-[150px]">
                        {formData.venueName ? formData.venueName : <span className="text-white/20">—</span>}
-                       {formData.venueCity && <span className="block text-[1rem] text-white/40 font-normal">{formData.venueCity}, {formData.venueState}</span>}
+                       {formData.venueCity && <span className="block text-base text-white/40 font-normal">{formData.venueCity}, {formData.venueState}</span>}
                      </span>
                   </div>
                   {addOns.length > 0 && (
                     <div className="flex justify-between items-start pt-4 border-t border-white/5">
-                      <span className="text-[1.05rem] text-white/40 uppercase tracking-widest mt-1">Add-Ons</span>
+                      <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Add-Ons</span>
                       <div className="text-right">
-                        <span className="text-[1rem] font-bold text-[var(--color-accent)]">{addOns.length} selected</span>
+                        <span className="text-base font-bold text-[var(--color-accent)]">{addOns.length} selected</span>
                         <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
                           {addOns.slice(0, 3).map(id => (
-                            <span key={id} className="text-[1.05rem] bg-[var(--color-accent)]/10 text-[var(--color-accent)]/70 px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
+                            <span key={id} className="text-lg bg-[var(--color-accent)]/10 text-[var(--color-accent)]/70 px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
                           ))}
-                          {addOns.length > 3 && <span className="text-[1.05rem] text-white/30 font-bold">+{addOns.length - 3} more</span>}
+                          {addOns.length > 3 && <span className="text-lg text-white/30 font-bold">+{addOns.length - 3} more</span>}
                         </div>
                       </div>
                     </div>
                   )}
                </div>
 
+
+
                {/* Validation Errors */}
                {validationErrors.length > 0 && (
                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-4">
                    <div className="flex items-center gap-2 mb-2">
                      <span className="text-red-400 text-sm">⚠</span>
-                     <span className="text-red-400 text-[1.05rem] font-bold uppercase tracking-widest">Please fix the following</span>
+                     <span className="text-red-400 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
                    </div>
                    <ul className="space-y-1">
                      {validationErrors.map((err, i) => (
-                       <li key={i} className="text-red-300/80 text-[0.875rem] pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500/50">{err}</li>
+                       <li key={i} className="text-red-300/80 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500/50">{err}</li>
                      ))}
                    </ul>
                  </div>
@@ -867,40 +1629,38 @@ function BookPageContent() {
 
                <button 
                 type="submit" 
-                disabled={submitting || !selectedType || !formData.eventDate || !formData.startTime || !formData.endTime || !formData.email}
-                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-[1rem] py-4 rounded-xl transition-all shadow-lg hover:shadow-[0_0_20px_rgba(133,29,239,0.4)]"
+                disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
+                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 rounded-xl transition-all shadow-lg hover:shadow-[0_0_20px_rgba(133,29,239,0.3)] flex items-center justify-center gap-2"
                >
-                 {submitting ? "Submitting..." : "Submit Request"}
+                 {submitting ? (
+                   <>
+                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                     Submitting...
+                   </>
+                 ) : (
+                   <>
+                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                     Submit Booking Request
+                   </>
+                 )}
                </button>
-               <p className="text-[1rem] text-white/30 text-center mt-4">
-                 No payment is required to request a date. By submitting, you agree to our <a href="/privacy" className="underline hover:text-white/50 transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-white/50 transition-colors">Terms</a>.
+               <p className="text-base text-white/30 text-center mt-4">
+                 By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="underline hover:text-white/50 transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-white/50 transition-colors">Terms</a>.
                </p>
             </div>
             </div>
           </div>
-        </form>
-
-        {/* Testimonial */}
-        <div className="mt-16 mb-8 border border-white/10 bg-white/[0.02] p-8 relative">
-          <div className="absolute top-4 left-6 text-4xl text-[var(--color-accent)]/30 leading-none">&ldquo;</div>
-          <p className="text-white/60 text-[1rem] leading-relaxed italic pl-8 pr-4 mb-4">
-            7th Heaven absolutely crushed it. Our guests couldn&apos;t stop talking about the band for weeks. From the first call to the last song, everything was professional and seamless. Already booked them again for next year.
-          </p>
-          <div className="pl-8 flex items-center gap-3">
-            <div className="w-8 h-8 bg-[var(--color-accent)]/20 flex items-center justify-center text-[1rem] font-bold text-[var(--color-accent)]">JM</div>
-            <div>
-              <span className="text-[0.875rem] font-bold text-white block">Jake M.</span>
-              <span className="text-[1rem] text-white/30">Corporate Event Manager — Chicago, IL</span>
-            </div>
-          </div>
         </div>
+      </form>
+
+
 
         {/* Past Event Gallery */}
         <div className="border-t border-white/10 pt-20 mb-20">
           <div className="text-center mb-12">
-            <span className="inline-block text-[1.05rem] font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 bg-[var(--color-accent)]/10 px-4 py-1.5 rounded-full border border-[var(--color-accent)]/20">See Us In Action</span>
+            <span className="inline-block text-lg font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 bg-[var(--color-accent)]/10 px-4 py-1.5 rounded-full border border-[var(--color-accent)]/20">See Us In Action</span>
             <h2 className="text-[clamp(1.5rem,3vw,2.5rem)] font-extrabold text-white">Past <span className="gradient-text">Events</span></h2>
-            <p className="text-white/40 text-[1rem] mt-3 max-w-lg mx-auto">From packed festival stages to intimate cocktail hours — we bring the energy everywhere.</p>
+            <p className="text-white/40 text-base mt-3 max-w-lg mx-auto">From packed festival stages to intimate cocktail hours — we bring the energy everywhere.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
@@ -917,9 +1677,9 @@ function BookPageContent() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <span className="inline-block text-[0.875rem] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/20 px-2 py-0.5 rounded mb-2">{event.type}</span>
-                  <h3 className="text-white font-bold text-[1rem] mb-0.5">{event.title}</h3>
-                  <p className="text-white/40 text-[1.05rem]">{event.venue} · {event.guests} guests</p>
+                  <span className="inline-block text-base font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/20 px-2 py-0.5 rounded mb-2">{event.type}</span>
+                  <h3 className="text-white font-bold text-base mb-0.5">{event.title}</h3>
+                  <p className="text-white/40 text-lg">{event.venue} · {event.guests} guests</p>
                 </div>
               </div>
             ))}

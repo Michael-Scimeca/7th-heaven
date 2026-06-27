@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { distanceMiles } from "@/lib/geo";
-import { VENUE_COORDS } from "@/components/TourMap";
+import { VENUE_COORDS } from "@/lib/venue-coords";
+import { requireAdmin } from "@/lib/api-utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -25,15 +26,23 @@ const supabase = createClient(
  *   radius    — (optional) Override max radius in miles (default: use each subscriber's own radius)
  */
 export async function POST(request: Request) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const {
       venue, city, state,
       date, time, doorsTime,
       allAges, cover,
+      showId,
       message: customMessage,
       lat, lng, radius: overrideRadius,
     } = body;
+
+    // Build show page URL
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+    const showUrl = showId ? `${siteUrl}/shows/${showId}` : null;
 
     // Build the SMS body — either from show details or a custom message
     let smsBody: string;
@@ -80,6 +89,26 @@ export async function POST(request: Request) {
         }
       }
 
+      // Fetch attendance count if we have a showId
+      if (showId) {
+        const { count } = await supabase
+          .from("show_attendance")
+          .select("*", { count: "exact", head: true })
+          .eq("show_id", showId);
+        if (count && count > 0) {
+          lines.push(`🔥 ${count} fan${count === 1 ? "" : "s"} already going!`);
+        }
+      }
+
+      // Show link + reply options
+      if (showUrl) {
+        lines.push(``);
+        lines.push(`RSVP & see who's going:`);
+        lines.push(showUrl);
+        lines.push(``);
+        lines.push(`Reply 1=GOING 2=DIRECTIONS`);
+      }
+
       lines.push(``);
       lines.push(`Reply STOP to unsubscribe.`);
       smsBody = lines.join("\n");
@@ -106,22 +135,21 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
 
-    // Fetch all opted-in subscribers with coordinates
-    const { data: allSubscribers, error } = await supabase
+    // Fetch opted-in subscribers — basic query first (always works)
+    let allSubscribers: any[] = [];
+    let geoEnabled = false;
+
+    // Try basic fetch first
+    const { data: subs, error: subsError } = await supabase
       .from("sms_subscribers")
-      .select("phone, name, latitude, longitude, notification_radius")
-      .eq("opted_in", true)
-      .not("latitude", "is", null)
-      .not("longitude", "is", null);
+      .select("phone, name")
+      .eq("opted_in", true);
 
-    if (error) throw error;
+    if (subsError) throw subsError;
+    allSubscribers = subs || [];
 
-    // Filter by proximity — each subscriber has their own radius
-    const nearbySubscribers = (allSubscribers || []).filter((sub) => {
-      const subRadius = overrideRadius || sub.notification_radius || 50;
-      const dist = distanceMiles(sub.latitude!, sub.longitude!, venueLat, venueLng);
-      return dist <= subRadius;
-    });
+    // For now, send to all subscribers (proximity filtering requires geo columns migration)
+    const nearbySubscribers = allSubscribers;
 
     // Twilio batch send (if configured)
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -169,9 +197,9 @@ export async function POST(request: Request) {
       preview: smsBody,
       note: "Twilio not configured — add API keys to .env.local",
     });
-  } catch (error) {
-    console.error("SMS send error:", error);
-    return NextResponse.json({ error: "Failed to send messages" }, { status: 500 });
+  } catch (error: any) {
+    console.error("SMS send error:", error?.message || error);
+    return NextResponse.json({ error: "Failed to send messages", detail: error?.message || String(error) }, { status: 500 });
   }
 }
 

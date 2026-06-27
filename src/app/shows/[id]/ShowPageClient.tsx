@@ -71,6 +71,41 @@ export default function ShowPageClient({
   const [liveFeeds, setLiveFeeds] = useState<LiveFeed[]>([]);
   const [autoRsvpDone, setAutoRsvpDone] = useState(false);
 
+  // ── Notify Me Next Time States ──────────────────────────────────
+  const [notifyEmail, setNotifyEmail] = useState("");
+  const [notifyLoading, setNotifyLoading] = useState(false);
+  const [notifySuccess, setNotifySuccess] = useState(false);
+  const [notifyError, setNotifyError] = useState("");
+
+  const handleNotifyMe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!notifyEmail.trim()) return;
+    setNotifyLoading(true);
+    setNotifyError("");
+    try {
+      const res = await fetch("/api/shows/notify-me", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          showId: show.id,
+          email: notifyEmail,
+          venueName: show.venue_name
+        })
+      });
+      if (res.ok) {
+        setNotifySuccess(true);
+        setNotifyEmail("");
+      } else {
+        const data = await res.json();
+        setNotifyError(data.error || "Failed to subscribe. Please try again.");
+      }
+    } catch {
+      setNotifyError("Network error. Please try again.");
+    } finally {
+      setNotifyLoading(false);
+    }
+  };
+
   // ── Auto-RSVP from ?rsvp=going|there SMS link ──────────────────
   useEffect(() => {
     if (autoRsvpDone) return;
@@ -165,8 +200,19 @@ export default function ShowPageClient({
 
   useEffect(() => {
     checkLiveFeeds();
-    const interval = setInterval(checkLiveFeeds, 8000);
-    return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      if (document.visibilityState === 'visible') checkLiveFeeds();
+    }, 60000);
+    
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') checkLiveFeeds();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, [checkLiveFeeds]);
 
   // ── RSVP ────────────────────────────────────────────────────────
@@ -229,16 +275,16 @@ export default function ShowPageClient({
         <div className="flex-1 min-w-0">
           <p className="font-bold text-sm text-white truncate">
             {isAnon ? "Anonymous Fan" : (a.profiles?.full_name || "Fan")}
-            {isMe && <span className="ml-2 text-[0.5rem] uppercase tracking-widest text-purple-400 font-black">You</span>}
+            {isMe && <span className="ml-2 text-2xs uppercase tracking-widest text-purple-400 font-black">You</span>}
           </p>
           <div className="flex items-center gap-2 mt-0.5">
             {!isAnon && tier !== "Bronze" && (
-              <span className={`text-[0.45rem] font-black uppercase tracking-widest ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
+              <span className={`text-2xs font-black uppercase tracking-widest ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
             )}
             {a.status === "there" ? (
-              <span className="text-[0.5rem] font-black uppercase tracking-widest text-emerald-400">✓ Here Now</span>
+              <span className="text-2xs font-black uppercase tracking-widest text-emerald-400">✓ Here Now</span>
             ) : (
-              <span className="text-[0.45rem] font-black uppercase tracking-widest text-white/25">Going</span>
+              <span className="text-2xs font-black uppercase tracking-widest text-white/25">Going</span>
             )}
           </div>
         </div>
@@ -265,10 +311,10 @@ export default function ShowPageClient({
                     {feed.title && feed.title !== "Crew Broadcast" ? ` — ${feed.title}` : ""}
                   </span>
                   {feed.viewers > 0 && (
-                    <span className="text-[0.6rem] text-red-300/70">{feed.viewers} watching</span>
+                    <span className="text-xs text-red-300/70">{feed.viewers} watching</span>
                   )}
                 </div>
-                <span className="px-4 py-1.5 bg-red-500 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg group-hover:bg-white group-hover:text-red-600 transition-all shrink-0">
+                <span className="px-4 py-1.5 bg-red-500 text-white text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-white group-hover:text-red-600 transition-all shrink-0">
                   Watch Now →
                 </span>
               </Link>
@@ -281,7 +327,7 @@ export default function ShowPageClient({
       <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b border-white/5 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(133,29,239,0.2)_0%,_transparent_60%)]" />
         <div className="site-container py-14 md:py-20 relative z-10">
-          <Link href="/tour" className="inline-flex items-center gap-2 text-[0.6rem] uppercase tracking-widest text-white/30 hover:text-white/60 transition-colors mb-8 font-bold">
+          <Link href="/tour" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/30 hover:text-white/60 transition-colors mb-8 font-bold">
             ← All Shows
           </Link>
 
@@ -290,13 +336,13 @@ export default function ShowPageClient({
               {/* Status badge */}
               <div className="flex flex-wrap items-center gap-2 mb-4">
                 {isPast ? (
-                  <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-white/30 border border-white/10 px-3 py-1">Past Show</span>
+                  <span className="text-xs uppercase tracking-[0.2em] font-bold text-white/30 border border-white/10 px-3 py-1">Past Show</span>
                 ) : show.status === "live" ? (
-                  <span className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.2em] font-bold text-red-400 border border-red-500/30 px-3 py-1 bg-red-500/10">
+                  <span className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-bold text-red-400 border border-red-500/30 px-3 py-1 bg-red-500/10">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /> Happening Now
                   </span>
                 ) : (
-                  <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
+                  <span className="text-xs uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
                 )}
               </div>
 
@@ -307,22 +353,22 @@ export default function ShowPageClient({
               {/* Detail pills */}
               <div className="flex flex-wrap items-center gap-2 mt-4">
                 {show.doors_time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">
                     🚪 Doors {show.doors_time}
                   </span>
                 )}
                 {show.time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">
                     🎸 Show {show.time}
                   </span>
                 )}
                 {show.all_ages !== null && (
-                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border text-[0.65rem] font-bold uppercase tracking-widest ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-amber-500/10 border-amber-500/30 text-amber-400"}`}>
+                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border text-xs font-bold uppercase tracking-widest ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-amber-500/10 border-amber-500/30 text-amber-400"}`}>
                     {show.all_ages ? "✅ All Ages" : "🔞 21+"}
                   </span>
                 )}
                 {show.cover && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">
                     💵 Cover: {show.cover}
                   </span>
                 )}
@@ -351,7 +397,7 @@ export default function ShowPageClient({
                     <button
                       type="button"
                       onClick={() => setWantAnonymous(!wantAnonymous)}
-                      className={`flex items-center gap-2 px-4 py-2 text-[0.6rem] font-bold uppercase tracking-widest border transition-all cursor-pointer ${
+                      className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-all cursor-pointer ${
                         wantAnonymous
                           ? "border-white/20 bg-white/5 text-white/60"
                           : "border-white/[0.06] text-white/30 hover:text-white/50"
@@ -380,6 +426,74 @@ export default function ShowPageClient({
       <div className="site-container py-14">
         <div className="max-w-[900px] mx-auto">
 
+          {/* Past Show - Notify Me & Video Embed */}
+          {isPast && (
+            <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+              {/* Notify Me Column */}
+              <div className="bg-[#0c0c14] border border-white/5 p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-full blur-[40px] pointer-events-none" />
+                <div>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-2xs font-black text-purple-400 uppercase tracking-widest mb-4">
+                    Missed this show?
+                  </span>
+                  <h3 className="text-xl font-black text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
+                  <p className="text-white/40 text-sm leading-relaxed mb-6">
+                    Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className="text-white/60">{show.venue_name}</strong>.
+                  </p>
+                </div>
+                <div>
+                  {notifySuccess ? (
+                    <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center">
+                      <p className="text-emerald-400 font-bold text-sm">✓ Successfully subscribed!</p>
+                      <p className="text-white/40 text-xs mt-1">We will alert you when new dates are announced.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleNotifyMe} className="space-y-3">
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <input
+                          type="email"
+                          required
+                          placeholder="yourname@domain.com"
+                          value={notifyEmail}
+                          onChange={(e) => setNotifyEmail(e.target.value)}
+                          className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                        />
+                        <button
+                          type="submit"
+                          disabled={notifyLoading}
+                          className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 shrink-0 shadow-[0_0_20px_rgba(133,29,239,0.3)]"
+                        >
+                          {notifyLoading ? "Submitting..." : "Keep Me Posted"}
+                        </button>
+                      </div>
+                      {notifyError && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20 rounded">{notifyError}</p>}
+                    </form>
+                  )}
+                </div>
+              </div>
+
+              {/* Video Embed Column */}
+              <div className="bg-[#0c0c14] border border-white/5 p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-[40px] pointer-events-none" />
+                <div>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-2xs font-black text-red-400 uppercase tracking-widest mb-4">
+                    Live Performance
+                  </span>
+                  <h3 className="text-xl font-black text-white uppercase tracking-wide mb-3">Live Show Clips</h3>
+                </div>
+                <div className="aspect-video w-full rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-black">
+                  <iframe
+                    src="https://www.youtube.com/embed/Dnic7xeXrQo?autoplay=0&rel=0&modestbranding=1"
+                    title="7th Heaven Live Performance Video"
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Clickable count summary */}
           <button
             id="attendee-toggle-btn"
@@ -388,14 +502,14 @@ export default function ShowPageClient({
           >
             <div className="flex items-center gap-6">
               <div className="text-left">
-                <p className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold mb-1">Fans Going</p>
+                <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-1">Fans Going</p>
                 <p className="text-3xl font-extrabold text-white">{goingCount}</p>
               </div>
               {thereCount > 0 && (
                 <>
                   <div className="w-px h-10 bg-white/10" />
                   <div className="text-left">
-                    <p className="text-[0.55rem] uppercase tracking-widest text-emerald-400/60 font-bold mb-1">Here Now</p>
+                    <p className="text-xs uppercase tracking-widest text-emerald-400/60 font-bold mb-1">Here Now</p>
                     <p className="text-3xl font-extrabold text-emerald-400">{thereCount}</p>
                   </div>
                 </>
@@ -406,7 +520,7 @@ export default function ShowPageClient({
             </div>
             <div className="flex items-center gap-3">
               {!isLoggedIn && (
-                <span className="text-[0.6rem] font-bold uppercase tracking-widest text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">
+                <span className="text-xs font-bold uppercase tracking-widest text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">
                   Login to RSVP
                 </span>
               )}
@@ -427,7 +541,7 @@ export default function ShowPageClient({
                     <button
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 text-[0.6rem] font-black uppercase tracking-widest transition-all cursor-pointer ${
+                      className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                         goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"
                       }`}
                     >
@@ -452,7 +566,7 @@ export default function ShowPageClient({
               )}
 
               {/* Anonymous note */}
-              <p className="text-[0.55rem] text-white/20 mt-4 text-center">
+              <p className="text-xs text-white/20 mt-4 text-center">
                 Fans who chose to go anonymously appear as &ldquo;Anonymous Fan&rdquo;
               </p>
             </div>
@@ -475,16 +589,16 @@ export default function ShowPageClient({
                     level="M"
                   />
                 </div>
-                <p className="text-[0.55rem] uppercase tracking-widest text-white/25 font-bold">Scan to open the show page</p>
+                <p className="text-xs uppercase tracking-widest text-white/25 font-bold">Scan to open the show page</p>
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <button onClick={copyLink} className="px-6 py-3 bg-purple-600 text-white text-[0.7rem] font-black uppercase tracking-widest hover:bg-purple-500 transition-all">
+                <button onClick={copyLink} className="px-6 py-3 bg-purple-600 text-white text-sm font-black uppercase tracking-widest hover:bg-purple-500 transition-all">
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </button>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="px-6 py-3 border border-white/10 text-white/50 text-[0.7rem] font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-all"
+                  className="px-6 py-3 border border-white/10 text-white/50 text-sm font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-all"
                 >
                   💬 Text a Friend
                 </a>

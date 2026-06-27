@@ -15,6 +15,8 @@ import '@livekit/components-styles';
 import { Track, Room } from 'livekit-client';
 import { createClient } from '@/utils/supabase/client';
 
+import React from 'react';
+
 interface LiveKitStreamProps {
  room: string;
  username: string;
@@ -22,6 +24,41 @@ interface LiveKitStreamProps {
  onConnected?: () => void;
  onDisconnected?: () => void;
  className?: string;
+}
+
+// Error boundary to catch LiveKit SDK internal errors without crashing the page
+class LiveKitErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback?: React.ReactNode },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.warn('[LiveKit] Component error caught:', error.message);
+  }
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback || (
+        <div className="h-full flex items-center justify-center bg-black/40">
+          <div className="text-center">
+            <p className="text-white/40 text-sm">Stream connection interrupted</p>
+            <button
+              onClick={() => this.setState({ hasError: false, error: null })}
+              className="mt-2 text-xs text-purple-400 underline hover:text-purple-300"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
 export function LiveKitStream({
@@ -111,16 +148,17 @@ export function LiveKitStream({
    style={{ height: '100%' }}
   >
    <RoomAudioRenderer />
-   {isPublisher ? <PublisherView /> : <ViewerView room={room} />}
+   <LiveKitErrorBoundary>
+    {isPublisher ? <PublisherView /> : <ViewerView room={room} />}
+   </LiveKitErrorBoundary>
   </LiveKitRoom>
  );
 }
 
 // Crew member view — shows ONLY their own camera + controls
 function PublisherView() {
- const participants = useParticipants();
  const tracks = useTracks([
-  { source: Track.Source.Camera, withPlaceholder: true },
+  { source: Track.Source.Camera, withPlaceholder: false },
  ]);
 
  // Only show local camera track — exclude screen share and remote viewers
@@ -154,12 +192,9 @@ function PublisherView() {
   <div className="h-full flex flex-col">
    <div className="flex-1 relative">
     {localCameraTrack.length > 0 ? (
-     <GridLayout
-      tracks={localCameraTrack}
-      style={{ height: '100%' }}
-     >
-      <ParticipantTile />
-     </GridLayout>
+     <div style={{ height: '100%', position: 'relative' }}>
+      <ParticipantTile trackRef={localCameraTrack[0]} style={{ height: '100%', width: '100%' }} />
+     </div>
     ) : (
      <div className="h-full flex items-center justify-center">
       <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
@@ -211,7 +246,7 @@ function ViewerView({ room }: { room: string }) {
     <div className="text-center">
      <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
      <p className="text-white/50 text-base font-medium">Connecting to stream...</p>
-     <p className="text-white/20 text-[0.6rem] font-mono mt-1 opacity-40">Room ID: {room}</p>
+     <p className="text-white/20 text-xs font-mono mt-1 opacity-40">Room ID: {room}</p>
      <p className="text-white/20 text-sm mt-1">Crew members will appear when they go live</p>
     </div>
    </div>

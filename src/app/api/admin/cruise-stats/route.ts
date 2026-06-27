@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { requireAdmin } from '@/lib/api-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,7 @@ export async function GET() {
     let adults = 0;
     let children = 0;
 
-    const recentSignups: { name: string; email: string; phone: string; date: string; partySize: number }[] = [];
+    const recentSignups: { id: string; name: string; email: string; phone: string; date: string; partySize: number }[] = [];
 
     for (const signup of data) {
       total += (signup.guest_count || 1);
@@ -30,6 +31,7 @@ export async function GET() {
       adults += 1;
 
       recentSignups.push({
+        id: signup.id,
         name: signup.name || 'Unknown',
         email: signup.email || '',
         phone: signup.phone || '',
@@ -60,8 +62,32 @@ export async function GET() {
       adults,
       children,
       signups: data.length,
-      recentSignups: recentSignups.slice(0, 10), // top 10 most recent
+      recentSignups,
     });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    // Verify caller is an authenticated admin
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
+    const { id } = await request.json();
+    if (!id) {
+      return NextResponse.json({ error: 'Missing signup id' }, { status: 400 });
+    }
+
+    const { error } = await supabase
+      .from('cruise_signups')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    return NextResponse.json({ success: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

@@ -1,0 +1,91 @@
+Created At: 2026-06-19T18:53:55Z
+Completed At: 2026-06-19T18:53:57Z
+The following changes were made by the multi_replace_file_content tool to: /Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -97,6 +97,7 @@
+   const [users, setUsers] = useState<any[]>([]);
+   const [filterRole, setFilterRole] = useState<"All" | "fan" | "crew" | "admin">("All");
+   const [moderationQueue, setModerationQueue] = useState<any[]>([]);
++  const [memoryQueue, setMemoryQueue] = useState<any[]>([]);
+   const [bookings, setBookings] = useState<any[]>([]);
+   const [isLoading, setIsLoading] = useState(true);
+   const [adminTab, setAdminTab] = useState<'band' | 'cruise' | 'merch' | 'alerts'>('band');
+@@ -554,6 +554,14 @@
+       } catch (err) {}
+ 
+       try {
++        const memRes = await fetch('/api/fans/memories?all=true');
++        if (memRes.ok) {
++          const allMems = await memRes.json();
++          setMemoryQueue(allMems.filter((m: any) => !m.approved));
++        }
++      } catch (err) {}
++
++      try {
+         const bookingRes = await fetch('/api/booking');
+         if (bookingRes.ok) setBookings(await bookingRes.json());
+       } catch (err) {}
+@@ -702,6 +702,19 @@
+     }
+   };
+ 
++  const moderateMemory = async (id: string, action: 'approve' | 'reject') => {
++    setMemoryQueue(current => current.filter(m => m.id !== id));
++    try {
++      await fetch('/api/fans/memories', {
++        method: 'PATCH',
++        headers: { 'Content-Type': 'application/json' },
++        body: JSON.stringify({ id, action })
++      });
++    } catch (err) {
++      console.error(err);
++    }
++  };
++
+   const [bannerSaveStatus, setBannerSaveStatus] = useState<string | null>(null);
+ 
+   const updateGlobalBanner = async (overrides?: { isActive?: boolean; expiresAt?: string | null }) => {
+@@ -2558,6 +2558,77 @@
+             </section>
+ 
+ 
++            {/* ── Memory Moderation Queue ── */}
++            <se
+<truncated 3440 bytes>
+                {mem.show_id && (
++                            <p className="text-xs text-white/30 mt-2 font-bold uppercase tracking-widest">Show ID: {mem.show_id}</p>
++                          )}
++                          {mem.photo_url && (
++                            <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
++                              <img src={mem.photo_url} alt="" className="w-full h-full object-cover" />
++                            </div>
++                          )}
++                        </div>
++                        <div className="flex gap-2 shrink-0">
++                          <button
++                            onClick={() => moderateMemory(mem.id, 'reject')}
++                            className="px-4 py-2 text-xs font-black uppercase tracking-widest text-white/40 border border-white/10 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all rounded-lg"
++                          >
++                            Reject
++                          </button>
++                          <button
++                            onClick={() => moderateMemory(mem.id, 'approve')}
++                            className="px-4 py-2 text-xs font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-all rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]"
++                          >
++                            Approve
++                          </button>
++                        </div>
++                      </div>
++                    ))}
++                  </div>
++                )}
++              </div>
++            </section>
++
++
+             {/* ── Referral Program ── */}
+             <section className="mt-8">
+               <ReferralProgramPanel />
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

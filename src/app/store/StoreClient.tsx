@@ -58,13 +58,13 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
         {/* Header */}
         <div className="mb-6 text-center">
-          <span className="inline-block text-[0.75rem] font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">
+          <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">
             Official Store
           </span>
           <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-tight tracking-tight text-white">
             Band <span className="gradient-text">Merch</span>
           </h1>
-          <p className="text-white/40 mt-4 max-w-lg mx-auto text-[0.9rem]">
+          <p className="text-white/40 mt-4 max-w-lg mx-auto text-base">
             Apparel, Music, and more directly from the band.
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`text-[0.7rem] font-bold uppercase tracking-[0.1em] px-5 py-2.5 border transition-all cursor-pointer ${
+              className={`text-sm font-bold uppercase tracking-[0.1em] px-5 py-2.5 border transition-all cursor-pointer ${
                 activeCategory === cat
                   ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]"
                   : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
@@ -103,7 +103,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                     <span className="text-4xl opacity-30">🛒</span>
                   )}
                   {product.quantityAvailable === 0 && (
-                     <div className="absolute top-3 left-3 bg-red-500/80 backdrop-blur-sm text-white text-[0.55rem] font-bold uppercase tracking-wider px-3 py-1">
+                     <div className="absolute top-3 left-3 bg-red-500/80 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider px-3 py-1">
                        Sold Out
                      </div>
                   )}
@@ -111,19 +111,19 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
                 <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between gap-2 mb-1">
-                    <h3 className="text-[0.85rem] font-bold text-white leading-tight">{product.title}</h3>
-                    <span className="text-[var(--color-accent)] font-bold text-[0.85rem] shrink-0">{price}</span>
+                    <h3 className="text-base font-bold text-white leading-tight">{product.title}</h3>
+                    <span className="text-[var(--color-accent)] font-bold text-base shrink-0">{price}</span>
                   </div>
 
                   {product.description && (
-                    <p className="text-[0.7rem] text-white/30 mb-3 line-clamp-2">{product.description}</p>
+                    <p className="text-sm text-white/30 mb-3 line-clamp-2">{product.description}</p>
                   )}
 
                   <div className="mt-auto pt-3">
                     <button
                       onClick={() => handleCheckout(variant.id)}
                       disabled={product.quantityAvailable === 0}
-                      className="w-full block text-center bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:hover:bg-[var(--color-accent)] text-white font-bold text-[0.75rem] uppercase tracking-[0.1em] py-2.5 transition-all"
+                      className="w-full block text-center bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:hover:bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.1em] py-2.5 transition-all"
                     >
                       {product.quantityAvailable === 0 ? 'Sold Out' : 'Buy Now'}
                     </button>

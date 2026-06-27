@@ -150,7 +150,7 @@ export default function ProximityPanel() {
         <div className="absolute -right-20 -top-20 w-56 h-56 bg-blue-500/5 blur-[80px] rounded-full" />
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-5">
-            <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
               📍 Show Proximity Alerts
             </span>
           </div>
@@ -176,7 +176,7 @@ export default function ProximityPanel() {
           {/* Zip + Radius */}
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div>
-              <label className="text-[0.55rem] uppercase tracking-widest font-bold text-white/30 mb-2 block">Your Zip Code</label>
+              <label className="text-xs uppercase tracking-widest font-bold text-white/30 mb-2 block">Your Zip Code</label>
               <input
                 type="text"
                 maxLength={5}
@@ -187,7 +187,7 @@ export default function ProximityPanel() {
               />
             </div>
             <div>
-              <label className="text-[0.55rem] uppercase tracking-widest font-bold text-white/30 mb-2 block">Radius</label>
+              <label className="text-xs uppercase tracking-widest font-bold text-white/30 mb-2 block">Radius</label>
               <select
                 value={radius}
                 onChange={e => setRadius(Number(e.target.value))}
@@ -203,7 +203,7 @@ export default function ProximityPanel() {
           <button
             onClick={saveSettings}
             disabled={saving || !zip || zip.length < 5}
-            className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-400 disabled:opacity-40 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] cursor-pointer"
+            className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-400 disabled:opacity-40 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] cursor-pointer"
           >
             {saving ? "Saving…" : saveStatus === "saved" ? "✓ Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
           </button>
@@ -214,12 +214,12 @@ export default function ProximityPanel() {
       {notificationsEnabled && (
         <div className="p-6 bg-[#0a0a0f]/80 border border-white/5 rounded-2xl">
           <div className="flex items-center justify-between mb-5">
-            <span className="text-[0.65rem] font-black uppercase tracking-widest text-blue-400">
+            <span className="text-xs font-black uppercase tracking-widest text-blue-400">
               📍 Shows Within {radius} Miles
             </span>
             <button
               onClick={fetchNearbyShows}
-              className="text-[0.55rem] uppercase tracking-widest text-white/30 hover:text-blue-400 font-bold transition-colors"
+              className="text-xs uppercase tracking-widest text-white/30 hover:text-blue-400 font-bold transition-colors"
             >
               Refresh
             </button>
@@ -246,7 +246,7 @@ export default function ProximityPanel() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-lg shrink-0">
-                        <span className="text-[0.55rem] font-black text-blue-400 uppercase">
+                        <span className="text-xs font-black text-blue-400 uppercase">
                           {new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { month: "short" })}
                         </span>
                         <span className="text-lg font-black text-white leading-none">
@@ -254,14 +254,16 @@ export default function ProximityPanel() {
                         </span>
                       </div>
                       <div>
-                        <p className="text-[0.85rem] font-bold text-white group-hover:text-blue-400 transition-colors">{show.venue_name}</p>
-                        <p className="text-[0.65rem] text-white/40">{show.city}, {show.state}</p>
-                        <p className="text-[0.55rem] text-blue-400/70 font-bold mt-0.5">📍 {show.distanceMiles} miles away</p>
+                        <p className="text-base font-bold text-white group-hover:text-blue-400 transition-colors">{show.venue_name}</p>
+                        <p className="text-xs text-white/40">
+                          {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state || ""}
+                        </p>
+                        <p className="text-xs text-blue-400/70 font-bold mt-0.5">📍 {show.distanceMiles} miles away</p>
                       </div>
                     </div>
                     <button
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
-                      className={`px-4 py-2 text-[0.55rem] font-black uppercase tracking-widest rounded-lg transition-all border ${
+                      className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-all border ${
                         myStatus && selectedShow?.id === show.id
                           ? "bg-blue-500/20 text-blue-400 border-blue-500/40"
                           : "bg-white/[0.03] text-white/40 border-white/10 hover:bg-blue-500/10 hover:text-blue-400 hover:border-blue-500/30"
@@ -275,20 +277,20 @@ export default function ProximityPanel() {
                   {selectedShow?.id === show.id && (
                     <div className="mt-4 pt-4 border-t border-white/[0.06]">
                       <div className="flex items-center justify-between mb-3">
-                        <p className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold">
+                        <p className="text-xs uppercase tracking-widest text-white/30 font-bold">
                           {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
                         </p>
                         <div className="flex items-center gap-2">
                           <a
                             href={show.showPageUrl || `/shows/${show.id}`}
-                            className="text-[0.55rem] uppercase tracking-widest text-blue-400 hover:text-white font-bold transition-colors"
+                            className="text-xs uppercase tracking-widest text-blue-400 hover:text-white font-bold transition-colors"
                           >
                             View Show Page →
                           </a>
                           <span className="text-white/10">·</span>
                           <a
                             href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
-                            className="text-[0.55rem] uppercase tracking-widest text-white/30 hover:text-white font-bold transition-colors"
+                            className="text-xs uppercase tracking-widest text-white/30 hover:text-white font-bold transition-colors"
                           >
                             💬 Share
                           </a>
@@ -302,12 +304,12 @@ export default function ProximityPanel() {
                         <div className="flex flex-wrap gap-2">
                           {attendees.slice(0, 12).map(a => (
                             <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-white/5 rounded-full">
-                              <div className="w-5 h-5 rounded-full bg-purple-500/30 flex items-center justify-center text-[0.45rem] font-black text-purple-300">
+                              <div className="w-5 h-5 rounded-full bg-purple-500/30 flex items-center justify-center text-2xs font-black text-purple-300">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
-                              <span className="text-[0.65rem] text-white/60 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>
+                              <span className="text-xs text-white/60 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>
                               {a.profiles?.tier && a.profiles.tier !== "Bronze" && (
-                                <span className={`text-[0.45rem] font-black uppercase ${tierColors[a.profiles.tier]}`}>
+                                <span className={`text-2xs font-black uppercase ${tierColors[a.profiles.tier]}`}>
                                   {a.profiles.tier}
                                 </span>
                               )}
@@ -315,7 +317,7 @@ export default function ProximityPanel() {
                           ))}
                           {attendees.length > 12 && (
                             <div className="px-3 py-1.5 bg-white/[0.03] border border-white/5 rounded-full">
-                              <span className="text-[0.65rem] text-white/30">+{attendees.length - 12} more</span>
+                              <span className="text-xs text-white/30">+{attendees.length - 12} more</span>
                             </div>
                           )}
                         </div>

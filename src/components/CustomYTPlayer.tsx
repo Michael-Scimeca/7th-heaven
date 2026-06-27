@@ -277,14 +277,14 @@ export default function CustomYTPlayer({
               <div className="w-1 h-6 bg-[var(--color-accent)] rounded-full shrink-0" />
               <div className="min-w-0">
                 <h3 className="text-sm font-bold text-white truncate">{title}</h3>
-                <p className="text-[0.65rem] text-white/40">7th Heaven • {year}</p>
+                <p className="text-xs text-white/40">7th Heaven • {year}</p>
               </div>
             </div>
             <button
               onClick={(e) => { e.stopPropagation(); onClose(); }}
               className="flex items-center gap-1.5 text-white/50 hover:text-white transition-colors cursor-pointer shrink-0 ml-4"
             >
-              <span className="text-[0.6rem] font-bold tracking-widest uppercase hidden sm:inline">ESC</span>
+              <span className="text-xs font-bold tracking-widest uppercase hidden sm:inline">ESC</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -418,7 +418,7 @@ export default function CustomYTPlayer({
                 </div>
 
                 {/* Time */}
-                <span className="text-[0.7rem] text-white/40 font-mono tabular-nums hidden sm:inline">
+                <span className="text-sm text-white/40 font-mono tabular-nums hidden sm:inline">
                   {formatTime(currentTime)} / {formatTime(duration)}
                 </span>
               </div>

@@ -1,7 +1,7 @@
 'use client';
 
-import { LiveSimulation } from '@/app/live/demo/page';
+import { FakeLiveStream } from '@/components/FakeLiveStream';
 
 export default function LiveMichaelPage() {
-  return <LiveSimulation memberId="michael" />;
+  return <FakeLiveStream memberId="michael" />;
 }

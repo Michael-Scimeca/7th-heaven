@@ -141,16 +141,16 @@ function MerchDashboard() {
       <div className="border-b border-white/10 bg-[#0a0a10]/90 backdrop-blur-sm sticky top-[72px] z-20">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <p className="text-[0.55rem] text-pink-500 font-black uppercase tracking-[0.3em]">7th Heaven</p>
+            <p className="text-xs text-pink-500 font-black uppercase tracking-[0.3em]">7th Heaven</p>
             <h1 className="text-white font-black text-lg uppercase tracking-widest">Merch Table</h1>
           </div>
           <div className="flex items-center gap-2">
             {pendingPickups.length > 0 && (
-              <span className="px-2.5 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-400 text-[0.6rem] font-black uppercase tracking-widest rounded-full animate-pulse">
+              <span className="px-2.5 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-400 text-xs font-black uppercase tracking-widest rounded-full animate-pulse">
                 {pendingPickups.length} Pickup{pendingPickups.length !== 1 ? 's' : ''} Pending
               </span>
             )}
-            <span className="text-white/30 text-[0.6rem] font-mono">{isDemo ? 'DEMO MODE' : member?.name}</span>
+            <span className="text-white/30 text-xs font-mono">{isDemo ? 'DEMO MODE' : member?.name}</span>
           </div>
         </div>
       </div>
@@ -163,7 +163,7 @@ function MerchDashboard() {
             <div className="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-sm">🏆</div>
             <div>
               <h2 className="text-white font-black text-sm uppercase tracking-wide">Raffle Winner PINs</h2>
-              <p className="text-white/30 text-[0.55rem]">Fan shows their PIN — match it here, then tap Award</p>
+              <p className="text-white/30 text-xs">Fan shows their PIN — match it here, then tap Award</p>
             </div>
           </div>
 
@@ -182,8 +182,8 @@ function MerchDashboard() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <p className="text-yellow-400 font-black text-sm">{win.winner}</p>
-                        <span className="text-white/20 text-[0.5rem] font-mono">· {win.prize}</span>
-                        {awarded && <span className="text-emerald-400 font-black text-[0.5rem] uppercase tracking-widest">✓ Awarded</span>}
+                        <span className="text-white/20 text-2xs font-mono">· {win.prize}</span>
+                        {awarded && <span className="text-emerald-400 font-black text-2xs uppercase tracking-widest">✓ Awarded</span>}
                       </div>
                       {/* PIN displayed as large readable digits */}
                       <div className="flex items-center gap-1.5">
@@ -242,7 +242,7 @@ function MerchDashboard() {
                     <div className="px-5 py-3 bg-pink-500/5 border-b border-pink-500/20 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
-                        <span className="text-pink-400 font-black text-[0.6rem] uppercase tracking-widest">Pending Pickup</span>
+                        <span className="text-pink-400 font-black text-xs uppercase tracking-widest">Pending Pickup</span>
                       </div>
                       <span className="text-white font-black text-sm tracking-widest">{order.code}</span>
                     </div>
@@ -261,7 +261,7 @@ function MerchDashboard() {
                 ))}
                 {claimedPickups.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-white/20 text-[0.55rem] font-black uppercase tracking-widest px-1">Completed</p>
+                    <p className="text-white/20 text-xs font-black uppercase tracking-widest px-1">Completed</p>
                     {claimedPickups.map(order => (
                       <div key={order.id} className="bg-[#0f0f18] border border-white/5 rounded-xl px-5 py-3 flex items-center justify-between opacity-50">
                         <div>

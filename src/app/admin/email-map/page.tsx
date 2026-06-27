@@ -41,12 +41,12 @@ function Node({
     <div className={`border transition-all flex flex-col items-center justify-center text-center w-full ${colors[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}>
       <div className="flex items-center gap-1.5 mb-0.5">
         <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dots[color]}`} />
-        <span className="text-[0.55rem] font-black uppercase tracking-widest leading-tight">
+        <span className="text-xs font-black uppercase tracking-widest leading-tight">
           {icon && <span className="mr-1">{icon}</span>}
           {label}
         </span>
       </div>
-      {sub && <span className="text-[0.45rem] text-white/20 font-mono mt-0.5">{sub}</span>}
+      {sub && <span className="text-2xs text-white/20 font-mono mt-0.5">{sub}</span>}
     </div>
   );
 }
@@ -86,7 +86,7 @@ export default function EmailMapPage() {
         
         {/* Header */}
         <div className="mb-16">
-          <span className="inline-block text-[0.6rem] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-3 py-1 mb-4">
+          <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-3 py-1 mb-4">
             System Architecture
           </span>
           <h1 className="text-4xl font-extrabold tracking-tight mb-4">
@@ -98,7 +98,7 @@ export default function EmailMapPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap items-center gap-6 mb-12 text-[0.6rem] font-bold uppercase tracking-widest border-b border-white/[0.06] pb-8">
+        <div className="flex flex-wrap items-center gap-6 mb-12 text-xs font-bold uppercase tracking-widest border-b border-white/[0.06] pb-8">
           <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-purple-500 inline-block" /> Fan Transactional</span>
           <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-cyan-500 inline-block" /> Cruise System</span>
           <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> Event Planner</span>
@@ -169,7 +169,7 @@ export default function EmailMapPage() {
 
             {/* Integration Points */}
             <div className="my-16 border-t border-white/[0.06] relative">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] px-4 text-[0.55rem] uppercase tracking-widest text-white/20 font-bold italic">External Services</span>
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] px-4 text-xs uppercase tracking-widest text-white/20 font-bold italic">External Services</span>
             </div>
 
             <div className="grid grid-cols-3 gap-8">
@@ -197,7 +197,7 @@ export default function EmailMapPage() {
             <p className="text-white/40 text-xs leading-relaxed mb-4">
               To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className="text-white/60">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
             </p>
-            <div className="bg-black/40 p-4 rounded font-mono text-[0.65rem] text-blue-400">
+            <div className="bg-black/40 p-4 rounded font-mono text-xs text-blue-400">
               fetch(&apos;/api/email&apos;, &#123; method: &apos;POST&apos;, body: &#123; to, subject, html &#125; &#125;)
             </div>
           </div>
@@ -209,7 +209,7 @@ export default function EmailMapPage() {
             <p className="text-white/40 text-xs leading-relaxed mb-4">
               Cancellation and status links use crypographic tokens stored in Supabase. This allows fans to manage their RSVPs or bookings directly from their inbox without requiring a password login every time.
             </p>
-            <div className="bg-black/40 p-4 rounded font-mono text-[0.65rem] text-cyan-400">
+            <div className="bg-black/40 p-4 rounded font-mono text-xs text-cyan-400">
               URL: /cruise/cancel?token=7f9a...
             </div>
           </div>

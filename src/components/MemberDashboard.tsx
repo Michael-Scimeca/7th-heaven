@@ -2,7 +2,14 @@
 
 import { useMember, tierColors } from "@/context/MemberContext";
 import { useEffect, useState, useMemo } from "react";
-import FanUploadForm from "./FanUploadForm";
+import dynamic from "next/dynamic";
+
+const FanUploadForm = dynamic(() => import("./FanUploadForm"), {
+  ssr: false,
+  loading: () => <p className="text-white/40 animate-pulse">Loading upload form...</p>,
+});
+
+import PickAwardsSection from "./PickAwardsSection";
 
 // Venue data for proximity check
 const showVenues = [
@@ -68,6 +75,31 @@ export default function MemberDashboard() {
 
  // Fan Authored Photos State
  const [myPhotos, setMyPhotos] = useState<any[]>([]);
+
+ // Fan Prize Claim State
+ const [claimConfirmId, setClaimConfirmId] = useState<string | null>(null);
+ const [isFlashing, setIsFlashing] = useState(false);
+ const [localInbox, setLocalInbox] = useState<any[]>([]);
+
+ useEffect(() => {
+   if (typeof window !== "undefined") {
+     setLocalInbox(JSON.parse(localStorage.getItem("vip_inbox_messages") || "[]"));
+   }
+ }, []);
+
+ const executeClaimFlash = (id: string) => {
+   setClaimConfirmId(null);
+   setIsFlashing(true);
+   
+   // Play flashing animation for 3.5 seconds
+   setTimeout(() => {
+     setIsFlashing(false);
+     // Mark as claimed in local state and localStorage
+     const updated = localInbox.map(msg => msg.id === id ? { ...msg, isClaimed: true } : msg);
+     setLocalInbox(updated);
+     localStorage.setItem("vip_inbox_messages", JSON.stringify(updated));
+   }, 3500);
+ };
 
  useEffect(() => {
   if (!member?.name) return;
@@ -177,7 +209,7 @@ export default function MemberDashboard() {
         </div>
        </div>
 
-       <div className="mt-8 pt-8 border-t border-white/10 text-center text-[0.65rem] text-white/30">
+       <div className="mt-8 pt-8 border-t border-white/10 text-center text-xs text-white/30">
         <p>By creating an account, you agree to receive SMS proximity notifications. You can turn these off at any time using the dashboard.</p>
        </div>
       </div>
@@ -228,13 +260,13 @@ export default function MemberDashboard() {
          const role = member?.role ?? 'fan';
          const cfg = { fan: { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' }, crew: { label: 'CREW', icon: '🛡️', cls: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' }, admin: { label: 'ADMIN', icon: '👑', cls: 'text-amber-400 bg-amber-500/10 border-amber-500/20' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' };
          return (
-          <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
-           <span className="text-[0.5rem]">{cfg.icon}</span>{cfg.label}
+          <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
+           <span className="text-2xs">{cfg.icon}</span>{cfg.label}
           </span>
          );
         })()}
        </div>
-       <p className="text-[0.7rem] text-white/40">{member!.email}</p>
+       <p className="text-sm text-white/40">{member!.email}</p>
       </div>
      </div>
      <div className="flex items-center gap-2">
@@ -261,26 +293,23 @@ export default function MemberDashboard() {
         Prize <span className="gradient-text">Wallet</span>
        </h2>
       </div>
-      <span className="text-[0.55rem] uppercase tracking-[0.2em] font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Claim PINs</span>
+      <span className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Claim PINs</span>
      </div>
 
      <div className="relative z-10">
       {(() => {
-       const stored = typeof window !== "undefined" ? localStorage.getItem("vip_inbox_messages") : null;
-       const messages = stored ? JSON.parse(stored) : [];
-
-       if (messages.length === 0) {
+       if (localInbox.length === 0) {
         return (
          <div className="py-6 flex flex-col items-center border border-white/5 bg-white/5 rounded-xl border-dashed">
           <p className="text-sm text-white/50 font-bold">Your wallet is currently empty.</p>
-          <p className="text-[0.6rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
+          <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
          </div>
         );
        }
 
        return (
         <div className="flex flex-col gap-3">
-         {messages.map((msg: any) => {
+         {localInbox.map((msg: any) => {
           const pinMatch = msg.desc.match(/PIN:\s*(\d+)/i);
           const pin = pinMatch ? pinMatch[1] : null;
 
@@ -290,18 +319,34 @@ export default function MemberDashboard() {
              <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : 'bg-white/5 border border-white/10'}`}>{msg.icon}</div>
              <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-               <h4 className="font-bold text-[0.85rem] text-white tracking-wide">{msg.title}</h4>
-               {msg.isNew && <span className="text-[0.45rem] font-black uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+               <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
+               {msg.isNew && <span className="text-2xs font-black uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
               </div>
-              <p className="text-[0.65rem] text-white/60 max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-              <p className="text-[0.5rem] uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
+              <p className="text-xs text-white/60 max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
+              <p className="text-2xs uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
              </div>
             </div>
             
             {pin && (
-             <div className="flex flex-col sm:flex-row items-center gap-3 px-5 py-2 border border-dashed border-yellow-400/50 rounded-xl bg-yellow-400/5 w-full sm:w-auto mt-2 sm:mt-0">
-              <span className="text-[0.45rem] uppercase tracking-[0.2em] text-yellow-500/80 font-bold whitespace-nowrap">Show this PIN</span>
-              <span className="font-mono text-2xl font-black text-yellow-400 tracking-[0.25em] drop-shadow-[0_0_10px_rgba(250,204,21,0.6)]">{pin}</span>
+             <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
+              {msg.isClaimed ? (
+                <div className="px-5 py-2 border border-white/20 bg-white/5 opacity-50 grayscale rounded-xl">
+                  <span className="text-2xs uppercase tracking-[0.2em] font-bold text-white/40 block text-center mb-1">Claimed</span>
+                  <span className="font-mono text-xl font-black tracking-[0.25em] text-white/30 line-through">{pin}</span>
+                </div>
+              ) : claimConfirmId === msg.id ? (
+                <div className="p-3 border border-red-500/50 bg-red-500/10 rounded-xl text-center flex flex-col gap-2 w-full max-w-xs">
+                  <p className="text-xs font-bold text-red-400 uppercase tracking-widest leading-tight animate-pulse">Show this to merch crew.</p>
+                  <button onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                    CLICK TO FLASH & CLAIM
+                  </button>
+                  <button onClick={() => setClaimConfirmId(null)} className="text-xs text-white/40 hover:text-white uppercase tracking-widest cursor-pointer">Cancel</button>
+                </div>
+              ) : (
+                <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-black text-sm uppercase tracking-[0.2em] rounded-xl transition-all shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
+                  Redeem Prize
+                </button>
+              )}
              </div>
             )}
            </div>
@@ -325,7 +370,7 @@ export default function MemberDashboard() {
       { label: "Fan Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric" }) },
      ].map((s) => (
       <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
-       <p className="text-[0.55rem] uppercase tracking-[0.2em] text-white/25 mb-1">{s.label}</p>
+       <p className="text-xs uppercase tracking-[0.2em] text-white/25 mb-1">{s.label}</p>
        <p className={`text-2xl font-bold ${s.accent ? "text-[var(--color-accent)]" : ""}`}>
         {s.value}
        </p>
@@ -335,219 +380,8 @@ export default function MemberDashboard() {
 
 
 
-    {/* Pick Awards — Collector Section */}
-    <div className="mb-6 p-6 bg-white/[0.02] border border-white/10">
-     <div className="flex items-center justify-between mb-5">
-      <h2 className="text-lg font-bold">
-       Pick <span className="gradient-text">Awards</span>
-      </h2>
-      <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">Collect Picks · Enter Lotteries</span>
-     </div>
-
-     {(() => {
-      const pickTypes = [
-       { id: "purple", name: "Classic Purple", rarity: "Common", img: "/images/picks/purple.png", color: "#a855f7", owned: 3 },
-       { id: "red", name: "Crimson Fire", rarity: "Uncommon", img: "/images/picks/red.png", color: "#ef4444", owned: 2 },
-       { id: "black", name: "Stealth Black", rarity: "Uncommon", img: "/images/picks/black.png", color: "#6b7280", owned: 1 },
-       { id: "silver", name: "Chrome Silver", rarity: "Rare", img: "/images/picks/silver.png", color: "#c0c0c0", owned: 1 },
-       { id: "gold", name: "24K Gold", rarity: "Epic", img: "/images/picks/gold.png", color: "#fbbf24", owned: 0 },
-       { id: "holographic", name: "Holographic", rarity: "Legendary", img: "/images/picks/holographic.png", color: "#ec4899", owned: 0 },
-      ];
-
-      const totalOwned = pickTypes.reduce((s, p) => s + p.owned, 0);
-
-      const lotteries = [
-       { name: "Signed Guitar Raffle", requirement: "Collect 5+ picks", minPicks: 5, prize: "Signed Electric Guitar", entries: 142, endsIn: "3 days" },
-       { name: "VIP Season Pass", requirement: "Collect 1 of each rarity", minPicks: 6, prize: "Free entry to every 2026 show", entries: 38, endsIn: "12 days" },
-       { name: "Backstage Birthday Party", requirement: "Collect 10+ picks", minPicks: 10, prize: "Private backstage party for you + 5 friends", entries: 17, endsIn: "28 days" },
-      ];
-
-      const rarityColors: Record<string, string> = {
-       Common: "text-white/40",
-       Uncommon: "text-green-400",
-       Rare: "text-blue-400",
-       Epic: "text-yellow-400",
-       Legendary: "text-pink-400",
-      };
-
-      return (
-       <>
-        {/* Pick Collection Grid */}
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-6">
-         {pickTypes.map((pick) => (
-          <div
-           key={pick.id}
-           className={`relative p-3 border text-center transition-all ${pick.owned > 0 ? "border-white/10 bg-white/[0.02]" : "border-white/5 opacity-30 grayscale"}`}
-          >
-           <div className="relative mx-auto w-16 h-16 mb-2">
-            <img src={pick.img} alt={pick.name} className="w-full h-full object-contain" />
-            {pick.owned > 1 && (
-             <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-[0.55rem] font-bold bg-[var(--color-accent)] text-white">
-              ×{pick.owned}
-             </span>
-            )}
-           </div>
-           <p className="text-[0.6rem] font-bold text-white/70 truncate">{pick.name}</p>
-           <p className={`text-[0.5rem] font-bold uppercase tracking-[0.1em] ${rarityColors[pick.rarity]}`}>{pick.rarity}</p>
-           {pick.owned === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center">
-             <span className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.15em] bg-black/60 px-2 py-1">Locked</span>
-            </div>
-           )}
-          </div>
-         ))}
-        </div>
-
-        {/* Collection Stats */}
-        <div className="flex items-center gap-6 mb-6 p-3 bg-white/[0.03] border border-white/5">
-         <div>
-          <p className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">Total Picks</p>
-          <p className="text-xl font-bold text-[var(--color-accent)]">{totalOwned}</p>
-         </div>
-         <div>
-          <p className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">Unique Types</p>
-          <p className="text-xl font-bold text-white">{pickTypes.filter(p => p.owned > 0).length}/{pickTypes.length}</p>
-         </div>
-         <div className="ml-auto text-right">
-          <p className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">How to earn</p>
-          <p className="text-[0.6rem] text-white/40">Attend shows · Merch purchases · Social shares · Referrals</p>
-         </div>
-        </div>
-
-
-       </>
-      );
-     })()}
-    </div>
-
-
-
-    {/* Get Show Alerts — Full-width proximity section */}
-    <div className="mt-6 p-0 bg-white/[0.02] border border-white/10 overflow-hidden">
-     <div className="grid md:grid-cols-2">
-      {/* Left — Form */}
-      <div className="p-8 md:p-10">
-       <div className="flex items-center gap-3 mb-2">
-        <span className="text-2xl">📱</span>
-        <h2 className="text-lg font-bold">Get Show <span className="gradient-text">Alerts</span></h2>
-       </div>
-       <p className="text-sm text-white/40 mb-8">Never miss a show near you — get text alerts when we announce new dates in your area.</p>
-
-       <div className="bg-white/[0.04] border border-white/10 p-5 flex items-center justify-between mt-8">
-        <div>
-         <p className="text-sm font-bold text-white">SMS Notifications</p>
-         <p className="text-[0.65rem] text-white/40 mt-1">Receive texts for exclusive drops and nearby shows.</p>
-        </div>
-        <label className="relative inline-flex items-center cursor-pointer">
-         <input type="checkbox" className="sr-only peer" defaultChecked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} />
-         <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-accent)]"></div>
-        </label>
-       </div>
-
-       <div className="mt-6 p-5 bg-white/[0.01] border border-white/5">
-        <div className="flex items-center justify-between mb-3">
-         <p className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 font-bold">Current Settings</p>
-         <button className="text-[0.6rem] text-[var(--color-accent)] hover:text-white uppercase tracking-[0.1em] font-bold transition-colors cursor-pointer">Edit Profile</button>
-        </div>
-        <div className="flex flex-col gap-2 text-[0.7rem] text-white/60">
-         <span className="flex items-center gap-2"><span className="text-white/30 text-xs">📍</span> <strong className="text-white">{member?.location ? "Location tracked" : "60601"}</strong></span>
-         <span className="flex items-center gap-2"><span className="text-white/30 text-xs">📱</span> <strong className="text-white">{(member as any)?.phone || "(555) 123-4567"}</strong></span>
-        </div>
-       </div>
-
-       <p className="text-[0.55rem] text-white/20 mt-8">Msg & data rates may apply. Reply STOP to instantly unsubscribe.</p>
-      </div>
-
-      {/* Right — Phone Mockup with notification */}
-      <div className="relative flex items-center justify-center bg-gradient-to-br from-[#1a0a2e] to-[#0a0a14] min-h-[500px] overflow-hidden">
-       {/* Map grid background */}
-       <div className="absolute inset-0 opacity-30" style={{
-        backgroundImage: `
-         linear-gradient(rgba(168,85,247,0.15) 1px, transparent 1px),
-         linear-gradient(90deg, rgba(168,85,247,0.15) 1px, transparent 1px),
-         linear-gradient(rgba(168,85,247,0.08) 1px, transparent 1px),
-         linear-gradient(90deg, rgba(168,85,247,0.08) 1px, transparent 1px)
-        `,
-        backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px'
-       }} />
-
-       {/* Radial purple glow */}
-       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[var(--color-accent)]/20 rounded-full blur-[80px]" />
-
-       {/* Phone frame */}
-       <div className="relative z-10 w-[260px] rounded-[32px] border-[3px] border-white/10 bg-[#0c0c18] shadow-[0_0_60px_rgba(168,85,247,0.2)] overflow-hidden">
-        {/* Status bar */}
-        <div className="flex items-center justify-between px-5 pt-3 pb-1">
-         <span className="text-[0.55rem] font-bold text-white/50">9:41</span>
-         <div className="w-20 h-5 bg-black rounded-full" />
-         <div className="flex gap-1">
-          <div className="w-3.5 h-2 border border-white/30 rounded-sm"><div className="w-2 h-full bg-white/50 rounded-sm" /></div>
-         </div>
-        </div>
-
-        {/* Notification banner */}
-        <div className="mx-3 mt-2 p-3 bg-gradient-to-r from-[var(--color-accent)] to-[#ec4899] rounded-xl">
-         <p className="text-[0.65rem] font-extrabold text-white leading-tight">7th Heaven is playing in your area!</p>
-         <p className="text-[0.55rem] font-bold text-white/80 mt-0.5">
-          {nearbyShows.length > 0 ? `${nearbyShows[0].name} @ ${nearbyShows[0].time || "TBD"}` : "Station 34 @ 9pm"}
-         </p>
-        </div>
-
-        {/* Map area */}
-        <div className="mx-3 mt-2 h-[220px] rounded-lg overflow-hidden border border-white/5 relative" style={{
-         background: 'linear-gradient(135deg, #1a0533 0%, #0d0d1a 50%, #1a0533 100%)'
-        }}>
-         {/* Map roads */}
-         <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 260 220">
-          <line x1="0" y1="80" x2="260" y2="80" stroke="#a855f7" strokeWidth="0.5" />
-          <line x1="0" y1="140" x2="260" y2="140" stroke="#a855f7" strokeWidth="0.5" />
-          <line x1="80" y1="0" x2="80" y2="220" stroke="#a855f7" strokeWidth="0.5" />
-          <line x1="180" y1="0" x2="180" y2="220" stroke="#a855f7" strokeWidth="0.5" />
-          <line x1="0" y1="50" x2="260" y2="50" stroke="#a855f7" strokeWidth="0.3" opacity="0.5" />
-          <line x1="0" y1="170" x2="260" y2="170" stroke="#a855f7" strokeWidth="0.3" opacity="0.5" />
-          <line x1="40" y1="0" x2="40" y2="220" stroke="#a855f7" strokeWidth="0.3" opacity="0.5" />
-          <line x1="130" y1="0" x2="130" y2="220" stroke="#a855f7" strokeWidth="0.3" opacity="0.5" />
-          <line x1="220" y1="0" x2="220" y2="220" stroke="#a855f7" strokeWidth="0.3" opacity="0.5" />
-          {/* Diagonal road */}
-          <line x1="0" y1="200" x2="180" y2="20" stroke="#a855f7" strokeWidth="0.8" opacity="0.6" />
-         </svg>
-         {/* Venue pick marker */}
-         <div className="absolute top-[45%] left-[55%] -translate-x-1/2 -translate-y-1/2">
-          <svg width="28" height="36" viewBox="0 0 24 32" className="drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]">
-           <path d="M12 0C5.4 0 0 4.2 0 9.4c0 3.2 1.6 6 4 8.2L12 32l8-14.4c2.4-2.2 4-5 4-8.2C24 4.2 18.6 0 12 0Z" fill="#a855f7" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/>
-          </svg>
-          {/* Pulse ring */}
-          <div className="absolute top-[10px] left-[6px] w-4 h-4 rounded-full border border-[var(--color-accent)]/50 animate-ping" />
-         </div>
-         {/* Location labels */}
-         <span className="absolute top-3 right-3 text-[0.45rem] text-white/20 font-bold uppercase tracking-wider">Chicago</span>
-         <span className="absolute bottom-3 left-3 text-[0.45rem] text-white/20 font-bold uppercase tracking-wider">Suburbs</span>
-        </div>
-
-        {/* Bottom card — nearest show info */}
-        <div className="mx-3 mt-2 mb-4 p-3 bg-white/[0.04] border border-white/5 rounded-lg">
-         <p className="text-[0.6rem] font-bold text-[var(--color-accent)] uppercase tracking-[0.1em]">
-          {nearbyShows.length > 0 ? `${nearbyShows[0].distance.toFixed(1)} mi away` : "Nearby show found"}
-         </p>
-         <div className="flex items-center justify-between mt-1.5">
-          <div className="flex items-center gap-2">
-           <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-[#ec4899] flex items-center justify-center">
-            <span className="text-[0.5rem] font-extrabold text-white">7H</span>
-           </div>
-           <div>
-            <p className="text-[0.6rem] font-bold text-white">{nearbyShows.length > 0 ? nearbyShows[0].name : "Station 34"}</p>
-            <p className="text-[0.5rem] text-white/40">{nearbyShows.length > 0 ? nearbyShows[0].city : "Mt. Prospect, IL"}</p>
-           </div>
-          </div>
-          <div className="flex gap-1">
-           <div className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center text-[0.5rem]">📍</div>
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
+    {/* Pick Awards — Collector Section (LIVE from Supabase) */}
+    <PickAwardsSection userId={member?.id} />
 
     {/* Removed Digital Tickets / Inbox from here as it was moved to the very top */}
 
@@ -557,7 +391,7 @@ export default function MemberDashboard() {
       <h2 className="text-lg font-bold">
        My <span className="gradient-text">Purchases</span>
       </h2>
-      <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/25">Order History</span>
+      <span className="text-xs uppercase tracking-[0.15em] text-white/25">Order History</span>
      </div>
 
      {(() => {
@@ -577,10 +411,10 @@ export default function MemberDashboard() {
           {/* Order header */}
           <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.02] border-b border-white/5">
            <div className="flex items-center gap-4">
-            <span className="text-[0.55rem] font-mono text-white/30">{order.id}</span>
-            <span className="text-[0.55rem] text-white/20">{order.date}</span>
+            <span className="text-xs font-mono text-white/30">{order.id}</span>
+            <span className="text-xs text-white/20">{order.date}</span>
            </div>
-           <span className={`text-[0.55rem] uppercase tracking-[0.15em] font-bold ${order.statusColor}`}>
+           <span className={`text-xs uppercase tracking-[0.15em] font-bold ${order.statusColor}`}>
             {order.status}
            </span>
           </div>
@@ -592,7 +426,7 @@ export default function MemberDashboard() {
               <img src={item.img} alt={item.name} className="w-12 h-12 object-cover border border-white/10" />
               <div>
                <p className="text-sm font-semibold text-white/80">{item.name}</p>
-               <p className="text-[0.6rem] text-white/25 uppercase tracking-[0.1em]">{item.type}</p>
+               <p className="text-xs text-white/25 uppercase tracking-[0.1em]">{item.type}</p>
               </div>
              </div>
              <span className="text-sm font-bold text-white/50">{item.price}</span>
@@ -608,6 +442,23 @@ export default function MemberDashboard() {
 
 
    </div>
+
+   {/* Full Screen Flash Overlay */}
+   {isFlashing && (
+     <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none" style={{ animation: 'strobe 0.15s ease-in-out infinite' }}>
+       <style>{`
+         @keyframes strobe {
+           0% { background-color: #ffffff; }
+           50% { background-color: #22c55e; }
+           100% { background-color: #ffffff; }
+         }
+       `}</style>
+       <div className="bg-black p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
+          <h1 className="text-5xl sm:text-7xl font-black text-green-500 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
+          <p className="text-xl sm:text-3xl font-bold text-white mt-4 uppercase tracking-widest">CLAIMING PRIZE</p>
+       </div>
+     </div>
+   )}
   </section>
  );
 }

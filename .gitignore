@@ -54,3 +54,6 @@ yarn-error.log*
 sim_curl.sh
 sim_curl2.sh
 *.sh
+
+# large demo assets / recordings
+/public/demos/

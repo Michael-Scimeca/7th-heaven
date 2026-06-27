@@ -5,6 +5,7 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { requireAdmin } from '@/lib/api-utils';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -13,6 +14,10 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
+    // Verify caller is an authenticated admin
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const { message } = await request.json();
 
     if (!message?.trim()) {

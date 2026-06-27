@@ -1,8 +1,31 @@
 import React, { useState, useMemo } from "react";
 
+export interface BookingSlot {
+  id: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  eventType: string;
+  customEventType?: string;
+  ageRestriction?: string;
+  doorsTime?: string;
+  cover?: string;
+  ticketLink?: string;
+  isFestival?: boolean;
+  notes?: string;
+  useSeparateInfo?: boolean;
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  organization?: string;
+  venueName?: string;
+  venueCity?: string;
+  venueState?: string;
+}
+
 export function CalendarPicker({
-  selectedDate,
-  onSelectDate,
+  slots = [],
+  onChangeSlots,
   startTime,
   onStartTimeChange,
   endTime,
@@ -15,8 +38,8 @@ export function CalendarPicker({
   required,
   blockedDates = [],
 }: {
-  selectedDate: string;
-  onSelectDate: (d: string) => void;
+  slots: BookingSlot[];
+  onChangeSlots: (slots: BookingSlot[]) => void;
   startTime: string;
   onStartTimeChange: (t: string) => void;
   endTime: string;
@@ -31,6 +54,7 @@ export function CalendarPicker({
 }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showMonthPicker, setShowMonthPicker] = useState(false);
+  const [expandedMetadata, setExpandedMetadata] = useState<Record<string, boolean>>({});
 
   const blockedSet = useMemo(() => new Set(blockedDates), [blockedDates]);
 
@@ -63,14 +87,14 @@ export function CalendarPicker({
     <div className="bg-[#0a0a0f] border border-[var(--color-accent)]/20 p-6 rounded-2xl w-full">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-white font-bold tracking-widest uppercase text-[0.8rem]">{label} {required && <span className="text-[var(--color-accent)]">*</span>}</h3>
-          <p className="text-white/40 text-[0.65rem] mt-1 uppercase tracking-wide">Select a date and time to secure your slot</p>
+          <h3 className="text-white font-bold tracking-widest uppercase text-sm">{label} {required && <span className="text-[var(--color-accent)]">*</span>}</h3>
+          <p className="text-white/40 text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
         </div>
         <div className="flex items-center gap-4 text-white font-bold bg-white/5 rounded-full px-4 py-1.5 relative">
           <button type="button" onClick={handlePrevMonth} className="hover:text-[var(--color-accent)] transition-colors cursor-pointer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
-          <button type="button" onClick={() => setShowMonthPicker(!showMonthPicker)} className="w-28 text-center text-[0.85rem] tracking-wider uppercase hover:text-[var(--color-accent)] transition-colors cursor-pointer">
+          <button type="button" onClick={() => setShowMonthPicker(!showMonthPicker)} className="w-28 text-center text-base tracking-wider uppercase hover:text-[var(--color-accent)] transition-colors cursor-pointer">
             {currentMonth.toLocaleString("default", { month: "long", year: "numeric" })}
           </button>
           <button type="button" onClick={handleNextMonth} className="hover:text-[var(--color-accent)] transition-colors cursor-pointer">
@@ -106,7 +130,7 @@ export function CalendarPicker({
 
       {/* Legend */}
       {blockedDates.length > 0 && (
-        <div className="flex items-center gap-5 mb-4 text-[0.6rem] uppercase tracking-widest font-bold">
+        <div className="flex items-center gap-5 mb-4 text-xs uppercase tracking-widest font-bold">
           <span className="flex items-center gap-1.5 text-white/30"><span className="w-3 h-3 rounded bg-white/[0.02] border border-white/5 inline-block" /> Available</span>
           <span className="flex items-center gap-1.5 text-rose-400/60"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
         </div>
@@ -116,7 +140,7 @@ export function CalendarPicker({
         <div>
           <div className="grid grid-cols-7 mb-4">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
-              <div key={day} className="text-center text-[0.6rem] font-bold uppercase tracking-widest text-white/30">{day}</div>
+              <div key={day} className="text-center text-xs font-bold uppercase tracking-widest text-white/30">{day}</div>
             ))}
           </div>
           <div className="grid grid-cols-7 gap-2">
@@ -125,7 +149,8 @@ export function CalendarPicker({
             ))}
             {daysInMonth.map(date => {
               const dateString = date.toISOString().split("T")[0];
-              const isSelected = selectedDate === dateString;
+              const slotsForDay = slots.filter(s => s.date === dateString);
+              const isSelected = slotsForDay.length > 0;
               const cutoffDate = new Date();
               cutoffDate.setDate(cutoffDate.getDate() + 1);
               cutoffDate.setHours(23, 59, 59, 999);
@@ -137,9 +162,31 @@ export function CalendarPicker({
                   key={dateString}
                   type="button"
                   disabled={isTooSoon || isBlocked}
-                  onClick={() => onSelectDate(dateString)}
+                  onClick={() => {
+                    if (isSelected) {
+                      // Already selected, deselect (remove all slots for this date)
+                      onChangeSlots(slots.filter(s => s.date !== dateString));
+                    } else {
+                      // Add new slot
+                      const newSlot = {
+                        id: Math.random().toString(36).substring(2, 9),
+                        date: dateString,
+                        startTime: startTime || "7:00 PM",
+                        endTime: endTime || "10:00 PM",
+                        eventType: selectedType || "full_band",
+                        customEventType: customDetails || "",
+                        ageRestriction: "all_ages",
+                        doorsTime: "",
+                        cover: "",
+                        ticketLink: "",
+                        isFestival: false,
+                        notes: "",
+                      };
+                      onChangeSlots([...slots, newSlot]);
+                    }
+                  }}
                   title={isBlocked ? "This date is already booked" : undefined}
-                  className={`h-12 w-full flex items-center justify-center rounded-xl font-bold text-[0.85rem] transition-all relative
+                  className={`h-12 w-full flex items-center justify-center rounded-xl font-bold text-base transition-all relative
                     ${(isTooSoon || isBlocked) ? "cursor-not-allowed" : "cursor-pointer"}
                     ${isBlocked
                       ? "bg-rose-500/10 border border-rose-500/20 text-rose-400/40 line-through"
@@ -154,6 +201,11 @@ export function CalendarPicker({
                   {isBlocked && (
                     <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500" />
                   )}
+                  {slotsForDay.length > 1 && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-fuchsia-600 border border-white/20 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-scale-in">
+                      {slotsForDay.length}x
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -161,12 +213,12 @@ export function CalendarPicker({
         </div>
 
         <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-6">
-          <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-4">
+          <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-4">
             Booking Window
           </h4>
           <div className="flex flex-col gap-6">
             <div>
-              <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/50 block mb-2">Start Time</label>
+              <label className="text-xs font-bold uppercase tracking-widest text-white/50 block mb-2">Start Time</label>
               <div className="relative">
                 <select 
                   value={startTime} 
@@ -184,7 +236,7 @@ export function CalendarPicker({
               </div>
             </div>
             <div>
-              <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/50 block mb-2">End Time</label>
+              <label className="text-xs font-bold uppercase tracking-widest text-white/50 block mb-2">End Time</label>
               <div className="relative">
                 <select 
                   value={endTime} 
@@ -205,7 +257,7 @@ export function CalendarPicker({
         </div>
 
         <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-6">
-          <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-4">
+          <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-4">
             Event Format
           </h4>
           <div className="flex flex-col gap-3">
@@ -229,8 +281,8 @@ export function CalendarPicker({
                    >
                      <span className="text-2xl drop-shadow-md">{type.icon}</span>
                      <div>
-                       <span className={`text-[0.85rem] font-bold block mb-0.5 tracking-wide ${isSelected ? "text-[var(--color-accent)]" : "text-white"}`}>{type.label}</span>
-                       <span className="text-[0.65rem] text-white/40 block leading-tight">{type.desc}</span>
+                       <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-[var(--color-accent)]" : "text-white"}`}>{type.label}</span>
+                       <span className="text-xs text-white/40 block leading-tight">{type.desc}</span>
                      </div>
                    </button>
                    {type.id === "custom" && isSelected && (
@@ -241,7 +293,7 @@ export function CalendarPicker({
                          value={customDetails || ""}
                          onChange={(e) => onCustomDetailsChange?.(e.target.value)}
                          autoFocus
-                         className="w-full bg-white/[0.01] border border-[var(--color-accent)]/30 text-white text-[0.8rem] px-4 py-3 rounded-xl focus:outline-none focus:border-[var(--color-accent)] transition-all [color-scheme:dark] placeholder:text-white/20"
+                         className="w-full bg-white/[0.01] border border-[var(--color-accent)]/30 text-white text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-[var(--color-accent)] transition-all [color-scheme:dark] placeholder:text-white/20"
                        />
                      </div>
                    )}
@@ -254,3 +306,4 @@ export function CalendarPicker({
     </div>
   );
 }
+

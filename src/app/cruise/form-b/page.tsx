@@ -47,7 +47,7 @@ export default function FormLayoutB() {
             {/* Overlay badge */}
             <div className="absolute bottom-6 left-6 flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/10">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-[0.6rem] font-bold text-white/70 uppercase tracking-widest">{signupCount} fans interested</span>
+              <span className="text-xs font-bold text-white/70 uppercase tracking-widest">{signupCount} fans interested</span>
             </div>
           </div>
 
@@ -67,17 +67,17 @@ export default function FormLayoutB() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/25 mb-1.5 block">Name</label>
+                  <label className="text-xs font-bold uppercase tracking-widest text-white/25 mb-1.5 block">Name</label>
                   <input type="text" required placeholder="Your full name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
                     className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/15 focus:border-cyan-500 focus:outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/25 mb-1.5 block">Email</label>
+                  <label className="text-xs font-bold uppercase tracking-widest text-white/25 mb-1.5 block">Email</label>
                   <input type="email" required placeholder="you@email.com" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
                     className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/15 focus:border-cyan-500 focus:outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/25 mb-1.5 block">Guests</label>
+                  <label className="text-xs font-bold uppercase tracking-widest text-white/25 mb-1.5 block">Guests</label>
                   <select value={form.guests} onChange={e => setForm(f => ({...f, guests: e.target.value}))}
                     className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors appearance-none cursor-pointer">
                     <option value="1">Just me (1)</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+</option>
@@ -91,7 +91,7 @@ export default function FormLayoutB() {
               </form>
             )}
 
-            <p className="text-white/20 text-[0.65rem] text-center mt-5 tracking-wide">Free · No Commitment · Cancel Anytime</p>
+            <p className="text-white/20 text-xs text-center mt-5 tracking-wide">Free · No Commitment · Cancel Anytime</p>
           </div>
         </div>
       </div>

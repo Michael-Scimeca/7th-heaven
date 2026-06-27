@@ -139,13 +139,13 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
         <div className="flex items-center gap-3">
           <span className="text-sm">🎪</span>
           <div>
-            <span className="text-[0.7rem] font-bold text-white/80">Show Crew — {bookingId}</span>
-            <span className="text-[0.55rem] text-white/30 ml-2">{eventDate} · {venueName}</span>
+            <span className="text-sm font-bold text-white/80">Show Crew — {bookingId}</span>
+            <span className="text-xs text-white/30 ml-2">{eventDate} · {venueName}</span>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-[0.5rem] font-bold text-white/20 uppercase tracking-widest">Headcount:</span>
-          <span className={`text-[0.65rem] font-black ${confirmedCount > 0 ? 'text-emerald-400' : 'text-white/30'}`}>{confirmedCount}</span>
+          <span className="text-2xs font-bold text-white/20 uppercase tracking-widest">Headcount:</span>
+          <span className={`text-xs font-black ${confirmedCount > 0 ? 'text-emerald-400' : 'text-white/30'}`}>{confirmedCount}</span>
         </div>
       </div>
 
@@ -155,7 +155,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           <button
             key={tab.id}
             onClick={() => setActiveSection(tab.id)}
-            className={`flex-1 px-4 py-2.5 text-[0.6rem] font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-1.5
+            className={`flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-1.5
               ${activeSection === tab.id
                 ? 'text-purple-400 bg-purple-500/5 border-b-2 border-purple-500'
                 : 'text-white/25 hover:text-white/50 hover:bg-white/[0.02]'
@@ -163,7 +163,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           >
             <span>{tab.icon}</span>
             {tab.label}
-            <span className={`ml-1 px-1.5 py-0.5 rounded text-[0.45rem] font-bold ${activeSection === tab.id ? 'bg-purple-500/20 text-purple-400' : 'bg-white/5 text-white/30'}`}>{tab.count}</span>
+            <span className={`ml-1 px-1.5 py-0.5 rounded text-2xs font-bold ${activeSection === tab.id ? 'bg-purple-500/20 text-purple-400' : 'bg-white/5 text-white/30'}`}>{tab.count}</span>
           </button>
         ))}
       </div>
@@ -176,8 +176,8 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           <div>
             {data.crew.length === 0 && !addingCrew ? (
               <div className="text-center py-8">
-                <p className="text-white/20 text-[0.75rem] mb-3">No crew assigned yet</p>
-                <button onClick={() => setAddingCrew(true)} className="text-[0.6rem] font-bold uppercase tracking-widest text-purple-400 hover:text-purple-300 cursor-pointer transition-colors">+ Add First Crew Member</button>
+                <p className="text-white/20 text-sm mb-3">No crew assigned yet</p>
+                <button onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest text-purple-400 hover:text-purple-300 cursor-pointer transition-colors">+ Add First Crew Member</button>
               </div>
             ) : (
               <>
@@ -188,10 +188,10 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                         {c.confirmed ? <span className="text-emerald-400 text-sm">✅</span> : <span className="text-white/15 text-sm">⬜</span>}
                       </button>
                       <div className="flex-1 min-w-0">
-                        <span className={`text-[0.75rem] font-bold ${c.confirmed ? 'text-white/70' : 'text-white/40'}`}>{c.name}</span>
+                        <span className={`text-sm font-bold ${c.confirmed ? 'text-white/70' : 'text-white/40'}`}>{c.name}</span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-wider shrink-0 ${c.confirmed ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20' : 'bg-purple-500/10 text-purple-400/60 border border-purple-500/15'}`}>{c.role}</span>
-                      <button onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 text-[0.6rem] cursor-pointer transition-colors shrink-0">✕</button>
+                      <span className={`px-2 py-0.5 rounded text-2xs font-bold uppercase tracking-wider shrink-0 ${c.confirmed ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20' : 'bg-purple-500/10 text-purple-400/60 border border-purple-500/15'}`}>{c.role}</span>
+                      <button onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 text-xs cursor-pointer transition-colors shrink-0">✕</button>
                     </div>
                   ))}
                 </div>
@@ -199,20 +199,20 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 {addingCrew ? (
                   <div className="flex gap-2 items-end bg-white/[0.02] p-3 rounded-lg border border-white/5">
                     <div className="flex-1">
-                      <label className="text-[0.5rem] uppercase tracking-widest text-white/30 font-bold block mb-1">Name</label>
-                      <input value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-[0.75rem] text-white placeholder:text-white/15 outline-none focus:border-purple-500" />
+                      <label className="text-2xs uppercase tracking-widest text-white/30 font-bold block mb-1">Name</label>
+                      <input value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500" />
                     </div>
                     <div>
-                      <label className="text-[0.5rem] uppercase tracking-widest text-white/30 font-bold block mb-1">Role</label>
-                      <select value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-[0.75rem] text-white outline-none focus:border-purple-500 [color-scheme:dark]">
+                      <label className="text-2xs uppercase tracking-widest text-white/30 font-bold block mb-1">Role</label>
+                      <select value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-purple-500 [color-scheme:dark]">
                         {CREW_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                       </select>
                     </div>
-                    <button onClick={addCrew} className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-[0.6rem] font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
-                    <button onClick={() => setAddingCrew(false)} className="text-[0.6rem] text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2">✕</button>
+                    <button onClick={addCrew} className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
+                    <button onClick={() => setAddingCrew(false)} className="text-xs text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2">✕</button>
                   </div>
                 ) : (
-                  <button onClick={() => setAddingCrew(true)} className="text-[0.55rem] font-bold uppercase tracking-widest text-purple-400/60 hover:text-purple-400 cursor-pointer transition-colors">+ Add Crew</button>
+                  <button onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest text-purple-400/60 hover:text-purple-400 cursor-pointer transition-colors">+ Add Crew</button>
                 )}
               </>
             )}
@@ -228,13 +228,13 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <div className={`w-3 h-3 rounded-full border-2 ${event.time ? 'bg-purple-500 border-purple-400' : 'bg-transparent border-white/15'}`} />
                   {i < data.timeline.length - 1 && <div className="w-px h-6 bg-white/5 absolute top-3.5" />}
                 </div>
-                <span className="text-[0.7rem] font-bold text-white/50 w-24 shrink-0">{event.label}</span>
+                <span className="text-sm font-bold text-white/50 w-24 shrink-0">{event.label}</span>
                 <input
                   type="text"
                   value={event.time}
                   onChange={e => updateTimeline(i, e.target.value)}
                   placeholder="e.g. 3:00 PM"
-                  className="flex-1 bg-transparent border-b border-white/5 focus:border-purple-500/50 text-[0.75rem] text-white px-1 py-1 outline-none placeholder:text-white/10 transition-colors"
+                  className="flex-1 bg-transparent border-b border-white/5 focus:border-purple-500/50 text-sm text-white px-1 py-1 outline-none placeholder:text-white/10 transition-colors"
                 />
               </div>
             ))}
@@ -249,7 +249,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
                 <div className={`h-full rounded-full transition-all ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-amber-500' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
               </div>
-              <span className={`text-[0.6rem] font-bold ${gearPct === 100 ? 'text-emerald-400' : 'text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
+              <span className={`text-xs font-bold ${gearPct === 100 ? 'text-emerald-400' : 'text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               {data.gear.map((item, i) => (
@@ -257,20 +257,20 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <button onClick={() => toggleGear(i)} className="cursor-pointer shrink-0">
                     {item.loaded ? <span className="text-emerald-400 text-xs">✅</span> : <span className="text-white/15 text-xs">⬜</span>}
                   </button>
-                  <span className={`text-[0.65rem] flex-1 truncate ${item.loaded ? 'text-white/50 line-through' : 'text-white/60'}`}>{item.name}</span>
-                  <button onClick={() => removeGear(i)} className="text-white/10 hover:text-rose-400 text-[0.5rem] cursor-pointer transition-colors shrink-0">✕</button>
+                  <span className={`text-xs flex-1 truncate ${item.loaded ? 'text-white/50 line-through' : 'text-white/60'}`}>{item.name}</span>
+                  <button onClick={() => removeGear(i)} className="text-white/10 hover:text-rose-400 text-2xs cursor-pointer transition-colors shrink-0">✕</button>
                 </div>
               ))}
             </div>
             <div className="mt-3">
               {addingGear ? (
                 <div className="flex gap-2">
-                  <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 bg-[#050508] border border-white/10 px-3 py-1.5 rounded-lg text-[0.7rem] text-white placeholder:text-white/15 outline-none focus:border-purple-500" />
-                  <button onClick={addGearItem} className="text-[0.55rem] text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
-                  <button onClick={() => setAddingGear(false)} className="text-[0.55rem] text-white/30 cursor-pointer px-1">✕</button>
+                  <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 bg-[#050508] border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500" />
+                  <button onClick={addGearItem} className="text-xs text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
+                  <button onClick={() => setAddingGear(false)} className="text-xs text-white/30 cursor-pointer px-1">✕</button>
                 </div>
               ) : (
-                <button onClick={() => setAddingGear(true)} className="text-[0.55rem] font-bold uppercase tracking-widest text-purple-400/60 hover:text-purple-400 cursor-pointer transition-colors">+ Add Gear</button>
+                <button onClick={() => setAddingGear(true)} className="text-xs font-bold uppercase tracking-widest text-purple-400/60 hover:text-purple-400 cursor-pointer transition-colors">+ Add Gear</button>
               )}
             </div>
           </div>
@@ -285,21 +285,21 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 onChange={e => setNewNote(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
-                className="flex-1 bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-[0.75rem] text-white placeholder:text-white/15 outline-none focus:border-purple-500"
+                className="flex-1 bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500"
               />
-              <button onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-[0.6rem] font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
+              <button onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
             </div>
             {data.notes.length === 0 ? (
-              <div className="text-center py-6 text-white/15 text-[0.7rem]">No notes yet — add logistics info for the crew</div>
+              <div className="text-center py-6 text-white/15 text-sm">No notes yet — add logistics info for the crew</div>
             ) : (
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {data.notes.map((note, i) => (
                   <div key={i} className="px-3 py-2.5 bg-white/[0.02] border border-white/5 rounded-lg">
-                    <p className="text-[0.75rem] text-white/70 leading-relaxed">{note.text}</p>
+                    <p className="text-sm text-white/70 leading-relaxed">{note.text}</p>
                     <div className="flex items-center gap-2 mt-1.5">
-                      <span className="text-[0.5rem] font-bold text-purple-400/50">{note.author}</span>
-                      <span className="text-[0.5rem] text-white/15">·</span>
-                      <span className="text-[0.5rem] text-white/20">{note.time}</span>
+                      <span className="text-2xs font-bold text-purple-400/50">{note.author}</span>
+                      <span className="text-2xs text-white/15">·</span>
+                      <span className="text-2xs text-white/20">{note.time}</span>
                     </div>
                   </div>
                 ))}

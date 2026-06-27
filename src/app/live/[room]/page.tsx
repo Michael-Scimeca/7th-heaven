@@ -1,15 +1,13 @@
 'use client';
 
-import { LiveSimulation } from '../demo/page';
-import { useParams, useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
+import { FakeLiveStream } from '@/components/FakeLiveStream';
+import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 /**
  * Dynamic live room page — /live/[room]
- * Delegates to the shared LiveSimulation component with the member ID
- * extracted from the [room] URL segment (e.g. live_michael → michael).
- * If the member is not broadcasting, redirects back to the live hub.
+ * Uses the FakeLiveStream demo so the client can always see what
+ * a live stream looks like, even without a real broadcaster active.
  */
 export default function LiveRoomPage() {
   const params = useParams();
@@ -21,7 +19,5 @@ export default function LiveRoomPage() {
 
   if (!mounted) return null;
 
-  console.log('📡 [LiveRoom] Direct rendering simulation for:', memberId);
-
-  return <LiveSimulation memberId={memberId} />;
+  return <FakeLiveStream memberId={memberId} />;
 }

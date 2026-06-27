@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
+import { formatPhoneDisplay, isValidEmail } from "@/lib/validation";
 
 const ITINERARY = [
   {
@@ -171,9 +172,38 @@ export default function CruisePage() {
     }
   }, [isLoggedIn, member]);
 
+  const [formError, setFormError] = useState('');
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.website) return; // Honeypot trap
+    setFormError('');
+
+    // Client-side email validation
+    if (!isValidEmail(formData.email)) {
+      setFormError('Please enter a valid email address.');
+      setSignupStatus("error");
+      return;
+    }
+
+    // Client-side phone validation (10+ digits)
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length < 10) {
+      setFormError('Please enter a valid phone number (10+ digits).');
+      setSignupStatus("error");
+      return;
+    }
+
+    // Validate guest emails for adult guests
+    for (let i = 0; i < guests.length; i++) {
+      const g = guests[i];
+      if (g.type === 'adult' && g.email && !isValidEmail(g.email)) {
+        setFormError(`Guest ${i + 2} has an invalid email address.`);
+        setSignupStatus("error");
+        return;
+      }
+    }
+
     setSignupStatus("submitting");
     try {
       const res = await fetch('/api/cruise/signup', {
@@ -199,9 +229,11 @@ export default function CruisePage() {
       const data = await res.json();
       if (!res.ok) {
         if (res.status === 409) {
+          setFormError('This email has already signed up!');
           setSignupStatus("error");
           return;
         }
+        setFormError(data.error || 'Something went wrong. Try again.');
         throw new Error(data.error || 'Signup failed');
       }
       setSignupStatus("success");
@@ -220,13 +252,24 @@ export default function CruisePage() {
   return (
     <div className="min-h-screen bg-[var(--color-bg-primary)]">
 
-      {/* ── FULL-VIEWPORT HERO ── */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      {/* ── HERO + SIGNUP (unified) ── */}
+      <section id="signup" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-52 pb-32">
         <div className="absolute inset-0">
-          <img src="/images/cruise-hero.png" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-[var(--color-bg-primary)]" />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            poster="/images/cruise-hero.png"
+          >
+            <source src="/movie/cruise.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-[var(--color-bg-primary)]" />
         </div>
-        <div className="relative z-10 text-center px-6 max-w-4xl">
+
+        {/* Hero Text */}
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-xs font-bold uppercase tracking-widest mb-6">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             Gauging Interest — Free Signup
@@ -237,24 +280,11 @@ export default function CruisePage() {
           <p className="text-xl text-white/60 mt-6 max-w-2xl mx-auto leading-relaxed">
             7 nights. 3 islands. 6 live shows. The ultimate fan experience on the Caribbean.
           </p>
-          <div className="flex flex-wrap justify-center gap-6 mt-6 text-[0.7rem] font-bold uppercase tracking-[0.15em] text-white/40">
-            <span>🚢 Miami → Caribbean</span>
-            <span>🏝️ Cozumel · Grand Cayman · Roatán</span>
-            <span>🎸 6 Performances</span>
-          </div>
-
         </div>
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 animate-bounce">
-          <span className="text-[0.55rem] uppercase tracking-widest font-bold">Scroll</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-      </section>
-
-      {/* ── SIGNUP + COUNTER (overlapping hero) ── */}
-      <section id="signup" className="site-container -mt-20 relative z-20 mb-20">
-        <div className="bg-[#0d0d14]/95 backdrop-blur-xl border border-[var(--color-accent)]/30 rounded-3xl p-8 md:p-10 shadow-[0_0_60px_rgba(133,29,239,0.15)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Signup Form Card */}
+        <div className="relative z-10 site-container mt-[200px]">
+          <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 md:p-10 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             {/* Form */}
             <div>
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
@@ -267,7 +297,7 @@ export default function CruisePage() {
                 {!isLoggedIn && (
                   <button 
                     onClick={() => openModal("login")}
-                    className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] hover:text-white transition-all flex items-center gap-2 group cursor-pointer"
+                    className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] hover:text-white transition-all flex items-center gap-2 group cursor-pointer"
                   >
                     <span className="w-6 h-6 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center group-hover:border-[var(--color-accent)] transition-all">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -286,7 +316,7 @@ export default function CruisePage() {
                       member?.role === 'admin' ? 'bg-amber-500' :
                       'bg-emerald-500'
                     }`} />
-                    <span className="text-[0.6rem] font-bold uppercase tracking-widest">
+                    <span className="text-xs font-bold uppercase tracking-widest">
                       Signed In as {member?.role === 'crew' ? 'Crew Member' : member?.role === 'admin' ? 'Admin' : 'Fan'}: {member?.name || 'User'}
                     </span>
                   </div>
@@ -302,9 +332,9 @@ export default function CruisePage() {
               ) : (
                 <form onSubmit={handleSignup} className="space-y-4">
                   {/* Party Size Selector */}
-                  <div className="flex items-center justify-between p-4 bg-white/[0.03] border border-white/10 rounded-2xl">
+                  <div className="flex items-center justify-between p-4 bg-white/[0.05] backdrop-blur-md border border-white/[0.1] rounded-2xl">
                     <div>
-                      <p className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-1">Party Size</p>
+                      <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-1">Party Size</p>
                       <p className="text-sm font-bold text-white">How many guests in your party?</p>
                     </div>
                     <select 
@@ -323,7 +353,7 @@ export default function CruisePage() {
                           setGuests(guests.slice(0, count - 1));
                         }
                       }}
-                      className="bg-[#0c0c18] border border-white/20 rounded-lg px-3 py-1.5 text-sm font-bold text-white outline-none focus:border-[var(--color-accent)] cursor-pointer"
+                      className="bg-white/[0.08] backdrop-blur-md border border-white/[0.15] rounded-lg px-3 py-1.5 text-sm font-bold text-white outline-none focus:border-[var(--color-accent)] cursor-pointer"
                     >
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => <option key={n} value={n}>{n} {n === 1 ? 'Person' : 'People'}</option>)}
                     </select>
@@ -332,44 +362,44 @@ export default function CruisePage() {
                   {/* ── Collapsible Guest List ── */}
                   <div className="space-y-2">
                     {/* Primary Booker */}
-                    <div className="rounded-xl overflow-hidden border border-white/5">
+                    <div className="rounded-xl overflow-hidden border border-white/[0.1] bg-white/[0.03] backdrop-blur-md">
                       <button type="button" onClick={() => { setPrimaryOpen(!primaryOpen); setOpenPanel(-1); }}
                         className="w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-all bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/25">
-                        <span className="w-8 h-8 rounded-full flex items-center justify-center text-[0.55rem] font-bold text-white shrink-0 bg-[var(--color-accent)]">
+                        <span className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 bg-[var(--color-accent)]">
                           {formData.name ? formData.name[0].toUpperCase() : "1"}
                         </span>
                         <div className="flex-1 text-left">
-                          <p className="text-[0.5rem] font-bold uppercase tracking-widest text-white/40">Primary Booker</p>
+                          <p className="text-2xs font-bold uppercase tracking-widest text-white/40">Primary Booker</p>
                           <p className="text-sm font-bold text-white">{formData.name || "—"}</p>
                         </div>
-                        <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/20 mr-2">Adult</span>
+                        <span className="text-2xs font-bold uppercase tracking-widest text-white/20 mr-2">Adult</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/30 transition-transform ${primaryOpen ? "rotate-180" : ""}`}><polyline points="6 9 12 15 18 9"/></svg>
                       </button>
                       {primaryOpen && (
-                        <div className="px-4 pb-4 pt-3 space-y-2.5 bg-white/[0.01]">
+                        <div className="px-4 pb-4 pt-3 space-y-2.5 bg-white/[0.02]">
                           <input type="text" required placeholder="Full Name" value={formData.name} onChange={e => setFormData(f => ({...f, name: e.target.value}))}
-                            className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
+                            className="w-full bg-white/[0.06] backdrop-blur-sm border border-white/[0.12] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
                           <input type="email" required placeholder="Email" value={formData.email} onChange={e => setFormData(f => ({...f, email: e.target.value}))}
-                            className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
-                          <input type="tel" required placeholder="Phone" value={formData.phone} onChange={e => setFormData(f => ({...f, phone: e.target.value}))}
-                            className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
+                            className="w-full bg-white/[0.06] backdrop-blur-sm border border-white/[0.12] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
+                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData(f => ({...f, phone: formatPhoneDisplay(e.target.value)}))}
+                            className="w-full bg-white/[0.06] backdrop-blur-sm border border-white/[0.12] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
                         </div>
                       )}
                     </div>
 
                     {/* Additional Guests */}
                     {guests.map((guest, i) => (
-                      <div key={i} className="rounded-xl overflow-hidden border border-white/5">
+                      <div key={i} className="rounded-xl overflow-hidden border border-white/[0.1] bg-white/[0.03] backdrop-blur-md">
                         <button type="button" onClick={() => { setOpenPanel(openPanel === i ? -1 : i); setPrimaryOpen(false); }}
                           className="w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-all bg-white/[0.03] hover:bg-white/[0.05]">
-                          <span className="w-8 h-8 rounded-full flex items-center justify-center text-[0.55rem] font-bold text-white shrink-0" style={{ backgroundColor: GUEST_COLORS[i % GUEST_COLORS.length] }}>
+                          <span className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ backgroundColor: GUEST_COLORS[i % GUEST_COLORS.length] }}>
                             {guest.name ? guest.name[0].toUpperCase() : (i + 2)}
                           </span>
                           <div className="flex-1 text-left">
-                            <p className="text-[0.5rem] font-bold uppercase tracking-widest text-white/30">Guest {i + 2}</p>
+                            <p className="text-2xs font-bold uppercase tracking-widest text-white/30">Guest {i + 2}</p>
                             <p className="text-sm font-bold text-white">{guest.name || "—"}</p>
                           </div>
-                          <span className={`text-[0.5rem] font-bold uppercase tracking-widest mr-2 ${guest.type === "child" ? "text-cyan-400/60" : "text-white/20"}`}>
+                          <span className={`text-2xs font-bold uppercase tracking-widest mr-2 ${guest.type === "child" ? "text-cyan-400/60" : "text-white/20"}`}>
                             {guest.type === "child" ? "Child" : "Adult"}
                           </span>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/30 transition-transform ${openPanel === i ? "rotate-180" : ""}`}><polyline points="6 9 12 15 18 9"/></svg>
@@ -379,11 +409,11 @@ export default function CruisePage() {
                             {/* Adult / Child Toggle */}
                             <div className="flex gap-2 mb-1">
                               <button type="button" onClick={() => updateGuest(i, "type", "adult")}
-                                className={`flex-1 py-2 rounded-lg text-[0.65rem] font-bold uppercase tracking-widest transition-all cursor-pointer ${
+                                className={`flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all cursor-pointer ${
                                   guest.type === "adult" ? "bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30" : "bg-white/[0.03] text-white/25 border border-white/5 hover:text-white/40"
                                 }`}>👤 Adult</button>
                               <button type="button" onClick={() => updateGuest(i, "type", "child")}
-                                className={`flex-1 py-2 rounded-lg text-[0.65rem] font-bold uppercase tracking-widest transition-all cursor-pointer ${
+                                className={`flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all cursor-pointer ${
                                   guest.type === "child" ? "bg-cyan-500/15 text-cyan-400 border border-cyan-500/30" : "bg-white/[0.03] text-white/25 border border-white/5 hover:text-white/40"
                                 }`}>🧒 Child</button>
                             </div>
@@ -402,12 +432,12 @@ export default function CruisePage() {
                               <>
                                 <input type="email" required placeholder="Email" value={guest.email} onChange={e => updateGuest(i, "email", e.target.value)}
                                   className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
-                                <input type="tel" required placeholder="Phone" value={guest.phone} onChange={e => updateGuest(i, "phone", e.target.value)}
+                                <input type="tel" required placeholder="(555) 123-4567" value={guest.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))}
                                   className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
                               </>
                             )}
                             <button type="button" onClick={() => removeGuest(i)}
-                              className="text-[0.6rem] text-red-400/40 hover:text-red-400 font-bold uppercase tracking-widest transition-colors cursor-pointer">Remove Guest</button>
+                              className="text-xs text-red-400/40 hover:text-red-400 font-bold uppercase tracking-widest transition-colors cursor-pointer">Remove Guest</button>
                           </div>
                         )}
                       </div>
@@ -415,23 +445,23 @@ export default function CruisePage() {
 
                     {/* Add Guest Button */}
                     <button type="button" onClick={addGuest}
-                      className="w-full py-3 border border-dashed border-white/10 rounded-xl text-[0.65rem] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/30 transition-colors cursor-pointer">
+                      className="w-full py-3 border border-dashed border-white/[0.15] rounded-xl text-xs font-bold uppercase tracking-widest text-white/30 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/30 hover:bg-white/[0.03] transition-all cursor-pointer">
                       + Add a Guest
                     </button>
                   </div>
                   <textarea placeholder="Anything else? (optional)" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors resize-none" />
+                    className="w-full bg-white/[0.06] backdrop-blur-sm border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 focus:border-[var(--color-accent)] focus:outline-none transition-colors resize-none" />
                   <label className="flex items-center gap-3 cursor-pointer group">
                     <input type="checkbox" checked={formData.anonymous} onChange={e => setFormData(f => ({...f, anonymous: e.target.checked}))}
                       className="w-4 h-4 rounded border-white/20 bg-white/5 accent-[var(--color-accent)] cursor-pointer" />
-                    <span className="text-[0.75rem] text-white/40 group-hover:text-white/60 transition-colors">Keep my name anonymous on the public list</span>
+                    <span className="text-sm text-white/40 group-hover:text-white/60 transition-colors">Keep my name anonymous on the public list</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group">
                     <input type="checkbox" checked={formData.joinCommunity} onChange={e => setFormData(f => ({...f, joinCommunity: e.target.checked}))}
                       className="w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" />
                     <div className="flex-1">
-                      <p className="text-[0.75rem] text-white/60 group-hover:text-white transition-colors font-bold">Join the 7th Heaven Cruise Community</p>
-                      <p className="text-[0.6rem] text-white/30">Get early access to deck plans, song polls, and group chat.</p>
+                      <p className="text-sm text-white/60 group-hover:text-white transition-colors font-bold">Join the 7th Heaven Cruise Community</p>
+                      <p className="text-xs text-white/30">Get early access to deck plans, song polls, and group chat.</p>
                     </div>
                   </label>
                   {/* Honeypot */}
@@ -442,42 +472,45 @@ export default function CruisePage() {
                     className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] disabled:opacity-70 cursor-pointer">
                     {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Count Me In"}
                   </button>
-                  <p className="text-[0.6rem] text-white/25 text-center leading-relaxed">
-                    By signing up you agree to our <a href="/privacy" className="text-white/40 underline hover:text-white/60 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-white/40 underline hover:text-white/60 transition-colors">Terms of Service</a>. You'll receive a confirmation email. You can cancel anytime.
+                  <p className="text-xs text-white/25 text-center leading-relaxed">
+                    By signing up, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="text-white/40 underline hover:text-white/60 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-white/40 underline hover:text-white/60 transition-colors">Terms of Service</a>. You'll receive a confirmation email. You can cancel anytime.
                   </p>
-                  {signupStatus === "error" && <p className="text-rose-400 text-xs text-center">Something went wrong. Try again.</p>}
+                  {signupStatus === "error" && <p className="text-rose-400 text-xs text-center">{formError || 'Something went wrong. Try again.'}</p>}
                 </form>
               )}
             </div>
-            {/* Counter */}
-            <div className="flex flex-col justify-center">
-              <p className="text-[0.6rem] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-4">Fan Interest Tracker</p>
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-white/[0.03] border border-white/5 rounded-xl p-4 text-center">
-                  <p className="text-3xl font-black text-white">{signupCount}</p>
-                  <p className="text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Fans</p>
-                </div>
-                <div className="bg-white/[0.03] border border-white/5 rounded-xl p-4 text-center">
-                  <p className="text-3xl font-black text-white">{totalGuests}</p>
-                  <p className="text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Total Guests</p>
-                </div>
-              </div>
-              <div className="mt-6 p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-                <p className="text-[0.55rem] text-white/30 font-bold uppercase tracking-widest mb-2">How it works</p>
+            {/* Right Column */}
+            <div className="flex flex-col">
+              {/* How it works — first so visitors understand the process */}
+              <div className="p-4 bg-white/[0.04] backdrop-blur-md border border-white/[0.1] rounded-xl mb-6">
+                <p className="text-xs text-white/30 font-bold uppercase tracking-widest mb-2">How it works</p>
                 <div className="space-y-2">
                   {["Sign up free — tell us your group size", "We negotiate the rate with cruise management", "You get first access at the locked-in price"].map((s, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-[0.5rem] font-black text-[var(--color-accent)] shrink-0">{i+1}</span>
-                      <p className="text-[0.75rem] text-white/40">{s}</p>
+                      <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-2xs font-black text-[var(--color-accent)] shrink-0">{i+1}</span>
+                      <p className="text-sm text-white/40">{s}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
+              {/* Fan Interest Tracker */}
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-4">Fan Interest Tracker</p>
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-white/[0.05] backdrop-blur-md border border-white/[0.1] rounded-xl p-4 text-center">
+                  <p className="text-3xl font-black text-white">{signupCount}</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Fans</p>
+                </div>
+                <div className="bg-white/[0.05] backdrop-blur-md border border-white/[0.1] rounded-xl p-4 text-center">
+                  <p className="text-3xl font-black text-white">{totalGuests}</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Total Guests</p>
+                </div>
+              </div>
+
               {/* Who's Joined */}
               {joinedFans.length > 0 && (
-                <div className="mt-6 p-5 bg-white/[0.02] border border-white/5 rounded-xl">
-                  <p className="text-[0.55rem] text-white/30 font-bold uppercase tracking-widest mb-4">Who&apos;s Joined</p>
+                <div className="p-5 bg-white/[0.04] backdrop-blur-md border border-white/[0.1] rounded-xl">
+                  <p className="text-xs text-white/30 font-bold uppercase tracking-widest mb-4">Who&apos;s Joined</p>
                   
                   {/* Avatar Stack */}
                   <div className="flex items-center mb-4">
@@ -485,7 +518,7 @@ export default function CruisePage() {
                       {joinedFans.slice(0, 8).map((fan, i) => (
                         <div
                           key={i}
-                          className="w-9 h-9 rounded-full flex items-center justify-center text-[0.6rem] font-bold text-white border-2 border-[#0d0d14] shrink-0 relative z-[1] hover:z-10 hover:scale-110 transition-transform cursor-default"
+                          className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-[#0d0d14] shrink-0 relative z-[1] hover:z-10 hover:scale-110 transition-transform cursor-default"
                           style={{ backgroundColor: fan.anonymous ? '#374151' : AVATAR_COLORS[i % AVATAR_COLORS.length], zIndex: 8 - i }}
                           title={fan.anonymous ? 'Anonymous Fan' : fan.name}
                         >
@@ -493,7 +526,7 @@ export default function CruisePage() {
                         </div>
                       ))}
                       {joinedFans.length > 8 && (
-                        <div className="w-9 h-9 rounded-full flex items-center justify-center text-[0.55rem] font-bold text-white/60 bg-white/10 border-2 border-[#0d0d14] shrink-0">
+                        <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white/60 bg-white/10 border-2 border-[#0d0d14] shrink-0">
                           +{joinedFans.length - 8}
                         </div>
                       )}
@@ -503,7 +536,7 @@ export default function CruisePage() {
                   {/* Names List */}
                   <div className="flex flex-wrap gap-x-1 gap-y-0.5">
                     {joinedFans.map((fan, i) => (
-                      <span key={i} className="text-[0.7rem] text-white/40">
+                      <span key={i} className="text-sm text-white/40">
                         {fan.anonymous ? 'Anonymous' : fan.name.split(' ')[0]}
                         {fan.guest_count > 1 && <span className="text-white/20"> +{fan.guest_count - 1}</span>}
                         {i < joinedFans.length - 1 && <span className="text-white/15 mx-0.5">·</span>}
@@ -514,6 +547,7 @@ export default function CruisePage() {
               )}
             </div>
           </div>
+        </div>
         </div>
       </section>
 
@@ -527,7 +561,7 @@ export default function CruisePage() {
             {[{dot:"bg-[var(--color-accent)]",label:"Band"},{dot:"bg-cyan-400",label:"Excursion"},{dot:"bg-emerald-400",label:"Food"},{dot:"bg-white/25",label:"Ship"}].map(l => (
               <div key={l.label} className="flex items-center gap-1.5">
                 <span className={`w-2 h-2 rounded-full ${l.dot}`} />
-                <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/30">{l.label}</span>
+                <span className="text-2xs font-bold uppercase tracking-widest text-white/30">{l.label}</span>
               </div>
             ))}
           </div>
@@ -540,7 +574,7 @@ export default function CruisePage() {
               <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? "r" : "l"} from-transparent via-black/30 to-[var(--color-bg-primary)]`} />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-transparent to-transparent lg:hidden" />
               <div className="absolute top-5 left-5 bg-black/65 backdrop-blur-md rounded-xl px-4 py-2.5 border border-white/10">
-                <span className={`text-[0.45rem] font-black uppercase tracking-[0.3em] ${ITIN_TYPE_ACCENT[day.type]} block`}>Day {day.day}</span>
+                <span className={`text-2xs font-black uppercase tracking-[0.3em] ${ITIN_TYPE_ACCENT[day.type]} block`}>Day {day.day}</span>
                 <span className="text-2xl leading-none">{day.icon}</span>
               </div>
             </div>
@@ -548,7 +582,7 @@ export default function CruisePage() {
             <div className="flex-1 flex items-stretch px-8 lg:px-14 py-10">
               <div className="w-full max-w-xl mx-auto lg:mx-0">
                 <div className="mb-6 pb-5 border-b border-white/[0.06]">
-                  <span className={`text-[0.45rem] font-black uppercase tracking-[0.3em] ${ITIN_TYPE_ACCENT[day.type]}`}>{day.label}</span>
+                  <span className={`text-2xs font-black uppercase tracking-[0.3em] ${ITIN_TYPE_ACCENT[day.type]}`}>{day.label}</span>
                   <h3 className="text-[clamp(1.6rem,4vw,2.5rem)] font-black italic uppercase text-white leading-none mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{day.port}</h3>
                 </div>
                 <div className="relative space-y-0">
@@ -556,7 +590,7 @@ export default function CruisePage() {
                   {day.schedule.map((item, si) => (
                     <div key={si} className="relative flex items-start gap-4 pb-4 last:pb-0">
                       <div className={`shrink-0 w-4 h-4 rounded-full border-2 border-[var(--color-bg-primary)] mt-0.5 z-10 ${ITIN_CAT_DOT[item.cat]}`} />
-                      <span className="shrink-0 text-[0.5rem] font-black text-white/20 w-16 pt-1 tabular-nums">{item.time}</span>
+                      <span className="shrink-0 text-2xs font-black text-white/20 w-16 pt-1 tabular-nums">{item.time}</span>
                       <span className={`text-sm leading-snug pt-0.5 ${ITIN_CAT_TEXT[item.cat]}`}>{item.event}</span>
                     </div>
                   ))}
@@ -584,7 +618,7 @@ export default function CruisePage() {
             <div key={item.title} className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-colors">
               <span className="text-2xl block mb-3">{item.icon}</span>
               <h3 className="text-sm font-bold text-white mb-1">{item.title}</h3>
-              <p className="text-[0.75rem] text-white/35 leading-relaxed">{item.desc}</p>
+              <p className="text-sm text-white/35 leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -600,12 +634,12 @@ export default function CruisePage() {
             <div key={i} className="border border-white/5 rounded-xl overflow-hidden">
               <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-center justify-between p-5 text-left hover:bg-white/[0.02] transition-colors cursor-pointer">
-                <span className="font-bold text-[0.9rem] text-white pr-4">{faq.q}</span>
+                <span className="font-bold text-base text-white pr-4">{faq.q}</span>
                 <span className={`text-white/30 text-lg transition-transform ${openFaq === i ? 'rotate-45' : ''}`}>+</span>
               </button>
               {openFaq === i && (
                 <div className="px-5 pb-5 -mt-1">
-                  <p className="text-[0.85rem] text-white/40 leading-relaxed">{faq.a}</p>
+                  <p className="text-base text-white/40 leading-relaxed">{faq.a}</p>
                 </div>
               )}
             </div>
@@ -621,7 +655,7 @@ export default function CruisePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/40 to-transparent" />
           </div>
           <div className="relative z-10">
-            <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[0.6rem] font-bold uppercase tracking-widest mb-6">Authenticated Experience</span>
+            <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold uppercase tracking-widest mb-6">Authenticated Experience</span>
             <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tight mb-4" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               The Cruise <span className="text-cyan-400">Community</span>
             </h2>

@@ -40,7 +40,7 @@ export default function AudioPlayerSection() {
 
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
     <div className="mb-10">
-      <h3 className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-white/50 mb-6">{title}</h3>
+      <h3 className="text-sm font-bold tracking-[0.2em] uppercase text-white/50 mb-6">{title}</h3>
       <ul className="flex flex-col gap-4">
       {categoryAlbums.map((album) => {
         const originalIdx = albums.findIndex(a => a.id === album.id);
@@ -53,10 +53,10 @@ export default function AudioPlayerSection() {
            <div className="flex items-center gap-3 min-w-0 flex-1 pr-2">
            {album.image && (
            <div className="relative w-8 h-8 shrink-0 bg-white/5 border border-white/5 shadow-md">
-           <Image src={album.image} alt={album.title} fill style={{ objectFit: 'cover' }} />
+           <Image src={album.image} alt={album.title} fill sizes="32px" style={{ objectFit: 'cover' }} />
            </div>
            )}
-           <span className={`text-[0.75rem] font-bold uppercase tracking-widest leading-normal ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-[#a0a0b8] group-hover:text-white'}`}>
+           <span className={`text-sm font-bold uppercase tracking-widest leading-normal ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-[#a0a0b8] group-hover:text-white'}`}>
            {album.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
            </span>
            </div>
@@ -230,7 +230,7 @@ export default function AudioPlayerSection() {
    {/* Panel Header */}
    <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-[#0b0b10]">
    <div className="flex gap-8 max-sm:gap-4 overflow-x-auto">
-      <div className="text-[0.65rem] font-bold text-white/40 uppercase tracking-[0.2em] whitespace-nowrap flex items-center">
+      <div className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] whitespace-nowrap flex items-center">
         <span>AVAILABLE ON </span>
         {activeAlbum?.spotifyUrl ? (
           <a href={activeAlbum.spotifyUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ml-2">SPOTIFY</a>
@@ -270,16 +270,16 @@ export default function AudioPlayerSection() {
     }}
     >
     <div className="flex items-center gap-6">
-    <span className={`text-[0.7rem] font-bold tracking-widest w-6 text-left ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
+    <span className={`text-sm font-bold tracking-widest w-6 text-left ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
     {trackNumber}
     </span>
-       <span className={`text-[0.85rem] font-semibold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? 'text-[var(--color-accent)] drop-shadow-[0_0_8px_rgba(133,29,239,0.5)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
+       <span className={`text-base font-semibold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? 'text-[var(--color-accent)] drop-shadow-[0_0_8px_rgba(133,29,239,0.5)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
          {cleanName}
        </span>
     </div>
     
     {/* Display duration */}
-    <span className={`text-[0.7rem] font-bold tracking-widest mr-4 ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
+    <span className={`text-sm font-bold tracking-widest mr-4 ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
       {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
     </span>
   
@@ -295,7 +295,7 @@ export default function AudioPlayerSection() {
           {activeAlbum?.lineup?.length > 0 && (
             <div className="mb-10">
               <h3 className="text-xl font-bold text-white mb-3">Line-Up</h3>
-              <ul className="flex flex-col gap-1.5 text-[0.85rem] text-white/50">
+              <ul className="flex flex-col gap-1.5 text-base text-white/50">
                 {activeAlbum.lineup.map((line, i) => (
                   <li key={i}>{line}</li>
                 ))}
@@ -306,7 +306,7 @@ export default function AudioPlayerSection() {
           {activeAlbum?.credits?.length > 0 && (
             <div className="mb-4">
               <h3 className="text-xl font-bold text-white mb-3">Credits</h3>
-              <ul className="flex flex-col gap-1.5 text-[0.85rem] text-white/50">
+              <ul className="flex flex-col gap-1.5 text-base text-white/50">
                 {activeAlbum.credits.map((line, i) => (
                   <li key={i}>{line}</li>
                 ))}
@@ -318,7 +318,7 @@ export default function AudioPlayerSection() {
           {lyricsMap[activeAlbum?.id] && (
             <button
               onClick={() => setShowLyrics(true)}
-              className="text-[var(--color-accent)] hover:text-white text-[0.9rem] font-bold transition-colors cursor-pointer text-left mt-2"
+              className="text-[var(--color-accent)] hover:text-white text-base font-bold transition-colors cursor-pointer text-left mt-2"
             >
               Lyrics
             </button>
@@ -333,7 +333,7 @@ export default function AudioPlayerSection() {
                 : activeAlbum?.storeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.7rem] uppercase tracking-widest py-2 px-4 rounded transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest py-2 px-4 rounded transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
               Buy CD
@@ -345,7 +345,7 @@ export default function AudioPlayerSection() {
                 href={activeAlbum.spotifyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 bg-[#1DB954]/10 hover:bg-[#1DB954]/25 border border-[#1DB954]/20 text-[#1DB954] font-bold text-[0.65rem] uppercase tracking-widest py-1.5 px-3 rounded transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 bg-[#1DB954]/10 hover:bg-[#1DB954]/25 border border-[#1DB954]/20 text-[#1DB954] font-bold text-xs uppercase tracking-widest py-1.5 px-3 rounded transition-all"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
                 Spotify
@@ -356,7 +356,7 @@ export default function AudioPlayerSection() {
                 href={activeAlbum.appleMusicUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 bg-[#FC3C44]/10 hover:bg-[#FC3C44]/25 border border-[#FC3C44]/20 text-[#FC3C44] font-bold text-[0.65rem] uppercase tracking-widest py-1.5 px-3 rounded transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 bg-[#FC3C44]/10 hover:bg-[#FC3C44]/25 border border-[#FC3C44]/20 text-[#FC3C44] font-bold text-xs uppercase tracking-widest py-1.5 px-3 rounded transition-all"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.802.42.127.856.187 1.297.228.56.053 1.122.07 1.684.077.55.006 1.1.008 1.65.006h7.7c.51 0 1.02-.006 1.53-.022.62-.02 1.24-.05 1.85-.17.93-.18 1.77-.545 2.468-1.188.71-.654 1.18-1.454 1.434-2.38.167-.604.234-1.224.27-1.848.03-.503.04-1.008.047-1.512V6.124zm-6.772 8.89v3.63c0 .27-.04.533-.15.78a1.57 1.57 0 01-.967.876c-.383.14-.78.2-1.18.228-.5.03-1.003.003-1.48-.177a1.6 1.6 0 01-1.028-.975c-.167-.44-.103-.87.098-1.288.26-.545.718-.87 1.272-1.06.44-.15.9-.213 1.36-.287.31-.05.62-.098.92-.183.2-.06.32-.18.37-.39.01-.03.01-.06.01-.09V9.43c0-.09-.023-.16-.1-.21-.06-.04-.13-.03-.2-.02l-4.87 1.06c-.04.01-.07.02-.1.03-.1.04-.15.11-.16.22v6.24c.005.07.003.14 0 .21-.03.56-.07 1.12-.38 1.62-.29.48-.7.79-1.22.96-.37.12-.76.16-1.15.18-.47.02-.94-.02-1.39-.18-.61-.22-1.03-.62-1.19-1.26-.12-.47-.06-.93.16-1.37.27-.54.71-.87 1.27-1.06.44-.15.9-.21 1.36-.29.3-.05.6-.09.9-.18.19-.06.32-.18.37-.39.01-.03.01-.06.01-.09V7.54c0-.2.06-.36.22-.47.09-.06.18-.1.28-.12l6.2-1.35c.17-.04.34-.07.51-.08.26-.01.42.13.45.39.01.06.01.12.01.18v8.94z"/></svg>
                 Apple
@@ -402,7 +402,7 @@ export default function AudioPlayerSection() {
           </svg>
         </div>
 
-        <span className="relative z-[2] text-[0.6rem] uppercase tracking-[0.2em] text-white/20 text-center font-bold">
+        <span className="relative z-[2] text-xs uppercase tracking-[0.2em] text-white/20 text-center font-bold">
           Select an album<br/>with credits
         </span>
 
@@ -438,8 +438,8 @@ export default function AudioPlayerSection() {
            {songLyrics?.lyrics && Object.keys(songLyrics.lyrics).length > 0 ? (
              Object.entries(songLyrics.lyrics).map(([section, text]: [string, any]) => (
                <div key={section} className="mb-6">
-                 <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]/60 mb-2 block">{section.replace(/_/g, ' ').replace(/\d+$/, '')}</span>
-                 <p className="text-[0.9rem] text-white/70 leading-relaxed whitespace-pre-line">{text}</p>
+                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]/60 mb-2 block">{section.replace(/_/g, ' ').replace(/\d+$/, '')}</span>
+                 <p className="text-base text-white/70 leading-relaxed whitespace-pre-line">{text}</p>
                </div>
              ))
            ) : null}
@@ -458,7 +458,7 @@ export default function AudioPlayerSection() {
      onClick={togglePlay}
    >
      {activeAlbum?.image ? (
-       <Image src={activeAlbum.image} alt="Cover" fill style={{ objectFit: 'cover' }} className="transition-transform group-hover:scale-105" />
+       <Image src={activeAlbum.image} alt="Cover" fill sizes="80px" style={{ objectFit: 'cover' }} className="transition-transform group-hover:scale-105" />
      ) : (
        <div className="w-full h-full bg-[#111]" />
      )}
@@ -476,7 +476,7 @@ export default function AudioPlayerSection() {
     {/* Song Title */}
     <div className="min-w-0 max-w-[150px] shrink-0 hidden md:block">
       <p className="text-sm font-bold text-white truncate">{activeTrack?.title?.replace(/^\d+\s*/, '').replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
-      <p className="text-[0.65rem] text-white/40 truncate">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
+      <p className="text-xs text-white/40 truncate">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
     </div>
 
    {/* Prev / Next Controls */}
@@ -500,7 +500,7 @@ export default function AudioPlayerSection() {
    </div>
 
     {/* Current Time */}
-    <div className="text-[0.75rem] font-bold tracking-widest text-white ml-2 hidden sm:block">
+    <div className="text-sm font-bold tracking-widest text-white ml-2 hidden sm:block">
       {formatTime(currentTime)}
     </div>
 
@@ -524,7 +524,7 @@ export default function AudioPlayerSection() {
     </div>
     
     {/* Full Time */}
-    <div className="text-[0.75rem] font-bold tracking-widest text-white mr-2 hidden sm:block">
+    <div className="text-sm font-bold tracking-widest text-white mr-2 hidden sm:block">
       {duration ? formatTime(duration) : getDummyDuration(activeTrack?.title || '', activeTrackIndex)}
     </div>
 

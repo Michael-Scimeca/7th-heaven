@@ -8,5 +8,5 @@ export const { sanityFetch, SanityLive } = defineLive({
  // Server token for fetching draft content (optional — for preview mode)
  serverToken: process.env.SANITY_API_TOKEN,
  // Browser token for real-time subscriptions (optional — for live updates)
- browserToken: process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN,
+ browserToken: process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN || false,
 });

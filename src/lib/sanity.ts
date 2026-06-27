@@ -1,5 +1,5 @@
 import { createClient } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 
 export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "1dg5ciuj";
 export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
@@ -24,7 +24,7 @@ export const sanityWriteClient = createClient({
 });
 
 // Image URL builder
-const builder = imageUrlBuilder(sanityClient);
+const builder = createImageUrlBuilder(sanityClient);
 
 export function urlFor(source: SanityImageSource) {
  return builder.image(source);
@@ -63,6 +63,7 @@ export interface SanityTourDate {
  directionsLink?: string;
  isSoldOut: boolean;
  isFestival: boolean;
+ isPrivate?: boolean;
  tags: string[];
  notes?: string;
  lat?: number;
@@ -166,8 +167,8 @@ export const queries = {
  featuredNews: `*[_type == "newsPost" && featured == true] | order(publishedAt desc)[0...3] { _id, title, slug, content, date, category, image, featured, publishedAt }`,
 
  // Tour Dates
- allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes, lat, lng }`,
- upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, tags, notes, lat, lng }`,
+ allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
+ upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
 
  // Band Members
  allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact, order }`,

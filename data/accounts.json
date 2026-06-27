@@ -1,0 +1,115 @@
+[
+  {
+    "id": "24f04d28-6c87-4188-819b-eb83c8ba4088",
+    "name": "UI Test User",
+    "email": "ui_test@example.com",
+    "phone": "1234567890",
+    "zip": "60056",
+    "radius": "50",
+    "notificationsEnabled": true,
+    "notifyAreaShows": true,
+    "notifyNextShow": false,
+    "preferredShowTypes": [
+      "full",
+      "unplugged",
+      "outdoor",
+      "special"
+    ],
+    "emailConfirmed": false,
+    "createdAt": "2026-06-19T03:05:48.379Z",
+    "lastLogin": null,
+    "active": true
+  },
+  {
+    "id": "44c8c0f6-2e22-490b-9224-01e92cb8c871",
+    "name": "Test Web Notify",
+    "email": "testwebnotify@gmail.com",
+    "phone": "(123) 456-7890",
+    "zip": "60056",
+    "radius": "50",
+    "notificationsEnabled": true,
+    "notifyAreaShows": true,
+    "notifyNextShow": true,
+    "preferredShowTypes": [
+      "full",
+      "unplugged",
+      "outdoor",
+      "casino",
+      "tv",
+      "special"
+    ],
+    "emailConfirmed": false,
+    "createdAt": "2026-06-19T16:33:54.800Z",
+    "lastLogin": null,
+    "active": true
+  },
+  {
+    "id": "854146b1-5fe1-410d-8dc2-d1ba0aeddec2",
+    "name": "Test Web Notify",
+    "email": "testwebnotify2@gmail.com",
+    "phone": "(123) 456-7890",
+    "zip": "60126",
+    "radius": "50",
+    "notificationsEnabled": true,
+    "notifyAreaShows": true,
+    "notifyNextShow": true,
+    "preferredShowTypes": [
+      "full",
+      "unplugged",
+      "outdoor",
+      "casino",
+      "tv",
+      "special"
+    ],
+    "emailConfirmed": false,
+    "createdAt": "2026-06-19T16:48:21.022Z",
+    "lastLogin": null,
+    "active": true
+  },
+  {
+    "id": "a8a194be-76f1-4e6e-87f7-9957eaf950bf",
+    "name": "Test User SW",
+    "email": "testsw@7thheaven.com",
+    "phone": "3125550199",
+    "zip": "60016",
+    "radius": "50",
+    "notificationsEnabled": true,
+    "notifyAreaShows": true,
+    "notifyNextShow": true,
+    "preferredShowTypes": [
+      "full",
+      "unplugged",
+      "outdoor",
+      "casino",
+      "tv",
+      "special"
+    ],
+    "emailConfirmed": false,
+    "createdAt": "2026-06-19T17:38:56.375Z",
+    "lastLogin": null,
+    "active": true
+  },
+  {
+    "id": "1556784a-61a2-4da5-9db8-5675791f7af5",
+    "name": "Rachel Eclipse",
+    "email": "reclipse276@aol.com",
+    "phone": "3125559876",
+    "zip": "60056",
+    "radius": "50",
+    "notificationsEnabled": true,
+    "notifyAreaShows": true,
+    "notifyNextShow": true,
+    "preferredShowTypes": [
+      "full",
+      "unplugged",
+      "outdoor",
+      "casino",
+      "tv",
+      "special"
+    ],
+    "emailConfirmed": false,
+    "createdAt": "2026-06-20T02:07:09.525Z",
+    "lastLogin": null,
+    "active": true
+  }
+]

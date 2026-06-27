@@ -26,6 +26,11 @@ export default function CruiseChat() {
   const supabase = createClient();
   const room = "cruise_dashboard";
 
+  // Cruise ends March 9, 2026. Archive chat 14 days later.
+  const CRUISE_END_DATE = new Date("2026-03-09T12:00:00Z").getTime();
+  const CHAT_ARCHIVE_DATE = CRUISE_END_DATE + (14 * 24 * 60 * 60 * 1000);
+  const isArchived = Date.now() > CHAT_ARCHIVE_DATE;
+
   // Fetch history and listen to realtime
   useEffect(() => {
     // Initial fetch
@@ -77,7 +82,7 @@ export default function CruiseChat() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [supabase]);
+  }, []);
 
   // Auto-scroll
   useEffect(() => {
@@ -87,6 +92,46 @@ export default function CruiseChat() {
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !member || isSending || !chatEnabled) return;
+
+    // Client-side PG content filter (mirrors server blocklist)
+    const PG_BLOCKED = [
+      /\bfuck|f\*ck|fuk|fvck|fuq\b/i,
+      /\bshit|sh1t\b/i,
+      /\bass\b/i,
+      /\bbitch|b1tch\b/i,
+      /\bcrap\b/i,
+      /\bbastard\b/i,
+      /\bpiss\b/i,
+      /\bcock|c0ck\b/i,
+      /\bdick|d1ck\b/i,
+      /\bpussy\b/i,
+      /\bcunt\b/i,
+      /\bwhore|wh0re\b/i,
+      /\bslut\b/i,
+      /\bnigga|nigger\b/i,
+      /\bfag|faggot\b/i,
+      /\bretard\b/i,
+      /\brape\b/i,
+      /\bporn|xxx\b/i,
+      /\btrump|biden|obama|maga\b/i,
+      /\bdemocrat|republican|gop\b/i,
+      /\bliberal|conservative\b/i,
+      /\bcommunist|socialism|socialist\b/i,
+      /\bfascist|fascism\b/i,
+      /\bantifa|blm\b/i,
+      /\bkkk|klan\b/i,
+      /\bnazi|n4zi\b/i,
+      /\babortion|pro-life|pro-choice\b/i,
+      /\bimpeach\b/i,
+      /\belection|ballot|voter fraud\b/i,
+      /\bdeep state|qanon\b/i,
+      /\bwoke\b/i,
+    ];
+
+    if (PG_BLOCKED.some(re => re.test(newMessage))) {
+      alert("Keep it PG! No swearing or political topics please 🙏");
+      return;
+    }
 
     setIsSending(true);
     
@@ -129,7 +174,7 @@ export default function CruiseChat() {
     return (
       <div className="bg-[#0b0b12] border border-white/5 rounded-2xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center">
         <div className="w-6 h-6 border-2 border-white/10 border-t-[var(--color-accent)] rounded-full animate-spin" />
-        <p className="text-[0.6rem] font-bold text-white/20 uppercase tracking-widest mt-3">Loading chat...</p>
+        <p className="text-xs font-bold text-white/20 uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
     );
   }
@@ -148,7 +193,7 @@ export default function CruiseChat() {
               <h3 className="font-bold text-white/40 text-sm tracking-wide">Passenger Lounge</h3>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
-                <span className="text-[0.55rem] font-bold text-white/20 uppercase tracking-widest">Offline</span>
+                <span className="text-xs font-bold text-white/20 uppercase tracking-widest">Offline</span>
               </div>
             </div>
           </div>
@@ -164,7 +209,7 @@ export default function CruiseChat() {
               </svg>
             </div>
             <h4 className="text-sm font-bold text-white/50 tracking-wide mb-1">Chat Paused</h4>
-            <p className="text-[0.65rem] text-white/25 leading-relaxed max-w-[220px] mx-auto">
+            <p className="text-xs text-white/25 leading-relaxed max-w-[220px] mx-auto">
               The crew has temporarily closed the lounge. Check back soon for updates!
             </p>
           </div>
@@ -185,12 +230,12 @@ export default function CruiseChat() {
             <h3 className="font-bold text-white text-sm tracking-wide">Passenger Lounge</h3>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
-              <span className="text-[0.55rem] font-bold text-emerald-400 uppercase tracking-widest">Live Chat</span>
+              <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Live Chat</span>
             </div>
           </div>
         </div>
         {messages.length > 0 && (
-          <span className="min-w-[28px] h-[28px] flex items-center justify-center rounded-full bg-[var(--color-accent)] text-white text-[0.65rem] font-black px-2 shadow-[0_0_12px_rgba(133,29,239,0.5)] border border-[var(--color-accent)]/50">
+          <span className="min-w-[28px] h-[28px] flex items-center justify-center rounded-full bg-[var(--color-accent)] text-white text-xs font-black px-2 shadow-[0_0_12px_rgba(133,29,239,0.5)] border border-[var(--color-accent)]/50">
             {messages.length > 99 ? '99+' : messages.length}
           </span>
         )}
@@ -201,7 +246,7 @@ export default function CruiseChat() {
         <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-3 flex items-start gap-3 relative z-10 animate-[slideDown_0.3s_ease-out]">
           <span className="text-amber-400 text-sm shrink-0">📌</span>
           <div className="flex-1">
-            <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Crew Announcement</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Crew Announcement</h4>
             <p className="text-amber-100/90 text-xs font-medium leading-relaxed">{pinnedMessage}</p>
           </div>
         </div>
@@ -213,21 +258,21 @@ export default function CruiseChat() {
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
             <p className="text-xs font-bold uppercase tracking-widest">Welcome to the lounge</p>
-            <p className="text-[0.65rem] mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or ask the crew a question!</p>
+            <p className="text-xs mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or ask the crew a question!</p>
           </div>
         ) : (
           messages.map((msg) => (
             <div key={msg.id} className="flex gap-3 animate-[slideIn_0.3s_ease-out]">
-              <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-[0.6rem] font-black border border-white/10 bg-[#15151f]">
+              <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black border border-white/10 bg-[#15151f]">
                 {msg.sender_avatar.substring(0, 2).toUpperCase()}
               </div>
               <div className="flex flex-col flex-1">
                 <div className="flex items-baseline gap-2 mb-1">
                   <span className="text-xs font-bold text-white/80">{msg.sender_name}</span>
-                  <span className={`text-[0.5rem] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
+                  <span className={`text-2xs font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
                     {msg.sender_role}
                   </span>
-                  <span className="text-[0.55rem] text-white/30 ml-auto font-mono">
+                  <span className="text-xs text-white/30 ml-auto font-mono">
                     {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
@@ -243,24 +288,30 @@ export default function CruiseChat() {
 
       {/* Input Area */}
       <div className="p-4 bg-black/40 border-t border-white/5">
-        <form onSubmit={handleSend} className="relative flex items-center">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            disabled={!member || isSending}
-            placeholder={member ? "Type a message..." : "Log in to chat"}
-            className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white outline-none focus:border-[var(--color-accent)]/50 focus:bg-white/5 transition-all disabled:opacity-50"
-            maxLength={500}
-          />
-          <button
-            type="submit"
-            disabled={!newMessage.trim() || !member || isSending}
-            className="absolute right-2 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 text-[var(--color-accent)] flex items-center justify-center hover:bg-[var(--color-accent)] hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-[var(--color-accent)]/20 disabled:hover:text-[var(--color-accent)]"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-          </button>
-        </form>
+        {isArchived ? (
+          <div className="w-full bg-[#15151f] border border-white/10 rounded-xl px-4 py-3 text-sm text-white/40 text-center flex items-center justify-center gap-2">
+            <span>🔒</span> This cruise chat has been archived.
+          </div>
+        ) : (
+          <form onSubmit={handleSend} className="relative flex items-center">
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              disabled={!member || isSending}
+              placeholder={member ? "Type a message..." : "Log in to chat"}
+              className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white outline-none focus:border-[var(--color-accent)]/50 focus:bg-white/5 transition-all disabled:opacity-50"
+              maxLength={500}
+            />
+            <button
+              type="submit"
+              disabled={!newMessage.trim() || !member || isSending}
+              className="absolute right-2 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 text-[var(--color-accent)] flex items-center justify-center hover:bg-[var(--color-accent)] hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-[var(--color-accent)]/20 disabled:hover:text-[var(--color-accent)]"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

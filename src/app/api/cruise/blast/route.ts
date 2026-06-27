@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
 import { cruiseCommunityBlast } from '@/lib/email-templates';
+import { requireAdmin, maskEmail } from '@/lib/api-utils';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -9,6 +10,9 @@ const supabase = createClient(
 );
 
 export async function POST(req: NextRequest) {
+  const authError = await requireAdmin(req);
+  if (authError) return authError;
+
   try {
     const { subject, body } = await req.json();
 
@@ -48,7 +52,7 @@ export async function POST(req: NextRequest) {
         sent++;
       } catch (err: any) {
         failed++;
-        errors.push(`${signup.email}: ${err.message}`);
+        errors.push(`${maskEmail(signup.email)}: ${err.message}`);
       }
     }
 

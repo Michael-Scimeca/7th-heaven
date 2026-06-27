@@ -158,7 +158,11 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       onClick={togglePlay}
     >
       {/* YouTube Player */}
-      <div id={playerDivId.current} className="absolute inset-0 w-full h-full" />
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <div id={playerDivId.current} className="absolute inset-0 w-full h-full" />
+        {/* Hide YouTube branding overlay */}
+        <div className="absolute bottom-0 left-0 w-40 h-14 z-10" />
+      </div>
 
       {/* Close button */}
       {onClose && (
@@ -262,7 +266,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             </div>
 
             {/* Time */}
-            <span className="text-[0.65rem] text-white/40 font-mono tabular-nums">
+            <span className="text-xs text-white/40 font-mono tabular-nums">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
           </div>

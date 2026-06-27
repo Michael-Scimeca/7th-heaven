@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { bookingStatusUpdate } from "@/lib/email-templates";
 import { protectAction, sanitize as securitySanitize } from "@/lib/security";
+import { isValidEmail } from "@/lib/validation";
+import { requireAdmin } from "@/lib/api-utils";
 import crypto from "crypto";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "mikeyscimeca@gmail.com";
@@ -16,6 +18,13 @@ function sanitize(str: string | undefined | null): string {
   return securitySanitize(str);
 }
 
+const eventTypeLabels: Record<string, string> = {
+  full_band: "Full Band",
+  unplugged: "Unplugged",
+  private: "Private Event",
+  custom: "Custom Booking",
+};
+
 function generateBookingId() {
   return `7H-BK-${Math.floor(1000 + Math.random() * 9000)}`;
 }
@@ -25,6 +34,45 @@ function buildPlannerEmailHtml(booking: any) {
   const dashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/planner`;
   const td1 = `padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;`;
   const td2 = `padding:8px 0;color:#fff;font-size:14px;font-weight:600;`;
+
+  let scheduleHtml = "";
+  if (Array.isArray(booking.bookingSlots) && booking.bookingSlots.length > 0) {
+    scheduleHtml = booking.bookingSlots.map((s: any, idx: number) => {
+      const dateStr = new Date(s.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const typeLabel = eventTypeLabels[s.eventType] || s.eventType;
+      const customStr = s.customEventType ? ` (${s.customEventType})` : "";
+      let metaInfo = "";
+      const ageLabel = s.ageRestriction === "21_plus" ? "🔞 21 & Over" : s.ageRestriction === "18_plus" ? "🔞 18 & Over" : "✅ All Ages";
+      metaInfo += `<br/><span style="color:rgba(255,255,255,0.5);font-size:12px;">Age Limit: ${ageLabel}</span>`;
+      if (s.doorsTime) {
+        metaInfo += ` · <span style="color:rgba(255,255,255,0.5);font-size:12px;">Doors: ${sanitize(s.doorsTime)}</span>`;
+      }
+      if (s.cover) {
+        metaInfo += ` · <span style="color:rgba(255,255,255,0.5);font-size:12px;">Cover: ${sanitize(s.cover)}</span>`;
+      }
+      if (s.ticketLink) {
+        metaInfo += `<br/><span style="color:rgba(255,255,255,0.4);font-size:11px;">Tickets: <a href="${sanitize(s.ticketLink)}" style="color:#a855f7;text-decoration:none;">${sanitize(s.ticketLink)}</a></span>`;
+      }
+      if (s.notes) {
+        metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style:italic;">Notes: "${sanitize(s.notes)}"</span>`;
+      }
+      return `<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:#fff;">
+        <span style="font-size:11px;color:#a855f7;text-transform:uppercase;font-weight:700;letter-spacing:1px;display:block;margin-bottom:2px;">Show #${idx + 1}</span>
+        <strong>📅 ${sanitize(dateStr)}</strong> · ${sanitize(s.startTime) || 'TBD'} – ${sanitize(s.endTime) || 'TBD'}
+        <br/><span style="color:rgba(255,255,255,0.4);font-size:12px;">Format: ${sanitize(typeLabel)}${sanitize(customStr)}</span>
+        ${metaInfo}
+      </div>`;
+    }).join("");
+  } else {
+    const legacyDate = Array.isArray(booking.eventDates) && booking.eventDates.length > 0
+      ? booking.eventDates.map((d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })).join(', ')
+      : (booking.eventDate ? new Date(booking.eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD');
+    scheduleHtml = `<div style="color:#fff;">
+      <strong>📅 ${sanitize(legacyDate)}</strong> · ${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}
+      <br/><span style="color:rgba(255,255,255,0.4);font-size:12px;">Format: ${sanitize(eventTypeLabels[booking.eventType] || booking.eventType)}</span>
+    </div>`;
+  }
+
   return `
   <div style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0f;color:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);">
     <div style="padding:40px 32px;text-align:center;background:linear-gradient(135deg,#1a0030,#0a0a0f);">
@@ -44,15 +92,15 @@ function buildPlannerEmailHtml(booking: any) {
       <!-- Event Details -->
       <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:20px;">
         <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Event Details</p>
-        <table style="width:100%;border-collapse:collapse;">
-          <tr><td style="${td1}">Event Type</td><td style="${td2}">${sanitize(booking.eventType)}</td></tr>
-          <tr><td style="${td1}">Date</td><td style="${td2}">${sanitize(booking.eventDate)}</td></tr>
-          <tr><td style="${td1}">Time</td><td style="${td2}">${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}</td></tr>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
           <tr><td style="${td1}">Venue</td><td style="${td2}">${sanitize(booking.venueName) || 'Not specified'}</td></tr>
           <tr><td style="${td1}">Location</td><td style="${td2}">${sanitize(booking.venueCity)}, ${sanitize(booking.venueState)}</td></tr>
           ${booking.indoorOutdoor ? `<tr><td style="${td1}">Indoor/Outdoor</td><td style="${td2}">${sanitize(booking.indoorOutdoor)}</td></tr>` : ''}
           ${booking.expectedAttendance ? `<tr><td style="${td1}">Attendance</td><td style="${td2}">${sanitize(booking.expectedAttendance)}</td></tr>` : ''}
         </table>
+        
+        <p style="margin:16px 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">Scheduled Shows</p>
+        ${scheduleHtml}
       </div>
       <!-- Contact Info -->
       <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:20px;">
@@ -91,6 +139,45 @@ function buildAdminNotificationHtml(booking: any) {
   const replyMailto = `mailto:${booking.email}?subject=Re: Booking ${booking.bookingId} — 7th Heaven`;
   const td1 = `padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;`;
   const td2 = `padding:6px 0;color:#fff;font-size:14px;font-weight:600;`;
+
+  let scheduleHtml = "";
+  if (Array.isArray(booking.bookingSlots) && booking.bookingSlots.length > 0) {
+    scheduleHtml = booking.bookingSlots.map((s: any, idx: number) => {
+      const dateStr = new Date(s.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const typeLabel = eventTypeLabels[s.eventType] || s.eventType;
+      const customStr = s.customEventType ? ` (${s.customEventType})` : "";
+      let metaInfo = "";
+      const ageLabel = s.ageRestriction === "21_plus" ? "🔞 21 & Over" : s.ageRestriction === "18_plus" ? "🔞 18 & Over" : "✅ All Ages";
+      metaInfo += `<br/><span style="color:rgba(255,255,255,0.5);font-size:12px;">Age Limit: ${ageLabel}</span>`;
+      if (s.doorsTime) {
+        metaInfo += ` · <span style="color:rgba(255,255,255,0.5);font-size:12px;">Doors: ${sanitize(s.doorsTime)}</span>`;
+      }
+      if (s.cover) {
+        metaInfo += ` · <span style="color:rgba(255,255,255,0.5);font-size:12px;">Cover: ${sanitize(s.cover)}</span>`;
+      }
+      if (s.ticketLink) {
+        metaInfo += `<br/><span style="color:rgba(255,255,255,0.4);font-size:11px;">Tickets: <a href="${sanitize(s.ticketLink)}" style="color:#a855f7;text-decoration:none;">${sanitize(s.ticketLink)}</a></span>`;
+      }
+      if (s.notes) {
+        metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style:italic;">Notes: "${sanitize(s.notes)}"</span>`;
+      }
+      return `<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:#fff;">
+        <span style="font-size:10px;color:#a855f7;text-transform:uppercase;font-weight:700;letter-spacing:1px;display:block;margin-bottom:2px;">Show #${idx + 1}</span>
+        <strong>📅 ${sanitize(dateStr)}</strong> · ${sanitize(s.startTime) || 'TBD'} – ${sanitize(s.endTime) || 'TBD'}
+        <br/><span style="color:rgba(255,255,255,0.4);font-size:12px;">Format: ${sanitize(typeLabel)}${sanitize(customStr)}</span>
+        ${metaInfo}
+      </div>`;
+    }).join("");
+  } else {
+    const legacyDate = Array.isArray(booking.eventDates) && booking.eventDates.length > 0
+      ? booking.eventDates.map((d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })).join(', ')
+      : (booking.eventDate ? new Date(booking.eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD');
+    scheduleHtml = `<div style="color:#fff;">
+      <strong>📅 ${sanitize(legacyDate)}</strong> · ${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}
+      <br/><span style="color:rgba(255,255,255,0.4);font-size:12px;">Format: ${sanitize(eventTypeLabels[booking.eventType] || booking.eventType)}</span>
+    </div>`;
+  }
+
   return `
   <div style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0f;color:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);">
     <div style="padding:32px;text-align:center;background:linear-gradient(135deg,#1a0030,#0a0a0f);">
@@ -104,7 +191,7 @@ function buildAdminNotificationHtml(booking: any) {
         ${booking.phone ? `<br/><a href="tel:${sanitize(booking.phone)}" style="display:inline-block;margin-top:8px;color:#a855f7;font-size:13px;font-weight:600;text-decoration:none;">${sanitize(booking.phone)}</a>` : ''}
       </div>
       <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; margin-bottom: 16px;">
-        <table style="width: 100%; border-collapse: collapse;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom:16px;">
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; width: 130px;">Name</td>
             <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.name)}</td>
@@ -123,18 +210,6 @@ function buildAdminNotificationHtml(booking: any) {
           </tr>
           <tr><td colspan="2" style="padding: 10px 0;"><hr style="border: none; border-top: 1px solid rgba(255,255,255,0.05);"></td></tr>
           <tr>
-            <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Event Type</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.eventType)}</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Date</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.eventDate)}</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Time</td>
-            <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}</td>
-          </tr>
-          <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Venue</td>
             <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueName) || 'Not specified'}</td>
           </tr>
@@ -151,6 +226,10 @@ function buildAdminNotificationHtml(booking: any) {
             <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.expectedAttendance) || 'N/A'}</td>
           </tr>
         </table>
+
+        <p style="margin: 16px 0 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.3); font-weight: 700; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">Scheduled Shows</p>
+        ${scheduleHtml}
+      </div>
       </div>
       ${booking.details ? `<div style="background: rgba(168,85,247,0.05); border: 1px solid rgba(168,85,247,0.15); border-radius: 12px; padding: 16px; margin-bottom: 16px;"><p style="margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); font-weight: 700;">Additional Notes</p><p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.5;">${sanitize(booking.details)}</p></div>` : ''}
       <div style="text-align: center; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05);">
@@ -181,27 +260,46 @@ export async function GET(request: Request) {
     }
 
     // Transform Supabase format to match existing client expectations
-    const bookings = (data || []).map((b: any) => ({
-      bookingId: b.booking_id,
-      name: b.planner_name,
-      email: b.planner_email,
-      phone: b.planner_phone,
-      organization: b.organization,
-      eventType: b.event_type,
-      eventDate: b.event_date,
-      startTime: b.start_time,
-      endTime: b.end_time,
-      venueName: b.venue_name,
-      venueCity: b.venue_city,
-      venueState: b.venue_state,
-      indoorOutdoor: b.indoor_outdoor,
-      expectedAttendance: b.expected_attendance,
-      details: b.details,
-      status: b.status,
-      cancelledAt: b.cancelled_at,
-      submittedAt: b.created_at,
-      updatedAt: b.updated_at,
-    }));
+    const bookings = (data || []).map((b: any) => {
+      let parsedDetails = { notes: b.details || "" } as any;
+      try {
+        if (b.details && b.details.startsWith('{') && b.details.endsWith('}')) {
+          parsedDetails = JSON.parse(b.details);
+        }
+      } catch {}
+
+      return {
+        bookingId: b.booking_id,
+        name: b.planner_name,
+        email: b.planner_email,
+        phone: b.planner_phone,
+        organization: b.organization,
+        eventType: b.event_type,
+        eventDate: b.event_date,
+        startTime: b.start_time,
+        endTime: b.end_time,
+        venueName: b.venue_name,
+        venueCity: b.venue_city,
+        venueState: b.venue_state,
+        indoorOutdoor: b.indoor_outdoor,
+        expectedAttendance: b.expected_attendance,
+        details: parsedDetails.notes || b.details,
+        ageRestriction: parsedDetails.ageRestriction || "all_ages",
+        doorsTime: parsedDetails.doorsTime || "",
+        cover: parsedDetails.cover || "",
+        ticketLink: parsedDetails.ticketLink || "",
+        isFestival: parsedDetails.isFestival || false,
+        plannerNotes: parsedDetails.plannerNotes || "",
+        status: b.status,
+        cancelledAt: b.cancelled_at,
+        submittedAt: b.created_at,
+        updatedAt: b.updated_at,
+        // Payment fields
+        depositAmount: b.deposit_amount || 0,
+        paymentStatus: b.payment_status || 'none',
+        stripePaymentId: b.stripe_payment_id || null,
+      };
+    });
 
     return NextResponse.json(bookings);
   } catch {
@@ -224,43 +322,122 @@ export async function POST(request: Request) {
     }
 
     // Validate required fields
-    if (!data.name || !data.email || !data.eventDate || !data.eventType || !data.venueCity || !data.venueState) {
+    const bookingSlots = Array.isArray(data.bookingSlots) ? data.bookingSlots : [];
+    const eventDates: string[] = Array.isArray(data.eventDates) && data.eventDates.length > 0 
+      ? data.eventDates 
+      : (data.eventDate ? [data.eventDate] : []);
+
+    const hasSlots = bookingSlots.length > 0;
+    const hasLegacyDates = eventDates.length > 0;
+
+    if (!data.name || !data.email || (!hasSlots && !hasLegacyDates) || !data.venueCity || !data.venueState) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    const bookingId = generateBookingId();
-    const cancelToken = crypto.randomBytes(24).toString('hex');
+    const firstEventType = hasSlots ? bookingSlots[0].eventType : data.eventType;
+    if (!firstEventType) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
 
-    // Insert into Supabase
-    const { error } = await supabaseAdmin.from('bookings').insert({
-      booking_id: bookingId,
-      planner_name: data.name,
-      planner_email: data.email.toLowerCase(),
-      planner_phone: data.phone || null,
-      organization: data.organization || null,
-      event_type: data.eventType,
-      event_date: data.eventDate,
-      start_time: data.startTime || null,
-      end_time: data.endTime || null,
-      venue_name: data.venueName || null,
-      venue_city: data.venueCity,
-      venue_state: data.venueState,
-      indoor_outdoor: data.indoorOutdoor || null,
-      expected_attendance: data.expectedAttendance || null,
-      details: data.details || null,
-      status: 'pending',
-      cancel_token: cancelToken,
+    // Validate email format
+    if (!isValidEmail(data.email)) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address" },
+        { status: 400 }
+      );
+    }
+
+    const baseBookingId = generateBookingId();
+    
+    // Map over all selected dates/slots to create separate booking records
+    const slotsToInsert = hasSlots
+      ? bookingSlots
+      : eventDates.map((dateStr, idx) => ({
+          date: dateStr,
+          startTime: data.startTime || null,
+          endTime: data.endTime || null,
+          eventType: data.eventType,
+          customEventType: data.customEventType || null,
+        }));
+
+    const inserts = slotsToInsert.map((slot: any, idx: number) => {
+      const bookingId = slotsToInsert.length > 1 ? `${baseBookingId}-${idx + 1}` : baseBookingId;
+      const cancelToken = crypto.randomBytes(24).toString('hex');
+      
+      const detailsObj = {
+        notes: slot.notes || "",
+        ageRestriction: slot.ageRestriction || "all_ages",
+        doorsTime: slot.doorsTime || "",
+        cover: slot.cover || "",
+        ticketLink: slot.ticketLink || "",
+        isFestival: slot.isFestival || false,
+        plannerNotes: data.details || "",
+        useSeparateInfo: slot.useSeparateInfo || false,
+        contactName: slot.contactName || "",
+        contactEmail: slot.contactEmail || "",
+        contactPhone: slot.contactPhone || "",
+        venueName: slot.venueName || "",
+        venueCity: slot.venueCity || "",
+        venueState: slot.venueState || "",
+      };
+
+      return {
+        booking_id: bookingId,
+        planner_name: (slot.useSeparateInfo && slot.contactName) ? slot.contactName : data.name,
+        planner_email: ((slot.useSeparateInfo && slot.contactEmail) ? slot.contactEmail : data.email).toLowerCase(),
+        planner_phone: (slot.useSeparateInfo && slot.contactPhone) ? slot.contactPhone : (data.phone || null),
+        organization: (slot.useSeparateInfo && slot.organization) ? slot.organization : (data.organization || null),
+        event_type: slot.eventType,
+        event_date: slot.date,
+        start_time: slot.startTime || null,
+        end_time: slot.endTime || null,
+        venue_name: (slot.useSeparateInfo && slot.venueName) ? slot.venueName : (data.venueName || null),
+        venue_city: (slot.useSeparateInfo && slot.venueCity) ? slot.venueCity : data.venueCity,
+        venue_state: (slot.useSeparateInfo && slot.venueState) ? slot.venueState : data.venueState,
+        indoor_outdoor: data.indoorOutdoor || null,
+        expected_attendance: data.expectedAttendance || null,
+        details: JSON.stringify(detailsObj),
+        status: 'pending',
+        cancel_token: cancelToken,
+      };
     });
+
+    // Insert all booking dates into Supabase
+    const { error } = await supabaseAdmin.from('bookings').insert(inserts);
 
     if (error) {
       console.error('Booking insert error:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    const booking = { ...data, bookingId, cancelToken };
+    // Use details of the first insert record for confirmation/cancel links
+    const firstBookingId = inserts[0].booking_id;
+    const firstCancelToken = inserts[0].cancel_token;
+    const booking = { 
+      ...data, 
+      bookingId: firstBookingId, 
+      cancelToken: firstCancelToken,
+      bookingSlots: slotsToInsert.map((s: any) => ({
+        date: s.date,
+        startTime: s.startTime,
+        endTime: s.endTime,
+        eventType: s.eventType,
+        customEventType: s.customEventType,
+        ageRestriction: s.ageRestriction,
+        doorsTime: s.doorsTime,
+        cover: s.cover,
+        ticketLink: s.ticketLink,
+        isFestival: s.isFestival,
+        notes: s.notes,
+      })),
+      eventDates: slotsToInsert.map((s: any) => s.date)
+    };
 
     // Send confirmation emails (non-blocking)
     const emailBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -271,7 +448,7 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         to: data.email,
-        subject: `Booking Confirmed — ${bookingId} | 7th Heaven`,
+        subject: `Booking Confirmed — ${firstBookingId} | 7th Heaven`,
         html: buildPlannerEmailHtml(booking),
       }),
     }).catch(err => console.error("Planner email failed:", err));
@@ -282,12 +459,12 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         to: ADMIN_EMAIL,
-        subject: `⚡ New Booking Request — ${bookingId} from ${data.name}`,
+        subject: `⚡ New Booking Request — ${firstBookingId} from ${data.name}`,
         html: buildAdminNotificationHtml(booking),
       }),
     }).catch(err => console.error("Admin email failed:", err));
 
-    return NextResponse.json({ success: true, bookingId, message: "Booking request received" });
+    return NextResponse.json({ success: true, bookingId: baseBookingId, message: "Booking request received" });
   } catch (error) {
     console.error("Booking API error:", error);
     return NextResponse.json(
@@ -299,6 +476,10 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    // Verify caller is an authenticated admin
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const { bookingId, status, notes } = await request.json();
 
     const update: any = {
@@ -329,14 +510,105 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    // ── Automatically create Sanity Tour Date when booking is confirmed ──
+    if (status === 'confirmed' && data) {
+      try {
+        // Geocode city and state
+        let lat = null;
+        let lng = null;
+        if (data.venue_city && data.venue_state) {
+          try {
+            const query = encodeURIComponent(`${data.venue_city}, ${data.venue_state}, USA`);
+            const geoRes = await fetch(
+              `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
+              { headers: { "User-Agent": "7thHeavenBand/1.0" } }
+            );
+            const geoJson = await geoRes.json();
+            if (geoJson?.[0]) {
+              lat = parseFloat(geoJson[0].lat);
+              lng = parseFloat(geoJson[0].lon);
+            }
+          } catch (geoErr) {
+            console.error("Geocoding failed during booking auto-sync:", geoErr);
+          }
+        }
+
+        // Calculate day of the week
+        let day = "";
+        if (data.event_date) {
+          try {
+            const dateObj = new Date(data.event_date + 'T12:00:00');
+            const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            day = dayNames[dateObj.getDay()];
+          } catch {}
+        }
+
+        // Import write client and insert
+        const { sanityWriteClient } = await import("@/lib/sanity");
+        const { revalidatePath } = await import("next/cache");
+
+        let notes = data.details || "";
+        let allAges = true;
+        let cover = "";
+        let ticketLink = "";
+        let doorsTime = "";
+        let isFestival = data.details?.toLowerCase().includes("festival") || data.details?.toLowerCase().includes("fest") || false;
+        let ageRestrictionStr = "";
+
+        try {
+          if (data.details && data.details.startsWith('{') && data.details.endsWith('}')) {
+            const parsed = JSON.parse(data.details);
+            notes = parsed.notes || "";
+            allAges = parsed.ageRestriction !== "21_plus";
+            cover = parsed.cover || "";
+            ticketLink = parsed.ticketLink || "";
+            doorsTime = parsed.doorsTime || "";
+            isFestival = parsed.isFestival || false;
+            ageRestrictionStr = parsed.ageRestriction || "";
+          }
+        } catch {}
+
+        const isPrivate = data.event_type === 'private';
+        const tags = [data.event_type || "custom"];
+        if (ageRestrictionStr === "21_plus") tags.push("21+");
+        else if (ageRestrictionStr === "18_plus") tags.push("18+");
+        else tags.push("All Ages");
+
+        await sanityWriteClient.create({
+          _type: "tourDate",
+          venue: data.venue_name || "Private Event",
+          city: data.venue_city || "",
+          state: data.venue_state || "",
+          date: data.event_date || "",
+          day,
+          time: data.start_time || "",
+          notes,
+          allAges,
+          cover,
+          ticketLink,
+          doorsTime,
+          isSoldOut: false,
+          isFestival,
+          isPrivate,
+          tags,
+          lat,
+          lng
+        });
+        console.log(`Successfully auto-created Sanity tourDate for confirmed booking: ${bookingId}`);
+        revalidatePath("/tour");
+      } catch (sanityErr) {
+        console.error("Failed to auto-create Sanity tourDate for confirmed booking:", sanityErr);
+      }
+    }
+
     // ── Send status notification email to planner ──
-    if (data && data.planner_email && ['approved', 'cancelled', 'completed'].includes(status)) {
+    if (data && data.planner_email && ['confirmed', 'approved', 'cancelled', 'completed'].includes(status)) {
       const emailBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
       const plannerName = data.planner_name || 'there';
       const eventDate = data.event_date || 'TBD';
 
       // Map DB status to template status
-      const templateStatus = status === 'approved' ? 'confirmed' : status === 'cancelled' ? 'cancelled' : 'completed';
+      const templateStatus = (status === 'approved' || status === 'confirmed') ? 'confirmed' : status === 'cancelled' ? 'cancelled' : 'completed';
 
       const html = bookingStatusUpdate({
         name: plannerName,

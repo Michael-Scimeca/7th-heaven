@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient as createSanityClient } from "next-sanity";
+import * as cheerio from "cheerio";
 
 const sanity = createSanityClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "1dg5ciuj",
@@ -7,6 +8,20 @@ const sanity = createSanityClient({
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01",
   useCdn: false,
 });
+
+const getSanityWriteClient = () => {
+  const token = process.env.SANITY_API_TOKEN;
+  if (!token) {
+    throw new Error("Missing SANITY_API_TOKEN in environment variables");
+  }
+  return createSanityClient({
+    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "1dg5ciuj",
+    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01",
+    token,
+    useCdn: false,
+  });
+};
 
 // Geocode a city + state to lat/lng using free nominatim API
 async function geocodeCity(city: string, state: string): Promise<{ lat: number; lng: number } | null> {
@@ -26,7 +41,7 @@ async function geocodeCity(city: string, state: string): Promise<{ lat: number; 
   }
 }
 
-// POST /api/sync-shows — sync Sanity tour dates → Supabase shows table
+// POST /api/sync-shows — Scrape legacy tour dates and sync to Sanity & Supabase
 export async function POST() {
   try {
     const { createClient } = await import("@supabase/supabase-js");
@@ -35,92 +50,188 @@ export async function POST() {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
 
-    // Fetch all upcoming tour dates from Sanity
-    const tourDates = await sanity.fetch(
-      `*[_type == "tourDate"] | order(date asc) {
-        _id, venue, city, state, date, time, day,
-        doorsTime, allAges, cover, ticketLink, isSoldOut, isFestival, notes, lat, lng
-      }`
+    // 1. Fetch current Sanity tour dates to seed our geocoding cache
+    console.log("Seeding geocoding cache from Sanity...");
+    const existingTours = await sanity.fetch(
+      `*[_type == "tourDate"] { _id, city, state, lat, lng }`
     );
 
-    if (!tourDates?.length) {
-      return NextResponse.json({ message: "No tour dates found in Sanity", synced: 0 });
+    const geoCache: Record<string, { lat: number; lng: number }> = {};
+    const existingSanityIds: string[] = [];
+
+    existingTours.forEach((t: any) => {
+      if (t._id) existingSanityIds.push(t._id);
+      if (t.city && t.state && t.lat && t.lng) {
+        const key = `${t.city.trim().toLowerCase()},${t.state.trim().toLowerCase()}`;
+        geoCache[key] = { lat: t.lat, lng: t.lng };
+      }
+    });
+
+    // 2. Fetch and scrape legacy website
+    console.log("Fetching legacy tour dates...");
+    const scrapeRes = await fetch("https://7thheavenband.com/tour.html");
+    if (!scrapeRes.ok) {
+      throw new Error(`Failed to fetch legacy tour dates page: ${scrapeRes.status}`);
     }
+    const html = await scrapeRes.text();
+    const $ = cheerio.load(html);
 
-    let synced = 0;
-    let geocoded = 0;
-    const errors: string[] = [];
+    const showsToInsert: any[] = [];
+    const rows = $("table.dsR1 tbody tr");
 
-    for (const tour of tourDates) {
-      // Use existing lat/lng from Sanity if available, otherwise geocode
-      let lat = tour.lat ?? null;
-      let lng = tour.lng ?? null;
+    rows.each((i, el) => {
+      // Skip header row
+      if (i === 0) return;
 
-      if ((!lat || !lng) && tour.city && tour.state) {
-        // Rate-limit nominatim: 1 req/sec
-        await new Promise(resolve => setTimeout(resolve, 1100));
-        const coords = await geocodeCity(tour.city, tour.state);
+      const tds = $(el).find("td");
+      if (tds.length < 9) return;
+
+      const day = $(tds[0]).text().trim();
+      const dateStr = $(tds[1]).text().trim();
+      const venue = $(tds[2]).text().trim();
+      const city = $(tds[3]).text().trim().replace(/&nbsp;/g, "").trim();
+      const state = $(tds[4]).text().trim().replace(/&nbsp;/g, "").trim();
+      const time = $(tds[5]).text().trim().replace(/&nbsp;/g, "").trim();
+      const info = $(tds[6]).text().trim().replace(/&nbsp;/g, "").trim();
+
+      const mapAnchor = $(tds[7]).find("a");
+      const directionsLink = mapAnchor.attr("href") || "";
+
+      const ticketAnchor = $(tds[8]).find("a");
+      const ticketLink = ticketAnchor.attr("href") || "";
+
+      if (!venue || venue === "Day") return; // Header or empty rows
+
+      // Parse the dateStr (e.g., "January 2" or "February 13") into ISO "YYYY-MM-DD"
+      let isoDate = "";
+      if (dateStr) {
+        try {
+          const dateObj = new Date(`${dateStr}, 2026`);
+          if (!isNaN(dateObj.getTime())) {
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+            const dayVal = String(dateObj.getDate()).padStart(2, "0");
+            isoDate = `${year}-${month}-${dayVal}`;
+          }
+        } catch (err) {
+          console.warn(`Failed to parse date: ${dateStr}`);
+        }
+      }
+
+      if (!isoDate) return;
+
+      showsToInsert.push({
+        day,
+        date: isoDate,
+        venue_name: venue,
+        city,
+        state: state || "IL",
+        time,
+        info,
+        directionsLink,
+        ticketLink,
+      });
+    });
+
+    console.log(`Parsed ${showsToInsert.length} shows from legacy website.`);
+
+    // 3. Process geocoding using cache
+    let geocodedCount = 0;
+    const resolvedShows: any[] = [];
+
+    for (const show of showsToInsert) {
+      const geoKey = `${show.city.trim().toLowerCase()},${show.state.trim().toLowerCase()}`;
+      let lat = geoCache[geoKey]?.lat ?? null;
+      let lng = geoCache[geoKey]?.lng ?? null;
+
+      if ((!lat || !lng) && show.city && show.state) {
+        // Sleep briefly to avoid geocoding rate-limit
+        await new Promise((resolve) => setTimeout(resolve, 1100));
+        const coords = await geocodeCity(show.city, show.state);
         if (coords) {
           lat = coords.lat;
           lng = coords.lng;
-          geocoded++;
-          // Write coords back to Sanity too
-          try {
-            const { createClient: createWriteClient } = await import("next-sanity");
-            const writeClient = createWriteClient({
-              projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "1dg5ciuj",
-              dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-              apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01",
-              token: process.env.SANITY_API_TOKEN,
-              useCdn: false,
-            });
-            await writeClient.patch(tour._id).set({ lat, lng }).commit();
-          } catch {}
+          geoCache[geoKey] = coords; // cache it
+          geocodedCount++;
         }
       }
 
-      const showData = {
-        venue_name: tour.venue || "TBA",
-        city: tour.city || "",
-        state: tour.state || "",
-        date: tour.date,
-        time: tour.time || "",
-        doors_time: tour.doorsTime || null,
-        all_ages: tour.allAges ?? null,
-        cover: tour.cover ? String(tour.cover) : null,
-        status: "upcoming",
-        latitude: lat,
-        longitude: lng,
-      };
-
-      // Upsert by venue + date combo
-      const { error } = await supabase
-        .from("shows")
-        .upsert(showData, { onConflict: "venue_name,date" })
-        .select();
-
-      if (error) {
-        // If upsert fails due to missing unique constraint, just insert
-        const { error: insertError } = await supabase.from("shows").insert(showData);
-        if (insertError) {
-          errors.push(`${tour.venue} (${tour.date}): ${insertError.message}`);
-        } else {
-          synced++;
-        }
-      } else {
-        synced++;
-      }
+      resolvedShows.push({
+        ...show,
+        lat,
+        lng,
+      });
     }
+
+    // 4. Update Sanity CMS via a unified transaction
+    console.log("Updating Sanity CMS...");
+    const writeClient = getSanityWriteClient();
+    const tx = writeClient.transaction();
+
+    // Delete existing docs
+    existingSanityIds.forEach((id) => tx.delete(id));
+
+    // Create new docs
+    resolvedShows.forEach((show) => {
+      const isFestival =
+        show.info.toLowerCase().includes("festival") ||
+        show.info.toLowerCase().includes("fest");
+
+      tx.create({
+        _type: "tourDate",
+        venue: show.venue_name,
+        city: show.city,
+        state: show.state,
+        date: show.date,
+        time: show.time,
+        day: show.day,
+        notes: show.info,
+        ticketLink: show.ticketLink,
+        directionsLink: show.directionsLink,
+        isSoldOut: false,
+        isFestival,
+        lat: show.lat,
+        lng: show.lng,
+      });
+    });
+
+    await tx.commit();
+    console.log(`Sanity updated: deleted ${existingSanityIds.length} and created ${resolvedShows.length} docs.`);
+
+    // 5. Update Supabase database in a single bulk upsert
+    console.log("Updating Supabase database...");
+    const supabasePayloads = resolvedShows.map((show) => ({
+      venue_name: show.venue_name,
+      city: show.city,
+      state: show.state,
+      date: show.date,
+      time: show.time,
+      status: "upcoming",
+      latitude: show.lat,
+      longitude: show.lng,
+    }));
+
+    const { error: supabaseError } = await supabase
+      .from("shows")
+      .upsert(supabasePayloads, { onConflict: "venue_name,date" });
+
+    if (supabaseError) {
+      throw new Error(`Supabase upsert failed: ${supabaseError.message}`);
+    }
+
+    console.log(`Supabase synced ${supabasePayloads.length} shows.`);
 
     return NextResponse.json({
       success: true,
-      total: tourDates.length,
-      synced,
-      geocoded,
-      errors: errors.length ? errors : undefined,
+      scraped: showsToInsert.length,
+      sanityDeleted: existingSanityIds.length,
+      sanityCreated: resolvedShows.length,
+      supabaseUpserted: supabasePayloads.length,
+      geocoded: geocodedCount,
     });
-  } catch (e) {
-    return NextResponse.json({ error: String(e) }, { status: 500 });
+  } catch (e: any) {
+    console.error("Sync error:", e);
+    return NextResponse.json({ success: false, error: String(e.message || e) }, { status: 500 });
   }
 }
 

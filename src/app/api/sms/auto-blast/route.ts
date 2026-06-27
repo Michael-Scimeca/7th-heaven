@@ -5,10 +5,12 @@ import { createClient } from "@supabase/supabase-js";
 /**
  * GET /api/sms/auto-blast
  * 
- * Called by a cron job (e.g., Vercel Cron, daily at 9am).
- * Checks for shows happening within X days and auto-sends proximity SMS
- * to fans near the venue — UNLESS auto-blast is disabled or the show
- * has already been blasted.
+ * Called by a cron job (e.g., Vercel Cron, every hour or at specific times).
+ * Checks for shows happening within the next 8 hours and auto-sends
+ * proximity SMS to fans near each venue.
+ * 
+ * Handles multiple shows per day — each show is blasted independently.
+ * Uses sms_blast_log to prevent duplicate blasts.
  */
 
 const supabaseAdmin = createClient(
@@ -37,46 +39,87 @@ export async function GET(request: Request) {
       return NextResponse.json({ skipped: true, reason: "Auto-blast disabled by admin" });
     }
 
-    // Get days-before setting (default 3)
-    const { data: daysSetting } = await supabaseAdmin
+    // Get hours-before setting (default 8)
+    const { data: hoursSetting } = await supabaseAdmin
       .from("site_settings")
       .select("value")
-      .eq("key", "sms_auto_blast_days")
+      .eq("key", "sms_auto_blast_hours")
       .single();
-    const daysBefore = parseInt(daysSetting?.value || "3", 10);
+    const hoursBefore = parseInt(hoursSetting?.value || "8", 10);
 
-    // Find shows happening within the next X days (excluding private)
+    // Calculate the blast window: now → now + hoursBefore
+    // This means if the cron runs hourly, shows whose start time is
+    // within the next 8 hours will be picked up.
     const now = new Date();
-    const targetDate = new Date(now.getTime() + daysBefore * 24 * 60 * 60 * 1000);
+    const windowEnd = new Date(now.getTime() + hoursBefore * 60 * 60 * 1000);
+
+    // Fetch shows for today AND tomorrow (to catch late-night + early blasts)
     const todayStr = now.toISOString().split("T")[0];
-    const targetStr = targetDate.toISOString().split("T")[0];
+    const tomorrowStr = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
     const shows = await sanityClient.fetch(
-      `*[_type == "tourDate" && date >= $today && date <= $target && !isPrivate && !("private" in tags) && !("corporate" in tags)] | order(date asc) {
+      `*[_type == "tourDate" && date >= $today && date <= $tomorrow && !isPrivate && !("private" in tags) && !("corporate" in tags)] | order(date asc, time asc) {
         _id, venue, city, state, date, time, day,
         doorsTime, allAges, cover, lat, lng
       }`,
-      { today: todayStr, target: targetStr }
+      { today: todayStr, tomorrow: tomorrowStr }
     );
 
     if (!shows || shows.length === 0) {
-      return NextResponse.json({ skipped: true, reason: "No shows in window" });
+      return NextResponse.json({ skipped: true, reason: "No shows today/tomorrow" });
+    }
+
+    // Parse show times and filter to those within the blast window
+    const showsInWindow = shows.filter((show: any) => {
+      // Parse show time — try "8:00 PM" / "9PM" / "21:00" formats
+      const showDate = show.date; // "2026-05-04"
+      const showTime = show.doorsTime || show.time || "20:00"; // default 8pm
+      
+      let showDateTime: Date;
+      const timeMatch = showTime.match(/(\d{1,2}):?(\d{2})?\s*(AM|PM)?/i);
+      if (timeMatch) {
+        let hours = parseInt(timeMatch[1], 10);
+        const minutes = parseInt(timeMatch[2] || "0", 10);
+        const ampm = (timeMatch[3] || "").toUpperCase();
+        if (ampm === "PM" && hours < 12) hours += 12;
+        if (ampm === "AM" && hours === 12) hours = 0;
+        showDateTime = new Date(`${showDate}T${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00`);
+      } else {
+        // Fallback: assume 8pm
+        showDateTime = new Date(`${showDate}T20:00:00`);
+      }
+
+      // Show should be in the future and within the blast window
+      return showDateTime > now && showDateTime <= windowEnd;
+    });
+
+    if (showsInWindow.length === 0) {
+      return NextResponse.json({
+        skipped: true,
+        reason: `No shows starting within next ${hoursBefore} hours`,
+        totalShowsFound: shows.length,
+        checkedWindow: { from: now.toISOString(), to: windowEnd.toISOString() },
+      });
     }
 
     // Check which shows have already been blasted
     const { data: blastedShows } = await supabaseAdmin
       .from("sms_blast_log")
       .select("show_id")
-      .in("show_id", shows.map((s: any) => s._id));
+      .in("show_id", showsInWindow.map((s: any) => s._id));
 
     const alreadyBlasted = new Set((blastedShows || []).map((b: any) => b.show_id));
-    const showsToBlast = shows.filter((s: any) => !alreadyBlasted.has(s._id));
+    const showsToBlast = showsInWindow.filter((s: any) => !alreadyBlasted.has(s._id));
 
     if (showsToBlast.length === 0) {
-      return NextResponse.json({ skipped: true, reason: "All shows already blasted" });
+      return NextResponse.json({
+        skipped: true,
+        reason: "All shows in window already blasted",
+        showsInWindow: showsInWindow.length,
+      });
     }
 
-    // Send blasts
+    // Send blasts — each show independently (handles multi-show days)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     const results: any[] = [];
 
@@ -93,6 +136,7 @@ export async function GET(request: Request) {
         date: d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }),
         time: show.time || "",
         doorsTime: show.doorsTime || "",
+        showId: show._id, // for show link + attendance count in SMS
       };
       if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;
       if (show.cover) body.cover = show.cover;
@@ -114,13 +158,19 @@ export async function GET(request: Request) {
           blasted_at: new Date().toISOString(),
         });
 
-        results.push({ showId: show._id, venue: show.venue, sent: data.sent || 0, success: true });
+        results.push({ showId: show._id, venue: show.venue, city: show.city, sent: data.sent || 0, success: true });
       } catch (err: any) {
-        results.push({ showId: show._id, venue: show.venue, error: err.message, success: false });
+        results.push({ showId: show._id, venue: show.venue, city: show.city, error: err.message, success: false });
       }
     }
 
-    return NextResponse.json({ success: true, blasted: results.length, results });
+    return NextResponse.json({
+      success: true,
+      blasted: results.length,
+      totalShowsToday: shows.length,
+      showsInWindow: showsInWindow.length,
+      results,
+    });
   } catch (error: any) {
     console.error("Auto-blast error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

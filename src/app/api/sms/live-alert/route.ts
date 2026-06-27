@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { requireAdmin, maskPhone } from "@/lib/api-utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -8,6 +9,9 @@ const supabase = createClient(
 
 // POST: Blast all opted-in subscribers that a live stream has started
 export async function POST(request: Request) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
+
   try {
     const body = await request.json().catch(() => ({}));
     const hostName = body.hostName || "7th Heaven";
@@ -56,9 +60,9 @@ export async function POST(request: Request) {
           from: twilioPhone,
           to: sub.phone,
         });
-        results.push({ phone: sub.phone, status: "sent" });
+        results.push({ phone: maskPhone(sub.phone), status: "sent" });
       } catch (err: any) {
-        results.push({ phone: sub.phone, status: "failed", error: err.message });
+        results.push({ phone: maskPhone(sub.phone), status: "failed", error: err.message });
       }
     }
 

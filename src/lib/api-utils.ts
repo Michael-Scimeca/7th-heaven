@@ -94,6 +94,53 @@ export function requireAdminSecret(req: Request): NextResponse | null {
   return null;
 }
 
+/**
+ * Verify the calling user is an authenticated admin via Supabase session.
+ * Uses the @supabase/ssr server client which reads cookies natively via next/headers.
+ * Returns a 401/403 NextResponse if unauthorized, or null if OK.
+ */
+export async function requireAdmin(_req: Request): Promise<NextResponse | null> {
+  try {
+    // Use the project's SSR server client — handles cookie parsing automatically
+    const { createClient } = await import("@/utils/supabase/server");
+    const supabase = await createClient();
+
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (error || !user) {
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[requireAdmin] Dev Mode: Bypassing authentication check.");
+        return null;
+      }
+      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    }
+
+    // Check if user has admin or crew role in profiles table
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile || (profile.role !== "admin" && profile.role !== "crew")) {
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[requireAdmin] Dev Mode: Bypassing role authorization check.");
+        return null;
+      }
+      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
+    }
+
+    return null; // Authorized
+  } catch (err) {
+    console.error("[requireAdmin] Auth check error:", err);
+    // Fail open in dev, fail closed in production
+    if (process.env.NODE_ENV === "production") {
+      return NextResponse.json({ error: "Auth verification failed" }, { status: 500 });
+    }
+    return null;
+  }
+}
+
 /** Detect likely bot/spam submissions via timing and honeypot field */
 export function isSpam(body: Record<string, unknown>): boolean {
   // Honeypot: bots fill hidden fields, humans don't
@@ -106,3 +153,22 @@ export function isSpam(body: Record<string, unknown>): boolean {
   }
   return false;
 }
+
+/**
+ * Mask an email for safe display: "mike@example.com" → "m***@e***.com"
+ */
+export function maskEmail(email: string): string {
+  if (!email || !email.includes("@")) return "***";
+  const [local, domain] = email.split("@");
+  const [domName, ...domExt] = domain.split(".");
+  return `${local[0]}${"*".repeat(Math.min(local.length - 1, 5))}@${domName[0]}${"*".repeat(Math.min(domName.length - 1, 4))}.${domExt.join(".")}`;
+}
+
+/**
+ * Mask a phone number: "+15551234567" → "+1***4567"
+ */
+export function maskPhone(phone: string): string {
+  if (!phone || phone.length < 7) return "***";
+  return phone.slice(0, 3) + "*".repeat(phone.length - 7) + phone.slice(-4);
+}
+

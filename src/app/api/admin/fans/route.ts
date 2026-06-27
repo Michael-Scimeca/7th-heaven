@@ -5,13 +5,18 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { requireAdmin, maskEmail } from '@/lib/api-utils';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function GET() {
+export async function GET(request: Request) {
+  // Server-side admin authentication
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
+
   try {
     // Get all fan profiles
     const { data: fans, error } = await supabase
@@ -56,7 +61,7 @@ export async function GET() {
       .slice(0, 10)
       .map(f => ({
         name: f.full_name || 'Anonymous',
-        email: f.email,
+        email: maskEmail(f.email),
         points: f.points || 0,
         tier: f.tier,
         shows: f.shows_attended || 0,
@@ -66,7 +71,7 @@ export async function GET() {
     // Recent signups (last 10)
     const recentSignups = allFans.slice(0, 10).map(f => ({
       name: f.full_name || 'Anonymous',
-      email: f.email,
+      email: maskEmail(f.email),
       tier: f.tier,
       joined: f.created_at,
     }));

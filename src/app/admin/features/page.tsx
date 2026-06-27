@@ -88,6 +88,14 @@ const features: Feature[] = [
     apiKeysNeeded: ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_PHONE_NUMBER"],
     notes: "UI and API routes built. Add Twilio keys to .env.local to activate SMS sending.",
   },
+  {
+    id: "client-feedback-notes",
+    name: "Client Feedback Note Taker",
+    description: "Persistent drag-and-drop feedback notes widget active on every public page for client design review.",
+    status: "live",
+    category: "components",
+    notes: "UI component is globally rendered in Providers.tsx. Notes are saved to the Supabase client_notes table.",
+  },
 
   // ─── Integrations ───
   {
@@ -172,7 +180,7 @@ export default function AdminFeaturesPage() {
       <div className="site-container py-16">
         {/* Header */}
         <div className="mb-12">
-          <span className="inline-block text-[0.75rem] font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">
+          <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">
             Admin
           </span>
           <h1 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">
@@ -195,7 +203,7 @@ export default function AdminFeaturesPage() {
               key={stat.label}
               className="border border-white/10 p-5"
             >
-              <p className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-1">
+              <p className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-1">
                 {stat.label}
               </p>
               <p className={`text-2xl font-black ${stat.accent ? "text-[var(--color-accent)]" : "text-white"}`}>
@@ -218,7 +226,7 @@ export default function AdminFeaturesPage() {
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
-              className={`text-[0.65rem] font-bold uppercase tracking-[0.12em] px-4 py-2 border transition-all cursor-pointer ${
+              className={`text-xs font-bold uppercase tracking-[0.12em] px-4 py-2 border transition-all cursor-pointer ${
                 filter === tab.key
                   ? "border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/10"
                   : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
@@ -241,18 +249,18 @@ export default function AdminFeaturesPage() {
                 <div className="flex items-start justify-between gap-4 mb-2">
                   <div className="flex items-center gap-3">
                     <div className={`w-2 h-2 rounded-full ${sc.color}`} />
-                    <h3 className="text-[0.85rem] font-bold text-white">
+                    <h3 className="text-base font-bold text-white">
                       {feature.name}
                     </h3>
-                    <span className="text-[0.55rem] font-bold uppercase tracking-[0.1em] text-white/30 border border-white/10 px-2 py-0.5">
+                    <span className="text-xs font-bold uppercase tracking-[0.1em] text-white/30 border border-white/10 px-2 py-0.5">
                       {categoryLabels[feature.category]}
                     </span>
                   </div>
-                  <span className={`text-[0.6rem] font-bold uppercase tracking-[0.1em] ${sc.textColor} shrink-0`}>
+                  <span className={`text-xs font-bold uppercase tracking-[0.1em] ${sc.textColor} shrink-0`}>
                     {sc.label}
                   </span>
                 </div>
-                <p className="text-[0.75rem] text-white/50 leading-relaxed pl-5">
+                <p className="text-sm text-white/50 leading-relaxed pl-5">
                   {feature.description}
                 </p>
                 {feature.apiKeysNeeded && (
@@ -260,7 +268,7 @@ export default function AdminFeaturesPage() {
                     {feature.apiKeysNeeded.map((key) => (
                       <code
                         key={key}
-                        className="text-[0.6rem] bg-orange-500/10 text-orange-400 border border-orange-500/20 px-2 py-0.5"
+                        className="text-xs bg-orange-500/10 text-orange-400 border border-orange-500/20 px-2 py-0.5"
                       >
                         {key}
                       </code>
@@ -268,7 +276,7 @@ export default function AdminFeaturesPage() {
                   </div>
                 )}
                 {feature.notes && (
-                  <p className="text-[0.65rem] text-white/30 mt-2 pl-5 italic">
+                  <p className="text-xs text-white/30 mt-2 pl-5 italic">
                     {feature.notes}
                   </p>
                 )}

@@ -40,7 +40,7 @@ export default function CruiseLayoutB() {
             <h1 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Set Sail<br/>With <span className="accent-gradient-text">7th Heaven</span>
             </h1>
-            <p className="text-white/40 text-[0.95rem] mt-5 max-w-md leading-relaxed">
+            <p className="text-white/40 text-base mt-5 max-w-md leading-relaxed">
               7-night Caribbean cruise with live shows, island hopping, meet & greets, and the ultimate fan experience. The more people who sign up, the better the deal.
             </p>
 
@@ -75,7 +75,7 @@ export default function CruiseLayoutB() {
               {[{ n: "142", l: "Fans Interested" }, { n: "284", l: "Total Guests" }, { n: "7", l: "Nights" }].map(s => (
                 <div key={s.l}>
                   <p className="text-2xl font-black text-white">{s.n}</p>
-                  <p className="text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white/25">{s.l}</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/25">{s.l}</p>
                 </div>
               ))}
             </div>
@@ -107,14 +107,14 @@ export default function CruiseLayoutB() {
                 <div className="absolute bottom-4 left-4">
                   <span className="text-2xl">{island.icon}</span>
                   <h3 className="text-xl font-black text-white mt-1">{island.name}</h3>
-                  <p className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40">{island.country}</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-white/40">{island.country}</p>
                 </div>
               </div>
               <div className="p-5">
-                <p className="text-[0.8rem] text-white/40 leading-relaxed mb-4">{island.desc}</p>
+                <p className="text-sm text-white/40 leading-relaxed mb-4">{island.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {island.highlights.map(h => (
-                    <span key={h} className="px-2.5 py-1 bg-cyan-500/5 border border-cyan-500/15 rounded-full text-[0.55rem] text-cyan-400 font-bold uppercase tracking-widest">{h}</span>
+                    <span key={h} className="px-2.5 py-1 bg-cyan-500/5 border border-cyan-500/15 rounded-full text-xs text-cyan-400 font-bold uppercase tracking-widest">{h}</span>
                   ))}
                 </div>
               </div>
@@ -133,9 +133,9 @@ export default function CruiseLayoutB() {
             <div key={step.n} className="relative text-center p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-[var(--color-accent)]/30 transition-all group">
               {i < 3 && <div className="hidden md:block absolute top-1/2 -right-3 w-6 text-white/10 text-xl">→</div>}
               <span className="text-3xl block mb-3">{step.icon}</span>
-              <span className="text-[0.55rem] font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Step {step.n}</span>
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Step {step.n}</span>
               <h3 className="text-lg font-bold text-white mt-1 mb-2">{step.title}</h3>
-              <p className="text-[0.75rem] text-white/35 leading-relaxed">{step.desc}</p>
+              <p className="text-sm text-white/35 leading-relaxed">{step.desc}</p>
             </div>
           ))}
         </div>

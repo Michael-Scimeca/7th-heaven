@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
   const { data, error } = await supabase
     .from("show_memories")
-    .insert({ show_id, memory_text, display_name, photo_url: photo_url ?? null })
+    .insert({ show_id, memory_text, display_name, photo_url: photo_url ?? null, approved: false })
     .select()
     .single();
 
@@ -44,15 +44,52 @@ export async function POST(req: Request) {
   return NextResponse.json(data);
 }
 
-// GET /api/fans/memories?showId=xxx
+// GET /api/fans/memories?showId=xxx&all=true (all=true returns pending too, for admin)
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const showId = searchParams.get("showId");
+  const returnAll = searchParams.get("all") === "true";
 
-  let query = supabase.from("show_memories").select("*").eq("approved", true).order("created_at", { ascending: false });
+  let query = supabase.from("show_memories").select("*").order("created_at", { ascending: false });
+
+  // Only return approved memories by default; admin can request all
+  if (!returnAll) {
+    query = query.eq("approved", true);
+  }
+
   if (showId) query = query.eq("show_id", showId);
 
   const { data, error } = await query;
   if (error) return NextResponse.json([], { status: 200 }); // fail gracefully
   return NextResponse.json(data ?? []);
+}
+
+// PATCH /api/fans/memories — approve or reject a memory (admin moderation)
+export async function PATCH(req: Request) {
+  let body: Record<string, unknown>;
+  try { body = await req.json(); } catch { return NextResponse.json({ error: 'Invalid request' }, { status: 400 }); }
+
+  const id = body.id as string;
+  const action = body.action as string;
+
+  if (!id || !['approve', 'reject'].includes(action)) {
+    return NextResponse.json({ error: "id and action (approve|reject) required" }, { status: 400 });
+  }
+
+  if (action === 'approve') {
+    const { error } = await supabase
+      .from("show_memories")
+      .update({ approved: true })
+      .eq("id", id);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  } else {
+    // reject = delete
+    const { error } = await supabase
+      .from("show_memories")
+      .delete()
+      .eq("id", id);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true });
 }

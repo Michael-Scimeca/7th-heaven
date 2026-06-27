@@ -171,7 +171,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
       {/* Multi-Stream Links (If 2+ streams) */}
       {activeLiveRooms.length > 1 && (
         <div className="flex flex-wrap gap-2 mb-4 animate-[fade-in_0.5s_ease-out]">
-          <span className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest self-center mr-2">Alternative Feeds:</span>
+          <span className="text-xs font-bold text-white/30 uppercase tracking-widest self-center mr-2">Alternative Feeds:</span>
           {activeLiveRooms.slice(1).map((room, idx) => (
             <Link 
               key={room.name} 
@@ -179,7 +179,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
               className="bg-white/5 hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-full flex items-center gap-2 transition-all group"
             >
               <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
-              <span className="text-[0.6rem] font-bold text-white/70 group-hover:text-white uppercase tracking-wider truncate max-w-[120px]">
+              <span className="text-xs font-bold text-white/70 group-hover:text-white uppercase tracking-wider truncate max-w-[120px]">
                 {room.title?.split(' — ')[0] || room.name}
               </span>
             </Link>
@@ -206,13 +206,13 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 rounded-full flex items-center justify-center text-[0.45rem] font-bold border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-2xs font-bold border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15">
                   {selectedMedia.member_avatar}
                 </div>
-                <span className="text-[0.65rem] font-semibold text-white/80">{selectedMedia.member_name}</span>
-                <span className="text-[0.55rem] text-white/30">{timeAgo(selectedMedia.created_at)}</span>
+                <span className="text-xs font-semibold text-white/80">{selectedMedia.member_name}</span>
+                <span className="text-xs text-white/30">{timeAgo(selectedMedia.created_at)}</span>
               </div>
-              <p className="text-[0.8rem] text-white/90 leading-relaxed">{selectedMedia.content}</p>
+              <p className="text-sm text-white/90 leading-relaxed">{selectedMedia.content}</p>
             </div>
           </div>
         ) : (
@@ -225,7 +225,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
         {activeLiveRooms.length > 0 && (
           <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             <div className="text-center p-8 scale-90 group-hover:scale-100 transition-transform duration-500">
-              <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-full text-[0.7rem] font-black uppercase tracking-widest shadow-lg shadow-red-600/20">
+              <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-full text-sm font-black uppercase tracking-widest shadow-lg shadow-red-600/20">
                 <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
                 Live Now
               </div>
@@ -262,7 +262,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             </div>
            )}
            <div className="absolute top-1 left-1">
-            <span className="text-[0.4rem] font-bold uppercase tracking-wider bg-black/60 text-white/70 px-1 py-0.5">
+            <span className="text-2xs font-bold uppercase tracking-wider bg-black/60 text-white/70 px-1 py-0.5">
              {timeAgo(post.created_at)}
             </span>
            </div>
@@ -276,45 +276,20 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
      {/* ═══ RIGHT: Next Show + Notifications ═══ */}
      <div className="flex flex-col gap-4">
 
-      {/* Next Show Card */}
-      {nextShow && (
-       <div className="bg-white/[0.03] border border-white/10 p-6">
-        <div className="flex items-center gap-2 mb-4">
-         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-accent)] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-accent)]" />
-         </span>
-         <span className="text-[0.6rem] font-black text-[var(--color-accent)] uppercase tracking-[0.2em]">Next Show</span>
-        </div>
-        <h3 className="text-xl font-extrabold text-white mb-1 tracking-tight">{nextShow.venue}</h3>
-        <p className="text-[0.8rem] text-white/40 mb-1">{nextShow.city}</p>
-        <div className="flex items-center gap-3 mb-5">
-         <span className="text-[0.8rem] font-semibold text-white/70">{nextShow.date}</span>
-         {nextShow.time && (
-          <>
-           <span className="text-white/10">•</span>
-           <span className="text-[0.8rem] text-white/50">{nextShow.time}</span>
-          </>
-         )}
-        </div>
-        <Link href="/tour" className="btn-primary btn-primary-hover text-[0.7rem] w-full text-center block">
-         View All Shows →
-        </Link>
-       </div>
-      )}
+
 
 
 
 
       {/* Listen / Buy Links */}
       <div className="flex gap-2 mt-2">
-       <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.65rem] text-center uppercase tracking-wider py-2.5 transition-all">
+       <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-all">
         Buy CD
        </a>
-       <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.65rem] text-center uppercase tracking-wider py-2.5 transition-all">
+       <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-all">
         Spotify
        </a>
-       <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.65rem] text-center uppercase tracking-wider py-2.5 transition-all">
+       <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-all">
         Apple Music
        </a>
       </div>

@@ -85,12 +85,12 @@ export default function FormLayoutA() {
           <div className="w-20 flex flex-col items-center justify-center gap-6 bg-[#0d0d14]/80 border border-white/5 rounded-2xl py-6">
             <div className="text-center" style={{ writingMode: "vertical-lr", transform: "rotate(180deg)" }}>
               <span className="text-3xl font-black text-white">{signupCount}</span>
-              <span className="text-[0.5rem] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] ml-2">Fans</span>
+              <span className="text-2xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] ml-2">Fans</span>
             </div>
             <div className="w-8 h-px bg-white/10" />
             <div className="text-center" style={{ writingMode: "vertical-lr", transform: "rotate(180deg)" }}>
               <span className="text-3xl font-black text-white">{totalGuests}</span>
-              <span className="text-[0.5rem] font-bold uppercase tracking-[0.2em] text-cyan-400 ml-2">Guests</span>
+              <span className="text-2xs font-bold uppercase tracking-[0.2em] text-cyan-400 ml-2">Guests</span>
             </div>
           </div>
         </div>

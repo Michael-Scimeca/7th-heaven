@@ -63,7 +63,7 @@ export default function SMSSignup() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Name */}
         <div>
-          <label htmlFor="sms-name" className="block text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-1.5">
+          <label htmlFor="sms-name" className="block text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-1.5">
             Name
           </label>
           <input
@@ -78,7 +78,7 @@ export default function SMSSignup() {
 
         {/* Phone */}
         <div>
-          <label htmlFor="sms-phone" className="block text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-1.5">
+          <label htmlFor="sms-phone" className="block text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-1.5">
             Phone Number <span className="text-[var(--color-accent)]">*</span>
           </label>
           <input
@@ -95,7 +95,7 @@ export default function SMSSignup() {
 
       {/* Zip Code */}
       <div>
-        <label htmlFor="sms-zip" className="block text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-1.5">
+        <label htmlFor="sms-zip" className="block text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-1.5">
           Zip Code <span className="text-[var(--color-accent)]">*</span>
         </label>
         <input
@@ -118,13 +118,13 @@ export default function SMSSignup() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="btn-primary btn-primary-hover text-[0.75rem] py-3 px-8 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary btn-primary-hover text-sm py-3 px-8 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {status === "loading" ? "Subscribing..." : "Get Text Alerts"}
         </button>
       </div>
 
-      <p className="text-[0.6rem] text-white/30 leading-relaxed">
+      <p className="text-xs text-white/30 leading-relaxed">
         By subscribing, you agree to receive text messages from 7th Heaven about upcoming shows in your area.
         Msg & data rates may apply. Reply STOP to unsubscribe anytime.
       </p>

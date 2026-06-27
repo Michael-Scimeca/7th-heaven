@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+/* Lenis smooth scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 /* =============================================
  7TH HEAVEN — Tailwind v4 Theme Configuration
  ============================================= */
@@ -38,10 +52,24 @@
 
  --animate-fade-in-up: fade-in-up 0.8s var(--ease-out-expo) forwards;
  --animate-fade-in: fade-in 0.6s var(--ease-out-expo) forwards;
+ --animate-page-enter: page-enter 0.5s var(--ease-out-expo) forwards;
  --animate-pulse-line: pulse-line 2s ease-in-out infinite;
 }
 
 /* --- Keyframes --- */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
 @keyframes fade-in-up {
  from { opacity: 0; transform: translateY(30px); }
  to { opacity: 1; transform: translateY(0); }
@@ -68,6 +96,59 @@
  100% { opacity: 0; transform: translateY(-260px) scale(0.8); }
 }
 
+/* ── ProximityNotify Phone Mockup Animations ──
+   20s cycle: 0-25% SMS (5s) → 25-30% transition → 30-95% show page (13s) → 95-100% transition back */
+
+@keyframes lockFade {
+ 0% { opacity: 1; }
+ 22% { opacity: 1; }
+ 25% { opacity: 0; }
+ 95% { opacity: 0; }
+ 100% { opacity: 1; }
+}
+
+@keyframes notifyPop {
+ 0% { opacity: 0; transform: translateY(-16px) scale(0.96); }
+ 4% { opacity: 1; transform: translateY(0) scale(1); }
+ 22% { opacity: 1; transform: translateY(0) scale(1); }
+ 25% { opacity: 0; transform: translateY(0) scale(1); }
+ 100% { opacity: 0; transform: translateY(-16px) scale(0.96); }
+}
+
+@keyframes mapFadeIn {
+ 0%, 24% { opacity: 0; }
+ 28% { opacity: 1; }
+ 92% { opacity: 1; }
+ 97% { opacity: 0; }
+ 100% { opacity: 0; }
+}
+
+@keyframes cardUp {
+ 0% { opacity: 0; transform: translateY(40px); }
+ 24% { opacity: 0; transform: translateY(40px); }
+ 30% { opacity: 1; transform: translateY(0); }
+ 92% { opacity: 1; transform: translateY(0); }
+ 97% { opacity: 0; transform: translateY(40px); }
+ 100% { opacity: 0; transform: translateY(40px); }
+}
+
+@keyframes msg2 {
+ 0%, 28% { opacity: 0; transform: translateY(10px); }
+ 33% { opacity: 1; transform: translateY(0); }
+ 92% { opacity: 1; transform: translateY(0); }
+ 97%, 100% { opacity: 0; transform: translateY(-5px); }
+}
+
+@keyframes pinFloat {
+ 0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+ 50% { transform: translate(-50%, -50%) translateY(-4px); }
+}
+
+@keyframes rPulse {
+ 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+ 50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.06); }
+}
+
 .animate-float-up {
  animation: float-up 3s var(--ease-out-expo) forwards;
 }
@@ -83,7 +164,7 @@
  }
 
  html {
- scroll-behavior: smooth;
+ scroll-behavior: auto;
  -webkit-font-smoothing: antialiased;
  -moz-osx-font-smoothing: grayscale;
  }
@@ -117,14 +198,28 @@
  html {
   scrollbar-width: thin;
   scrollbar-color: var(--color-accent) var(--color-bg-primary);
-  }
-  html::-webkit-scrollbar { width: 5px; }
-  html::-webkit-scrollbar-track { background: var(--color-bg-primary); }
-  html::-webkit-scrollbar-thumb { background: var(--color-accent); }
-  html::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+  overflow-y: scroll; /* Force scrollbar track to always render */
+ }
+ html::-webkit-scrollbar { width: 8px; }
+ html::-webkit-scrollbar-track { background: var(--color-bg-primary); }
+ html::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 9999px; }
+ html::-webkit-scrollbar-thumb:hover { background: #9b3ff7; }
 
- .scrollbar-hide::-webkit-scrollbar { display: none !important; width: 0 !important; }
+  /* Force all scrollable containers to show scrollbars */
+  * {
+   scrollbar-width: thin;
+   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  }
+  *::-webkit-scrollbar { width: 6px; height: 6px; }
+  *::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 9999px; }
+  *::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 9999px; min-height: 40px; }
+  *::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
 }
+
+/* Force macOS to always show scrollbar tracks by converting auto → scroll */
+.overflow-y-auto { overflow-y: scroll !important; }
+.overflow-x-auto { overflow-x: scroll !important; }
+.overflow-auto { overflow: scroll !important; }
 
 /* --- Typography Utilities --- */
 @utility heading-hero {
@@ -234,16 +329,32 @@
 }
 
 @utility scrollbar-hide {
- scrollbar-width: none;
- -ms-overflow-style: none;
- &::-webkit-scrollbar { display: none; }
+ scrollbar-width: thin;
+ -ms-overflow-style: auto;
+ &::-webkit-scrollbar { width: 6px; height: 6px; }
+ &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 9999px; }
+}
+
+/* Typography Scale — smallest tier (10px) */
+@utility text-2xs {
+ font-size: 0.625rem;
+ line-height: 1rem;
 }
 
 @utility site-container {
  width: 100%;
- max-width: var(--container-width);
- margin-left: auto;
- margin-right: auto;
+ padding-left: 1.5rem;
+ padding-right: 1.5rem;
+
+ @media (min-width: 768px) {
+  padding-left: 2rem;
+  padding-right: 2rem;
+ }
+
+ @media (min-width: 1024px) {
+  padding-left: 4rem;
+  padding-right: 4rem;
+ }
 }
 
 /* Video grid: full bleed edge to edge */
@@ -256,3 +367,79 @@
 .ql-editor {
  min-height: 200px;
 }
+
+/* =============================================
+   ReactQuill WYSIWYG Editor Dark Mode Styling
+   ============================================= */
+.ql-toolbar.ql-snow {
+  background-color: #0b0b12 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  border-top-left-radius: 0.75rem !important;
+  border-top-right-radius: 0.75rem !important;
+}
+
+.ql-container.ql-snow {
+  background-color: #07070a !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  border-bottom-left-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
+}
+
+.ql-snow .ql-stroke {
+  stroke: rgba(255, 255, 255, 0.6) !important;
+}
+
+.ql-snow .ql-fill {
+  fill: rgba(255, 255, 255, 0.6) !important;
+}
+
+.ql-snow .ql-picker {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.ql-snow .ql-picker-options {
+  background-color: #0b0b12 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ql-snow .ql-picker-item {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.ql-snow .ql-picker-item:hover, 
+.ql-snow .ql-picker-item.ql-selected {
+  color: var(--color-accent) !important;
+}
+
+.ql-editor {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-family: var(--font-body), sans-serif !important;
+  font-size: 0.875rem !important;
+}
+
+.ql-editor.ql-blank::before {
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-style: normal !important;
+}
+
+/* Sleek 5px dark scrollbar for dashboard panels */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+

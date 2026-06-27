@@ -3,6 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import ShowPageClient from "./ShowPageClient";
 import { notFound } from "next/navigation";
 
+export const revalidate = 60;
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!

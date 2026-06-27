@@ -1,14 +1,20 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function TreeNode({ path, label, color, children }: { path: string; label: string; color: string; children?: React.ReactNode }) {
+  const isLinkable = !path.includes('[');
   return (
     <div>
       <div className="flex items-center gap-2 py-0.5">
         <span className="text-white/15 select-none">├─</span>
-        <span className={`${color} font-bold`}>{path}</span>
-        <span className="text-white/25 text-[0.7rem]">{label}</span>
+        {isLinkable ? (
+          <Link href={path} className={`${color} font-bold hover:underline hover:text-white transition-all`}>{path}</Link>
+        ) : (
+          <span className={`${color} font-bold`}>{path}</span>
+        )}
+        <span className="text-white/25 text-sm">{label}</span>
       </div>
       {children && (
         <div className="ml-6 border-l border-white/5 pl-4 space-y-0.5">
@@ -27,7 +33,7 @@ const siteStructure = [
         path: "/",
         name: "Home Page",
         sections: ["Cinematic Hero Hub", "Proximity Notifications", "Next Show Banner", "Upcoming Shows Grid", "Cruise Promo Banner", "Tour Map", "Latest Release", "Music Player", "Merch Quick Shop", "Photo Gallery", "Video Section", "Behind the Scenes"],
-        features: ["Dynamic Header Intersection", "Local Storage Opt-in tracking", "Live Stream Detection", "Supabase Real-Time Feed"],
+        features: ["Dynamic Header Intersection", "Local Storage Opt-in tracking", "Live Stream Detection", "Supabase Real-Time Feed", "E2E Verified ⭐"],
         color: "text-purple-400",
         border: "border-purple-500/30",
         bg: "bg-purple-500/5",
@@ -100,7 +106,7 @@ const siteStructure = [
         path: "/book",
         name: "Book the Band",
         sections: ["Multi-Step Booking Form", "Event Type Selection", "Production & Extras", "Planner Dashboard Access", "Inline Account Creation with Username"],
-        features: ["Supabase Form Submission", "Role-Based Planner Accounts", "Token-Based Cancellation Links", "Cancel Token Generation", "Welcome + Admin Alert Emails on Signup"],
+        features: ["Supabase Form Submission", "Role-Based Planner Accounts", "Token-Based Cancellation Links", "Cancel Token Generation", "Welcome + Admin Alert Emails on Signup", "E2E Verified ⭐"],
         color: "text-fuchsia-400",
         border: "border-fuchsia-500/30",
         bg: "bg-fuchsia-500/5",
@@ -127,7 +133,7 @@ const siteStructure = [
         path: "/cruise",
         name: "Caribbean Cruise",
         sections: ["Cinematic Hero", "Interest Signup Form", "Live Fan Counter", "Day-by-Day Itinerary", "What's Included", "FAQ Accordion", "Community Opt-In (Account Creation)"],
-        features: ["Supabase Interest Tracking", "Resend Email Confirmation", "Token-Based Cancellation", "Auth Invite Link for Community", "Cruise Community Welcome Email"],
+        features: ["Supabase Interest Tracking", "Resend Email Confirmation", "Token-Based Cancellation", "Auth Invite Link for Community", "Cruise Community Welcome Email", "E2E Verified ⭐"],
         color: "text-cyan-400",
         border: "border-cyan-500/30",
         bg: "bg-cyan-500/5",
@@ -171,20 +177,11 @@ const siteStructure = [
       {
         path: "/shows/[id]",
         name: "Show Page",
-        sections: ["Show Hero", "RSVP Controls", "Attendee List", "Invite Challenge", "QR Share Code", "Fan Who's Going"],
-        features: ["Proximity RSVP Tracking", "Supabase show_attendance", "Dynamic QR Generation", "Invite Challenge Progress"],
+        sections: ["Show Hero", "RSVP Controls", "Attendee List", "Invite Challenge", "QR Share Code", "Fan Who's Going", "Venue Directions", "Live Feed Banner (if active)"],
+        features: ["Auto-RSVP via SMS Deep Link (?rsvp=going)", "Live Attendance Count in SMS Blast", "Twilio Webhook Reply Handling", "Supabase show_attendance", "Dynamic QR Generation", "Anonymous RSVP Toggle", "Share via Text/Copy Link"],
         color: "text-purple-400",
         border: "border-purple-500/30",
         bg: "bg-purple-500/5",
-      },
-      {
-        path: "/tour/map",
-        name: "Tour Map",
-        sections: ["Interactive Venue Pins", "Geo-Located Shows", "Clickable Markers"],
-        features: ["Leaflet.js", "Sanity Show Data", "Client-Side Map Rendering"],
-        color: "text-blue-400",
-        border: "border-blue-500/30",
-        bg: "bg-blue-500/5",
       },
       {
         path: "/members",
@@ -203,8 +200,8 @@ const siteStructure = [
       {
         path: "/fans",
         name: "Fan Dashboard",
-        sections: ["Fan vs Crew Pathing", "VIP Rewards & Loyalty", "Secure Supabase Login", "VIP Inbox", "Referral QR Code", "Username Profile Field"],
-        features: ["Role-Based Automatic Routing", "JWT Session Management", "Frictionless UI/UX Access", "Welcome Email on Signup", "Admin Alert Email on Signup"],
+        sections: ["Fan vs Crew Pathing", "Backstage Live Feed", "📲 SMS Live Alert Opt-In", "📍 Proximity Show Alerts", "🚢 Cruise Promo Banner (conditional)", "🎟️ Prize Wallet / VIP Inbox", "🔗 Referral Program + QR Code", "📸 Fan Photo Submissions", "🏆 Next Show Countdown", "🎵 Pick Awards", "🚢 Fan ↔ Cruise Toggle (if Cruiser)", "Embedded Cruise Hub View"],
+        features: ["Role-Based Automatic Routing", "JWT Session Management", "isCruiser Email Reconciliation", "60-Day Cruise Auto-Expiry", "Cross-Promo Cruise Banner", "Welcome Email on Signup", "Admin Alert Email on Signup"],
         color: "text-cyan-400",
         border: "border-cyan-500/30",
         bg: "bg-cyan-500/5",
@@ -221,8 +218,8 @@ const siteStructure = [
       {
         path: "/cruise/dashboard",
         name: "Cruise Passenger Dashboard",
-        sections: ["Passenger Account Setup (via Auth Invite)", "Admin Important Updates (WYSIWYG)", "Pinned Lounge Messages", "Important Links Panel", "Cruise Chat", "Day-by-Day Itinerary", "Embarkation Countdown", "Passengers Widget"],
-        features: ["Cruise Member Account via generateLink Invite", "Supabase site_settings Messaging", "Real-time Admin Notifications", "Role-Based Access", "Community Welcome Email"],
+        sections: ["Passenger Account Setup (via Auth Invite)", "Admin Important Updates (WYSIWYG)", "🎸 Fan Dashboard Promo Banner", "Pinned Lounge Messages", "Important Links Panel", "Cruise Chat", "Day-by-Day Itinerary", "Embarkation Countdown", "Passengers Widget", "Booking Manager"],
+        features: ["Cruise Member Account via generateLink Invite", "Supabase site_settings Messaging", "Real-time Admin Notifications", "Role-Based Access", "Community Welcome Email", "Cross-Promo Fan Banner"],
         color: "text-cyan-400",
         border: "border-cyan-500/30",
         bg: "bg-cyan-500/5",
@@ -235,6 +232,15 @@ const siteStructure = [
         color: "text-yellow-400",
         border: "border-yellow-500/30",
         bg: "bg-yellow-500/5",
+      },
+      {
+        path: "/crew",
+        name: "Crew Dashboard",
+        sections: ["Live Broadcast Studio", "Live Chat & Reactions", "Interactive Raffle Engine", "Shopify Flash Drops", "Fan Account Management"],
+        features: ["LiveKit Streaming", "Cross-Tab Synchronization", "Real-Time Broadcast Toggles", "Supabase Subscriptions", "Username in Profile"],
+        color: "text-orange-400",
+        border: "border-orange-500/30",
+        bg: "bg-orange-500/5",
       },
       {
         path: "#",
@@ -282,15 +288,7 @@ const siteStructure = [
   {
     title: "Internal Infrastructure (Staff)",
     routes: [
-      {
-        path: "/crew",
-        name: "Crew Dashboard",
-        sections: ["Live Broadcast Studio", "Live Chat & Reactions", "Interactive Raffle Engine", "Shopify Flash Drops", "Fan Account Management"],
-        features: ["LiveKit Streaming", "Cross-Tab Synchronization", "Real-Time Broadcast Toggles", "Supabase Subscriptions", "Username in Profile"],
-        color: "text-orange-400",
-        border: "border-orange-500/30",
-        bg: "bg-orange-500/5",
-      },
+
       {
         path: "/admin",
         name: "Master Admin Command Center",
@@ -315,6 +313,15 @@ const siteStructure = [
         name: "Email Template Previews",
         sections: ["Template Sidebar", "Live HTML Preview", "Code View", "Send Test Email", "14 Templates (Booking, Account, Cruise, Live Stream, Newsletter)"],
         features: ["Centralized Template Registry", "Category Filtering", "Resend Test Integration", "Welcome Crew + Admin Alert Templates"],
+        color: "text-red-400",
+        border: "border-red-500/30",
+        bg: "bg-red-500/5",
+      },
+      {
+        path: "/admin/legal",
+        name: "Legal Compliance Guide",
+        sections: ["TCPA SMS Rules", "Music Performance Rights", "Shopify/E-Commerce PCI Security", "COPPA Chat Rules", "ADA Accessibility Checklist"],
+        features: ["Static Dev Guidance Panel", "Twilio & Shopify compatibility audits"],
         color: "text-red-400",
         border: "border-red-500/30",
         bg: "bg-red-500/5",
@@ -352,7 +359,7 @@ const siteStructure = [
 
 export default function SitemapPage() {
   return (
-    <main className="min-h-screen bg-[rgb(10,10,15)] pt-32 pb-24 px-6 md:px-12 relative overflow-hidden">
+    <main className="min-h-screen bg-[rgb(10,10,15)] pt-32 pb-24 px-8 md:px-16 lg:px-24 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600 opacity-[0.02] blur-[150px] rounded-full pointer-events-none" />
@@ -365,6 +372,11 @@ export default function SitemapPage() {
           <p className="text-white/40 uppercase tracking-[0.2em] text-xs md:text-sm max-w-2xl mx-auto">
             A complete architectural overview of the 7th Heaven digital ecosystem.
           </p>
+          <div className="mt-6 flex justify-center">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+              <span>⭐</span> E2E Testing Verified: All Sign-up Flows
+            </span>
+          </div>
         </header>
 
         <div className="space-y-16">
@@ -388,7 +400,7 @@ export default function SitemapPage() {
                       <h3 className={`text-lg font-black tracking-wide uppercase ${route.color}`}>
                         {route.name}
                       </h3>
-                      <div className="text-[0.65rem] py-1 px-2 rounded bg-white/5 text-white/50 font-mono">
+                      <div className="text-xs py-1 px-2 rounded bg-white/5 text-white/50 font-mono">
                         {route.path}
                       </div>
                     </div>
@@ -396,7 +408,7 @@ export default function SitemapPage() {
                     <div className="flex-1 mt-2 space-y-6">
                       {/* Sections Block */}
                       <div>
-                        <p className="text-[0.65rem] uppercase tracking-widest text-white/30 mb-3 font-semibold">
+                        <p className="text-xs uppercase tracking-widest text-white/30 mb-3 font-semibold">
                           Core Sections
                         </p>
                         <ul className="space-y-3">
@@ -414,7 +426,7 @@ export default function SitemapPage() {
                       {/* Features Block */}
                       {route.features && route.features.length > 0 && (
                         <div className="pt-4 border-t border-white/10">
-                          <p className="text-[0.65rem] uppercase tracking-widest text-white/40 mb-3 font-semibold">
+                          <p className="text-xs uppercase tracking-widest text-white/40 mb-3 font-semibold">
                             Technical Features
                           </p>
                           <ul className="space-y-2">
@@ -450,7 +462,7 @@ export default function SitemapPage() {
               { name: "Sanity CMS", desc: "Headless CMS — tour dates, news, band bios, settings", color: "text-red-400", icon: "📝" },
               { name: "Shopify", desc: "Storefront API — merch products, headless checkout, cart", color: "text-green-400", icon: "🛒" },
               { name: "Resend", desc: "Transactional email — booking confirmations, admin alerts", color: "text-blue-400", icon: "📧" },
-              { name: "Twilio", desc: "SMS notifications — booking status, crew alerts", color: "text-rose-400", icon: "📱" },
+              { name: "Twilio", desc: "Bidirectional SMS — proximity alerts, RSVP replies, STOP/START, directions", color: "text-rose-400", icon: "📱" },
               { name: "Vercel", desc: "Hosting & deployment — edge functions, CDN", color: "text-white/80", icon: "🚀" },
               { name: "TypeScript", desc: "Type-safe development across all components", color: "text-blue-300", icon: "🔷" },
               { name: "Leaflet", desc: "Interactive maps — tour venue locations, geo-pins", color: "text-lime-400", icon: "🗺️" },
@@ -463,7 +475,7 @@ export default function SitemapPage() {
                   <span className="text-lg">{tech.icon}</span>
                   <h3 className={`text-sm font-black uppercase tracking-wide ${tech.color}`}>{tech.name}</h3>
                 </div>
-                <p className="text-[0.7rem] text-white/40 leading-relaxed">{tech.desc}</p>
+                <p className="text-sm text-white/40 leading-relaxed">{tech.desc}</p>
               </div>
             ))}
           </div>
@@ -474,13 +486,15 @@ export default function SitemapPage() {
           <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-3 border-b border-white/10 pb-4">
             📲 SMS Text Messages
           </h2>
-          <p className="text-white/30 text-xs mb-8">All outbound text messages sent via Twilio — 4 templates total.</p>
+          <p className="text-white/30 text-xs mb-8">All outbound text messages sent via Twilio — 10 templates total (6 outbound + 4 auto-replies).</p>
           <div className="space-y-4">
             {[
               {
                 trigger: "Fan Subscribes to Show Alerts",
                 route: "/api/sms/subscribe",
                 message: `7th Heaven Show Alerts: You're subscribed, [Name]! We'll text you when we play near [ZIP]. Reply STOP to opt out. Msg freq varies. Msg & data rates may apply.`,
+                detail: "Sent immediately after a fan submits the SMS opt-in form on the Fan Dashboard. Their phone number is stored in sms_subscribers with geo-coordinates for proximity matching.",
+                audience: "Fan (opt-in)",
                 color: "text-emerald-400",
                 border: "border-emerald-500/30",
                 icon: "✅",
@@ -489,6 +503,8 @@ export default function SitemapPage() {
                 trigger: "Crew Member Goes LIVE",
                 route: "/api/sms/live-alert",
                 message: `7th Heaven: 🎸 [Host Name] just went LIVE! Tune in now at 7thheavenband.com/live\n\nReply STOP to unsubscribe.`,
+                detail: "Auto-triggered when a crew member starts a broadcast from the Crew Dashboard. Sends to all SMS subscribers. Host name is pulled from the broadcaster's profile.",
+                audience: "All SMS subscribers",
                 color: "text-rose-400",
                 border: "border-rose-500/30",
                 icon: "🔴",
@@ -497,6 +513,8 @@ export default function SitemapPage() {
                 trigger: "Fan Unsubscribes",
                 route: "/api/sms/unsubscribe",
                 message: `7th Heaven: You've been unsubscribed from Show Alerts. You will no longer receive texts. Reply START to re-subscribe.`,
+                detail: "Triggered when a fan replies STOP or uses the unsubscribe flow. Their record is soft-deleted from sms_subscribers. Re-subscribing is supported via START reply.",
+                audience: "Unsubscribing fan",
                 color: "text-amber-400",
                 border: "border-amber-500/30",
                 icon: "🚫",
@@ -504,10 +522,72 @@ export default function SitemapPage() {
               {
                 trigger: "Admin Sends Proximity Blast",
                 route: "/api/sms/send",
-                message: `🎸 7th Heaven is playing in your area!\n\n📍 [Venue] — [City, State]\n📅 [Date]\n🚪 Doors: [Doors Time] | Show: [Show Time]\n✅ All Ages\n🎟️ FREE — No Cover\n\nReply STOP to unsubscribe.`,
+                message: `🎸 7th Heaven is playing in your area!\n\n📍 [Venue] — [City, State]\n📅 [Date]\n🚪 Doors: [Doors Time] | Show: [Show Time]\n✅ All Ages\n🎟️ Cover: $5\n🔥 23 fans already going!\n\nRSVP & see who's going:\nhttps://7thheavenband.com/shows/[id]\n\nReply 1=GOING 2=DIRECTIONS\n\nReply STOP to unsubscribe.`,
+                detail: "Manually triggered by admin from the SMS Blast panel. Includes a direct link to the show RSVP page, live attendance count from show_attendance, and reply-based RSVP options. Twilio webhook at /api/sms/webhook handles fan replies.",
+                audience: "Nearby subscribers (geo-filtered)",
                 color: "text-purple-400",
                 border: "border-purple-500/30",
                 icon: "📡",
+              },
+              {
+                trigger: "Auto-Blast Cron Job",
+                route: "/api/sms/auto-blast",
+                message: `(Same proximity template as above — auto-sent for shows within X days)`,
+                detail: "Cron-triggered daily (e.g. Vercel Cron at 9am). Checks for public shows happening within a configurable window (default 3 days). Skips shows already blasted via sms_blast_log. Can be toggled on/off from Admin Settings.",
+                audience: "Nearby subscribers (automated)",
+                color: "text-violet-400",
+                border: "border-violet-500/30",
+                icon: "⏰",
+              },
+              {
+                trigger: "Admin Crew Alert",
+                route: "/api/admin/crew-alert",
+                message: `🛡️ 7th Heaven CREW ALERT:\n\n[Custom Admin Message]\n\n— Band Management`,
+                detail: "Sent by admin to all crew members and admins who have phone numbers on file. Used for urgent band communications like schedule changes, soundcheck times, or emergency updates. Deduplicates by phone number.",
+                audience: "Crew + Admin (internal)",
+                color: "text-red-400",
+                border: "border-red-500/30",
+                icon: "🛡️",
+              },
+              {
+                trigger: "Fan Replies STOP (Auto-Reply)",
+                route: "/api/sms/webhook",
+                message: `You've been unsubscribed from 7th Heaven alerts. Reply START to resubscribe anytime. 🎸`,
+                detail: "Auto-reply via Twilio TwiML when a fan texts STOP, UNSUBSCRIBE, CANCEL, END, or QUIT. Updates opted_in=false in sms_subscribers.",
+                audience: "Unsubscribing fan (auto)",
+                color: "text-amber-400",
+                border: "border-amber-500/30",
+                icon: "🔄",
+              },
+              {
+                trigger: "Fan Replies START (Auto-Reply)",
+                route: "/api/sms/webhook",
+                message: `Welcome back! You're subscribed to 7th Heaven show alerts. 🎸🔥 Reply STOP anytime to unsubscribe.`,
+                detail: "Auto-reply when a fan texts START, SUBSCRIBE, YES, or UNSTOP. Re-activates their subscription by setting opted_in=true.",
+                audience: "Re-subscribing fan (auto)",
+                color: "text-emerald-400",
+                border: "border-emerald-500/30",
+                icon: "🔄",
+              },
+              {
+                trigger: "Fan Replies 1 / GOING (Auto-Reply)",
+                route: "/api/sms/webhook",
+                message: `🔥 You're going to [Venue]! See who else is going & RSVP:\nhttps://7thheavenband.com/shows/[id]?rsvp=going`,
+                detail: "Auto-reply when a fan texts 1 or GOING. Looks up the next upcoming show from Supabase and sends back the show page link with ?rsvp=going parameter for automatic RSVP on page load.",
+                audience: "Replying fan (auto)",
+                color: "text-purple-400",
+                border: "border-purple-500/30",
+                icon: "🔄",
+              },
+              {
+                trigger: "Fan Replies 2 / DIRECTIONS (Auto-Reply)",
+                route: "/api/sms/webhook",
+                message: `📍 Directions to [Venue]:\nhttps://www.google.com/maps/search/?api=1&query=[lat],[lng]`,
+                detail: "Auto-reply when a fan texts 2 or DIRECTIONS. Looks up the next upcoming show and returns a Google Maps link using stored venue coordinates.",
+                audience: "Replying fan (auto)",
+                color: "text-indigo-400",
+                border: "border-indigo-500/30",
+                icon: "🔄",
               },
             ].map((sms, i) => (
               <div key={i} className={`p-5 rounded-xl border ${sms.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
@@ -516,14 +596,27 @@ export default function SitemapPage() {
                     <span className="text-xl">{sms.icon}</span>
                     <div>
                       <h3 className={`text-sm font-black uppercase tracking-wide ${sms.color}`}>{sms.trigger}</h3>
-                      <span className="text-[0.6rem] text-white/20 font-mono">{sms.route}</span>
+                      <span className="text-xs text-white/20 font-mono">{sms.route}</span>
                     </div>
-                  </div>
-                  <span className="shrink-0 text-[0.55rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span>
+                </div>
+                  <span className="shrink-0 text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span>
                 </div>
                 <div className="bg-black/30 border border-white/5 rounded-lg p-4">
-                  <p className="text-[0.8rem] text-white/70 font-mono leading-relaxed whitespace-pre-line">{sms.message}</p>
+                  <p className="text-sm text-white/70 font-mono leading-relaxed whitespace-pre-line">{sms.message}</p>
                 </div>
+                {(sms.detail || sms.audience) && (
+                  <div className="mt-3 flex flex-col gap-2">
+                    {sms.audience && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xs font-bold uppercase tracking-widest text-white/25">Audience:</span>
+                        <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/5 border border-white/10 ${sms.color}`}>{sms.audience}</span>
+                      </div>
+                    )}
+                    {sms.detail && (
+                      <p className="text-sm text-white/35 leading-relaxed">{sms.detail}</p>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -556,14 +649,14 @@ export default function SitemapPage() {
                     <span className="text-lg">{email.icon}</span>
                     <h3 className="text-sm font-bold text-white">{email.name}</h3>
                   </div>
-                  <span className={`text-[0.55rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
+                  <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
                     email.status === 'live'
                       ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                       : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                   }`}>{email.status}</span>
                 </div>
-                <p className="text-[0.7rem] text-white/40 leading-relaxed mb-2">{email.desc}</p>
-                <span className="text-[0.6rem] text-[var(--color-accent)]/60 font-bold uppercase tracking-widest">{email.category}</span>
+                <p className="text-sm text-white/40 leading-relaxed mb-2">{email.desc}</p>
+                <span className="text-xs text-[var(--color-accent)]/60 font-bold uppercase tracking-widest">{email.category}</span>
               </div>
             ))}
           </div>
@@ -634,9 +727,9 @@ export default function SitemapPage() {
                   <span className="text-xl">{item.icon}</span>
                   <h3 className={`text-sm font-black uppercase tracking-wide ${item.color}`}>{item.title}</h3>
                 </div>
-                <p className="text-[0.75rem] text-white/50 leading-relaxed mb-3">{item.desc}</p>
+                <p className="text-sm text-white/50 leading-relaxed mb-3">{item.desc}</p>
                 {item.link && (
-                  <a href={item.link} target="_blank" rel="noopener noreferrer" className={`text-[0.65rem] font-bold uppercase tracking-widest ${item.color} hover:text-white transition-colors`}>
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className={`text-xs font-bold uppercase tracking-widest ${item.color} hover:text-white transition-colors`}>
                     {item.linkText} →
                   </a>
                 )}
@@ -650,7 +743,7 @@ export default function SitemapPage() {
           <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-3 border-b border-white/10 pb-4">
             🔌 API Routes
           </h2>
-          <p className="text-white/30 text-xs mb-8">All server-side API endpoints — 25 routes across 15 domains.</p>
+          <p className="text-white/30 text-xs mb-8">All server-side API endpoints — 40+ routes across 15 domains.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
               { route: "/api/announcement", method: "GET / POST", desc: "Global alert banner read/write with auto-expire", color: "text-purple-400" },
@@ -672,7 +765,7 @@ export default function SitemapPage() {
               { route: "/api/close-all-streams", method: "POST", desc: "Emergency kill-switch for all streams", color: "text-rose-400" },
               { route: "/api/sms/subscribe", method: "POST", desc: "SMS opt-in for show alerts", color: "text-amber-400" },
               { route: "/api/sms/unsubscribe", method: "POST", desc: "SMS opt-out handler", color: "text-amber-400" },
-              { route: "/api/sms/send", method: "POST", desc: "Admin proximity SMS blast", color: "text-amber-400" },
+              { route: "/api/sms/send", method: "POST", desc: "Admin proximity SMS blast with show link + attendance count", color: "text-amber-400" },
               { route: "/api/sms/live-alert", method: "POST", desc: "Auto-SMS when crew goes live", color: "text-amber-400" },
               { route: "/api/shopify", method: "GET / POST", desc: "Shopify cart + product queries", color: "text-green-400" },
               { route: "/api/merch", method: "GET", desc: "Merch product listings", color: "text-green-400" },
@@ -681,6 +774,7 @@ export default function SitemapPage() {
               { route: "/api/notify", method: "POST", desc: "Push notification dispatcher", color: "text-orange-400" },
               { route: "/api/booking/cancel", method: "POST", desc: "Token-based booking cancellation", color: "text-fuchsia-400" },
               { route: "/api/sms/auto-blast", method: "GET", desc: "Cron-triggered auto proximity SMS", color: "text-amber-400" },
+              { route: "/api/sms/webhook", method: "POST", desc: "Twilio incoming SMS handler (STOP/GOING/DIRECTIONS)", color: "text-amber-400" },
               { route: "/api/admin/settings", method: "GET / POST", desc: "Admin key/value settings store", color: "text-red-400" },
               { route: "/api/admin/shows", method: "GET", desc: "Upcoming public shows for SMS picker", color: "text-red-400" },
               { route: "/api/audio", method: "GET", desc: "Audio track metadata/streaming", color: "text-pink-400" },
@@ -694,13 +788,34 @@ export default function SitemapPage() {
               { route: "/api/proximity/rsvp", method: "POST", desc: "Fan RSVP to a nearby show", color: "text-indigo-400" },
               { route: "/api/shopify/auth", method: "GET", desc: "Shopify OAuth initiation", color: "text-green-400" },
               { route: "/api/shopify/inventory", method: "GET", desc: "Shopify stock level syncing", color: "text-green-400" },
+              { route: "/api/shopify/callback", method: "GET", desc: "Shopify OAuth callback handler", color: "text-green-400" },
+              { route: "/api/shopify/orders", method: "GET", desc: "Shopify order history aggregation", color: "text-green-400" },
+              { route: "/api/cruise/blast", method: "POST", desc: "Cruise community email blast", color: "text-cyan-400" },
+              { route: "/api/cruise/booking", method: "GET / POST", desc: "Cruise booking priority list", color: "text-cyan-400" },
+              { route: "/api/cruise/chat-pin", method: "POST", desc: "Pin messages in cruise chat", color: "text-cyan-400" },
+              { route: "/api/cruise/important-links", method: "GET / POST", desc: "Manage cruise resource links", color: "text-cyan-400" },
+              { route: "/api/chat/send", method: "POST", desc: "Send chat message to live stream", color: "text-rose-400" },
+              { route: "/api/live/archive", method: "POST", desc: "Archive completed livestream", color: "text-rose-400" },
+              { route: "/api/live/clear-chat", method: "POST", desc: "Clear live stream chat history", color: "text-rose-400" },
+              { route: "/api/live-rooms/delete", method: "POST", desc: "Remove stale LiveKit rooms", color: "text-rose-400" },
+              { route: "/api/booking/availability", method: "GET", desc: "Check date availability", color: "text-fuchsia-400" },
+              { route: "/api/booking/setlist", method: "GET / POST", desc: "Setlist request management", color: "text-fuchsia-400" },
+              { route: "/api/fans/approve", method: "POST", desc: "Admin approve fan photo submissions", color: "text-cyan-400" },
+              { route: "/api/proximity/attendees", method: "GET", desc: "List attendees for a show", color: "text-indigo-400" },
+              { route: "/api/proximity/profile", method: "GET / POST", desc: "Fan proximity profile CRUD", color: "text-indigo-400" },
+              { route: "/api/admin/cruise-export", method: "GET", desc: "Export cruise manifest CSV", color: "text-red-400" },
+              { route: "/api/admin/cruise-stats", method: "GET", desc: "Cruise enrollment analytics", color: "text-red-400" },
+              { route: "/api/newsletter/unsubscribe", method: "POST", desc: "Newsletter opt-out handler", color: "text-violet-400" },
+              { route: "/api/health", method: "GET", desc: "System health check endpoint", color: "text-gray-400" },
+              { route: "/api/report-error", method: "POST", desc: "Client-side error reporting", color: "text-gray-400" },
+              { route: "/api/sync-shows", method: "POST", desc: "Sync Sanity show dates to Supabase", color: "text-blue-400" },
             ].map((api, i) => (
               <div key={i} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[0.65rem] font-mono text-white/60 font-bold">{api.route}</span>
-                  <span className="text-[0.5rem] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-white/5 text-white/30">{api.method}</span>
+                  <span className="text-xs font-mono text-white/60 font-bold">{api.route}</span>
+                  <span className="text-2xs font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-white/5 text-white/30">{api.method}</span>
                 </div>
-                <p className={`text-[0.65rem] ${api.color} leading-relaxed`}>{api.desc}</p>
+                <p className={`text-xs ${api.color} leading-relaxed`}>{api.desc}</p>
               </div>
             ))}
           </div>
@@ -731,10 +846,10 @@ export default function SitemapPage() {
               { file: "migration_013_show_memories.sql", desc: "show_memories — post-show fan memory & photo submissions", status: "applied" },
             ].map((m, i) => (
               <div key={i} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
-                <span className="text-[0.55rem] font-mono font-bold text-white/20 w-4 text-right">{i + 1}</span>
-                <span className="text-[0.7rem] font-mono font-bold text-[var(--color-accent)] min-w-[260px]">{m.file}</span>
-                <span className="text-[0.65rem] text-white/50 flex-1">{m.desc}</span>
-                <span className={`text-[0.5rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
+                <span className="text-xs font-mono font-bold text-white/20 w-4 text-right">{i + 1}</span>
+                <span className="text-sm font-mono font-bold text-[var(--color-accent)] min-w-[260px]">{m.file}</span>
+                <span className="text-xs text-white/50 flex-1">{m.desc}</span>
+                <span className={`text-2xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
                   m.status === 'applied' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                 }`}>{m.status}</span>
               </div>
@@ -749,7 +864,7 @@ export default function SitemapPage() {
           </h2>
           <p className="text-white/30 text-xs mb-8">Hierarchical view of all routes and how they connect.</p>
 
-          <div className="bg-[#08080e] border border-white/5 rounded-2xl p-8 font-mono text-[0.8rem] leading-loose overflow-x-auto">
+          <div className="bg-[#08080e] border border-white/5 rounded-2xl p-8 font-mono text-sm leading-loose overflow-x-auto">
             {/* Root */}
             <div className="text-white font-bold">/ <span className="text-white/30 font-normal ml-2">Home</span></div>
 
@@ -794,7 +909,7 @@ export default function SitemapPage() {
 
             {/* Auth / Dashboards */}
             <div className="mt-4 pt-3 border-t border-white/5">
-              <div className="text-white/50 text-[0.6rem] uppercase tracking-widest mb-2">🔐 Authenticated</div>
+              <div className="text-white/50 text-xs uppercase tracking-widest mb-2">🔐 Authenticated</div>
               <div className="ml-6 border-l border-white/10 pl-4 space-y-0.5">
                 <TreeNode path="/fans" label="Fan Dashboard" color="text-cyan-400" />
                 <TreeNode path="/planner" label="Planner Dashboard" color="text-teal-400">
@@ -807,7 +922,7 @@ export default function SitemapPage() {
 
             {/* Admin */}
             <div className="mt-4 pt-3 border-t border-white/5">
-              <div className="text-white/50 text-[0.6rem] uppercase tracking-widest mb-2">⚙️ Admin</div>
+              <div className="text-white/50 text-xs uppercase tracking-widest mb-2">⚙️ Admin</div>
               <div className="ml-6 border-l border-white/10 pl-4 space-y-0.5">
                 <TreeNode path="/admin" label="Admin Dashboard" color="text-red-400">
                   <TreeNode path="/admin?tab=band" label="🎸 Band & Site Tab" color="text-purple-400/60" />
@@ -823,7 +938,7 @@ export default function SitemapPage() {
 
             {/* API */}
             <div className="mt-4 pt-3 border-t border-white/5">
-              <div className="text-white/50 text-[0.6rem] uppercase tracking-widest mb-2">🔌 API Routes</div>
+              <div className="text-white/50 text-xs uppercase tracking-widest mb-2">🔌 API Routes</div>
               <div className="ml-6 border-l border-white/10 pl-4 space-y-0.5">
                 <TreeNode path="/api/booking" label="Booking CRUD" color="text-fuchsia-400/60">
                   <TreeNode path="/api/booking/cancel" label="Token Cancellation" color="text-fuchsia-400/40" />
@@ -834,6 +949,7 @@ export default function SitemapPage() {
                   <TreeNode path="/api/sms/send" label="Proximity Blast" color="text-amber-400/40" />
                   <TreeNode path="/api/sms/auto-blast" label="Auto Cron" color="text-amber-400/40" />
                   <TreeNode path="/api/sms/live-alert" label="Live Alert" color="text-amber-400/40" />
+                  <TreeNode path="/api/sms/webhook" label="Incoming SMS (STOP/GOING)" color="text-amber-400/40" />
                 </TreeNode>
                 <TreeNode path="/api/cruise" label="Cruise System" color="text-cyan-400/60">
                   <TreeNode path="/api/cruise/signup" label="Signup + Account Invite" color="text-cyan-400/40" />
@@ -872,15 +988,17 @@ export default function SitemapPage() {
         {/* ── VISUAL PAGE TREE ── */}
         <section className="mt-16 pt-14 border-t border-white/[0.06]">
           <div className="mb-10">
-            <span className="inline-block text-[0.6rem] font-black uppercase tracking-[0.25em] text-purple-400 border border-purple-500/30 px-3 py-1 mb-4">Visual Hierarchy</span>
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-purple-400 border border-purple-500/30 px-3 py-1 mb-4">Visual Hierarchy</span>
             <h2 className="text-2xl font-extrabold tracking-tight mb-2">Page Tree</h2>
             <p className="text-white/30 text-sm">How every page connects — scroll horizontally to see the full tree.</p>
           </div>
 
           {/* Legend */}
-          <div className="flex flex-wrap items-center gap-5 mb-10 text-[0.6rem] font-bold uppercase tracking-widest">
+          <div className="flex flex-wrap items-center gap-5 mb-10 text-xs font-bold uppercase tracking-widest">
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-white/20 inline-block" /> Public</span>
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-purple-500 inline-block" /> Fan Account Required</span>
+            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-cyan-500 inline-block" /> Cruiser Only</span>
+            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-teal-500 inline-block" /> Planner Only</span>
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-500 inline-block" /> Crew Only</span>
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Admin Only</span>
           </div>
@@ -890,113 +1008,575 @@ export default function SitemapPage() {
 
               {/* Root */}
               <div className="flex justify-center">
-                <SiteNode href="/" label="HOME" sub="/" color="white" wide />
+                <SiteNode href="/" label="HOME" sub="/" color="white" wide desc="Hero hub, tour preview, merch, music player, cruise promo" />
               </div>
               <BranchLine cols={6} />
 
               {/* Level 1 */}
               <div className="grid grid-cols-6 gap-3">
-                <SiteNode href="/tour"   label="TOUR"    sub="/tour"    color="white" />
-                <SiteNode href="/bio"    label="BIO"     sub="/bio"     color="white" />
-                <SiteNode href="/video"  label="VIDEO"   sub="/video"   color="white" />
-                <SiteNode href="/cruise" label="CRUISE"  sub="/cruise"  color="white" />
-                <SiteNode href="/fans"   label="FAN HUB" sub="/fans"    color="purple" />
-                <SiteNode href="/live"   label="LIVE"    sub="/live"    color="white" />
+                <SiteNode href="/tour"   label="TOUR"    sub="/tour"    color="white" desc="Interactive map, search, upcoming dates" />
+                <SiteNode href="/bio"    label="BIO"     sub="/bio"     color="white" desc="Band history, member profiles" />
+                <SiteNode href="/video"  label="VIDEO"   sub="/video"   color="white" desc="YouTube gallery, inline player" />
+                <SiteNode href="/cruise" label="CRUISE"  sub="/cruise"  color="white" desc="Interest signup, itinerary, FAQ" />
+                <SiteNode href="/fans"   label="FAN HUB" sub="/fans"    color="purple" desc="Full dashboard, SMS, prizes, referrals" />
+                <SiteNode href="/live"   label="LIVE"    sub="/live"    color="white" desc="Active broadcast gallery, WebRTC" />
               </div>
 
               {/* Level 2 */}
               <div className="grid grid-cols-6 gap-3 mt-1">
                 <div className="flex flex-col items-center gap-1">
                   <VertLine />
-                  <SiteNode href="/shows/[id]" label="SHOW PAGE" sub="/shows/[id]" color="white" />
+                  <SiteNode href="/shows/[id]" label="SHOW PAGE" sub="/shows/[id]" color="white" desc="RSVP, invite challenge, QR share" />
                   <VertLine />
                   <div className="flex flex-col gap-1 w-full">
-                    <SiteNode href="/shows/[id]" label="WHO'S GOING" sub="attendees" color="purple" small />
-                    <SiteNode href="/live/[room]" label="LIVE FEED" sub="if active" color="red" small />
+                    <SiteNode href="/shows/[id]" label="WHO'S GOING" sub="attendees" color="purple" small desc="Fan RSVP list" />
+                    <SiteNode href="/live/[room]" label="LIVE FEED" sub="if active" color="red" small desc="Embedded stream" />
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-1">
                   <VertLine />
-                  <SiteNode href="/bio" label="BAND MEMBERS" sub="lineup" color="white" />
+                  <SiteNode href="/bio" label="BAND MEMBERS" sub="lineup" color="white" desc="Individual Q&A, gear lists" />
                 </div>
                 <div className="flex flex-col items-center gap-1">
                   <VertLine />
-                  <SiteNode href="/video" label="GALLERY" sub="music videos" color="white" />
+                  <SiteNode href="/video" label="GALLERY" sub="music videos" color="white" desc="Categorized playlists" />
                 </div>
                 <div className="flex flex-col items-center gap-1">
                   <VertLine />
-                  <SiteNode href="/cruise/cancel" label="CANCEL RSVP" sub="/cruise/cancel" color="white" />
+                  <SiteNode href="/cruise/cancel" label="CANCEL RSVP" sub="/cruise/cancel" color="white" desc="Token-based opt-out" />
                   <VertLine />
-                  <SiteNode href="/cruise/dashboard" label="CRUISE HUB" sub="passenger area" color="purple" />
+                  <SiteNode href="/cruise/dashboard" label="CRUISE HUB" sub="passenger area" color="cyan" desc="Chat, itinerary, booking" />
                   <VertLine />
-                  <SiteNode href="/cruise/dashboard" label="ACCOUNT SETUP" sub="invite link" color="purple" small />
+                  <SiteNode href="/cruise/dashboard" label="ACCOUNT SETUP" sub="invite link" color="cyan" small desc="Auth invite flow" />
                 </div>
                 <div className="flex flex-col items-center gap-1">
                   <VertLine />
                   <div className="flex flex-col gap-1 w-full">
-                    <SiteNode href="/fans" label="PROXIMITY" sub="shows near me" color="purple" small />
-                    <SiteNode href="/fans" label="WHO'S GOING" sub="rsvp + attendees" color="purple" small />
-                    <SiteNode href="/fans" label="VIP INBOX" sub="raffle + pins" color="purple" small />
-                    <SiteNode href="/fans" label="LIVE ALERTS" sub="active streams" color="purple" small />
+                    <SiteNode href="/fans" label="PROXIMITY" sub="shows near me" color="purple" small desc="GPS-based alerts" />
+                    <SiteNode href="/fans" label="WHO'S GOING" sub="rsvp + attendees" color="purple" small desc="Show attendance" />
+                    <SiteNode href="/fans" label="VIP INBOX" sub="raffle + pins" color="purple" small desc="Prize wallet" />
+                    <SiteNode href="/fans" label="LIVE ALERTS" sub="active streams" color="purple" small desc="Real-time detect" />
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-1">
                   <VertLine />
-                  <SiteNode href="/live/[room]" label="STREAM" sub="/live/[room]" color="white" />
+                  <SiteNode href="/live/[room]" label="STREAM" sub="/live/[room]" color="white" desc="WebRTC video + chat" />
                   <VertLine />
                   <div className="flex flex-col gap-1 w-full">
-                    <SiteNode href="/live/[room]" label="LIVE CHAT" sub="real-time" color="white" small />
-                    <SiteNode href="/live/[room]" label="RAFFLE" sub="win & pin" color="purple" small />
+                    <SiteNode href="/live/[room]" label="LIVE CHAT" sub="real-time" color="white" small desc="Supabase broadcast" />
+                    <SiteNode href="/live/[room]" label="RAFFLE" sub="win & pin" color="purple" small desc="Prize claim system" />
                   </div>
                 </div>
               </div>
 
               {/* Protected divider */}
               <div className="my-12 border-t border-white/[0.06] relative">
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] px-4 text-[0.55rem] uppercase tracking-widest text-white/20 font-bold">Protected Sections</span>
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] px-4 text-xs uppercase tracking-widest text-white/20 font-bold">Protected Sections</span>
               </div>
 
-              {/* Crew / Admin / Utilities */}
-              <div className="grid grid-cols-3 gap-8">
+              {/* Crew / Cruiser / Admin / Utilities */}
+              <div className="grid grid-cols-4 gap-6">
                 <div className="flex flex-col items-center">
-                  <SiteNode href="/crew" label="CREW LOGIN" sub="/crew" color="red" wide />
+                  <SiteNode href="/crew" label="CREW LOGIN" sub="/crew" color="red" wide desc="Authenticated crew members only" />
                   <VertLine />
-                  <SiteNode href="/crew" label="CREW DASHBOARD" sub="broadcast hub" color="red" wide />
+                  <SiteNode href="/crew" label="CREW DASHBOARD" sub="broadcast hub" color="red" wide desc="LiveKit studio, chat, raffle, flash drops" />
                   <VertLine />
                   <div className="grid grid-cols-2 gap-2 w-full">
-                    <SiteNode href="/crew" label="GO LIVE" sub="start stream" color="red" small />
-                    <SiteNode href="/crew" label="RAFFLE" sub="manage raffles" color="red" small />
-                    <SiteNode href="/crew" label="PIN VERIFY" sub="winner codes" color="red" small />
-                    <SiteNode href="/crew" label="CHAT TOOLS" sub="pin messages" color="red" small />
+                    <SiteNode href="/crew" label="GO LIVE" sub="start stream" color="red" small desc="LiveKit WebRTC" />
+                    <SiteNode href="/crew" label="RAFFLE" sub="manage raffles" color="red" small desc="Draw + notify" />
+                    <SiteNode href="/crew" label="PIN VERIFY" sub="winner codes" color="red" small desc="Merch table scan" />
+                    <SiteNode href="/crew" label="CHAT TOOLS" sub="pin messages" color="red" small desc="Mod controls" />
                   </div>
                 </div>
                 <div className="flex flex-col items-center">
-                  <SiteNode href="/admin" label="ADMIN" sub="/admin" color="amber" wide />
+                  <SiteNode href="/cruise/dashboard" label="CRUISE HUB" sub="/cruise/dashboard" color="cyan" wide desc="Passenger community portal" />
                   <VertLine />
-                  <SiteNode href="/admin" label="BAND / CRUISE" sub="tab toggle" color="amber" wide />
+                  <SiteNode href="/cruise/dashboard" label="PASSENGER AREA" sub="manifest required" color="cyan" wide desc="Auth invite, WYSIWYG updates" />
                   <VertLine />
                   <div className="grid grid-cols-2 gap-2 w-full">
-                    <SiteNode href="/admin" label="TOUR DATES" sub="Sanity sync" color="amber" small />
-                    <SiteNode href="/admin" label="ALERT BANNER" sub="site-wide msg" color="amber" small />
-                    <SiteNode href="/admin" label="CREW ACCOUNTS" sub="username + email" color="amber" small />
-                    <SiteNode href="/admin" label="SUBSCRIBERS" sub="newsletter+SMS" color="amber" small />
-                    <SiteNode href="/admin/emails" label="EMAIL TEMPLATES" sub="14 templates" color="amber" small />
-                    <SiteNode href="/admin" label="WYSIWYG" sub="announcements" color="amber" small />
+                    <SiteNode href="/cruise/dashboard" label="CAPTAIN'S LOG" sub="announcements" color="cyan" small desc="Admin WYSIWYG" />
+                    <SiteNode href="/cruise/dashboard" label="ITINERARY" sub="day-by-day" color="cyan" small desc="Schedule timeline" />
+                    <SiteNode href="/cruise/dashboard" label="BOOKING" sub="priority list" color="cyan" small desc="Cabin manager" />
+                    <SiteNode href="/cruise/dashboard" label="CHAT" sub="passenger lounge" color="cyan" small desc="Real-time Supabase" />
+                    <SiteNode href="/cruise/dashboard" label="FAN PROMO" sub="cross-platform" color="purple" small desc="Fan Dashboard CTA" />
+                    <SiteNode href="/cruise/dashboard" label="COUNTDOWN" sub="embarkation" color="cyan" small desc="Auto-calc timer" />
                   </div>
                 </div>
                 <div className="flex flex-col items-center">
-                  <SiteNode href="/book" label="BOOK" sub="/book" color="white" wide />
+                  <SiteNode href="/admin" label="ADMIN" sub="/admin" color="amber" wide desc="Master command center" />
                   <VertLine />
-                  <SiteNode href="/book" label="EVENT PLANNER" sub="booking form" color="white" wide />
+                  <SiteNode href="/admin" label="BAND / CRUISE" sub="tab toggle" color="amber" wide desc="Dual-mode admin panels" />
+                  <VertLine />
+                  <div className="grid grid-cols-2 gap-2 w-full">
+                    <SiteNode href="/admin" label="TOUR DATES" sub="Sanity sync" color="amber" small desc="CMS integration" />
+                    <SiteNode href="/admin" label="ALERT BANNER" sub="site-wide msg" color="amber" small desc="Global toggle" />
+                    <SiteNode href="/admin" label="CREW ACCOUNTS" sub="username + email" color="amber" small desc="Staff provisioning" />
+                    <SiteNode href="/admin" label="SUBSCRIBERS" sub="newsletter+SMS" color="amber" small desc="Fan lists" />
+                    <SiteNode href="/admin/emails" label="EMAIL TEMPLATES" sub="14 templates" color="amber" small desc="Preview + test" />
+                    <SiteNode href="/admin/legal" label="LEGAL COMPLIANCE" sub="audit guide" color="amber" small desc="Legal guidelines" />
+                    <SiteNode href="/admin" label="WYSIWYG" sub="announcements" color="amber" small desc="Rich text editor" />
+                  </div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <SiteNode href="/book" label="BOOK" sub="/book" color="white" wide desc="Multi-step event booking form" />
+                  <VertLine />
+                  <SiteNode href="/planner" label="PLANNER" sub="booking dashboard" color="teal" wide desc="Status tracker, checklist, re-book" />
                   <VertLine />
                   <div className="flex flex-col gap-2 w-full">
-                    <SiteNode href="/fan-photo-wall" label="FAN WALL" sub="/fan-photo-wall" color="white" />
-                    <SiteNode href="/demo/proximity" label="PROXIMITY DEMO" sub="/demo/proximity" color="purple" />
-                    <SiteNode href="/sitemap" label="SITE MAP" sub="/sitemap" color="white" />
+                    <SiteNode href="/fan-photo-wall" label="FAN WALL" sub="/fan-photo-wall" color="white" desc="Masonry grid, lightbox, moderated" />
+                    <SiteNode href="/demo/proximity" label="PROXIMITY DEMO" sub="/demo/proximity" color="purple" desc="GPS show discovery simulation" />
+                    <SiteNode href="/sitemap" label="SITE MAP" sub="/sitemap" color="white" desc="This page — architecture docs" />
                   </div>
                 </div>
               </div>
 
+            </div>
+          </div>
+        </section>
+
+        {/* ── VISUAL EMAIL TREE ── */}
+        <section className="mt-16 pt-14 border-t border-white/[0.06]">
+          <div className="mb-10">
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-blue-400 border border-blue-500/30 px-3 py-1 mb-4">Email Architecture</span>
+            <h2 className="text-2xl font-extrabold tracking-tight mb-2">Transactional Email Flow</h2>
+            <p className="text-white/30 text-sm">How user actions trigger email notifications across the platform.</p>
+          </div>
+
+          {/* Legend */}
+          <div className="flex flex-wrap items-center gap-5 mb-10 text-xs font-bold uppercase tracking-widest">
+            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-cyan-500 inline-block" /> Fan Emails</span>
+            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-teal-500 inline-block" /> Planner Emails</span>
+            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Admin Alerts</span>
+            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-purple-500 inline-block" /> Mass Broadcast</span>
+          </div>
+
+          <div className="overflow-x-auto pb-4">
+            <div className="min-w-[920px]">
+              
+              {/* Root Trigger */}
+              <div className="flex justify-center">
+                <SiteNode href="#" label="USER & ADMIN ACTIONS" sub="System Triggers" color="white" wide />
+              </div>
+              <BranchLine cols={4} />
+
+              {/* Level 1: Categories */}
+              <div className="grid grid-cols-4 gap-4">
+                <SiteNode href="#" label="ACCOUNT AUTH" sub="signups" color="white" />
+                <SiteNode href="#" label="BOOKING ENGINE" sub="event requests" color="white" />
+                <SiteNode href="#" label="CRUISE HUB" sub="passenger actions" color="white" />
+                <SiteNode href="#" label="LIVE / COMMUNITY" sub="broadcasts & blasts" color="white" />
+              </div>
+
+              {/* Level 2: Sent Emails */}
+              <div className="grid grid-cols-4 gap-4 mt-1">
+                {/* Auth */}
+                <div className="flex flex-col items-center gap-1">
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="WELCOME FAN" sub="account created" color="cyan" />
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="WELCOME PLANNER" sub="planner flow" color="teal" />
+                </div>
+
+                {/* Booking */}
+                <div className="flex flex-col items-center gap-1">
+                  <VertLine />
+                  <div className="flex gap-2 w-full">
+                    <SiteNode href="/admin/emails" label="CONFIRMATION" sub="to planner" color="teal" small />
+                    <SiteNode href="/admin/emails" label="ADMIN ALERT" sub="new request" color="amber" small />
+                  </div>
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="STATUS UPDATE" sub="approved / completed" color="teal" />
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="CANCELLATION" sub="admin alert" color="amber" />
+                </div>
+
+                {/* Cruise */}
+                <div className="flex flex-col items-center gap-1">
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="SIGNUP CONFIRM" sub="initial interest" color="cyan" />
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="COMMUNITY WELCOME" sub="with secure link" color="cyan" />
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="CRUISE CANCEL" sub="opt-out" color="cyan" />
+                </div>
+
+                {/* Live / Community */}
+                <div className="flex flex-col items-center gap-1">
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="RAFFLE ENTRY" sub="ticket confirmed" color="cyan" />
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="RAFFLE WINNER" sub="claim pin link" color="cyan" />
+                  <VertLine />
+                  <SiteNode href="/admin/emails" label="NEWSLETTER" sub="global mass email" color="purple" />
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ── ACCOUNT MERGING ARCHITECTURE ── */}
+        <section className="mt-16 pt-14 border-t border-white/[0.06]">
+          <div className="mb-10">
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-cyan-400 border border-cyan-500/30 px-3 py-1 mb-4">System Design</span>
+            <h2 className="text-2xl font-extrabold tracking-tight mb-2">Account Merging Architecture</h2>
+            <p className="text-white/30 text-sm">How Fan and Cruise accounts unify into a single dashboard experience.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Email-Based Reconciliation",
+                icon: "🔗",
+                desc: "On login, the Fan Dashboard queries cruise_signups using the authenticated email. If a match is found, the user is flagged as a Cruiser.",
+                color: "text-cyan-400",
+                border: "border-cyan-500/30",
+                bg: "bg-cyan-500/5",
+              },
+              {
+                title: "Unified Toggle UI",
+                icon: "🔀",
+                desc: "Cruisers see a pill-shaped toggle on /fans: [ Fan Dashboard ] | [ 🚢 Cruise Hub ]. Clicking toggles between the full fan experience and the embedded cruise dashboard.",
+                color: "text-purple-400",
+                border: "border-purple-500/30",
+                bg: "bg-purple-500/5",
+              },
+              {
+                title: "60-Day Auto-Expiration",
+                icon: "⏱️",
+                desc: "The Cruise Hub toggle automatically hides 60 days after the cruise end date (CRUISE_END_DATE). The account silently reverts to fan-only — no admin action needed.",
+                color: "text-amber-400",
+                border: "border-amber-500/30",
+                bg: "bg-amber-500/5",
+              },
+              {
+                title: "Fan → Cruise Promo",
+                icon: "🚢",
+                desc: "Fans who haven't signed up for the cruise see a cyan promo banner: '7th Heaven is Setting Sail!' linking to /cruise. Auto-hides once they sign up or the cruise window expires.",
+                color: "text-cyan-400",
+                border: "border-cyan-500/30",
+                bg: "bg-cyan-500/5",
+              },
+              {
+                title: "Cruise → Fan Promo",
+                icon: "🎸",
+                desc: "Cruisers on /cruise/dashboard see a purple promo banner: 'Unlock Your Fan Dashboard' linking to /fans for show alerts, raffles, picks, and referrals.",
+                color: "text-purple-400",
+                border: "border-purple-500/30",
+                bg: "bg-purple-500/5",
+              },
+              {
+                title: "Embedded Cruise View",
+                icon: "📱",
+                desc: "When toggled to Cruise Hub, the Fan Dashboard renders the full cruise dashboard inline: Captain's Log, Itinerary, Booking Manager, Passenger Chat, and Community widget.",
+                color: "text-emerald-400",
+                border: "border-emerald-500/30",
+                bg: "bg-emerald-500/5",
+              },
+            ].map((item, i) => (
+              <div key={i} className={`p-6 rounded-xl border ${item.border} ${item.bg} transition-all hover:scale-[1.02]`}>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">{item.icon}</span>
+                  <h3 className={`text-sm font-black uppercase tracking-wide ${item.color}`}>{item.title}</h3>
+                </div>
+                <p className="text-sm text-white/50 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── COMPONENT REGISTRY ── */}
+        <section className="mt-16 pt-14 border-t border-white/[0.06]">
+          <div className="mb-10">
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-emerald-400 border border-emerald-500/30 px-3 py-1 mb-4">Shared Code</span>
+            <h2 className="text-2xl font-extrabold tracking-tight mb-2">Component Registry</h2>
+            <p className="text-white/30 text-sm">Reusable React components shared across multiple pages.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {[
+              { name: "Header", file: "Header.tsx", used: "All Pages", desc: "Global nav bar with auth state, live detection, mobile menu", color: "text-white" },
+              { name: "Footer", file: "Footer.tsx", used: "All Pages", desc: "Site-wide footer with links, social, legal", color: "text-white" },
+              { name: "LoginModal", file: "LoginModal.tsx", used: "Auth", desc: "Magic link + social OAuth modal with role routing", color: "text-purple-400" },
+              { name: "CruiseChat", file: "CruiseChat.tsx", used: "/cruise/dashboard, /fans", desc: "Real-time passenger lounge with Supabase subscriptions", color: "text-cyan-400" },
+              { name: "CruiseWidgets", file: "CruiseWidgets.tsx", used: "/cruise/dashboard, /fans", desc: "EmbarkationCountdown, ImportantLinksWidget, BookingManager", color: "text-cyan-400" },
+              { name: "ProximityPanel", file: "ProximityPanel.tsx", used: "/fans", desc: "Proximity show alerts with GPS opt-in and RSVP tracking", color: "text-indigo-400" },
+              { name: "FanUploadForm", file: "FanUploadForm.tsx", used: "/fans", desc: "Fan photo submission with NSFW AI scanning", color: "text-emerald-400" },
+              { name: "MemberDashboard", file: "MemberDashboard.tsx", used: "/fans", desc: "Core dashboard shell for authenticated fan views", color: "text-cyan-400" },
+              { name: "PlannerDashboard", file: "PlannerDashboard.tsx", used: "/planner", desc: "Booking status tracker with checklist editing", color: "text-teal-400" },
+              { name: "TourMap", file: "TourMap.tsx", used: "/tour", desc: "Leaflet interactive map with venue pins", color: "text-blue-400" },
+              { name: "TourList", file: "TourList.tsx", used: "/tour", desc: "Chronological tour date table with search & filters", color: "text-blue-400" },
+              { name: "AudioPlayer", file: "AudioPlayer.tsx", used: "/", desc: "Custom music player with waveform and progress bar", color: "text-pink-400" },
+              { name: "LiveKitStream", file: "LiveKitStream.tsx", used: "/live/[room], /crew", desc: "LiveKit room connect with WebRTC video rendering", color: "text-rose-400" },
+              { name: "LiveReactions", file: "LiveReactions.tsx", used: "/live/[room]", desc: "Floating emoji reactions overlay during streams", color: "text-rose-400" },
+              { name: "CountdownTimer", file: "CountdownTimer.tsx", used: "/, /cruise", desc: "Animated countdown to next event or cruise", color: "text-amber-400" },
+              { name: "CookieConsentBanner", file: "CookieConsentBanner.tsx", used: "All Pages", desc: "GDPR cookie consent with localStorage persistence", color: "text-gray-400" },
+              { name: "GoogleAnalytics", file: "GoogleAnalytics.tsx", used: "All Pages", desc: "GA4 script injection with consent gating", color: "text-gray-400" },
+              { name: "VideoSection", file: "VideoSection.tsx", used: "/, /video", desc: "YouTube video grid with custom inline player", color: "text-pink-400" },
+              { name: "SMSSignup", file: "SMSSignup.tsx", used: "/fans", desc: "SMS opt-in form for show proximity alerts", color: "text-amber-400" },
+              { name: "RoleBadge", file: "RoleBadge.tsx", used: "Multiple", desc: "Color-coded role indicator (Fan, Crew, Admin, Planner)", color: "text-purple-400" },
+            ].map((comp, i) => (
+              <div key={i} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className={`text-sm font-black uppercase tracking-wide ${comp.color}`}>{comp.name}</span>
+                  <span className="text-2xs font-mono text-white/20">{comp.file}</span>
+                </div>
+                <p className="text-xs text-white/40 leading-relaxed mb-1.5">{comp.desc}</p>
+                <span className="text-2xs font-bold uppercase tracking-widest text-white/15">Used: {comp.used}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── ENVIRONMENT VARIABLES ── */}
+        <section className="mt-16 pt-14 border-t border-white/[0.06]">
+          <div className="mb-10">
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-amber-400 border border-amber-500/30 px-3 py-1 mb-4">Configuration</span>
+            <h2 className="text-2xl font-extrabold tracking-tight mb-2">Environment Variables</h2>
+            <p className="text-white/30 text-sm">All required .env.local keys for the platform to function. Never commit secrets to version control.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {[
+              { key: "NEXT_PUBLIC_SUPABASE_URL", service: "Supabase", desc: "Public Supabase project URL", required: true },
+              { key: "NEXT_PUBLIC_SUPABASE_ANON_KEY", service: "Supabase", desc: "Public anon key for client-side queries", required: true },
+              { key: "SUPABASE_SERVICE_ROLE_KEY", service: "Supabase", desc: "Server-only service role key (admin operations)", required: true },
+              { key: "RESEND_API_KEY", service: "Resend", desc: "API key for transactional emails", required: true },
+              { key: "NEXT_PUBLIC_LIVEKIT_URL", service: "LiveKit", desc: "WebSocket URL for live streaming", required: true },
+              { key: "LIVEKIT_API_KEY", service: "LiveKit", desc: "Server-side API key for token generation", required: true },
+              { key: "LIVEKIT_API_SECRET", service: "LiveKit", desc: "Server-side API secret for token signing", required: true },
+              { key: "NEXT_PUBLIC_SANITY_PROJECT_ID", service: "Sanity", desc: "Sanity CMS project identifier", required: true },
+              { key: "NEXT_PUBLIC_SANITY_DATASET", service: "Sanity", desc: "Dataset name (production/staging)", required: true },
+              { key: "NEXT_PUBLIC_SANITY_API_VERSION", service: "Sanity", desc: "API version date string", required: true },
+              { key: "SANITY_API_TOKEN", service: "Sanity", desc: "Server-side write token for CMS mutations", required: true },
+              { key: "NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN", service: "Shopify", desc: "Storefront domain (mystore.myshopify.com)", required: true },
+              { key: "NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN", service: "Shopify", desc: "Public storefront API token for cart/products", required: true },
+              { key: "SHOPIFY_ADMIN_ACCESS_TOKEN", service: "Shopify", desc: "Admin API token for order/inventory management", required: true },
+              { key: "TWILIO_ACCOUNT_SID", service: "Twilio", desc: "Twilio account identifier for SMS", required: true },
+              { key: "TWILIO_AUTH_TOKEN", service: "Twilio", desc: "Twilio authentication token", required: true },
+              { key: "TWILIO_PHONE_NUMBER", service: "Twilio", desc: "Outbound SMS phone number", required: true },
+              { key: "ADMIN_API_SECRET", service: "Security", desc: "Secret for admin-only API route protection", required: true },
+              { key: "NEXT_PUBLIC_GA_ID", service: "Analytics", desc: "Google Analytics 4 measurement ID", required: false },
+              { key: "MUX_TOKEN_ID", service: "Mux", desc: "Mux video API token ID (video processing)", required: false },
+              { key: "MUX_TOKEN_SECRET", service: "Mux", desc: "Mux video API secret", required: false },
+            ].map((env, i) => (
+              <div key={i} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+                <span className={`text-2xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
+                  env.required ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-white/5 text-white/30 border border-white/10'
+                }`}>{env.required ? 'Required' : 'Optional'}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs font-mono font-bold text-amber-400 block truncate">{env.key}</span>
+                  <span className="text-xs text-white/40">{env.desc}</span>
+                </div>
+                <span className="text-2xs font-bold uppercase tracking-widest text-white/15 shrink-0">{env.service}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── MONTHLY RUNNING COSTS ── */}
+        <section className="mt-16 pt-14 border-t border-white/[0.06]">
+          <div className="mb-10">
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-emerald-400 border border-emerald-500/30 px-3 py-1 mb-4">💰 Operations</span>
+            <h2 className="text-2xl font-extrabold tracking-tight mb-2">Monthly Running Costs</h2>
+            <p className="text-white/30 text-sm">Estimated monthly costs to keep the 7th Heaven platform live. Prices are as of May 2026.</p>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              {
+                service: "Vercel",
+                plan: "Pro",
+                cost: "$20",
+                unit: "/mo",
+                what: "Hosting, edge CDN, serverless functions, preview deployments. Includes 1TB bandwidth, 100GB-hrs compute.",
+                link: "https://vercel.com/pricing",
+                icon: "▲",
+                color: "text-white",
+                border: "border-white/10",
+                required: true,
+              },
+              {
+                service: "Supabase",
+                plan: "Free → Pro",
+                cost: "$0–$25",
+                unit: "/mo",
+                what: "Postgres database, auth, real-time subscriptions, row-level security, storage. Free tier: 500MB DB, 50K MAUs. Pro: 8GB DB, unlimited auth.",
+                link: "https://supabase.com/pricing",
+                icon: "⚡",
+                color: "text-emerald-400",
+                border: "border-emerald-500/20",
+                required: true,
+              },
+              {
+                service: "Twilio",
+                plan: "Pay-as-you-go",
+                cost: "$1.15 + ~$0.0079",
+                unit: "/number + /SMS",
+                what: "One phone number ($1.15/mo) + per-SMS cost (~$0.0079 outbound). 1,000 texts ≈ $9. Incoming texts are free on long codes.",
+                link: "https://www.twilio.com/sms/pricing/us",
+                icon: "📱",
+                color: "text-rose-400",
+                border: "border-rose-500/20",
+                required: true,
+              },
+              {
+                service: "Shopify",
+                plan: "Basic",
+                cost: "$39",
+                unit: "/mo",
+                what: "Merch store backend. Product catalog, inventory, checkout, payment processing. Storefront API is included. Transaction fees: 2.9% + $0.30 per sale.",
+                link: "https://www.shopify.com/pricing",
+                icon: "🛒",
+                color: "text-green-400",
+                border: "border-green-500/20",
+                required: true,
+              },
+              {
+                service: "Resend",
+                plan: "Free → Pro",
+                cost: "$0–$20",
+                unit: "/mo",
+                what: "Transactional email delivery. Free: 100 emails/day (3,000/mo). Pro: 50,000 emails/mo. Used for booking confirmations, welcome emails, newsletters, cruise signups.",
+                link: "https://resend.com/pricing",
+                icon: "📧",
+                color: "text-blue-400",
+                border: "border-blue-500/20",
+                required: true,
+              },
+              {
+                service: "Sanity CMS",
+                plan: "Free",
+                cost: "$0",
+                unit: "/mo",
+                what: "Headless CMS for tour dates, news articles, band bios, site settings. Free tier: 100K API requests/mo, 10GB bandwidth, 3 users.",
+                link: "https://www.sanity.io/pricing",
+                icon: "📝",
+                color: "text-red-400",
+                border: "border-red-500/20",
+                required: true,
+              },
+              {
+                service: "LiveKit Cloud",
+                plan: "Free → Starter",
+                cost: "$0–$50",
+                unit: "/mo",
+                what: "WebRTC live streaming. Free: 1,000 participant-minutes/mo. Starter: 10,000 mins. Used for crew broadcasts to fans.",
+                link: "https://livekit.io/pricing",
+                icon: "📡",
+                color: "text-indigo-400",
+                border: "border-indigo-500/20",
+                required: true,
+              },
+              {
+                service: "Domain",
+                plan: "Annual",
+                cost: "~$1.50",
+                unit: "/mo (~$18/yr)",
+                what: "7thheavenband.com domain registration. Purchased through Namecheap, GoDaddy, or Cloudflare. DNS points to Vercel.",
+                icon: "🌐",
+                color: "text-sky-400",
+                border: "border-sky-500/20",
+                required: true,
+              },
+              {
+                service: "Google Analytics",
+                plan: "Free",
+                cost: "$0",
+                unit: "",
+                what: "Website traffic analytics, audience demographics, conversion tracking. GA4 is completely free.",
+                link: "https://analytics.google.com",
+                icon: "📊",
+                color: "text-amber-400",
+                border: "border-amber-500/20",
+                required: false,
+              },
+              {
+                service: "Upstash Redis",
+                plan: "Free",
+                cost: "$0",
+                unit: "/mo",
+                what: "Rate limiting for API abuse prevention. Free tier: 10K commands/day. More than enough for rate limiting.",
+                link: "https://upstash.com/pricing",
+                icon: "🛡️",
+                color: "text-rose-500",
+                border: "border-rose-500/20",
+                required: false,
+              },
+            ].map((s, i) => (
+              <div key={i} className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl border ${s.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
+                <div className="flex items-center gap-3 min-w-[200px]">
+                  <span className="text-xl">{s.icon}</span>
+                  <div>
+                    <h3 className={`text-sm font-black uppercase tracking-wide ${s.color}`}>{s.service}</h3>
+                    <span className="text-xs text-white/25 font-bold uppercase tracking-widest">{s.plan}</span>
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-white/50 leading-relaxed">{s.what}</p>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="text-right">
+                    <span className="text-lg font-black text-white">{s.cost}</span>
+                    <span className="text-xs text-white/30 ml-1">{s.unit}</span>
+                  </div>
+                  {s.link && (
+                    <a href={s.link} target="_blank" rel="noopener noreferrer" className={`text-xs font-bold uppercase tracking-widest ${s.color} hover:text-white transition-colors`}>
+                      →
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Total Estimate */}
+          <div className="mt-8 p-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-black uppercase tracking-wide text-emerald-400 mb-1">Estimated Monthly Total</h3>
+                <p className="text-sm text-white/40">Minimum cost to keep the full platform running with all features active.</p>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl font-black text-white">~$62–$157</div>
+                <span className="text-xs text-white/30 uppercase tracking-widest">/month</span>
+              </div>
+            </div>
+            <div className="mt-4 pt-4 border-t border-emerald-500/10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div>
+                <span className="text-emerald-400 font-bold">Bare Minimum:</span>
+                <span className="text-white/50 ml-2">~$62/mo</span>
+                <p className="text-white/25 mt-1">Vercel Pro ($20) + Shopify ($39) + Domain ($1.50) + Twilio number ($1.15). Everything else on free tiers.</p>
+              </div>
+              <div>
+                <span className="text-amber-400 font-bold">Typical Usage:</span>
+                <span className="text-white/50 ml-2">~$100/mo</span>
+                <p className="text-white/25 mt-1">Add Supabase Pro ($25), Resend emails, and ~1,000 SMS texts/mo ($9).</p>
+              </div>
+              <div>
+                <span className="text-purple-400 font-bold">Full Scale:</span>
+                <span className="text-white/50 ml-2">~$157/mo</span>
+                <p className="text-white/25 mt-1">All Pro tiers active including LiveKit Starter for frequent live streams.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Per-transaction costs */}
+          <div className="mt-6 p-5 rounded-xl border border-white/5 bg-white/[0.02]">
+            <h4 className="text-sm font-black uppercase tracking-wide text-white/60 mb-3">💳 Per-Transaction Costs (Variable)</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                <span className="text-green-400 font-bold">Shopify Sales</span>
+                <p className="text-white/40 mt-1">2.9% + $0.30 per merch sale. Shopify keeps the payment processing fee.</p>
+              </div>
+              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                <span className="text-rose-400 font-bold">SMS Messages</span>
+                <p className="text-white/40 mt-1">~$0.0079 per outbound text. Incoming replies are free. 500 fans × 4 shows/mo ≈ $16.</p>
+              </div>
+              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                <span className="text-blue-400 font-bold">Emails</span>
+                <p className="text-white/40 mt-1">Free up to 3,000/mo with Resend. After that, $20/mo for 50K emails.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -1009,29 +1589,39 @@ export default function SitemapPage() {
 // ── Tree sub-components ─────────────────────────────────────────────────────
 
 function SiteNode({
-  href, label, sub, color = "white", wide = false, small = false,
+  href, label, sub, color = "white", wide = false, small = false, desc,
 }: {
-  href: string; label: string; sub?: string;
-  color?: "white" | "purple" | "red" | "amber";
+  href: string; label: string; sub?: string; desc?: string;
+  color?: "white" | "purple" | "red" | "amber" | "cyan" | "teal" | "blue";
   wide?: boolean; small?: boolean;
 }) {
-  const colorMap = {
-    white:  "border-white/[0.08] bg-white/[0.03] hover:border-white/20",
-    purple: "border-purple-500/30 bg-purple-500/5 hover:border-purple-400/50",
-    red:    "border-red-500/30 bg-red-500/5 hover:border-red-400/50",
-    amber:  "border-amber-500/30 bg-amber-500/5 hover:border-amber-400/50",
+  const colorMap: Record<string, string> = {
+    white:  "border-white/[0.08] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]",
+    purple: "border-purple-500/30 bg-purple-500/5 hover:border-purple-400/50 hover:bg-purple-500/10",
+    red:    "border-red-500/30 bg-red-500/5 hover:border-red-400/50 hover:bg-red-500/10",
+    amber:  "border-amber-500/30 bg-amber-500/5 hover:border-amber-400/50 hover:bg-amber-500/10",
+    cyan:   "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:bg-cyan-500/10",
+    teal:   "border-teal-500/30 bg-teal-500/5 hover:border-teal-400/50 hover:bg-teal-500/10",
+    blue:   "border-blue-500/30 bg-blue-500/5 hover:border-blue-400/50 hover:bg-blue-500/10",
   };
-  const dotMap   = { white: "bg-white/20", purple: "bg-purple-500", red: "bg-red-500", amber: "bg-amber-500" };
-  const textMap  = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-amber-300" };
-  return (
-    <a href={href} className={`flex flex-col items-center justify-center border transition-all text-center group w-full ${colorMap[color]} ${wide ? "px-6 py-3" : small ? "px-2 py-2" : "px-3 py-3"}`}>
+  const dotMap: Record<string, string> = { white: "bg-white/20", purple: "bg-purple-500", red: "bg-red-500", amber: "bg-amber-500", cyan: "bg-cyan-500", teal: "bg-teal-500", blue: "bg-blue-500" };
+  const textMap: Record<string, string> = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-amber-300", cyan: "text-cyan-300", teal: "text-teal-300", blue: "text-blue-300" };
+  const isLinkable = !href.includes('[') && href !== '#';
+  const cls = `flex flex-col items-center justify-center border rounded-lg transition-all text-center group w-full cursor-pointer hover:scale-[1.03] active:scale-[0.98] ${colorMap[color]} ${wide ? "px-6 py-3" : small ? "px-2 py-2" : "px-3 py-3"}`;
+  const inner = (
+    <>
       <div className="flex items-center gap-1.5 mb-0.5">
         <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotMap[color]}`} />
-        <span className={`text-[0.55rem] font-black uppercase tracking-widest leading-tight ${textMap[color]}`}>{label}</span>
+        <span className={`text-xs font-black uppercase tracking-widest leading-tight ${textMap[color]}`}>{label}</span>
       </div>
-      {sub && <span className="text-[0.45rem] text-white/20 font-mono mt-0.5">{sub}</span>}
-    </a>
+      {sub && <span className="text-2xs text-white/20 font-mono mt-0.5">{sub}</span>}
+      {desc && <span className="text-2xs text-white/15 leading-snug mt-1 max-w-[140px]">{desc}</span>}
+    </>
   );
+  if (isLinkable) {
+    return <Link href={href} className={cls}>{inner}</Link>;
+  }
+  return <span className={cls}>{inner}</span>;
 }
 
 function VertLine() {

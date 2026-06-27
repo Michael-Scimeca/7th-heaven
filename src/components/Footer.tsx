@@ -60,6 +60,7 @@ export function Footer() {
   // SMS Text Alerts
   const [smsPhone, setSmsPhone] = useState('');
   const [smsZip, setSmsZip] = useState('');
+  const [smsDistance, setSmsDistance] = useState('50');
   const [smsStatus, setSmsStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const formatPhone = (value: string) => {
@@ -113,7 +114,7 @@ export function Footer() {
           {/* Nav Links */}
           <div className="flex flex-wrap items-center gap-6">
             {footerLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-[0.7rem] font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+              <Link key={link.href} href={link.href} className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
                 {link.label}
               </Link>
             ))}
@@ -125,11 +126,11 @@ export function Footer() {
                   openModal('login');
                 }
               }}
-              className="text-[0.7rem] font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
+              className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
             >
               Crew Login
             </button>
-            <Link href="/planner?login=true" className="text-[0.7rem] font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+            <Link href="/planner?login=true" className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
               Planner Login
             </Link>
           </div>
@@ -138,11 +139,11 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-1">
             {socialLinks.map((link, i) => (
               <span key={link.name} className="flex items-center">
-                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[0.7rem] font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
                   {link.name}
                 </a>
                 {i < socialLinks.length - 1 && (
-                  <span className="text-[var(--color-accent)] mx-3 text-[0.7rem] font-bold">/</span>
+                  <span className="text-[var(--color-accent)] mx-3 text-base font-bold">/</span>
                 )}
               </span>
             ))}
@@ -158,7 +159,7 @@ export function Footer() {
             <span className="text-lg">📱</span>
             <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-white">Text Alerts</h3>
           </div>
-          <p className="text-[0.7rem] text-white/40 mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
+          <p className="text-base text-white/40 mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
           {smsStatus === 'success' ? (
             <div className="flex items-center gap-3 px-5 py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
               <span className="text-emerald-400 text-lg">✓</span>
@@ -175,7 +176,7 @@ export function Footer() {
                   const res = await fetch('/api/sms/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ phone: smsPhone, zipCode: smsZip, name: member?.name || '' }),
+                    body: JSON.stringify({ phone: smsPhone, zipCode: smsZip, distance: smsDistance, name: member?.name || '' }),
                   });
                   if (res.ok) { setSmsStatus('success'); setSmsPhone(''); setSmsZip(''); }
                   else setSmsStatus('error');
@@ -189,6 +190,7 @@ export function Footer() {
                 onChange={e => setSmsPhone(formatPhone(e.target.value))}
                 placeholder="(555) 123-4567"
                 required
+                suppressHydrationWarning
                 className="flex-1 min-w-[140px] px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
               />
               <input
@@ -200,17 +202,28 @@ export function Footer() {
                 maxLength={5}
                 className="w-24 px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
               />
+              <select
+                value={smsDistance}
+                onChange={e => setSmsDistance(e.target.value)}
+                className="w-28 px-3 py-3 bg-white/[0.03] border border-white/10 text-sm text-white outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}
+              >
+                <option value="25" className="bg-[#111] text-white">25 mi</option>
+                <option value="50" className="bg-[#111] text-white">50 mi</option>
+                <option value="100" className="bg-[#111] text-white">100 mi</option>
+                <option value="200" className="bg-[#111] text-white">200 mi</option>
+              </select>
               <button
                 type="submit"
                 disabled={smsStatus === 'sending'}
-                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-[0.7rem] uppercase tracking-widest rounded-lg transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(133,29,239,0.2)] whitespace-nowrap"
+                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(133,29,239,0.2)] whitespace-nowrap"
               >
                 {smsStatus === 'sending' ? '...' : '📱 Subscribe'}
               </button>
             </form>
           )}
           {smsStatus === 'error' && <p className="text-xs text-rose-400 mt-2">Something went wrong. Try again.</p>}
-          <p className="text-[0.55rem] text-white/20 mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <a href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-white/40 transition-colors">Terms</a>.</p>
+          <p className="text-xs text-white/20 mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <a href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-white/40 transition-colors">Terms</a>.</p>
         </div>
       </div>
 
@@ -223,7 +236,7 @@ export function Footer() {
 
       {/* Endorsements */}
       <div className="site-container border-t border-white/5 py-16 text-center">
-        <p className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-white/20 mb-12">Official Gear Endorsements</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-white/20 mb-12">Official Gear Endorsements</p>
         <div className="flex flex-wrap justify-center items-center gap-x-14 gap-y-10 px-4">
           {endorsements.map((brand) => (
             <img
@@ -242,14 +255,15 @@ export function Footer() {
 
       {/* Legal Bottom */}
       <div className="site-container border-t border-white/5 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 text-[0.65rem] font-black uppercase tracking-widest text-white/30 mt-4 md:mt-0">
+        <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 text-sm font-black uppercase tracking-widest text-white/30 mt-4 md:mt-0">
           <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
           <Link href="/sitemap" className="hover:text-[var(--color-accent)] transition-colors">Sitemap</Link>
+          <Link href="/demo/proximity" className="hover:text-[var(--color-accent)] transition-colors">Dev Demo</Link>
           <Link href="/admin?login=true" className="hover:text-[var(--color-accent)] transition-colors">Admin</Link>
           <Link href="/planner?login=true" className="hover:text-[var(--color-accent)] transition-colors">Planner</Link>
         </div>
-        <p className="text-[0.65rem] font-black uppercase tracking-widest text-white/20">
+        <p className="text-sm font-black uppercase tracking-widest text-white/20">
           Designed & Developed by NTD Records © {new Date().getFullYear()}
         </p>
       </div>

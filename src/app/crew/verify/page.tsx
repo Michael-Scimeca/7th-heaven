@@ -122,7 +122,7 @@ export default function VerifyPage() {
 
       {/* Header */}
       <div className="text-center mb-8">
-        <p className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-yellow-500 mb-1">7th Heaven · Crew</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-yellow-500 mb-1">7th Heaven · Crew</p>
         <h1 className="text-white font-black text-2xl uppercase tracking-widest">Raffle Verifier</h1>
         <p className="text-white/30 text-xs mt-1">Enter the fan's PIN to verify their win</p>
       </div>
@@ -132,7 +132,7 @@ export default function VerifyPage() {
         {/* PIN Input */}
         {result !== 'valid' && (
           <div className="bg-[#0f0f18] border border-white/10 rounded-2xl p-6 mb-4">
-            <p className="text-[0.55rem] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
 
             <div className="flex items-center justify-center gap-2 mb-6" onPaste={handlePaste}>
               {pin.map((digit, i) => (
@@ -179,12 +179,12 @@ export default function VerifyPage() {
               <span className="text-5xl block mb-4">🏆</span>
 
               <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl px-5 py-3 mb-3">
-                <p className="text-yellow-500/50 text-[0.45rem] font-black uppercase tracking-[0.2em] mb-1">Winner Account</p>
+                <p className="text-yellow-500/50 text-2xs font-black uppercase tracking-[0.2em] mb-1">Winner Account</p>
                 <p className="text-yellow-400 font-black text-2xl">{winnerData.winner}</p>
               </div>
 
               <div className="bg-white/[0.03] border border-white/10 rounded-xl px-5 py-3 mb-4">
-                <p className="text-white/30 text-[0.45rem] font-black uppercase tracking-[0.2em] mb-1">Prize</p>
+                <p className="text-white/30 text-2xs font-black uppercase tracking-[0.2em] mb-1">Prize</p>
                 <p className="text-white font-black text-lg">{winnerData.prize}</p>
               </div>
 
@@ -220,7 +220,7 @@ export default function VerifyPage() {
           </div>
         )}
 
-        <p className="text-white/15 text-[0.5rem] text-center mt-6 uppercase tracking-widest">
+        <p className="text-white/15 text-2xs text-center mt-6 uppercase tracking-widest">
           Crew access only · 7th Heaven
         </p>
       </div>

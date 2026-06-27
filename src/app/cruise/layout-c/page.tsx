@@ -75,12 +75,12 @@ export default function CruiseLayoutC() {
               </div>
               {/* Text */}
               <div className={section.align === "left" ? "lg:order-1 lg:text-right" : ""}>
-                <span className="text-[0.6rem] font-black uppercase tracking-[0.25em] text-amber-400">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-xs font-black uppercase tracking-[0.25em] text-amber-400">{String(i + 1).padStart(2, "0")}</span>
                 <h2 className="text-4xl font-black uppercase italic tracking-tight mt-2 mb-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                   {section.title}
                 </h2>
-                <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/25 mb-4">{section.subtitle}</p>
-                <p className="text-[0.95rem] text-white/40 leading-relaxed max-w-md" style={section.align === "left" ? { marginLeft: "auto" } : {}}>{section.desc}</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-white/25 mb-4">{section.subtitle}</p>
+                <p className="text-base text-white/40 leading-relaxed max-w-md" style={section.align === "left" ? { marginLeft: "auto" } : {}}>{section.desc}</p>
               </div>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function CruiseLayoutC() {
             {[{ n: "142", l: "Fans" }, { n: "284", l: "Guests" }, { n: "7", l: "Nights" }, { n: "3", l: "Islands" }, { n: "6", l: "Shows" }].map(s => (
               <div key={s.l} className="text-center">
                 <p className="text-2xl font-black text-white">{s.n}</p>
-                <p className="text-[0.5rem] font-bold uppercase tracking-[0.2em] text-white/20">{s.l}</p>
+                <p className="text-2xs font-bold uppercase tracking-[0.2em] text-white/20">{s.l}</p>
               </div>
             ))}
           </div>
@@ -147,7 +147,7 @@ export default function CruiseLayoutC() {
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <a href="#signup-section" onClick={e => { e.preventDefault(); document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="flex-1 md:flex-none px-8 py-3 bg-amber-500 hover:bg-amber-400 text-black text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all text-center">
+                className="flex-1 md:flex-none px-8 py-3 bg-amber-500 hover:bg-amber-400 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all text-center">
                 Sign Up Now
               </a>
               <button onClick={() => setStickyVisible(false)} className="text-white/30 hover:text-white text-xl cursor-pointer px-2">×</button>

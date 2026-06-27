@@ -17,6 +17,7 @@ export async function GET() {
       directionsLink: s.directionsLink || '',
       isSoldOut: s.isSoldOut || false,
       isFestival: s.isFestival || false,
+      allAges: s.allAges,
     }));
     return NextResponse.json(shows);
   } catch (error) {

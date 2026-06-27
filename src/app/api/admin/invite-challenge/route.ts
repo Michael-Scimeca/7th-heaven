@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { requireAdmin } from "@/lib/api-utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,6 +27,10 @@ export async function GET(req: Request) {
 
 // POST /api/admin/invite-challenge
 export async function POST(req: Request) {
+  // Verify caller is an authenticated admin
+  const authError = await requireAdmin(req);
+  if (authError) return authError;
+
   const body = await req.json();
   const { show_id, enabled, threshold, reward_name, reward_description } = body;
 

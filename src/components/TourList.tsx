@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { SanityTourDate } from "@/lib/sanity";
 import "leaflet/dist/leaflet.css";
-import TourMap from "./TourMap";
+import TourMap, { isShowOver, typeConfig, getShowType, getShowDateTime } from "./TourMap";
 import CountdownTimer from "./CountdownTimer";
+import { useMember } from "@/context/MemberContext";
 
 export const shows = [
  { day: "Fri", date: "January 2", venue: "Station 34", city: "Mt. Prospect", state: "IL", time: "8:30pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=34%20S%20Main%20St,%20Mount%20Prospect,%20IL%2060056,%20United%20States&coordinate=42.064738,-87.936988&name=34%20S%20Main%20St&map=explore", websiteUrl: "https://stationthirtyfour.com/events/" },
@@ -52,26 +53,50 @@ export const shows = [
 ];
 
 // --- Helper functions ---
-function getShowTags(info: string): string[] {
+function getShowTags(show: any): string[] {
+ const info = show.info || '';
  const lower = info.toLowerCase();
+ const rawTags = show.tags || [];
+ const hasTag = (t: string) => rawTags.map((x: string) => x.toLowerCase()).includes(t.toLowerCase());
+
  const tags: string[] = [];
- if (lower.includes("unplugged")) tags.push("Unplugged");
- if (lower.includes("outdoor") || lower.includes("beer garden")) tags.push("Outdoor");
- if (lower.includes("21 &") || lower.includes("21+")) tags.push("21+");
- if (lower.includes("all age") || lower.includes("all-age")) tags.push("All Ages");
- if (lower.includes("gala") || lower.includes("fundraiser") || lower.includes("festival") || lower.includes("casino") || lower.includes("cruise") || lower.includes("tv appearance")) tags.push("Special Event");
+ if (lower.includes("unplugged") || hasTag("unplugged")) tags.push("Unplugged");
+ if (lower.includes("outdoor") || lower.includes("beer garden") || hasTag("outdoor")) tags.push("Outdoor");
+ if (lower.includes("21 &") || lower.includes("21+") || show.allAges === false || hasTag("21+")) tags.push("21+");
+ if (lower.includes("all age") || lower.includes("all-age") || show.allAges === true || hasTag("all ages") || hasTag("all-ages")) tags.push("All Ages");
+ if (
+   lower.includes("gala") || 
+   lower.includes("fundraiser") || 
+   lower.includes("festival") || 
+   lower.includes("casino") || 
+   lower.includes("cruise") || 
+   lower.includes("tv appearance") ||
+   hasTag("festival") ||
+   hasTag("special") ||
+   hasTag("gala") ||
+   hasTag("fundraiser") ||
+   hasTag("casino") ||
+   hasTag("cruise") ||
+   hasTag("tv appearance")
+ ) {
+   tags.push("Special Event");
+ }
  return tags;
 }
 
-function getShowIcon(info: string): string {
+function getShowIcon(show: any): string {
+ const info = show.info || '';
  const lower = info.toLowerCase();
- if (lower.includes("unplugged")) return "🪕";
- if (lower.includes("outdoor") || lower.includes("beer garden")) return "🌿";
- if (lower.includes("casino")) return "🎰";
- if (lower.includes("festival") || lower.includes("fest")) return "🎪";
- if (lower.includes("tv") || lower.includes("wgn") || lower.includes("news")) return "📺";
- if (lower.includes("fundraiser") || lower.includes("gala") || lower.includes("rescue")) return "🎗️";
- if (lower.includes("cruise")) return "🚢";
+ const rawTags = show.tags || [];
+ const hasTag = (t: string) => rawTags.map((x: string) => x.toLowerCase()).includes(t.toLowerCase());
+
+ if (lower.includes("unplugged") || hasTag("unplugged")) return "🪕";
+ if (lower.includes("outdoor") || lower.includes("beer garden") || hasTag("outdoor")) return "🌿";
+ if (lower.includes("casino") || hasTag("casino")) return "🎰";
+ if (lower.includes("festival") || lower.includes("fest") || hasTag("festival")) return "🎪";
+ if (lower.includes("tv") || lower.includes("wgn") || lower.includes("news") || hasTag("tv appearance")) return "📺";
+ if (lower.includes("fundraiser") || lower.includes("gala") || lower.includes("rescue") || hasTag("fundraiser") || hasTag("gala")) return "🎗️";
+ if (lower.includes("cruise") || hasTag("cruise")) return "🚢";
  return "🎸";
 }
 
@@ -81,6 +106,58 @@ const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"]
 const selectClass = "appearance-none bg-[rgba(255,255,255,0.05)] border border-[var(--color-border)] rounded-lg pl-3 pr-7 py-1.5 text-[0.65rem] font-semibold uppercase tracking-wider text-white/70 cursor-pointer transition-all duration-200 focus:outline-none focus:border-[var(--color-accent)] hover:border-[rgba(255,255,255,0.15)] hover:text-white/90";
 const activeSelect = "!border-[var(--color-accent)] !text-[var(--color-accent)]";
 
+function getGoogleCalendarUrl(show: any) {
+  const start = getShowDateTime(show.startDate, show.date, show.time);
+  if (start.getHours() === 23 && start.getMinutes() === 59) {
+    start.setHours(20, 0, 0, 0); // Default to 8:00 PM if no time set
+  }
+  const end = new Date(start.getTime() + 3 * 60 * 60 * 1000); // 3 hours duration
+
+  const formatGCalDate = (d: Date) => {
+    return d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  };
+
+  const title = `7th Heaven at ${show.venue}`;
+  const details = `Catch 7th Heaven live!\nShow Info: ${show.info || ""}\nMore details: ${show.websiteUrl || 'https://www.7thheavenband.com/tour'}`;
+  const location = show.city ? `${show.venue}, ${show.city}${show.state ? `, ${show.state}` : ""}` : show.venue;
+
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${formatGCalDate(start)}/${formatGCalDate(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+}
+
+function getICSFileUrl(show: any) {
+  const start = getShowDateTime(show.startDate, show.date, show.time);
+  if (start.getHours() === 23 && start.getMinutes() === 59) {
+    start.setHours(20, 0, 0, 0); // Default to 8:00 PM if no time set
+  }
+  const end = new Date(start.getTime() + 3 * 60 * 60 * 1000);
+
+  const formatICSDate = (d: Date) => {
+    return d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  };
+
+  const title = `7th Heaven at ${show.venue}`;
+  const details = `Catch 7th Heaven live!\\nShow Info: ${show.info || ""}\\nMore details: ${show.websiteUrl || 'https://www.7thheavenband.com/tour'}`;
+  const location = show.city ? `${show.venue}, ${show.city}${show.state ? `, ${show.state}` : ""}` : show.venue;
+
+  const icsLines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//7th Heaven//Tour Calendar//EN',
+    'BEGIN:VEVENT',
+    `UID:${Date.now()}-${encodeURIComponent(show.venue)}@7thheavenband.com`,
+    `DTSTAMP:${formatICSDate(new Date())}`,
+    `DTSTART:${formatICSDate(start)}`,
+    `DTEND:${formatICSDate(end)}`,
+    `SUMMARY:${title}`,
+    `DESCRIPTION:${details}`,
+    `LOCATION:${location}`,
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ];
+
+  return `data:text/calendar;charset=utf-8,${encodeURIComponent(icsLines.join('\r\n'))}`;
+}
+
 interface TourListProps {
  initialShows?: any[];
  hideMap?: boolean;
@@ -88,70 +165,397 @@ interface TourListProps {
 }
 
 export default function TourList({ initialShows, hideMap, maxShows }: TourListProps) {
- const [activeMonth, setActiveMonth] = useState("All");
- const [activeType, setActiveType] = useState("All");
- const [activeCity, setActiveCity] = useState("All");
- const [searchQuery, setSearchQuery] = useState("");
- const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const { member } = useMember();
+  const devBypass = typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
+  const [showPastShows, setShowPastShows] = useState(false);
+  const [activeMonth, setActiveMonth] = useState("All");
+  const [activeType, setActiveType] = useState("All");
+  const [activeCity, setActiveCity] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
 
- const displayShows = useMemo(() => {
-  if (initialShows && initialShows.length > 0) return initialShows;
-  return shows;
- }, [initialShows]);
+  // Subscribed show IDs for custom specific notifications
+  const [subscribedShowIds, setSubscribedShowIds] = useState<string[]>([]);
+  const [subscribingId, setSubscribingId] = useState<string | null>(null);
 
- // Derive filter options from current data source
- const months = useMemo(() => [...new Set(displayShows.map((s: any) => s.date.split(' ')[0]))], [displayShows]);
- const locationOptions = useMemo(() => {
-  const counts: Record<string, number> = {};
-  displayShows.forEach((s: any) => { if (s.city) counts[s.city] = (counts[s.city] || 0) + 1; });
-  return Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([city]) => city);
- }, [displayShows]);
+  // Live ticking time for countdowns
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Show CRUD States
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingShow, setEditingShow] = useState<any | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [modalError, setModalError] = useState<string | null>(null);
+
+  // Form Fields State
+  const [formVenue, setFormVenue] = useState("");
+  const [formCity, setFormCity] = useState("");
+  const [formState, setFormState] = useState("IL");
+  const [formDate, setFormDate] = useState("");
+  const [formTime, setFormTime] = useState("");
+  const [formDoorsTime, setFormDoorsTime] = useState("");
+  const [formAllAges, setFormAllAges] = useState(true);
+  const [formCover, setFormCover] = useState("");
+  const [formTicketLink, setFormTicketLink] = useState("");
+  const [formDirectionsLink, setFormDirectionsLink] = useState("");
+  const [formIsSoldOut, setFormIsSoldOut] = useState(false);
+  const [formIsFestival, setFormIsFestival] = useState(false);
+  const [formIsPrivate, setFormIsPrivate] = useState(false);
+  const [formNotes, setFormNotes] = useState("");
+  const [formIsUnplugged, setFormIsUnplugged] = useState(false);
+  const [formIsOutdoor, setFormIsOutdoor] = useState(false);
+  const [formIsCasino, setFormIsCasino] = useState(false);
+  const [formIsSpecialEvent, setFormIsSpecialEvent] = useState(false);
+
+  useEffect(() => {
+    if (editingShow) {
+      setFormVenue(editingShow.venue || "");
+      setFormCity(editingShow.city || "");
+      setFormState(editingShow.state || "IL");
+      setFormDate(editingShow.startDate || "");
+      setFormTime(editingShow.time || "");
+      setFormDoorsTime(editingShow.doorsTime || "");
+      setFormAllAges(editingShow.allAges ?? true);
+      setFormCover(editingShow.cover || "");
+      setFormTicketLink(editingShow.ticketLink || "");
+      setFormDirectionsLink(editingShow.directionsLink || "");
+      setFormIsSoldOut(editingShow.isSoldOut || false);
+      setFormIsFestival(editingShow.isFestival || false);
+      setFormIsPrivate(editingShow.isPrivate || false);
+      setFormNotes(editingShow.notes || "");
+
+      const currentTags = editingShow.tags || [];
+      const lowerNotes = ((editingShow.notes || "") + " " + (editingShow.info || "")).toLowerCase();
+      setFormIsUnplugged(currentTags.includes("unplugged") || lowerNotes.includes("unplugged"));
+      setFormIsOutdoor(currentTags.includes("outdoor") || lowerNotes.includes("outdoor") || lowerNotes.includes("beer garden"));
+      setFormIsCasino(currentTags.includes("casino") || lowerNotes.includes("casino"));
+      setFormIsSpecialEvent(
+        currentTags.includes("special") || 
+        currentTags.includes("gala") || 
+        currentTags.includes("fundraiser") || 
+        currentTags.includes("cruise") || 
+        currentTags.includes("tv") ||
+        lowerNotes.includes("gala") || 
+        lowerNotes.includes("fundraiser") || 
+        lowerNotes.includes("cruise") || 
+        lowerNotes.includes("tv")
+      );
+    } else {
+      setFormVenue("");
+      setFormCity("");
+      setFormState("IL");
+      setFormDate("");
+      setFormTime("");
+      setFormDoorsTime("");
+      setFormAllAges(true);
+      setFormCover("");
+      setFormTicketLink("");
+      setFormDirectionsLink("");
+      setFormIsSoldOut(false);
+      setFormIsFestival(false);
+      setFormIsPrivate(false);
+      setFormNotes("");
+      setFormIsUnplugged(false);
+      setFormIsOutdoor(false);
+      setFormIsCasino(false);
+      setFormIsSpecialEvent(false);
+    }
+    setModalError(null);
+  }, [editingShow, isModalOpen]);
+
+  const handleEditClick = (show: any) => {
+    setEditingShow(show);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveShow = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formVenue.trim() || !formCity.trim() || !formState.trim() || !formDate) {
+      setModalError("Please fill out all required fields.");
+      return;
+    }
+    setSubmitting(true);
+    setModalError(null);
+
+    const tags = [];
+    if (formIsFestival) tags.push("festival");
+    if (formIsPrivate) tags.push("private");
+    if (formIsUnplugged) tags.push("unplugged");
+    if (formIsOutdoor) tags.push("outdoor");
+    if (formIsCasino) tags.push("casino");
+    if (formIsSpecialEvent) tags.push("special");
+
+    const payload = {
+      venue: formVenue.trim(),
+      city: formCity.trim(),
+      state: formState.trim().toUpperCase(),
+      date: formDate,
+      time: formTime,
+      doorsTime: formDoorsTime,
+      allAges: formAllAges,
+      cover: formCover,
+      ticketLink: formTicketLink.trim(),
+      directionsLink: formDirectionsLink.trim(),
+      isSoldOut: formIsSoldOut,
+      isFestival: formIsFestival,
+      isPrivate: formIsPrivate,
+      notes: formNotes.trim(),
+      tags,
+      _id: editingShow?._id
+    };
+
+    try {
+      const url = "/api/admin/shows";
+      const method = editingShow ? "PATCH" : "POST";
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (res.ok && result.success) {
+        setIsModalOpen(false);
+        window.location.reload();
+      } else {
+        setModalError(result.error || "Failed to save show date.");
+      }
+    } catch (err) {
+      setModalError("Network error. Please check connection.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDeleteShow = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this show date from Sanity?")) return;
+    try {
+      const res = await fetch(`/api/admin/shows?id=${id}`, {
+        method: "DELETE"
+      });
+      const result = await res.json();
+      if (res.ok && result.success) {
+        window.location.reload();
+      } else {
+        alert("Failed to delete show: " + (result.error || "Unknown error"));
+      }
+    } catch (err) {
+      alert("Network error deleting show.");
+    }
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.calendar-dropdown-container')) {
+        setActiveCalDropdownId(null);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, []);
+
+  // Load user notification subscriptions
+  useEffect(() => {
+    if (!member?.email) return;
+    fetch(`/api/shows/notify-me?email=${encodeURIComponent(member.email)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.subscriptions) {
+          const ids = data.subscriptions.map((s: any) => s.showId);
+          setSubscribedShowIds(ids);
+        }
+      })
+      .catch(err => console.error("Error loading notification subscriptions:", err));
+  }, [member?.email]);
+
+  const handleToggleNotification = async (show: any) => {
+    const email = member?.email || window.prompt("Enter your email to receive notification about this show:");
+    if (!email || !email.trim()) return;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!emailRegex.test(email.trim())) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    const showId = show._id;
+    if (!showId) {
+      alert("Invalid show ID. Fallback shows cannot be tracked.");
+      return;
+    }
+
+    const isSubscribed = subscribedShowIds.includes(showId);
+    setSubscribingId(showId);
+
+    try {
+      if (isSubscribed) {
+        const res = await fetch(`/api/shows/notify-me?email=${encodeURIComponent(email)}&showId=${encodeURIComponent(showId)}`, {
+          method: "DELETE"
+        });
+        if (res.ok) {
+          setSubscribedShowIds(prev => prev.filter(id => id !== showId));
+        } else {
+          alert("Failed to unsubscribe. Please try again.");
+        }
+      } else {
+        const res = await fetch("/api/shows/notify-me", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            showId,
+            email: email.trim(),
+            venueName: show.venue,
+            showDate: show.date,
+            city: show.city,
+            state: show.state
+          })
+        });
+        if (res.ok) {
+          setSubscribedShowIds(prev => [...prev, showId]);
+        } else {
+          const errData = await res.json();
+          alert(errData.error || "Failed to subscribe. Please try again.");
+        }
+      }
+    } catch (err) {
+      alert("Network error. Please check connection.");
+    } finally {
+      setSubscribingId(null);
+    }
+  };
+
+  // Parse a show date like "January 2" or "May 30" into a proper Date object
+  const parseShowDate = useCallback((dateStr: string, startDateStr?: string): Date => {
+    if (startDateStr && /^\d{4}-\d{2}-\d{2}/.test(startDateStr)) {
+      return new Date(startDateStr + 'T00:00:00');
+    }
+    const currentYear = new Date().getFullYear();
+    const d = new Date(`${dateStr}, ${currentYear}`);
+    return isNaN(d.getTime()) ? new Date(0) : d;
+  }, []);
+
+  // Parse both date and time into a precise Date object for comparison
+  const parseShowDateTime = useCallback((dateStr: string, timeStr?: string, startDateStr?: string): Date => {
+    return getShowDateTime(startDateStr, dateStr, timeStr);
+  }, []);
+
+  const isShowToday = useCallback((show: any): boolean => {
+    const showDate = parseShowDate(show.date, show.startDate);
+    const today = new Date();
+    return showDate.getFullYear() === today.getFullYear() &&
+           showDate.getMonth() === today.getMonth() &&
+           showDate.getDate() === today.getDate();
+  }, [parseShowDate]);
+
+  const getCountdownString = useCallback((show: any): string => {
+    const showDateTime = parseShowDateTime(show.date, show.time, show.startDate);
+    const nowTime = currentTime.getTime();
+    const startTime = showDateTime.getTime();
+
+    if (nowTime < startTime) {
+      const diffMs = startTime - nowTime;
+      const hours = Math.floor(diffMs / 3600000);
+      const minutes = Math.floor((diffMs % 3600000) / 60000);
+      const seconds = Math.floor((diffMs % 60000) / 1000);
+
+      if (hours > 0) {
+        return `In ${hours}h ${minutes}m`;
+      } else {
+        return `In ${minutes}m ${seconds}s`;
+      }
+    } else if (nowTime <= startTime + 4 * 60 * 60 * 1000) {
+      return "🎸 Live Now";
+    } else {
+      return "Show Over";
+    }
+  }, [parseShowDateTime, currentTime]);
+
+  const displayShows = useMemo(() => {
+    const rawList = (initialShows && initialShows.length > 0) ? initialShows : shows;
+    // Sort chronologically by date and time to support same-day multi-time setups
+    const list = [...rawList];
+    list.sort((a, b) => {
+      const timeA = parseShowDateTime(a.date, a.time, a.startDate).getTime();
+      const timeB = parseShowDateTime(b.date, b.time, b.startDate).getTime();
+      return timeA - timeB;
+    });
+    return list;
+  }, [initialShows, parseShowDateTime]);
+
+  // Filter shows by time (exclude past shows by default unless showPastShows is true)
+  const activeShowsByTime = useMemo(() => {
+    return displayShows.filter(s => showPastShows || !isShowOver(s));
+  }, [displayShows, showPastShows]);
+
+  // Derive filter options from current data source
+  const months = useMemo(() => [...new Set(activeShowsByTime.map((s: any) => s.date.split(' ')[0]))], [activeShowsByTime]);
+  const locationOptions = useMemo(() => {
+   const counts: Record<string, number> = {};
+   activeShowsByTime.forEach((s: any) => { if (s.city) counts[s.city] = (counts[s.city] || 0) + 1; });
+   return Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([city]) => city);
+  }, [activeShowsByTime]);
 
  const tableRef = useRef<HTMLDivElement>(null);
 
- const scrollToShow = useCallback((venue: string, date: string) => {
-  // Clear any filters first so the row is visible
-  setActiveMonth("All");
-  setActiveType("All");
-  setActiveCity("All");
-  setSearchQuery("");
-  const id = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
-  // Delay to let filters clear and DOM update
-  setTimeout(() => {
-   const el = document.getElementById(id);
-   if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setHighlightedId(id);
-    setTimeout(() => setHighlightedId(null), 3000);
-   }
-  }, 100);
- }, []);
+  const scrollToShow = useCallback((venue: string, date: string) => {
+   // Clear any filters first so the row is visible
+   setActiveMonth("All");
+   setActiveType("All");
+   setActiveCity("All");
+   setSearchQuery("");
+   const prefix = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
+   // Delay to let filters clear and DOM update
+   setTimeout(() => {
+    const el = document.querySelector(`[id^="${prefix}"]`);
+    if (el) {
+     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+     setHighlightedId(el.id);
+     setTimeout(() => setHighlightedId(null), 3000);
+    }
+   }, 100);
+  }, []);
 
- // Map pin click — scroll WITHOUT clearing filters (row is already visible since map is filter-synced)
- const handleMapPinClick = useCallback((venue: string, date: string) => {
-  const id = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
-  setTimeout(() => {
-   const el = document.getElementById(id);
-   if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setHighlightedId(id);
-    setTimeout(() => setHighlightedId(null), 3000);
-   }
-  }, 100);
- }, []);
+  // Map pin click — scroll WITHOUT clearing filters (row is already visible since map is filter-synced)
+  const handleMapPinClick = useCallback((venue: string, date: string) => {
+   const prefix = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
+   setTimeout(() => {
+    const el = document.querySelector(`[id^="${prefix}"]`);
+    if (el) {
+     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+     setHighlightedId(el.id);
+     setTimeout(() => setHighlightedId(null), 3000);
+    }
+   }, 100);
+  }, []);
 
- const filtered = useMemo(() => {
-  const q = searchQuery.toLowerCase().trim();
-  return displayShows.filter((s) => {
-   if (activeMonth !== "All" && !s.date.startsWith(activeMonth)) return false;
-   if (activeType !== "All" && !getShowTags(s.info).includes(activeType)) return false;
-   if (activeCity !== "All" && s.city !== activeCity) return false;
-   if (q && !s.venue.toLowerCase().includes(q) && !s.city.toLowerCase().includes(q) && !s.info.toLowerCase().includes(q)) return false;
-   return true;
-  });
- }, [displayShows, activeMonth, activeType, activeCity, searchQuery]);
+  const filtered = useMemo(() => {
+   const q = searchQuery.toLowerCase().trim();
+   return activeShowsByTime.filter((s) => {
+    if (activeMonth !== "All" && !s.date.startsWith(activeMonth)) return false;
+    if (activeType !== "All" && !getShowTags(s).includes(activeType)) return false;
+    if (activeCity !== "All" && s.city !== activeCity) return false;
+    if (q && !s.venue.toLowerCase().includes(q) && !s.city.toLowerCase().includes(q) && !s.info.toLowerCase().includes(q)) return false;
+    return true;
+   });
+  }, [activeShowsByTime, activeMonth, activeType, activeCity, searchQuery]);
 
  const showCount = filtered.length;
+
+ const upcomingCount = useMemo(() => {
+  return displayShows.filter(s => !isShowOver(s)).length;
+ }, [displayShows]);
+
+ const filteredUpcomingCount = useMemo(() => {
+  return filtered.filter(s => !isShowOver(s)).length;
+ }, [filtered]);
+
  const hasActiveFilters = activeMonth !== "All" || activeType !== "All" || activeCity !== "All" || searchQuery !== "";
 
  const clearAll = () => {
@@ -169,23 +573,23 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
  if (searchQuery) activeLabels.push(`"${searchQuery}"`);
 
   // Find the next upcoming show
-  // Parse a show date like "January 2" or "May 30" into a proper Date object
-  const parseShowDate = useCallback((dateStr: string): Date => {
-    const currentYear = new Date().getFullYear();
-    const d = new Date(`${dateStr}, ${currentYear}`);
-    // If parsed date is valid, return it; otherwise return far past
-    return isNaN(d.getTime()) ? new Date(0) : d;
-  }, []);
 
   const getUpcomingShow = () => {
     const now = new Date();
-    // Strip to start of today for day-level comparison (so today's shows still count)
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
+    // 1. First check if a show is currently happening (started but not ended)
     for (const show of displayShows) {
       if (!show.city) continue; // skip private events
-      const showDate = parseShowDate(show.date);
-      if (showDate >= today) return show;
+      const showDateTime = parseShowDateTime(show.date, show.time, show.startDate);
+      const showEndTime = new Date(showDateTime.getTime() + 4 * 60 * 60 * 1000); // 4 hours duration
+      if (now >= showDateTime && now < showEndTime) {
+        return show;
+      }
+    }
+    // 2. Otherwise return the first upcoming show in the future
+    for (const show of displayShows) {
+      if (!show.city) continue; // skip private events
+      const showDateTime = parseShowDateTime(show.date, show.time, show.startDate);
+      if (showDateTime >= now) return show;
     }
     return null; // no upcoming shows
   };
@@ -196,8 +600,16 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const getDaysUntil = () => {
     if (!upNext) return "";
     const now = new Date();
+
+    // Check if the show is happening right now
+    const showDateTime = parseShowDateTime(upNext.date, upNext.time, upNext.startDate);
+    const showEndTime = new Date(showDateTime.getTime() + 4 * 60 * 60 * 1000);
+    if (now >= showDateTime && now < showEndTime) {
+      return "Happening Now";
+    }
+
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const showDate = parseShowDate(upNext.date);
+    const showDate = parseShowDate(upNext.date, upNext.startDate);
     const diff = Math.round((showDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     if (diff === 0) return "Tonight";
     if (diff === 1) return "Tomorrow";
@@ -207,14 +619,18 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   const daysLabel = getDaysUntil();
 
- return (
-  <>
+  const gridClass = member?.role === 'admin'
+    ? "grid-cols-1 lg:grid-cols-[60px_120px_2.5fr_1.8fr_90px_2.2fr_150px_120px_140px]"
+    : "grid-cols-1 lg:grid-cols-[60px_120px_2.5fr_1.8fr_90px_2.2fr_150px_120px]";
+
+  return (
+   <>
    {/* Table */}
    <section className="py-12 bg-[var(--color-bg-primary)]" ref={tableRef}>
     <div className="site-container">
 
      {/* Section Heading */}
-     <div className="mb-6">
+     <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <h2 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight">
        Upcoming <span className="gradient-text">Shows</span>
       </h2>
@@ -234,9 +650,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
              <div className="absolute -inset-8 bg-[radial-gradient(ellipse_at_center,rgba(133,29,239,0.2)_0%,transparent_70%)] pointer-events-none" />
              {/* UP NEXT label */}
              <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
-               <span className="w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full animate-pulse" />
-               <span className="text-[var(--color-accent)]">Up Next</span>
-               {daysLabel && (
+               <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+               <span className={daysLabel === "Happening Now" ? "text-red-500 font-extrabold" : "text-[var(--color-accent)]"}>
+                 {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
+               </span>
+               {daysLabel && daysLabel !== "Happening Now" && (
                  <>
                    <span className="text-white/20">·</span>
                    <span className="text-[var(--color-accent)]">{daysLabel}</span>
@@ -254,8 +672,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <span>
                   {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
                 </span>
-                <span className="text-white/20">·</span>
-                <span>📍 {upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
+                 {upNext.city && (
+                   <>
+                     <span className="text-white/20">·</span>
+                     <span>📍 {upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
+                   </>
+                 )}
                 {upNext.time && (
                   <>
                     <span className="text-white/20">·</span>
@@ -265,30 +687,49 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
               {upNext.info && (
                 <p className="mt-3 text-[0.7rem] font-bold uppercase tracking-[0.15em] text-[var(--color-accent)]/70">
-                  {getShowIcon(upNext.info)} {upNext.info}
+                  {getShowIcon(upNext)} {upNext.info}
                 </p>
               )}
            </div>
 
-           {/* Right Column: Timer + Buttons */}
            <div className="flex flex-col items-start md:items-end justify-between gap-4 shrink-0">
-
-             {/* Countdown Timer */}
              <CountdownTimer targetDate={`${upNext.date}, ${new Date().getFullYear()}`} targetTime={upNext.time} />
-
-             {/* Buttons */}
-             <div className="flex gap-3">
+             <div className="flex gap-3 items-center">
                {upNext.mapUrl && (
                   <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[0.75rem] py-3 px-6 border-[var(--color-accent)]/30" id="upnext-map">
                     📍 Directions
                   </a>
-
                )}
                {upNext.websiteUrl && (
                   <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-primary btn-primary-hover text-[0.75rem] py-3 px-8 scale-105" id="upnext-website">
                     Website
                   </a>
                )}
+               <div className="relative calendar-dropdown-container">
+                 <button
+                   onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
+                   className="btn-outline btn-outline-hover text-[0.75rem] py-3 px-6 border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
+                   id="upnext-calendar-btn"
+                 >
+                   📅 Add to Calendar
+                 </button>
+                 {activeCalDropdownId === 'upnext' && (
+                   <div className="absolute right-0 bottom-full mb-2 bg-[#080812] border border-[var(--color-accent)]/30 rounded-lg py-2 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[170px] backdrop-blur-md">
+                     <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Calendar</a>
+                     <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Apple / iCal</a>
+                     <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
+                     <button 
+                        onClick={() => {
+                          setActiveCalDropdownId(null);
+                          document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
+                        }}
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2.5 cursor-pointer"
+                      >
+                        💬 SMS / Text Alerts
+                      </button>
+                   </div>
+                 )}
+               </div>
              </div>
            </div>
          </div>
@@ -296,20 +737,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       </div>
      )}
 
-     {/* Full-Width Map — synced with filters */}
      {!hideMap && (
       <div className="mb-12">
-       <TourMap shows={hasActiveFilters ? filtered : displayShows} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
+       <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
       </div>
      )}
 
-
-
-
-     {/* Show count + Clear */}
      <div className="flex items-center justify-between mb-3">
       <p className="text-[0.7rem] text-[var(--color-text-muted)] tracking-wide">
-       Showing <span className="text-[var(--color-accent)] font-bold">{showCount}</span> {showCount === 1 ? "show" : "shows"}
+       Showing <span className="text-[var(--color-accent)] font-bold">{showCount}</span> {showCount === 1 ? "show" : "shows"} <span className="text-white/40">({hasActiveFilters ? filteredUpcomingCount : upcomingCount} upcoming)</span>
        {activeLabels.length > 0 && (
         <span className="ml-1">
          — {activeLabels.map((label, i) => (
@@ -322,180 +758,383 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        )}
       </p>
       <div className="flex items-center gap-3">
-       {upNext?.venue && (
         <button
-         onClick={() => scrollToShow(upNext!.venue, upNext!.date)}
-         className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] text-white bg-[var(--color-accent)] hover:brightness-125 rounded-lg px-5 py-2.5 transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 shadow-[0_0_20px_rgba(133,29,239,0.4)] hover:shadow-[0_0_30px_rgba(133,29,239,0.6)]"
+         onClick={() => setShowPastShows(!showPastShows)}
+         className={`text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border ${
+           showPastShows 
+             ? "bg-white text-black border-white hover:bg-white/90" 
+             : "bg-transparent text-white/80 border-white/20 hover:border-white/40 hover:text-white"
+         }`}
         >
-         <span className="text-base">⚡</span> Jump to Next Show
+         📜 {showPastShows ? "Hide Past Shows" : "Show Past Shows"}
         </button>
-       )}
-       {hasActiveFilters && (
-        <button
-         onClick={clearAll}
-         className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[rgba(133,29,239,0.3)] hover:border-[rgba(133,29,239,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(133,29,239,0.08)]"
-        >Clear</button>
-       )}
-      </div>
+        {member?.role === 'admin' && (
+          <button
+            onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
+            className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-lg shadow-emerald-600/20"
+          >
+            ➕ Add Show
+          </button>
+        )}
+        {hasActiveFilters && (
+         <button
+          onClick={clearAll}
+          className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[rgba(133,29,239,0.3)] hover:border-[rgba(133,29,239,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(133,29,239,0.08)]"
+         >Clear</button>
+        )}
+       </div>
      </div>
 
-     {/* Header Row with Inline Filters */}
-     <div className="sticky top-[72px] z-30 hidden md:grid grid-cols-[50px_100px_1fr_130px_70px_160px_36px_120px] gap-3 px-6 py-3 bg-[rgba(17,17,24,0.95)] backdrop-blur-md border-y border-[var(--color-border)] mb-1 items-center">
-      {/* DAY label */}
+     <div className={`sticky top-[72px] z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md border-y border-[var(--color-border)] mb-1 items-center`}>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Day</span>
-
-      {/* MONTH dropdown */}
       <div className="relative">
-       <select
-        value={activeMonth}
-        onChange={(e) => setActiveMonth(e.target.value)}
-        className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`}
-        id="tour-filter-month"
-       >
+       <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
         <option value="All">Month</option>
         {months.map((m) => <option key={m} value={m}>{m}</option>)}
        </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-       </svg>
+       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
-
-      {/* SEARCH in Venue column */}
       <div className="relative">
-       <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-       </svg>
-       <input
-        type="text"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full max-w-[200px] bg-[rgba(255,255,255,0.05)] border border-[var(--color-border)] rounded-lg pl-8 pr-7 py-1.5 text-[0.65rem] text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-accent)] transition-colors"
-        id="tour-search"
-       />
-       {searchQuery && (
-        <button
-         onClick={() => setSearchQuery("")}
-         className="absolute right-2 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-[0.6rem] cursor-pointer"
-        >✕</button>
-       )}
+       <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+       <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[rgba(255,255,255,0.05)] border border-[var(--color-border)] rounded-lg pl-8 pr-7 py-1.5 text-[0.65rem] text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-accent)] transition-colors" id="tour-search" />
+       {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-[0.6rem] cursor-pointer">✕</button>)}
       </div>
-
-      {/* CITY dropdown */}
       <div className="relative">
-       <select
-        value={activeCity}
-        onChange={(e) => setActiveCity(e.target.value)}
-        className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`}
-        id="tour-filter-city"
-       >
+       <select value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
         <option value="All">City</option>
         {locationOptions.map((c) => <option key={c} value={c}>{c}</option>)}
        </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-       </svg>
+       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
-
-      {/* TIME label */}
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Time</span>
-
-      {/* TYPE dropdown */}
       <div className="relative">
-       <select
-        value={activeType}
-        onChange={(e) => setActiveType(e.target.value)}
-        className={`${selectClass} w-full ${activeType !== "All" ? activeSelect : ""}`}
-        id="tour-filter-type"
-       >
+       <select value={activeType} onChange={(e) => setActiveType(e.target.value)} className={`${selectClass} w-full ${activeType !== "All" ? activeSelect : ""}`} id="tour-filter-type">
         <option value="All">Type</option>
         {typeOptions.map((t) => <option key={t} value={t}>{t}</option>)}
        </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-       </svg>
+       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
-
-      {/* MAP label */}
-      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)] text-center">Map</span>
-
-      {/* TICKETS label */}
+      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)] text-center">Map/Cal</span>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Website</span>
+      {member?.role === 'admin' && (
+         <div className="flex items-center justify-end gap-2 text-right">
+           <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Actions</span>
+           <button
+             onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
+             className="px-2 py-0.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[0.55rem] font-extrabold uppercase rounded transition-colors cursor-pointer border border-emerald-500/20 shadow-sm"
+             title="Add New Show"
+           >
+             + Add
+           </button>
+         </div>
+       )}
      </div>
 
-     {/* Rows */}
-     <div className="flex flex-col gap-1.5 overflow-visible pt-4">
+     <div className="flex flex-col gap-5 overflow-visible pt-4">
       {(() => {
         let rows = filtered;
         if (maxShows && upNext) {
-          const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue);
+          const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue && s.time === upNext.time);
           rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + maxShows);
         } else if (maxShows) {
           rows = filtered.slice(0, maxShows);
         }
         return rows;
       })().map((show, i) => {
-       const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue) : false;
-       const rowId = `tour-${show.venue}-${show.date}`.replace(/\s+/g, '-').toLowerCase();
+       const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue && show.time === upNext.time) : false;
+       const rowId = `tour-${show.venue}-${show.date}-${show.time || ''}`.replace(/\s+/g, '-').toLowerCase();
        const isHighlighted = highlightedId === rowId;
+       const isPast = parseShowDate(show.date, show.startDate).getTime() < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
        return (
-        <div
-         key={`${show.date}-${show.venue}-${i}`}
-         className={`relative grid grid-cols-1 md:grid-cols-[50px_100px_1fr_130px_70px_160px_36px_120px] gap-2 md:gap-3 px-6 py-5 border items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""}`}
-         id={rowId}
-        >
-         {isUpNext && (
-          <span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">
-           Up Next
-          </span>
-         )}
-         <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
-         <span>{show.date}</span>
-         <span className="font-bold text-[var(--color-text-primary)]">{show.venue}</span>
-         <span>{show.city}{show.state ? `, ${show.state}` : ""}</span>
-         <span>{show.time}</span>
-         <span className="text-xs text-[var(--color-text-muted)] flex items-center gap-1.5">
-          <span className="text-sm">{getShowIcon(show.info)}</span>
-          {show.info}
-         </span>
-         <span className="flex items-center justify-center">
-          {show.mapUrl && (() => {
-           const gUrl = show.mapUrl.includes('maps.apple.com')
-            ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}`
-            : show.mapUrl;
-           return (
-            <a 
-              href={gUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              title="Get Directions" 
-              className="w-9 h-9 flex items-center justify-center rounded-full border border-[var(--color-border-hover)] text-[var(--color-accent)] hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-white transition-all duration-300"
-            >
-             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-             </svg>
-            </a>
-           );
-          })()}
-         </span>
-         <span>
-          {show.websiteUrl ? (
-           <a 
-             href={show.websiteUrl} 
-             target="_blank" 
-             rel="noopener noreferrer" 
-             className="inline-flex items-center gap-1.5 whitespace-nowrap text-[0.75rem] font-bold uppercase tracking-wider px-5 py-2.5 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all duration-300 rounded-sm"
+         <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible">
+           {/* Desktop Row Layout */}
+           <div
+            className={`relative hidden lg:grid ${gridClass} gap-6 px-8 py-8 border items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            id={rowId}
            >
-            Website
-           </a>
-          ) : (
-           <span className="inline-flex items-center gap-1 whitespace-nowrap text-[0.7rem] font-bold uppercase tracking-wider px-5 py-2.5 border border-white/5 text-white/10 rounded-sm cursor-default">
-            Website
-           </span>
-          )}
-         </span>
+             {isUpNext && (<span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">Up Next</span>)}
+             <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
+             <span className="text-white/95 font-medium">{show.date}</span>
+             <span className="font-bold text-white">{show.venue}</span>
+             <span className="text-white/90">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+             <span className="flex flex-col text-left">
+                <span className="text-white/95 font-medium">{show.time}</span>
+                {isShowToday(show) && (
+                  <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 mt-1 whitespace-nowrap animate-pulse">
+                    {getCountdownString(show)}
+                  </span>
+                )}
+             </span>
+             <span className="text-xs text-white/70 flex items-center gap-1.5 flex-wrap">
+                <span className="text-sm">{getShowIcon(show)}</span>
+                <span>{show.info}</span>
+                {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
+                  <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded animate-[fadeIn_0.3s_ease-out]">All Ages</span>
+                )}
+                {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
+                  <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded animate-[fadeIn_0.3s_ease-out]">21+</span>
+                )}
+                {getShowTags(show).map(tag => {
+                  if (tag === "All Ages" || tag === "21+") return null;
+                  
+                  let tagColors = "bg-purple-500/10 text-purple-400 border-purple-500/20";
+                  if (tag === "Unplugged") {
+                    tagColors = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+                  } else if (tag === "Outdoor") {
+                    tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
+                  } else if (tag === "Special Event") {
+                    tagColors = "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20";
+                  } else if (tag === "Casino") {
+                    tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
+                  }
+                  
+                  return (
+                    <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded animate-[fadeIn_0.3s_ease-out] ${tagColors}`}>
+                      {tag}
+                    </span>
+                  );
+                })}
+              </span>
+             <span className="flex items-center justify-center gap-2">
+              {show._id && (
+                <button
+                  onClick={() => handleToggleNotification(show)}
+                  disabled={subscribingId === show._id}
+                  title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
+                  className={`w-9 h-9 flex items-center justify-center rounded-md transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer border shrink-0 ${
+                    subscribedShowIds.includes(show._id)
+                      ? "bg-purple-600/20 border-purple-500/40 text-purple-400 hover:bg-purple-600/30"
+                      : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
+                  }`}
+                >
+                  {subscribingId === show._id ? (
+                    <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  ) : subscribedShowIds.includes(show._id) ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                  )}
+                </button>
+              )}
+              {show.mapUrl && (() => {
+               const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
+               const showType = getShowType(show.info || '');
+               const cfg = typeConfig[showType] || typeConfig.full;
+               return (
+                <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-9 h-9 flex items-center justify-center rounded-md text-black hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.3)]">
+                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                </a>
+               );
+              })()}
+              <div className="relative calendar-dropdown-container">
+                <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </button>
+                {activeCalDropdownId === rowId && (
+                  <div className="absolute right-0 mt-2 bg-[#080812] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md">
+                    <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Cal</a>
+                    <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">iCal / Apple</a>
+                    <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
+                    <button
+                      onClick={() => {
+                        setActiveCalDropdownId(null);
+                        document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer"
+                    >
+                      💬 SMS / Text Alerts
+                    </button>
+                  </div>
+                )}
+              </div>
+             </span>
+             <span>
+              {show.websiteUrl ? (
+                <a 
+                 href={show.websiteUrl} 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="inline-flex items-center gap-1.5 whitespace-nowrap text-[0.75rem] font-bold uppercase tracking-wider px-5 py-2.5 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all duration-300 rounded-sm"
+                >
+                 Website
+                </a>
+              ) : (
+               <span className="inline-flex items-center gap-1 whitespace-nowrap text-[0.7rem] font-bold uppercase tracking-wider px-5 py-2.5 border border-white/5 text-white/10 rounded-sm cursor-default">
+                Website
+               </span>
+              )}
+             </span>
 
-        </div>
+             {/* Admin Row Actions */}
+             {member?.role === 'admin' && (
+               <div className="flex items-center gap-1.5 justify-end w-full md:w-auto">
+                 {show._id ? (
+                   <>
+                     <button
+                       onClick={() => handleEditClick(show)}
+                       className="px-2 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-all cursor-pointer font-sans"
+                     >
+                       Edit
+                     </button>
+                     <button
+                       onClick={() => handleDeleteShow(show._id)}
+                       className="px-2 py-1.5 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-all cursor-pointer font-sans"
+                     >
+                       Del
+                     </button>
+                   </>
+                 ) : (
+                   <span className="text-[0.6rem] text-white/20 uppercase font-mono" title="Fallback shows cannot be edited directly">Fallback</span>
+                 )}
+               </div>
+             )}
+           </div>
+
+           {/* Mobile/Tablet Card Layout */}
+           <div
+            className={`relative lg:hidden flex flex-col gap-4 p-5 border text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            id={`${rowId}-mobile`}
+           >
+             {isUpNext && (<span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">Up Next</span>)}
+             
+             {/* Header Row: Date & Time */}
+             <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+               <div className="flex items-baseline gap-2">
+                 <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
+                 <span className="text-white font-bold text-base">{show.date}</span>
+               </div>
+               <div className="flex flex-col items-end gap-1">
+                 {show.time && (
+                   <span className="text-white/85 text-xs font-semibold px-2 py-0.5 bg-white/5 border border-white/10 rounded">{show.time}</span>
+                 )}
+                 {isShowToday(show) && (
+                   <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 animate-pulse">
+                     {getCountdownString(show)}
+                   </span>
+                 )}
+               </div>
+             </div>
+
+             {/* Details: Venue & Location */}
+             <div>
+               <h4 className="text-lg font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
+               {show.city && (
+                 <p className="text-xs text-white/50 flex items-center gap-1 mt-1">
+                   📍 {show.city}{show.state ? `, ${show.state}` : ""}
+                 </p>
+               )}
+             </div>
+
+             {/* Tags Row */}
+             <div className="flex items-center gap-1.5 flex-wrap">
+               <span className="text-xs">{getShowIcon(show)}</span>
+               {show.info && <span className="text-2xs text-white/40 italic">{show.info}</span>}
+               {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
+                 <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded">All Ages</span>
+               )}
+               {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
+                 <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded">21+</span>
+               )}
+               {getShowTags(show).map(tag => {
+                 if (tag === "All Ages" || tag === "21+") return null;
+                 let tagColors = "bg-purple-500/10 text-purple-400 border-purple-500/20";
+                 if (tag === "Unplugged") tagColors = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+                 else if (tag === "Outdoor") tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
+                 else if (tag === "Special Event") tagColors = "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20";
+                 else if (tag === "Casino") tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
+                 return (
+                   <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded ${tagColors}`}>{tag}</span>
+                 );
+               })}
+             </div>
+
+             {/* Action Buttons Row */}
+             <div className="flex items-center gap-3 mt-1.5">
+               {/* Maps Directions */}
+               {show.mapUrl && (() => {
+                 const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
+                 const showType = getShowType(show.info || '');
+                 const cfg = typeConfig[showType] || typeConfig.full;
+                 return (
+                   <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-9 h-9 flex items-center justify-center rounded-md text-black hover:opacity-90 transition-all duration-300 shrink-0">
+                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                   </a>
+                 );
+               })()}
+
+               {show._id && (
+                 <button
+                   onClick={() => handleToggleNotification(show)}
+                   disabled={subscribingId === show._id}
+                   title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
+                   className={`w-9 h-9 flex items-center justify-center rounded-md transition-all duration-300 cursor-pointer border shrink-0 ${
+                     subscribedShowIds.includes(show._id)
+                       ? "bg-purple-600/20 border-purple-500/40 text-purple-400 hover:bg-purple-600/30"
+                       : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
+                   }`}
+                 >
+                   {subscribingId === show._id ? (
+                     <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                   ) : subscribedShowIds.includes(show._id) ? (
+                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                       <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                     </svg>
+                   ) : (
+                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                     </svg>
+                   )}
+                 </button>
+               )}
+
+               {/* Calendar Add */}
+               <div className="relative calendar-dropdown-container shrink-0">
+                 <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-all duration-300 cursor-pointer">
+                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                 </button>
+                 {activeCalDropdownId === `${rowId}-mobile` && (
+                   <div className="absolute left-0 mt-2 bg-[#080812] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">
+                     <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Cal</a>
+                     <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">iCal / Apple</a>
+                     <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
+                     <button
+                       onClick={() => {
+                         setActiveCalDropdownId(null);
+                         document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
+                       }}
+                       className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
+                     >
+                       💬 SMS / Text Alerts
+                     </button>
+                   </div>
+                 )}
+               </div>
+
+               {/* Tickets / Website Link */}
+               {show.websiteUrl ? (
+                 <a href={show.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all rounded-md text-center">
+                   Website
+                 </a>
+               ) : (
+                 <span className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 border border-white/5 text-white/10 rounded-md text-center">
+                   Website
+                 </span>
+               )}
+
+               {/* Admin Actions */}
+               {member?.role === 'admin' && show._id && (
+                 <div className="flex items-center gap-1.5 shrink-0">
+                   <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Edit</button>
+                   <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Del</button>
+                 </div>
+               )}
+             </div>
+           </div>
+         </div>
        );
       })}
      </div>
@@ -508,8 +1147,150 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        </button>
       </div>
      )}
-    </div>
-   </section>
+     </div>
+    </section>
+
+    {/* Show Edit/Add Modal */}
+    {isModalOpen && (
+      <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto font-sans">
+        <div className="bg-[#0b0b12] border border-white/10 rounded-3xl w-full max-w-2xl shadow-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
+          <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
+          <div className="p-6 md:p-8 text-left">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                <span>{editingShow ? "✏️ Edit Show Date" : "➕ Add New Show Date"}</span>
+              </h3>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="text-white/40 hover:text-white transition-colors cursor-pointer text-sm"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            {modalError && (
+              <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs rounded-xl mb-6">
+                {modalError}
+              </div>
+            )}
+
+            <form onSubmit={handleSaveShow} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
+                  <input type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
+                    placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
+                  <input type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
+                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
+                  <input type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
+                    placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
+                  <input type="text" required value={formState} onChange={e => setFormState(e.target.value)}
+                    placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
+                  <input type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
+                    placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
+                  <input type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
+                    placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Admission / Cover</label>
+                  <input type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
+                    placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
+                  <input type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
+                    placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
+                  <input type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
+                    placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
+                <textarea rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
+                  placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all resize-none" />
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
+                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                  <input type="checkbox" checked={formAllAges} onChange={e => setFormAllAges(e.target.checked)}
+                    className="accent-[var(--color-accent)] w-4 h-4" />
+                  All Ages Show
+                </label>
+                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                  <input type="checkbox" checked={formIsFestival} onChange={e => setFormIsFestival(e.target.checked)}
+                    className="accent-[var(--color-accent)] w-4 h-4" />
+                  Is Festival
+                </label>
+                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                  <input type="checkbox" checked={formIsPrivate} onChange={e => setFormIsPrivate(e.target.checked)}
+                    className="accent-[var(--color-accent)] w-4 h-4" />
+                  Private Event
+                </label>
+                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                  <input type="checkbox" checked={formIsUnplugged} onChange={e => setFormIsUnplugged(e.target.checked)}
+                    className="accent-[var(--color-accent)] w-4 h-4" />
+                  Unplugged Show
+                </label>
+                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                  <input type="checkbox" checked={formIsOutdoor} onChange={e => setFormIsOutdoor(e.target.checked)}
+                    className="accent-[var(--color-accent)] w-4 h-4" />
+                  Outdoor Show
+                </label>
+                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                  <input type="checkbox" checked={formIsCasino} onChange={e => setFormIsCasino(e.target.checked)}
+                    className="accent-[var(--color-accent)] w-4 h-4" />
+                  Casino Show
+                </label>
+                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                  <input type="checkbox" checked={formIsSpecialEvent} onChange={e => setFormIsSpecialEvent(e.target.checked)}
+                    className="accent-[var(--color-accent)] w-4 h-4" />
+                  Special Event
+                </label>
+              </div>
+
+              <div className="flex gap-3 pt-4 border-t border-white/5">
+                <button type="button" onClick={() => setIsModalOpen(false)}
+                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all cursor-pointer">
+                  Cancel
+                </button>
+                <button type="submit" disabled={submitting}
+                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all disabled:opacity-50 cursor-pointer">
+                  {submitting ? "Saving..." : "Save Show"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    )}
   </>
  );
 }
