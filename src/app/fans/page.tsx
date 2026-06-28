@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 
 export default function FansRedirectPage() {
-  const { member, isLoggedIn, hydrated, openModal } = useMember();
+  const { member, isLoggedIn, hydrated, openModal, login } = useMember();
   const router = useRouter();
   const searchParams = useSearchParams();
   const isDemo = searchParams.get("demo") === "true";
@@ -26,11 +26,15 @@ export default function FansRedirectPage() {
       return;
     }
 
-    // Not logged in — open the login modal
+    // Not logged in — auto-login in dev mode or open modal in production
     if (!isLoggedIn) {
-      openModal("login");
+      if (process.env.NODE_ENV === 'development') {
+        login("fan@7thheaven.com", "password123");
+      } else {
+        openModal("login");
+      }
     }
-  }, [hydrated, isLoggedIn, member, isDemo, router, openModal]);
+  }, [hydrated, isLoggedIn, member, isDemo, router, openModal, login]);
 
   return (
     <div className="min-h-screen bg-[var(--color-bg-primary)] flex items-center justify-center">
