@@ -658,6 +658,47 @@ export default function LoginModal() {
        </button>
       </p>
      )}
+
+      {/* Dev Quick Logins */}
+      {process.env.NODE_ENV === 'development' && modalMode === 'login' && (
+        <div className="mt-6 pt-4 border-t border-white/5 space-y-2">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-extrabold text-center">🛠️ Dev Quick Logins</p>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => { setEmail("admin@7thheaven.com"); setPassword("password123"); }}
+              className="py-2 px-2.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-purple-300 hover:text-white transition-all text-left flex items-center justify-between cursor-pointer"
+            >
+              <span>🔑 Admin</span>
+              <span className="opacity-40 text-[9px] font-mono">admin</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setEmail("crew@7thheaven.com"); setPassword("password123"); }}
+              className="py-2 px-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-emerald-300 hover:text-white transition-all text-left flex items-center justify-between cursor-pointer"
+            >
+              <span>🔑 Crew</span>
+              <span className="opacity-40 text-[9px] font-mono">crew</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setEmail("planner@7thheaven.com"); setPassword("password123"); }}
+              className="py-2 px-2.5 bg-fuchsia-500/10 hover:bg-fuchsia-500/20 border border-fuchsia-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-fuchsia-300 hover:text-white transition-all text-left flex items-center justify-between cursor-pointer"
+            >
+              <span>🔑 Planner</span>
+              <span className="opacity-40 text-[9px] font-mono">planner</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setEmail("fan@7thheaven.com"); setPassword("password123"); }}
+              className="py-2 px-2.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-blue-300 hover:text-white transition-all text-left flex items-center justify-between cursor-pointer"
+            >
+              <span>🔑 Fan</span>
+              <span className="opacity-40 text-[9px] font-mono">fan</span>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
    </div>
 

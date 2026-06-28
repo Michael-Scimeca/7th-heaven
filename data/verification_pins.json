@@ -13,5 +13,20 @@
     "email": "testfan_123456@example.com",
     "pin": "647542",
     "expiresAt": 1782602304508
+  },
+  {
+    "email": "testfan@example.com",
+    "pin": "361851",
+    "expiresAt": 1782603744271
+  },
+  {
+    "email": "testfan2@example.com",
+    "pin": "516406",
+    "expiresAt": 1782604150138
+  },
+  {
+    "email": "testfan@7thheaven.com",
+    "pin": "960101",
+    "expiresAt": 1782606313342
   }
 ]

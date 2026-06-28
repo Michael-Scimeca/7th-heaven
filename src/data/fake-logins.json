@@ -1,0 +1,30 @@
+[
+  {
+    "email": "admin@7thheaven.com",
+    "password": "password123",
+    "name": "Admin User",
+    "username": "admin_7h",
+    "role": "admin"
+  },
+  {
+    "email": "crew@7thheaven.com",
+    "password": "password123",
+    "name": "Crew Member",
+    "username": "crew_member",
+    "role": "crew"
+  },
+  {
+    "email": "fan@7thheaven.com",
+    "password": "password123",
+    "name": "Super Fan",
+    "username": "super_fan",
+    "role": "fan"
+  },
+  {
+    "email": "planner@7thheaven.com",
+    "password": "password123",
+    "name": "Event Planner",
+    "username": "planner_7h",
+    "role": "event_planner"
+  }
+]

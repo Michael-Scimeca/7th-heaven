@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import fakeLogins from "@/data/fake-logins.json";
 
 export interface Member {
  id: string;
@@ -183,9 +184,38 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  };
  const closeModal = () => setIsModalOpen(false);
 
- const login = async (email: string, password: string): Promise<boolean> => {
-  // Authenticate via Supabase Auth
-  try {
+  const login = async (email: string, password: string): Promise<boolean> => {
+   // Check fake logins bypass
+   const fakeUser = fakeLogins.find(
+    u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+   );
+
+   if (fakeUser) {
+    const fakeMember: Member = {
+     id: `fake-${fakeUser.role}-${Date.now()}`,
+     name: fakeUser.name,
+     username: fakeUser.username,
+     email: fakeUser.email.toLowerCase(),
+     joinDate: new Date().toISOString(),
+     avatar: fakeUser.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
+     points: 100,
+     tier: "Gold",
+     showsAttended: 5,
+     favoriteVenues: [],
+     notificationsEnabled: true,
+     notificationRadius: 25,
+     role: fakeUser.role as Member["role"],
+    };
+
+    localStorage.setItem("7h_member", JSON.stringify(fakeMember));
+    setMember(fakeMember);
+    setIsModalOpen(false);
+    localStorage.removeItem('vip_inbox_messages');
+    return true;
+   }
+
+   // Authenticate via Supabase Auth
+   try {
    const { createClient } = await import("@/utils/supabase/client");
    const supabase = createClient();
    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
