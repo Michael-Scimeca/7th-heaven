@@ -10,7 +10,6 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 import { PageNav } from "@/components/PageNav";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import CookieConsentBanner from "@/components/CookieConsentBanner";
 import SmoothScroll from "@/components/SmoothScroll";
 
 const inter = Inter({
@@ -135,7 +134,6 @@ export default async function RootLayout({
               {isDraftMode && <VisualEditing />}
               
               <PageNav />
-              <CookieConsentBanner />
             </div>
           </SmoothScroll>
         </Providers>
