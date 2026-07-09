@@ -1,0 +1,32 @@
+{
+  "step_index": 540,
+  "name": "multi_replace_file_content",
+  "args": {
+    "ArtifactMetadata": {
+      "RequestFeedback": false,
+      "Summary": "Removed search crew members input field from the scheduler drawer and removed max-height constraint from the roster board container in admin page.",
+      "UserFacing": true
+    },
+    "Description": "Removed search crew members input from shift scheduler drawer and removed vertical max-height constraint on the roster board grid to allow it to go full height.",
+    "Instruction": "Remove search input and max-height constraint on roster board container",
+    "ReplacementChunks": [
+      {
+        "AllowMultiple": false,
+        "EndLine": 4807,
+        "ReplacementContent": "    const renderRosterBoard = () => {\n      return (\n        <div className=\"w-full overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner\">",
+        "StartLine": 4804,
+        "TargetContent": "    const renderRosterBoard = () => {\n      return (\n        <div className=\"w-full max-h-[calc(100vh-270px)] overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner\">"
+      },
+      {
+        "AllowMultiple": false,
+        "EndLine": 6084,
+        "ReplacementContent": "                      {/* Search and Grouping Controls */}\n                      <div className=\"shrink-0 mb-3 space-y-2\">\n                        \n                        {/* Crew Groups selection chips and Create Group */}",
+        "StartLine": 6074,
+        "TargetContent": "                      {/* Search and Grouping Controls */}\n                      <div className=\"shrink-0 mb-3 space-y-2\">\n                        <input\n                          type=\"text\"\n                          value={drawerCrewSearch}\n                          onChange={e => setDrawerCrewSearch(e.target.value)}\n                          placeholder=\"🔍 Search crew members...\"\n                          className=\"w-full px-3 py-1.5 bg-black/40 border border-white/10 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold font-sans\"\n                        />\n                        \n                        {/* Crew Groups selection chips and Create Group */}"
+      }
+    ],
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Modifying admin page structure",
+    "toolSummary": "Editing admin page layout and drawer controls"
+  }
+}

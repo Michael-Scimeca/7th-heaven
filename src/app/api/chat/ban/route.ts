@@ -75,7 +75,8 @@ export async function POST(req: Request) {
 
     const { room, banned_name, reason, duration_minutes } = body;
 
-    if (typeof room !== 'string' || !room.startsWith('live_')) {
+    const isAllowedPrefix = typeof room === 'string' && (room.startsWith('live_') || room.startsWith('cruise_'));
+    if (!isAllowedPrefix) {
       return NextResponse.json({ error: 'Invalid room.' }, { status: 400 });
     }
     if (typeof banned_name !== 'string' || banned_name.trim().length === 0) {

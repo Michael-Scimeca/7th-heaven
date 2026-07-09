@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await supabase
       .from('cruise_signups')
-      .select('id, name, email, phone, guest_count, notes, anonymous, created_at')
+      .select('id, name, email, phone, guest_count, notes, anonymous, deposit_paid, full_paid, created_at')
       .eq('email', email.toLowerCase().trim())
       .single();
 
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
 // PUT update booking info
 export async function PUT(req: NextRequest) {
   try {
-    const { email, guest_count, phone, anonymous, guests } = await req.json();
+    const { email, guest_count, phone, anonymous, guests, deposit_paid, full_paid } = await req.json();
 
     if (!email) {
       return NextResponse.json({ error: 'Email required' }, { status: 400 });
@@ -59,16 +59,20 @@ export async function PUT(req: NextRequest) {
     const guestDetails = guests && guests.length > 0 ? JSON.stringify(guests) : null;
     const newNotes = originalNotes ? `${originalNotes}${guestDetails ? `\n\nGuest Details: ${guestDetails}` : ''}` : (guestDetails ? `Guest Details: ${guestDetails}` : null);
 
+    const updatePayload: any = {
+      guest_count: parseInt(guest_count) || 1,
+      phone: phone || null,
+      anonymous: !!anonymous,
+      notes: newNotes
+    };
+    if (deposit_paid !== undefined) updatePayload.deposit_paid = deposit_paid;
+    if (full_paid !== undefined) updatePayload.full_paid = full_paid;
+
     const { data, error } = await supabase
       .from('cruise_signups')
-      .update({
-        guest_count: parseInt(guest_count) || 1,
-        phone: phone || null,
-        anonymous: !!anonymous,
-        notes: newNotes
-      })
+      .update(updatePayload)
       .eq('email', email.toLowerCase().trim())
-      .select('id, name, email, phone, guest_count, notes, anonymous, created_at')
+      .select('id, name, email, phone, guest_count, notes, anonymous, deposit_paid, full_paid, created_at')
       .single();
 
     if (error || !data) {

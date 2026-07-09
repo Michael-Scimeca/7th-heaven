@@ -150,7 +150,11 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
     email,
     password,
     email_confirm: true,
-    user_metadata: { full_name: name, username: username || '' },
+    user_metadata: {
+      full_name: name,
+      username: username || '',
+      needs_password_reset: true,   // triggers Set-Your-Password modal on first login
+    },
   });
   if (authErr) {
     console.error('Auth error creating crew member:', authErr);
@@ -207,6 +211,75 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
 
   revalidatePath('/admin');
   revalidatePath('/crew');
+  return { success: true, password };
+}
+
+export async function adminCreateAdmin({ name, email }: { name: string; email: string }) {
+  console.log(`[Admin] Creating admin account for ${email}`);
+  // Generate a secure temporary password
+  const password = Math.random().toString(36).slice(-10) + '!A7';
+
+  // Create Supabase auth user
+  const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: {
+      full_name: name,
+      needs_password_reset: true,
+    },
+  });
+  if (authErr) {
+    console.error('[Admin] Auth error creating admin:', authErr);
+    return { success: false, error: authErr.message };
+  }
+
+  // Set role = admin in profiles table
+  if (authData?.user) {
+    const { error: profileErr } = await supabaseAdmin
+      .from('profiles')
+      .update({ role: 'admin' })
+      .eq('id', authData.user.id);
+    if (profileErr) {
+      console.error('[Admin] Profile role update error:', profileErr);
+      return { success: false, error: profileErr.message };
+    }
+  }
+
+  // Send welcome email
+  try {
+    const { sendEmail } = await import('@/lib/email');
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    await sendEmail({
+      to: email,
+      subject: '🔐 Your 7th Heaven Admin Account',
+      html: `
+        <div style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0f;color:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
+          <div style="padding:36px 32px 24px;background:linear-gradient(135deg,#1a1200,#0a0a0f);text-align:center;">
+            <p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:4px;color:#f59e0b;font-weight:800;">7th Heaven Live</p>
+            <h1 style="margin:0 0 8px;font-size:24px;font-weight:900;">Admin Account Created 🔐</h1>
+            <p style="margin:0;color:rgba(255,255,255,0.4);font-size:14px;">You now have full admin access to the 7th Heaven platform.</p>
+          </div>
+          <div style="padding:32px;">
+            <p style="color:rgba(255,255,255,0.6);font-size:15px;margin:0 0 24px;">Hey <strong style="color:#fff;">${name}</strong>, here are your login credentials:</p>
+            <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:20px 24px;margin-bottom:24px;">
+              <div style="margin-bottom:12px;"><span style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);">Email</span><br/><strong style="color:#fff;font-size:15px;">${email}</strong></div>
+              <div><span style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);">Temporary Password</span><br/><code style="color:#f59e0b;font-size:20px;font-weight:900;letter-spacing:2px;">${password}</code></div>
+            </div>
+            <p style="color:rgba(255,255,255,0.4);font-size:13px;margin:0 0 24px;">Please change your password after your first login. Keep these credentials secure — do not share them.</p>
+            <a href="${siteUrl}/admin" style="display:inline-block;background:#f59e0b;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 32px;border-radius:10px;">Access Admin Dashboard →</a>
+          </div>
+          <div style="padding:16px 32px;border-top:1px solid rgba(255,255,255,0.05);text-align:center;">
+            <p style="margin:0;color:rgba(255,255,255,0.2);font-size:11px;">© 7th Heaven Live · Confidential admin credentials</p>
+          </div>
+        </div>`,
+    });
+    console.log(`[Admin] Welcome email sent to new admin ${email}`);
+  } catch (emailErr) {
+    console.error('[Admin] Admin welcome email failed (non-fatal):', emailErr);
+  }
+
+  revalidatePath('/admin');
   return { success: true, password };
 }
 

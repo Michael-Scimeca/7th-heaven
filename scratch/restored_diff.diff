@@ -1,0 +1,143 @@
+Created At: 2026-07-08T22:54:23Z
+Completed At: 2026-07-08T22:54:23Z
+
+				The command completed successfully.
+				Output:
+				<truncated 4108 lines>
++          <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
++            <span>Jump To Section</span>
++            <button
++              onClick={toggleJumpNav}
++              title="Hide Navigation"
++              className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[10px]"
++            >
++              ✕
++            </button>
++          </div>
++          <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
++            <div className="flex flex-col gap-1 text-xs pr-1">
++              {adminTab === 'band' ? (
++                <>
++                  <button
++                    onClick={() => document.getElementById('admin-sec-announcements')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
++                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
++                  >
++                    <span>📡</span> Announcements
++                  </button>
++                  <button
++                    onClick={() => document.getElementById('admin-sec-analytics')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
++                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
++                  >
++                    <span>📊</span> Google Analytics
++                  </button>
++                  {sectionOrder.map((key) => {
++                    const labelMap: Record<string, { label: string; icon: string }> = {
++                      shopify: { label: 'Shopify Store', icon: '🛒' },
++                      toursync: { label: 'Tour Sync', icon: '🔄' },
++                      bookings: { label: 'Booking Requests', icon: '📅' },
++                      planners: { label: 'Planners Directory', icon: '👥' },
++                      featuredtrack: { label: 'Featured Track', icon: '🎵' },
++                      photomod: { label: 'Photo Wall Mod', icon: '📸' },
++                      memorymod: { label: 'Memory Mod', icon: '🧠' },
++                      referral: { label: 'Referrals', icon: '🤝' },
++                      invitechallenge: { label: 'Invite Challenge', icon: '🏆' },
++                      livealerts: { label: 'Live Alerts', icon: '🚨' },
++                      smsblast: { label: 'SMS Blast', icon: '💬' },
++                      crewsms: { label: 'Crew SMS', icon: '👥' },
++                      newsletter: { label: 'Newsletter', icon: '✉️' },
++                      registry: { label: 'Fan Registry', icon: '📝' },
++                      crewcreation: { label: 'Crew Management', icon: '🛠️' },
++                      admincreation: { label: 'Admin Management', icon: '🔐' },
++                      bulkinvites: { label: 'Bulk Invites', icon: '📨' },
++                      awardpicks: { label: 'Award Picks', icon: '🏅' }
++                    };
++                    const section = labelMap[key] || { label: key, icon: '⚙️' };
++                    return (
++                      <button
++                        key={key}
++                        onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
++                        className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
++                      >
++                        <span>{section.icon}</span> {section.label}
++                      </button>
++                    );
++                  })}
++                </>
++              ) : (
++                <>
++                  <button
++                    onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
++                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
++                  >
++                    <span>🚢</span> Command Center
++                  </button>
++                  <button
++                    onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
++                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
++                  >
++                    <span>📊</span> Cruise Roster & Links
++                  </button>
++                  <button
++                    onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
++                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
++                  >
++                    <span>📡</span> Cruise Blast
++                  </button>
++                </>
++              )}
++            </div>
++          </CustomScrollbar>
++        </div>
++      )}
++
++      <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
++      <div className="site-container relative z-10 px-4 md:px-6">
++        
+         <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
+           <div className="flex items-center gap-5">
+             <div className="relative w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-xl font-black text-amber-400">
+@@ -3453,6 +7327,22 @@ return (
+           ))}
+         </div>
+ 
++        {/* Crew Work Schedule Calendar - Full Bleed */}
++        <div className="mb-8">
++          {(() => {
++            try {
++              return renderCrewSchedule();
++            } catch (err: any) {
++              return (
++                <div className="bg-red-900/30 border border-red-500/50 rounded-xl p-6 text-red-300">
++                  <p className="font-bold text-lg mb-2">⚠️ Schedule Section Error</p>
++                  <pre className="text-xs text-red-200/70 whitespace-pre-wrap">{err?.message || String(err)}</pre>
++                </div>
++              );
++            }
++          })()}
++        </div>
++
+         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+           
+           <div className="xl:col-span-2 flex flex-col gap-8">
+@@ -3679,6 +7569,7 @@ return (
+                 case 'newsletter': component = renderNewsletter(); break;
+                 case 'registry': component = renderRegistry(); break;
+                 case 'crewcreation': component = renderCrewCreation(); break;
++                case 'admincreation': component = renderAdminCreation(); break;
+                 case 'invitechallenge': component = renderInviteChallenge(); break;
+                 case 'bulkinvites': component = renderBulkInvites(); break;
+                 case 'awardpicks': component = renderAwardPicks(); break;
+@@ -4194,6 +8085,12 @@ return (
+           </>
+         )}
+ 
++      {showSetPassword && (
++        <CrewSetPasswordModal
++          email={firstLoginEmail}
++          onComplete={() => setShowSetPassword(false)}
++        />
++      )}
+       </div>
+     </div>
+   );
+

@@ -50,6 +50,7 @@ export const shows = [
  { day: "Sat", date: "May 24", venue: "Bandito Barney's", city: "East Dundee", state: "IL", time: "9:00pm", info: "Outdoor", mapUrl: "https://maps.apple.com/?address=10%20N%20River%20St,%20East%20Dundee,%20IL%2060118", websiteUrl: "https://www.banditobarneysbeachclub.com" },
  { day: "Thu", date: "May 29", venue: "Will County Beer & Bourbon Fest", city: "Joliet", state: "IL", time: "6:00pm", info: "Festival", mapUrl: "", websiteUrl: "https://habitatwill.org/events/mix-of-26-beyond-beer-bourbon-fest/friday-event-details/" },
  { day: "Fri", date: "May 30", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
+ { day: "Wed", date: "July 1", venue: "Arlington Hts Frontier Days", city: "Arlington Hts", state: "IL", time: "8:00pm", info: "Outdoor All-Age Festival", mapUrl: "https://maps.apple.com/?address=Arlington+Heights,+IL", websiteUrl: "" },
 ];
 
 // --- Helper functions ---
@@ -165,7 +166,8 @@ interface TourListProps {
 }
 
 export default function TourList({ initialShows, hideMap, maxShows }: TourListProps) {
-  const { member } = useMember();
+  const { member, isLoggedIn, openModal } = useMember();
+  const isFan = isLoggedIn && member?.email && (member?.role === 'fan' || member?.role === 'admin');
   const devBypass = typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
   const [showPastShows, setShowPastShows] = useState(false);
   const [activeMonth, setActiveMonth] = useState("All");
@@ -178,6 +180,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   // Subscribed show IDs for custom specific notifications
   const [subscribedShowIds, setSubscribedShowIds] = useState<string[]>([]);
   const [subscribingId, setSubscribingId] = useState<string | null>(null);
+
+  // Notification popup state
+  const [notifyPopupShow, setNotifyPopupShow] = useState<any>(null);
+  const [notifyPrefs, setNotifyPrefs] = useState({ proximity: true, thisShow: true, newsletter: false });
 
   // Live ticking time for countdowns
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
@@ -375,59 +381,72 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       .catch(err => console.error("Error loading notification subscriptions:", err));
   }, [member?.email]);
 
-  const handleToggleNotification = async (show: any) => {
-    const email = member?.email || window.prompt("Enter your email to receive notification about this show:");
-    if (!email || !email.trim()) return;
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (!emailRegex.test(email.trim())) {
-      alert("Please enter a valid email address.");
+  const handleToggleNotification = (show: any) => {
+    // Not logged in → open sign-up modal
+    if (!isLoggedIn || !member?.email) {
+      openModal?.('signup');
       return;
     }
 
     const showId = show._id;
-    if (!showId) {
-      alert("Invalid show ID. Fallback shows cannot be tracked.");
+    if (!showId) return;
+
+    // Already subscribed → unsubscribe immediately
+    if (subscribedShowIds.includes(showId)) {
+      handleUnsubscribe(showId);
       return;
     }
 
-    const isSubscribed = subscribedShowIds.includes(showId);
-    setSubscribingId(showId);
+    // Show the notification preferences popup
+    setNotifyPopupShow(show);
+    setNotifyPrefs({ proximity: true, thisShow: true, newsletter: false });
+  };
 
+  const handleUnsubscribe = async (showId: string) => {
+    const email = member?.email;
+    if (!email) return;
+    setSubscribingId(showId);
     try {
-      if (isSubscribed) {
-        const res = await fetch(`/api/shows/notify-me?email=${encodeURIComponent(email)}&showId=${encodeURIComponent(showId)}`, {
-          method: "DELETE"
-        });
-        if (res.ok) {
-          setSubscribedShowIds(prev => prev.filter(id => id !== showId));
-        } else {
-          alert("Failed to unsubscribe. Please try again.");
-        }
-      } else {
-        const res = await fetch("/api/shows/notify-me", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            showId,
-            email: email.trim(),
-            venueName: show.venue,
-            showDate: show.date,
-            city: show.city,
-            state: show.state
-          })
-        });
-        if (res.ok) {
-          setSubscribedShowIds(prev => [...prev, showId]);
-        } else {
-          const errData = await res.json();
-          alert(errData.error || "Failed to subscribe. Please try again.");
-        }
+      const res = await fetch(`/api/shows/notify-me?email=${encodeURIComponent(email)}&showId=${encodeURIComponent(showId)}`, {
+        method: "DELETE"
+      });
+      if (res.ok) {
+        setSubscribedShowIds(prev => prev.filter(id => id !== showId));
       }
-    } catch (err) {
+    } catch {} finally {
+      setSubscribingId(null);
+    }
+  };
+
+  const handleNotifyConfirm = async () => {
+    if (!notifyPopupShow || !member?.email) return;
+    const showId = notifyPopupShow._id;
+    setSubscribingId(showId);
+    try {
+      const res = await fetch("/api/shows/notify-me", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          showId,
+          email: member.email.trim(),
+          venueName: notifyPopupShow.venue,
+          showDate: notifyPopupShow.date,
+          city: notifyPopupShow.city,
+          state: notifyPopupShow.state,
+          preferences: notifyPrefs
+        })
+      });
+      if (res.ok) {
+        setSubscribedShowIds(prev => [...prev, showId]);
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.error || "Failed to subscribe. Please try again.");
+      }
+    } catch {
       alert("Network error. Please check connection.");
     } finally {
       setSubscribingId(null);
+      setNotifyPopupShow(null);
     }
   };
 
@@ -849,7 +868,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
          <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible">
            {/* Desktop Row Layout */}
            <div
-            className={`relative hidden lg:grid ${gridClass} gap-6 px-8 py-8 border items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`relative hidden lg:grid ${gridClass} gap-6 px-8 py-4 border items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
              {isUpNext && (<span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">Up Next</span>)}
@@ -896,7 +915,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 })}
               </span>
              <span className="flex items-center justify-center gap-2">
-              {show._id && (
+              {show._id && isFan && (
                 <button
                   onClick={() => handleToggleNotification(show)}
                   disabled={subscribingId === show._id}
@@ -996,7 +1015,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
            {/* Mobile/Tablet Card Layout */}
            <div
-            className={`relative lg:hidden flex flex-col gap-4 p-5 border text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`relative lg:hidden flex flex-col gap-3 py-3 px-4 border text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={`${rowId}-mobile`}
            >
              {isUpNext && (<span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">Up Next</span>)}
@@ -1066,7 +1085,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                  );
                })()}
 
-               {show._id && (
+               {show._id && isFan && (
                  <button
                    onClick={() => handleToggleNotification(show)}
                    disabled={subscribingId === show._id}
@@ -1287,6 +1306,138 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* ═══ Notification Preferences Popup ═══ */}
+    {notifyPopupShow && (
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={() => setNotifyPopupShow(null)}>
+        <div className="bg-[#0c0c18] border border-white/10 rounded-2xl w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(133,29,239,0.3)] animate-[fadeIn_0.2s_ease]" onClick={(e) => e.stopPropagation()}>
+          {/* Accent bar */}
+          <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
+
+          <div className="p-6">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-purple-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-white font-bold text-sm">Set Up Alerts</h3>
+                  <p className="text-[10px] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
+                </div>
+              </div>
+              <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+              </button>
+            </div>
+
+            {/* Show info */}
+            <div className="bg-white/[0.03] border border-white/5 rounded-lg px-3 py-2.5 mb-4">
+              <p className="text-xs text-white/60 font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
+              <p className="text-[10px] text-white/30 mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
+            </div>
+
+            {/* What would you like? */}
+            <p className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-2 font-bold">What would you like to be notified about?</p>
+
+            <div className="flex flex-col gap-2">
+              {/* This show */}
+              <button
+                type="button"
+                onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
+                className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${
+                  notifyPrefs.thisShow
+                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                }`}
+              >
+                <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${
+                  notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                }`}>
+                  <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${
+                    notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
+                  }`} />
+                </span>
+                <div className="text-left">
+                  <p className="text-xs font-bold text-white/80">🎤 This specific show</p>
+                  <p className="text-[10px] text-white/30">Reminders & updates for {notifyPopupShow.venue}</p>
+                </div>
+              </button>
+
+              {/* Proximity shows */}
+              <button
+                type="button"
+                onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
+                className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${
+                  notifyPrefs.proximity
+                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                }`}
+              >
+                <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${
+                  notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                }`}>
+                  <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${
+                    notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
+                  }`} />
+                </span>
+                <div className="text-left">
+                  <p className="text-xs font-bold text-white/80">📍 Shows near me</p>
+                  <p className="text-[10px] text-white/30">Get emailed when we book near your area</p>
+                </div>
+              </button>
+
+              {/* Newsletter */}
+              <button
+                type="button"
+                onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
+                className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${
+                  notifyPrefs.newsletter
+                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                }`}
+              >
+                <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${
+                  notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                }`}>
+                  <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${
+                    notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
+                  }`} />
+                </span>
+                <div className="text-left">
+                  <p className="text-xs font-bold text-white/80">📧 Newsletter & exclusives</p>
+                  <p className="text-[10px] text-white/30">News, drops & merch updates</p>
+                </div>
+              </button>
+            </div>
+
+            {/* Sending to email */}
+            <p className="text-[10px] text-white/20 mt-3 text-center">
+              Notifications will be sent to <span className="text-white/40 font-semibold">{member?.email}</span>
+            </p>
+
+            {/* Actions */}
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={() => setNotifyPopupShow(null)}
+                className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/60 font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleNotifyConfirm}
+                disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
+                className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(133,29,239,0.3)]"
+              >
+                {subscribingId ? 'Saving...' : 'Enable Alerts 🔔'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

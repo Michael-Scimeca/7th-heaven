@@ -63,13 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
 
-    // ── Tour ──
-    {
-      url: `${baseUrl}/tour`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
+
 
     // ── Cruise ──
     {

@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 interface CountdownTimerProps {
  targetDate: string;
  targetTime?: string;
+ compact?: boolean;
 }
 
-export default function CountdownTimer({ targetDate, targetTime }: CountdownTimerProps) {
+export default function CountdownTimer({ targetDate, targetTime, compact = false }: CountdownTimerProps) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 30 });
   const [isHappening, setIsHappening] = useState(false);
 
@@ -62,12 +63,12 @@ export default function CountdownTimer({ targetDate, targetTime }: CountdownTime
 
   if (isHappening) {
    return (
-    <div className="flex items-center gap-3 px-5 py-3 bg-red-500/10 border border-red-500/30 rounded-lg shadow-[0_0_20px_rgba(239,68,68,0.2)] animate-pulse shrink-0">
-     <span className="relative flex h-3.5 w-3.5">
+    <div className={`flex items-center gap-2 rounded-lg shadow-[0_0_20px_rgba(239,68,68,0.2)] animate-pulse shrink-0 ${compact ? 'px-3 py-1.5 bg-red-500/10 border border-red-500/20' : 'px-5 py-3 bg-red-500/10 border border-red-500/30'}`}>
+     <span className="relative flex h-2.5 w-2.5">
       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-      <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500"></span>
+      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
      </span>
-     <span className="text-xs font-black uppercase tracking-[0.25em] text-white">LIVE SHOW HAPPENING NOW</span>
+     <span className={`font-black uppercase tracking-[0.2em] text-white ${compact ? 'text-[7px]' : 'text-xs'}`}>LIVE NOW</span>
     </div>
    );
   }
@@ -89,21 +90,19 @@ export default function CountdownTimer({ targetDate, targetTime }: CountdownTime
   ];
 
   return (
-   <div className="flex items-center gap-2 shrink-0">
+   <div className={`flex items-center shrink-0 ${compact ? 'gap-1' : 'gap-2'}`}>
     {units.map((u, i) => (
-     <div key={u.label} className="flex items-center gap-2">
-      <div className="flex flex-col items-center border border-white/10 bg-white/[0.03] px-3 py-2 min-w-[52px]">
+     <div key={u.label} className={`flex items-center ${compact ? 'gap-1' : 'gap-2'}`}>
+      <div className={`flex flex-col items-center border border-white/10 bg-white/[0.03] ${compact ? 'px-1.5 py-1 min-w-[34px]' : 'px-3 py-2 min-w-[52px]'}`}>
        <span
-        className="text-3xl md:text-[2.2rem] font-extrabold leading-none tabular-nums transition-colors duration-1000"
+        className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-xs' : 'text-3xl md:text-[2.2rem]'}`}
         style={{ color: numberColor }}
        >
         {String(u.value).padStart(2, "0")}
        </span>
-       <span className="text-2xs uppercase tracking-[0.2em] text-white/30 font-bold mt-1">{u.label}</span>
+       <span className={`uppercase tracking-wider ${compact ? 'text-[5px] font-medium text-white/20 mt-0.5' : 'text-[8px] font-bold text-white/30 mt-1'}`}>{u.label}</span>
       </div>
-      {i < units.length - 1 && (
-       <span className="text-2xl font-bold text-[var(--color-accent)]/50 -mt-3">:</span>
-      )}
+      {i < 3 && <span className={`text-white/20 font-light ${compact ? 'text-[10px]' : 'text-xl'}`}>:</span>}
      </div>
     ))}
    </div>

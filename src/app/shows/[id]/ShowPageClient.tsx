@@ -327,7 +327,7 @@ export default function ShowPageClient({
       <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b border-white/5 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(133,29,239,0.2)_0%,_transparent_60%)]" />
         <div className="site-container py-14 md:py-20 relative z-10">
-          <Link href="/tour" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/30 hover:text-white/60 transition-colors mb-8 font-bold">
+          <Link href="/#tour" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/30 hover:text-white/60 transition-colors mb-8 font-bold">
             ← All Shows
           </Link>
 

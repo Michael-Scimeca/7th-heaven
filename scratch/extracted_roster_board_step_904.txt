@@ -1,0 +1,631 @@
+const renderRosterBoard = () => {
+      return ({
+w        <div className="w-full max-h-[700px] overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner">
+          <table className={`w-full border-collapse text-left select-none table-fixed bg-transparent ${filteredDays.length <= 2 ? 'min-w-0' : 'min-w-[1000px]'}`}>
+          <table className={`w-full border-collapse text-left select-none table-fixed bg-transparent ${filteredDays.length <= 2 ? 'min-w-0' : 'min-w-[1200px]'}`}>
+            <thead>~
+z              <tr className="border-b border-white/20 bg-white/[0.02] text-white/40 text-[11px] font-bold tracking-wider">
+                <th className="p-3 w-56 border-r border-white/15 border-b border-white/20 uppercase wiw-sticky-corner">First Name</th>5
+1                {filteredDays.map((day, idx) => {>
+:                  const dayShow = getDayShow(day.dateStr);
+                  return (
+                    <th key={day.dateStr} className="p-3 w-48 border-r border-white/15 border-b border-white/20 last:border-r-0 relative group text-white/40 wiw-sticky-header">
+                    <th key={day.dateStr} className="p-3 w-48 border-r border-white/15 border-b border-white/20 relative group text-white/40 wiw-sticky-header">F
+B                      <div className="flex flex-col gap-1 w-full">O
+K                        <div className="flex items-center justify-between">R
+N                          <span>{getDayLabelOverride(day.dateStr, idx)}</span>|
+x                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button className="p-0.5 hover:bg-white/5 rounded text-white/40 hover:text-white border-none bg-transparent cursor-pointer">
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>)
+%                            </button>
+                            <button className="p-0.5 hover:bg-white/5 rounded text-white/40 hover:text-white border-none bg-transparent cursor-pointer">
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 19V5"/><polyline points="5 12 12 5 19 12"/></svg>)
+%                            </button>$
+                           </div>"
+                        </div>)
+%                        {dayShow && (%
+!                          <button-
+)                            type="button"1
+-                            onClick={(e) => {6
+2                              e.stopPropagation();G
+C                              setSelectedShowCrewDate(day.dateStr);"
+                            }}
+                            className="mt-1 w-full text-[9px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"n
+j                            title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
+                          >J
+F                            🎸 {dayShow.venue || dayShow.venue_name}'
+#                          </button>
+                        )} 
+                      </div>
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody>+
+'              {/* Row 1: OpenShifts */}
+{              <tr className="border-b border-white/15 bg-emerald-500/[0.02] hover:bg-emerald-500/[0.04] transition-colors">]
+Y                <td className="p-3 border-r border-white/15 align-middle wiw-sticky-col">A
+=                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full border-2 border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 shadow-sm">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+                    </div>
+                    <div>i
+e                      <span className="text-sm font-extrabold text-white/85 block">Open Shifts</span>
+}                      <span className="text-[9px] text-white/25 font-bold uppercase tracking-wider">Unfilled positions</span>
+                    </div>
+                  </div>
+                </td>.
+*                {filteredDays.map(day => {s
+o                  const dayShifts = schedules.filter(s => s.date === day.dateStr && s.crewId === 'openshifts');
+                  return (
+                    <td+
+'                      key={day.dateStr}
+                      className="p-2 border-r border-white/15 last:border-r-0 align-top relative min-h-[80px] hover:bg-white/[0.02] transition-colors cursor-pointer".
+*                      onDragOver={(e) => {/
++                        e.preventDefault();S
+O                        if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+                      }}X
+T                      onDrop={(e) => handleDropOnCell(e, day.dateStr, 'openshifts')}^
+Z                      onClick={() => handleCellClick(day.dateStr, 'openshifts', 'SERVER')}
+                    >3
+/                      {dayShifts.length > 0 ? (
+                        <>E
+A                          <div className="flex flex-col gap-1.5">P
+L                            {dayShifts.map(shift => renderShiftCard(shift))}$
+                           </div>%
+!                          <button-
+)                            type="button"1
+-                            onClick={(e) => {6
+2                              e.stopPropagation();W
+S                              handleCellClick(day.dateStr, 'openshifts', 'SERVER');"
+                            }}
+                            className="mt-1 w-full py-1 flex items-center justify-center gap-1 text-[9px] font-bold text-white/25 hover:text-white/60 bg-transparent hover:bg-white/[0.03] border border-dashed border-white/15 hover:border-white/35 rounded transition-all cursor-pointer"
+                          >
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>#
+                            ADD'
+#                          </button>
+                        </>
+                      ) : (
+                        <div className="h-full min-h-[60px] flex items-center justify-center border border-dashed border-emerald-500/25 hover:border-emerald-500/50 rounded-md transition-colors">
+                          <div className="flex flex-col items-center gap-1 text-white/10 hover:text-emerald-400/50 transition-colors">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>$
+                           </div>"
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>@
+<              {/* Crew Rows — individually collapsible */}6
+2              {filteredCrewMembers.map(member => {S
+O                const totalHours = getCrewScheduledHours(member.id, next7Days);b
+^                const monthHours = getCrewScheduledHoursForMonth(member.id, currentWeekStart);R
+N                const hoursStatus = getCrewHoursStatus(member.id, totalHours);_
+[                const hasExclamation = member.id === 'arjun' || member.id === 'dave_croke';M
+I                const isCollapsed = collapsedCrewIds.includes(member.id);
+                const shiftCount = schedules.filter(s => next7Days.some(d => d.dateStr === s.date) && s.crewId === member.id).length;2
+.                const toggleCollapse = () => {1
+-                  setCollapsedCrewIds(prev =>m
+i                    prev.includes(member.id) ? prev.filter(id => id !== member.id) : [...prev, member.id]
+                  );
+                };
+                &
+"                if (isCollapsed) {
+                  return (
+                    <tr key={member.id} className="border-b border-white/15 hover:bg-white/[0.02] transition-colors cursor-pointer" onClick={toggleCollapse}>V
+R                      <td colSpan={filteredDays.length + 1} className="px-3 py-2">G
+C                        <div className="flex items-center gap-2.5">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white/30 shrink-0 transition-transform">C
+?                            <polyline points="9 18 15 12 9 6"/>$
+                           </svg><
+8                          <CrewAvatar member={member} />d
+`                          <span className="text-xs font-bold text-white/50">{member.name}</span>"
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+                
+                return (w
+s                  <tr key={member.id} className="border-b border-white/15 hover:bg-white/[0.01] transition-colors">
+                    <td className="p-3 border-r border-white/15 align-top relative cursor-pointer wiw-sticky-col" onClick={toggleCollapse}>C
+?                      <div className="flex items-center gap-3">0
+,                        {hasExclamation && (
+                          <div className="absolute left-1 top-1/2 -translate-y-1/2 text-amber-500" title="Warning: Schedule issues">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>$
+                           </div>
+                        )}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white/30 shrink-0 transition-transform">A
+=                          <polyline points="6 9 12 15 18 9"/>"
+                        </svg>:
+6                        <CrewAvatar member={member} />K
+G                        <div className="min-w-0 wiw-tooltip-container">g
+c                          <p className="text-sm font-bold text-white/80 truncate">{member.name}</p>
+                          P
+L                          <div className="flex items-center gap-1.5 mt-1.5">7
+3                            {member.id === 'al' ? (
+                              <div className="flex items-center gap-1 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase text-rose-400 tracking-wider">J
+F                                <span className="opacity-75">W:</span>C
+?                                <span>🚫 {totalHours}h</span>(
+$                              </div>%
+!                            ) : (
+                              <div className="flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase text-white/60 tracking-wider">M
+I                                <span className="text-white/30">W:</span>U
+Q                                <span className="text-white">{totalHours}h</span>(
+$                              </div>"
+                            )}
+                            <div className="flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase text-white/60 tracking-wider">K
+G                              <span className="text-white/30">M:</span>S
+O                              <span className="text-white">{monthHours}h</span>&
+"                            </div> 
+                            9
+5                            {/* Info Tooltip Icon */}
+                            <div className="info-tooltip-container cursor-help text-white/40 hover:text-white transition-colors ml-1 p-0.5" onClick={(e) => e.stopPropagation()}>
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">D
+@                                <circle cx="12" cy="12" r="10"/>K
+G                                <line x1="12" y1="16" x2="12" y2="12"/>L
+H                                <line x1="12" y1="8" x2="12.01" y2="8"/>(
+$                              </svg>
+                              <div className="info-tooltip bg-[#1c1d22] text-white py-1.5 px-2.5 rounded-lg shadow-xl text-center border border-slate-700/50 text-[10px] font-bold tracking-wide uppercase leading-none pointer-events-none">?
+;                                Week and month hours worked(
+$                              </div>&
+"                            </div>$
+                           </div>?
+;                          {hoursStatus.status !== 'ok' && (
+                            <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg shadow-xl text-left border border-slate-700/50 w-48 leading-relaxed font-sans text-xs">
+                              <div className="font-bold text-slate-200">Scheduled: <span className="text-white">{totalHours} hours</span></div>p
+l                              <div className="text-slate-400 mt-0.5">Max: {hoursStatus.maxHours} hours</div>j
+f                              <div className="text-rose-400 font-bold mt-1.5 flex items-center gap-1">W
+S                                <span>🚫</span> {hoursStatus.over} hours over max(
+$                              </div>
+                              <div className="text-[10px] text-slate-500 border-t border-slate-700/50 mt-2 pt-1 flex items-center justify-between">J
+F                                <span>From 12a Mon - 11:59p Sun</span>Y
+U                                <span className="text-slate-400 font-bold">❓</span>(
+$                              </div>&
+"                            </div> 
+                          )}"
+                        </div> 
+                      </div>
+                    </td>2
+.                    {filteredDays.map(day => {t
+p                      const dayShifts = schedules.filter(s => s.date === day.dateStr && s.crewId === member.id);"
+                      return (
+                        <td/
++                          key={day.dateStr}
+                          className="p-2 border-r border-white/15 last:border-r-0 align-top relative min-h-[85px] hover:bg-white/[0.02] transition-colors cursor-pointer"2
+.                          onDragOver={(e) => {3
+/                            e.preventDefault();W
+S                            if (e.dataTransfer) e.dataTransfer.dropEffect = "move"; 
+                          }}Y
+U                          onDrop={(e) => handleDropOnCell(e, day.dateStr, member.id)}n
+j                          onClick={() => handleCellClick(day.dateStr, member.id, member.role || 'SERVER')}
+                        >E
+A                          <div className="flex flex-col gap-1.5">P
+L                            {dayShifts.map(shift => renderShiftCard(shift))}$
+                           </div>8
+4                          {dayShifts.length > 0 && ('
+#                            <button/
++                              type="button"3
+/                              onClick={(e) => {8
+4                                e.stopPropagation();e
+a                                handleCellClick(day.dateStr, member.id, member.role || 'SERVER');$
+                               }}
+                              className="mt-1 w-full py-1 flex items-center justify-center gap-1 text-[9px] font-bold text-white/25 hover:text-white/60 bg-transparent hover:bg-white/[0.03] border border-dashed border-white/15 hover:border-white/35 rounded transition-all cursor-pointer"!
+                            >
+                              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>%
+!                              ADD)
+%                            </button> 
+                          )}!
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}4
+0              {/* Collapse/Expand All toggle */}6
+2              {filteredCrewMembers.length > 3 && (=
+9                <tr className="border-b border-white/15">L
+H                  <td colSpan={filteredDays.length + 1} className="p-0">
+                    <button'
+#                      type="button"*
+&                      onClick={() => {N
+J                        const allIds = filteredCrewMembers.map(m => m.id);c
+_                        const allCollapsed = allIds.every(id => collapsedCrewIds.includes(id));L
+H                        setCollapsedCrewIds(allCollapsed ? [] : allIds);
+                      }}
+                      className="w-full px-4 py-1.5 flex items-center gap-2 text-left border-none bg-transparent hover:bg-white/[0.02] transition-colors cursor-pointer group"
+                    >
+                      <span className="text-[9px] font-bold text-white/15 group-hover:text-white/40 uppercase tracking-wider transition-colors">
+                        {filteredCrewMembers.every(m => collapsedCrewIds.includes(m.id)) ? '▸ Expand All' : '▾ Collapse All'}!
+                      </span>!
+                    </button>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      );
+
+    };'
+#    const renderListBoard = () => {
+      return (^
+Z        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3 select-none">(
+$          {filteredDays.map(day => {
+            const dayShifts = scheduleCrewFilter ? schedules.filter(s => s.date === day.dateStr && (s.crewId === scheduleCrewFilter || s.crewId === 'openshifts')) : schedules.filter(s => s.date === day.dateStr);^
+Z            const sortedShifts = [...dayShifts].sort((a, b) => a.startHour - b.startHour);W
+S            const isHovered = activeDropDay === day.dateStr && draggedCrewMemberId;
+            
+            return (
+              <div %
+!                key={day.dateStr}{
+w                className={`rounded-xl border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-all shadow-sm ${Y
+U                  isHovered ? 'bg-amber-500/5 border-amber-500/30' : 'border-white/5'
+                }`}(
+$                onDragOver={(e) => {)
+%                  e.preventDefault();+
+'                  if (e.dataTransfer) {;
+7                    e.dataTransfer.dropEffect = "move";
+                  }4
+0                  setActiveDropDay(day.dateStr);
+                }}(
+$                onDragLeave={() => {:
+6                  if (activeDropDay === day.dateStr) {/
++                    setActiveDropDay(null);
+                  }
+                }}$
+                 onDrop={(e) => {)
+%                  e.preventDefault();*
+&                  e.stopPropagation();
+                  .
+*                  setDraggedShiftId(null);7
+3                  draggedShiftIdRef.current = null;
+                  L
+H                  const dragData = e.dataTransfer.getData("text/plain");:
+6                  if (dragData.startsWith("shift:")) {?
+;                    const shiftId = dragData.split(":")[1];1
+-                    setSchedules(current => {<
+8                      const updated = current.map(s => {3
+/                        if (s.id === shiftId) {A
+=                          return { ...s, date: day.dateStr };
+                        }%
+!                        return s;
+                      });]
+Y                      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));E
+A                      window.dispatchEvent(new Event('storage'));7
+3                      fetch("/api/crew/calendar", {+
+'                        method: "POST",L
+H                        headers: { "Content-Type": "application/json" },9
+5                        body: JSON.stringify(updated)[
+W                      }).catch(err => console.error("Failed to sync schedules:", err));)
+%                      return updated;
+                    });
+                  }
+                }}
+              >n
+j                <div className="text-center pb-2 border-b border-white/5 mb-2 flex flex-col items-center">
+{                  <span className="text-[9px] uppercase font-bold tracking-widest text-white/30 block">{day.dayName}</span>|
+x                  <span className="text-xs font-bold text-white/70 block mt-0.5">{day.monthName} {day.dayOfMonth}</span>
+                  {(() => {@
+<                    const dayShow = getDayShow(day.dateStr);2
+.                    if (!dayShow) return null; 
+                    return ("
+                      <button )
+%                        type="button"-
+)                        onClick={(e) => {2
+.                          e.stopPropagation();C
+?                          setSelectedShowCrewDate(day.dateStr);
+                        }}
+                        className="mt-1 w-full text-[8.5px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1.5 py-0.5 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1"j
+f                        title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
+                      >F
+B                        🎸 {dayShow.venue || dayShow.venue_name}#
+                      </button>
+                    );
+                  })()}
+                </div>@
+<                <div className="flex-1 flex flex-col gap-2">4
+0                  {sortedShifts.length === 0 ? (
+                    <div className="flex-1 flex items-center justify-center border border-dashed border-white/5 rounded-lg p-4 bg-black/20">e
+a                      <span className="text-[10px] text-white/30 italic font-medium">Empty</span>
+                    </div>
+                  ) : (O
+K                    sortedShifts.map(shift => renderShiftCard(shift, true))
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+
+    };*
+&    const renderTimelineGrid = () => {@
+<      const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
+      return (t
+p        <div className="flex flex-col bg-[#0f0f13] border border-white/5 rounded-xl p-4 shadow-2xl select-none">0
+,          <div className="flex select-none">1
+-            <div className="w-14 shrink-0" />n
+j            <div className="flex-1 grid grid-cols-7 gap-2 text-center pb-2 border-b border-white/10 mb-2">.
+*              {filteredDays.map((day) => {W
+S                const count = schedules.filter(s => s.date === day.dateStr).length;
+                return (j
+f                  <div key={day.dateStr} className="min-w-0 flex flex-col items-center justify-start">u
+q                    <p className="text-[10px] uppercase font-bold tracking-wider text-white/30">{day.dayName}</p>r
+n                    <p className="text-xs font-bold text-white/70 mt-0.5">{day.monthName} {day.dayOfMonth}</p>!
+                    {(() => {B
+>                      const dayShow = getDayShow(day.dateStr);4
+0                      if (!dayShow) return null;"
+                      return ($
+                         <button +
+'                          type="button"/
++                          onClick={(e) => {4
+0                            e.stopPropagation();E
+A                            setSelectedShowCrewDate(day.dateStr); 
+                          }}
+                          className="mt-1 w-full text-[7.5px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1 text-center"l
+h                          title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
+                        >H
+D                          🎸 {dayShow.venue || dayShow.venue_name}%
+!                        </button>
+                      );
+                    })()}
+                  </div>
+                );
+              })}
+            </div>
+          </div>-
+)          <div className="flex relative">
+            <div className="w-14 shrink-0 h-[480px] relative flex flex-col justify-between text-[9px] font-bold text-white/30 pr-2 pt-0.5 select-none z-10 pointer-events-none">)
+%              {hoursAxis.map((h) => (\
+X                <div key={h} className="h-0 flex items-center justify-end leading-none">%
+!                  {formatHour(h)}
+                </div>
+              ))}
+            </div>
+            <div className="flex-1 h-[480px] relative grid grid-cols-7 gap-2 bg-black/20 border border-white/5 rounded-xl overflow-hidden p-0">f
+b              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">A
+=                {Array.from({ length: 17 }).map((_, idx) => (
+                  <div "
+                    key={idx} :
+6                    className={`w-full h-0 border-b ${(
+$                      idx % 2 === 0 =
+9                        ? 'border-white/10 border-solid' <
+8                        : 'border-white/5 border-dashed'
+                    }`} 
+                  />
+                ))}
+              </div>.
+*              {filteredDays.map((day) => {q
+m                const dayShifts = schedules.filter(s => s.date === day.dateStr && s.crewId !== 'openshifts');
+                return (
+                  <div)
+%                    key={day.dateStr}P
+L                    className="h-full relative rounded-lg overflow-y-hidden">
+:                    onDragOver={(e) => e.preventDefault()}(
+$                    onDrop={(e) => {-
+)                      e.preventDefault();P
+L                      const dragData = e.dataTransfer.getData("text/plain");>
+:                      if (dragData.startsWith("shift:")) {C
+?                        const shiftId = dragData.split(":")[1];5
+1                        setSchedules(current => {@
+<                          const updated = current.map(s => {7
+3                            if (s.id === shiftId) {E
+A                              return { ...s, date: day.dateStr };!
+                            })
+%                            return s;!
+                          });a
+]                          localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));I
+E                          window.dispatchEvent(new Event('storage'));-
+)                          return updated;
+                        });
+                      }
+                    }}
+                  >1
+-                    {dayShifts.map(shift => {L
+H                      const topPct = ((shift.startHour - 8) / 16) * 100;[
+W                      const heightPct = ((shift.endHour - shift.startHour) / 16) * 100;E
+A                      const roleStyle = getRoleStyle(shift.role);"
+                      return ( 
+                        <div,
+(                          key={shift.id}/
++                          onClick={(e) => {4
+0                            e.stopPropagation();<
+8                            handleEditShiftClick(shift); 
+                          }}&
+"                          style={{5
+1                            position: 'absolute',2
+.                            top: `${topPct}%`,8
+4                            height: `${heightPct}%`,>
+:                            backgroundColor: roleStyle.bg,,
+(                            left: '4px',-
+)                            right: '4px', 
+                          }}
+                          className={`wiw-card text-white p-1 rounded-md text-[9px] font-bold overflow-hidden cursor-pointer shadow-sm ${B
+>                            shift.isDraft ? 'wiw-striped' : ''!
+                          }`}
+                        >N
+J                          <div className="truncate">{shift.crewName}</div>
+|                          <div className="opacity-80 text-[8px]">{formatTimeStringWIW(shift.startHour, shift.endHour)}</div>"
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      );
+
+    };
+    return (n
+j      <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
+        <style>{`(
+$          .wiw-scheduler-container {*
+&            background-color: #0f0f13;
+            color: #ffffff;h
+d            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          }"
+          .wiw-sticky-header {!
+            position: sticky;
+            top: 0;
+            z-index: 30;5
+1            background-color: #0f0f13 !important;
+          }
+          .wiw-sticky-col {!
+            position: sticky;
+            left: 0;
+            z-index: 20;5
+1            background-color: #0f0f13 !important;
+          }"
+          .wiw-sticky-corner {!
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 40;5
+1            background-color: #0f0f13 !important;
+          }(
+$          tr:hover .wiw-sticky-col {5
+1            background-color: #16161f !important;
+          }
+          .wiw-card {2
+.            transition: all 0.15s ease-in-out;#
+            position: relative;
+          }
+          .wiw-card:hover {,
+(            transform: translateY(-1px);c
+_            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.08);
+          }
+          .wiw-striped {<
+8            background-image: repeating-linear-gradient(
+              -45deg,,
+(              rgba(255, 255, 255, 0.15),0
+,              rgba(255, 255, 255, 0.15) 8px,"
+              transparent 8px,"
+              transparent 16px
+            ) !important;
+          }&
+"          .wiw-tooltip-container {#
+            position: relative;
+          }
+          .wiw-tooltip {#
+            visibility: hidden;#
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 20px;
+            opacity: 0;E
+A            transition: opacity 0.15s ease, transform 0.15s ease;+
+'            transform: translateY(5px);
+          }9
+5          .wiw-tooltip-container:hover .wiw-tooltip {$
+             visibility: visible;
+            opacity: 1;)
+%            transform: translateY(0);
+          }'
+#          .info-tooltip-container {#
+            position: relative;%
+!            display: inline-flex;$
+             align-items: center;
+          }
+          .info-tooltip {#
+            visibility: hidden;#
+            position: absolute;
+            z-index: 101;
+            bottom: 130%;
+            left: 50%;<
+8            transform: translateX(-50%) translateY(5px);
+            opacity: 0;E
+A            transition: opacity 0.15s ease, transform 0.15s ease;$
+             white-space: nowrap;
+          };
+7          .info-tooltip-container:hover .info-tooltip {$
+             visibility: visible;
+            opacity: 1;:
+6            transform: translateX(-50%) translateY(0);
+          }
+        `}</style>"
+        {/* Section Header */}
+        <div onClick={() => toggleSection('crewschedule')} className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors text-white">\
+X          <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+            <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            </div>
+            <h3 onClick={() => toggleSection('crewschedule')} className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">?
+;              <span>📅</span> Crew Work Schedule Calendar
+            </h3>
+          </div>\
+X          <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+            <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded">Roster Schedule</span>
+            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewschedule') ? 'rotate-0' : '-rotate-90')}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+            </div>
+          </div>
+        </div>Y
+U        <div style={{ display: isSectionOpen('crewschedule') ? undefined : 'none' }}>7
+3          <div className="wiw-scheduler-container">
+            T
+P            {/* Header controls (Date range, prev/next, today, action icons) */}
+            <div className="bg-black/40 border-b border-white/5 p-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white">0
+,              {/* Left: Date Range & Nav */}E
+A              <div className="flex items-center gap-3 flex-wrap">c
+_                <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">;
+7                  {getWeekRangeLabel(currentWeekStart)}
+                </h2>
+{                <div className="flex items-center border border-white/10 bg-black/40 rounded-lg shadow-sm overflow-hidden">
+                  <button%
+!                    type="button"0
+,                    onClick={handlePrevWeek}
+                    className="p-2 hover:bg-white/5 transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"-
+)                    title="Previous Week"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                  </button>
+                  <button%
+!                    type="button"(
+$                    onClick={() => {N
+J                      document.getElementById('wiw-date-picker')?.click();
+                    }}
+                    className="p-2 hover:bg-white/5 transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"+
+'                    title="Choose Date"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  </button>
+                  <input#
+                    type="date",
+(                    id="wiw-date-picker"+
+'                    className="sr-only"*
+&                    onChange={(e) => {/
++                      if (e.target.value) {D
+@                        const chosen = new Date(e.target.value);8
+4                        const day = chosen.getDay();W
+S                        const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);P
+L                        setCurrentWeekStart(new Date(chosen.setDate(diff)));
+                      }
+                    }}
+                  />
+                  <button%
+!                    type="button"0
+,                    onClick={handleNextWeek}
+                    className="p-2 hover:bg-white/5 transition-colors text-white/40 hover:text-white cursor-pointer border-none bg-transparent")
+%                    title="Next Week"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                  </button>
+                </div>
+                <button#
+                  type="button"/
++                  onClick={handleGoToToday}
+                  className="px-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg shadow-sm transition-colors cursor-pointer border-solid"
+                >
+                  TODAY
+                </button>.
+*                <div className="relative">
+                  <select(
+$                     value={(() => {K
+G                       if (calendarRange === '4weeks') return '4weeks';I
+E                       if (calendarRange === 'month') return 'month';
+                       C
+?                       const time = currentWeekStart.getTime

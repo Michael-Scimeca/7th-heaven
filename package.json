@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^2.0.2",
@@ -56,6 +57,7 @@
     "localtunnel": "^2.0.2",
     "pg": "^8.20.0",
     "postcss": "^8.5.8",
+    "puppeteer": "^25.3.0",
     "tailwindcss": "^4.2.2",
     "typescript": "^5"
   }

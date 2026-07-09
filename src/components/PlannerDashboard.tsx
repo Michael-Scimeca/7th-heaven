@@ -67,6 +67,7 @@ export default function PlannerDashboard() {
   const [plannerName, setPlannerName] = useState('');
   const [plannerLoginError, setPlannerLoginError] = useState('');
   const [plannerLoginLoading, setPlannerLoginLoading] = useState(false);
+  const [plannerAgeConfirmed, setPlannerAgeConfirmed] = useState(false);
   const [plannerMode, setPlannerMode] = useState<'login' | 'signup'>('login');
 
   const handlePlannerLogin = async (e: React.FormEvent) => {
@@ -77,6 +78,7 @@ export default function PlannerDashboard() {
     if (plannerMode === 'signup') {
       // Create planner account in localStorage
       if (!plannerName.trim()) { setPlannerLoginError('Name is required.'); setPlannerLoginLoading(false); return; }
+      if (!plannerAgeConfirmed) { setPlannerLoginError('You must confirm you are over 18 years old to sign up.'); setPlannerLoginLoading(false); return; }
       const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
       if (accounts[plannerEmail.toLowerCase()]) {
         setPlannerLoginError('An account with this email already exists. Try signing in.');
@@ -229,6 +231,17 @@ export default function PlannerDashboard() {
                   <input type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
                     placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-fuchsia-500/50 transition-colors" required />
                 </div>
+
+                {plannerMode === 'signup' && (
+                  <div className="flex items-start gap-2.5 my-1.5 select-none cursor-pointer" onClick={() => setPlannerAgeConfirmed(p => !p)}>
+                    <input type="checkbox" checked={plannerAgeConfirmed} onChange={e => setPlannerAgeConfirmed(e.target.checked)}
+                      className="mt-0.5 w-3.5 h-3.5 rounded border-white/15 bg-white/[0.03] text-fuchsia-600 focus:ring-0 cursor-pointer accent-fuchsia-600"
+                      onClick={(e) => e.stopPropagation()} />
+                    <span className="text-[11px] font-semibold text-white/70 leading-tight">
+                      I confirm that I am <span className="text-white font-bold">18 years of age or older</span>
+                    </span>
+                  </div>
+                )}
 
                 {plannerLoginError && (
                   <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{plannerLoginError}</p>

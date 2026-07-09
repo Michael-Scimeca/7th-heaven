@@ -1,4 +1,5 @@
 "use client";
+
 import React from 'react';
 
 import { useState, useEffect, useRef } from "react";
@@ -6,7 +7,8 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { useMember } from "@/context/MemberContext";
 
-import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember, adminResetPassword } from "./actions";
+import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember, adminResetPassword, adminCreateAdmin } from "./actions";
+import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
 import ShowCrewPanel from "@/components/ShowCrewPanel";
 import InviteChallengePanel from "@/components/admin/InviteChallengePanel";
 import dynamic from 'next/dynamic';
@@ -24,6 +26,87 @@ import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
 import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
 import CustomScrollbar from "@/components/CustomScrollbar";
 
+interface ParsedCruiseNotes {
+  cabin?: string;
+  insurance?: string;
+  gratuities?: string;
+  howHeard?: string;
+  guests: { name: string; dob?: string; tshirt?: string; crownAnchor?: string }[];
+  payments: { method: string; cardholder?: string; cardMasked?: string; charge?: string }[];
+  signature?: string;
+  sigDate?: string;
+  additionalNotes?: string;
+}
+
+function parseCruiseNotes(notes: string): ParsedCruiseNotes | null {
+  if (!notes) return null;
+  const result: ParsedCruiseNotes = { guests: [], payments: [] };
+
+  // Parse Cabin Selection
+  const cabinMatch = notes.match(/Cabin Selection:\s*(.*)/i);
+  if (cabinMatch) result.cabin = cabinMatch[1].trim();
+
+  // Parse Travel Insurance
+  const insMatch = notes.match(/Travel Insurance:\s*(.*)/i);
+  if (insMatch) result.insurance = insMatch[1].trim();
+
+  // Parse Pre-paid Gratuities
+  const gratMatch = notes.match(/Pre-paid Gratuities:\s*(.*)/i);
+  if (gratMatch) result.gratuities = gratMatch[1].trim();
+
+  // Parse Hear About Us
+  const hearMatch = notes.match(/Hear About Us:\s*(.*)/i);
+  if (hearMatch) result.howHeard = hearMatch[1].trim();
+
+  // Parse Guests using regex
+  const guestRegex = /--- Guest (\d+)[^\n]*\n([\s\S]*?)(?=---|===|Payment Method|\n\n|$)/g;
+  let match;
+  while ((match = guestRegex.exec(notes)) !== null) {
+    const guestBody = match[2];
+    const nameM = guestBody.match(/Name:\s*(.*)/i);
+    const dobM = guestBody.match(/DOB:\s*(.*)/i);
+    const shirtM = guestBody.match(/T-shirt:\s*(.*)/i);
+    const caM = guestBody.match(/Crown & Anchor:\s*(.*)/i);
+    if (nameM && nameM[1].trim()) {
+      result.guests.push({
+        name: nameM[1].trim(),
+        dob: dobM ? dobM[1].trim() : undefined,
+        tshirt: shirtM ? shirtM[1].trim() : undefined,
+        crownAnchor: caM ? caM[1].trim() : undefined,
+      });
+    }
+  }
+
+  // Parse Payment Methods
+  const paymentRegex = /--- Payment Method (\d+)[^\n]*\n([\s\S]*?)(?=---|===|E-Signature|\n\n|$)/g;
+  while ((match = paymentRegex.exec(notes)) !== null) {
+    const payNum = match[1];
+    const payBody = match[2];
+    const cardM = payBody.match(/Cardholder:\s*(.*)/i);
+    const cardMaskM = payBody.match(/Card \(masked\):\s*(.*)/i);
+    const chargeM = payBody.match(/Charge:\s*(.*)/i);
+    result.payments.push({
+      method: `Card ${payNum}`,
+      cardholder: cardM ? cardM[1].trim() : undefined,
+      cardMasked: cardMaskM ? cardMaskM[1].trim() : undefined,
+      charge: chargeM ? chargeM[1].trim() : undefined,
+    });
+  }
+
+  // Parse Signature
+  const sigMatch = notes.match(/Signature:\s*(.*)/i);
+  if (sigMatch) result.signature = sigMatch[1].trim();
+
+  const sigDateMatch = notes.match(/Date Signed:\s*(.*)/i);
+  if (sigDateMatch) result.sigDate = sigDateMatch[1].trim();
+
+  // Parse Additional Notes
+  const addNotesMatch = notes.match(/--- Additional Notes ---\n([\s\S]*)/i);
+  if (addNotesMatch) result.additionalNotes = addNotesMatch[1].trim();
+
+  return result;
+}
+
 export default function AdminDashboard() {
   const { member, isLoggedIn, login, logout } = useMember();
   const [feeds, setFeeds] = useState<any[]>([]);
@@ -35,10 +118,332 @@ export default function AdminDashboard() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
+    window.scrollTo(0, 0);
   }, []);
   const [adminTab, setAdminTab] = useState<'band' | 'cruise'>('band');
   const adminTabRef = useRef<'band' | 'cruise'>('band');
   const [unreadCruiseChat, setUnreadCruiseChat] = useState(0);
+  const [showSetPassword, setShowSetPassword] = useState(false);
+  const [firstLoginEmail, setFirstLoginEmail] = useState('');
+  const [newAdminName, setNewAdminName] = useState('');
+  const [newAdminEmail, setNewAdminEmail] = useState('');
+  const [createdAdmin, setCreatedAdmin] = useState<{ name: string; email: string; password: string } | null>(null);
+  const [adminCreateError, setAdminCreateError] = useState('');
+  const [adminCreateLoading, setAdminCreateLoading] = useState(false);
+
+  const [showJumpNav, setShowJumpNav] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    const saved = localStorage.getItem('7h_show_jump_nav');
+    return saved !== 'false';
+  });
+
+  const toggleJumpNav = () => {
+    setShowJumpNav(prev => {
+      const next = !prev;
+      localStorage.setItem('7h_show_jump_nav', String(next));
+      return next;
+    });
+  };
+
+  const [showRoleDropdown, setShowRoleDropdown] = useState(false);
+  const [customRoles, setCustomRoles] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const defaultPresets = ["CAMERA", "BAND EQUIPMENT", "UNLOADING", "SERVER", "CHEF", "LINE COOK", "MANAGER", "AUDIO MIX"];
+      const saved = localStorage.getItem('7h_custom_roles');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          const migrated = localStorage.getItem('7h_roles_migrated_v2');
+          if (!migrated) {
+            const merged = Array.from(new Set([...defaultPresets, ...parsed]));
+            setCustomRoles(merged);
+            localStorage.setItem('7h_custom_roles', JSON.stringify(merged));
+            localStorage.setItem('7h_roles_migrated_v2', 'true');
+          } else {
+            setCustomRoles(parsed);
+          }
+        } catch (e) {
+          setCustomRoles(defaultPresets);
+          localStorage.setItem('7h_custom_roles', JSON.stringify(defaultPresets));
+          localStorage.setItem('7h_roles_migrated_v2', 'true');
+        }
+      } else {
+        setCustomRoles(defaultPresets);
+        localStorage.setItem('7h_custom_roles', JSON.stringify(defaultPresets));
+        localStorage.setItem('7h_roles_migrated_v2', 'true');
+      }
+    }
+  }, []);
+
+  const saveCustomRole = (role: string) => {
+    const trimmed = role.trim().toUpperCase();
+    if (!trimmed) return;
+    setCustomRoles(prev => {
+      if (prev.includes(trimmed)) return prev;
+      const next = [...prev, trimmed];
+      localStorage.setItem('7h_custom_roles', JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const deleteCustomRole = (role: string) => {
+    setCustomRoles(prev => {
+      const next = prev.filter(r => r !== role);
+      localStorage.setItem('7h_custom_roles', JSON.stringify(next));
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const container = document.getElementById('role-suggest-container');
+      if (container && !container.contains(e.target as Node)) {
+        setShowRoleDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
+  useEffect(() => {
+    const handleTourDropdownOutside = (e: MouseEvent) => {
+      const el = (e.target as HTMLElement).closest('[data-tour-dropdown]');
+      if (!el) setShowTourDropdown(false);
+    };
+    document.addEventListener('mousedown', handleTourDropdownOutside);
+    return () => document.removeEventListener('mousedown', handleTourDropdownOutside);
+  }, []);
+
+  useEffect(() => {
+    const handleGlobalDragEnd = () => {
+      setDraggedShiftId(null);
+      draggedShiftIdRef.current = null;
+    };
+    window.addEventListener('dragend', handleGlobalDragEnd);
+    return () => window.removeEventListener('dragend', handleGlobalDragEnd);
+  }, []);
+
+  const syncTourDatesToCalendar = (tourList: any[], currentSchedules: any[]) => {
+    if (!tourList || tourList.length === 0) return;
+    
+    let updated = [...currentSchedules];
+    let changed = false;
+    
+    tourList.forEach((show: any) => {
+      const showDate = show.date;
+      if (!showDate) return;
+      
+      const hasShifts = updated.some(s => s.date === showDate);
+      if (!hasShifts) {
+        const defaultRoles = [
+          { role: 'BAND EQUIPMENT', startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM' },
+          { role: 'UNLOADING', startHour: 15.0, endHour: 20.0, time: '3:00 PM - 8:00 PM' },
+          { role: 'CAMERA', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM' },
+          { role: 'AUDIO MIX', startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM' }
+        ];
+        
+        const venueName = show.venue || show.venue_name || 'Show Venue';
+        const cityStr = show.city ? `${show.city}, ${show.state || 'IL'}` : '';
+        const loc = cityStr ? `${venueName} at ${cityStr}` : venueName;
+        
+        defaultRoles.forEach((def, index) => {
+          const newId = `show_shift_${showDate}_${index}_${Date.now()}`;
+          const newItem = {
+            id: newId,
+            crewId: 'openshifts',
+            crewName: 'OpenShifts',
+            date: showDate,
+            startHour: def.startHour,
+            endHour: def.endHour,
+            time: def.time,
+            role: def.role,
+            location: loc,
+            notes: `Auto-generated for show: ${venueName}`,
+            openSlots: 1,
+            isDraft: true
+          };
+          updated.push(newItem);
+        });
+        changed = true;
+      }
+    });
+    
+    if (changed) {
+      setSchedules(updated);
+      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+      window.dispatchEvent(new Event('storage'));
+      
+      fetch("/api/crew/calendar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated)
+      }).catch(err => console.error("Failed to sync schedules:", err));
+    }
+  };
+
+  // Helper to parse time strings like "6:00 PM - 11:30 PM" into decimal hours (8.0 to 24.0)
+  const parseTimeString = (timeStr: string) => {
+    const defaultVal = { startHour: 18.0, endHour: 21.0 };
+    if (!timeStr) return defaultVal;
+    try {
+      const parts = timeStr.split('-');
+      if (parts.length !== 2) return defaultVal;
+      
+      const parsePart = (part: string) => {
+        const clean = part.trim().toUpperCase();
+        const isPM = clean.includes('PM');
+        const isAM = clean.includes('AM');
+        const numbers = clean.replace(/[A-Z\\s]/g, '').trim().split(':');
+        let hour = parseInt(numbers[0], 10);
+        let minute = numbers.length > 1 ? parseInt(numbers[1], 10) : 0;
+        
+        if (isPM && hour !== 12) hour += 12;
+        if (isAM && hour === 12) hour = 0;
+        
+        return hour + minute / 60;
+      };
+      
+      return {
+        startHour: parsePart(parts[0]),
+        endHour: parsePart(parts[1])
+      };
+    } catch (e) {
+      return defaultVal;
+    }
+  };
+
+  // Helper to format decimal hour (e.g. 18.5) to string (e.g. "6:30 PM")
+  const formatHour = (hourDecimal: number) => {
+    const h = Math.floor(hourDecimal);
+    const m = Math.round((hourDecimal - h) * 60);
+    const period = h >= 12 ? 'PM' : 'AM';
+    let displayHour = h % 12;
+    if (displayHour === 0) displayHour = 12;
+    const displayMinute = m === 0 ? '' : `:${String(m).padStart(2, '0')}`;
+    return `${displayHour}${displayMinute} ${period}`;
+  };
+
+  // Helper to format start/end decimal hours into "Start - End" time frame
+  const formatTimeFrame = (start: number, end: number) => {
+    return `${formatHour(start)} - ${formatHour(end)}`;
+  };
+
+  // Crew Schedule DND Calendar State
+  const [schedules, setSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; startHour: number; endHour: number; isTimeOff?: boolean; isDraft?: boolean; labelOverride?: string; openSlots?: number }[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const saved = localStorage.getItem('7h_crew_schedules');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.length > 0) {
+          return parsed.map((item: any) => {
+            if (item.startHour === undefined || item.endHour === undefined) {
+              const p = parseTimeString(item.time);
+              return {
+                ...item,
+                startHour: p.startHour,
+                endHour: p.endHour
+              };
+            }
+            return item;
+          });
+        }
+      }
+      
+      // Default Mock Example Data
+      const defaultMocks = [
+        { id: 'mock_1', crewId: 'arjun', crewName: 'Arjun Patel', date: '2023-01-23', startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Lead server for VIP tables' },
+        { id: 'mock_2', crewId: 'abbie', crewName: 'Abbie Janssen', date: '2023-01-24', startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
+        { id: 'mock_3', crewId: 'al', crewName: 'Al Hollie', date: '2023-01-25', startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
+        { id: 'mock_4', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: '2023-01-26', startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM', role: 'CHEF', location: 'The Chicago Theatre', notes: 'Kitchen lead' },
+        { id: 'mock_5', crewId: 'openshifts', crewName: 'OpenShifts', date: '2023-01-26', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Need 1 backup server', openSlots: 1 },
+        { id: 'mock_6', crewId: 'chris', crewName: 'Chris Loxely', date: '2023-01-27', startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
+        { id: 'mock_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2023-01-27', startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'LINE COOK', location: 'The Chicago Theatre', notes: '' },
+        { id: 'mock_8', crewId: 'abbie', crewName: 'Abbie Janssen', date: '2023-01-27', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
+        { id: 'mock_9', crewId: 'daniel', crewName: 'Daniel Kim', date: '2023-01-28', startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'MANAGER', location: 'The Chicago Theatre', notes: 'Closing manager' },
+        { id: 'mock_10', crewId: 'openshifts', crewName: 'OpenShifts', date: '2023-01-29', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Matinee show setup', openSlots: 2 }
+      ];
+      localStorage.setItem('7h_crew_schedules', JSON.stringify(defaultMocks));
+      return defaultMocks;
+    } catch {
+      return [];
+    }
+  });
+
+  const [currentWeekStart, setCurrentWeekStart] = useState<Date>(() => {
+    // Default to Monday, Jan 23, 2023 to match the screenshot exactly on load!
+    return new Date(2023, 0, 23);
+  });
+
+  const [editingShiftId, setEditingShiftId] = useState<string | null>(null);
+  const [calendarView, setCalendarView] = useState<'timeline' | 'roster' | 'list'>('roster');
+  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');
+  const [selectedCrewAssignments, setSelectedCrewAssignments] = useState<{ [crewId: string]: { active: boolean; customized?: boolean; role: string; startHour: number; endHour: number } }>({});
+  const [drawerCrewSearch, setDrawerCrewSearch] = useState('');
+  
+  // Schedule filter & leaderboard states
+  const [scheduleCrewFilter, setScheduleCrewFilter] = useState<string>('');
+  const [showTourDatesOnly, setShowTourDatesOnly] = useState(false);
+  const [showTourDropdown, setShowTourDropdown] = useState(false);
+  const [selectedTourDate, setSelectedTourDate] = useState<string | null>(null);
+  const [showLeaderboard, setShowLeaderboard] = useState(true);
+  const [leaderboardPeriod, setLeaderboardPeriod] = useState<'day' | 'week' | 'month' | 'year'>('week');
+  const [rosterExpanded, setRosterExpanded] = useState(false);
+  const [collapsedCrewIds, setCollapsedCrewIds] = useState<string[]>([]);
+  
+  // Drag and drop local tracking states
+  const [draggedShiftId, setDraggedShiftId] = useState<string | null>(null);
+  const draggedShiftIdRef = useRef<string | null>(null);
+  const draggedShiftDurationRef = useRef<number>(0);
+  const [draggedCrewMemberId, setDraggedCrewMemberId] = useState<string | null>(null);
+  const [activeDropDay, setActiveDropDay] = useState<string | null>(null);
+  const [selectedShowCrewDate, setSelectedShowCrewDate] = useState<string | null>(null);
+
+  // Group scheduling and capacity states
+  const [cellGroupPopover, setCellGroupPopover] = useState<string | null>(null);
+  const [showGroupsSubmenu, setShowGroupsSubmenu] = useState<string | null>(null);
+  const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
+  const [createGroupForDate, setCreateGroupForDate] = useState<string | null>(null);
+  const [newGroupNameInput, setNewGroupNameInput] = useState('');
+  const [newGroupMemberSettings, setNewGroupMemberSettings] = useState<{ [crewId: string]: { active: boolean; role: string; startHour: number; endHour: number } }>({});
+  const [groupNameError, setGroupNameError] = useState('');
+  const [showCapacityHeatmap, setShowCapacityHeatmap] = useState(false);
+
+  const [crewGroups, setCrewGroups] = useState<{ name: string; memberIds: string[]; memberSettings?: { [crewId: string]: { startHour: number; endHour: number; role: string } } }[]>(() => {
+    if (typeof window === 'undefined') return [];
+    const saved = localStorage.getItem('7h_crew_groups');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        // Fallback to presets
+      }
+    }
+    return [
+      {
+        name: "Servers",
+        memberIds: ["abbie", "al", "arjun", "chris", "emily"]
+      },
+      {
+        name: "Kitchen",
+        memberIds: ["andrea", "dave_croke", "dave_maas", "emma", "tony"]
+      },
+      {
+        name: "Managers",
+        memberIds: ["daniel", "david_xu", "francesca"]
+      }
+    ];
+  });
+
+  // Quick-add modal state values
+  const [dropStartHour, setDropStartHour] = useState<number>(12);
+  const [dropEndHour, setDropEndHour] = useState<number>(17);
+  const [dropRole, setDropRole] = useState<string>('SERVER');
+  const [isFilteringRoles, setIsFilteringRoles] = useState(false);
+  const [dropLocation, setDropLocation] = useState<string>('');
+  const [dropNotes, setDropNotes] = useState<string>('');
   const supabase = createClient();
   // ── Collapsible Sections (persisted via localStorage & Supabase) ──
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() => {
@@ -79,6 +484,7 @@ export default function AdminDashboard() {
     'newsletter',
     'registry',
     'crewcreation',
+    'admincreation',
     'bulkinvites',
     'awardpicks'
   ];
@@ -128,6 +534,11 @@ export default function AdminDashboard() {
         const { data: { user } } = await client.auth.getUser();
         
         if (user?.user_metadata) {
+          // Check for first-login password reset
+          if (user.user_metadata.needs_password_reset === true) {
+            setFirstLoginEmail(user.email || '');
+            setShowSetPassword(true);
+          }
           const savedOrder = user.user_metadata.admin_section_order;
           const savedCollapsed = user.user_metadata.admin_collapsed_sections;
           
@@ -188,7 +599,9 @@ export default function AdminDashboard() {
       if (data.success) {
         const tourRes = await fetch("/api/tour");
         if (tourRes.ok) {
-          setTourDates(await tourRes.json());
+          const freshTourDates = await tourRes.json();
+          setTourDates(freshTourDates);
+          syncTourDatesToCalendar(freshTourDates, schedules);
         }
         setAuditLog(prev => [{
           id: crypto.randomUUID(),
@@ -335,6 +748,8 @@ export default function AdminDashboard() {
   const [crewAlertSending, setCrewAlertSending] = useState(false);
   const [crewAlertResult, setCrewAlertResult] = useState<any>(null);
   const [crewAlertStats, setCrewAlertStats] = useState<{ totalCrew: number; withPhone: number } | null>(null);
+  const [crewAutoReminders, setCrewAutoReminders] = useState(true);
+  const [crewAutoRemindersHours, setCrewAutoRemindersHours] = useState(24);
 
   // SMS Proximity Blast (Fan Show Alerts)
   const [smsShows, setSmsShows] = useState<any[]>([]);
@@ -439,7 +854,7 @@ export default function AdminDashboard() {
       localStorage.setItem('7h_accounts', JSON.stringify(accounts));
 
       const { data: profilesData } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
-      if (profilesData) setUsers(profilesData.map(p => ({ id: p.id, name: p.full_name || p.email || 'Anonymous', role: p.role, status: 'active', strikes: 0 })));
+      if (profilesData) setUsers(profilesData.map(p => ({ id: p.id, name: p.full_name || p.email || 'Anonymous', role: p.role, status: 'active', strikes: 0, avatar: p.avatar_url || p.profile_photo_url || null })));
       setFilterRole('crew');
     } else {
       setCrewError(res.error || 'Failed to create crew member.');
@@ -635,14 +1050,39 @@ export default function AdminDashboard() {
           email: p.email || '',
           role: p.role, 
           status: 'active', 
-          strikes: 0
+          strikes: 0,
+          avatar: p.avatar_url || p.profile_photo_url || null
         })));
       }
 
       
       try {
         const tourRes = await fetch('/api/tour');
-        if (tourRes.ok) setTourDates(await tourRes.json());
+        if (tourRes.ok) {
+          const freshTourDates = await tourRes.json();
+          setTourDates(freshTourDates);
+          
+          let currentSchedules = [];
+          const saved = localStorage.getItem('7h_crew_schedules');
+          if (saved) {
+            currentSchedules = JSON.parse(saved);
+          } else {
+            // Default Mock Example Data
+            currentSchedules = [
+              { id: 'mock_1', crewId: 'arjun', crewName: 'Arjun Patel', date: '2023-01-23', startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Lead server for VIP tables' },
+              { id: 'mock_2', crewId: 'abbie', crewName: 'Abbie Janssen', date: '2023-01-24', startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
+              { id: 'mock_3', crewId: 'al', crewName: 'Al Hollie', date: '2023-01-25', startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
+              { id: 'mock_4', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: '2023-01-26', startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM', role: 'CHEF', location: 'The Chicago Theatre', notes: 'Kitchen lead' },
+              { id: 'mock_5', crewId: 'openshifts', crewName: 'OpenShifts', date: '2023-01-26', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Need 1 backup server', openSlots: 1 },
+              { id: 'mock_6', crewId: 'chris', crewName: 'Chris Loxely', date: '2023-01-27', startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
+              { id: 'mock_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2023-01-27', startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'LINE COOK', location: 'The Chicago Theatre', notes: '' },
+              { id: 'mock_8', crewId: 'abbie', crewName: 'Abbie Janssen', date: '2023-01-27', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
+              { id: 'mock_9', crewId: 'daniel', crewName: 'Daniel Kim', date: '2023-01-28', startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'MANAGER', location: 'The Chicago Theatre', notes: 'Closing manager' },
+              { id: 'mock_10', crewId: 'openshifts', crewName: 'OpenShifts', date: '2023-01-29', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Matinee show setup', openSlots: 2 }
+            ];
+          }
+          syncTourDatesToCalendar(freshTourDates, currentSchedules);
+        }
       } catch (err) {}
 
       try {
@@ -707,6 +1147,11 @@ try {
           const autoBlastDays = settings.find((s: any) => s.key === 'sms_auto_blast_days');
           if (autoBlast) setSmsAutoBlast(autoBlast.value !== 'off');
           if (autoBlastDays) setSmsAutoBlastDays(parseInt(autoBlastDays.value, 10) || 3);
+
+          const crewReminders = settings.find((s: any) => s.key === 'crew_auto_reminders');
+          const crewRemindersHours = settings.find((s: any) => s.key === 'crew_auto_reminders_hours');
+          if (crewReminders) setCrewAutoReminders(crewReminders.value !== 'off');
+          if (crewRemindersHours) setCrewAutoRemindersHours(parseInt(crewRemindersHours.value, 10) || 24);
         }
       } catch {}
 
@@ -746,7 +1191,12 @@ try {
 
   // Auto-scroll admin chat feed
   useEffect(() => {
-    adminChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (adminChatContainerRef.current) {
+      adminChatContainerRef.current.scrollTo({
+        top: adminChatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [adminChatMessages]);
 
   const [chatRate, setChatRate] = useState(0);
@@ -1037,7 +1487,7 @@ try {
   const forceLogin = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('login') === 'true';
 
   if (!mounted) {
-    return <div className="min-h-screen bg-[#050508]" />;
+    return <div className="min-h-[200vh] bg-[#050508]" />;
   }
 
   if ((forceLogin || !devBypass) && (!isLoggedIn || member?.role !== 'admin')) {
@@ -2738,6 +3188,81 @@ try {
                       )}
                     </button>
                   </div>
+
+                  {/* Automated Crew Reminders Sub-section */}
+                  <div className="border-t border-white/5 pt-6 mt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h4 className="text-xs font-black uppercase tracking-wider text-white">Automated Shift Reminders</h4>
+                        <p className="text-[0.65rem] text-white/40 mt-0.5">Send text reminders to crew members automatically before their scheduled shifts.</p>
+                      </div>
+                      <button
+                        onClick={async () => {
+                          const newVal = !crewAutoReminders;
+                          setCrewAutoReminders(newVal);
+                          try {
+                            await fetch('/api/admin/settings', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ key: 'crew_auto_reminders', value: newVal ? 'on' : 'off' }),
+                            });
+                          } catch {}
+                        }}
+                        className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer border-none ${crewAutoReminders ? 'bg-emerald-500' : 'bg-white/10'}`}
+                      >
+                        <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow-sm ${crewAutoReminders ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                      </button>
+                    </div>
+
+                    {crewAutoReminders && (
+                      <div className="space-y-4 bg-white/[0.02] border border-white/5 rounded-xl p-4 animate-[slideIn_0.2s_ease]">
+                        <div className="flex items-center justify-between gap-4 flex-wrap">
+                          <div>
+                            <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Reminder Timing</span>
+                            <div className="relative inline-block">
+                              <select
+                                value={crewAutoRemindersHours}
+                                onChange={async (e) => {
+                                  const v = parseInt(e.target.value, 10);
+                                  setCrewAutoRemindersHours(v);
+                                  try {
+                                    await fetch('/api/admin/settings', {
+                                      method: 'POST',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({ key: 'crew_auto_reminders_hours', value: String(v) }),
+                                    });
+                                  } catch {}
+                                }}
+                                className="appearance-none pr-8 pl-3 py-1.5 border border-white/10 bg-black/45 hover:bg-white/5 text-xs font-bold text-white rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[140px]"
+                              >
+                                <option value="2">2 Hours Before</option>
+                                <option value="6">6 Hours Before</option>
+                                <option value="12">12 Hours Before</option>
+                                <option value="24">24 Hours Before</option>
+                                <option value="48">48 Hours Before</option>
+                              </select>
+                              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="text-right">
+                            <span className="text-[0.55rem] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                              ● Active Reminders Queue
+                            </span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Message Template Preview</span>
+                          <div className="bg-black/30 border border-white/5 rounded-lg p-3 text-[11px] text-white/70 font-mono leading-relaxed select-text">
+                            Hi [Crew Name], this is an automated reminder that you are scheduled for <span className="text-amber-400">[Role]</span> at <span className="text-amber-400">[Show/Location]</span> starting at <span className="text-amber-400">[Shift Time]</span>. Please reply if you have conflicts.
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               </div>
@@ -3120,6 +3645,118 @@ try {
             </section>
   );
 
+  const createAdmin = async () => {
+    if (!newAdminName.trim() || !newAdminEmail.trim()) return;
+    setAdminCreateLoading(true);
+    setAdminCreateError('');
+    setCreatedAdmin(null);
+    const savedName = newAdminName;
+    const savedEmail = newAdminEmail;
+    const res = await adminCreateAdmin({ name: newAdminName, email: newAdminEmail });
+    if (res.success) {
+      setCreatedAdmin({ name: savedName, email: savedEmail, password: res.password || '' });
+      setNewAdminName('');
+      setNewAdminEmail('');
+    } else {
+      setAdminCreateError(res.error || 'Failed to create admin account.');
+    }
+    setAdminCreateLoading(false);
+  };
+
+  const renderAdminCreation = () => (
+    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+      <div onClick={() => toggleSection('admincreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+          </div>
+          <h3 onClick={() => toggleSection('admincreation')} className="cursor-pointer text-lg font-bold tracking-tight text-white">Create Admin Account</h3>
+        </div>
+        <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('admincreation') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      <div style={{ display: isSectionOpen('admincreation') ? undefined : 'none' }}>
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
+              <input
+                type="text"
+                placeholder="e.g. Michael Scimeca"
+                value={newAdminName}
+                onChange={e => setNewAdminName(e.target.value)}
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
+              <input
+                type="email"
+                placeholder="admin@7thheaven.com"
+                value={newAdminEmail}
+                onChange={e => setNewAdminEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all rounded-lg"
+              />
+            </div>
+            <button
+              onClick={createAdmin}
+              disabled={!newAdminName.trim() || !newAdminEmail.trim() || adminCreateLoading}
+              className="px-6 py-3 bg-amber-500 text-black font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-amber-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] flex items-center gap-2 whitespace-nowrap"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              {adminCreateLoading ? 'Creating…' : 'Create Admin'}
+            </button>
+          </div>
+
+          <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
+            <span className="text-amber-400 text-sm mt-0.5">🔐</span>
+            <p className="text-[0.65rem] text-white/40 leading-relaxed">
+              A secure temporary password will be auto-generated and emailed to the new admin. They can log in immediately with those credentials. Only grant admin access to trusted individuals — admin accounts have full platform access.
+            </p>
+          </div>
+
+          {/* Success card */}
+          {createdAdmin && (
+            <div className="mt-4 p-5 bg-amber-500/[0.08] border border-amber-500/30 rounded-xl">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-lg shrink-0">✅</div>
+                  <div>
+                    <h4 className="text-sm font-bold text-amber-400">Admin Account Created</h4>
+                    <p className="text-[0.7rem] text-white/60 mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
+                    <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
+                      <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
+                      <code className="text-sm font-mono font-bold text-amber-400 tracking-wider select-all">{createdAdmin.password}</code>
+                      <button
+                        onClick={() => { navigator.clipboard.writeText(createdAdmin.password); }}
+                        className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
+                      >Copy</button>
+                    </div>
+                    <p className="text-[0.6rem] text-white/30 mt-2">📧 Welcome email sent to {createdAdmin.email}</p>
+                  </div>
+                </div>
+                <button onClick={() => setCreatedAdmin(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
+              </div>
+            </div>
+          )}
+
+          {/* Error */}
+          {adminCreateError && (
+            <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
+              <span className="text-rose-400">✕</span>
+              <p className="text-[0.7rem] text-rose-400 font-bold">{adminCreateError}</p>
+              <button onClick={() => setAdminCreateError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+
+
   const renderInviteChallenge = () => (
     <section className="mt-8">
               <InviteChallengePanel shows={smsShows} />
@@ -3137,90 +3774,2998 @@ try {
       <AwardPicksPanel />
     </section>
   );
+  const addScheduleItem = () => {
+    if (!draggedCrewMemberId || !activeDropDay) return;
+
+    if (editingShiftId) {
+      const activeAssignments = Object.entries(selectedCrewAssignments).filter(([_, val]) => val.active);
+      const firstActiveAssignment = activeAssignments[0];
+      const firstActiveCrewId = firstActiveAssignment?.[0] || 'openshifts';
+      const firstActiveDetails = firstActiveAssignment?.[1];
+
+      setSchedules(current => {
+        let updated = current.map(item => {
+          if (item.id === editingShiftId) {
+            const sh = firstActiveDetails?.customized ? firstActiveDetails.startHour : dropStartHour;
+            const eh = firstActiveDetails?.customized ? firstActiveDetails.endHour : dropEndHour;
+            const r = firstActiveDetails?.customized ? firstActiveDetails.role : dropRole;
+            return {
+              ...item,
+              date: activeDropDay,
+              crewId: firstActiveCrewId,
+              crewName: findCrewName(firstActiveCrewId),
+              startHour: sh,
+              endHour: eh,
+              time: formatTimeFrame(sh, eh),
+              role: r.toUpperCase(),
+              location: dropLocation,
+              notes: dropNotes
+            };
+          }
+          return item;
+        });
+
+        if (activeAssignments.length > 1) {
+          activeAssignments.slice(1).forEach(([crewId, details], idx) => {
+            const newId = 'shift_' + Date.now() + '_' + idx;
+            const newItem = {
+              id: newId,
+              crewId: crewId,
+              crewName: findCrewName(crewId),
+              date: activeDropDay,
+              startHour: details.customized ? details.startHour : dropStartHour,
+              endHour: details.customized ? details.endHour : dropEndHour,
+              time: formatTimeFrame(details.customized ? details.startHour : dropStartHour, details.customized ? details.endHour : dropEndHour),
+              role: (details.customized ? details.role : dropRole).toUpperCase(),
+              location: dropLocation,
+              notes: dropNotes
+            };
+            updated.push(newItem);
+          });
+        }
+
+        localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+        window.dispatchEvent(new Event('storage'));
+        
+        fetch("/api/crew/calendar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updated)
+        }).catch(err => console.error("Failed to sync schedules:", err));
+        
+        return updated;
+      });
+    } else {
+      const activeAssignments = Object.entries(selectedCrewAssignments).filter(([_, val]) => val.active);
+      
+      setSchedules(current => {
+        let updated = [...current];
+        
+        if (activeAssignments.length > 0) {
+          activeAssignments.forEach(([crewId, details], idx) => {
+            const newId = 'shift_' + Date.now() + '_' + idx;
+            const newItem = {
+              id: newId,
+              crewId: crewId,
+              crewName: findCrewName(crewId),
+              date: activeDropDay,
+              startHour: details.startHour,
+              endHour: details.endHour,
+              time: formatTimeFrame(details.startHour, details.endHour),
+              role: details.role.toUpperCase(),
+              location: dropLocation,
+              notes: dropNotes
+            };
+            updated.push(newItem);
+          });
+        } else {
+          const newId = 'shift_' + Date.now();
+          const newItem = {
+            id: newId,
+            crewId: draggedCrewMemberId,
+            crewName: findCrewName(draggedCrewMemberId),
+            date: activeDropDay,
+            startHour: dropStartHour,
+            endHour: dropEndHour,
+            time: formatTimeFrame(dropStartHour, dropEndHour),
+            role: dropRole.toUpperCase(),
+            location: dropLocation,
+            notes: dropNotes
+          };
+          updated.push(newItem);
+        }
+
+        localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+        window.dispatchEvent(new Event('storage'));
+        
+        fetch("/api/crew/calendar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updated)
+        }).catch(err => console.error("Failed to sync schedules:", err));
+        
+        return updated;
+      });
+    }
+
+    saveCustomRole(dropRole);
+    setActiveDropDay(null);
+    setDraggedCrewMemberId(null);
+    setEditingShiftId(null);
+  };
+
+  const deleteScheduleItem = (id: string) => {
+    setSchedules(current => {
+      const updated = current.filter(item => item.id !== id);
+      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+      window.dispatchEvent(new Event('storage'));
+      
+      fetch("/api/crew/calendar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated)
+      }).catch(err => console.error("Failed to sync schedules:", err));
+      
+      return updated;
+    });
+  };
+
+  // Merge static and dynamic lists
+  const findCrewName = (crewId: string) => {
+    if (crewId === 'openshifts') return 'OpenShifts';
+    const mockCrew = [
+      { id: 'abbie', name: 'Abbie Janssen' },
+      { id: 'al', name: 'Al Hollie' },
+      { id: 'andrea', name: 'Andrea Kinzinger' },
+      { id: 'arjun', name: 'Arjun Patel' },
+      { id: 'chris', name: 'Chris Loxely' },
+      { id: 'daniel', name: 'Daniel Kim' },
+      { id: 'dave_croke', name: 'Dave Croke' },
+      { id: 'dave_maas', name: 'Dave Maas' },
+      { id: 'david_xu', name: 'David Xu' },
+      { id: 'emily', name: 'Emily Hafften' },
+      { id: 'emma', name: 'Emma Smid' },
+      { id: 'erin', name: 'Erin Eagan' },
+      { id: 'francesca', name: 'Francesca Troast' },
+      { id: 'michael', name: 'Michael Scimeca' },
+      { id: 'sammy', name: 'Sammy D' },
+      { id: 'ryan', name: 'Ryan K' },
+      { id: 'tony', name: 'Tony M' }
+    ];
+    
+    // Look for static crew
+    const staticCrew = [
+      { id: 'abbie', name: 'Abbie Janssen', role: 'SERVER', maxHours: 40, avatar: '/images/crew/abbie.png' },
+      { id: 'al', name: 'Al Hollie', role: 'SERVER', maxHours: 32, avatar: '/images/crew/al.png' },
+      { id: 'andrea', name: 'Andrea Kinzinger', role: 'CHEF', maxHours: 40, avatar: '/images/crew/andrea.png' },
+      { id: 'arjun', name: 'Arjun Patel', role: 'SERVER', maxHours: 32, avatar: '/images/crew/arjun.png' },
+      { id: 'chris', name: 'Chris Loxely', role: 'SERVER', maxHours: 40, avatar: '/images/crew/chris.png' },
+      { id: 'daniel', name: 'Daniel Kim', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png' },
+      { id: 'dave_croke', name: 'Dave Croke', role: 'LINE COOK', maxHours: 32, avatar: '/images/crew/dave_croke.png' },
+      { id: 'dave_maas', name: 'Dave Maas', role: 'CHEF', maxHours: 24, avatar: '/images/crew/dave_maas.png' },
+      { id: 'david_xu', name: 'David Xu', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/david_xu.png' },
+      { id: 'emily', name: 'Emily Hafften', role: 'SERVER', maxHours: 32, avatar: '/images/crew/emily.png' },
+      { id: 'emma', name: 'Emma Smid', role: 'LINE COOK', maxHours: 40, avatar: '/images/crew/emma.png' },
+      { id: 'erin', name: 'Erin Eagan', role: 'POSITION', maxHours: 40, avatar: '/images/crew/erin.png' },
+      { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png' }
+    ];
+
+    const foundStatic = staticCrew.find(sc => sc.id === crewId);
+    if (foundStatic) return foundStatic.name;
+    const foundMock = mockCrew.find(c => c.id === crewId);
+    if (foundMock) return foundMock.name;
+    const foundDynamic = users.find(u => u.id === crewId);
+    if (foundDynamic) return foundDynamic.name;
+    return crewId;
+  };
+
+  const generateTimeOptions = () => {
+    const opts = [];
+    for (let h = 8; h <= 24; h += 0.5) {
+      opts.push({
+        value: h,
+        label: formatHour(h)
+      });
+    }
+    return opts;
+  };
+
+  function renderCrewSchedule() {
+    const getAvatarColor = (name: string) => {
+      const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#f87171', '#8b5cf6', '#ec4899'];
+      let hash = 0;
+      for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      return colors[Math.abs(hash) % colors.length];
+    };
+
+    const CrewAvatar = ({ member }: { member: any }) => {
+      const [hasError, setHasError] = useState(false);
+      const showImage = member.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/')) && !hasError;
+
+      if (showImage) {
+        return (
+          <img
+            src={member.avatar}
+            alt={member.name}
+            onError={() => setHasError(true)}
+            className="w-9 h-9 rounded-full object-cover shrink-0 border border-white/10 shadow-sm"
+          />
+        );
+      }
+
+      const initials = member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+      const color = member.color || getAvatarColor(member.name);
+
+      return (
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 shadow-sm text-white"
+          style={{ backgroundColor: color, color: '#ffffff' }}
+        >
+          {initials}
+        </div>
+      );
+    };
+
+    const staticCrew = [
+      { id: 'abbie', name: 'Abbie Janssen', role: 'SERVER', maxHours: 40, avatar: '/images/crew/abbie.png' },
+      { id: 'al', name: 'Al Hollie', role: 'SERVER', maxHours: 32, avatar: '/images/crew/al.png' },
+      { id: 'andrea', name: 'Andrea Kinzinger', role: 'CHEF', maxHours: 40, avatar: '/images/crew/andrea.png' },
+      { id: 'arjun', name: 'Arjun Patel', role: 'SERVER', maxHours: 32, avatar: '/images/crew/arjun.png' },
+      { id: 'chris', name: 'Chris Loxely', role: 'SERVER', maxHours: 40, avatar: '/images/crew/chris.png' },
+      { id: 'daniel', name: 'Daniel Kim', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png' },
+      { id: 'dave_croke', name: 'Dave Croke', role: 'LINE COOK', maxHours: 32, avatar: '/images/crew/dave_croke.png' },
+      { id: 'dave_maas', name: 'Dave Maas', role: 'CHEF', maxHours: 24, avatar: '/images/crew/dave_maas.png' },
+      { id: 'david_xu', name: 'David Xu', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/david_xu.png' },
+      { id: 'emily', name: 'Emily Hafften', role: 'SERVER', maxHours: 32, avatar: '/images/crew/emily.png' },
+      { id: 'emma', name: 'Emma Smid', role: 'LINE COOK', maxHours: 40, avatar: '/images/crew/emma.png' },
+      { id: 'erin', name: 'Erin Eagan', role: 'POSITION', maxHours: 40, avatar: '/images/crew/erin.png' },
+      { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png' }
+    ];
+
+    const dynamicCrew = users
+      .filter(u => u.role === 'crew')
+      .map(u => {
+        const initials = u.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+        return {
+          id: u.id,
+          name: u.name,
+          role: 'Crew Member',
+          maxHours: 40,
+          initials: initials || 'C',
+          color: getAvatarColor(u.name),
+          avatar: u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=random`
+        };
+      });
+
+    const crewMembers: any[] = [...staticCrew, ...dynamicCrew.filter(dc => !staticCrew.some(sc => sc.id === dc.id))];
+
+    const handleAddGroupToDay = (dateStr: string, group: { name: string; memberIds: string[]; memberSettings?: { [crewId: string]: { startHour: number; endHour: number; role: string } } }) => {
+      const newShiftsToAdd: any[] = [];
+      group.memberIds.forEach(memberId => {
+        const mObj = crewMembers.find(m => m.id === memberId);
+        if (!mObj) return;
+
+        const settings = group.memberSettings?.[memberId] || { startHour: 17.0, endHour: 22.0, role: mObj.role || 'SERVER' };
+        const start = settings.startHour;
+        const end = settings.endHour;
+        
+        newShiftsToAdd.push({
+          id: `group_shift_${Date.now()}_${memberId}_${Math.random().toString(36).substr(2, 5)}`,
+          crewId: memberId,
+          crewName: mObj.name,
+          date: dateStr,
+          startHour: start,
+          endHour: end,
+          time: formatTimeFrame(start, end),
+          role: settings.role,
+          location: 'The Chicago Theatre',
+          notes: ''
+        });
+      });
+
+      setSchedules(prev => {
+        const filtered = prev.filter(s => !(s.date === dateStr && group.memberIds.includes(s.crewId)));
+        const next = [...filtered, ...newShiftsToAdd];
+        localStorage.setItem('7h_crew_schedules', JSON.stringify(next));
+        return next;
+      });
+    };
+
+    const getNext7Days = (weekStart: Date) => {
+      const days = [];
+      const weekdayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+      
+      let numDays = 7;
+      let start = new Date(weekStart);
+      
+      if (calendarRange === '4weeks') {
+        numDays = 28;
+      } else if (calendarRange === 'month') {
+        const isBridgeToJanuary = weekStart.getMonth() === 11 && weekStart.getDate() > 20;
+        const targetYear = isBridgeToJanuary ? weekStart.getFullYear() + 1 : weekStart.getFullYear();
+        const targetMonth = isBridgeToJanuary ? 0 : weekStart.getMonth();
+        start = new Date(targetYear, targetMonth, 1);
+        numDays = new Date(targetYear, targetMonth + 1, 0).getDate();
+      }
+
+      for (let i = 0; i < numDays; i++) {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const dateStr = `${yyyy}-${mm}-${dd}`;
+        
+        const dayOfWeekIndex = (d.getDay() + 6) % 7;
+        
+        days.push({
+          dateStr,
+          dayName: weekdayNames[dayOfWeekIndex],
+          dayOfMonth: d.getDate(),
+          monthName: d.toLocaleString('en-US', { month: 'short' }),
+          fullDate: d
+        });
+      }
+      return days;
+    };
+
+    const next7Days = getNext7Days(currentWeekStart);
+    
+    // Filtered days: shows-only toggle, or all days
+    const filteredDays = showTourDatesOnly 
+      ? next7Days.filter(day => tourDates.some(s => s.date === day.dateStr))
+      : next7Days;
+    
+    // Crew members with shifts this week (used for highlighting)
+    const crewWithShifts = new Set(
+      schedules
+        .filter(s => next7Days.some(d => d.dateStr === s.date) && s.crewId !== 'openshifts')
+        .map(s => s.crewId)
+    );
+    // Show all crew members (filter only by selected crew dropdown)
+    const filteredCrewMembers = scheduleCrewFilter
+      ? crewMembers.filter(m => m.id === scheduleCrewFilter)
+      : crewMembers.filter(m => m.id !== 'openshifts');
+
+    const getDayShow = (dateStr: string) => {
+      let lookupDate = dateStr;
+      const isDefaultMonth = currentWeekStart.getFullYear() === 2023 && currentWeekStart.getMonth() === 0;
+      if (isDefaultMonth) {
+        if (calendarRange === 'week' && currentWeekStart.getDate() === 23) {
+          const mapping: { [key: string]: string } = {
+            '2023-01-23': '2026-01-01',
+            '2023-01-24': '2026-01-02',
+            '2023-01-25': '2026-01-03',
+            '2023-01-26': '2026-01-04',
+            '2023-01-27': '2026-01-05',
+            '2023-01-28': '2026-01-06',
+            '2023-01-29': '2026-01-08'
+          };
+          if (mapping[dateStr]) {
+            lookupDate = mapping[dateStr];
+          }
+        } else if (dateStr.startsWith('2023-01-')) {
+          lookupDate = dateStr.replace('2023-01-', '2026-01-');
+        }
+      }
+      return tourDates.find(s => s.date === lookupDate);
+    };
+
+    const getWeekRangeLabel = (weekStart: Date) => {
+      const start = new Date(weekStart);
+      const end = new Date(weekStart);
+      end.setDate(weekStart.getDate() + 6);
+      
+      const startMonth = start.toLocaleString('en-US', { month: 'short' });
+      const endMonth = end.toLocaleString('en-US', { month: 'short' });
+      const startYear = start.getFullYear();
+      
+      if (startMonth === endMonth) {
+        return `${startMonth} ${start.getDate()} – ${end.getDate()}`;
+      } else {
+        return `${startMonth} ${start.getDate()} – ${endMonth} ${end.getDate()}`;
+      }
+    };
+
+    const getDayLabelOverride = (dateStr: string, index: number) => {
+      const isDefaultWeek = currentWeekStart.getFullYear() === 2023 && currentWeekStart.getMonth() === 0 && currentWeekStart.getDate() === 23;
+      if (isDefaultWeek && calendarRange === 'week') {
+        const dayNames = ['MON 1', 'TUE 2', 'WED 3', 'THU 4', 'FRI 5', 'SAT 6', 'SUN 8'];
+        return dayNames[index] || '';
+      }
+      
+      const parts = dateStr.split('-');
+      const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      const weekdayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+      const dayName = weekdayNames[d.getDay()];
+      return `${dayName} ${d.getDate()}`;
+    };
+
+    const getCrewScheduledHours = (crewId: string, weekDays: any[]) => {
+      const dates = weekDays.map(d => d.dateStr);
+      const crewShifts = schedules.filter(s => s.crewId === crewId && dates.includes(s.date) && !s.isTimeOff);
+      return crewShifts.reduce((sum, s) => {
+        const duration = s.endHour - s.startHour;
+        return sum + (isNaN(duration) ? 0 : duration);
+      }, 0);
+    };
+
+    const getCrewScheduledHoursForMonth = (crewId: string, weekStart: Date) => {
+      const year = weekStart.getFullYear();
+      const month = weekStart.getMonth();
+      const yearStr = String(year);
+      const monthStr = String(month + 1).padStart(2, '0');
+      const monthPrefix = `${yearStr}-${monthStr}-`;
+      const crewShifts = schedules.filter(s => s.crewId === crewId && s.date.startsWith(monthPrefix) && !s.isTimeOff);
+      return crewShifts.reduce((sum, s) => {
+        const duration = s.endHour - s.startHour;
+        return sum + (isNaN(duration) ? 0 : duration);
+      }, 0);
+    };
+
+    const getCrewHoursStatus = (crewId: string, scheduledHours: number) => {
+      const maxHoursMap: Record<string, number> = {
+        abbie: 40,
+        al: 32,
+        andrea: 40,
+        arjun: 32,
+        chris: 40,
+        daniel: 40,
+        dave_croke: 32,
+        dave_maas: 24,
+        david_xu: 40,
+        emily: 32,
+        emma: 40,
+        erin: 40,
+        francesca: 40
+      };
+      
+      const maxHours = maxHoursMap[crewId] || 40;
+      const over = scheduledHours - maxHours;
+      
+      return {
+        maxHours,
+        over,
+        status: over > 0 ? (over >= 8 ? 'critical' : 'warning') : 'ok'
+      };
+    };
+
+    const roleStyles: Record<string, { bg: string, tagBg: string, label: string }> = {
+      SERVER: { bg: '#0ea5e9', tagBg: '#0369a1', label: 'SERVER' },       // Vibrant Cyan / Sky Blue
+      BUSSER: { bg: '#10b981', tagBg: '#047857', label: 'BUSSER' },       // Vibrant Emerald Green
+      LINE_COOK: { bg: '#6366f1', tagBg: '#4338ca', label: 'LINE COOK' },  // Vibrant Indigo
+      CHEF: { bg: '#f43f5e', tagBg: '#be123c', label: 'CHEF' },           // Vibrant Rose Red
+      HOST: { bg: '#f59e0b', tagBg: '#b45309', label: 'HOST' },           // Vibrant Amber Gold
+      MANAGER: { bg: '#a855f7', tagBg: '#7e22ce', label: 'MANAGER' },     // Vibrant Purple / Violet
+      POSITION: { bg: '#06b6d4', tagBg: '#0891b2', label: 'POSITION' }    // Vibrant Electric Teal
+    };
+
+    const getRoleStyle = (role: string) => {
+      const norm = (role || '').toUpperCase().trim().replace(/\s+/g, '_');
+      const roleStylesTyped: Record<string, { bg: string, tagBg: string, label: string }> = roleStyles;
+      return roleStylesTyped[norm] || { bg: '#3b82f6', tagBg: '#1d4ed8', label: role };
+    };
+
+    const formatHourWIW = (h: number) => {
+      const isPM = h >= 12;
+      let displayHour = Math.floor(h % 12);
+      if (displayHour === 0) displayHour = 12;
+      const m = Math.round((h - Math.floor(h)) * 60);
+      const minutes = m === 0 ? '' : `:${String(m).padStart(2, '0')}`;
+      const period = isPM ? 'p' : 'a';
+      return `${displayHour}${minutes}${period}`;
+    };
+
+    const formatTimeStringWIW = (start: number, end: number) => {
+      return `${formatHourWIW(start)} - ${formatHourWIW(end)}`;
+    };
+
+    const handlePrevWeek = () => {
+      setSelectedTourDate(null);
+      setCurrentWeekStart(prev => {
+        const d = new Date(prev);
+        if (calendarRange === '4weeks') {
+          d.setDate(prev.getDate() - 28);
+        } else if (calendarRange === 'month') {
+          d.setMonth(prev.getMonth() - 1);
+        } else {
+          d.setDate(prev.getDate() - 7);
+        }
+        return d;
+      });
+    };
+
+    const handleNextWeek = () => {
+      setSelectedTourDate(null);
+      setCurrentWeekStart(prev => {
+        const d = new Date(prev);
+        if (calendarRange === '4weeks') {
+          d.setDate(prev.getDate() + 28);
+        } else if (calendarRange === 'month') {
+          d.setMonth(prev.getMonth() + 1);
+        } else {
+          d.setDate(prev.getDate() + 7);
+        }
+        return d;
+      });
+    };
+
+    const handleGoToToday = () => {
+      setSelectedTourDate(null);
+      setCalendarRange('week');
+      const today = new Date();
+      const day = today.getDay();
+      const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+      setCurrentWeekStart(new Date(today.setDate(diff)));
+    };
+
+    const handleGoToMonth = () => {
+      setSelectedTourDate(null);
+      setCalendarRange('month');
+      const is2023 = currentWeekStart.getFullYear() === 2023;
+      if (is2023) {
+        setCurrentWeekStart(new Date(2023, 0, 23));
+      } else {
+        setCurrentWeekStart(new Date(2025, 11, 29));
+      }
+    };
+
+    const handleDropOnCell = (e: React.DragEvent, dateStr: string, crewId: string) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      setDraggedShiftId(null);
+      draggedShiftIdRef.current = null;
+      
+      const dragData = e.dataTransfer.getData("text/plain");
+      if (dragData.startsWith("shift:")) {
+        const shiftId = dragData.split(":")[1];
+        setSchedules(current => {
+          const updated = current.map(s => {
+            if (s.id === shiftId) {
+              const crewMember = crewMembers.find(c => c.id === crewId);
+              return {
+                ...s,
+                date: dateStr,
+                crewId: crewId,
+                crewName: crewId === 'openshifts' ? 'OpenShifts' : (crewMember?.name || s.crewName)
+              };
+            }
+            return s;
+          });
+          localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+          window.dispatchEvent(new Event('storage'));
+          
+          fetch("/api/crew/calendar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updated)
+          }).catch(err => console.error("Failed to sync schedules:", err));
+          
+          return updated;
+        });
+      }
+    };
+
+    const handleCellClick = (dateStr: string, crewId: string, defaultRole: string) => {
+      setDrawerCrewSearch('');
+      setActiveDropDay(dateStr);
+      setDraggedCrewMemberId(crewId);
+      setDropStartHour(12);
+      setDropEndHour(17);
+      setDropRole(defaultRole || 'SERVER');
+      
+      // Auto-fill location from tour date if a show exists on this day
+      const dayShow = tourDates.find(s => s.date === dateStr);
+      if (dayShow) {
+        const venueName = dayShow.venue || dayShow.venue_name || '';
+        const cityStr = dayShow.city ? `${dayShow.city}, ${dayShow.state || 'IL'}` : '';
+        setDropLocation(cityStr ? `${venueName} at ${cityStr}` : venueName);
+      } else {
+        setDropLocation('');
+      }
+      
+      setDropNotes('');
+      setEditingShiftId(null);
+
+      // Initialize selectedCrewAssignments
+      const initialAssignments: { [key: string]: any } = {};
+      if (crewId && crewId !== 'openshifts') {
+        initialAssignments[crewId] = {
+          active: true,
+          role: defaultRole || 'SERVER',
+          startHour: 12,
+          endHour: 17
+        };
+      }
+      setSelectedCrewAssignments(initialAssignments);
+    };
+
+    const handleEditShiftClick = (shift: any) => {
+      setDrawerCrewSearch('');
+      setEditingShiftId(shift.id);
+      setDraggedCrewMemberId(shift.crewId);
+      setActiveDropDay(shift.date);
+      setDropStartHour(shift.startHour);
+      setDropEndHour(shift.endHour);
+      setDropRole(shift.role);
+      setDropLocation(shift.location);
+      setDropNotes(shift.notes);
+
+      const initialAssignments: { [key: string]: any } = {};
+      if (shift.crewId && shift.crewId !== 'openshifts') {
+        initialAssignments[shift.crewId] = {
+          active: true,
+          customized: true,
+          role: shift.role,
+          startHour: shift.startHour,
+          endHour: shift.endHour
+        };
+      }
+      setSelectedCrewAssignments(initialAssignments);
+    };
+
+    const renderShiftCard = (shift: any, showCrewName: boolean = false) => {
+      if (shift.isTimeOff) {
+        return (
+          <div
+            key={shift.id}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEditShiftClick(shift);
+            }}
+            className="wiw-card select-none cursor-pointer rounded-md bg-[#252530] border border-white/10 py-3.5 px-2 flex items-center justify-center text-center w-full min-h-[52px]"
+          >
+            <span className="text-[10px] font-extrabold text-white/40 uppercase tracking-wider">
+              Time Off All Day
+            </span>
+          </div>
+        );
+      }
+
+      const roleStyle = getRoleStyle(shift.role);
+      const timeLabel = shift.labelOverride || formatTimeStringWIW(shift.startHour, shift.endHour);
+      const isBeingDragged = draggedShiftId === shift.id;
+
+      const showOverlapAvatar = !showCrewName;
+
+      return (
+        <div
+          key={shift.id}
+          draggable
+          onDragStart={(e) => {
+            e.stopPropagation();
+            e.dataTransfer.setData("text/plain", `shift:${shift.id}`);
+            e.dataTransfer.effectAllowed = "move";
+            setDraggedShiftId(shift.id);
+            draggedShiftIdRef.current = shift.id;
+            draggedShiftDurationRef.current = shift.endHour - shift.startHour;
+          }}
+          onDragEnd={() => {
+            setDraggedShiftId(null);
+            draggedShiftIdRef.current = null;
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleEditShiftClick(shift);
+          }}
+          style={{
+            backgroundColor: roleStyle.bg,
+            opacity: isBeingDragged ? 0.3 : 1
+          }}
+          className={`wiw-card relative select-none cursor-grab active:cursor-grabbing rounded-md p-1.5 flex flex-col justify-between shadow-sm min-h-[52px] text-white ${
+            shift.isDraft ? 'wiw-striped' : ''
+          }`}
+        >
+          {/* Action buttons — always visible */}
+          <div className="absolute top-1 right-1 flex items-center gap-0.5 z-10">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditShiftClick(shift);
+              }}
+              className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:bg-black/80 text-white/70 hover:text-white transition-all cursor-pointer border-none backdrop-blur-sm"
+              title="Edit shift"
+            >
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteScheduleItem(shift.id);
+              }}
+              className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:bg-red-600 text-white/70 hover:text-white transition-all cursor-pointer border-none backdrop-blur-sm"
+              title="Delete shift"
+            >
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </button>
+          </div>
+
+          <div className={`flex flex-col gap-1 w-full ${showOverlapAvatar ? 'pl-3' : ''}`}>
+            <span className="text-[10px] font-extrabold tracking-wide uppercase block">
+              {timeLabel.split(' ')[0]}
+              {timeLabel.includes('-') && ` - ${timeLabel.split('-')[1].trim().split(' ')[0]}`}
+            </span>
+
+            {shift.location || shift.labelOverride ? (
+              <span className="text-[8.5px] font-bold opacity-85 truncate mt-0.5 block">
+                {shift.labelOverride ? shift.labelOverride.replace(/^\d+[a|p]\s*-\s*\d+[a|p]\s*at\s*/i, '') : `📍 ${shift.location.split(',')[0]}`}
+              </span>
+            ) : null}
+
+            <div className="mt-1.5 flex items-center justify-start">
+              <span
+                style={{ backgroundColor: roleStyle.tagBg }}
+                className="px-1.5 py-0.5 rounded text-[7.5px] font-black uppercase tracking-wider leading-none text-white/90"
+              >
+                {roleStyle.label}
+              </span>
+            </div>
+          </div>
+
+          {showOverlapAvatar && (
+            <div className="absolute -left-2.5 -bottom-2.5 w-6 h-6 rounded-full border-2 border-[#0f0f13] shadow-md z-20 overflow-hidden flex items-center justify-center shrink-0">
+              {(() => {
+                if (shift.crewId === 'openshifts') {
+                  return (
+                    <div className="w-full h-full flex items-center justify-center text-emerald-400 bg-[#102a1e]">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
+                        <circle cx="12" cy="12" r="10" />
+                        <circle cx="12" cy="12" r="4" />
+                      </svg>
+                    </div>
+                  );
+                }
+                const member = crewMembers.find(c => c.id === shift.crewId);
+                const displayName = member?.name || shift.crewName || shift.crewId || '?';
+                const avatarUrl = member?.avatar;
+                const hasImage = avatarUrl && (avatarUrl.startsWith('http') || avatarUrl.startsWith('/'));
+                if (hasImage) {
+                  return (
+                    <img
+                      src={avatarUrl}
+                      alt=""
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  );
+                }
+                const initials = member?.initials || displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+                const color = member?.color || getAvatarColor(displayName);
+                return (
+                  <div
+                    className="w-full h-full flex items-center justify-center font-bold text-[8px] text-white rounded-full"
+                    style={{ backgroundColor: color }}
+                  >
+                    {initials}
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+
+          {showCrewName && (
+            <div className="flex items-center gap-1.5 mt-1.5 pt-1.5 border-t border-white/10 w-full">
+              {shift.crewId === 'openshifts' ? (
+                <>
+                  <div className="w-4 h-4 rounded-full border border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 text-[7px]">
+                    ●
+                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-wider text-emerald-400 truncate">
+                    OpenShifts
+                  </span>
+                </>
+              ) : (
+                <>
+                  {/* Crew Avatar */}
+                  {(() => {
+                    const member = crewMembers.find(c => c.id === shift.crewId);
+                    const displayName = member?.name || shift.crewName || shift.crewId || '?';
+                    const avatarUrl = member?.avatar;
+                    const hasImage = avatarUrl && (avatarUrl.startsWith('http') || avatarUrl.startsWith('/'));
+                    if (hasImage) {
+                      return (
+                        <img
+                          src={avatarUrl}
+                          alt=""
+                          className="w-4 h-4 rounded-full object-cover shrink-0"
+                        />
+                      );
+                    }
+                    const initials = member?.initials || displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+                    const color = member?.color || getAvatarColor(displayName);
+                    return (
+                      <div
+                        className="w-4 h-4 rounded-full flex items-center justify-center font-bold text-[7px] shrink-0 text-white"
+                        style={{ backgroundColor: color }}
+                      >
+                        {initials}
+                      </div>
+                    );
+                  })()}
+                  
+                  <span className="text-[9px] font-black uppercase tracking-wider text-white/85 truncate">
+                    {shift.crewName || (() => {
+                      const member = crewMembers.find(c => c.id === shift.crewId);
+                      return member ? member.name : shift.crewId;
+                    })()}
+                  </span>
+                </>
+              )}
+            </div>
+          )}
+
+          {shift.crewId === 'openshifts' && shift.openSlots && (
+            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white font-black text-[9px] w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-md animate-pulse">
+              {shift.openSlots}
+            </span>
+          )}
+
+          {shift.notes && (
+            <div className="absolute top-0 right-0 w-0 h-0 border-t-[8px] border-r-[8px] border-t-transparent border-r-green-400" title={`Note: ${shift.notes}`} />
+          )}
+        </div>
+      );
+    };
+
+    const renderRosterBoard = () => {
+      return (
+        <div className="w-full max-h-[calc(100vh-270px)] overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner">
+          <table
+            style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${224 + filteredDays.length * 160}px` }}
+            className="w-full border-collapse text-left select-none table-fixed bg-transparent"
+          >
+            <thead>
+              <tr className="border-b border-white/20 bg-white/[0.02] text-white/40 text-[11px] font-bold tracking-wider">
+                <th className="p-3 w-56 border-r border-white/15 border-b border-white/20 uppercase wiw-sticky-corner">First Name</th>
+                {filteredDays.map((day, idx) => {
+                  const dayShow = getDayShow(day.dateStr);
+                  return (
+                    <th 
+                      key={day.dateStr} 
+                      className={`p-3 w-48 border-r border-white/15 border-b border-white/20 relative group wiw-sticky-header transition-all duration-200 ${
+                        selectedTourDate === day.dateStr 
+                          ? 'bg-amber-500/10 text-amber-400 font-black' 
+                          : 'text-white/40'
+                      }`}
+                    >
+                      <div className="flex flex-col gap-1 w-full">
+                        <div className="flex items-center justify-between">
+                          <span>{getDayLabelOverride(day.dateStr, idx)}</span>
+                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button className="p-0.5 hover:bg-white/5 rounded text-white/40 hover:text-white border-none bg-transparent cursor-pointer">
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+                            </button>
+                            <button className="p-0.5 hover:bg-white/5 rounded text-white/40 hover:text-white border-none bg-transparent cursor-pointer">
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 19V5"/><polyline points="5 12 12 5 19 12"/></svg>
+                            </button>
+                          </div>
+                        </div>
+                        {dayShow && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedShowCrewDate(day.dateStr);
+                            }}
+                            className="mt-1 w-full text-[9px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"
+                            title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
+                          >
+                            🎸 {dayShow.venue || dayShow.venue_name}
+                          </button>
+                        )}
+                      </div>
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {/* Row 1: OpenShifts */}
+              <tr className="border-b border-white/15 bg-emerald-500/[0.02] hover:bg-emerald-500/[0.04] transition-colors">
+                <td className="p-3 border-r border-white/15 align-middle wiw-sticky-col">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full border-2 border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 shadow-sm">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+                    </div>
+                    <div>
+                      <span className="text-sm font-extrabold text-white/85 block">Open Shifts</span>
+                      <span className="text-[9px] text-white/25 font-bold uppercase tracking-wider">Unfilled positions</span>
+                    </div>
+                  </div>
+                </td>
+                {filteredDays.map(day => {
+                  const isSelectedDay = selectedTourDate === day.dateStr;
+                  return (
+                    <td
+                      key={day.dateStr}
+                      className={`p-2 border-r border-white/15 align-top relative min-h-[80px] hover:bg-white/[0.02] transition-colors cursor-pointer ${
+                        isSelectedDay ? 'bg-amber-500/[0.03]' : ''
+                      }`}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+                      }}
+                      onDrop={(e) => handleDropOnCell(e, day.dateStr, 'openshifts')}
+                    >
+                      <div className="flex flex-col gap-1.5 h-full w-full select-none" onClick={(e) => e.stopPropagation()}>
+                        {/* Top Box: Add Crew Member */}
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCellClick(day.dateStr, 'openshifts', 'SERVER');
+                          }}
+                          className="w-full py-2.5 flex flex-col items-center justify-center border border-dashed border-emerald-500/25 hover:border-emerald-500/50 rounded-lg bg-emerald-500/[0.01] hover:bg-emerald-500/[0.04] transition-all cursor-pointer group"
+                        >
+                          <span className="text-[11px] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
+                          <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-400/50 group-hover:text-emerald-400/80 transition-colors mt-0.5">
+                            Add Crew Member
+                          </span>
+                        </div>
+
+                        {/* Bottom Row: Split in 2 */}
+                        <div className="flex gap-1.5 w-full relative">
+                          {/* Left Box: Add Crew Group */}
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCellGroupPopover(prev => prev === `openshifts_group_${day.dateStr}` ? null : `openshifts_group_${day.dateStr}`);
+                            }}
+                            className="flex-1 py-2 flex flex-col items-center justify-center border border-dashed border-emerald-500/25 hover:border-emerald-500/50 rounded-lg bg-emerald-500/[0.01] hover:bg-emerald-500/[0.04] transition-all cursor-pointer group"
+                          >
+                            <span className="text-[11px] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
+                            <span className="text-[8px] font-extrabold uppercase tracking-wider text-emerald-400/50 group-hover:text-emerald-400/80 transition-colors mt-0.5 text-center leading-tight">
+                              Add Crew Group
+                            </span>
+                          </div>
+
+                          {/* Right Box: Create Group */}
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCreateGroupForDate(day.dateStr);
+                              const initialSettings: any = {};
+                              crewMembers.filter(m => m.id !== 'openshifts').forEach(m => {
+                                initialSettings[m.id] = {
+                                  active: false,
+                                  role: m.role || 'SERVER',
+                                  startHour: 17.0,
+                                  endHour: 22.0
+                                };
+                              });
+                              setNewGroupMemberSettings(initialSettings);
+                              setNewGroupNameInput('');
+                              setIsCreateGroupModalOpen(true);
+                            }}
+                            className="flex-1 py-2 flex flex-col items-center justify-center border border-dashed border-emerald-500/25 hover:border-emerald-500/50 rounded-lg bg-emerald-500/[0.01] hover:bg-emerald-500/[0.04] transition-all cursor-pointer group"
+                          >
+                            <span className="text-[11px] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
+                            <span className="text-[8px] font-extrabold uppercase tracking-wider text-emerald-400/50 group-hover:text-emerald-400/80 transition-colors mt-0.5 text-center leading-tight">
+                              Create Group
+                            </span>
+                          </div>
+
+                          {/* Saved groups list popover when Add Crew Group is clicked */}
+                          {cellGroupPopover === `openshifts_group_${day.dateStr}` && (
+                            <div 
+                              data-group-popover-cell 
+                              className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[#111116] border border-white/10 rounded-xl shadow-2xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <div className="text-[8px] text-white/30 uppercase tracking-widest font-black px-2 py-1 border-b border-white/5 mb-1">
+                                Select Crew Group
+                              </div>
+                              {crewGroups.length === 0 ? (
+                                <span className="text-[8px] text-white/30 italic px-2 py-0.5">No saved groups</span>
+                              ) : (
+                                crewGroups.map((g, gIdx) => (
+                                  <button
+                                    key={gIdx}
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleAddGroupToDay(day.dateStr, g);
+                                      setCellGroupPopover(null);
+                                    }}
+                                    className="w-full text-left px-2 py-1 rounded hover:bg-emerald-500/10 text-[9px] text-emerald-300 font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
+                                    title={`Apply Group: ${g.name}`}
+                                  >
+                                    <span className="text-[10px] font-mono text-emerald-400">+</span>
+                                    <span>{g.name}</span>
+                                  </button>
+                                ))
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+              {/* Crew Rows — individually collapsible */}
+              {filteredCrewMembers.map(member => {
+                const totalHours = getCrewScheduledHours(member.id, next7Days);
+                const monthHours = getCrewScheduledHoursForMonth(member.id, currentWeekStart);
+                const hoursStatus = getCrewHoursStatus(member.id, totalHours);
+                const hasExclamation = member.id === 'arjun' || member.id === 'dave_croke';
+                const isCollapsed = collapsedCrewIds.includes(member.id);
+                const shiftCount = schedules.filter(s => next7Days.some(d => d.dateStr === s.date) && s.crewId === member.id).length;
+
+                const toggleCollapse = () => {
+                  setCollapsedCrewIds(prev =>
+                    prev.includes(member.id) ? prev.filter(id => id !== member.id) : [...prev, member.id]
+                  );
+                };
+                
+                if (isCollapsed) {
+                  return (
+                    <tr key={member.id} className="border-b border-white/15 hover:bg-white/[0.02] transition-colors cursor-pointer" onClick={toggleCollapse}>
+                      <td colSpan={filteredDays.length + 1} className="px-3 py-2">
+                        <div className="flex items-center gap-2.5">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white/30 shrink-0 transition-transform">
+                            <polyline points="9 18 15 12 9 6"/>
+                          </svg>
+                          <CrewAvatar member={member} />
+                          <span className="text-xs font-bold text-white/50">{member.name}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+                
+                return (
+                  <tr key={member.id} className="border-b border-white/15 hover:bg-white/[0.01] transition-colors">
+                    <td className="p-3 border-r border-white/15 align-top relative cursor-pointer wiw-sticky-col" onClick={toggleCollapse}>
+                      <div className="flex items-center gap-3">
+                        {hasExclamation && (
+                          <div className="absolute left-1 top-1/2 -translate-y-1/2 text-amber-500" title="Warning: Schedule issues">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                          </div>
+                        )}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white/30 shrink-0 transition-transform">
+                          <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                        <CrewAvatar member={member} />
+                        <div className="min-w-0 wiw-tooltip-container">
+                          <p className="text-sm font-bold text-white/80 truncate">{member.name}</p>
+                          
+                          <div className="flex items-center gap-1.5 mt-1.5">
+                            {member.id === 'al' ? (
+                              <div className="flex items-center gap-1 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase text-rose-400 tracking-wider">
+                                <span className="opacity-75">W:</span>
+                                <span>🚫 {totalHours}h</span>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase text-white/60 tracking-wider">
+                                <span className="text-white/30">W:</span>
+                                <span className="text-white">{totalHours}h</span>
+                              </div>
+                            )}
+                            <div className="flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase text-white/60 tracking-wider">
+                              <span className="text-white/30">M:</span>
+                              <span className="text-white">{monthHours}h</span>
+                            </div>
+                          </div>
+
+                          {hoursStatus.status !== 'ok' && (
+                            <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg shadow-xl text-left border border-slate-700/50 w-48 leading-relaxed font-sans text-xs">
+                              <div className="font-bold text-slate-200">Scheduled: <span className="text-white">{totalHours} hours</span></div>
+                              <div className="text-slate-400 mt-0.5">Max: {hoursStatus.maxHours} hours</div>
+                              <div className="text-rose-400 font-bold mt-1.5 flex items-center gap-1">
+                                <span>🚫</span> {hoursStatus.over} hours over max
+                              </div>
+                              <div className="text-[10px] text-slate-500 border-t border-slate-700/50 mt-2 pt-1 flex items-center justify-between">
+                                <span>From 12a Mon - 11:59p Sun</span>
+                                <span className="text-slate-400 font-bold">❓</span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+
+                    {filteredDays.map(day => {
+                      const dayShifts = schedules.filter(s => s.date === day.dateStr && s.crewId === member.id);
+                      const isSelectedDay = selectedTourDate === day.dateStr;
+                      return (
+                        <td
+                          key={day.dateStr}
+                          className={`p-2 border-r border-white/15 align-top relative min-h-[85px] hover:bg-white/[0.02] transition-colors cursor-pointer ${
+                            isSelectedDay ? 'bg-amber-500/[0.03]' : ''
+                          }`}
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+                          }}
+                          onDrop={(e) => handleDropOnCell(e, day.dateStr, member.id)}
+                          onClick={() => handleCellClick(day.dateStr, member.id, member.role || 'SERVER')}
+                        >
+                          <div className="flex flex-col gap-1.5">
+                            {dayShifts.map(shift => renderShiftCard(shift))}
+                          </div>
+                          {dayShifts.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
+                              }}
+                              className="mt-1 w-full py-1 flex items-center justify-center gap-1 text-[9px] font-bold text-white/25 hover:text-white/60 bg-transparent hover:bg-white/[0.03] border border-dashed border-white/15 hover:border-white/35 rounded transition-all cursor-pointer"
+                            >
+                              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                              ADD
+                            </button>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+
+              {/* Collapse/Expand All toggle */}
+              {filteredCrewMembers.length > 3 && (
+                <tr className="border-b border-white/15">
+                  <td colSpan={filteredDays.length + 1} className="p-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const allIds = filteredCrewMembers.map(m => m.id);
+                        const allCollapsed = allIds.every(id => collapsedCrewIds.includes(id));
+                        setCollapsedCrewIds(allCollapsed ? [] : allIds);
+                      }}
+                      className="w-full px-4 py-1.5 flex items-center gap-2 text-left border-none bg-transparent hover:bg-white/[0.02] transition-colors cursor-pointer group"
+                    >
+                      <span className="text-[9px] font-bold text-white/15 group-hover:text-white/40 uppercase tracking-wider transition-colors">
+                        {filteredCrewMembers.every(m => collapsedCrewIds.includes(m.id)) ? '▸ Expand All' : '▾ Collapse All'}
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      );
+    };
+
+    const renderListBoard = () => {
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3 select-none">
+          {filteredDays.map(day => {
+            const dayShifts = scheduleCrewFilter ? schedules.filter(s => s.date === day.dateStr && (s.crewId === scheduleCrewFilter || s.crewId === 'openshifts')) : schedules.filter(s => s.date === day.dateStr);
+            const sortedShifts = [...dayShifts].sort((a, b) => a.startHour - b.startHour);
+            const isHovered = activeDropDay === day.dateStr && draggedCrewMemberId;
+            
+            return (
+              <div 
+                key={day.dateStr}
+                className={`rounded-xl border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-all shadow-sm ${
+                  isHovered ? 'bg-amber-500/5 border-amber-500/30' : 'border-white/5'
+                }`}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  if (e.dataTransfer) {
+                    e.dataTransfer.dropEffect = "move";
+                  }
+                  setActiveDropDay(day.dateStr);
+                }}
+                onDragLeave={() => {
+                  if (activeDropDay === day.dateStr) {
+                    setActiveDropDay(null);
+                  }
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  
+                  setDraggedShiftId(null);
+                  draggedShiftIdRef.current = null;
+                  
+                  const dragData = e.dataTransfer.getData("text/plain");
+                  if (dragData.startsWith("shift:")) {
+                    const shiftId = dragData.split(":")[1];
+                    setSchedules(current => {
+                      const updated = current.map(s => {
+                        if (s.id === shiftId) {
+                          return { ...s, date: day.dateStr };
+                        }
+                        return s;
+                      });
+                      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                      window.dispatchEvent(new Event('storage'));
+                      fetch("/api/crew/calendar", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(updated)
+                      }).catch(err => console.error("Failed to sync schedules:", err));
+                      return updated;
+                    });
+                  }
+                }}
+              >
+                <div className="text-center pb-2 border-b border-white/5 mb-2 flex flex-col items-center">
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-white/30 block">{day.dayName}</span>
+                  <span className="text-xs font-bold text-white/70 block mt-0.5">{day.monthName} {day.dayOfMonth}</span>
+                  {(() => {
+                    const dayShow = getDayShow(day.dateStr);
+                    if (!dayShow) return null;
+                    return (
+                      <button 
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedShowCrewDate(day.dateStr);
+                        }}
+                        className="mt-1 w-full text-[8.5px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1.5 py-0.5 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1"
+                        title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
+                      >
+                        🎸 {dayShow.venue || dayShow.venue_name}
+                      </button>
+                    );
+                  })()}
+                </div>
+
+                <div className="flex-1 flex flex-col gap-2">
+                  {sortedShifts.length === 0 ? (
+                    <div className="flex-1 flex items-center justify-center border border-dashed border-white/5 rounded-lg p-4 bg-black/20">
+                      <span className="text-[10px] text-white/30 italic font-medium">Empty</span>
+                    </div>
+                  ) : (
+                    sortedShifts.map(shift => renderShiftCard(shift, true))
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    };
+
+    const renderTimelineGrid = () => {
+      const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
+      return (
+        <div className="flex flex-col bg-[#0f0f13] border border-white/5 rounded-xl p-4 shadow-2xl select-none">
+          <div className="flex select-none">
+            <div className="w-14 shrink-0" />
+            <div className="flex-1 grid grid-cols-7 gap-2 text-center pb-2 border-b border-white/10 mb-2">
+              {filteredDays.map((day) => {
+                const count = schedules.filter(s => s.date === day.dateStr).length;
+                return (
+                  <div key={day.dateStr} className="min-w-0 flex flex-col items-center justify-start">
+                    <p className="text-[10px] uppercase font-bold tracking-wider text-white/30">{day.dayName}</p>
+                    <p className="text-xs font-bold text-white/70 mt-0.5">{day.monthName} {day.dayOfMonth}</p>
+                    {(() => {
+                      const dayShow = getDayShow(day.dateStr);
+                      if (!dayShow) return null;
+                      return (
+                        <button 
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedShowCrewDate(day.dateStr);
+                          }}
+                          className="mt-1 w-full text-[7.5px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1 text-center"
+                          title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
+                        >
+                          🎸 {dayShow.venue || dayShow.venue_name}
+                        </button>
+                      );
+                    })()}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex relative">
+            <div className="w-14 shrink-0 h-[480px] relative flex flex-col justify-between text-[9px] font-bold text-white/30 pr-2 pt-0.5 select-none z-10 pointer-events-none">
+              {hoursAxis.map((h) => (
+                <div key={h} className="h-0 flex items-center justify-end leading-none">
+                  {formatHour(h)}
+                </div>
+              ))}
+            </div>
+
+            <div className="flex-1 h-[480px] relative grid grid-cols-7 gap-2 bg-black/20 border border-white/5 rounded-xl overflow-hidden p-0">
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+                {Array.from({ length: 17 }).map((_, idx) => (
+                  <div 
+                    key={idx} 
+                    className={`w-full h-0 border-b ${
+                      idx % 2 === 0 
+                        ? 'border-white/10 border-solid' 
+                        : 'border-white/5 border-dashed'
+                    }`} 
+                  />
+                ))}
+              </div>
+
+              {filteredDays.map((day) => {
+                const dayShifts = schedules.filter(s => s.date === day.dateStr && s.crewId !== 'openshifts');
+                return (
+                  <div
+                    key={day.dateStr}
+                    className="h-full relative rounded-lg overflow-y-hidden"
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      const dragData = e.dataTransfer.getData("text/plain");
+                      if (dragData.startsWith("shift:")) {
+                        const shiftId = dragData.split(":")[1];
+                        setSchedules(current => {
+                          const updated = current.map(s => {
+                            if (s.id === shiftId) {
+                              return { ...s, date: day.dateStr };
+                            }
+                            return s;
+                          });
+                          localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                          window.dispatchEvent(new Event('storage'));
+                          return updated;
+                        });
+                      }
+                    }}
+                  >
+                    {dayShifts.map(shift => {
+                      const topPct = ((shift.startHour - 8) / 16) * 100;
+                      const heightPct = ((shift.endHour - shift.startHour) / 16) * 100;
+                      const roleStyle = getRoleStyle(shift.role);
+                      return (
+                        <div
+                          key={shift.id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditShiftClick(shift);
+                          }}
+                          style={{
+                            position: 'absolute',
+                            top: `${topPct}%`,
+                            height: `${heightPct}%`,
+                            backgroundColor: roleStyle.bg,
+                            left: '4px',
+                            right: '4px',
+                          }}
+                          className={`wiw-card text-white p-1 rounded-md text-[9px] font-bold overflow-hidden cursor-pointer shadow-sm ${
+                            shift.isDraft ? 'wiw-striped' : ''
+                          }`}
+                        >
+                          <div className="truncate">{shift.crewName}</div>
+                          <div className="opacity-80 text-[8px]">{formatTimeStringWIW(shift.startHour, shift.endHour)}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    return (
+      <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8">
+        <style>{`
+          .wiw-scheduler-container {
+            background-color: #0f0f13;
+            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          }
+          .wiw-sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background-color: #0f0f13 !important;
+          }
+          .wiw-sticky-col {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            background-color: #0f0f13 !important;
+          }
+          .wiw-sticky-corner {
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 40;
+            background-color: #0f0f13 !important;
+          }
+          tr:hover .wiw-sticky-col {
+            background-color: #16161f !important;
+          }
+          .wiw-card {
+            transition: all 0.15s ease-in-out;
+            position: relative;
+          }
+          .wiw-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.08);
+          }
+          .wiw-striped {
+            background-image: repeating-linear-gradient(
+              -45deg,
+              rgba(255, 255, 255, 0.15),
+              rgba(255, 255, 255, 0.15) 8px,
+              transparent 8px,
+              transparent 16px
+            ) !important;
+          }
+          .wiw-tooltip-container {
+            position: relative;
+          }
+          .wiw-tooltip {
+            visibility: hidden;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 20px;
+            opacity: 0;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            transform: translateY(5px);
+          }
+          .wiw-tooltip-container:hover .wiw-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+          }
+          .info-tooltip-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+          }
+          .info-tooltip {
+            visibility: hidden;
+            position: absolute;
+            z-index: 101;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            opacity: 0;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            white-space: nowrap;
+          }
+          .info-tooltip-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+        `}</style>
+
+        {/* Section Header */}
+        <div onClick={() => toggleSection('crewschedule')} className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors text-white">
+          <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+            <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            </div>
+            <h3 onClick={() => toggleSection('crewschedule')} className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
+              <span>📅</span> Crew Work Schedule Calendar
+            </h3>
+          </div>
+          <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+            <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded">Roster Schedule</span>
+            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewschedule') ? 'rotate-0' : '-rotate-90')}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: isSectionOpen('crewschedule') ? undefined : 'none' }}>
+          <div className="wiw-scheduler-container">
+            
+            {/* Header controls (Date range, prev/next, today, action icons) */}
+            <div className="bg-black/40 border-b border-white/5 p-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white">
+              {/* Left: Date Range & Nav */}
+              <div className="flex items-center gap-3 flex-wrap">
+                <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">
+                  {getWeekRangeLabel(currentWeekStart)}
+                </h2>
+                <div className="flex items-center border border-white/10 bg-black/40 rounded-lg shadow-sm overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={handlePrevWeek}
+                    className="p-2 hover:bg-white/5 transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                    title="Previous Week"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      document.getElementById('wiw-date-picker')?.click();
+                    }}
+                    className="p-2 hover:bg-white/5 transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                    title="Choose Date"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  </button>
+                  <input
+                    type="date"
+                    id="wiw-date-picker"
+                    className="sr-only"
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        const chosen = new Date(e.target.value);
+                        const day = chosen.getDay();
+                        const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
+                        setCurrentWeekStart(new Date(chosen.setDate(diff)));
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleNextWeek}
+                    className="p-2 hover:bg-white/5 transition-colors text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                    title="Next Week"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleGoToToday}
+                  className="px-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg shadow-sm transition-colors cursor-pointer border-solid"
+                >
+                  TODAY
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleGoToMonth}
+                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid ${
+                    calendarRange === 'month'
+                      ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20'
+                      : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                  }`}
+                >
+                  MONTH
+                </button>
+
+                <div className="relative">
+                  <select
+                     value={(() => {
+                       if (calendarRange === '4weeks') return '4weeks';
+                       if (calendarRange === 'month') return 'month';
+                       
+                       const time = currentWeekStart.getTime();
+                       if (time === new Date(2023, 0, 23).getTime() || time === new Date(2025, 11, 29).getTime()) return '1';
+                       if (time === new Date(2026, 0, 5).getTime()) return '2';
+                       if (time === new Date(2026, 0, 12).getTime()) return '3';
+                       if (time === new Date(2026, 0, 19).getTime()) return '4';
+                       if (time === new Date(2026, 0, 26).getTime()) return '5';
+                       return 'custom';
+                     })()}
+                     onChange={(e) => {
+                       const val = e.target.value;
+                       if (val === '4weeks') {
+                         setCalendarRange('4weeks');
+                         setCurrentWeekStart(new Date(2025, 11, 29));
+                       } else if (val === 'month') {
+                         setCalendarRange('month');
+                         setCurrentWeekStart(new Date(2025, 11, 29));
+                       } else {
+                         setCalendarRange('week');
+                         if (val === '1') {
+                           const was2023 = currentWeekStart.getFullYear() === 2023;
+                           setCurrentWeekStart(was2023 ? new Date(2023, 0, 23) : new Date(2025, 11, 29));
+                         } else if (val === '2') {
+                           setCurrentWeekStart(new Date(2026, 0, 5));
+                         } else if (val === '3') {
+                           setCurrentWeekStart(new Date(2026, 0, 12));
+                         } else if (val === '4') {
+                           setCurrentWeekStart(new Date(2026, 0, 19));
+                         } else if (val === '5') {
+                           setCurrentWeekStart(new Date(2026, 0, 26));
+                         }
+                       }
+                     }}
+                     className="appearance-none pr-8 pl-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[95px]"
+                   >
+                     <option value="1">Week 1</option>
+                     <option value="2">Week 2</option>
+                     <option value="3">Week 3</option>
+                     <option value="4">Week 4</option>
+                     <option value="5">Week 5</option>
+                     <option value="4weeks">Weeks 1-4</option>
+                     <option value="month">Full Month</option>
+                     <option value="custom" disabled hidden>Custom</option>
+                   </select>
+                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                  </div>
+                </div>
+
+                {/* 🎸 Tour Dates Quick-Jump */}
+                <div className="relative" data-tour-dropdown>
+                  <button
+                    type="button"
+                    onClick={() => setShowTourDropdown(prev => !prev)}
+                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${
+                      showTourDropdown 
+                        ? 'border-amber-500/40 bg-amber-500/10 text-amber-400' 
+                        : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                    }`}
+                  >
+                    🎸 SHOWS
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform ${showTourDropdown ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
+                  </button>
+                  {showTourDropdown && (
+                    <div className="absolute top-full left-0 mt-1 z-50 bg-[#1a1a22] border border-white/10 rounded-xl shadow-2xl min-w-[280px] max-h-[320px] overflow-y-auto py-1">
+                      {tourDates.length === 0 ? (
+                        <div className="px-4 py-3 text-[11px] text-white/30 italic">No tour dates synced yet</div>
+                      ) : (
+                        [...tourDates]
+                          .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+                          .map((show, idx) => {
+                            const showDate = show.date ? new Date(show.date + 'T12:00:00') : null;
+                            const dateLabel = showDate
+                              ? showDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' })
+                              : 'Unknown';
+                            return (
+                              <button
+                                key={idx}
+                                type="button"
+                                onClick={() => {
+                                  if (show.date) {
+                                    const chosen = new Date(show.date + 'T12:00:00');
+                                    const day = chosen.getDay();
+                                    const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
+                                    setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
+                                  }
+                                  setShowTourDropdown(false);
+                                }}
+                                className="w-full text-left px-4 py-2.5 hover:bg-white/5 flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
+                              >
+                                <span className="text-[10px] font-black text-amber-400/70 group-hover:text-amber-400 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
+                                <span className="text-xs font-bold text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
+                                {show.city && <span className="text-[10px] text-white/30 ml-auto shrink-0">{show.city}</span>}
+                              </button>
+                            );
+                          })
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Shows Only Toggle */}
+                <button
+                  type="button"
+                  onClick={() => setShowTourDatesOnly(prev => !prev)}
+                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${
+                    showTourDatesOnly 
+                      ? 'border-amber-500/40 bg-amber-500/15 text-amber-400' 
+                      : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                  }`}
+                  title="Show only days with tour shows"
+                >
+                  {showTourDatesOnly ? '🎸 SHOWS ONLY' : 'ALL DAYS'}
+                </button>
+
+                {/* Crew Member Filter */}
+                <div className="relative">
+                  <select
+                    value={scheduleCrewFilter}
+                    onChange={(e) => setScheduleCrewFilter(e.target.value)}
+                    className="appearance-none pr-8 pl-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[140px]"
+                  >
+                    <option value="">👥 All Crew</option>
+                    {crewMembers.filter(m => m.id !== 'openshifts').map(member => (
+                      <option key={member.id} value={member.id}>{member.name}</option>
+                    ))}
+                  </select>
+                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                  </div>
+                </div>
+
+                {/* Tour Date Picker */}
+                <div className="relative">
+                  <select
+                    value={selectedTourDate || ''}
+                    onChange={(e) => {
+                      const chosenDate = e.target.value;
+                      if (!chosenDate) {
+                        setSelectedTourDate(null);
+                        return;
+                      }
+                      setSelectedTourDate(chosenDate);
+                      // Jump to that week
+                      const chosen = new Date(chosenDate + 'T12:00:00');
+                      const day = chosen.getDay();
+                      const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
+                      setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
+                    }}
+                    className="appearance-none pr-8 pl-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[180px]"
+                  >
+                    <option value="">📅 All Tour Dates</option>
+                    {[...tourDates]
+                      .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+                      .map((show, idx) => {
+                        const d = show.date ? new Date(show.date + 'T12:00:00') : null;
+                        const label = d
+                          ? `${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — ${show.venue || show.venue_name || ''}`
+                          : show.venue || show.venue_name || '';
+                        return (
+                          <option key={idx} value={show.date || ''}>{label}</option>
+                        );
+                      })}
+                  </select>
+                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* View and actions */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center border border-white/10 bg-black/40 rounded-lg shadow-sm p-0.5 mr-2">
+                  <button
+                    type="button"
+                    onClick={() => setCalendarView('timeline')}
+                    className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-colors cursor-pointer border-none ${
+                      calendarView === 'timeline'
+                        ? 'bg-white/10 text-white'
+                        : 'text-white/40 hover:text-white bg-transparent'
+                    }`}
+                  >
+                    Grid
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCalendarView('roster')}
+                    className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-colors cursor-pointer border-none ${
+                      calendarView === 'roster'
+                        ? 'bg-white/10 text-white'
+                        : 'text-white/40 hover:text-white bg-transparent'
+                    }`}
+                  >
+                    Roster Board
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCalendarView('list')}
+                    className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-colors cursor-pointer border-none ${
+                      calendarView === 'list'
+                        ? 'bg-white/10 text-white'
+                        : 'text-white/40 hover:text-white bg-transparent'
+                    }`}
+                  >
+                    Daily Lists
+                  </button>
+                </div>
+
+                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+                </button>
+                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </button>
+                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                </button>
+                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Grid Body + Sidebar */}
+            <div className="flex gap-0">
+              {/* Main Schedule Grid */}
+              <div className="flex-1 p-4 bg-black/10 min-w-0">
+                {calendarView === 'timeline' && renderTimelineGrid()}
+                {calendarView === 'roster' && renderRosterBoard()}
+                {calendarView === 'list' && renderListBoard()}
+              </div>
+
+              {/* Right Sidebar: Tour Dates & Crew */}
+              <div className="w-[280px] shrink-0 border-l border-white/15 bg-black/30 overflow-y-auto max-h-[calc(100vh-100px)] hidden xl:block sticky top-6 z-20">
+                
+                {/* Tour Dates Section */}
+                <div className="border-b border-white/5">
+                  <div className="px-3 py-2.5 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px]">🎸</span>
+                      <span className="text-[10px] font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      {selectedTourDate && (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedTourDate(null)}
+                          className="text-[9px] font-bold text-amber-400/70 hover:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded cursor-pointer border-none transition-colors"
+                        >
+                          SHOW ALL ✕
+                        </button>
+                      )}
+                      <span className="text-[9px] font-bold text-white/20 bg-white/5 px-1.5 py-0.5 rounded">{tourDates.length}</span>
+                    </div>
+                  </div>
+                  <div className="px-2 pb-2 flex flex-col gap-0.5 max-h-[calc(100vh-150px)] overflow-y-auto">
+                    {tourDates.length === 0 ? (
+                      <div className="px-2 py-3 text-[10px] text-white/20 italic text-center">No tour dates synced</div>
+                    ) : (
+                      [...tourDates]
+                        .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+                        .map((show, idx) => {
+                          const showDate = show.date ? new Date(show.date + 'T12:00:00') : null;
+                          const dateLabel = showDate
+                            ? showDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                            : '—';
+                          const dayLabel = showDate
+                            ? showDate.toLocaleDateString('en-US', { weekday: 'short' })
+                            : '';
+                          
+                          // Check if this date is currently selected
+                          const isSelected = selectedTourDate === show.date;
+                          // Check if this show's week is currently active
+                          const isActiveWeek = next7Days.some(d => d.dateStr === show.date);
+                          // Check how many shifts exist for this show date
+                          const shiftCount = schedules.filter(s => s.date === show.date).length;
+                          
+                          return (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => {
+                                if (show.date) {
+                                  if (isSelected) {
+                                    // Deselect — show all days again
+                                    setSelectedTourDate(null);
+                                  } else {
+                                    // Select this single date and jump to its week
+                                    setSelectedTourDate(show.date);
+                                    const chosen = new Date(show.date + 'T12:00:00');
+                                    const day = chosen.getDay();
+                                    const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
+                                    setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
+                                  }
+                                }
+                              }}
+                              className={`w-full text-left px-2.5 py-2 rounded-lg flex items-center gap-2 border-none cursor-pointer transition-all group ${
+                                isSelected
+                                  ? 'bg-amber-500/15 ring-1 ring-amber-500/30' 
+                                  : isActiveWeek
+                                    ? 'bg-white/[0.04]'
+                                    : 'bg-transparent hover:bg-white/[0.03]'
+                              }`}
+                            >
+                              <div className="flex flex-col items-center min-w-[36px]">
+                                <span className="text-[8px] font-bold text-white/35 uppercase">{dayLabel}</span>
+                                <span className={`text-[11px] font-black ${isSelected ? 'text-amber-400' : isActiveWeek ? 'text-white/60' : 'text-white/40'}`}>{dateLabel}</span>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className={`text-[10px] font-bold truncate ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/80' : 'text-white/60'}`}>
+                                  {show.venue || show.venue_name}
+                                </p>
+                                {show.city && (
+                                  <p className="text-[9px] text-white/25 truncate">{show.city}{show.state ? `, ${show.state}` : ''}</p>
+                                )}
+                              </div>
+                              {shiftCount > 0 && (
+                                <span className="text-[8px] font-black bg-emerald-500/15 text-emerald-400/70 px-1.5 py-0.5 rounded shrink-0">
+                                  {shiftCount}
+                                </span>
+                              )}
+                            </button>
+                          );
+                        })
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Crew Hours Leaderboard */}
+            <div className="bg-black/30 border-t border-white/5">
+              <button
+                type="button"
+                onClick={() => setShowLeaderboard(prev => !prev)}
+                className="w-full px-4 py-2.5 flex items-center justify-between cursor-pointer border-none bg-transparent hover:bg-white/[0.02] transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-xs">🏆</span>
+                  <span className="text-[11px] font-bold text-white/60 uppercase tracking-wider">Crew Hours Leaderboard</span>
+                </div>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`text-white/30 transition-transform ${showLeaderboard ? '' : '-rotate-90'}`}><polyline points="6 9 12 15 18 9" /></svg>
+              </button>
+              
+              {showLeaderboard && (
+                <div className="px-4 pb-4">
+                  {/* Period Tabs */}
+                  <div className="flex items-center gap-1 mb-3">
+                    {(['day', 'week', 'month', 'year'] as const).map(period => (
+                      <button
+                        key={period}
+                        type="button"
+                        onClick={() => setLeaderboardPeriod(period)}
+                        className={`px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md border-none cursor-pointer transition-all ${
+                          leaderboardPeriod === period
+                            ? 'bg-amber-500/15 text-amber-400'
+                            : 'bg-transparent text-white/30 hover:text-white/60 hover:bg-white/5'
+                        }`}
+                      >
+                        {period}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Leaderboard Bars */}
+                  {(() => {
+                    const today = new Date();
+                    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                    
+                    const getHoursForPeriod = (crewId: string) => {
+                      let relevantShifts = schedules.filter(s => s.crewId === crewId && !s.isTimeOff);
+                      
+                      if (leaderboardPeriod === 'day') {
+                        const activeDay = next7Days[0]?.dateStr || todayStr;
+                        relevantShifts = relevantShifts.filter(s => s.date === activeDay);
+                      } else if (leaderboardPeriod === 'week') {
+                        const weekDates = next7Days.map(d => d.dateStr);
+                        relevantShifts = relevantShifts.filter(s => weekDates.includes(s.date));
+                      } else if (leaderboardPeriod === 'month') {
+                        const year = currentWeekStart.getFullYear();
+                        const month = String(currentWeekStart.getMonth() + 1).padStart(2, '0');
+                        const prefix = `${year}-${month}-`;
+                        relevantShifts = relevantShifts.filter(s => s.date.startsWith(prefix));
+                      } else {
+                        const year = String(currentWeekStart.getFullYear());
+                        relevantShifts = relevantShifts.filter(s => s.date.startsWith(year));
+                      }
+                      
+                      return relevantShifts.reduce((sum, s) => {
+                        const dur = s.endHour - s.startHour;
+                        return sum + (isNaN(dur) ? 0 : dur);
+                      }, 0);
+                    };
+                    
+                    const rankings = crewMembers
+                      .filter(m => m.id !== 'openshifts')
+                      .map(m => ({ ...m, hours: getHoursForPeriod(m.id) }))
+                      .filter(m => m.hours > 0)
+                      .sort((a, b) => b.hours - a.hours);
+                    
+                    const maxHours = rankings.length > 0 ? rankings[0].hours : 1;
+                    
+                    if (rankings.length === 0) {
+                      return (
+                        <div className="text-center py-3 text-[11px] text-white/20 italic">No hours logged for this period</div>
+                      );
+                    }
+                    
+                    return (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                        {rankings.slice(0, 9).map((member, idx) => {
+                          const pct = Math.round((member.hours / maxHours) * 100);
+                          const medalEmoji = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
+                          const barColor = idx === 0 ? 'bg-amber-500/30' : idx === 1 ? 'bg-slate-400/20' : idx === 2 ? 'bg-orange-700/20' : 'bg-white/5';
+                          
+                          return (
+                            <div key={member.id} className="flex items-center gap-2.5 bg-black/30 rounded-lg px-3 py-2 border border-white/5 hover:border-white/10 transition-colors">
+                              {/* Rank */}
+                              <span className="text-[10px] font-black text-white/20 w-4 shrink-0 text-right">
+                                {medalEmoji || `${idx + 1}`}
+                              </span>
+                              
+                              {/* Avatar */}
+                              {(() => {
+                                const hasImage = member.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/'));
+                                if (hasImage) {
+                                  return <img src={member.avatar} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" />;
+                                }
+                                const initials = member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+                                const color = member.color || getAvatarColor(member.name);
+                                return (
+                                  <div className="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[8px] text-white shrink-0" style={{ backgroundColor: color }}>
+                                    {initials}
+                                  </div>
+                                );
+                              })()}
+                              
+                              {/* Name + Bar */}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between mb-0.5">
+                                  <span className="text-[10px] font-bold text-white/70 truncate">{member.name}</span>
+                                  <span className="text-[10px] font-black text-amber-400/80 ml-2 shrink-0">{member.hours.toFixed(1)}h</span>
+                                </div>
+                                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                  <div className={`h-full rounded-full ${barColor} transition-all`} style={{ width: `${pct}%` }} />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
+
+            {/* Shift Config Modal / Side Drawer */}
+            {activeDropDay && draggedCrewMemberId && (() => {
+              const showFormDetails = !!editingShiftId || Object.values(selectedCrewAssignments).some(a => a.active);
+              return (
+                <div className="fixed inset-0 bg-black/30 z-50 flex justify-end animate-[fadeIn_0.2s_ease]">
+                {/* Backdrop Click Overlay */}
+                <div 
+                  className="absolute inset-0 cursor-default" 
+                  onClick={() => {
+                    setActiveDropDay(null);
+                    setDraggedCrewMemberId(null);
+                    setEditingShiftId(null);
+                  }}
+                />
+
+                <div className="relative bg-[#111116] border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                  
+                  {/* Modal Header */}
+                  <div className="p-5 border-b border-white/5 bg-[#181820] flex items-center justify-between shrink-0">
+                    <div>
+                      <h3 className="text-sm font-black italic tracking-wide text-white">
+                        {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
+                      </h3>
+                      <p className="text-[0.65rem] text-white/40 uppercase tracking-widest font-bold mt-1">
+                        Assigning {(() => {
+                          const found = crewMembers.find(c => c.id === draggedCrewMemberId);
+                          return found ? found.name : draggedCrewMemberId;
+                        })()} for {activeDropDay}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setActiveDropDay(null);
+                        setDraggedCrewMemberId(null);
+                        setEditingShiftId(null);
+                      }}
+                      className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  {/* Modal Form */}
+                  <div className="p-5 flex-1 flex flex-col min-h-0 overflow-hidden space-y-4">
+                    
+                    {/* Tour Date Show Card Info */}
+                    {(() => {
+                      const activeShow = activeDropDay ? getDayShow(activeDropDay) : null;
+                      if (!activeShow) return null;
+                      return (
+                        <div className="shrink-0 bg-amber-500/5 border border-amber-500/20 rounded-lg px-2.5 h-[30px] flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="text-[11px] shrink-0">🎸</span>
+                            <span className="text-[10px] font-black text-white truncate">{activeShow.venue}</span>
+                            <span className="text-[9px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
+                            {activeShow.notes && (
+                              <span className="text-[9px] text-amber-300/50 italic truncate ml-1.5" title={activeShow.notes}>
+                                Note: {activeShow.notes}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })()}
+
+                    {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
+                    <div className="flex-1 min-h-0 flex flex-col">
+                      <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</label>
+                      
+                      {/* Search and Grouping Controls */}
+                      <div className="shrink-0 mb-3 space-y-2">
+                        <input
+                          type="text"
+                          value={drawerCrewSearch}
+                          onChange={e => setDrawerCrewSearch(e.target.value)}
+                          placeholder="🔍 Search crew members..."
+                          className="w-full px-3 py-1.5 bg-black/40 border border-white/10 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold font-sans"
+                        />
+                        
+                        {Object.values(selectedCrewAssignments).some(a => a.active) && (
+                          <div className="flex items-center gap-2 animate-[fadeIn_0.15s_ease]">
+                            <span className="text-[9px] text-white/40 font-bold uppercase tracking-wider mr-1">Time Mode:</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedCrewAssignments(prev => {
+                                  const updated = { ...prev };
+                                  Object.keys(updated).forEach(id => {
+                                    if (updated[id].active) {
+                                      updated[id] = { ...updated[id], customized: false };
+                                    }
+                                  });
+                                  return updated;
+                                });
+                              }}
+                              className={`px-2 py-0.5 text-[9px] font-extrabold rounded transition-all cursor-pointer border ${
+                                Object.entries(selectedCrewAssignments).filter(([_, a]) => a.active).every(([_, a]) => !a.customized)
+                                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+                                  : 'bg-black/20 border-white/10 text-white/60 hover:text-white'
+                              }`}
+                            >
+                              🔗 Group Times
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedCrewAssignments(prev => {
+                                  const updated = { ...prev };
+                                  Object.keys(updated).forEach(id => {
+                                    if (updated[id].active) {
+                                      updated[id] = { ...updated[id], customized: true };
+                                    }
+                                  });
+                                  return updated;
+                                });
+                              }}
+                              className={`px-2 py-0.5 text-[9px] font-extrabold rounded transition-all cursor-pointer border ${
+                                Object.entries(selectedCrewAssignments).filter(([_, a]) => a.active).every(([_, a]) => a.customized)
+                                  ? 'bg-sky-500/10 border-sky-500/30 text-sky-400'
+                                  : 'bg-black/20 border-white/10 text-white/60 hover:text-white'
+                              }`}
+                            >
+                              ✏️ Set Separately
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0">
+                        {crewMembers
+                          .filter(m => m.id !== 'openshifts')
+                          .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
+                          .map((member) => {
+                            const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'SERVER', startHour: dropStartHour, endHour: dropEndHour };
+                            return (
+                              <div
+                                key={member.id}
+                                className={`p-3 rounded-xl border transition-all ${
+                                  assignment.active
+                                    ? 'bg-amber-500/5 border-amber-500/30'
+                                    : 'bg-black/20 border-white/5 hover:border-white/10'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <label className="flex items-center gap-3 cursor-pointer select-none">
+                                    <input
+                                      type="checkbox"
+                                      checked={assignment.active}
+                                      onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setSelectedCrewAssignments(prev => ({
+                                          ...prev,
+                                          [member.id]: {
+                                            active: checked,
+                                            customized: false, // Collapse customization by default on check/uncheck
+                                            role: assignment.role || dropRole || member.role || 'SERVER',
+                                            startHour: assignment.startHour || dropStartHour || 12,
+                                            endHour: assignment.endHour || dropEndHour || 17
+                                          }
+                                        }));
+                                      }}
+                                      className="rounded border-white/10 bg-black/40 text-amber-500 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
+                                    />
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[9px] font-bold text-white uppercase overflow-hidden font-sans">
+                                        {member.avatar ? (
+                                          <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                                        ) : (
+                                          member.initials || member.name[0]
+                                        )}
+                                      </div>
+                                      <span className="text-xs font-bold text-white/95 font-sans">{member.name}</span>
+                                    </div>
+                                  </label>
+                                  
+                                  {assignment.active && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedCrewAssignments(prev => ({
+                                          ...prev,
+                                          [member.id]: {
+                                            ...prev[member.id],
+                                            customized: !assignment.customized
+                                          }
+                                        }));
+                                      }}
+                                      className="text-[10px] font-bold text-[var(--color-accent)] hover:text-white transition-colors bg-transparent border-none p-1 cursor-pointer font-sans"
+                                    >
+                                      {assignment.customized ? "Collapse" : "✏️ Customize"}
+                                    </button>
+                                  )}
+                                </div>
+
+                                {/* Sub-form for customized timing/role details */}
+                                {assignment.active && assignment.customized && (
+                                  <div className="mt-3 pt-3 border-t border-white/5 space-y-2.5 animate-[slideIn_0.15s_ease-out]">
+                                    <div className="grid grid-cols-2 gap-2">
+                                      <div>
+                                        <span className="text-[0.55rem] font-bold text-white/40 block mb-1 uppercase tracking-wider">Start Time</span>
+                                        <select
+                                          value={assignment.startHour}
+                                          onChange={(e) => {
+                                            const sh = parseFloat(e.target.value);
+                                            setSelectedCrewAssignments(prev => ({
+                                              ...prev,
+                                              [member.id]: {
+                                                ...prev[member.id],
+                                                startHour: sh,
+                                                endHour: Math.max(sh + 1, prev[member.id].endHour)
+                                              }
+                                            }));
+                                          }}
+                                          className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold cursor-pointer"
+                                        >
+                                          {generateTimeOptions().slice(0, -1).map(opt => (
+                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                          ))}
+                                        </select>
+                                      </div>
+                                      <div>
+                                        <span className="text-[0.55rem] font-bold text-white/40 block mb-1 uppercase tracking-wider">End Time</span>
+                                        <select
+                                          value={assignment.endHour}
+                                          onChange={(e) => {
+                                            const eh = parseFloat(e.target.value);
+                                            setSelectedCrewAssignments(prev => ({
+                                              ...prev,
+                                              [member.id]: {
+                                                ...prev[member.id],
+                                                endHour: eh
+                                              }
+                                            }));
+                                          }}
+                                          className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold cursor-pointer"
+                                        >
+                                          {generateTimeOptions().filter(opt => opt.value > assignment.startHour).map(opt => (
+                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                          ))}
+                                        </select>
+                                      </div>
+                                    </div>
+
+                                    <div>
+                                      <span className="text-[0.55rem] font-bold text-white/40 block mb-1 uppercase tracking-wider">Specific Role / Duty</span>
+                                      <input
+                                        type="text"
+                                        value={assignment.role}
+                                        onChange={(e) => {
+                                          const r = e.target.value;
+                                          setSelectedCrewAssignments(prev => ({
+                                            ...prev,
+                                            [member.id]: {
+                                              ...prev[member.id],
+                                              role: r
+                                            }
+                                          }));
+                                        }}
+                                        placeholder="e.g. CAMERA, AUDIO MIX"
+                                        className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold uppercase tracking-wide font-sans"
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+
+                    {/* Form Fields block */}
+                    <div className="space-y-4 shrink-0 mt-2 overflow-y-auto max-h-[45%] pr-1">
+                      {showFormDetails && (
+                      <>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Start Time</label>
+                            <select
+                              value={dropStartHour}
+                              onChange={(e) => {
+                                const val = parseFloat(e.target.value);
+                                setDropStartHour(val);
+                                if (dropEndHour <= val) {
+                                    setDropEndHour(Math.min(24, val + 1));
+                                }
+                              }}
+                              className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer"
+                            >
+                              {generateTimeOptions().slice(0, -1).map(opt => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div>
+                            <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">End Time</label>
+                            <select
+                              value={dropEndHour}
+                              onChange={(e) => setDropEndHour(parseFloat(e.target.value))}
+                              className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer"
+                            >
+                              {generateTimeOptions().filter(opt => opt.value > dropStartHour).map(opt => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="relative" id="role-suggest-container">
+                          <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold font-sans">Role / Duty</label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={dropRole}
+                              onChange={e => {
+                                setDropRole(e.target.value);
+                                setIsFilteringRoles(true);
+                                  setShowRoleDropdown(true);
+                              }}
+                              onFocus={() => {
+                                setIsFilteringRoles(false);
+                                setShowRoleDropdown(true);
+                              }}
+                              placeholder="e.g. Audio Mix"
+                              className="w-full pl-3 pr-8 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setIsFilteringRoles(false);
+                                setShowRoleDropdown(prev => !prev);
+                              }}
+                              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white cursor-pointer bg-transparent border-none p-0 flex items-center justify-center"
+                            >
+                              <svg 
+                                width="14" 
+                                height="14" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="2.5" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round"
+                                className={`transition-transform duration-200 ${showRoleDropdown ? 'rotate-180' : ''}`}
+                              >
+                                <polyline points="6 9 12 15 18 9"/>
+                              </svg>
+                            </button>
+                          </div>
+                          
+                          {showRoleDropdown && (() => {
+                            const defaultPresets = ["CAMERA", "BAND EQUIPMENT", "UNLOADING", "SERVER", "CHEF", "LINE COOK", "MANAGER", "AUDIO MIX"];
+                            const allRoles = customRoles.length > 0 ? customRoles : defaultPresets;
+                            const filteredSuggestions = isFilteringRoles && dropRole.trim()
+                              ? allRoles.filter(r => r.toLowerCase().includes(dropRole.toLowerCase()))
+                              : allRoles;
+                            
+                            return (
+                              <div className="absolute left-0 right-0 mt-1 bg-[#181820] border border-white/10 rounded-lg shadow-2xl z-30 max-h-48 overflow-y-auto font-sans text-xs">
+                                {dropRole.trim() && !allRoles.includes(dropRole.trim().toUpperCase()) && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      saveCustomRole(dropRole.trim().toUpperCase());
+                                      setDropRole(dropRole.trim().toUpperCase());
+                                    }}
+                                    className="w-full px-3 py-2 text-left hover:bg-amber-500/10 text-amber-400 font-extrabold border-b border-white/5 flex items-center justify-between cursor-pointer bg-transparent border-none"
+                                  >
+                                    <span>💾 Save "{dropRole.trim().toUpperCase()}"</span>
+                                  </button>
+                                )}
+                                
+                                {filteredSuggestions.length === 0 ? (
+                                  <div className="p-3 text-white/30 text-center italic text-[11px]">No suggestions</div>
+                                ) : (
+                                  filteredSuggestions.map(role => {
+                                    return (
+                                      <div
+                                        key={role}
+                                        className="flex items-center justify-between hover:bg-white/5 text-white/80 hover:text-white px-3 py-1.5 cursor-pointer select-none"
+                                        onClick={() => {
+                                          setDropRole(role);
+                                          setShowRoleDropdown(false);
+                                        }}
+                                      >
+                                        <span className="font-bold tracking-wider">{role}</span>
+                                        <button
+                                          type="button"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            deleteCustomRole(role);
+                                          }}
+                                          className="text-white/40 hover:text-rose-400 transition-colors bg-transparent border-none p-1 cursor-pointer text-[10px]"
+                                          title="Delete preset"
+                                        >
+                                          ✕
+                                        </button>
+                                      </div>
+                                    );
+                                  })
+                                )}
+                              </div>
+                            );
+                          })()}
+                        </div>
+                      </>
+                    )}
+
+                    <div>
+                      <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Venue / Location</label>
+                      <input
+                        type="text"
+                        value={dropLocation}
+                        onChange={e => setDropLocation(e.target.value)}
+                        placeholder="e.g. The Chicago Theatre"
+                        className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold"
+                      />
+
+                      {/* Tour Date Picker Dropdown */}
+                      <div className="mt-2">
+                        <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Pick Tour Date</label>
+                        <div className="relative">
+                          <select
+                            value={activeDropDay || ''}
+                            onChange={(e) => {
+                              const chosenDate = e.target.value;
+                              if (!chosenDate) return;
+                              const show = tourDates.find(s => s.date === chosenDate);
+                              // Set the shift date
+                              setActiveDropDay(chosenDate);
+                              // Auto-fill venue from tour date
+                              if (show) {
+                                const venueName = show.venue || show.venue_name || '';
+                                const cityStr = show.city ? `${show.city}, ${show.state || 'IL'}` : '';
+                                setDropLocation(cityStr ? `${venueName} at ${cityStr}` : venueName);
+                              }
+                              // Jump to that week
+                              const chosen = new Date(chosenDate + 'T12:00:00');
+                              const day = chosen.getDay();
+                              const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
+                              setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
+                            }}
+                            className="w-full appearance-none pr-8 px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer"
+                          >
+                            <option value="" disabled>— Select a tour show —</option>
+                            {[...tourDates]
+                              .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+                              .map((show, idx) => {
+                                const d = show.date ? new Date(show.date + 'T12:00:00') : null;
+                                const label = d
+                                  ? `${d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — ${show.venue || show.venue_name}${show.city ? `, ${show.city}` : ''}`
+                                  : show.venue || show.venue_name;
+                                return (
+                                  <option key={idx} value={show.date || ''}>{label}</option>
+                                );
+                              })}
+                          </select>
+                          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-amber-400/50">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9" /></svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Shift Instructions / Notes</label>
+                      <textarea
+                        rows={3}
+                        value={dropNotes}
+                        onChange={e => setDropNotes(e.target.value)}
+                        placeholder="e.g. Bring backup gear, report to backstage entrance"
+                        className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold resize-none"
+                      />
+                    </div>
+                    </div>
+                  </div>
+
+                  {/* Drawer Footer */}
+                  <div className="p-5 border-t border-white/5 bg-[#181820] space-y-2 shrink-0">
+                    <button
+                      onClick={addScheduleItem}
+                      className="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-[0.2em] rounded-lg shadow-[0_0_20px_rgba(245,158,11,0.25)] transition-all cursor-pointer border-none"
+                    >
+                      {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
+                    </button>
+                    
+                    {editingShiftId && (
+                      <button
+                        onClick={() => {
+                          deleteScheduleItem(editingShiftId);
+                          setActiveDropDay(null);
+                          setDraggedCrewMemberId(null);
+                          setEditingShiftId(null);
+                        }}
+                        className="w-full py-2.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-black text-xs uppercase tracking-[0.2em] rounded-lg transition-all cursor-pointer"
+                      >
+                        Delete Shift
+                      </button>
+                    )}
+                  </div>
+
+                </div>
+              </div>
+              );
+            })()}
+
+            {/* 👥 Create Group Modal Pop-up */}
+            {isCreateGroupModalOpen && (
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]">
+                <div 
+                  className="bg-[#111116] border border-white/10 rounded-2xl w-full max-w-xl max-h-[85vh] shadow-2xl flex flex-col overflow-hidden animate-[scaleIn_0.25s_cubic-bezier(0.16,1,0.3,1)]"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Modal Header */}
+                  <div className="p-5 border-b border-white/5 bg-[#181820] flex items-center justify-between shrink-0">
+                    <div>
+                      <h3 className="text-sm font-black italic tracking-wide text-white">Create New Crew Group</h3>
+                      <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setIsCreateGroupModalOpen(false);
+                        setCreateGroupForDate(null);
+                      }}
+                      className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  {/* Modal Form Content */}
+                  <div className="p-5 flex-1 overflow-y-auto space-y-5 custom-scrollbar min-h-0">
+                    
+                    {/* Group Name input */}
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
+                      <input
+                        type="text"
+                        value={newGroupNameInput}
+                        onChange={(e) => setNewGroupNameInput(e.target.value)}
+                        placeholder="e.g. Weekend Tech Crew"
+                        className="w-full px-3.5 py-2.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-emerald-500/50 transition-colors font-bold"
+                      />
+                    </div>
+
+                    {/* Member Pick list */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</label>
+                      
+                      <div className="border border-white/5 bg-black/20 rounded-xl divide-y divide-white/5 overflow-hidden">
+                        {crewMembers.filter(m => m.id !== 'openshifts').map((m) => {
+                          const setting = newGroupMemberSettings[m.id] || { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
+                          
+                          return (
+                            <div key={m.id} className="p-3 transition-colors hover:bg-white/[0.01]">
+                              <div className="flex items-center justify-between gap-3">
+                                {/* Left checkbox and avatar */}
+                                <div className="flex items-center gap-3 min-w-0">
+                                  <input
+                                    type="checkbox"
+                                    checked={setting.active}
+                                    onChange={(e) => {
+                                      const act = e.target.checked;
+                                      setNewGroupMemberSettings(prev => ({
+                                        ...prev,
+                                        [m.id]: {
+                                          ...prev[m.id],
+                                          active: act
+                                        }
+                                      }));
+                                    }}
+                                    className="accent-emerald-500 w-4 h-4 cursor-pointer"
+                                  />
+                                  <CrewAvatar member={m} />
+                                  <div className="min-w-0">
+                                    <p className="text-xs font-bold text-white/80 truncate">{m.name}</p>
+                                    <span className="text-[9px] text-white/30 uppercase font-bold tracking-wider">{m.role || 'Crew'}</span>
+                                  </div>
+                                </div>
+
+                                {/* Right: if active, show role and time slots */}
+                                {setting.active && (
+                                  <div className="flex items-center gap-2 animate-[fadeIn_0.15s_ease] shrink-0 font-sans">
+                                    {/* Role */}
+                                    <div className="flex flex-col gap-0.5">
+                                      <span className="text-[8px] font-bold text-white/35 uppercase tracking-wider">Role</span>
+                                      <input
+                                        type="text"
+                                        value={setting.role}
+                                        onChange={(e) => {
+                                          const r = e.target.value;
+                                          setNewGroupMemberSettings(prev => ({
+                                            ...prev,
+                                            [m.id]: {
+                                              ...prev[m.id],
+                                              role: r
+                                            }
+                                          }));
+                                        }}
+                                        className="px-2 py-1 bg-black border border-white/10 text-[9px] text-white rounded outline-none font-bold uppercase w-[85px] tracking-wide"
+                                      />
+                                    </div>
+
+                                    {/* Start Time */}
+                                    <div className="flex flex-col gap-0.5">
+                                      <span className="text-[8px] font-bold text-white/35 uppercase tracking-wider">Start</span>
+                                      <select
+                                        value={setting.startHour}
+                                        onChange={(e) => {
+                                          const h = parseFloat(e.target.value);
+                                          setNewGroupMemberSettings(prev => ({
+                                            ...prev,
+                                            [m.id]: {
+                                              ...prev[m.id],
+                                              startHour: h,
+                                              endHour: prev[m.id]?.endHour <= h ? Math.min(24, h + 1) : prev[m.id]?.endHour
+                                            }
+                                          }));
+                                        }}
+                                        className="px-1.5 py-1 bg-black border border-white/10 text-[9px] text-white rounded outline-none font-bold cursor-pointer"
+                                      >
+                                        {generateTimeOptions().slice(0, -1).map(opt => (
+                                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        ))}
+                                      </select>
+                                    </div>
+
+                                    {/* End Time */}
+                                    <div className="flex flex-col gap-0.5">
+                                      <span className="text-[8px] font-bold text-white/35 uppercase tracking-wider">End</span>
+                                      <select
+                                        value={setting.endHour}
+                                        onChange={(e) => {
+                                          const h = parseFloat(e.target.value);
+                                          setNewGroupMemberSettings(prev => ({
+                                            ...prev,
+                                            [m.id]: {
+                                              ...prev[m.id],
+                                              endHour: h
+                                            }
+                                          }));
+                                        }}
+                                        className="px-1.5 py-1 bg-black border border-white/10 text-[9px] text-white rounded outline-none font-bold cursor-pointer"
+                                      >
+                                        {generateTimeOptions().filter(opt => opt.value > setting.startHour).map(opt => (
+                                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Modal Footer */}
+                  <div className="p-5 border-t border-white/5 bg-[#181820] flex items-center justify-between gap-3 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsCreateGroupModalOpen(false);
+                        setCreateGroupForDate(null);
+                      }}
+                      className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    
+                    <button
+                      type="button"
+                      disabled={!newGroupNameInput.trim() || !Object.values(newGroupMemberSettings).some(s => s.active)}
+                      onClick={() => {
+                        const activeMembers = Object.entries(newGroupMemberSettings).filter(([_, s]) => s.active);
+                        const memberIds = activeMembers.map(([id]) => id);
+                        const memberSettings: any = {};
+                        activeMembers.forEach(([id, s]) => {
+                          memberSettings[id] = {
+                            startHour: s.startHour,
+                            endHour: s.endHour,
+                            role: s.role
+                          };
+                        });
+                        
+                        const newGroup = {
+                          name: newGroupNameInput.trim(),
+                          memberIds,
+                          memberSettings
+                        };
+                        
+                        setCrewGroups(current => {
+                          const updated = [...current, newGroup];
+                          localStorage.setItem('7h_crew_groups', JSON.stringify(updated));
+                          return updated;
+                        });
+
+                        if (createGroupForDate) {
+                          handleAddGroupToDay(createGroupForDate, newGroup);
+                        }
+
+                        setIsCreateGroupModalOpen(false);
+                        setCreateGroupForDate(null);
+                      }}
+                      className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/20 disabled:text-white/30 text-black font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+                    >
+                      Save Group
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {selectedShowCrewDate && (() => {
+              const show = getDayShow(selectedShowCrewDate);
+              if (!show) return null;
+              
+              const dayShifts = schedules.filter(s => s.date === selectedShowCrewDate);
+              const filledShifts = dayShifts.filter(s => s.crewId !== 'openshifts');
+              const openShifts = dayShifts.filter(s => s.crewId === 'openshifts');
+              
+              return (
+                <div className="fixed inset-0 bg-black/50 z-50 flex justify-end animate-[fadeIn_0.2s_ease]">
+                  {/* Backdrop Click Overlay */}
+                  <div 
+                    className="absolute inset-0 cursor-default" 
+                    onClick={() => setSelectedShowCrewDate(null)}
+                  />
+
+                  <div className="relative bg-[#111116] border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                    
+                    {/* Header */}
+                    <div className="p-5 border-b border-white/5 bg-[#181820] flex items-center justify-between shrink-0">
+                      <div>
+                        <h3 className="text-sm font-black italic tracking-wide text-white">
+                          Show Crew Roster
+                        </h3>
+                        <p className="text-[0.65rem] text-amber-400 uppercase tracking-widest font-bold mt-1">
+                          {new Date(selectedShowCrewDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — {show.venue || show.venue_name}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => setSelectedShowCrewDate(null)}
+                        className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-5 space-y-4 flex-1 overflow-y-auto">
+                      {/* Show Stats Summary */}
+                      <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5 rounded-xl">
+                        <div>
+                          <span className="text-[10px] text-white/40 block">Total Shift(s)</span>
+                          <span className="text-sm font-black text-white">{dayShifts.length}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-white/40 block">Staff Scheduled</span>
+                          <span className="text-sm font-black text-emerald-400">{filledShifts.length}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-white/40 block">Open Position(s)</span>
+                          <span className="text-sm font-black text-amber-400">{openShifts.length}</span>
+                        </div>
+                      </div>
+
+                      {/* Scheduled Crew Section */}
+                      <div>
+                        <h4 className="text-[10px] font-black uppercase text-white/40 tracking-wider mb-2.5">Scheduled Crew</h4>
+                        {filledShifts.length === 0 ? (
+                          <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 rounded-xl text-white/30 text-xs italic">
+                            No crew members scheduled yet
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            {filledShifts.map(shift => {
+                              const member = crewMembers.find(c => c.id === shift.crewId);
+                              const initials = member?.initials || shift.crewName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+                              const color = member?.color || getAvatarColor(shift.crewName);
+                              
+                              return (
+                                <div key={shift.id} className="bg-black/20 border border-white/5 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-white/10 transition-colors">
+                                  <div className="flex items-center gap-2.5 min-w-0">
+                                    {member?.avatar ? (
+                                      <img src={member.avatar} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                                    ) : (
+                                      <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[10px] text-white shrink-0" style={{ backgroundColor: color }}>
+                                        {initials}
+                                      </div>
+                                    )}
+                                    <div className="min-w-0">
+                                      <span className="text-xs font-bold text-white block truncate">{shift.crewName}</span>
+                                      <span className="text-[9px] text-white/45 bg-white/5 px-1.5 py-0.5 rounded uppercase font-black leading-none mt-1 inline-block">
+                                        {shift.role}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="text-right shrink-0">
+                                    <span className="text-[10px] font-extrabold text-white/85 block">{shift.time}</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedShowCrewDate(null);
+                                        handleEditShiftClick(shift);
+                                      }}
+                                      className="text-[8.5px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/20 hover:border-amber-500/40 transition-colors cursor-pointer mt-1 inline-block"
+                                    >
+                                      Edit
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Open Positions Section */}
+                      <div>
+                        <h4 className="text-[10px] font-black uppercase text-white/40 tracking-wider mb-2.5">Open Positions</h4>
+                        {openShifts.length === 0 ? (
+                          <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 rounded-xl text-white/30 text-xs italic">
+                            No open positions
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            {openShifts.map(shift => (
+                              <div key={shift.id} className="bg-emerald-500/[0.02] border border-dashed border-emerald-500/25 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-emerald-500/40 transition-colors">
+                                <div>
+                                  <span className="text-xs font-bold text-emerald-400 block">{shift.role}</span>
+                                  <span className="text-[9px] text-white/40 block mt-0.5">{shift.time}</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setSelectedShowCrewDate(null);
+                                    handleEditShiftClick(shift);
+                                  }}
+                                  className="text-[9px] font-black uppercase text-black bg-emerald-400 hover:bg-emerald-300 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors shadow-sm"
+                                >
+                                  Fill Slot
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+
 return (
     <div className="min-h-screen bg-[#050508] text-white pt-24 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-hidden">
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
       `}</style>
       
-      {/* Floating Quick Scroll Nav */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[#0a0a0f]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300">
-        <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0">
-          <span>Jump To Section</span>
-        </div>
-        <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
-          <div className="flex flex-col gap-1 text-xs pr-1">
-            {adminTab === 'band' ? (
-              <>
-                <button
-                  onClick={() => document.getElementById('admin-sec-announcements')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                >
-                  <span>📡</span> Announcements
-                </button>
-                <button
-                  onClick={() => document.getElementById('admin-sec-analytics')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                >
-                  <span>📊</span> Google Analytics
-                </button>
-                {sectionOrder.map((key) => {
-                  const labelMap: Record<string, { label: string; icon: string }> = {
-                    shopify: { label: 'Shopify Store', icon: '🛒' },
-                    toursync: { label: 'Tour Sync', icon: '🔄' },
-                    bookings: { label: 'Booking Requests', icon: '📅' },
-                    planners: { label: 'Planners Directory', icon: '👥' },
-                    featuredtrack: { label: 'Featured Track', icon: '🎵' },
-                    photomod: { label: 'Photo Wall Mod', icon: '📸' },
-                    memorymod: { label: 'Memory Mod', icon: '🧠' },
-                    referral: { label: 'Referrals', icon: '🤝' },
-                    invitechallenge: { label: 'Invite Challenge', icon: '🏆' },
-                    livealerts: { label: 'Live Alerts', icon: '🚨' },
-                    smsblast: { label: 'SMS Blast', icon: '💬' },
-                    crewsms: { label: 'Crew SMS', icon: '👥' },
-                    newsletter: { label: 'Newsletter', icon: '✉️' },
-                    registry: { label: 'Fan Registry', icon: '📝' },
-                    crewcreation: { label: 'Crew Management', icon: '🛠️' },
-                    bulkinvites: { label: 'Bulk Invites', icon: '📨' },
-                    awardpicks: { label: 'Award Picks', icon: '🏅' }
-                  };
-                  const section = labelMap[key] || { label: key, icon: '⚙️' };
-                  return (
-                    <button
-                      key={key}
-                      onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                      className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                    >
-                      <span>{section.icon}</span> {section.label}
-                    </button>
-                  );
-                })}
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                >
-                  <span>🚢</span> Command Center
-                </button>
-                <button
-                  onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                >
-                  <span>📊</span> Cruise Roster & Links
-                </button>
-                <button
-                  onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                  className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                >
-                  <span>📡</span> Cruise Blast
-                </button>
-              </>
-            )}
+      {/* Floating Quick Scroll Nav / Toggle Button */}
+      {!showJumpNav ? (
+        <button
+          onClick={toggleJumpNav}
+          title="Show Navigation"
+          className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex items-center justify-center w-10 h-10 bg-[#0a0a0f]/95 hover:bg-white/5 border border-white/10 rounded-full shadow-2xl backdrop-blur-md text-white/60 hover:text-white cursor-pointer transition-all duration-200"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+      ) : (
+        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[#0a0a0f]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300 animate-[fadeIn_0.15s_ease]">
+          <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
+            <span>Jump To Section</span>
+            <button
+              onClick={toggleJumpNav}
+              title="Hide Navigation"
+              className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[10px]"
+            >
+              ✕
+            </button>
           </div>
-        </CustomScrollbar>
-      </div>
+          <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
+            <div className="flex flex-col gap-1 text-xs pr-1">
+              {adminTab === 'band' ? (
+                <>
+                  <button
+                    onClick={() => document.getElementById('admin-sec-announcements')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                  >
+                    <span>📡</span> Announcements
+                  </button>
+                  <button
+                    onClick={() => document.getElementById('admin-sec-analytics')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                  >
+                    <span>📊</span> Google Analytics
+                  </button>
+                  {sectionOrder.map((key) => {
+                    const labelMap: Record<string, { label: string; icon: string }> = {
+                      shopify: { label: 'Shopify Store', icon: '🛒' },
+                      toursync: { label: 'Tour Sync', icon: '🔄' },
+                      bookings: { label: 'Booking Requests', icon: '📅' },
+                      planners: { label: 'Planners Directory', icon: '👥' },
+                      featuredtrack: { label: 'Featured Track', icon: '🎵' },
+                      photomod: { label: 'Photo Wall Mod', icon: '📸' },
+                      memorymod: { label: 'Memory Mod', icon: '🧠' },
+                      referral: { label: 'Referrals', icon: '🤝' },
+                      invitechallenge: { label: 'Invite Challenge', icon: '🏆' },
+                      livealerts: { label: 'Live Alerts', icon: '🚨' },
+                      smsblast: { label: 'SMS Blast', icon: '💬' },
+                      crewsms: { label: 'Crew SMS', icon: '👥' },
+                      newsletter: { label: 'Newsletter', icon: '✉️' },
+                      registry: { label: 'Fan Registry', icon: '📝' },
+                      crewcreation: { label: 'Crew Management', icon: '🛠️' },
+                      admincreation: { label: 'Admin Management', icon: '🔐' },
+                      bulkinvites: { label: 'Bulk Invites', icon: '📨' },
+                      awardpicks: { label: 'Award Picks', icon: '🏅' }
+                    };
+                    const section = labelMap[key] || { label: key, icon: '⚙️' };
+                    return (
+                      <button
+                        key={key}
+                        onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                        className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                      >
+                        <span>{section.icon}</span> {section.label}
+                      </button>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                  >
+                    <span>🚢</span> Command Center
+                  </button>
+                  <button
+                    onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                  >
+                    <span>📊</span> Cruise Roster & Links
+                  </button>
+                  <button
+                    onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                  >
+                    <span>📡</span> Cruise Blast
+                  </button>
+                </>
+              )}
+            </div>
+          </CustomScrollbar>
+        </div>
+      )}
 
       <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
       <div className="site-container relative z-10 px-4 md:px-6">
@@ -3453,6 +6998,22 @@ return (
           ))}
         </div>
 
+        {/* Crew Work Schedule Calendar - Full Bleed */}
+        <div className="mb-8">
+          {(() => {
+            try {
+              return renderCrewSchedule();
+            } catch (err: any) {
+              return (
+                <div className="bg-red-900/30 border border-red-500/50 rounded-xl p-6 text-red-300">
+                  <p className="font-bold text-lg mb-2">⚠️ Schedule Section Error</p>
+                  <pre className="text-xs text-red-200/70 whitespace-pre-wrap">{err?.message || String(err)}</pre>
+                </div>
+              );
+            }
+          })()}
+        </div>
+
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           
           <div className="xl:col-span-2 flex flex-col gap-8">
@@ -3679,6 +7240,7 @@ return (
                 case 'newsletter': component = renderNewsletter(); break;
                 case 'registry': component = renderRegistry(); break;
                 case 'crewcreation': component = renderCrewCreation(); break;
+                case 'admincreation': component = renderAdminCreation(); break;
                 case 'invitechallenge': component = renderInviteChallenge(); break;
                 case 'bulkinvites': component = renderBulkInvites(); break;
                 case 'awardpicks': component = renderAwardPicks(); break;
@@ -4194,6 +7756,12 @@ return (
           </>
         )}
 
+      {showSetPassword && (
+        <CrewSetPasswordModal
+          email={firstLoginEmail}
+          onComplete={() => setShowSetPassword(false)}
+        />
+      )}
       </div>
     </div>
   );

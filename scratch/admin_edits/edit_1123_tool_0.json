@@ -1,0 +1,16 @@
+{
+  "step_index": 1123,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Removed the wiw-striped draft styles from list view cards.",
+    "EndLine": 5202,
+    "Instruction": "Remove wiw-striped class from list view shift card className",
+    "ReplacementContent": "                          className=\"wiw-card text-white p-1 rounded-md text-[9px] font-bold overflow-hidden cursor-pointer shadow-sm\"",
+    "StartLine": 5199,
+    "TargetContent": "                          className={`wiw-card text-white p-1 rounded-md text-[9px] font-bold overflow-hidden cursor-pointer shadow-sm ${\n                            shift.isDraft ? 'wiw-striped' : ''\n                          }`}",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Removing wiw-striped class from list view cards",
+    "toolSummary": "Removing wiw-striped class"
+  }
+}

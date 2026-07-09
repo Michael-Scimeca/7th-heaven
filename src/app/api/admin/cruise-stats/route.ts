@@ -9,8 +9,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const { data, error } = await supabase
       .from('cruise_signups')
       .select('*')
@@ -22,7 +25,7 @@ export async function GET() {
     let adults = 0;
     let children = 0;
 
-    const recentSignups: { id: string; name: string; email: string; phone: string; date: string; partySize: number }[] = [];
+    const recentSignups: { id: string; name: string; email: string; phone: string; date: string; partySize: number; checkedOff: boolean; depositPaid: boolean; fullPaid: boolean; notes: string }[] = [];
 
     for (const signup of data) {
       total += (signup.guest_count || 1);
@@ -37,6 +40,10 @@ export async function GET() {
         phone: signup.phone || '',
         date: new Date(signup.created_at).toLocaleDateString(),
         partySize: signup.guest_count || 1,
+        checkedOff: signup.checked_off || false,
+        depositPaid: signup.deposit_paid || false,
+        fullPaid: signup.full_paid || false,
+        notes: signup.notes || '',
       });
 
       if (signup.notes && signup.notes.includes('Guest Details: [')) {
@@ -64,6 +71,34 @@ export async function GET() {
       signups: data.length,
       recentSignups,
     });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
+    const { id, checked_off, deposit_paid, full_paid } = await request.json();
+    if (!id) {
+      return NextResponse.json({ error: 'Missing signup id' }, { status: 400 });
+    }
+
+    const updatePayload: any = {};
+    if (checked_off !== undefined) updatePayload.checked_off = checked_off;
+    if (deposit_paid !== undefined) updatePayload.deposit_paid = deposit_paid;
+    if (full_paid !== undefined) updatePayload.full_paid = full_paid;
+
+    const { error } = await supabase
+      .from('cruise_signups')
+      .update(updatePayload)
+      .eq('id', id);
+
+    if (error) throw error;
+
+    return NextResponse.json({ success: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

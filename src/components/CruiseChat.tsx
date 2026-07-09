@@ -13,21 +13,22 @@ type ChatMessage = {
   created_at: string;
 };
 
-export default function CruiseChat() {
-  const { member } = useMember();
+export default function CruiseChat({ memberOverride }: { memberOverride?: any } = {}) {
+  const { member: contextMember } = useMember();
+  const member = memberOverride || contextMember;
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [pinnedMessage, setPinnedMessage] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [chatEnabled, setChatEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   
   const supabase = createClient();
   const room = "cruise_dashboard";
 
-  // Cruise ends March 9, 2026. Archive chat 14 days later.
-  const CRUISE_END_DATE = new Date("2026-03-09T12:00:00Z").getTime();
+  // Cruise ends January 17, 2027. Archive chat 14 days later.
+  const CRUISE_END_DATE = new Date("2027-01-17T12:00:00Z").getTime();
   const CHAT_ARCHIVE_DATE = CRUISE_END_DATE + (14 * 24 * 60 * 60 * 1000);
   const isArchived = Date.now() > CHAT_ARCHIVE_DATE;
 
@@ -77,6 +78,16 @@ export default function CruiseChat() {
         const newMsg = payload.new as ChatMessage;
         setMessages((prev) => [...prev, newMsg]);
       })
+      .on("postgres_changes", {
+        event: "DELETE",
+        schema: "public",
+        table: "chat_messages"
+      }, (payload) => {
+        const oldMsg = payload.old as { id: string };
+        if (oldMsg && oldMsg.id) {
+          setMessages((prev) => prev.filter((m) => m.id !== oldMsg.id));
+        }
+      })
       .subscribe();
 
     return () => {
@@ -86,7 +97,12 @@ export default function CruiseChat() {
 
   // Auto-scroll
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }
   }, [messages]);
 
   const handleSend = async (e: React.FormEvent) => {
@@ -253,7 +269,7 @@ export default function CruiseChat() {
       )}
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-hide relative">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-hide relative">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
@@ -283,7 +299,6 @@ export default function CruiseChat() {
             </div>
           ))
         )}
-        <div ref={chatEndRef} />
       </div>
 
       {/* Input Area */}
@@ -293,24 +308,29 @@ export default function CruiseChat() {
             <span>🔒</span> This cruise chat has been archived.
           </div>
         ) : (
-          <form onSubmit={handleSend} className="relative flex items-center">
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              disabled={!member || isSending}
-              placeholder={member ? "Type a message..." : "Log in to chat"}
-              className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white outline-none focus:border-[var(--color-accent)]/50 focus:bg-white/5 transition-all disabled:opacity-50"
-              maxLength={500}
-            />
-            <button
-              type="submit"
-              disabled={!newMessage.trim() || !member || isSending}
-              className="absolute right-2 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 text-[var(--color-accent)] flex items-center justify-center hover:bg-[var(--color-accent)] hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-[var(--color-accent)]/20 disabled:hover:text-[var(--color-accent)]"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
-          </form>
+          <div className="flex flex-col">
+            <form onSubmit={handleSend} className="relative flex items-center">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                disabled={!member || isSending}
+                placeholder={member ? "Type a message..." : "Log in to chat"}
+                className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white outline-none focus:border-[var(--color-accent)]/50 focus:bg-white/5 transition-all disabled:opacity-50"
+                maxLength={500}
+              />
+              <button
+                type="submit"
+                disabled={!newMessage.trim() || !member || isSending}
+                className="absolute right-2 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 text-[var(--color-accent)] flex items-center justify-center hover:bg-[var(--color-accent)] hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-[var(--color-accent)]/20 disabled:hover:text-[var(--color-accent)]"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </form>
+            <div className="text-center text-[9px] font-black text-white/20 uppercase tracking-[0.15em] mt-2.5">
+              KEEP IT RATED PG-13 • NO POLITICAL STATEMENTS
+            </div>
+          </div>
         )}
       </div>
     </div>

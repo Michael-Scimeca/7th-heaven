@@ -490,6 +490,42 @@ export const EMAIL_TEMPLATES = [
     status: 'live' as const,
     render: () => fanInvitation({ name: 'Jane Doe', email: 'jane.doe@example.com', pin: '891043' }),
   },
+  {
+    id: 'crew_hours_summary',
+    name: 'Crew Work Hours Summary',
+    description: 'Sent to a crew member summarizing their weekly/monthly scheduled hours and capacity load.',
+    category: 'Crew',
+    status: 'live' as const,
+    render: () => crewHoursSummary({
+      memberName: 'Abbie Janssen',
+      weekHours: 18,
+      monthHours: 72,
+      maxHours: 40,
+      loadPercentage: 45,
+      status: 'optimal',
+      dateRange: 'Jan 23 - Jan 29, 2026',
+      shifts: [
+        { date: 'Tue, Jan 24', venue: 'Station 34', time: '4:00 PM - 10:00 PM', role: 'Server' },
+        { date: 'Wed, Jan 25', venue: 'Old Republic', time: '5:00 PM - 11:00 PM', role: 'Server' },
+        { date: 'Fri, Jan 27', venue: 'The Chicago Theatre', time: '5:00 PM - 11:00 PM', role: 'Server' }
+      ]
+    }),
+  },
+  {
+    id: 'schedule_change_alert',
+    name: 'Schedule Change Alert',
+    description: 'Sent to a crew member when their scheduled shift is added, updated, or removed.',
+    category: 'Crew',
+    status: 'live' as const,
+    render: () => scheduleChangeAlert({
+      memberName: 'Abbie Janssen',
+      actionType: 'updated',
+      shifts: [
+        { date: 'Tue, Jan 24', venue: 'Station 34', role: 'Server', time: '4:00 PM - 10:00 PM' },
+        { date: 'Wed, Jan 25', venue: 'Old Republic', role: 'Server', time: '5:00 PM - 11:00 PM' }
+      ]
+    }),
+  },
 ];
 
 // ═══════════════════════════════════════════════
@@ -773,5 +809,156 @@ export function fanInvitation(data: { name?: string; email: string; pin: string 
     </div>
     
     <p style="margin:24px 0 0;color:rgba(255,255,255,0.15);font-size:11px;text-align:center;">If you did not expect this invitation, you can safely ignore this email.</p>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 16. CREW HOURS SUMMARY
+// ═══════════════════════════════════════════════
+export function crewHoursSummary(b: {
+  memberName: string;
+  weekHours: number;
+  monthHours: number;
+  maxHours: number;
+  loadPercentage: number;
+  status: 'overloaded' | 'optimal' | 'underutilized';
+  dateRange: string;
+  shifts?: Array<{ date: string; venue: string; time: string; role: string }>;
+}) {
+  const statusColor = b.status === 'overloaded' ? '#ef4444' : b.status === 'optimal' ? '#10b981' : '#0ea5e9';
+  const statusLabel = b.status.toUpperCase();
+  const progressPercent = Math.min(100, b.loadPercentage);
+
+  return wrap(`
+    <div style="text-align:center;">
+      <p style="font-size:48px;margin:0 0 16px;">⏱️</p>
+      <h1 style="margin:0 0 8px;color:#fff;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:1px;">Work Hours Summary</h1>
+      <p style="margin:0 0 24px;color:rgba(255,255,255,0.4);font-size:13px;">Week of ${sanitize(b.dateRange)}</p>
+      
+      <p style="color:rgba(255,255,255,0.75);font-size:14px;line-height:1.6;margin:0 0 24px;text-align:left;">
+        Hello <strong style="color:#fff;">${sanitize(b.memberName)}</strong>, here is your work hours and capacity load utilization summary for the current scheduling period.
+      </p>
+
+      <div style="background:#0a0a0f;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;margin-bottom:24px;text-align:left;">
+        <table style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Weekly Scheduled</td>
+            <td style="padding:8px 0;text-align:right;color:#fff;font-size:16px;font-weight:800;">${b.weekHours} hrs</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Weekly Limit (Max)</td>
+            <td style="padding:8px 0;text-align:right;color:#fff;font-size:16px;font-weight:800;">${b.maxHours} hrs</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Capacity Status</td>
+            <td style="padding:8px 0;text-align:right;color:${statusColor};font-size:14px;font-weight:900;letter-spacing:1px;">${statusLabel}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Monthly Total</td>
+            <td style="padding:8px 0;text-align:right;color:#fff;font-size:16px;font-weight:800;">${b.monthHours} hrs</td>
+          </tr>
+        </table>
+        
+        <div style="margin-top:20px;border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;">
+          <div style="margin-bottom:8px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);display:table;width:100%;">
+            <span style="display:table-cell;text-align:left;">CAPACITY LOAD UTILIZATION</span>
+            <span style="display:table-cell;text-align:right;color:#fff;">${b.loadPercentage}%</span>
+          </div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;background:${statusColor};width:${progressPercent}%;border-radius:4px;"></div>
+          </div>
+        </div>
+
+        ${b.shifts && b.shifts.length > 0 ? `
+          <div style="margin-top:24px;border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;">
+            <p style="margin:0 0 12px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Working Schedule Details</p>
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              ${b.shifts.map((s, idx) => `
+                <tr style="${idx < b.shifts!.length - 1 ? 'border-bottom:1px solid rgba(255,255,255,0.04);' : ''}">
+                  <td style="padding:10px 0;vertical-align:top;width:120px;">
+                    <strong style="color:#fff;font-size:12px;">${sanitize(s.date)}</strong>
+                  </td>
+                  <td style="padding:10px 0;vertical-align:top;">
+                    <div style="font-weight:700;color:#fff;font-size:13px;">${sanitize(s.venue)}</div>
+                    <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">
+                      <span style="color:#10b981;font-weight:bold;text-transform:uppercase;">${sanitize(s.role)}</span>
+                      <span style="color:rgba(255,255,255,0.2);margin:0 4px;">&middot;</span>
+                      <span>${sanitize(s.time)}</span>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </table>
+          </div>
+        ` : ''}
+      </div>
+
+      <div style="background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:16px;margin-bottom:28px;text-align:left;">
+        <p style="margin:0;color:rgba(255,255,255,0.7);font-size:12px;line-height:1.5;">
+          ℹ️ Your capacity status is determined by your scheduled hours relative to your configured limit. If you are overloaded or have questions about your hours, please contact your scheduling manager.
+        </p>
+      </div>
+
+      <a href="https://7thheavenband.com/crew" style="${btnStyle}">Access Crew Portal</a>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 17. SCHEDULE CHANGE ALERT
+// ═══════════════════════════════════════════════
+export function scheduleChangeAlert(b: {
+  memberName: string;
+  actionType: 'added' | 'updated' | 'deleted';
+  shifts: Array<{ date: string; venue: string; role: string; time: string }>;
+}) {
+  let actionDescription = '';
+  if (b.actionType === 'added') {
+    actionDescription = `The following shifts have been assigned to you:`;
+  } else if (b.actionType === 'updated') {
+    actionDescription = `Your shifts have been updated:`;
+  } else {
+    actionDescription = `The following shifts have been removed from your schedule:`;
+  }
+
+  return wrap(`
+    <div style="text-align:center;">
+      <p style="font-size:48px;margin:0 0 16px;">📅</p>
+      <h1 style="margin:0 0 8px;color:#fff;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:1px;">Schedule Change Alert</h1>
+      <p style="margin:0 0 24px;color:rgba(255,255,255,0.4);font-size:13px;">Shifts ${b.actionType.toUpperCase()}</p>
+      
+      <p style="color:rgba(255,255,255,0.75);font-size:14px;line-height:1.6;margin:0 0 24px;text-align:left;">
+        Hello <strong style="color:#fff;">${sanitize(b.memberName)}</strong>, ${actionDescription}
+      </p>
+
+      <div style="background:#0a0a0f;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;margin-bottom:24px;text-align:left;">
+        <p style="margin:0 0 12px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Shift Schedule Details</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          ${b.shifts.map((s, idx) => `
+            <tr style="${idx < b.shifts.length - 1 ? 'border-bottom:1px solid rgba(255,255,255,0.04);' : ''}">
+              <td style="padding:12px 0;vertical-align:top;width:120px;">
+                <strong style="color:#fff;font-size:12px;">${sanitize(s.date)}</strong>
+              </td>
+              <td style="padding:12px 0;vertical-align:top;">
+                <div style="font-weight:700;color:#fff;font-size:13px;">${sanitize(s.venue)}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">
+                  <span style="color:#10b981;font-weight:bold;text-transform:uppercase;">${sanitize(s.role)}</span>
+                  <span style="color:rgba(255,255,255,0.2);margin:0 4px;">&middot;</span>
+                  <span>${sanitize(s.time)}</span>
+                </div>
+              </td>
+            </tr>
+          `).join('')}
+        </table>
+      </div>
+
+      <div style="background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:16px;margin-bottom:28px;text-align:left;">
+        <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.5;">
+          Please review these changes in your calendar and confirm your attendance in the portal.
+        </p>
+      </div>
+
+      <a href="https://7thheavenband.com/crew" style="${btnStyle}">Open Crew Portal</a>
+    </div>
   `);
 }

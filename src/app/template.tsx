@@ -40,18 +40,20 @@ export default function RootTemplate({ children }: { children: React.ReactNode }
     <div className="relative w-full">
       {/* Black Primary Curtain */}
       <div
+        id="curtain-primary"
         ref={curtainRef}
         className="fixed inset-0 z-[9998] bg-black"
         style={{ transformOrigin: 'top', display: 'block' }}
       />
       {/* Violet Accent Curtain */}
       <div
+        id="curtain-accent"
         ref={accentRef}
         className="fixed inset-0 z-[9999] bg-[#851DEF]"
         style={{ transformOrigin: 'top', display: 'block' }}
       />
       {/* Page Content */}
-      <div ref={pageRef} style={{ opacity: 0 }}>
+      <div id="page-content-wrapper" ref={pageRef} style={{ opacity: 0 }}>
         {children}
       </div>
     </div>

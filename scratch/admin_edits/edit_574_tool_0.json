@@ -1,0 +1,39 @@
+{
+  "step_index": 574,
+  "name": "multi_replace_file_content",
+  "args": {
+    "ArtifactMetadata": {
+      "RequestFeedback": false,
+      "Summary": "Updated the sticky top offsets and heights for the roster board table header and sidebar container to account for the sticky site navbar.",
+      "UserFacing": true
+    },
+    "Description": "Adjusted roster board table header to stick to top-[72px] (below navbar) when window scrolls, removed overflow-auto constraint on roster board wrapper to enable window-level sticky behavior, and adjusted sidebar sticky offset to top-[96px] with max-height constraint.",
+    "Instruction": "Adjust sticky header positions and sidebar container height/top offsets",
+    "ReplacementChunks": [
+      {
+        "AllowMultiple": false,
+        "EndLine": 4808,
+        "ReplacementContent": "    const renderRosterBoard = () => {\n      return (\n        <div className=\"w-full border border-white/15 rounded-xl bg-black/40 shadow-inner\">",
+        "StartLine": 4803,
+        "TargetContent": "    const renderRosterBoard = () => {\n      return (\n        <div className=\"w-full overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner\">"
+      },
+      {
+        "AllowMultiple": false,
+        "EndLine": 5302,
+        "ReplacementContent": "          .wiw-sticky-header {\n            position: sticky;\n            top: 72px;\n            z-index: 30;\n            background-color: #0f0f13 !important;\n          }\n          .wiw-sticky-col {\n            position: sticky;\n            left: 0;\n            z-index: 20;\n            background-color: #0f0f13 !important;\n          }\n          .wiw-sticky-corner {\n            position: sticky;\n            top: 72px;\n            left: 0;\n            z-index: 40;\n            background-color: #0f0f13 !important;\n          }",
+        "StartLine": 5282,
+        "TargetContent": "          .wiw-sticky-header {\n            position: sticky;\n            top: 0;\n            z-index: 30;\n            background-color: #0f0f13 !important;\n          }\n          .wiw-sticky-col {\n            position: sticky;\n            left: 0;\n            z-index: 20;\n            background-color: #0f0f13 !important;\n          }\n          .wiw-sticky-corner {\n            position: sticky;\n            top: 0;\n            left: 0;\n            z-index: 40;\n            background-color: #0f0f13 !important;\n          }"
+      },
+      {
+        "AllowMultiple": false,
+        "EndLine": 5715,
+        "ReplacementContent": "              <div className=\"w-[280px] shrink-0 border-l border-white/15 bg-black/30 overflow-y-auto max-h-[calc(100vh-120px)] hidden xl:block sticky top-[96px] z-20\">",
+        "StartLine": 5711,
+        "TargetContent": "              <div className=\"w-[280px] shrink-0 border-l border-white/15 bg-black/30 overflow-y-auto max-h-[calc(100vh-100px)] hidden xl:block sticky top-6 z-20\">"
+      }
+    ],
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Modifying sticky layout styles",
+    "toolSummary": "Modifying sticky header and sidebar styles"
+  }
+}

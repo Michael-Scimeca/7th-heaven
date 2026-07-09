@@ -2216,6 +2216,7 @@ export default function FeaturesPage() {
                 { path: "/video/grid-demo", label: "Video Grid Demo", desc: "Video thumbnail grid layout test", access: "dev" },
                 { path: "/video/layout-demo", label: "Video Layout Demo", desc: "Full video page layout test", access: "dev" },
                 { path: "/video/nav-demo", label: "Video Nav Demo", desc: "Video category navigation component test", access: "dev" },
+                { path: "/sitemap.html", label: "Interactive Visual Sitemap", desc: "Visual interactive map of all site pages, routes, layouts, and APIs", access: "dev" },
               ],
             },
           ].map((group) => {
@@ -2464,6 +2465,7 @@ export default function FeaturesPage() {
                 { path: "/video/layout-demo", label: "Video Layout Demo", desc: "Video page layout test", access: "dev" },
                 { path: "/video/nav-demo", label: "Video Nav Demo", desc: "Video navigation component demo", access: "dev" },
                 { path: "/studio", label: "Sanity Studio", desc: "Headless CMS editor — manage all content", access: "admin" },
+                { path: "/sitemap.html", label: "Interactive Visual Sitemap", desc: "Visual interactive map of all site pages, routes, layouts, and APIs", access: "dev" },
               ],
             },
           ].map((group) => {
@@ -2560,7 +2562,7 @@ export default function FeaturesPage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/fans" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#851DEF] hover:bg-[#9333ea] text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(133,29,239,0.5)]">Join as a Fan →</Link>
             <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">Watch Live</Link>
-            <Link href="/tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">See Tour Dates</Link>
+            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">See Tour Dates</Link>
             <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">Book the Band</Link>
             <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">Contact Us</Link>
           </div>

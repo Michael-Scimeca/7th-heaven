@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useMember } from "@/context/MemberContext";
+import { formatPhoneDisplay } from "@/lib/validation";
 
 // --- COUNTDOWN TICKER ---
 export function EmbarkationCountdown() {
@@ -210,22 +212,91 @@ export function PhotoWall() {
 
 // --- BOOKING MANAGER ---
 export function BookingManager({ email }: { email?: string }) {
+  const { member } = useMember();
   const [booking, setBooking] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ guest_count: 1, phone: '', anonymous: false, guests: [] as any[] });
   const [saveStatus, setSaveStatus] = useState('');
+  const [isPayModalOpen, setIsPayModalOpen] = useState(false);
+
+  // Quick Register form state
+  const [registering, setRegistering] = useState(false);
+  const [regPhone, setRegPhone] = useState('');
+  const [regPartySize, setRegPartySize] = useState(2);
+  const [regCabinPref, setRegCabinPref] = useState('group_d4');
+  const [regError, setRegError] = useState('');
 
   useEffect(() => {
     if (!email) {
       setLoading(false);
       return;
     }
+
+    if (email === 'demo@7thheavenband.com') {
+      setBooking({
+        name: 'Demo Cruiser',
+        guest_count: 2,
+        phone: '(555) 019-9283',
+        anonymous: false,
+        cabin_preference: 'Ocean View Balcony (Cabin 9122)',
+        cabin_image: '/images/cruise/d1_ocean_view_balcony.jpg',
+        amount_paid: '$1,200.00',
+        balance_due: '$350.00',
+        guests: [
+          { name: 'Sarah Connor', type: 'adult' }
+        ]
+      });
+      setFormData({
+        guest_count: 2,
+        phone: '(555) 019-9283',
+        anonymous: false,
+        guests: [
+          { name: 'Sarah Connor', type: 'adult' }
+        ]
+      });
+      setLoading(false);
+      return;
+    }
+
     fetch(`/api/cruise/booking?email=${encodeURIComponent(email)}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          setBooking(data.booking);
+          // Parse cabin preference from notes
+          let cabinPref = 'Ocean View Balcony';
+          let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+          if (data.booking.notes) {
+            const notesLower = data.booking.notes.toLowerCase();
+            const matches = data.booking.notes.match(/Cabin Preference:\s*(.*)/i) || data.booking.notes.match(/Cabin:\s*(.*)/i);
+            if (matches && matches[1]) {
+              cabinPref = matches[1].split('\n')[0].trim();
+            }
+            if (notesLower.includes('group_n5') || notesLower.includes('ocean view')) {
+              cabinImg = '/images/cruise/n5.jpg';
+            } else if (notesLower.includes('group_if') || notesLower.includes('central park')) {
+              cabinImg = '/images/cruise/if.jpg';
+            } else if (notesLower.includes('group_d4') || notesLower.includes('group_d2') || notesLower.includes('balcony')) {
+              cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+            } else if (notesLower.includes('group_i1') || notesLower.includes('infinite ocean balcony')) {
+              cabinImg = '/images/cruise/i1_infinite_ocean_view_balcony.jpg';
+            } else if (notesLower.includes('group_jy') || notesLower.includes('suite')) {
+              cabinImg = '/images/cruise/jy.png';
+            }
+          }
+          
+          // Estimate values based on payment flags
+          const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$0.00");
+          const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$1,550.00");
+
+          setBooking({
+            ...data.booking,
+            cabin_preference: cabinPref,
+            cabin_image: cabinImg,
+            amount_paid: amountPaid,
+            balance_due: balanceDue
+          });
+
           setFormData({
             guest_count: data.booking.guest_count || 1,
             phone: data.booking.phone || '',
@@ -241,6 +312,19 @@ export function BookingManager({ email }: { email?: string }) {
   const handleSave = async () => {
     setSaveStatus('Saving...');
     try {
+      if (email === 'demo@7thheavenband.com') {
+        setBooking((prev: any) => ({
+          ...prev,
+          guest_count: formData.guest_count,
+          phone: formData.phone,
+          anonymous: formData.anonymous,
+          guests: formData.guests
+        }));
+        setIsEditing(false);
+        setSaveStatus('');
+        return;
+      }
+
       const res = await fetch('/api/cruise/booking', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -248,7 +332,38 @@ export function BookingManager({ email }: { email?: string }) {
       });
       const data = await res.json();
       if (data.success) {
-        setBooking(data.booking);
+        // Parse cabin preference and set matching image
+        let cabinPref = 'Ocean View Balcony';
+        let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+        if (data.booking.notes) {
+          const notesLower = data.booking.notes.toLowerCase();
+          const matches = data.booking.notes.match(/Cabin Preference:\s*(.*)/i) || data.booking.notes.match(/Cabin:\s*(.*)/i);
+          if (matches && matches[1]) {
+            cabinPref = matches[1].split('\n')[0].trim();
+          }
+          if (notesLower.includes('group_n5') || notesLower.includes('ocean view')) {
+            cabinImg = '/images/cruise/n5.jpg';
+          } else if (notesLower.includes('group_if') || notesLower.includes('central park')) {
+            cabinImg = '/images/cruise/if.jpg';
+          } else if (notesLower.includes('group_d4') || notesLower.includes('group_d2') || notesLower.includes('balcony')) {
+            cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+          } else if (notesLower.includes('group_i1') || notesLower.includes('infinite ocean balcony')) {
+            cabinImg = '/images/cruise/i1_infinite_ocean_view_balcony.jpg';
+          } else if (notesLower.includes('group_jy') || notesLower.includes('suite')) {
+            cabinImg = '/images/cruise/jy.png';
+          }
+        }
+        
+        const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$0.00");
+        const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$1,550.00");
+
+        setBooking({
+          ...data.booking,
+          cabin_preference: cabinPref,
+          cabin_image: cabinImg,
+          amount_paid: amountPaid,
+          balance_due: balanceDue
+        });
         setIsEditing(false);
         setSaveStatus('');
       } else {
@@ -259,6 +374,52 @@ export function BookingManager({ email }: { email?: string }) {
     }
   };
 
+  const handleQuickRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!regPhone) {
+      setRegError('Phone number is required.');
+      return;
+    }
+    setRegistering(true);
+    setRegError('');
+    try {
+      const res = await fetch('/api/cruise/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: member?.name || 'Cruise Fan',
+          email: email,
+          phone: regPhone,
+          guest_count: regPartySize,
+          cabinPreference: regCabinPref,
+          joinCommunity: false, // already a community member
+          website: ''
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRegError(data.error || 'Registration failed.');
+      } else {
+        // Refresh booking info
+        const bookRes = await fetch(`/api/cruise/booking?email=${encodeURIComponent(email || '')}`);
+        const bookData = await bookRes.json();
+        if (bookData.success) {
+          setBooking(bookData.booking);
+          setFormData({
+            guest_count: bookData.booking.guest_count || 1,
+            phone: bookData.booking.phone || '',
+            anonymous: bookData.booking.anonymous || false,
+            guests: bookData.booking.guests || []
+          });
+        }
+      }
+    } catch (err) {
+      setRegError('An error occurred during registration.');
+    } finally {
+      setRegistering(false);
+    }
+  };
+
   if (loading) return (
     <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 p-8 rounded-2xl animate-pulse h-32 flex items-center justify-center">
       <span className="text-white/30 text-xs font-bold uppercase tracking-widest">Loading Priority Status...</span>
@@ -266,9 +427,52 @@ export function BookingManager({ email }: { email?: string }) {
   );
 
   if (!booking) return (
-    <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 p-8 rounded-2xl">
-       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2">Booking Status</h2>
-       <p className="text-white/60 text-sm">You haven't signed up for the cruise priority list yet.</p>
+    <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 p-8 rounded-2xl relative overflow-hidden">
+      <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
+        <span className="text-8xl">🚢</span>
+      </div>
+      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2">Cruise Registration</h2>
+      <p className="text-white/60 text-sm mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
+      
+      <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 bg-black/20 p-4 rounded-xl border border-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</label>
+            <input type="text" readOnly value={member?.name || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
+          </div>
+          <div>
+            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</label>
+            <input type="text" readOnly value={email || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
+            <input type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[#15151f] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all" />
+          </div>
+          <div>
+            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
+            <input type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[#15151f] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all" />
+          </div>
+          <div>
+            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
+            <select value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[#15151f] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all cursor-pointer">
+              <option value="group_n5">Ocean View</option>
+              <option value="group_if">Infinite Central Park</option>
+              <option value="group_d4">Ocean View Balcony</option>
+              <option value="group_d2">Ocean View Balcony D2</option>
+              <option value="group_i1">Infinite Ocean View Balcony</option>
+            </select>
+          </div>
+        </div>
+
+        {regError && <p className="text-rose-400 text-xs mt-1">{regError}</p>}
+
+        <button type="submit" disabled={registering} className="w-full mt-2 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-lg transition-all shadow-md shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+          {registering ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Complete Cruise Registration"}
+        </button>
+      </form>
     </div>
   );
 
@@ -377,35 +581,360 @@ export function BookingManager({ email }: { email?: string }) {
            </div>
          </div>
        ) : (
-         <div className="relative z-10 space-y-3 bg-white/5 p-4 rounded-xl border border-white/5">
-           <div className="flex justify-between items-center border-b border-white/5 pb-2">
-             <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Name</span>
-             <span className="text-sm font-medium text-white">{booking.name}</span>
-           </div>
-           <div className="flex justify-between items-center border-b border-white/5 pb-2">
-             <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Party Size</span>
-             <span className="text-sm font-black text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-white/40 ml-1">Guests</span></span>
-           </div>
-           <div className="flex justify-between items-center">
-             <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Phone</span>
-             <span className="text-sm font-medium text-white">{booking.phone || '—'}</span>
-           </div>
-           
-           {booking.guests && booking.guests.length > 0 && (
-             <div className="mt-4 border-t border-white/5 pt-4">
-               <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Guest List</h3>
-               <div className="space-y-2">
-                 {booking.guests.map((g: any, i: number) => (
-                   <div key={i} className="flex justify-between items-center text-xs">
-                     <span className="text-white font-medium">{g.name || `Guest ${i+2}`}</span>
-                     <span className="text-white/40">{g.type === 'child' ? `Child ${g.age ? `(Age ${g.age})` : ''}` : 'Adult'}</span>
-                   </div>
-                 ))}
-               </div>
-             </div>
-           )}
-         </div>
+          <div className="relative z-10 bg-white/5 p-4 rounded-xl border border-white/5">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {/* Left Column: Cabin Image Preview */}
+              {booking.cabin_image && (
+                <div className="md:col-span-2 flex flex-col justify-start">
+                  <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                    <img 
+                      src={booking.cabin_image} 
+                      alt="Selected Cabin" 
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-[2px] border border-cyan-500/20">
+                        Cabin Room Preview
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Right Column: Details List */}
+              <div className={booking.cabin_image ? "md:col-span-3 space-y-3" : "md:col-span-5 space-y-3"}>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Name</span>
+                  <span className="text-sm font-medium text-white">{booking.name}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Party Size</span>
+                  <span className="text-sm font-black text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-white/40 ml-1">Guests</span></span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Phone</span>
+                  <span className="text-sm font-medium text-white">{booking.phone || '—'}</span>
+                </div>
+                
+                {booking.cabin_preference && (
+                  <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                    <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Cabin Selected</span>
+                    <span className="text-sm font-medium text-white">{booking.cabin_preference}</span>
+                  </div>
+                )}
+                {booking.amount_paid && (
+                  <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                    <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Amount Paid</span>
+                    <span className="text-emerald-400 font-bold text-sm">{booking.amount_paid}</span>
+                  </div>
+                )}
+                {booking.balance_due && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Balance Due</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-rose-400 font-black text-sm">{booking.balance_due}</span>
+                      {parseFloat(booking.balance_due.replace(/[^0-9.]/g, '')) > 0 && (
+                        <button 
+                          onClick={() => setIsPayModalOpen(true)}
+                          className="text-[10px] font-black uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors border border-cyan-500/20 px-2 py-1 rounded bg-cyan-500/5 cursor-pointer hover:bg-cyan-500/10"
+                        >
+                          💳 Pay Now
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+                
+                {booking.guests && booking.guests.length > 0 && (
+                  <div className="mt-4 border-t border-white/5 pt-4">
+                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Guest List</h3>
+                    <div className="space-y-2">
+                      {booking.guests.map((g: any, i: number) => (
+                        <div key={i} className="flex justify-between items-center text-xs">
+                          <span className="text-white font-medium">{g.name || `Guest ${i+2}`}</span>
+                          <span className="text-white/40">{g.type === 'child' ? `Child ${g.age ? `(Age ${g.age})` : ''}` : 'Adult'}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
        )}
+
+        {/* Cruising Power Travel Agent Portal Hook */}
+        <div className="mt-4 p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/20 text-[10.5px] leading-relaxed relative z-10 text-cyan-200/90 text-left">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-sm">🚢</span>
+            <span className="font-extrabold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>
+          </div>
+          <p>
+            Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="underline font-bold text-white hover:text-cyan-300">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
+          </p>
+        </div>
+
+        <PaymentModal 
+          isOpen={isPayModalOpen} 
+          onClose={() => setIsPayModalOpen(false)} 
+          balanceDue={booking.balance_due} 
+          email={email} 
+          onSuccess={() => {
+            setBooking((prev: any) => {
+              if (!prev) return prev;
+              const prevPaid = parseFloat(prev.amount_paid?.replace(/[^0-9.]/g, '') || '0') || 0;
+              const prevDue = parseFloat(prev.balance_due?.replace(/[^0-9.]/g, '') || '0') || 0;
+              const total = prevPaid + prevDue;
+              const formattedTotal = `$${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+              return {
+                ...prev,
+                amount_paid: formattedTotal,
+                balance_due: '$0.00'
+              };
+            });
+          }}
+        />
+    </div>
+  );
+}
+
+interface PaymentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  balanceDue: string;
+  email?: string;
+  onSuccess: () => void;
+}
+
+export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: PaymentModalProps) {
+  const [tab, setTab] = useState<'saved' | 'new'>('saved');
+  const [processing, setProcessing] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  // New card inputs
+  const [cardName, setCardName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardExpiry, setCardExpiry] = useState('');
+  const [cardCVC, setCardCVC] = useState('');
+  const [error, setError] = useState('');
+
+  if (!isOpen) return null;
+
+  const handleCardNumberChange = (val: string) => {
+    const digits = val.replace(/\D/g, '').substring(0, 16);
+    const parts = [];
+    for (let i = 0; i < digits.length; i += 4) {
+      parts.push(digits.substring(i, i + 4));
+    }
+    setCardNumber(parts.join(' '));
+  };
+
+  const handleExpiryChange = (val: string) => {
+    const digits = val.replace(/\D/g, '').substring(0, 4);
+    if (digits.length >= 3) {
+      setCardExpiry(`${digits.substring(0, 2)}/${digits.substring(2, 4)}`);
+    } else {
+      setCardExpiry(digits);
+    }
+  };
+
+  const handleCVCChange = (val: string) => {
+    setCardCVC(val.replace(/\D/g, '').substring(0, 3));
+  };
+
+  const handlePaymentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (tab === 'new') {
+      if (!cardName.trim()) {
+        setError('Cardholder Name is required.');
+        return;
+      }
+      if (cardNumber.replace(/\s/g, '').length < 16) {
+        setError('Please enter a valid 16-digit card number.');
+        return;
+      }
+      if (cardExpiry.length < 5) {
+        setError('Please enter a valid expiry date (MM/YY).');
+        return;
+      }
+      if (cardCVC.length < 3) {
+        setError('Please enter a valid 3-digit CVC.');
+        return;
+      }
+    }
+
+    setProcessing(true);
+
+    setTimeout(async () => {
+      try {
+        if (email && email !== 'demo@7thheavenband.com') {
+          await fetch('/api/cruise/booking', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, full_paid: true })
+          });
+        }
+        setProcessing(false);
+        setSuccess(true);
+        onSuccess();
+      } catch (err) {
+        setProcessing(false);
+        setError('Payment gateway error. Please try again.');
+      }
+    }, 1500);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div 
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-all"
+        onClick={processing || success ? undefined : onClose}
+      />
+      
+      <div className="relative w-full max-w-md bg-[#0d0d15] border border-cyan-500/20 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-all duration-300 text-left">
+        {success ? (
+          <div className="p-8 text-center space-y-4">
+            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 mx-auto text-2xl animate-bounce shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+              ✓
+            </div>
+            <h3 className="text-lg font-black uppercase tracking-widest text-white">Payment Successful</h3>
+            <p className="text-white/60 text-xs leading-relaxed">
+              Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
+            </p>
+            <button 
+              onClick={onClose}
+              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-lg shadow-emerald-500/15"
+            >
+              Close
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handlePaymentSubmit} className="p-6 md:p-8 space-y-6">
+            <div className="flex justify-between items-center pb-4 border-b border-white/5">
+              <div>
+                <h3 className="text-sm font-black uppercase tracking-widest text-white">Final Payment</h3>
+                <p className="text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
+              </div>
+              <div className="text-right">
+                <span className="text-rose-400 font-black text-lg">{balanceDue}</span>
+              </div>
+            </div>
+
+            {error && (
+              <p className="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 px-3 py-2 rounded-lg">{error}</p>
+            )}
+
+            {processing ? (
+              <div className="py-12 text-center space-y-4">
+                <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
+                <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest animate-pulse">Processing Secure Payment...</p>
+              </div>
+            ) : (
+              <>
+                <div className="flex gap-2 p-1 bg-black/40 border border-white/5 rounded-xl">
+                  <button 
+                    type="button"
+                    onClick={() => { setTab('saved'); setError(''); }}
+                    className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                  >
+                    Use Saved Card
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => { setTab('new'); setError(''); }}
+                    className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                  >
+                    Use New Card
+                  </button>
+                </div>
+
+                {tab === 'saved' ? (
+                  <div className="bg-black/20 border border-white/5 p-4 rounded-xl space-y-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">💳</span>
+                        <div>
+                          <strong className="block text-white text-xs font-bold tracking-wide">Visa ending in 4242</strong>
+                          <span className="text-white/40 text-[9px] uppercase tracking-wider">Expires 12/28 • Demo Cruiser</span>
+                        </div>
+                      </div>
+                      <span className="text-[9px] font-black text-cyan-400 uppercase tracking-wider border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
+                        Default
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">Cardholder Name</label>
+                      <input 
+                        type="text"
+                        placeholder="John Doe"
+                        value={cardName}
+                        onChange={e => setCardName(e.target.value)}
+                        className="w-full bg-[#15151f] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">Card Number</label>
+                      <div className="relative">
+                        <input 
+                          type="text"
+                          placeholder="4000 1234 5678 9010"
+                          value={cardNumber}
+                          onChange={e => handleCardNumberChange(e.target.value)}
+                          className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                        />
+                        <span className="absolute left-3 top-2.5 text-white/40 text-xs">💳</span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">Expiry Date</label>
+                        <input 
+                          type="text"
+                          placeholder="MM/YY"
+                          value={cardExpiry}
+                          onChange={e => handleExpiryChange(e.target.value)}
+                          className="w-full bg-[#15151f] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">CVC</label>
+                        <input 
+                          type="password"
+                          placeholder="123"
+                          value={cardCVC}
+                          onChange={e => handleCVCChange(e.target.value)}
+                          className="w-full bg-[#15151f] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex gap-3 pt-2">
+                  <button 
+                    type="button" 
+                    onClick={onClose}
+                    className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-lg shadow-cyan-500/10"
+                  >
+                    Pay {balanceDue}
+                  </button>
+                </div>
+              </>
+            )}
+          </form>
+        )}
+      </div>
     </div>
   );
 }

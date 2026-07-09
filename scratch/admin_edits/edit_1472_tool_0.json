@@ -1,0 +1,16 @@
+{
+  "step_index": 1472,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Escaped comparison operators in Heatmap Legend JSX.",
+    "EndLine": 5824,
+    "Instruction": "Escape comparison operators in Capacity Heatmap Legend JSX",
+    "ReplacementContent": "              {showCapacityHeatmap && (\n                <div className=\"flex items-center gap-4 bg-[#141419] border border-white/5 rounded-xl px-4 py-2.5 text-[10px] font-extrabold uppercase tracking-wider text-white/50 animate-[fadeIn_0.2s_ease] w-fit\">\n                  <span className=\"text-white/30 font-bold\">Capacity Heatmap:</span>\n                  <div className=\"flex items-center gap-1.5\">\n                    <span className=\"w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]\"></span>\n                    <span className=\"text-white/70\">Overloaded (&gt; 100%)</span>\n                  </div>\n                  <div className=\"flex items-center gap-1.5\">\n                    <span className=\"w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]\"></span>\n                    <span className=\"text-white/70\">Optimal (50% - 100%)</span>\n                  </div>\n                  <div className=\"flex items-center gap-1.5\">\n                    <span className=\"w-2.5 h-2.5 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.5)]\"></span>\n                    <span className=\"text-white/70\">Underutilized (&lt; 50%)</span>\n                  </div>\n                </div>\n              )}",
+    "StartLine": 5808,
+    "TargetContent": "              {showCapacityHeatmap && (\n                <div className=\"flex items-center gap-4 bg-[#141419] border border-white/5 rounded-xl px-4 py-2.5 text-[10px] font-extrabold uppercase tracking-wider text-white/50 animate-[fadeIn_0.2s_ease] w-fit\">\n                  <span className=\"text-white/30 font-bold\">Capacity Heatmap:</span>\n                  <div className=\"flex items-center gap-1.5\">\n                    <span className=\"w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]\"></span>\n                    <span className=\"text-white/70\">Overloaded (> 100%)</span>\n                  </div>\n                  <div className=\"flex items-center gap-1.5\">\n                    <span className=\"w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]\"></span>\n                    <span className=\"text-white/70\">Optimal (50% - 100%)</span>\n                  </div>\n                  <div className=\"flex items-center gap-1.5\">\n                    <span className=\"w-2.5 h-2.5 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.5)]\"></span>\n                    <span className=\"text-white/70\">Underutilized (< 50%)</span>\n                  </div>\n                </div>\n              )}",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Escaping JSX entities",
+    "toolSummary": "Escaping JSX comparison symbols"
+  }
+}

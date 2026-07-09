@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { sanityFetch } from "@/sanity/live";
-import { queries, SanityNewsPost } from "@/lib/sanity";
+import { sanityClient, queries, SanityNewsPost } from "@/lib/sanity";
 
 export const metadata: Metadata = {
   title: "News & Updates — 7th Heaven",
@@ -40,7 +39,7 @@ const FALLBACK_NEWS = [
 ];
 
 export default async function NewsPage() {
-  const { data: newsData } = await sanityFetch({ query: queries.allNews });
+  const newsData = await sanityClient.fetch<SanityNewsPost[]>(queries.allNews, {}, { next: { revalidate: 60, tags: ['sanity:news'] } });
   
   const newsItems = (newsData as SanityNewsPost[]).length > 0
     ? (newsData as SanityNewsPost[]).map(item => ({

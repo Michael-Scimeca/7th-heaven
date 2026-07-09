@@ -1,0 +1,32 @@
+{
+  "step_index": 212,
+  "name": "multi_replace_file_content",
+  "args": {
+    "ArtifactMetadata": {
+      "RequestFeedback": false,
+      "Summary": "Add custom-scrollbar class to the scrollable containers in the scheduler sidebar drawer.",
+      "UserFacing": false
+    },
+    "Description": "Add custom-scrollbar styling to drawer scroll sections to make them visibly scrollable.",
+    "Instruction": "Change className on both scroll containers to include custom-scrollbar and pr-2.",
+    "ReplacementChunks": [
+      {
+        "AllowMultiple": false,
+        "EndLine": 6060,
+        "ReplacementContent": "                      <div className=\"space-y-2.5 pr-2 overflow-y-auto flex-1 min-h-0 custom-scrollbar\">",
+        "StartLine": 6056,
+        "TargetContent": "                      <div className=\"space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0\">"
+      },
+      {
+        "AllowMultiple": false,
+        "EndLine": 6203,
+        "ReplacementContent": "                    <div className=\"space-y-4 shrink-0 mt-2 overflow-y-auto max-h-[45%] pr-2 custom-scrollbar\">",
+        "StartLine": 6199,
+        "TargetContent": "                    <div className=\"space-y-4 shrink-0 mt-2 overflow-y-auto max-h-[45%] pr-1\">"
+      }
+    ],
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Adding custom-scrollbar class to drawer scroll areas",
+    "toolSummary": "Multi-replacing file content in admin page.tsx to add scrollbars"
+  }
+}

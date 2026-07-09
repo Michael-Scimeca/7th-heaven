@@ -1,0 +1,16 @@
+{
+  "step_index": 600,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Removed overflow-hidden from the scheduler section wrapper to allow child sticky elements (table header at top: 72px and sidebar at top: 96px) to stick to the viewport scroll.",
+    "EndLine": 5278,
+    "Instruction": "Remove overflow-hidden from the scheduler section element",
+    "ReplacementContent": "    return (\n      <section className=\"bg-[#0f0f13] border border-white/5 rounded-2xl shadow-2xl mt-8\">",
+    "StartLine": 5274,
+    "TargetContent": "    return (\n      <section className=\"bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl mt-8\">",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Removing overflow-hidden from section wrapper",
+    "toolSummary": "Removing overflow-hidden from page.tsx"
+  }
+}

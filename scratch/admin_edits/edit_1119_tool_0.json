@@ -1,0 +1,16 @@
+{
+  "step_index": 1119,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Removed the wiw-striped draft styles from roster board cards.",
+    "EndLine": 4591,
+    "Instruction": "Remove wiw-striped class from roster board shift card className",
+    "ReplacementContent": "          className=\"wiw-card relative select-none cursor-grab active:cursor-grabbing rounded-md p-1.5 flex flex-col justify-between shadow-sm min-h-[52px] text-white\"",
+    "StartLine": 4588,
+    "TargetContent": "          className={`wiw-card relative select-none cursor-grab active:cursor-grabbing rounded-md p-1.5 flex flex-col justify-between shadow-sm min-h-[52px] text-white ${\n            shift.isDraft ? 'wiw-striped' : ''\n          }`}",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Removing wiw-striped class from roster board cards",
+    "toolSummary": "Removing wiw-striped class"
+  }
+}

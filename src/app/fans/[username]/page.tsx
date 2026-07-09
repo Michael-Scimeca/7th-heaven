@@ -56,10 +56,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   // When the URL username is 'demo', bypass login and inject a fake fan profile
   // so the client can see the full dashboard without creating an account.
   const isDemoMode = username === 'demo';
-  const demoMember = isDemoMode ? {
+  const demoMember = isDemoMode ? ({
     id: 'demo-fan-001', name: 'Demo Fan', email: 'demo@7thheavenband.com',
     role: 'fan' as const,
-  } : null;
+  } as any) : null;
   // ── END DEMO MODE ──────────────────────────────────────────────────────────
 
   useEffect(() => {
@@ -76,8 +76,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
     // 2. Check if the fan is on the Cruise manifest
     const checkCruiser = async () => {
       const { data } = await supabase.from('cruise_signups').select('id').eq('email', member.email).single();
-      if (data) {
+      if (data || member?.signup_source === 'cruise_member_signup') {
         setIsCruiser(true);
+        if (member?.signup_source === 'cruise_member_signup') {
+          setDashboardView('cruise');
+        }
         // Load cruise data
         fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' })
           .then(res => res.json())
@@ -96,7 +99,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
       }
     };
     checkCruiser();
-  }, [member?.email]);
+  }, [member?.email, member?.signup_source]);
 
   // Check if show has already passed (using lastShow, prompt stays active for 3 days after show)
   const showHasPassed = lastShow?.date
@@ -366,23 +369,100 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black text-[var(--color-accent)]">
               {effectiveMember?.name?.split(' ').map((n: string)=>n[0]).join('').substring(0,2).toUpperCase() || '?'}
-              <span className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full ${effectiveMember?.role === 'admin' ? 'bg-amber-400' : effectiveMember?.role === 'crew' ? 'bg-emerald-400' : effectiveMember?.role === 'event_planner' ? 'bg-fuchsia-500' : 'bg-[var(--color-accent)]'} border-2 border-[var(--color-bg-primary)] flex items-center justify-center`}>
+              <span className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full ${
+                effectiveMember?.role === 'admin' ? 'bg-amber-400' :
+                effectiveMember?.role === 'crew' ? 'bg-emerald-400' :
+                effectiveMember?.role === 'event_planner' ? 'bg-fuchsia-500' :
+                ((dashboardView === 'cruise' || effectiveMember?.signup_source === 'cruise_member_signup') ? 'bg-cyan-400 text-black' : 'bg-[var(--color-accent)]')
+              } border-2 border-[var(--color-bg-primary)] flex items-center justify-center`}>
                 <span className="text-[10px]">
-                  {effectiveMember?.role === 'admin' ? '🛡️' : effectiveMember?.role === 'crew' ? '🛡️' : effectiveMember?.role === 'event_planner' ? '📋' : '★'}
+                  {effectiveMember?.role === 'admin' ? '🛡️' :
+                   effectiveMember?.role === 'crew' ? '🛡️' :
+                   effectiveMember?.role === 'event_planner' ? '📋' :
+                   ((dashboardView === 'cruise' || effectiveMember?.signup_source === 'cruise_member_signup') ? '🚢' : '★')}
                 </span>
               </span>
             </div>
             <div className="text-left">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-2xl font-black italic tracking-tight">{effectiveMember?.name}</h1>
-                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full ${
-                  effectiveMember?.role === 'admin' ? 'bg-amber-400/10 text-amber-400 border-amber-400/30' :
-                  effectiveMember?.role === 'crew' ? 'bg-emerald-400/10 text-emerald-400 border-emerald-400/30' :
-                  effectiveMember?.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30' :
-                  'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30'
-                }`}>
-                  {effectiveMember?.role === 'admin' ? '🛡️ ADMIN' : effectiveMember?.role === 'crew' ? '🛡️ CREW' : effectiveMember?.role === 'event_planner' ? '📋 EVENT PLANNER' : '★ FAN'}
-                </span>
+                {(() => {
+                  const role = effectiveMember?.role;
+                  const isCruiseOnly = effectiveMember?.signup_source === 'cruise_member_signup';
+                  const showCruise = dashboardView === 'cruise';
+
+                  if (role === 'admin') {
+                    return (
+                      <>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-amber-400/10 text-amber-400 border-amber-400/30">
+                          🛡️ ADMIN
+                        </span>
+                        {showCruise && (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                            🚢 CRUISE
+                          </span>
+                        )}
+                      </>
+                    );
+                  }
+
+                  if (role === 'crew') {
+                    return (
+                      <>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-emerald-400/10 text-emerald-400 border-emerald-400/30">
+                          🛡️ CREW
+                        </span>
+                        {showCruise && (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                            🚢 CRUISE
+                          </span>
+                        )}
+                      </>
+                    );
+                  }
+
+                  if (role === 'event_planner') {
+                    return (
+                      <>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30">
+                          📋 EVENT PLANNER
+                        </span>
+                        {showCruise && (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                            🚢 CRUISE
+                          </span>
+                        )}
+                      </>
+                    );
+                  }
+
+                  if (isCruiseOnly) {
+                    return (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                        🚢 CRUISE MEMBER
+                      </span>
+                    );
+                  }
+
+                  if (showCruise) {
+                    return (
+                      <>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30">
+                          ★ FAN
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                          🚢 CRUISE MEMBER
+                        </span>
+                      </>
+                    );
+                  }
+
+                  return (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30">
+                      ★ FAN
+                    </span>
+                  );
+                })()}
               </div>
               <p className="text-base text-white/40 font-mono mt-1">{effectiveMember?.email}</p>
             </div>
@@ -693,7 +773,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <span className="text-3xl mb-2 opacity-30">🎸</span>
                 <p className="text-sm text-white/50 font-bold">No upcoming shows scheduled yet.</p>
                 <p className="text-xs text-white/25 mt-1 uppercase tracking-widest font-bold">Check back soon — new dates drop regularly</p>
-                <Link href="/tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">View Tour Page →</Link>
+                <Link href="/#tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">View Tour Page →</Link>
               </div>
             )}
           </div>
@@ -705,7 +785,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         <div className="mb-8 p-6 bg-[#0a0a0f]/80 border border-white/5 rounded-2xl">
             <div className="flex items-center justify-between mb-4">
               <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-emerald-400">📍 Upcoming Shows</span>
-              <Link href="/tour" className="text-xs text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">All Dates →</Link>
+              <Link href="/#tour" className="text-xs text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">All Dates →</Link>
             </div>
             {shows.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -783,7 +863,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <span className="text-2xl mb-2 opacity-20">🔔</span>
               <p className="text-sm text-white/40 font-bold">You aren&apos;t tracking any specific shows yet.</p>
               <p className="text-xs text-white/20 mt-1">Click the bell icon on the tour page to get date alerts.</p>
-              <Link href="/tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">Find Shows →</Link>
+              <Link href="/#tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">Find Shows →</Link>
             </div>
           )}
         </div>

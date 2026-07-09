@@ -1,0 +1,16 @@
+{
+  "step_index": 1327,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Removed redundant state variables from the middle section of the component.",
+    "EndLine": 376,
+    "Instruction": "Clean redundant group states in admin page",
+    "ReplacementContent": "  const [editingShiftId, setEditingShiftId] = useState<string | null>(null);\n  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');\n  const [selectedCrewAssignments, setSelectedCrewAssignments] = useState<{ [crewId: string]: { active: boolean; customized?: boolean; role: string; startHour: number; endHour: number } }>({});\n  const [drawerCrewSearch, setDrawerCrewSearch] = useState('');",
+    "StartLine": 367,
+    "TargetContent": "  const [editingShiftId, setEditingShiftId] = useState<string | null>(null);\n  const [cellGroupPopover, setCellGroupPopover] = useState<string | null>(null);\n  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');\n  const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);\n  const [createGroupForDate, setCreateGroupForDate] = useState<string | null>(null);\n  const [newGroupNameInput, setNewGroupNameInput] = useState('');\n  const [newGroupMemberSettings, setNewGroupMemberSettings] = useState<{ [crewId: string]: { active: boolean; role: string; startHour: number; endHour: number } }>({});\n  const [selectedCrewAssignments, setSelectedCrewAssignments] = useState<{ [crewId: string]: { active: boolean; customized?: boolean; role: string; startHour: number; endHour: number } }>({});\n  const [drawerCrewSearch, setDrawerCrewSearch] = useState('');",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Removing duplicate state declarations",
+    "toolSummary": "Removing duplicate state declarations"
+  }
+}

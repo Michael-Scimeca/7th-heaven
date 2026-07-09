@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useMember } from '@/context/MemberContext';
 
-export default function FeaturedTrack() {
+export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
   const { isLoggedIn, openModal } = useMember();
   const [track, setTrack] = useState<any>(null);
   const [locked, setLocked] = useState(false);
@@ -16,6 +16,7 @@ export default function FeaturedTrack() {
   const [prevVolume, setPrevVolume] = useState(0.8);
   const [isCompressorActive, setIsCompressorActive] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [showPlaylist, setShowPlaylist] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -235,6 +236,135 @@ export default function FeaturedTrack() {
   if (loading) return null; // Wait for fetch
 
   if (!track && !locked) return null; // No active drop
+
+  // ─── Mini variant for hero embedding ───
+  if (mini) {
+    return (
+      <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
+        {/* Header */}
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
+          <span className="text-[8px] font-black uppercase tracking-[0.2em] text-cyan-400">Now Playing</span>
+        </div>
+
+        {locked ? (
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-sm shrink-0">🔒</div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-bold text-white/60 truncate">Exclusive Fan Drop</p>
+              <button type="button" onClick={() => openModal('login')} className="text-[8px] font-bold text-[var(--color-accent)] hover:text-white uppercase tracking-widest transition-colors cursor-pointer mt-0.5">Login to unlock</button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center gap-2.5">
+              {/* Mini vinyl */}
+              <button type="button" onClick={togglePlay} className="relative w-10 h-10 shrink-0 rounded-full border border-white/15 bg-black flex items-center justify-center cursor-pointer group overflow-hidden">
+                <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
+                <div className="relative z-10 w-4 h-4 rounded-full bg-black/80 flex items-center justify-center">
+                  {isPlaying ? (
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+                  ) : (
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="white" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                  )}
+                </div>
+              </button>
+
+              {/* Track info */}
+              <div className="flex-1 min-w-0">
+                <h4 className="text-xs font-black text-white truncate leading-tight uppercase italic" style={{ fontFamily: 'var(--font-barlow-condensed)' }}>
+                  {track.title}
+                </h4>
+                {currentSong && (
+                  <p className="text-[8px] text-white/30 truncate mt-0.5">{currentSong.title}</p>
+                )}
+              </div>
+
+              {/* Mini EQ bars */}
+              <div className="flex items-end gap-[2px] h-[16px] shrink-0">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-[2px] rounded-full bg-[var(--color-accent)]/80"
+                    style={{
+                      animationName: isPlaying ? 'eqBarShort' : 'none',
+                      animationDuration: `${0.6 + Math.random() * 0.6}s`,
+                      animationTimingFunction: 'ease-in-out',
+                      animationIterationCount: 'infinite',
+                      animationDirection: 'alternate',
+                      animationDelay: `${i * 0.05}s`,
+                      height: isPlaying ? '14px' : '4px',
+                      transformOrigin: 'bottom',
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Mini progress bar */}
+            <div className="mt-2 flex items-center gap-2">
+              <span className="text-[7px] font-mono font-bold text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
+              <div className="relative flex-1 h-[2px] bg-white/10 rounded-full">
+                <input
+                  type="range"
+                  min="0"
+                  max={duration || 100}
+                  value={currentTime}
+                  onChange={handleSeek}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div
+                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-full pointer-events-none"
+                  style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                />
+              </div>
+              <span className="text-[7px] font-mono font-bold text-white/30 min-w-[22px] text-right">{duration ? formatTime(duration) : '0:00'}</span>
+            </div>
+
+            {/* Mini playlist list */}
+            {track.songs && track.songs.length > 1 && (
+              <div className="mt-2.5 pt-2.5 border-t border-white/5 space-y-1 max-h-[110px] overflow-y-auto pr-1 select-none">
+                {track.songs.map((song: any, idx: number) => {
+                  const isActive = idx === currentSongIndex;
+                  return (
+                    <button
+                      key={song.id || idx}
+                      type="button"
+                      onClick={() => {
+                        setCurrentSongIndex(idx);
+                        setIsPlaying(true);
+                      }}
+                      className={`w-full flex items-center justify-between p-1.5 rounded text-left transition-all cursor-pointer ${
+                        isActive 
+                          ? 'bg-[var(--color-accent)]/15 text-white' 
+                          : 'text-white/40 hover:bg-white/[0.02] hover:text-white/70'
+                      }`}
+                    >
+                      <span className="text-[9px] font-bold truncate pr-2">
+                        {String(idx + 1).padStart(2, '0')}. {song.title}
+                      </span>
+                      {isActive && isPlaying ? (
+                        <span className="text-[7px] text-[var(--color-accent)] font-bold animate-pulse uppercase shrink-0">Playing</span>
+                      ) : (
+                        <span className="text-[7px] text-white/25 uppercase font-medium shrink-0">MP3</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </>
+        )}
+
+        <style jsx>{`
+          @keyframes eqBarShort {
+            0% { transform: scaleY(0.2); }
+            100% { transform: scaleY(1); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <section className="relative py-16 bg-[#030305] border-y border-white/5 overflow-hidden">

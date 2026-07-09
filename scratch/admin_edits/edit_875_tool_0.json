@@ -1,0 +1,16 @@
+{
+  "step_index": 875,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Reduced table column widths and minimum width constraints to fit all 7 days of the week inside the window without horizontal scrolling on desktop.",
+    "EndLine": 4790,
+    "Instruction": "Reduce column widths and table min-width inside renderRosterBoard",
+    "ReplacementContent": "    const renderRosterBoard = () => {\n      return (\n        <div className=\"w-full h-[calc(100vh-230px)] overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner custom-scrollbar\">\n          <table\n            style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${160 + filteredDays.length * 130}px` }}\n            className=\"w-full border-collapse text-left select-none table-fixed bg-transparent\"\n          >\n            <thead>\n              <tr className=\"border-b border-white/20 bg-white/[0.02] text-white/40 text-[11px] font-bold tracking-wider\">\n                <th className=\"p-3 w-40 border-r border-white/15 border-b border-white/20 uppercase wiw-sticky-corner\">First Name</th>\n                {filteredDays.map((day, idx) => {\n                  const dayShow = getDayShow(day.dateStr);\n                  const isSelected = selectedTourDate === day.dateStr;\n                  return (\n                    <th\n                      key={day.dateStr}\n                      data-date-header={day.dateStr}\n                      className={`p-3 w-36 border-r border-white/15 border-b border-white/20 relative group text-white/40 wiw-sticky-header ${\n                        isSelected ? 'selected-day' : ''\n                      }`}\n                    >",
+    "StartLine": 4770,
+    "TargetContent": "    const renderRosterBoard = () => {\n      return (\n        <div className=\"w-full h-[calc(100vh-230px)] overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner custom-scrollbar\">\n          <table\n            style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${224 + filteredDays.length * 160}px` }}\n            className=\"w-full border-collapse text-left select-none table-fixed bg-transparent\"\n          >\n            <thead>\n              <tr className=\"border-b border-white/20 bg-white/[0.02] text-white/40 text-[11px] font-bold tracking-wider\">\n                <th className=\"p-3 w-56 border-r border-white/15 border-b border-white/20 uppercase wiw-sticky-corner\">First Name</th>\n                {filteredDays.map((day, idx) => {\n                  const dayShow = getDayShow(day.dateStr);\n                  const isSelected = selectedTourDate === day.dateStr;\n                  return (\n                    <th\n                      key={day.dateStr}\n                      data-date-header={day.dateStr}\n                      className={`p-3 w-48 border-r border-white/15 border-b border-white/20 relative group text-white/40 wiw-sticky-header ${\n                        isSelected ? 'selected-day' : ''\n                      }`}\n                    >",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Adjusting table width columns constraints",
+    "toolSummary": "Reducing table columns width limits"
+  }
+}

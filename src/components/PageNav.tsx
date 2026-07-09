@@ -11,7 +11,6 @@ const CATEGORIES = [
       { path: "/admin", label: "🔒 Admin Panel" },
       { path: "/admin/emails", label: "📧 Email Templates" },
       { path: "/admin/legal", label: "⚖️ Legal Compliance Guide" },
-      { path: "/crew", label: "🎸 Crew Dashboard (Main)" },
       { path: "/crew-michael", label: "🎸 Crew: Michael" },
       { path: "/crew-ryan", label: "🎸 Crew: Ryan" },
       { path: "/crew-sam", label: "🎸 Crew: Sammy" },
@@ -27,7 +26,7 @@ const CATEGORIES = [
     pages: [
       { path: "/", label: "Home" },
       { path: "/bio", label: "Bio" },
-      { path: "/tour", label: "Tour" },
+      { path: "/#tour", label: "Tour" },
       { path: "/shows", label: "Shows" },
       { path: "/music", label: "Music" },
       { path: "/video", label: "Video" },
@@ -53,7 +52,7 @@ const CATEGORIES = [
     name: "Cruise",
     pages: [
       { path: "/cruise", label: "🚢 Cruise Landing" },
-      { path: "/cruise/dashboard", label: "🚢 Cruise Dashboard" },
+      { path: "/cruise/demo", label: "🚢 Cruise Dashboard" },
     ]
   },
   {

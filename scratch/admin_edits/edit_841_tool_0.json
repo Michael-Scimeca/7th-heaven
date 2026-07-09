@@ -1,0 +1,16 @@
+{
+  "step_index": 841,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Cleaned up syntax corruption after sidebar relocation.",
+    "EndLine": 5875,
+    "Instruction": "Clean up corrupted markup after grid body div",
+    "ReplacementContent": "            {/* Grid Body */}\n            <div className=\"p-4 bg-black/10 min-w-0\">\n              {calendarView === 'timeline' && renderTimelineGrid()}\n              {calendarView === 'roster' && renderRosterBoard()}\n              {calendarView === 'list' && renderListBoard()}\n            </div>",
+    "StartLine": 5858,
+    "TargetContent": "            {/* Grid Body */}\n            <div className=\"p-4 bg-black/10 min-w-0\">\n              {calendarView === 'timeline' && renderTimelineGrid()}\n              {calendarView === 'roster' && renderRosterBoard()}\n              {calendarView === 'list' && renderListBoard()}\n            </div>lack text-amber-400/50\">W:{weekHrs.toFixed(1)}h</span>\n                              <span className=\"text-[8px] font-black text-blue-400/40\">M:{monthHrs.toFixed(1)}h</span>\n                            </div>\n                          </div>\n                        </button>\n                      );\n                    })}\n                  </div>\n                </div>\n              </div>\n            </div>",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Cleaning up syntax corruption",
+    "toolSummary": "Cleaning up corrupted admin page lines"
+  }
+}

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>7th Heaven — Platform Sitemap</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #04040a;
+    --surface: #0d0f1c;
+    --border: rgba(255,255,255,0.07);
+    --text: #fff;
+    --muted: rgba(255,255,255,0.4);
+    --radius: 14px;
+    --font: 'Outfit', system-ui, sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(4,4,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .site-header h1 { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
+  .site-header h1 span { color: #a855f7; }
+  .header-nav { display: flex; gap: 8px; }
+  .header-nav a {
+    display: inline-block;
+    padding: 6px 14px; border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--muted); font-size: 12px; font-weight: 600;
+    text-decoration: none; transition: all 0.15s;
+  }
+  .header-nav a:hover { color: #fff; background: rgba(255,255,255,0.1); }
+  .header-stamp { color: var(--muted); font-size: 11px; }
+
+  /* ── Section wrapper ── */
+  .section {
+    padding: 56px 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .section-title {
+    font-size: 22px; font-weight: 900; margin-bottom: 6px;
+  }
+  .section-sub {
+    color: var(--muted); font-size: 13px; margin-bottom: 40px;
+  }
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    margin: 0;
+  }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex; gap: 24px; margin-bottom: 48px; flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+  .stat-pill strong { font-size: 22px; font-weight: 900; display: block; }
+
+  /* ── Architecture: Home ── */
+  .arch-home {
+    display: flex; flex-direction: column; align-items: center;
+    margin-bottom: 24px;
+  }
+  .arch-home-card {
+    background: var(--surface);
+    border: 1px solid rgba(99,102,241,0.4);
+    border-radius: var(--radius);
+    padding: 0;
+    overflow: hidden;
+    width: 280px;
+    box-shadow: 0 0 32px rgba(99,102,241,0.15);
+  }
+  .arch-home-card img { width: 100%; height: 160px; object-fit: cover; display: block; }
+  .arch-home-label {
+    padding: 10px 14px;
+    font-weight: 800; font-size: 14px;
+    background: rgba(99,102,241,0.1);
+    border-top: 1px solid rgba(99,102,241,0.2);
+    text-align: center;
+  }
+  .arch-home-sub { color: var(--muted); font-size: 11px; text-align: center; margin-top: 4px; }
+
+  /* ── Architecture: horizontal connector ── */
+  .arch-h-connector {
+    position: relative; width: 100%; display: flex; justify-content: center;
+    margin-bottom: 0;
+  }
+  .arch-h-line {
+    position: absolute; top: 0; left: 10%; right: 10%;
+    height: 2px; background: rgba(255,255,255,0.07);
+  }
+  .arch-v-stem {
+    width: 2px; height: 32px;
+    background: rgba(255,255,255,0.07);
+    margin: 0 auto;
+  }
+
+  /* ── Architecture: columns ── */
+  .arch-cols {
+    display: flex; gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .arch-col {
+    display: flex; flex-direction: column; align-items: center;
+    flex: 1; min-width: 180px; max-width: 240px;
+  }
+  .arch-col-header {
+    padding: 7px 16px; border-radius: 20px;
+    font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--col-color, rgba(255,255,255,0.1));
+    color: var(--col-color, #fff);
+    margin-bottom: 12px;
+    white-space: nowrap;
+  }
+  .arch-connector-top {
+    width: 2px; height: 20px; opacity: 0.3;
+    margin-bottom: 0;
+  }
+  .arch-node {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .arch-thumb { width: 100%; height: 100px; overflow: hidden; background: #111; }
+  .arch-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .arch-label { font-size: 12px; font-weight: 700; padding: 8px 10px 2px; }
+  .arch-sub   { font-size: 10px; color: var(--muted); padding: 0 10px 8px; }
+  .arch-arrow { color: var(--muted); text-align: center; font-size: 16px; padding: 4px 0; }
+
+  /* ── Flows grid ── */
+  .flows-grid {
+    display: flex; gap: 20px; align-items: flex-start;
+    overflow-x: auto; padding-bottom: 24px;
+  }
+  .flow-col {
+    flex: 0 0 220px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .flow-header {
+    width: 100%;
+    padding: 10px 16px; border-radius: 12px;
+    font-size: 13px; font-weight: 900;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--fc, rgba(255,255,255,0.1));
+    color: var(--fc, #fff);
+    text-align: center;
+    margin-bottom: 16px;
+    letter-spacing: -0.2px;
+  }
+
+  /* ── Step card ── */
+  .step-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; }
+  .step-arrow {
+    font-size: 20px; padding: 6px 0;
+    opacity: 0.7;
+  }
+  .step-card {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-top: 2px solid var(--c, rgba(255,255,255,0.1));
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.15s;
+  }
+  .step-card:hover { transform: translateY(-2px); }
+  .step-badge {
+    position: absolute; top: 8px; right: 8px;
+    width: 22px; height: 22px; border-radius: 50%;
+    font-size: 11px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; z-index: 2;
+  }
+  .step-thumb { height: 120px; overflow: hidden; background: #0a0a12; }
+  .step-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .step-card.portrait .step-thumb { height: 160px; }
+  .step-card.portrait .step-thumb img { object-fit: contain; background: #0e0e18; }
+  .step-info { padding: 8px 10px 10px; }
+  .step-tag  { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
+  .step-title { font-size: 12px; font-weight: 800; line-height: 1.3; color: #fff; }
+
+  /* ── Branch ── */
+  .branch-split-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; padding: 4px 12px;
+    background: rgba(255,255,255,0.04); border-radius: 20px;
+    margin: 4px 0 8px;
+  }
+  .branch-row { display: flex; gap: 8px; width: 100%; }
+  .branch-card {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-top: 2px solid var(--c, rgba(255,255,255,0.1));
+    border-radius: var(--radius);
+    overflow: hidden;
+    min-width: 0;
+  }
+  .branch-card .step-thumb { height: 90px; }
+  .branch-card.portrait .step-thumb { height: 120px; }
+  .branch-card.portrait .step-thumb img { object-fit: contain; background: #0e0e18; }
+
+  /* ── Endpoint ── */
+  .endpoint-card {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--c, rgba(255,255,255,0.1));
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--c, #fff) 12%, transparent);
+  }
+  .endpoint-card .step-thumb { height: 120px; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 32px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--muted);
+  }
+  .legend-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    text-align: center; padding: 32px;
+    color: var(--muted); font-size: 11px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 768px) {
+    .section { padding: 32px 16px; }
+    .flows-grid { gap: 12px; }
+    .flow-col { flex: 0 0 180px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="site-header">
+  <h1>7<span>th</span>Heaven Platform <span style="color:rgba(255,255,255,0.3);font-weight:400">— Sitemap</span></h1>
+  <nav class="header-nav">
+    <a href="#architecture">Site Architecture</a>
+    <a href="#flows">Onboarding Flows</a>
+  </nav>
+  <span class="header-stamp">Generated Jul 6, 2026, 6:30 PM</span>
+</header>
+
+<!-- ── Stats ── -->
+<div class="section" style="padding-bottom:0">
+  <div class="stats-bar">
+    <div class="stat-pill"><strong style="color:#6366f1">62</strong> Static Pages</div>
+    <div class="stat-pill"><strong style="color:#f59e0b">8</strong> Dynamic Routes</div>
+    <div class="stat-pill"><strong style="color:#10b981">87</strong> API Endpoints</div>
+    <div class="stat-pill"><strong style="color:#0ea5e9">5</strong> Member Types</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 1 — SITE ARCHITECTURE
+════════════════════════════════════════════════════════════════ -->
+<div class="section" id="architecture">
+  <div class="section-title">📐 Site Architecture</div>
+  <div class="section-sub">All public pages and their hierarchy. Each page connects from the Home route.</div>
+
+  <!-- Home -->
+  <div class="arch-home">
+    <div class="arch-home-card">
+      <img src="/images/mockups/home.png" alt="Home Page" onerror="this.style.display='none'" />
+      <div class="arch-home-label">Home Page <span style="color:rgba(255,255,255,0.3);font-weight:400;font-size:12px">(/)</span></div>
+    </div>
+    <div class="arch-home-sub">Entry point — all sections branch from here</div>
+  </div>
+
+  <!-- Horizontal connector line -->
+  <div style="display:flex;justify-content:center;margin-bottom:0">
+    <div style="width:2px;height:24px;background:rgba(255,255,255,0.07)"></div>
+  </div>
+  <div style="position:relative;height:2px;background:rgba(255,255,255,0.07);margin:0 5% 0 5%;margin-bottom:0"></div>
+
+  <!-- Columns -->
+  <div style="position:relative;">
+    <!-- top dots -->
+    <div style="display:flex;justify-content:space-around;margin-bottom:0;padding:0 2%">
+      <div style="width:2px;height:24px;background:rgba(255,255,255,0.07)"></div><div style="width:2px;height:24px;background:rgba(255,255,255,0.07)"></div><div style="width:2px;height:24px;background:rgba(255,255,255,0.07)"></div><div style="width:2px;height:24px;background:rgba(255,255,255,0.07)"></div><div style="width:2px;height:24px;background:rgba(255,255,255,0.07)"></div>
+    </div>
+    <div class="arch-cols">
+      
+  <div class="arch-col">
+    <div class="arch-col-header" style="--col-color:#6366f1">🎸 Fan</div>
+    <div class="arch-connector-top" style="background:#6366f1"></div>
+    
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/photowall.png" alt="Fan Wall" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Fan Wall</div>
+      <div class="arch-sub">/fans</div>
+    </div>
+  <div class="arch-arrow">↓</div>
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/fans.png" alt="Fan Profile" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Fan Profile</div>
+      <div class="arch-sub">/fans/[slug]</div>
+    </div>
+  
+  </div>
+  <div class="arch-col">
+    <div class="arch-col-header" style="--col-color:#f59e0b">🛍️ Merch</div>
+    <div class="arch-connector-top" style="background:#f59e0b"></div>
+    
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/store.png" alt="Merch Store" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Merch Store</div>
+      <div class="arch-sub">/store</div>
+    </div>
+  <div class="arch-arrow">↓</div>
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/product.png" alt="Product Page" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Product Page</div>
+      <div class="arch-sub">/store/[slug]</div>
+    </div>
+  
+  </div>
+  <div class="arch-col">
+    <div class="arch-col-header" style="--col-color:#10b981">📅 Book</div>
+    <div class="arch-connector-top" style="background:#10b981"></div>
+    
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/book.png" alt="Book the Band" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Book the Band</div>
+      <div class="arch-sub">/book</div>
+    </div>
+  <div class="arch-arrow">↓</div>
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/booking_success.png" alt="Booking Success" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Booking Success</div>
+      <div class="arch-sub">/book/success</div>
+    </div>
+  <div class="arch-arrow">↓</div>
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/planner.png" alt="Planner Portal" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Planner Portal</div>
+      <div class="arch-sub">/planner</div>
+    </div>
+  
+  </div>
+  <div class="arch-col">
+    <div class="arch-col-header" style="--col-color:#0ea5e9">🎤 Crew</div>
+    <div class="arch-connector-top" style="background:#0ea5e9"></div>
+    
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/crew_portal.png" alt="Crew Portal" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Crew Portal</div>
+      <div class="arch-sub">/crew</div>
+    </div>
+  <div class="arch-arrow">↓</div>
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/crew.png" alt="Crew Dashboard" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Crew Dashboard</div>
+      <div class="arch-sub">/crew-*</div>
+    </div>
+  <div class="arch-arrow">↓</div>
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/live_michael.png" alt="Live Stream" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Live Stream</div>
+      <div class="arch-sub">/live/[slug]</div>
+    </div>
+  
+  </div>
+  <div class="arch-col">
+    <div class="arch-col-header" style="--col-color:#f43f5e">🛳️ Cruise</div>
+    <div class="arch-connector-top" style="background:#f43f5e"></div>
+    
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/cruise.png" alt="Cruise Hub" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Cruise Hub</div>
+      <div class="arch-sub">/cruise</div>
+    </div>
+  <div class="arch-arrow">↓</div>
+    <div class="arch-node">
+      <div class="arch-thumb"><img src="/images/mockups/lounge.png" alt="Cruise Lounge" onerror="this.style.display='none'" /></div>
+      <div class="arch-label">Cruise Lounge</div>
+      <div class="arch-sub">/cruise/[slug]</div>
+    </div>
+  
+  </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 2 — ONBOARDING FLOWS
+════════════════════════════════════════════════════════════════ -->
+<div class="section" id="flows">
+  <div class="section-title">🚀 Member Onboarding Flows</div>
+  <div class="section-sub">
+    Step-by-step flows for each member type — from sign-up through PIN verification to their dashboard.
+    Each column is fully independent.
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>🎸 Fan Member</div><div class="legend-item"><div class="legend-dot" style="background:#f43f5e"></div>🛳️ Cruise Member</div><div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>📅 Planner Member</div><div class="legend-item"><div class="legend-dot" style="background:#0ea5e9"></div>👥 Crew Member</div><div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>🔐 Admin Access</div>
+  </div>
+
+  <div class="flows-grid">
+    
+  <div class="flow-col" id="flow-fan">
+    <div class="flow-header" style="--fc:#6366f1">🎸 Fan Member</div>
+    
+  <div class="step-wrap">
+    
+    <div class="step-card" style="--c:#6366f1">
+      <div class="step-badge" style="background:#6366f1">1</div>
+      <div class="step-thumb"><img src="/images/mockups/signup_modal.png" alt="Sign Up Modal" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#6366f1">Sign up page</div>
+        <div class="step-title">Sign Up Modal</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#6366f1">↓</div>
+    <div class="step-card portrait" style="--c:#6366f1">
+      <div class="step-badge" style="background:#6366f1">2</div>
+      <div class="step-thumb"><img src="/images/mockups/email_auth_pin.png" alt="PIN Email Sent" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#6366f1">Email</div>
+        <div class="step-title">PIN Email Sent</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#6366f1">↓</div>
+    <div class="step-card" style="--c:#6366f1">
+      <div class="step-badge" style="background:#6366f1">3</div>
+      <div class="step-thumb"><img src="/images/mockups/login_modal.png" alt="Enter PIN on Site" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#6366f1">Pin module</div>
+        <div class="step-title">Enter PIN on Site</div>
+      </div>
+    </div>
+  </div>
+    
+    <div class="step-arrow" style="color:#6366f1">↓</div>
+    <div class="branch-split-label" style="color:#6366f1">Choose path</div>
+    <div class="branch-row">
+      
+  <div class="branch-card portrait" style="--c:#6366f1">
+    <div class="step-thumb"><img src="/images/mockups/email_welcome_fan.png" alt="Confirm Email" onerror="this.style.display='none'" /></div>
+    <div class="step-info">
+      <div class="step-tag" style="color:#6366f1">Email</div>
+      <div class="step-title">Confirm Email</div>
+    </div>
+  </div>
+      
+  <div class="branch-card" style="--c:#6366f1">
+    <div class="step-thumb"><img src="/images/mockups/fans.png" alt="Fan Dashboard" onerror="this.style.display='none'" /></div>
+    <div class="step-info">
+      <div class="step-tag" style="color:#6366f1">Page</div>
+      <div class="step-title">Fan Dashboard</div>
+    </div>
+  </div>
+    </div>
+  </div>
+  <div class="flow-col" id="flow-cruise">
+    <div class="flow-header" style="--fc:#f43f5e">🛳️ Cruise Member</div>
+    
+  <div class="step-wrap">
+    
+    <div class="step-card" style="--c:#f43f5e">
+      <div class="step-badge" style="background:#f43f5e">1</div>
+      <div class="step-thumb"><img src="/images/mockups/cruise.png" alt="Cruise Sign-Up Form" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#f43f5e">Form page</div>
+        <div class="step-title">Cruise Sign-Up Form</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#f43f5e">↓</div>
+    <div class="step-card portrait" style="--c:#f43f5e">
+      <div class="step-badge" style="background:#f43f5e">2</div>
+      <div class="step-thumb"><img src="/images/mockups/email_auth_pin.png" alt="PIN Email Sent" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#f43f5e">Email</div>
+        <div class="step-title">PIN Email Sent</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#f43f5e">↓</div>
+    <div class="step-card" style="--c:#f43f5e">
+      <div class="step-badge" style="background:#f43f5e">3</div>
+      <div class="step-thumb"><img src="/images/mockups/cruise_gate.png" alt="Enter PIN on Site" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#f43f5e">Verify page</div>
+        <div class="step-title">Enter PIN on Site</div>
+      </div>
+    </div>
+  </div>
+    
+    <div class="step-arrow" style="color:#f43f5e">↓</div>
+    <div class="branch-split-label" style="color:#f43f5e">Choose path</div>
+    <div class="branch-row">
+      
+  <div class="branch-card portrait" style="--c:#f43f5e">
+    <div class="step-thumb"><img src="/images/mockups/email_cruise_confirmation.png" alt="Confirm Email" onerror="this.style.display='none'" /></div>
+    <div class="step-info">
+      <div class="step-tag" style="color:#f43f5e">Email</div>
+      <div class="step-title">Confirm Email</div>
+    </div>
+  </div>
+      
+  <div class="branch-card" style="--c:#f43f5e">
+    <div class="step-thumb"><img src="/images/mockups/lounge.png" alt="Cruise Lounge" onerror="this.style.display='none'" /></div>
+    <div class="step-info">
+      <div class="step-tag" style="color:#f43f5e">Dashboard</div>
+      <div class="step-title">Cruise Lounge</div>
+    </div>
+  </div>
+    </div>
+  </div>
+  <div class="flow-col" id="flow-planner">
+    <div class="flow-header" style="--fc:#10b981">📅 Planner Member</div>
+    
+  <div class="step-wrap">
+    
+    <div class="step-card" style="--c:#10b981">
+      <div class="step-badge" style="background:#10b981">1</div>
+      <div class="step-thumb"><img src="/images/mockups/book.png" alt="Booking Form" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#10b981">Book page</div>
+        <div class="step-title">Booking Form</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#10b981">↓</div>
+    <div class="step-card portrait" style="--c:#10b981">
+      <div class="step-badge" style="background:#10b981">2</div>
+      <div class="step-thumb"><img src="/images/mockups/email_welcome_planner.png" alt="PIN Email Sent" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#10b981">Email</div>
+        <div class="step-title">PIN Email Sent</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#10b981">↓</div>
+    <div class="step-card" style="--c:#10b981">
+      <div class="step-badge" style="background:#10b981">3</div>
+      <div class="step-thumb"><img src="/images/mockups/planner_login.png" alt="Enter PIN on Site" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#10b981">Verify page</div>
+        <div class="step-title">Enter PIN on Site</div>
+      </div>
+    </div>
+  </div>
+    
+    <div class="step-arrow" style="color:#10b981">↓</div>
+    <div class="branch-split-label" style="color:#10b981">Choose path</div>
+    <div class="branch-row">
+      
+  <div class="branch-card portrait" style="--c:#10b981">
+    <div class="step-thumb"><img src="/images/mockups/email_welcome_planner.png" alt="Planner Confirm Email" onerror="this.style.display='none'" /></div>
+    <div class="step-info">
+      <div class="step-tag" style="color:#10b981">Email</div>
+      <div class="step-title">Planner Confirm Email</div>
+    </div>
+  </div>
+      
+  <div class="branch-card" style="--c:#10b981">
+    <div class="step-thumb"><img src="/images/mockups/planner.png" alt="Planner Dashboard" onerror="this.style.display='none'" /></div>
+    <div class="step-info">
+      <div class="step-tag" style="color:#10b981">Dashboard</div>
+      <div class="step-title">Planner Dashboard</div>
+    </div>
+  </div>
+    </div>
+  </div>
+  <div class="flow-col" id="flow-crew">
+    <div class="flow-header" style="--fc:#0ea5e9">👥 Crew Member</div>
+    
+  <div class="step-wrap">
+    
+    <div class="step-card" style="--c:#0ea5e9">
+      <div class="step-badge" style="background:#0ea5e9">1</div>
+      <div class="step-thumb"><img src="/images/mockups/admin_create_crew.png" alt="Admin Creates Account" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#0ea5e9">Admin panel</div>
+        <div class="step-title">Admin Creates Account</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#0ea5e9">↓</div>
+    <div class="step-card portrait" style="--c:#0ea5e9">
+      <div class="step-badge" style="background:#0ea5e9">2</div>
+      <div class="step-thumb"><img src="/images/mockups/email_welcome_crew.png" alt="Welcome Email + Temp PW" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#0ea5e9">Email</div>
+        <div class="step-title">Welcome Email + Temp PW</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#0ea5e9">↓</div>
+    <div class="step-card" style="--c:#0ea5e9">
+      <div class="step-badge" style="background:#0ea5e9">3</div>
+      <div class="step-thumb"><img src="/images/mockups/login_modal.png" alt="First Login" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#0ea5e9">Login modal</div>
+        <div class="step-title">First Login</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#0ea5e9">↓</div>
+    <div class="step-card" style="--c:#0ea5e9">
+      <div class="step-badge" style="background:#0ea5e9">4</div>
+      <div class="step-thumb"><img src="/images/mockups/crew_set_password.png" alt="Set Your Password" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#0ea5e9">Password modal</div>
+        <div class="step-title">Set Your Password</div>
+      </div>
+    </div>
+  </div>
+    
+    <div class="step-arrow" style="color:#0ea5e9">↓</div>
+    
+  <div class="endpoint-card" style="--c:#0ea5e9">
+    <div class="step-thumb"><img src="/images/mockups/crew.png" alt="Crew Dashboard" onerror="this.style.display='none'" /></div>
+    <div class="step-info">
+      <div class="step-tag" style="color:#0ea5e9">✓ Dashboard</div>
+      <div class="step-title">Crew Dashboard</div>
+    </div>
+  </div>
+  </div>
+  <div class="flow-col" id="flow-admin">
+    <div class="flow-header" style="--fc:#f59e0b">🔐 Admin Access</div>
+    
+  <div class="step-wrap">
+    
+    <div class="step-card" style="--c:#f59e0b">
+      <div class="step-badge" style="background:#f59e0b">1</div>
+      <div class="step-thumb"><img src="/images/mockups/admin_create_form_filled.png" alt="Create Admin Account" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#f59e0b">Admin dashboard</div>
+        <div class="step-title">Create Admin Account</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#f59e0b">↓</div>
+    <div class="step-card" style="--c:#f59e0b">
+      <div class="step-badge" style="background:#f59e0b">2</div>
+      <div class="step-thumb"><img src="/images/mockups/admin_welcome_email.png" alt="Welcome Email + Temp Creds" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#f59e0b">Email</div>
+        <div class="step-title">Welcome Email + Temp Creds</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#f59e0b">↓</div>
+    <div class="step-card" style="--c:#f59e0b">
+      <div class="step-badge" style="background:#f59e0b">3</div>
+      <div class="step-thumb"><img src="/images/mockups/admin_login_gate.png" alt="First Login (Temp Password)" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#f59e0b">Admin login gate</div>
+        <div class="step-title">First Login (Temp Password)</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-wrap">
+    <div class="step-arrow" style="color:#f59e0b">↓</div>
+    <div class="step-card" style="--c:#f59e0b">
+      <div class="step-badge" style="background:#f59e0b">4</div>
+      <div class="step-thumb"><img src="/images/mockups/crew_set_password.png" alt="Set New Password" onerror="this.style.display='none'" /></div>
+      <div class="step-info">
+        <div class="step-tag" style="color:#f59e0b">Set password modal</div>
+        <div class="step-title">Set New Password</div>
+      </div>
+    </div>
+  </div>
+    
+    <div class="step-arrow" style="color:#f59e0b">↓</div>
+    
+  <div class="endpoint-card" style="--c:#f59e0b">
+    <div class="step-thumb"><img src="/images/mockups/admin.png" alt="Admin Dashboard" onerror="this.style.display='none'" /></div>
+    <div class="step-info">
+      <div class="step-tag" style="color:#f59e0b">✓ Dashboard</div>
+      <div class="step-title">Admin Dashboard</div>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<footer class="site-footer">
+  7th Heaven Band Platform · Developer Sitemap · Generated Jul 6, 2026, 6:30 PM
+</footer>
+
+</body>
+</html>

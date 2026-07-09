@@ -8,7 +8,6 @@ import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 
 const navLinks: { href: string; label: string; isCta?: boolean }[] = [
- { href: "/tour", label: "Tour" },
  { href: "/bio", label: "Bio" },
  { href: "/music", label: "Music" },
  { href: "/store", label: "Store" },
@@ -27,6 +26,10 @@ export function Header() {
  const [isCrewLive, setIsCrewLive] = useState(false);
  const [hasLiveStreams, setHasLiveStreams] = useState(false);
  const { member, isLoggedIn, openModal, logout } = useMember();
+
+ const isDemoFanPage = pathname === '/fans/demo';
+ const isDemoCruisePage = pathname === '/cruise/demo';
+ const isDemoPage = isDemoFanPage || isDemoCruisePage;
 
  // Check for active live streams
  useEffect(() => {
@@ -150,7 +153,7 @@ export function Header() {
         setMobileOpen(false);
       }
     }}
-    className={`relative px-4 py-2 text-base font-medium tracking-wide transition-all duration-200 max-lg:text-xl max-lg:px-6 max-lg:py-3 flex items-center gap-2 ${
+    className={`relative px-4 py-2 text-base font-medium tracking-wide transition-all duration-200 max-lg:text-xl max-lg:px-6 max-lg:py-3 flex items-center gap-2 group/navlink ${
     link.isCta
      ? "text-white bg-[var(--color-accent)] hover:bg-[#9d3cff] rounded-full px-5 py-1.5 font-bold shadow-[0_0_16px_rgba(133,29,239,0.35)] hover:shadow-[0_0_24px_rgba(133,29,239,0.5)] hover:scale-105 max-lg:mt-2"
      : pathname === link.href
@@ -166,6 +169,15 @@ export function Header() {
      />
     )}
     {link.label}
+    {link.label === "Live" && !isLoggedIn && (
+      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 hidden group-hover/navlink:block pointer-events-none z-[100]">
+        <div className="bg-black/95 text-[9px] text-white/80 border border-white/10 rounded px-2.5 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.8)] whitespace-nowrap">
+          <span className="text-[var(--color-accent)] font-bold">Note:</span> Sign in or sign up to see live feed
+        </div>
+        {/* Tooltip arrow */}
+        <div className="w-1.5 h-1.5 bg-black border-l border-t border-white/10 absolute -top-1 left-1/2 -translate-x-1/2 rotate-45" />
+      </div>
+     )}
     {pathname === link.href && (
     <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 accent-gradient-bg " />
     )}
@@ -189,45 +201,110 @@ export function Header() {
  {/* Actions */}
  <div className="flex items-center gap-4 z-10">
 
- {isLoggedIn ? (
+ {(isLoggedIn || isDemoPage) ? (
  <div className="flex items-center gap-2">
- {/* Role label badge */}
+  {/* Role label badge */}
+  {(() => {
+    const role = isDemoFanPage || isDemoCruisePage ? 'fan' : member?.role;
+    const isCruiseSignup = !!member?.cruise_signup_id;
+    const isCruiseOnly = member?.signup_source === 'cruise_member_signup' || isDemoCruisePage;
+    const showCruise = isCruiseSignup || isDemoCruisePage || (pathname ? pathname.startsWith('/cruise') : false);
+
+    if (role === 'admin') {
+     return (
+      <div className="flex items-center gap-1.5">
+       <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-amber-500/15 border-amber-500/30 text-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.15)]">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
+        ADMIN
+       </span>
+       {showCruise && (
+        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
+         🚢 CRUISE
+        </span>
+       )}
+      </div>
+     );
+    }
+
+    if (role === 'crew') {
+     return (
+      <div className="flex items-center gap-1.5">
+       <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-emerald-500/15 border-emerald-500/30 text-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.15)]">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+        CREW
+       </span>
+       {showCruise && (
+        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
+         🚢 CRUISE
+        </span>
+       )}
+      </div>
+     );
+    }
+
+    if (role === 'event_planner') {
+     return (
+      <div className="flex items-center gap-1.5">
+       <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-fuchsia-500/15 border-fuchsia-500/30 text-fuchsia-400 shadow-[0_0_6px_rgba(217,70,239,0.15)]">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+        PLANNER
+       </span>
+       {showCruise && (
+        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
+         🚢 CRUISE
+        </span>
+       )}
+      </div>
+     );
+    }
+
+    if (showCruise) {
+     if (isCruiseOnly) {
+      return (
+       <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
+        🚢 CRUISE MEMBER
+       </span>
+      );
+     }
+
+     if (showCruise) {
+       return (
+        <div className="flex items-center gap-1.5">
+         <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-white/[0.06] border-white/[0.12] text-white/50">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+          FAN
+         </span>
+         <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
+          🚢 CRUISE MEMBER
+         </span>
+        </div>
+       );
+     }
+    }
+
+    return (
+     <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-white/[0.06] border-white/[0.12] text-white/50">
+      <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+      FAN
+     </span>
+    );
+   })()}
  {(() => {
-  // On /fans/demo, override to fan role so the demo looks authentic
-  const isDemoFanPage = pathname === '/fans/demo';
-  const role = isDemoFanPage ? 'fan' : member?.role;
-  const config = {
-   admin:         { label: 'ADMIN',   bg: 'bg-amber-500/15',   border: 'border-amber-500/30',   text: 'text-amber-400',   glow: 'shadow-[0_0_6px_rgba(251,191,36,0.15)]' },
-   crew:          { label: 'CREW',    bg: 'bg-emerald-500/15',  border: 'border-emerald-500/30',  text: 'text-emerald-400',  glow: 'shadow-[0_0_6px_rgba(52,211,153,0.15)]' },
-   event_planner: { label: 'PLANNER', bg: 'bg-fuchsia-500/15',  border: 'border-fuchsia-500/30',  text: 'text-fuchsia-400',  glow: 'shadow-[0_0_6px_rgba(217,70,239,0.15)]' },
-   fan:           { label: 'FAN',     bg: 'bg-white/[0.06]',    border: 'border-white/[0.12]',    text: 'text-white/50',     glow: '' },
-  };
-  const c = config[role as keyof typeof config] || config.fan;
-  return (
-   <span className={`hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border ${c.bg} ${c.border} ${c.text} ${c.glow}`}>
-    {role === 'admin' && <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>}
-    {role === 'crew' && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>}
-    {role === 'event_planner' && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>}
-    {(!role || role === 'fan') && <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>}
-    {c.label}
-   </span>
-  );
- })()}
- {(() => {
-  const isDemoFanPage = pathname === '/fans/demo';
-  const displayRole = isDemoFanPage ? 'fan' : member?.role;
-  const displayName = isDemoFanPage ? 'Demo Fan' : member!.name;
-  const displayInitials = displayName ? displayName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : member!.avatar;
-  const dashboardHref = isDemoFanPage ? '/fans/demo'
-   : displayRole === 'event_planner' ? '/planner'
-   : displayRole === 'crew' ? '/crew'
-   : displayRole === 'admin' ? '/admin'
-   : `/fans/${member?.username || 'me'}`;
-  const dashboardTitle = isDemoFanPage ? 'Fan Dashboard (Demo)'
-   : displayRole === 'event_planner' ? 'Planner Dashboard'
-   : displayRole === 'crew' ? 'Crew Dashboard'
-   : displayRole === 'admin' ? 'Admin Dashboard'
-   : 'Fan Dashboard';
+   const displayRole = isDemoFanPage || isDemoCruisePage ? 'fan' : member?.role;
+   const displayName = isDemoFanPage ? 'Demo Fan' : (isDemoCruisePage ? 'Demo Cruiser' : member?.name || 'Guest');
+   const displayInitials = displayName ? displayName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : (member?.avatar || 'G');
+   const dashboardHref = isDemoFanPage ? '/fans/demo'
+    : isDemoCruisePage ? '/cruise/demo'
+    : displayRole === 'event_planner' ? '/planner'
+    : displayRole === 'crew' ? '/crew'
+    : displayRole === 'admin' ? '/admin'
+    : `/fans/${member?.username || 'me'}`;
+   const dashboardTitle = isDemoFanPage ? 'Fan Dashboard (Demo)'
+    : isDemoCruisePage ? 'Cruise Dashboard (Demo)'
+    : displayRole === 'event_planner' ? 'Planner Dashboard'
+    : displayRole === 'crew' ? 'Crew Dashboard'
+    : displayRole === 'admin' ? 'Admin Dashboard'
+    : 'Fan Dashboard';
   return (
   <Link
    href={dashboardHref}
@@ -252,6 +329,16 @@ export function Header() {
       <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(10,10,15)" strokeWidth="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
      </span>
     );
+    const isCruiseSignup = !!member?.cruise_signup_id;
+    const isCruiseOnly = member?.signup_source === 'cruise_member_signup';
+    const showCruise = isCruiseSignup || isCruiseOnly || (pathname ? pathname.startsWith('/cruise') : false);
+    if (showCruise) {
+      return (
+       <span className="absolute -bottom-[3px] -right-[3px] w-[14px] h-[14px] rounded-full bg-cyan-400 border-2 border-[rgb(10,10,15)] flex items-center justify-center text-[8px] leading-none">
+        🚢
+       </span>
+      );
+     }
     return (
      <span className="absolute -bottom-[3px] -right-[3px] w-[12px] h-[12px] rounded-full bg-white/50 border-2 border-[rgb(10,10,15)] flex items-center justify-center">
       <svg width="6" height="6" viewBox="0 0 24 24" fill="rgb(10,10,15)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>

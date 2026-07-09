@@ -1,0 +1,16 @@
+{
+  "step_index": 1150,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Restored handleGlobalDragEnd hook alongside schedules mount cleanup hook.",
+    "EndLine": 243,
+    "Instruction": "Restore handleGlobalDragEnd hook",
+    "ReplacementContent": "  useEffect(() => {\n    if (typeof window !== 'undefined') {\n      const saved = localStorage.getItem('7h_crew_schedules');\n      if (saved) {\n        try {\n          const parsed = JSON.parse(saved);\n          const cleaned = parsed.filter((item: any) => !item.isDraft && !item.id?.startsWith('show_shift_'));\n          if (cleaned.length !== parsed.length) {\n            localStorage.setItem('7h_crew_schedules', JSON.stringify(cleaned));\n            window.dispatchEvent(new Event('storage'));\n            fetch(\"/api/crew/calendar\", {\n              method: \"POST\",\n              headers: { \"Content-Type\": \"application/json\" },\n              body: JSON.stringify(cleaned)\n            }).catch(err => console.error(\"Failed to sync cleaned schedules:\", err));\n          }\n        } catch {}\n      }\n    }\n  }, []);\n\n  useEffect(() => {\n    const handleGlobalDragEnd = () => {\n      setDraggedShiftId(null);\n      draggedShiftIdRef.current = null;\n    };\n    window.addEventListener('dragend', handleGlobalDragEnd);\n    return () => window.removeEventListener('dragend', handleGlobalDragEnd);\n  }, []);",
+    "StartLine": 223,
+    "TargetContent": "  useEffect(() => {\n    if (typeof window !== 'undefined') {\n      const saved = localStorage.getItem('7h_crew_schedules');\n      if (saved) {\n        try {\n          const parsed = JSON.parse(saved);\n          const cleaned = parsed.filter((item: any) => !item.isDraft && !item.id?.startsWith('show_shift_'));\n          if (cleaned.length !== parsed.length) {\n            localStorage.setItem('7h_crew_schedules', JSON.stringify(cleaned));\n            window.dispatchEvent(new Event('storage'));\n            fetch(\"/api/crew/calendar\", {\n              method: \"POST\",\n              headers: { \"Content-Type\": \"application/json\" },\n              body: JSON.stringify(cleaned)\n            }).catch(err => console.error(\"Failed to sync cleaned schedules:\", err));\n          }\n        } catch {}\n      }\n    }\n  }, []);",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Restoring handleGlobalDragEnd hook",
+    "toolSummary": "Restoring drag-and-drop hook"
+  }
+}

@@ -39,8 +39,8 @@ const siteStructure = [
         bg: "bg-purple-500/5",
       },
       {
-        path: "/tour",
-        name: "Tour Dates",
+        path: "/#tour",
+        name: "Tour Dates (Home Section)",
         sections: ["Interactive Venue Map", "Chronological Next Show Pin", "Smart Search & Filters", "Tour Table Dates"],
         features: ["Leaflet Dynamic Map Rendering", "Real-Time Date Filtering algorithms", "Geo-coordinates integration"],
         color: "text-blue-400",
@@ -870,7 +870,7 @@ export default function SitemapPage() {
 
             {/* Public */}
             <div className="ml-6 border-l border-white/10 pl-4 mt-1 space-y-0.5">
-              <TreeNode path="/tour" label="Tour Dates" color="text-blue-400" />
+              <TreeNode path="/#tour" label="Tour Dates" color="text-blue-400" />
               <TreeNode path="/video" label="Video Gallery" color="text-pink-400" />
               <TreeNode path="/bio" label="Band Bio" color="text-amber-400" />
               <TreeNode path="/members" label="Band Members" color="text-amber-400" />
@@ -1014,7 +1014,7 @@ export default function SitemapPage() {
 
               {/* Level 1 */}
               <div className="grid grid-cols-6 gap-3">
-                <SiteNode href="/tour"   label="TOUR"    sub="/tour"    color="white" desc="Interactive map, search, upcoming dates" />
+                <SiteNode href="/#tour"   label="TOUR"    sub="/#tour"    color="white" desc="Interactive map, search, upcoming dates" />
                 <SiteNode href="/bio"    label="BIO"     sub="/bio"     color="white" desc="Band history, member profiles" />
                 <SiteNode href="/video"  label="VIDEO"   sub="/video"   color="white" desc="YouTube gallery, inline player" />
                 <SiteNode href="/cruise" label="CRUISE"  sub="/cruise"  color="white" desc="Interest signup, itinerary, FAQ" />

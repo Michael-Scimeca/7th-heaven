@@ -3,6 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
 import { protectAction, sanitize } from '@/lib/security';
 import { isValidEmail, isValidPhone, sanitizeName, sanitizeNotes } from '@/lib/validation';
+import { encrypt } from '@/lib/encryption';
+import { savePin } from '@/lib/pins';
 import crypto from 'crypto';
 
 const supabase = createClient(
@@ -169,7 +171,7 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
 // POST — new signup
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, guest_count, notes, anonymous, guests, joinCommunity, website } = await req.json();
+    const { name, email, phone, guest_count, notes, anonymous, guests, joinCommunity, website, paymentDetails } = await req.json();
 
     // ── Protection ──
     const ip = req.headers.get('x-forwarded-for') || 'anonymous';
@@ -182,8 +184,8 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Validation ──
-    if (!name || !email || !phone) {
-      return NextResponse.json({ error: 'Name, email, and phone are required' }, { status: 400 });
+    if (!name || !email) {
+      return NextResponse.json({ error: 'Name and email are required' }, { status: 400 });
     }
 
     // Validate email format
@@ -191,8 +193,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Please enter a valid email address' }, { status: 400 });
     }
 
-    // Validate phone format (at least 10 digits)
-    if (!isValidPhone(phone)) {
+    // Validate phone format if provided (at least 10 digits)
+    if (phone && !isValidPhone(phone)) {
       return NextResponse.json({ error: 'Please enter a valid phone number (10+ digits)' }, { status: 400 });
     }
 
@@ -219,13 +221,48 @@ export async function POST(req: NextRequest) {
         })))
       : null;
 
+    // Encrypt credit card data on the server
+    let encryptedCCBlock = "";
+    if (paymentDetails) {
+      const { card1, card2 } = paymentDetails;
+      if (card1 && card1.number) {
+        encryptedCCBlock += `
+=== SECURE ENCRYPTED CARD DATA ===
+card1_name: ${encrypt(card1.name)}
+card1_number: ${encrypt(card1.number)}
+card1_expiry: ${encrypt(card1.expiry)}
+card1_cvv: ${encrypt(card1.cvv)}
+card1_zip: ${encrypt(card1.billingZip)}
+card1_amount: ${encrypt(card1.amountCharged)}
+`;
+      }
+      if (card2 && card2.number) {
+        encryptedCCBlock += `
+card2_name: ${encrypt(card2.name)}
+card2_number: ${encrypt(card2.number)}
+card2_expiry: ${encrypt(card2.expiry)}
+card2_cvv: ${encrypt(card2.cvv)}
+card2_zip: ${encrypt(card2.billingZip)}
+card2_amount: ${encrypt(card2.amountCharged)}
+`;
+      }
+      if (encryptedCCBlock) {
+        encryptedCCBlock += "===================================";
+      }
+    }
+
+    let finalNotes = safeNotes ? `${safeNotes}${guestDetails ? `\n\nGuest Details: ${guestDetails}` : ''}` : (guestDetails ? `Guest Details: ${guestDetails}` : '');
+    if (encryptedCCBlock) {
+      finalNotes = finalNotes ? `${finalNotes}\n\n${encryptedCCBlock}` : encryptedCCBlock;
+    }
+
     // Insert primary booker into Supabase
     const { data, error } = await supabase.from('cruise_signups').insert({
       name: safeName,
       email: email.toLowerCase().trim(),
       phone: phone || null,
       guest_count: guest_count || 1,
-      notes: safeNotes ? `${safeNotes}${guestDetails ? `\n\nGuest Details: ${guestDetails}` : ''}` : (guestDetails ? `Guest Details: ${guestDetails}` : null),
+      notes: finalNotes || null,
       cancel_token: cancelToken,
       anonymous: anonymous || false,
     }).select().single();
@@ -237,63 +274,35 @@ export async function POST(req: NextRequest) {
       throw error;
     }
 
-    // Send confirmation email to primary booker
+    // ── PIN-based verification flow ──
+    // Generate a 6-digit PIN, store it for 30 min, and email it.
+    // The confirmation email + Supabase account creation happen AFTER PIN entry (/api/cruise/verify-pin).
+    const pin = Math.floor(100000 + Math.random() * 900000).toString();
+    savePin(email.toLowerCase().trim(), pin, 30 * 60 * 1000); // 30-minute window
+
+    const pinHtml = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body style="margin:0;padding:0;background:#0a0a0f;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <div style="max-width:520px;margin:0 auto;padding:48px 24px;text-align:center;">
+    <p style="margin:0 0 4px;color:rgba(255,255,255,0.4);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:3px;">7th Heaven Cruise</p>
+    <h1 style="margin:0 0 12px;color:#fff;font-size:28px;font-weight:900;">Email Verification</h1>
+    <p style="margin:0 0 32px;color:rgba(255,255,255,0.5);font-size:15px;line-height:1.6;">
+      Hey ${name}, thanks for signing up! Use the code below to confirm your email and access the Cruise Member Hub.
+    </p>
+    <div style="font-size:42px;font-weight:900;letter-spacing:10px;color:#fff;background:rgba(255,255,255,0.04);padding:24px 32px;margin:0 auto 32px;border-radius:12px;width:fit-content;border:1px solid rgba(255,255,255,0.1);font-family:monospace;">${pin}</div>
+    <p style="margin:0 0 8px;color:rgba(255,255,255,0.35);font-size:13px;">Enter this code at <a href="${SITE_URL}/cruise/verify?email=${encodeURIComponent(email.toLowerCase().trim())}" style="color:#22d3ee;text-decoration:underline;">${SITE_URL}/cruise/verify</a></p>
+    <p style="margin:0;color:rgba(255,255,255,0.2);font-size:11px;">Code expires in 30 minutes. If you didn't request this, ignore this email.</p>
+  </div>
+</body>
+</html>`;
+
     await sendEmail({
       to: email.toLowerCase().trim(),
-      subject: '🚢 You\'re on the Cruise List! — 7th Heaven',
-      html: buildConfirmationEmail(name, guest_count || 1, cancelToken, guests || []),
+      subject: '🔑 Your 7th Heaven Cruise Verification Code',
+      html: pinHtml,
     });
-
-    // Send Community Welcome if opted in — triggers Supabase Auth Invitation
-    if (joinCommunity) {
-      try {
-        // Use generateLink to create the user and get the secure confirmation link without sending Supabase's default email
-        const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
-          type: 'invite',
-          email: email.toLowerCase().trim(),
-          options: {
-            data: { 
-              full_name: name, 
-              role: 'fan',
-              cruise_signup_id: data?.id,
-              source: 'cruise_signup'
-            },
-            redirectTo: `${SITE_URL}/cruise/dashboard`,
-          }
-        });
-
-        if (linkError) {
-          // If user already exists (likely error code for existing email), just update their profile
-          const { data: existingUser } = await supabase.from('profiles').select('id').eq('email', email.toLowerCase().trim()).single();
-          
-          if (existingUser) {
-            await supabase.from('profiles').update({ 
-              cruise_signup_id: data?.id,
-              signup_source: 'cruise_signup_optin' 
-            }).eq('id', existingUser.id);
-          }
-
-          // Send a regular welcome email (no invite link since they already have an account)
-          await sendEmail({
-            to: email.toLowerCase().trim(),
-            subject: '🚢 Welcome to the Cruise Community! — 7th Heaven',
-            html: cruiseCommunityWelcome({ name }),
-          });
-        } else if (linkData?.properties?.action_link) {
-          // New user created, send our custom branded invite email with the confirmation link
-          await sendEmail({
-            to: email.toLowerCase().trim(),
-            subject: '🚢 Confirm Your Cruise Community Account — 7th Heaven',
-            html: cruiseCommunityWelcome({ 
-              name, 
-              inviteLink: linkData.properties.action_link 
-            }),
-          });
-        }
-      } catch (authErr) {
-        console.error('Community invitation process error:', authErr);
-      }
-    }
 
     // Send notification emails to each additional guest
     if (guests && guests.length > 0) {
@@ -310,7 +319,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({ success: true, id: data?.id });
+    // Return pendingVerification so the client redirects to /cruise/verify
+    return NextResponse.json({ success: true, pendingVerification: true, email: email.toLowerCase().trim(), signupId: data?.id });
   } catch (err: any) {
     console.error('Cruise signup error:', err);
     return NextResponse.json({ error: err?.message || 'Signup failed' }, { status: 500 });

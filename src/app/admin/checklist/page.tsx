@@ -503,6 +503,340 @@ export default function SetupChecklistPage() {
             </div>
           </div>
 
+          {/* 9. OAUTH SOCIAL LOGIN */}
+          <div className="bg-[#08080c] border border-white/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1">🔐 OAuth Social Login</h3>
+                  <p className="text-2xs text-white/30 font-bold uppercase tracking-widest">Google, Facebook &amp; Apple sign-in</p>
+                </div>
+                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                  🟡 Not Configured
+                </span>
+              </div>
+
+              <p className="text-xs text-white/50 leading-relaxed mb-6">
+                Enables fans to sign up / log in using their existing Google, Facebook, or Apple accounts instead of email + password. Code is already wired up via Supabase Auth — just needs provider credentials.
+              </p>
+
+              {/* Tasks */}
+              <div className="space-y-3 mb-6">
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.oauth_google_credentials} onChange={() => handleToggle("oauth_google_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.oauth_google_credentials ? "line-through text-white/30" : ""}>
+                    Create an OAuth 2.0 Client ID at <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" className="underline text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]">Google Cloud Console</a> → paste Client ID &amp; Secret into Supabase → Auth → Providers → Google
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.oauth_facebook_credentials} onChange={() => handleToggle("oauth_facebook_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.oauth_facebook_credentials ? "line-through text-white/30" : ""}>
+                    Create an app at <a href="https://developers.facebook.com/" target="_blank" rel="noopener" className="underline text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]">Meta Developers</a> → add Facebook Login product → paste App ID &amp; Secret into Supabase → Auth → Providers → Facebook
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.oauth_apple_credentials} onChange={() => handleToggle("oauth_apple_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.oauth_apple_credentials ? "line-through text-white/30" : ""}>
+                    Create a Services ID at <a href="https://developer.apple.com/" target="_blank" rel="noopener" className="underline text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]">Apple Developer</a> → enable Sign in with Apple → paste Service ID, Team ID, Key ID &amp; private key into Supabase → Auth → Providers → Apple
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.oauth_redirect_uri} onChange={() => handleToggle("oauth_redirect_uri")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.oauth_redirect_uri ? "line-through text-white/30" : ""}>
+                    Add <code className="font-mono text-[var(--color-accent)]/60">https://YOUR-PROJECT.supabase.co/auth/v1/callback</code> as the authorized redirect URI for all three providers
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/5">
+              <span className="text-3xs uppercase tracking-wider font-bold text-white/20 block mb-1">Configured in</span>
+              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+                Supabase Dashboard → Authentication → Providers
+              </code>
+            </div>
+          </div>
+
+        </div>
+
+        {/* ─── COMPLIANCE & LEGAL SECTION ─── */}
+        <div className="mt-16 mb-12 pb-6 border-b border-white/5">
+          <h2 className="text-2xl font-black tracking-tight text-white mb-2">
+            ⚖️ Compliance, Legal &amp; Content Moderation
+          </h2>
+          <p className="text-sm text-white/40 max-w-3xl leading-relaxed">
+            These items cover legal requirements, content moderation systems, and regulatory compliance that must be in place before going live. Many of these carry real legal liability if ignored.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* 10. CAN-SPAM EMAIL COMPLIANCE */}
+          <div className="bg-[#08080c] border border-white/5 rounded-2xl p-6 hover:border-rose-500/30 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1">📧 CAN-SPAM Email Compliance</h3>
+                  <p className="text-2xs text-white/30 font-bold uppercase tracking-widest">Federal law for commercial email</p>
+                </div>
+                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  ⚠️ Required
+                </span>
+              </div>
+
+              <p className="text-xs text-white/50 leading-relaxed mb-6">
+                The CAN-SPAM Act (15 U.S.C. §7701) requires all commercial emails to include an unsubscribe mechanism, a valid physical mailing address, and honest subject lines. Violations carry fines up to <strong className="text-white/70">$51,744 per email</strong>.
+              </p>
+
+              <div className="space-y-3 mb-6">
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.canspam_unsubscribe} onChange={() => handleToggle("canspam_unsubscribe")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.canspam_unsubscribe ? "line-through text-white/30" : ""}>
+                    Add a working one-click <strong>Unsubscribe</strong> link to every marketing email (show alerts, newsletters, promo blasts). Must process opt-outs within 10 business days.
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.canspam_physical_address} onChange={() => handleToggle("canspam_physical_address")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.canspam_physical_address ? "line-through text-white/30" : ""}>
+                    Include a valid <strong>physical mailing address</strong> (or PO Box) in every marketing email footer
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.canspam_subject_lines} onChange={() => handleToggle("canspam_subject_lines")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.canspam_subject_lines ? "line-through text-white/30" : ""}>
+                    Ensure email subject lines are not deceptive and clearly indicate promotional content
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.canspam_from_address} onChange={() => handleToggle("canspam_from_address")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.canspam_from_address ? "line-through text-white/30" : ""}>
+                    Use a clear &ldquo;From&rdquo; name and a real reply-to address (not a no-reply that bounces)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.canspam_opt_in_records} onChange={() => handleToggle("canspam_opt_in_records")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.canspam_opt_in_records ? "line-through text-white/30" : ""}>
+                    Store opt-in consent records in Supabase (timestamp, email, IP, source page) for audit trail
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.canspam_email_templates} onChange={() => handleToggle("canspam_email_templates")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.canspam_email_templates ? "line-through text-white/30" : ""}>
+                    Audit all email templates in <code className="font-mono text-[var(--color-accent)]/60">/admin/emails</code> to include unsubscribe footer and physical address
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/5">
+              <span className="text-3xs uppercase tracking-wider font-bold text-white/20 block mb-1">Reference</span>
+              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+                FTC CAN-SPAM Act · 15 U.S.C. §7701
+              </code>
+            </div>
+          </div>
+
+          {/* 11. LIVE CHAT & MODERATION */}
+          <div className="bg-[#08080c] border border-white/5 rounded-2xl p-6 hover:border-amber-500/30 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1">💬 Chat Rooms &amp; Moderation</h3>
+                  <p className="text-2xs text-white/30 font-bold uppercase tracking-widest">Live chat safety, age gates &amp; content filtering</p>
+                </div>
+                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                  ⚠️ Required
+                </span>
+              </div>
+
+              <p className="text-xs text-white/50 leading-relaxed mb-6">
+                Live chat rooms create liability for user-generated content, harassment, and underage access. Platforms hosting public chat must implement moderation tools, age verification, and content filters to maintain safe harbor protections.
+              </p>
+
+              <div className="space-y-3 mb-6">
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.chat_age_gate} onChange={() => handleToggle("chat_age_gate")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.chat_age_gate ? "line-through text-white/30" : ""}>
+                    Enforce <strong>13+ age requirement</strong> at signup — block chat access for users who don&apos;t confirm age (COPPA)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.chat_profanity_filter} onChange={() => handleToggle("chat_profanity_filter")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.chat_profanity_filter ? "line-through text-white/30" : ""}>
+                    Verify the <strong>PG-13 content filter</strong> is active on all chat messages (profanity, slurs, explicit content)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.chat_report_system} onChange={() => handleToggle("chat_report_system")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.chat_report_system ? "line-through text-white/30" : ""}>
+                    Implement a <strong>report/flag system</strong> so users can report abusive messages, and crew/admins can ban users
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.chat_rate_limiting} onChange={() => handleToggle("chat_rate_limiting")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.chat_rate_limiting ? "line-through text-white/30" : ""}>
+                    Enable <strong>rate limiting</strong> on chat messages (prevent spam floods — max 1 msg per second per user)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.chat_terms_acceptance} onChange={() => handleToggle("chat_terms_acceptance")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.chat_terms_acceptance ? "line-through text-white/30" : ""}>
+                    Require users to accept <strong>Community Guidelines</strong> before first chat message
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.chat_data_retention} onChange={() => handleToggle("chat_data_retention")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.chat_data_retention ? "line-through text-white/30" : ""}>
+                    Define a <strong>data retention policy</strong> for chat logs (auto-purge after 30/90 days) in Privacy Policy
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/5">
+              <span className="text-3xs uppercase tracking-wider font-bold text-white/20 block mb-1">Reference</span>
+              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+                COPPA · Section 230 Safe Harbor · Community Standards
+              </code>
+            </div>
+          </div>
+
+          {/* 12. LIVE STREAMING LEGAL */}
+          <div className="bg-[#08080c] border border-white/5 rounded-2xl p-6 hover:border-purple-500/30 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1">🎥 Live Streaming Legal</h3>
+                  <p className="text-2xs text-white/30 font-bold uppercase tracking-widest">Music licensing, venue consent &amp; recording</p>
+                </div>
+                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                  ⚠️ Required
+                </span>
+              </div>
+
+              <p className="text-xs text-white/50 leading-relaxed mb-6">
+                Self-hosting live streams via LiveKit means 7th Heaven is the broadcaster — there is no YouTube/Facebook copyright safety net. The band is 100% liable for music rights, venue permissions, and audience consent for recording.
+              </p>
+
+              <div className="space-y-3 mb-6">
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.stream_music_license} onChange={() => handleToggle("stream_music_license")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.stream_music_license ? "line-through text-white/30" : ""}>
+                    Obtain <strong>digital performance licenses</strong> for webcasting cover songs (contact SoundExchange, ASCAP/BMI for streaming-specific licenses beyond venue PRO coverage)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.stream_sync_license} onChange={() => handleToggle("stream_sync_license")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.stream_sync_license ? "line-through text-white/30" : ""}>
+                    Secure <strong>sync/mechanical licenses</strong> before archiving any recorded live streams to the Gallery (covers are copyrighted compositions)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.stream_venue_consent} onChange={() => handleToggle("stream_venue_consent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.stream_venue_consent ? "line-through text-white/30" : ""}>
+                    Get <strong>written venue permission</strong> to live stream from each venue (some venues restrict streaming rights)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.stream_audience_notice} onChange={() => handleToggle("stream_audience_notice")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.stream_audience_notice ? "line-through text-white/30" : ""}>
+                    Post <strong>recording notice signage</strong> at venues (&ldquo;This event is being live streamed&rdquo;) for audience consent
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.stream_dmca_agent} onChange={() => handleToggle("stream_dmca_agent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.stream_dmca_agent ? "line-through text-white/30" : ""}>
+                    Register a <strong>DMCA designated agent</strong> with the U.S. Copyright Office for takedown requests (Section 512 safe harbor)
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/5">
+              <span className="text-3xs uppercase tracking-wider font-bold text-white/20 block mb-1">Reference</span>
+              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+                DMCA §512 · ASCAP/BMI/SoundExchange · Venue Contracts
+              </code>
+            </div>
+          </div>
+
+          {/* 13. LEGAL PAGES & POLICIES */}
+          <div className="bg-[#08080c] border border-white/5 rounded-2xl p-6 hover:border-emerald-500/30 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1">📋 Legal Pages &amp; Policies</h3>
+                  <p className="text-2xs text-white/30 font-bold uppercase tracking-widest">Privacy, terms, cookies &amp; accessibility</p>
+                </div>
+                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  🔍 Audit Required
+                </span>
+              </div>
+
+              <p className="text-xs text-white/50 leading-relaxed mb-6">
+                Every consumer-facing website needs compliant legal pages. These must be regularly audited as features change. Missing or outdated policies create real legal exposure.
+              </p>
+
+              <div className="space-y-3 mb-6">
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.legal_privacy_audit} onChange={() => handleToggle("legal_privacy_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.legal_privacy_audit ? "line-through text-white/30" : ""}>
+                    Audit <strong>/privacy</strong> page — must list all data collected (email, phone, IP, zip, cookies), all third-party processors (Supabase, Resend, Twilio, Shopify, LiveKit, Mux, Sanity), and data retention periods
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.legal_terms_audit} onChange={() => handleToggle("legal_terms_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.legal_terms_audit ? "line-through text-white/30" : ""}>
+                    Audit <strong>/terms</strong> page — must include 13+ age restriction, fan content license grants, chat community guidelines, and dispute resolution
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.legal_cookie_consent} onChange={() => handleToggle("legal_cookie_consent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.legal_cookie_consent ? "line-through text-white/30" : ""}>
+                    Verify <strong>Cookie Consent Banner</strong> displays on first visit and respects opt-out choices (GDPR/CCPA for international visitors)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.legal_dmca_page} onChange={() => handleToggle("legal_dmca_page")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.legal_dmca_page ? "line-through text-white/30" : ""}>
+                    Add a <strong>DMCA policy page</strong> or section with designated agent contact info for copyright takedown requests
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.legal_ada_audit} onChange={() => handleToggle("legal_ada_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.legal_ada_audit ? "line-through text-white/30" : ""}>
+                    Run an <strong>ADA/WCAG 2.1 accessibility audit</strong> — alt text on images, 4.5:1 color contrast, keyboard navigation, screen reader labels
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.legal_refund_policy} onChange={() => handleToggle("legal_refund_policy")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.legal_refund_policy ? "line-through text-white/30" : ""}>
+                    Add visible <strong>Refund &amp; Shipping Policy</strong> links for any merchandise/ticket purchases (FTC requirement)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.legal_delete_account} onChange={() => handleToggle("legal_delete_account")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.legal_delete_account ? "line-through text-white/30" : ""}>
+                    Implement <strong>account deletion</strong> flow — users must be able to delete their profile and all associated data (GDPR &ldquo;right to erasure&rdquo;)
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group text-xs text-white/70 hover:text-white">
+                  <input type="checkbox" checked={!!checkedItems.legal_data_export} onChange={() => handleToggle("legal_data_export")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <span className={checkedItems.legal_data_export ? "line-through text-white/30" : ""}>
+                    Add <strong>data export</strong> option for users to download their personal data (GDPR &ldquo;right to portability&rdquo;)
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/5">
+              <span className="text-3xs uppercase tracking-wider font-bold text-white/20 block mb-1">Pages to audit</span>
+              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+                /privacy · /terms · /admin/legal · Cookie Banner
+              </code>
+            </div>
+          </div>
+
         </div>
 
         {/* Global instructions card */}

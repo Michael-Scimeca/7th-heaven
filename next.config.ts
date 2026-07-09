@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["*.trycloudflare.com", "*.loca.lt", "*.lhr.life", "*.tunnelmole.net", "10.0.0.189", "localhost:3000"],
   experimental: {
+    viewTransition: true,
     proxyClientMaxBodySize: "50mb",
   },
   images: {
@@ -60,6 +61,16 @@ const nextConfig: NextConfig = {
           { key: "X-DNS-Prefetch-Control", value: "on" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
         ],
+      },
+    ];
+  },
+  // ── Redirects ──
+  async redirects() {
+    return [
+      {
+        source: "/tour",
+        destination: "/#tour",
+        permanent: true,
       },
     ];
   },

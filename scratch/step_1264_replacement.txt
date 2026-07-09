@@ -1,0 +1,5 @@
+  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');
+  const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
+  const [createGroupForDate, setCreateGroupForDate] = useState<string | null>(null);
+  const [newGroupNameInput, setNewGroupNameInput] = useState('');
+  const [newGroupMemberSettings, setNewGroupMemberSettings] = useState<{ [crewId: string]: { active: boolean; role: string; startHour: number; endHour: number } }>({});

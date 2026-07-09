@@ -4,27 +4,31 @@
     "password": "password123",
     "name": "Admin User",
     "username": "admin_7h",
-    "role": "admin"
+    "role": "admin",
+    "pin": "777777"
   },
   {
     "email": "crew@7thheaven.com",
     "password": "password123",
     "name": "Crew Member",
     "username": "crew_member",
-    "role": "crew"
+    "role": "crew",
+    "pin": "777777"
   },
   {
     "email": "fan@7thheaven.com",
     "password": "password123",
     "name": "Super Fan",
     "username": "super_fan",
-    "role": "fan"
+    "role": "fan",
+    "pin": "777777"
   },
   {
     "email": "planner@7thheaven.com",
     "password": "password123",
     "name": "Event Planner",
     "username": "planner_7h",
-    "role": "event_planner"
+    "role": "event_planner",
+    "pin": "777777"
   }
 ]

@@ -1,0 +1,16 @@
+{
+  "step_index": 1263,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Declared state variables for the Create Group pop-up modal.",
+    "EndLine": 357,
+    "Instruction": "Insert new state variables for Create Group popup modal",
+    "ReplacementContent": "  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');\n  const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);\n  const [createGroupForDate, setCreateGroupForDate] = useState<string | null>(null);\n  const [newGroupNameInput, setNewGroupNameInput] = useState('');\n  const [newGroupMemberSettings, setNewGroupMemberSettings] = useState<{ [crewId: string]: { active: boolean; role: string; startHour: number; endHour: number } }>({});",
+    "StartLine": 357,
+    "TargetContent": "  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Declaring new state variables for group creation modal",
+    "toolSummary": "Declaring states for group modal"
+  }
+}

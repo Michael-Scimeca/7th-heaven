@@ -11,6 +11,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Valid email address is required." }, { status: 400 });
     }
 
+    // ── Dev bypass: use the fixed PIN from fake-logins.json ──
+    if (process.env.NODE_ENV !== 'production') {
+      try {
+        const fakeLogins = (await import("@/data/fake-logins.json")).default;
+        const devUser = fakeLogins.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+        if (devUser?.pin) {
+          savePin(email, devUser.pin, 24 * 60 * 60 * 1000); // 24h expiry for dev
+          console.log(`\n==============================================`);
+          console.log(`🛠️ DEV PIN for ${email}: ${devUser.pin}`);
+          console.log(`==============================================\n`);
+          return NextResponse.json({ success: true, devBypass: true });
+        }
+      } catch { /* ignore — fall through to normal flow */ }
+    }
+
     // Generate a random 6-digit PIN
     const pin = Math.floor(100000 + Math.random() * 900000).toString();
 

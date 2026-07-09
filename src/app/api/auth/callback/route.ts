@@ -21,8 +21,10 @@ export async function GET(request: Request) {
         .single();
 
       let resolvedUsername = profile?.username;
+      let isNewUser = false;
 
       if (!profile) {
+        isNewUser = true;
         // Profile is missing, let's insert it
         const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
         const email = user.email || '';
@@ -54,11 +56,16 @@ export async function GET(request: Request) {
           tier: 'Bronze',
           shows_attended: 0,
           notifications_enabled: false,
-          notification_radius: 25
+          notification_radius: 25,
+          profile_completed: false,
         });
       }
       
-      // Redirect to next or their specific profile username
+      // New OAuth users → complete profile page; returning users → dashboard
+      if (isNewUser) {
+        return NextResponse.redirect(`${origin}/fans/complete-profile`);
+      }
+      
       const finalRedirect = resolvedUsername ? `${origin}/fans/${resolvedUsername}` : `${origin}${next}`;
       return NextResponse.redirect(finalRedirect);
     }

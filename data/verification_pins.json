@@ -15,18 +15,63 @@
     "expiresAt": 1782602304508
   },
   {
-    "email": "testfan@example.com",
-    "pin": "361851",
-    "expiresAt": 1782603744271
-  },
-  {
     "email": "testfan2@example.com",
     "pin": "516406",
     "expiresAt": 1782604150138
   },
   {
+    "email": "fan@7thheaven.com",
+    "pin": "541402",
+    "expiresAt": 1782659040485
+  },
+  {
+    "email": "testfan@example.com",
+    "pin": "415398",
+    "expiresAt": 1782659955197
+  },
+  {
+    "email": "john.doe.fan@example.com",
+    "pin": "570794",
+    "expiresAt": 1782660478132
+  },
+  {
+    "email": "fan_test_unique_final_2@7thheaven.com",
+    "pin": "584698",
+    "expiresAt": 1782662503759
+  },
+  {
+    "email": "fan_test_unique@7thheaven.com",
+    "pin": "352196",
+    "expiresAt": 1782663239366
+  },
+  {
+    "email": "test_fan_user@gmail.com",
+    "pin": "343893",
+    "expiresAt": 1782663587365
+  },
+  {
+    "email": "test_oauth_12345@example.com",
+    "pin": "714136",
+    "expiresAt": 1782676022959
+  },
+  {
+    "email": "michaelscimeca@icloud.com",
+    "pin": "897314",
+    "expiresAt": 1782749504271
+  },
+  {
+    "email": "superfan99@example.com",
+    "pin": "862184",
+    "expiresAt": 1783025528145
+  },
+  {
     "email": "testfan@7thheaven.com",
-    "pin": "960101",
-    "expiresAt": 1782606313342
+    "pin": "729090",
+    "expiresAt": 1783025826500
+  },
+  {
+    "email": "alexdemo@7thheaven.test",
+    "pin": "486332",
+    "expiresAt": 1783311311737
   }
 ]

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { sanityFetch } from "@/sanity/live";
-import { queries, SanitySiteSettings } from "@/lib/sanity";
+import { sanityClient, queries, SanitySiteSettings } from "@/lib/sanity";
 
 export const metadata: Metadata = {
  title: "Contact — 7th Heaven",
@@ -17,7 +16,7 @@ const FALLBACK_CONTACTS = [
 ];
 
 export default async function ContactPage() {
- const { data: settingsData } = await sanityFetch({ query: queries.siteSettings });
+ const settingsData = await sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } });
  const settings = settingsData as SanitySiteSettings | null;
  const contacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
 

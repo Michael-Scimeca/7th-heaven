@@ -94,9 +94,10 @@ export default function PlannerClient() {
   };
 
   if (!mounted || !hydrated) return null;
-  const isDevBypass = typeof window !== "undefined" && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
+  const isDevBypass = typeof window !== "undefined" && (process.env.NODE_ENV === 'development' && (localStorage.getItem('7h_dev_bypass') === 'true' || new URLSearchParams(window.location.search).get('bypass') === 'true'));
   const forceLogin = typeof window !== "undefined" && new URLSearchParams(window.location.search).get('login') === 'true';
-  const hasAccess = (!forceLogin && isDevBypass) || (isLoggedIn && member?.role === 'event_planner');
+  // If ?login=true is in the URL, always show the login form — never auto-redirect to dashboard
+  const hasAccess = !forceLogin && (isDevBypass || (isLoggedIn && member?.role === 'event_planner'));
 
   if (!hasAccess) {
     return (

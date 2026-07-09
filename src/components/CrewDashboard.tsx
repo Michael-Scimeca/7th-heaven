@@ -28,6 +28,7 @@ const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; av
   michael: { id: 'michael', name: 'Michael Scimeca',  email: 'michael@7thheaven.com', avatar: 'MS' },
   ryan:    { id: 'ryan',    name: 'Ryan K',           email: 'ryan@7thheaven.com',    avatar: 'RK' },
   tony:    { id: 'tony',    name: 'Tony M',           email: 'tony@7thheaven.com',    avatar: 'TM' },
+  abbie:   { id: 'abbie',   name: 'Abbie Janssen',   email: 'abbie@7thheaven.com',   avatar: 'AJ' },
 };
 
 function getAvatarColor(name: string) {
@@ -55,6 +56,136 @@ const getShopifyProductAdminUrl = (productGid?: string) => {
   return `https://admin.shopify.com/store/${shopName}/products`;
 };
 
+export const ROLE_REQUIREMENTS: Record<string, { certifications: string[]; training: string[] }> = {
+  'SERVER': {
+    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
+    training: ['Customer Service Excellence']
+  },
+  'HOST': {
+    certifications: ['Food Handler Card'],
+    training: ['Guest Relations']
+  },
+  'BUSSER': {
+    certifications: ['Food Handler Card'],
+    training: ['Safety & Sanitation']
+  },
+  'CHEF': {
+    certifications: ['ServSafe Food Protection Manager'],
+    training: ['HACCP Safety Protocols']
+  },
+  'LINE COOK': {
+    certifications: ['Food Handler Card'],
+    training: ['Grill & Fryer Safety']
+  },
+  'MANAGER': {
+    certifications: ['ServSafe Manager', 'CPR/AED Certified'],
+    training: ['Shift Leadership']
+  },
+  'AUDIO MIX': {
+    certifications: ['AVIXA CTS (Certified Technology Specialist)'],
+    training: ['Digital Audio Console Setup']
+  },
+  'CAMERA': {
+    certifications: ['General Safety Cert'],
+    training: ['Equipment Inspection']
+  },
+  'POSITION': {
+    certifications: ['General Safety Cert'],
+    training: ['Venue Setup & Logistics']
+  }
+};
+
+export const CREW_QUALIFICATIONS: Record<string, { certifications: string[]; training: string[] }> = {
+  abbie: {
+    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
+    training: ['POS Terminal Operation', 'Customer Service Excellence']
+  },
+  al: {
+    certifications: ['Food Handler Card'],
+    training: ['Table Bussing Procedure', 'Safety & Sanitation']
+  },
+  andrea: {
+    certifications: ['ServSafe Food Protection Manager', 'Culinary Arts Degree'],
+    training: ['Kitchen Operations Management', 'HACCP Safety Protocols']
+  },
+  arjun: {
+    certifications: ['Food Handler Card'],
+    training: ['Customer Relations', 'Table Service Basics']
+  },
+  chris: {
+    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
+    training: ['Guest Relations', 'Reservation Software']
+  },
+  daniel: {
+    certifications: ['ServSafe Manager', 'CPR/AED Certified', 'Crowd Manager Cert'],
+    training: ['Shift Leadership', 'Emergency Response Procedures']
+  },
+  dave_croke: {
+    certifications: ['Food Handler Card'],
+    training: ['Line Station Setup', 'Grill & Fryer Safety']
+  },
+  dave_maas: {
+    certifications: ['ServSafe Food Protection Manager'],
+    training: ['Menu Development', 'Food Cost Controls']
+  },
+  david_xu: {
+    certifications: ['ServSafe Manager', 'CPR/AED Certified'],
+    training: ['Staff Scheduling', 'Inventory Auditing']
+  },
+  emily: {
+    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
+    training: ['Upselling Techniques', 'Host Desk Protocols']
+  },
+  emma: {
+    certifications: ['Food Handler Card'],
+    training: ['Prep Cook Station Basics', 'Knife Handling Safety']
+  },
+  erin: {
+    certifications: ['General Safety Cert'],
+    training: ['Venue Setup & Logistics', 'Equipment Inspection']
+  },
+  francesca: {
+    certifications: ['ServSafe Manager', 'Crowd Manager Cert'],
+    training: ['Event Coordination', 'Conflict De-escalation']
+  },
+  michael: {
+    certifications: ['AVIXA CTS (Certified Technology Specialist)', 'OSHA 10 Safety'],
+    training: ['Digital Audio Console Setup', 'Wireless Frequency Management']
+  },
+  sammy: {
+    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
+    training: ['Fine Dining Table Etiquette', 'Point-of-Sale Checkout']
+  },
+  ryan: {
+    certifications: ['Food Handler Card'],
+    training: ['Trash Disposal Procedures', 'Floor Safety & Sweeping']
+  },
+  tony: {
+    certifications: ['Food Handler Card'],
+    training: ['Grill Station Mastery', 'High-Volume Kitchen Prep']
+  }
+};
+
+export const qualificationMap: Record<string, string[]> = {
+  abbie: ['SERVER', 'HOST'],
+  al: ['SERVER', 'BUSSER'],
+  andrea: ['CHEF'],
+  arjun: ['SERVER'],
+  chris: ['SERVER', 'HOST'],
+  daniel: ['MANAGER'],
+  dave_croke: ['LINE COOK'],
+  dave_maas: ['CHEF'],
+  david_xu: ['MANAGER'],
+  emily: ['SERVER', 'HOST'],
+  emma: ['LINE COOK'],
+  erin: ['POSITION'],
+  francesca: ['MANAGER'],
+  michael: ['AUDIO MIX'],
+  sammy: ['SERVER'],
+  ryan: ['BUSSER'],
+  tony: ['LINE COOK']
+};
+
 export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } = {}) {
   // --- Auth State ---
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -63,6 +194,438 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const [userId, setUserId] = useState('');
   const [role, setRole] = useState<'fan' | 'crew' | 'admin'>('crew');
   const [email, setEmail] = useState('');
+
+  // --- Work Schedule State ---
+  const [crewSchedules, setCrewSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; isDraft?: boolean; approvalStatus?: 'pending' | 'approved' | 'declined'; declineReason?: string; isCoverageRequested?: boolean }[]>([]);
+  const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
+  const [decliningShiftId, setDecliningShiftId] = useState<string | null>(null);
+  const [declineReason, setDeclineReason] = useState('');
+
+  // --- Toast state ---
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info'; title?: string; visible: boolean }>({ message: '', type: 'info', visible: false });
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info', title?: string) => {
+    setToast({ message, type, title, visible: true });
+    setTimeout(() => {
+      setToast(prev => ({ ...prev, visible: false }));
+    }, 6000);
+  };
+
+  // --- Email Admins States & Handlers ---
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [emailSubject, setEmailSubject] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+
+  const handleSendEmailToAdmins = async () => {
+    setIsSendingEmail(true);
+    try {
+      const { data: admins } = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('role', 'admin');
+
+      let adminEmails: string[] = [];
+      if (admins && admins.length > 0) {
+        adminEmails = admins.map(a => a.email).filter(Boolean);
+      }
+      if (adminEmails.length === 0) {
+        adminEmails = ['michael@7thheaven.com'];
+      }
+
+      const htmlContent = `
+        <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
+          <h2 style="color: #fbbf24; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Crew Member Message</h2>
+          <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
+            You have received a new message from crew member <strong>${displayName}</strong> (${email}):
+          </p>
+          
+          <div style="background-color: #111827; padding: 16px; border-radius: 8px; border: 1px solid #374151; margin-bottom: 20px;">
+            <p style="font-size: 14px; color: #9ca3af; margin-top: 0; font-weight: bold; text-transform: uppercase;">Subject:</p>
+            <p style="font-size: 15px; color: #ffffff; margin-bottom: 16px; font-weight: bold;">${emailSubject}</p>
+            
+            <p style="font-size: 14px; color: #9ca3af; margin-top: 0; font-weight: bold; text-transform: uppercase;">Message:</p>
+            <p style="font-size: 14px; color: #e5e7eb; white-space: pre-wrap; line-height: 1.6;">${emailMessage}</p>
+          </div>
+          
+          <p style="font-size: 12px; color: #6b7280; border-top: 1px solid #1f2937; padding-top: 16px; margin-top: 24px;">
+            Sent via 7th Heaven Crew Portal.
+          </p>
+        </div>
+      `;
+
+      for (const recipient of adminEmails) {
+        await fetch('/api/email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: recipient,
+            subject: `✉️ Message from Crew Member (${displayName}): ${emailSubject}`,
+            html: htmlContent
+          })
+        });
+      }
+
+      alert('✉️ Email sent successfully to administrators!');
+      setIsEmailModalOpen(false);
+      setEmailSubject('');
+      setEmailMessage('');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to send email: ' + err);
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
+
+  const isQualifiedForRole = (crewId: string, roleName: string): boolean => {
+    const normRole = roleName.toUpperCase().trim();
+    const baseRoles = qualificationMap[crewId.toLowerCase()] || [];
+    const hasBaseRole = baseRoles.some(q => q.toUpperCase() === normRole);
+    const hasExistingShift = crewSchedules.some(s => s.crewId === crewId && s.role.toUpperCase().trim() === normRole);
+
+    if (!hasBaseRole && !hasExistingShift) return false;
+
+    const requirements = ROLE_REQUIREMENTS[normRole];
+    if (!requirements) return true;
+
+    const userQuals = CREW_QUALIFICATIONS[crewId.toLowerCase()];
+    if (!userQuals) return false;
+
+    const hasAllCerts = requirements.certifications.every(cert => 
+      userQuals.certifications.includes(cert)
+    );
+    const hasAllTraining = requirements.training.every(train => 
+      userQuals.training.includes(train)
+    );
+
+    return hasAllCerts && hasAllTraining;
+  };
+
+  const getCrewMemberEmail = (crewId: string): string => {
+    const fallbackMap: Record<string, string> = {
+      abbie: 'abbie@7thheaven.com',
+      al: 'al@7thheaven.com',
+      andrea: 'andrea@7thheaven.com',
+      arjun: 'arjun@7thheaven.com',
+      chris: 'chris@7thheaven.com',
+      daniel: 'daniel@7thheaven.com',
+      dave_croke: 'dave.croke@7thheaven.com',
+      dave_maas: 'dave.maas@7thheaven.com',
+      david_xu: 'david.xu@7thheaven.com',
+      emily: 'emily@7thheaven.com',
+      emma: 'emma@7thheaven.com',
+      erin: 'erin@7thheaven.com',
+      francesca: 'francesca@7thheaven.com'
+    };
+    return fallbackMap[crewId] || `${crewId}@7thheaven.com`;
+  };
+
+  const handleRequestCoverage = async (shiftId: string) => {
+    try {
+      const updated = crewSchedules.map(s => {
+        if (s.id === shiftId) {
+          return {
+            ...s,
+            isCoverageRequested: true
+          };
+        }
+        return s;
+      });
+      setCrewSchedules(updated);
+      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+      window.dispatchEvent(new Event('storage'));
+
+      const res = await fetch('/api/crew/calendar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated)
+      });
+      
+      if (!res.ok) {
+        throw new Error('Failed to sync coverage request.');
+      }
+
+      // Broadcast notifications via email to qualified crew members
+      const targetShift = crewSchedules.find(s => s.id === shiftId);
+      if (targetShift) {
+        const mockCrewList = [
+          { id: 'abbie', name: 'Abbie Janssen', email: 'abbie@7thheaven.com' },
+          { id: 'al', name: 'Al Hollie', email: 'al@7thheaven.com' },
+          { id: 'andrea', name: 'Andrea Kinzinger', email: 'andrea@7thheaven.com' },
+          { id: 'arjun', name: 'Arjun Patel', email: 'arjun@7thheaven.com' },
+          { id: 'chris', name: 'Chris Loxely', email: 'chris@7thheaven.com' },
+          { id: 'daniel', name: 'Daniel Kim', email: 'daniel@7thheaven.com' },
+          { id: 'dave_croke', name: 'Dave Croke', email: 'dave.croke@7thheaven.com' },
+          { id: 'dave_maas', name: 'Dave Maas', email: 'dave.maas@7thheaven.com' },
+          { id: 'david_xu', name: 'David Xu', email: 'david.xu@7thheaven.com' },
+          { id: 'emily', name: 'Emily Hafften', email: 'emily@7thheaven.com' },
+          { id: 'emma', name: 'Emma Smid', email: 'emma@7thheaven.com' },
+          { id: 'erin', name: 'Erin Eagan', email: 'erin@7thheaven.com' },
+          { id: 'francesca', name: 'Francesca Troast', email: 'francesca@7thheaven.com' },
+          { id: 'michael', name: 'Michael Scimeca', email: 'michael@7thheaven.com' },
+          { id: 'sammy', name: 'Sammy D', email: 'sammy@7thheaven.com' },
+          { id: 'ryan', name: 'Ryan K', email: 'ryan@7thheaven.com' },
+          { id: 'tony', name: 'Tony M', email: 'tony@7thheaven.com' }
+        ];
+
+        // Fetch dynamic crew from Supabase profiles
+        let dynamicCrew: any[] = [];
+        try {
+          const { data } = await supabase
+            .from('profiles')
+            .select('id, full_name, email, role')
+            .eq('role', 'crew');
+          if (data) {
+            dynamicCrew = data.map(u => ({ id: u.id, name: u.full_name || u.id, email: u.email }));
+          }
+        } catch (err) {
+          console.error("Failed to fetch dynamic crew profiles:", err);
+        }
+
+        const mergedCrewList = [
+          ...mockCrewList,
+          ...dynamicCrew.filter(dc => !mockCrewList.some(mc => mc.id === dc.id || mc.email === dc.email))
+        ];
+
+        const qualifiedRecipients = mergedCrewList.filter(c => 
+          c.id !== slug && isQualifiedForRole(c.id, targetShift.role)
+        );
+
+        const htmlContent = `
+          <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
+            <h2 style="color: #fbbf24; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">🚨 Shift Coverage Requested</h2>
+            <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
+              <strong>${displayName}</strong> has requested coverage for their shift. If you are available and qualified, you can accept it on your Crew Portal dashboard.
+            </p>
+            
+            <div style="background-color: #111827; padding: 16px; border-radius: 8px; border: 1px solid #374151; margin-bottom: 20px;">
+              <table style="width: 100%; font-size: 14px;">
+                <tr>
+                  <td style="color: #9ca3af; padding: 4px 0; font-weight: bold; width: 80px;">DATE:</td>
+                  <td style="color: #ffffff; padding: 4px 0;">${targetShift.date}</td>
+                </tr>
+                <tr>
+                  <td style="color: #9ca3af; padding: 4px 0; font-weight: bold;">TIME:</td>
+                  <td style="color: #ffffff; padding: 4px 0;">${targetShift.time}</td>
+                </tr>
+                <tr>
+                  <td style="color: #9ca3af; padding: 4px 0; font-weight: bold;">VENUE:</td>
+                  <td style="color: #ffffff; padding: 4px 0;">${targetShift.location}</td>
+                </tr>
+                <tr>
+                  <td style="color: #9ca3af; padding: 4px 0; font-weight: bold;">ROLE:</td>
+                  <td style="color: #fbbf24; padding: 4px 0; font-weight: bold;">${targetShift.role}</td>
+                </tr>
+              </table>
+            </div>
+            
+            <p style="font-size: 12px; color: #6b7280; border-top: 1px solid #1f2937; padding-top: 16px; margin-top: 24px;">
+              Please log into your <a href="http://localhost:3000/crew" style="color: #fbbf24; text-decoration: none; font-weight: bold;">Crew Portal</a> to claim this shift. The first qualified member to accept gets it.
+            </p>
+          </div>
+        `;
+
+        for (const rec of qualifiedRecipients) {
+          fetch('/api/email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to: rec.email,
+              subject: `🚨 Shift Coverage Requested: ${targetShift.role} on ${targetShift.date}`,
+              html: htmlContent
+            })
+          }).catch(err => console.error("Failed to send broadcast mail:", err));
+        }
+
+        const recipientNames = qualifiedRecipients.map(r => r.name).join(', ');
+        showToast(
+          `Shift broadcasted to all ${qualifiedRecipients.length} qualified coworkers: ${recipientNames || 'None available'}`,
+          'success',
+          '📢 Coverage Broadcast Sent'
+        );
+      }
+    } catch (e) {
+      console.error(e);
+      showToast('Error requesting coverage: ' + e, 'error', 'Error');
+    }
+  };
+
+  const handleAcceptCoverage = async (shiftId: string) => {
+    try {
+      const targetShift = crewSchedules.find(s => s.id === shiftId);
+      if (!targetShift) return;
+
+      if (!isQualifiedForRole(slug, targetShift.role)) {
+        showToast('You do not possess the required certifications or training to accept this shift.', 'error', '🚫 Qualification Required');
+        return;
+      }
+
+      const previousCrewId = targetShift.crewId;
+      const previousCrewName = targetShift.crewName;
+
+      const updated = crewSchedules.map(s => {
+        if (s.id === shiftId) {
+          return {
+            ...s,
+            crewId: slug,
+            crewName: displayName,
+            isCoverageRequested: false,
+            approvalStatus: 'approved' as const
+          };
+        }
+        return s;
+      });
+      setCrewSchedules(updated);
+      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+      window.dispatchEvent(new Event('storage'));
+
+      const res = await fetch('/api/crew/calendar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated)
+      });
+      
+      if (!res.ok) {
+        throw new Error('Failed to sync accepted shift.');
+      }
+
+      // Send confirmation emails
+      const requesterEmail = getCrewMemberEmail(previousCrewId);
+      
+      const requesterHtml = `
+        <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
+          <h2 style="color: #10b981; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">✓ Coverage Request Accepted</h2>
+          <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
+            Good news! <strong>${displayName}</strong> has accepted coverage for your shift on <strong>${targetShift.date}</strong> at <strong>${targetShift.location}</strong>.
+          </p>
+          <p style="font-size: 14px; color: #9ca3af;">
+            You are no longer scheduled or responsible for this shift.
+          </p>
+        </div>
+      `;
+
+      fetch('/api/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: requesterEmail,
+          subject: `✓ Coverage Request Accepted for ${targetShift.date}`,
+          html: requesterHtml
+        })
+      }).catch(err => console.error("Failed to email requester:", err));
+
+      const accepterHtml = `
+        <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
+          <h2 style="color: #10b981; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">📅 Coverage Shift Confirmed</h2>
+          <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
+            You have successfully accepted the coverage shift for <strong>${previousCrewName}</strong>.
+          </p>
+          <div style="background-color: #111827; padding: 16px; border-radius: 8px; border: 1px solid #374151;">
+            <table style="width: 100%; font-size: 14px;">
+              <tr>
+                <td style="color: #9ca3af; padding: 4px 0; font-weight: bold; width: 80px;">DATE:</td>
+                <td style="color: #ffffff; padding: 4px 0;">${targetShift.date}</td>
+              </tr>
+              <tr>
+                <td style="color: #9ca3af; padding: 4px 0; font-weight: bold;">TIME:</td>
+                <td style="color: #ffffff; padding: 4px 0;">${targetShift.time}</td>
+              </tr>
+              <tr>
+                <td style="color: #9ca3af; padding: 4px 0; font-weight: bold;">VENUE:</td>
+                <td style="color: #ffffff; padding: 4px 0;">${targetShift.location}</td>
+              </tr>
+              <tr>
+                <td style="color: #9ca3af; padding: 4px 0; font-weight: bold;">ROLE:</td>
+                <td style="color: #10b981; padding: 4px 0; font-weight: bold;">${targetShift.role}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      `;
+
+      fetch('/api/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: email,
+          subject: `📅 Coverage Shift Confirmed: ${targetShift.date}`,
+          html: accepterHtml
+        })
+      }).catch(err => console.error("Failed to email accepter:", err));
+
+      showToast('Shift successfully claimed and added to your schedule!', 'success', '✓ Shift Claimed');
+    } catch (e) {
+      console.error(e);
+      showToast('Error accepting coverage: ' + e, 'error', 'Error');
+    }
+  };
+
+  const handleShiftResponse = async (shiftId: string, status: 'approved' | 'declined', reason?: string) => {
+    try {
+      const updated = crewSchedules.map(s => {
+        if (s.id === shiftId) {
+          return {
+            ...s,
+            approvalStatus: status,
+            declineReason: status === 'approved' ? undefined : (reason || s.declineReason)
+          };
+        }
+        return s;
+      });
+      setCrewSchedules(updated);
+      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+      window.dispatchEvent(new Event('storage'));
+
+      const res = await fetch('/api/crew/calendar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated)
+      });
+      
+      if (!res.ok) {
+        throw new Error('Failed to sync response.');
+      }
+      
+      alert(status === 'approved' 
+        ? '✓ Shift approved! It has been added to your schedule.'
+        : '✗ Shift declined.'
+      );
+    } catch (e) {
+      console.error(e);
+      alert('Error updating shift: ' + e);
+    }
+  };
+
+  useEffect(() => {
+    const loadSchedules = async () => {
+      try {
+        const saved = localStorage.getItem('7h_crew_schedules');
+        if (saved) {
+          setCrewSchedules(JSON.parse(saved));
+        }
+        
+        const res = await fetch('/api/crew/calendar');
+        if (res.ok) {
+          const apiSchedules = await res.json();
+          if (apiSchedules && Array.isArray(apiSchedules)) {
+            setCrewSchedules(apiSchedules);
+            localStorage.setItem('7h_crew_schedules', JSON.stringify(apiSchedules));
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to load crew schedules:', err);
+      }
+    };
+    loadSchedules();
+    window.addEventListener('storage', () => {
+      try {
+        const saved = localStorage.getItem('7h_crew_schedules');
+        if (saved) {
+          setCrewSchedules(JSON.parse(saved));
+        }
+      } catch {}
+    });
+  }, []);
 
   // Build a stable, human-readable room slug that matches the fan page URL
   // If userId is a short slug (e.g. 'michael'), use it directly. If it's a UUID, derive from displayName.
@@ -1358,7 +1921,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         <div className="site-container py-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center text-xl font-bold border border-purple-500 relative">
-            MS
+            {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-black" />
           </div>
           <div className="flex flex-col">
@@ -1639,6 +2202,309 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
            </div>
         </div>
+      
+        {/* ─── YOUR WORK SCHEDULE CARD ─── */}
+          {(() => {
+            const myShifts = crewSchedules.filter(s => s.crewId === slug);
+            const pendingShifts = myShifts.filter(s => s.approvalStatus === 'pending');
+            const activeShifts = myShifts;
+            const coverageShifts = crewSchedules.filter(s => 
+              s.isCoverageRequested === true &&
+              s.crewId !== slug &&
+              isQualifiedForRole(slug, s.role)
+            );
+
+            return (
+              <>
+                <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
+                   <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
+                      <div className="flex items-center gap-3">
+                         <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xl">📅</div>
+                         <div>
+                            <h3 className="text-sm font-black italic tracking-wide text-white">Your Work Schedule</h3>
+                            <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Assigned shifts, locations & responsibilities</p>
+                         </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEmailSubject('General Scheduling Inquiry');
+                            setEmailMessage(`Hi Admin,\n\n[Your message here]`);
+                            setIsEmailModalOpen(true);
+                          }}
+                          className="px-3 py-1 bg-amber-500 hover:bg-amber-400 text-black rounded-full text-xs font-black uppercase tracking-widest cursor-pointer border-none transition-colors flex items-center gap-1"
+                        >
+                          📧 Contact Admins
+                        </button>
+                        {pendingShifts.length > 0 && (
+                          <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                            {pendingShifts.length} Pending
+                          </span>
+                        )}
+                        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full text-xs font-black uppercase tracking-widest">
+                          {activeShifts.length} Shifts
+                        </span>
+                      </div>
+                   </div>
+                   <div className="p-6">
+                     {/* Calendar Feed Subscription Utility */}
+                     <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 rounded-xl flex items-center justify-between gap-4 flex-col sm:flex-row">
+                       <div className="flex items-start gap-3">
+                         <span className="text-lg mt-0.5">🗓️</span>
+                         <div>
+                           <p className="text-xs font-bold text-purple-300">Sync with Google & Apple Calendar</p>
+                           <p className="text-[10px] text-white/50 mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
+                         </div>
+                       </div>
+                       <button
+                         onClick={() => {
+                           const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
+                           navigator.clipboard.writeText(icsUrl);
+                           alert("📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.");
+                         }}
+                         className="px-4 py-2 bg-purple-500 hover:bg-purple-400 text-black text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1.5 shrink-0"
+                       >
+                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                         Copy Feed URL
+                       </button>
+                     </div>
+  
+                     {activeShifts.length === 0 ? (
+                       <div className="text-center py-8 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
+                          <p className="text-white/30 text-xs italic">You have no upcoming work shifts scheduled.</p>
+                       </div>
+                     ) : (
+                       <div className="flex flex-col gap-3">
+                         {activeShifts.map((shift) => {
+                           const dateObj = new Date(shift.date + 'T00:00:00');
+                           const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                           const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
+                           const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+  
+                           return (
+                             <div 
+                               key={shift.id} 
+                               className="p-4 bg-black/40 border border-white/10 rounded-xl hover:border-white/20 hover:bg-white/[0.01] transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                             >
+                               {/* Date & Time Column */}
+                               <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
+                                 <div className="w-11 h-11 rounded-lg bg-amber-500/10 border border-amber-500/20 flex flex-col items-center justify-center text-center shrink-0">
+                                   <span className="text-[8px] text-amber-400 font-black uppercase tracking-wider">{month}</span>
+                                   <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                 </div>
+                                 <div className="flex flex-col">
+                                   <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
+                                   <span className="text-xs font-black text-amber-400 mt-0.5">{shift.time}</span>
+                                 </div>
+                               </div>
+  
+                               {/* Role & Location Column */}
+                               <div className="flex-1 min-w-[200px]">
+                                 <div className="flex items-center gap-2 flex-wrap">
+                                   <span className="px-2 py-0.5 bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded">
+                                     {shift.role}
+                                   </span>
+                                   <span className="text-xs font-black text-white/80">
+                                     📍 {shift.location}
+                                   </span>
+                                 </div>
+                               </div>
+  
+                               {/* Status Badge & Action Column */}
+                               <div className="shrink-0 min-w-[140px] text-left md:text-right flex items-center md:justify-end">
+                                 {shift.approvalStatus === 'approved' || !shift.approvalStatus ? (
+                                   <div className="flex items-center gap-2">
+                                     <span className="px-2 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-emerald-400">
+                                       ✓ Approved
+                                     </span>
+                                     {shift.isCoverageRequested ? (
+                                       <span className="px-2 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-purple-500/10 border-purple-500/30 text-purple-300 animate-pulse">
+                                         ⏳ Coverage Requested
+                                       </span>
+                                     ) : (
+                                       <>
+                                         <button
+                                           type="button"
+                                           onClick={() => {
+                                             setEmailSubject(`Approved Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                             setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my approved shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
+                                             setIsEmailModalOpen(true);
+                                           }}
+                                           className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                         >
+                                           ✉️ Email Admin
+                                         </button>
+                                         <button
+                                           type="button"
+                                           onClick={() => handleRequestCoverage(shift.id)}
+                                           className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                         >
+                                           🙋 Request Coverage
+                                         </button>
+                                       </>
+                                     )}
+                                   </div>
+                                 ) : shift.approvalStatus === 'declined' ? (
+                                   <div className="flex items-center gap-2">
+                                     <span className="px-2 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
+                                       ✗ Declined
+                                     </span>
+                                     <button
+                                       type="button"
+                                       onClick={() => handleShiftResponse(shift.id, 'approved')}
+                                       className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                     >
+                                       Approve
+                                     </button>
+                                     <button
+                                       type="button"
+                                       onClick={() => {
+                                         setEmailSubject(`Declined Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                         setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.\n\nReason for decline: ${shift.declineReason || ''}\n\n[Your message here]`);
+                                         setIsEmailModalOpen(true);
+                                       }}
+                                       className="px-2 py-0.5 bg-amber-500 hover:bg-amber-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                     >
+                                       ✉️ Email Admin
+                                     </button>
+                                   </div>
+                                 ) : (
+                                   <div className="flex items-center gap-1.5">
+                                     <button
+                                       type="button"
+                                       onClick={() => handleShiftResponse(shift.id, 'approved')}
+                                       className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                     >
+                                       Approve
+                                     </button>
+                                     <button
+                                       type="button"
+                                       onClick={() => {
+                                         setDecliningShiftId(shift.id);
+                                         setIsDeclineModalOpen(true);
+                                       }}
+                                       className="px-2.5 py-1 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer"
+                                     >
+                                       Decline
+                                     </button>
+                                     <button
+                                       type="button"
+                                       onClick={() => {
+                                         setEmailSubject(`Pending Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                         setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
+                                         setIsEmailModalOpen(true);
+                                       }}
+                                       className="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                     >
+                                       ✉️ Email Admin
+                                     </button>
+                                   </div>
+                                 )}
+                               </div>
+  
+                               {/* Instructions/Notes Column */}
+                               {shift.notes || shift.declineReason ? (
+                                 <div className="flex-1 md:max-w-[40%] bg-white/[0.02] border border-white/[0.04] p-3 rounded-lg space-y-1">
+                                   {shift.notes && (
+                                     <>
+                                       <p className="text-[9px] text-white/40 font-bold uppercase tracking-wider">Instructions:</p>
+                                       <p className="text-xs text-white/60 leading-relaxed mt-0.5 italic">“{shift.notes}”</p>
+                                     </>
+                                   )}
+                                   {shift.declineReason && (
+                                     <>
+                                       <p className="text-[9px] text-rose-400/60 font-bold uppercase tracking-wider">Decline Reason:</p>
+                                       <p className="text-xs text-rose-300/80 leading-relaxed mt-0.5 italic">“{shift.declineReason}”</p>
+                                     </>
+                                   )}
+                                 </div>
+                               ) : (
+                                 <div className="hidden md:block flex-1 md:max-w-[40%] text-right">
+                                   <span className="text-[10px] text-white/20 italic">No special instructions</span>
+                                 </div>
+                               )}
+                             </div>
+                           );
+                         })}
+                       </div>
+                     )}
+                   </div>
+                </div>
+  
+                {/* Available Shift Coverage Requests */}
+                {coverageShifts.length > 0 && (
+                  <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
+                    <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl">🚨</div>
+                        <div>
+                          <h3 className="text-sm font-black italic tracking-wide text-white">Available Shift Coverage Requests</h3>
+                          <p className="text-xs font-bold text-white/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
+                        </div>
+                      </div>
+                      <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                        {coverageShifts.length} Available
+                      </span>
+                    </div>
+                    <div className="p-6 flex flex-col gap-3">
+                      {coverageShifts.map((shift) => {
+                        const dateObj = new Date(shift.date + 'T00:00:00');
+                        const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                        const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
+                        const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+  
+                        return (
+                          <div 
+                            key={shift.id} 
+                            className="p-4 bg-purple-950/10 border border-purple-500/20 rounded-xl hover:border-purple-500/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                          >
+                            {/* Date & Time */}
+                            <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
+                              <div className="w-11 h-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
+                                <span className="text-[8px] text-purple-400 font-black uppercase tracking-wider">{month}</span>
+                                <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
+                                <span className="text-xs font-black text-purple-400 mt-0.5">{shift.time}</span>
+                              </div>
+                            </div>
+  
+                            {/* Role & Location */}
+                            <div className="flex-1 min-w-[200px]">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="px-2 py-0.5 bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[9px] font-black uppercase tracking-wider rounded">
+                                  {shift.role}
+                                </span>
+                                <span className="text-xs font-black text-white/80">
+                                  📍 {shift.location}
+                                </span>
+                                <span className="text-[10px] text-purple-300/80 italic ml-1">
+                                  (For: {shift.crewName})
+                                </span>
+                              </div>
+                            </div>
+  
+                            {/* Action Column */}
+                            <div className="shrink-0 min-w-[120px] text-left md:text-right flex items-center md:justify-end gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleAcceptCoverage(shift.id)}
+                                className="px-3 py-1.5 bg-purple-500 hover:bg-purple-400 text-black text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
+                              >
+                                🙋 Accept Shift
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </>
+            );
+          })()}
 
         {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
         <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
@@ -2220,11 +3086,151 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         </div>
       )}
 
+      {/* ─── DECLINE REASON MODAL ─── */}
+      {isDeclineModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-[#181820] border border-white/10 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2">
+              <span className="text-rose-500">✗</span> Decline Work Shift
+            </h3>
+            <p className="text-xs text-white/50 leading-relaxed">
+              Please provide a reason for declining this shift. This will be saved to your shift history and shared with the planner/administrator to assist with scheduling.
+            </p>
+            <textarea
+              value={declineReason}
+              onChange={(e) => setDeclineReason(e.target.value)}
+              placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
+              className="w-full min-h-[100px] bg-black/40 border border-white/10 text-white placeholder-white/30 rounded-xl p-3 text-sm focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-all resize-none"
+            />
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDeclineModalOpen(false);
+                  setDecliningShiftId(null);
+                  setDeclineReason('');
+                }}
+                className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white rounded-lg text-xs font-black uppercase tracking-wider transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={!declineReason.trim()}
+                onClick={() => {
+                  if (decliningShiftId) {
+                    handleShiftResponse(decliningShiftId, 'declined', declineReason);
+                  }
+                  setIsDeclineModalOpen(false);
+                  setDecliningShiftId(null);
+                  setDeclineReason('');
+                }}
+                className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-white/30 text-white rounded-lg text-xs font-black uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
+              >
+                Submit Decline
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── EMAIL ADMIN MODAL ─── */}
+      {isEmailModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-[#181820] border border-white/10 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
+            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2">
+              <span className="text-amber-500">📧</span> Email Administrators
+            </h3>
+            
+            <div className="space-y-3">
+              <div>
+                <label className="text-[10px] text-white/40 uppercase font-bold tracking-wider block mb-1">From</label>
+                <div className="bg-black/35 border border-white/5 rounded-xl px-3.5 py-2 text-xs text-white/70">
+                  {displayName} <span className="text-white/35">({email})</span>
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-[10px] text-white/40 uppercase font-bold tracking-wider block mb-1">Subject</label>
+                <input
+                  type="text"
+                  value={emailSubject}
+                  onChange={(e) => setEmailSubject(e.target.value)}
+                  placeholder="Subject of your message..."
+                  className="w-full bg-black/40 border border-white/10 text-white placeholder-white/30 rounded-xl px-3.5 py-2 text-xs focus:border-amber-500/50 outline-none transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] text-white/40 uppercase font-bold tracking-wider block mb-1">Message</label>
+                <textarea
+                  value={emailMessage}
+                  onChange={(e) => setEmailMessage(e.target.value)}
+                  placeholder="Type your message to the administrators here..."
+                  className="w-full min-h-[120px] bg-black/40 border border-white/10 text-white placeholder-white/30 rounded-xl p-3 text-xs focus:border-amber-500/50 outline-none transition-all resize-none"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsEmailModalOpen(false);
+                  setEmailSubject('');
+                  setEmailMessage('');
+                }}
+                className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white rounded-lg text-xs font-black uppercase tracking-wider transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isSendingEmail || !emailSubject.trim() || !emailMessage.trim()}
+                onClick={handleSendEmailToAdmins}
+                className="px-4 py-2 bg-amber-500 hover:bg-amber-400 disabled:bg-amber-500/30 disabled:text-white/30 text-black font-black rounded-lg text-xs uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
+              >
+                {isSendingEmail ? 'Sending...' : 'Send Message'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 🔔 Premium Toast Notification */}
+      {toast.visible && (
+        <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-[#111118]/95 border border-white/10 p-4 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3 text-white">
+          <div className="flex-1 text-left font-sans">
+            {toast.title && (
+              <h4 className={`text-xs uppercase tracking-widest font-black mb-1 ${
+                toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : 'text-purple-400'
+              }`}>
+                {toast.title}
+              </h4>
+            )}
+            <p className="text-xs text-white/70 leading-relaxed font-semibold">
+              {toast.message}
+            </p>
+          </div>
+          <button 
+            type="button"
+            onClick={() => setToast(prev => ({ ...prev, visible: false }))}
+            className="text-white/40 hover:text-white text-xs cursor-pointer border-none bg-transparent self-start font-sans"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+        @keyframes slideInRight {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
       `}</style>
     </div>
   );

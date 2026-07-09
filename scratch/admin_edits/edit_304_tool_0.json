@@ -1,0 +1,16 @@
+{
+  "step_index": 304,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Render approval status badge on admin shift cards.",
+    "EndLine": 4686,
+    "Instruction": "Add the shift.approvalStatus check and badge next to the role label in renderShiftCard.",
+    "ReplacementContent": "            <div className=\"mt-1.5 flex items-center justify-between gap-1 flex-wrap w-full\">\n              <span\n                style={{ backgroundColor: roleStyle.tagBg }}\n                className=\"px-1.5 py-0.5 rounded text-[7.5px] font-black uppercase tracking-wider leading-none text-white/90\"\n              >\n                {roleStyle.label}\n              </span>\n\n              {shift.approvalStatus && shift.crewId !== 'openshifts' && (\n                <span className={`px-1 py-0.5 rounded border text-[7px] font-black uppercase tracking-wider leading-none shrink-0 ${\n                  shift.approvalStatus === 'approved'\n                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'\n                    : shift.approvalStatus === 'declined'\n                    ? 'bg-rose-500/10 border-rose-500/30 text-rose-400'\n                    : 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400'\n                }`}>\n                  {shift.approvalStatus === 'approved' ? '✓ OK' : shift.approvalStatus === 'declined' ? '✗ NO' : '⏳ PND'}\n                </span>\n              )}\n            </div>",
+    "StartLine": 4678,
+    "TargetContent": "            <div className=\"mt-1.5 flex items-center justify-start\">\n              <span\n                style={{ backgroundColor: roleStyle.tagBg }}\n                className=\"px-1.5 py-0.5 rounded text-[7.5px] font-black uppercase tracking-wider leading-none text-white/90\"\n              >\n                {roleStyle.label}\n              </span>\n            </div>",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Adding approval status badges to shift cards",
+    "toolSummary": "Replacing file content in admin page.tsx to add approval badges"
+  }
+}

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { sanityFetch } from "@/sanity/live";
-import { queries, SanitySiteSettings, SanityBandMember, urlFor } from "@/lib/sanity";
+import { sanityClient, queries, SanitySiteSettings, SanityBandMember, urlFor } from "@/lib/sanity";
 
 export const metadata: Metadata = {
  title: "Bio — 7th Heaven",
@@ -95,10 +94,9 @@ const FALLBACK_PERFORMED_WITH = [
 ];
 
 export default async function BioPage() {
- // Run both queries in parallel instead of sequentially
- const [{ data: settingsData }, { data: bandMembersData }] = await Promise.all([
-  sanityFetch({ query: queries.siteSettings }),
-  sanityFetch({ query: queries.allBandMembers }),
+ const [settingsData, bandMembersData] = await Promise.all([
+  sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } }),
+  sanityClient.fetch<SanityBandMember[]>(queries.allBandMembers, {}, { next: { revalidate: 60, tags: ['sanity:members'] } }),
  ]);
  const settings = settingsData as SanitySiteSettings | null;
  

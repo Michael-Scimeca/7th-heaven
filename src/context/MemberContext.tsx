@@ -19,6 +19,8 @@ export interface Member {
  notificationRadius: number; // miles
  role: "fan" | "crew" | "admin" | "merch" | "event_planner";
  phone?: string;
+ cruise_signup_id?: string;
+ signup_source?: string;
 }
 
 interface MemberContextType {
@@ -26,10 +28,11 @@ interface MemberContextType {
  isLoggedIn: boolean;
  hydrated: boolean;
  isModalOpen: boolean;
- openModal: (mode?: "login" | "signup") => void;
+ openModal: (mode?: "login" | "signup", role?: "fan" | "crew") => void;
  closeModal: () => void;
  modalMode: "login" | "signup";
  setModalMode: (mode: "login" | "signup") => void;
+ modalLoginRole: "fan" | "crew";
  login: (email: string, password: string) => Promise<boolean>;
  signup: (name: string, email: string, password: string, phone?: string, username?: string) => Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }>;
  logout: () => void;
@@ -68,95 +71,111 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  const [hydrated, setHydrated] = useState(false);
  const [isModalOpen, setIsModalOpen] = useState(false);
  const [modalMode, setModalMode] = useState<"login" | "signup">("login");
+ const [modalLoginRole, setModalLoginRole] = useState<"fan" | "crew">("fan");
 
   // Load member and setup auth listener
   useEffect(() => {
     let active = true;
 
     const initAndListen = async () => {
-      const { createClient } = await import("@/utils/supabase/client");
-      const supabase = createClient();
-
-      const syncUser = async (user: any) => {
-        if (!user) {
-          if (active) setMember(null);
-          return;
-        }
-
-        try {
-          // Fetch profile details
-          const { data: profile } = await supabase
-            .from("profiles")
-            .select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius")
-            .eq("id", user.id)
-            .single();
-
-          if (!active) return;
-
-          const role = profile?.role || "fan";
-          const fullName = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
-          const profileUsername = profile?.username || user.user_metadata?.username || "";
-
-          // Role email lists
-          const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
-          const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
-          const plannerEmails = ["planner@example.com", "chicago_manager@example.com", "planner@test.com"];
-
-          let resolvedRole = role;
-          if (crewEmails.includes(user.email || "") && resolvedRole !== "crew") resolvedRole = "crew";
-          if (merchEmails.includes(user.email || "") && resolvedRole !== "merch") resolvedRole = "merch";
-          if (plannerEmails.includes(user.email || "") && resolvedRole !== "event_planner") resolvedRole = "event_planner";
-
-          const syncedMember: Member = {
-            id: user.id,
-            name: fullName,
-            username: profileUsername,
-            email: user.email?.toLowerCase() || "",
-            joinDate: user.created_at || new Date().toISOString(),
-            avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
-            points: profile?.points ?? 0,
-            tier: (profile?.tier as Member["tier"]) ?? "Bronze",
-            showsAttended: profile?.shows_attended ?? 0,
-            favoriteVenues: [],
-            notificationsEnabled: profile?.notifications_enabled ?? false,
-            notificationRadius: profile?.notification_radius ?? 25,
-            role: resolvedRole as Member["role"],
-          };
-
-          setMember(syncedMember);
-        } catch (e) {
-          console.error("Error fetching user profile:", e);
-        }
-      };
-
-      // Get initial session
+      let subscription: any = null;
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          await syncUser(session.user);
-        } else {
-          // Fallback to local storage on initial load if offline/no session
-          const stored = localStorage.getItem("7h_member");
-          if (stored) {
-            try {
-              setMember(JSON.parse(stored));
-            } catch {}
+        const { createClient } = await import("@/utils/supabase/client");
+        const supabase = createClient();
+
+        const syncUser = async (user: any) => {
+          if (!user) {
+            if (active) setMember(null);
+            return;
           }
+
+          try {
+            // Fetch profile details
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source")
+              .eq("id", user.id)
+              .single();
+
+            if (!active) return;
+
+            const role = profile?.role || "fan";
+            const fullName = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
+            const profileUsername = profile?.username || user.user_metadata?.username || "";
+
+            // Role email lists
+            const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
+            const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
+            const plannerEmails = ["planner@example.com", "chicago_manager@example.com", "planner@test.com"];
+
+            let resolvedRole = role;
+            if (crewEmails.includes(user.email || "") && resolvedRole !== "crew") resolvedRole = "crew";
+            if (merchEmails.includes(user.email || "") && resolvedRole !== "merch") resolvedRole = "merch";
+            if (plannerEmails.includes(user.email || "") && resolvedRole !== "event_planner") resolvedRole = "event_planner";
+
+            const syncedMember: Member = {
+              id: user.id,
+              name: fullName,
+              username: profileUsername,
+              email: user.email?.toLowerCase() || "",
+              joinDate: user.created_at || new Date().toISOString(),
+              avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
+              points: profile?.points ?? 0,
+              tier: (profile?.tier as Member["tier"]) ?? "Bronze",
+              showsAttended: profile?.shows_attended ?? 0,
+              favoriteVenues: [],
+              notificationsEnabled: profile?.notifications_enabled ?? false,
+              notificationRadius: profile?.notification_radius ?? 25,
+              role: resolvedRole as Member["role"],
+              cruise_signup_id: profile?.cruise_signup_id || undefined,
+              signup_source: profile?.signup_source || undefined,
+            };
+
+            setMember(syncedMember);
+          } catch (e) {
+            console.error("Error fetching user profile:", e);
+          }
+        };
+
+        // Get initial session
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session?.user) {
+            await syncUser(session.user);
+          } else {
+            // Fallback to local storage on initial load if offline/no session
+            const stored = localStorage.getItem("7h_member");
+            if (stored) {
+              try {
+                setMember(JSON.parse(stored));
+              } catch {}
+            }
+          }
+        } catch (e) {
+          console.error("Supabase getSession error:", e);
         }
-      } catch (e) {
-        console.error("Supabase getSession error:", e);
+
+        // Listen for auth changes
+        const { data: { subscription: sub } } = supabase.auth.onAuthStateChange(async (event, session) => {
+          if (event === "SIGNED_IN" && session?.user) {
+            await syncUser(session.user);
+          } else if (event === "SIGNED_OUT") {
+            if (active) setMember(null);
+          }
+        });
+        subscription = sub;
+      } catch (err) {
+        console.error("Supabase client creation/initialization failed, falling back to local storage:", err);
+        // Fallback to local storage on error
+        const stored = localStorage.getItem("7h_member");
+        if (stored) {
+          try {
+            setMember(JSON.parse(stored));
+          } catch {}
+        }
       } finally {
         if (active) setHydrated(true);
       }
-
-      // Listen for auth changes
-      const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-        if (event === "SIGNED_IN" && session?.user) {
-          await syncUser(session.user);
-        } else if (event === "SIGNED_OUT") {
-          if (active) setMember(null);
-        }
-      });
 
       return subscription;
     };
@@ -178,11 +197,15 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   }
  }, [member]);
 
- const openModal = (mode: "login" | "signup" = "login") => {
+ const openModal = (mode: "login" | "signup" = "login", role: "fan" | "crew" = "fan") => {
   setModalMode(mode);
+  setModalLoginRole(role);
   setIsModalOpen(true);
  };
- const closeModal = () => setIsModalOpen(false);
+ const closeModal = () => {
+  setIsModalOpen(false);
+  setModalLoginRole("fan"); // reset role on close
+ };
 
   const login = async (email: string, password: string): Promise<boolean> => {
    // Check fake logins bypass
@@ -222,7 +245,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
    if (error || !data.user) return false;
 
    // Fetch profile for role
-   const { data: profile } = await supabase.from("profiles").select("role, username").eq("id", data.user.id).single();
+   const { data: profile } = await supabase.from("profiles").select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source").eq("id", data.user.id).single();
    const role = profile?.role || "fan";
    const fullName = data.user.user_metadata?.full_name || data.user.email?.split("@")[0] || "User";
    const profileUsername = profile?.username || data.user.user_metadata?.username || '';
@@ -234,13 +257,15 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     email: data.user.email?.toLowerCase() || email.toLowerCase(),
     joinDate: data.user.created_at || new Date().toISOString(),
     avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
-    points: 0,
-    tier: "Bronze",
-    showsAttended: 0,
+    points: profile?.points ?? 0,
+    tier: (profile?.tier as Member["tier"]) ?? "Bronze",
+    showsAttended: profile?.shows_attended ?? 0,
     favoriteVenues: [],
-    notificationsEnabled: false,
-    notificationRadius: 25,
+    notificationsEnabled: profile?.notifications_enabled ?? false,
+    notificationRadius: profile?.notification_radius ?? 25,
     role: role as Member["role"],
+    cruise_signup_id: profile?.cruise_signup_id || undefined,
+    signup_source: profile?.signup_source || undefined,
    };
 
    // Cache member profile (NOT the password) for fast access
@@ -401,6 +426,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
    closeModal,
    modalMode,
    setModalMode,
+   modalLoginRole,
    login,
    signup,
    logout,

@@ -1,0 +1,16 @@
+{
+  "step_index": 1227,
+  "name": "replace_file_content",
+  "args": {
+    "AllowMultiple": false,
+    "Description": "Declared cellGroupPopover state.",
+    "EndLine": 358,
+    "Instruction": "Declare cellGroupPopover state variable",
+    "ReplacementContent": "  const [editingShiftId, setEditingShiftId] = useState<string | null>(null);\n  const [cellGroupPopover, setCellGroupPopover] = useState<string | null>(null);\n  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');",
+    "StartLine": 355,
+    "TargetContent": "  const [editingShiftId, setEditingShiftId] = useState<string | null>(null);\n  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');",
+    "TargetFile": "/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx",
+    "toolAction": "Declaring cellGroupPopover state variable",
+    "toolSummary": "Declaring cellGroupPopover state"
+  }
+}

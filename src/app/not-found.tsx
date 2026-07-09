@@ -41,7 +41,7 @@ export default function NotFound() {
       Back to Home
      </Link>
      <Link
-      href="/tour"
+      href="/#tour"
       className="px-8 py-3.5 border border-white/15 text-white/50 hover:text-white hover:border-white/30 font-bold text-sm uppercase tracking-[0.15em] transition-all"
      >
       View Tour Dates
