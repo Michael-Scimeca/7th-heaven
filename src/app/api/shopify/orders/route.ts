@@ -75,11 +75,13 @@ export async function GET(req: Request) {
 
     // Build product list for display
     const productList = products.map((p: any) => ({
+      id: p.id,
       title: p.title, handle: p.handle, inventory: p.totalInventory || 0,
       minPrice: parseFloat(p.priceRangeV2?.minVariantPrice?.amount || '0'),
       maxPrice: parseFloat(p.priceRangeV2?.maxVariantPrice?.amount || '0'),
       image: p.images?.edges?.[0]?.node?.url || null,
       variants: (p.variants?.edges || []).map((v: any) => ({
+        id: v.node.id,
         title: v.node.title, price: parseFloat(v.node.price || '0'), inventory: v.node.inventoryQuantity || 0,
       })),
     }));
@@ -110,6 +112,7 @@ export async function GET(req: Request) {
 
       return NextResponse.json({
         mode: 'orders',
+        domain,
         summary: {
           totalRevenue: Math.round(totalRevenue * 100) / 100,
           totalOrders: orders.length,
@@ -155,6 +158,7 @@ export async function GET(req: Request) {
     // No orders (or no access) — show inventory-focused view
     return NextResponse.json({
       mode: hasOrderAccess ? 'orders' : 'inventory',
+      domain,
       needsOrderScope: !hasOrderAccess,
       summary: hasOrderAccess ? {
         totalRevenue: 0, totalOrders: 0, avgOrderValue: 0,

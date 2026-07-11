@@ -66,13 +66,7 @@ html.lenis, html.lenis body {
   }
 }
 
-/* ── View Transition (page navigation fade) ── */
-::view-transition-old(root) {
-  animation: 280ms ease-out both fade-out;
-}
-::view-transition-new(root) {
-  animation: 280ms ease-out both fade-in;
-}
+/* Keep legacy fade-out for non-VT fallback */
 @keyframes fade-out {
   from { opacity: 1; }
   to { opacity: 0; }

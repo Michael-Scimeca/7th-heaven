@@ -1,3 +1,0 @@
-<section className="mt-8">
-              <InviteChallengePanel shows={smsShows} />
-            </section>

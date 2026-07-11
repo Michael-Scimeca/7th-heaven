@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: "Shop official 7th Heaven band merchandise, apparel, CDs, and more.",
 };
 
-// Revalidate every 60 seconds — keeps inventory fresh without blocking every request
-export const revalidate = 60;
+// Always render dynamically since Shopify storefront fetches inventory in real-time
+export const dynamic = 'force-dynamic';
 
 export default async function StorePage() {
   let products: ShopifyProduct[] = [];

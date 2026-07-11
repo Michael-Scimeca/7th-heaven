@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import Providers from "@/components/Providers";
 import { SanityLive } from "@/sanity/live";
 import { VisualEditing } from "next-sanity/visual-editing";
-import { ViewTransition } from "react";
+
 import { draftMode } from "next/headers";
 import { PageNav } from "@/components/PageNav";
 import DirectMessageChat from "@/components/DirectMessageChat";
@@ -131,9 +131,10 @@ export default async function RootLayout({
               if (typeof window !== 'undefined' && window.location.search.includes('bypass=true')) {
                 const style = document.createElement('style');
                 style.innerHTML = \`
-                  * { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; }
-                  #curtain-primary, #curtain-accent { display: none !important; }
-                  #page-content-wrapper { opacity: 1 !important; transform: none !important; }
+                   * { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; }
+                   #curtain-primary, #curtain-accent { display: none !important; }
+                   #page-content-wrapper { opacity: 1 !important; transform: none !important; }
+
                 \`;
                 document.head.appendChild(style);
               }
@@ -147,7 +148,7 @@ export default async function RootLayout({
           <SmoothScroll>
             <div className="flex flex-col min-h-screen">
               <Header />
-              <main className="flex-grow min-h-[70vh]"><ViewTransition>{children}</ViewTransition></main>
+              <main className="flex-grow min-h-[70vh]">{children}</main>
               <Footer />
               <SanityLive />
               {isDraftMode && <VisualEditing />}

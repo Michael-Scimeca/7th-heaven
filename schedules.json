@@ -13,15 +13,17 @@
   },
   {
     "id": "mock_2",
-    "crewId": "abbie",
-    "crewName": "Abbie Janssen",
+    "crewId": "al",
+    "crewName": "Al Hollie",
     "date": "2023-01-24",
     "startHour": 17,
     "endHour": 22,
-    "time": "5:00 PM - 10:00 PM",
+    "time": "5 PM - 10 PM",
     "role": "SERVER",
     "location": "The Chicago Theatre",
-    "notes": ""
+    "notes": "",
+    "isCoverageRequested": false,
+    "approvalStatus": "approved"
   },
   {
     "id": "mock_3",
@@ -86,15 +88,16 @@
   },
   {
     "id": "mock_8",
-    "crewId": "abbie",
-    "crewName": "Abbie Janssen",
+    "crewId": "al",
+    "crewName": "Al Hollie",
     "date": "2023-01-27",
     "startHour": 18,
     "endHour": 23,
-    "time": "6:00 PM - 11:00 PM",
+    "time": "6 PM - 11 PM",
     "role": "SERVER",
     "location": "The Chicago Theatre",
-    "notes": ""
+    "notes": "",
+    "isCoverageRequested": false
   },
   {
     "id": "mock_9",
@@ -7960,5 +7963,97 @@
     "notes": "Auto-generated for show: Chicago Music Cruise",
     "openSlots": 1,
     "isDraft": true
+  },
+  {
+    "id": "michael_upcoming_1",
+    "crewId": "michael",
+    "crewName": "Michael Scimeca",
+    "date": "2026-07-10",
+    "startHour": 18,
+    "endHour": 23,
+    "time": "6:00 PM - 11:00 PM",
+    "role": "AUDIO MIX",
+    "location": "Ravinia Festival",
+    "notes": "Prepare monitors and wireless frequency scan.",
+    "approvalStatus": "approved",
+    "isCoverageRequested": true
+  },
+  {
+    "id": "michael_upcoming_2",
+    "crewId": "michael",
+    "crewName": "Michael Scimeca",
+    "date": "2026-07-11",
+    "startHour": 16,
+    "endHour": 22,
+    "time": "4:00 PM - 10:00 PM",
+    "role": "AUDIO MIX",
+    "location": "House of Blues Chicago",
+    "notes": "Soundcheck starts at 4:30 PM sharp.",
+    "approvalStatus": "approved",
+    "isCoverageRequested": true
+  },
+  {
+    "id": "michael_upcoming_3",
+    "crewId": "michael",
+    "crewName": "Michael Scimeca",
+    "date": "2026-07-12",
+    "startHour": 17,
+    "endHour": 21,
+    "time": "5:00 PM - 9:00 PM",
+    "role": "AUDIO MIX",
+    "location": "Allstate Arena",
+    "notes": "Band check-in at 5:15 PM.",
+    "approvalStatus": "approved",
+    "isCoverageRequested": true
+  },
+  {
+    "id": "michael_upcoming_4",
+    "crewId": "michael",
+    "crewName": "Michael Scimeca",
+    "date": "2026-07-15",
+    "startHour": 19,
+    "endHour": 23,
+    "time": "7:00 PM - 11:00 PM",
+    "role": "AUDIO MIX",
+    "location": "Wrigley Field",
+    "notes": "Outdoor acoustics setup.",
+    "approvalStatus": "approved",
+    "isCoverageRequested": true
+  },
+  {
+    "id": "shift_1783655497341_0",
+    "crewId": "al",
+    "crewName": "Al Hollie",
+    "date": "2023-01-27",
+    "startHour": 18,
+    "endHour": 23,
+    "time": "6 PM - 11 PM",
+    "role": "SERVER",
+    "location": "The Chicago Theatre",
+    "notes": ""
+  },
+  {
+    "id": "shift_1783685467673_0",
+    "crewId": "abbie",
+    "crewName": "Abbie Janssen",
+    "date": "2023-01-26",
+    "startHour": 12,
+    "endHour": 17,
+    "time": "12 PM - 5 PM",
+    "role": "SERVER",
+    "location": "",
+    "notes": ""
+  },
+  {
+    "id": "shift_1783696045041_0",
+    "crewId": "al",
+    "crewName": "Al Hollie",
+    "date": "2026-07-11",
+    "startHour": 12,
+    "endHour": 17,
+    "time": "12 PM - 5 PM",
+    "role": "SERVER",
+    "location": "Batavia Windmill Fest at Batavia, IL",
+    "notes": ""
   }
 ]

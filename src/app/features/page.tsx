@@ -2216,7 +2216,6 @@ export default function FeaturesPage() {
                 { path: "/video/grid-demo", label: "Video Grid Demo", desc: "Video thumbnail grid layout test", access: "dev" },
                 { path: "/video/layout-demo", label: "Video Layout Demo", desc: "Full video page layout test", access: "dev" },
                 { path: "/video/nav-demo", label: "Video Nav Demo", desc: "Video category navigation component test", access: "dev" },
-                { path: "/sitemap.html", label: "Interactive Visual Sitemap", desc: "Visual interactive map of all site pages, routes, layouts, and APIs", access: "dev" },
               ],
             },
           ].map((group) => {
@@ -2465,7 +2464,6 @@ export default function FeaturesPage() {
                 { path: "/video/layout-demo", label: "Video Layout Demo", desc: "Video page layout test", access: "dev" },
                 { path: "/video/nav-demo", label: "Video Nav Demo", desc: "Video navigation component demo", access: "dev" },
                 { path: "/studio", label: "Sanity Studio", desc: "Headless CMS editor — manage all content", access: "admin" },
-                { path: "/sitemap.html", label: "Interactive Visual Sitemap", desc: "Visual interactive map of all site pages, routes, layouts, and APIs", access: "dev" },
               ],
             },
           ].map((group) => {

@@ -1,1 +1,0 @@
-  const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');

@@ -24,28 +24,28 @@ interface FakeAccount {
 }
 
 const CREW_ACCOUNTS: FakeAccount[] = [
-  { id: 'crew-mike',  displayName: 'Mike S',  role: 'crew', color: '#a855f7', badge: '🎸', avatar: 'MS' },
+  { id: 'crew-mike', displayName: 'Mike S', role: 'crew', color: '#a855f7', badge: '🎸', avatar: 'MS' },
   { id: 'crew-sammy', displayName: 'Sammy D', role: 'crew', color: '#ec4899', badge: '🥁', avatar: 'SD' },
-  { id: 'crew-ryan',  displayName: 'Ryan K',  role: 'crew', color: '#06b6d4', badge: '🎹', avatar: 'RK' },
-  { id: 'crew-tony',  displayName: 'Tony M',  role: 'crew', color: '#f97316', badge: '🎤', avatar: 'TM' },
+  { id: 'crew-ryan', displayName: 'Ryan K', role: 'crew', color: '#06b6d4', badge: '🎹', avatar: 'RK' },
+  { id: 'crew-tony', displayName: 'Tony M', role: 'crew', color: '#f97316', badge: '🎤', avatar: 'TM' },
 ];
 
 const FAN_ACCOUNTS: FakeAccount[] = [
-  { id: 'fan-jess',     displayName: 'Jess_M',      role: 'fan', color: '#a78bfa', avatar: 'JM', tier: '💎 Platinum' },
-  { id: 'fan-rockerdan',displayName: 'rockerdan92',  role: 'fan', color: '#f472b6', avatar: 'RD', tier: '🥇 Gold' },
-  { id: 'fan-mikefan',  displayName: 'mike_fan_01',  role: 'fan', color: '#34d399', avatar: 'MF', tier: '🥈 Silver' },
-  { id: 'fan-chicagolou',displayName: 'ChicagoLou',  role: 'fan', color: '#fbbf24', avatar: 'CL', tier: '🥇 Gold' },
-  { id: 'fan-tay',      displayName: 'tay_rocks',    role: 'fan', color: '#60a5fa', avatar: 'TR', tier: '🥈 Silver' },
-  { id: 'fan-mel',      displayName: 'MelM',         role: 'fan', color: '#fb923c', avatar: 'MM', tier: '💎 Platinum' },
-  { id: 'fan-super',    displayName: 'superfan99',   role: 'fan', color: '#c084fc', avatar: 'S9', tier: '🥇 Gold' },
-  { id: 'fan-drummer',  displayName: 'drummer_kid',  role: 'fan', color: '#4ade80', avatar: 'DK', tier: '🥉 Bronze' },
-  { id: 'fan-stacey',   displayName: 'StaceyB',      role: 'fan', color: '#f43f5e', avatar: 'SB', tier: '🥈 Silver' },
-  { id: 'fan-ashley',   displayName: 'ashley_xo',    role: 'fan', color: '#e879f9', avatar: 'AX', tier: '🥇 Gold' },
-  { id: 'fan-jake',     displayName: 'Jake7H',       role: 'fan', color: '#38bdf8', avatar: 'J7', tier: '💎 Platinum' },
-  { id: 'fan-midwest',  displayName: 'MidwestMama',  role: 'fan', color: '#facc15', avatar: 'MW', tier: '🥈 Silver' },
-  { id: 'fan-nate',     displayName: 'nate_bass',    role: 'fan', color: '#22d3ee', avatar: 'NB', tier: '🥉 Bronze' },
-  { id: 'fan-lauren',   displayName: 'LaurenLive',   role: 'fan', color: '#a3e635', avatar: 'LL', tier: '🥇 Gold' },
-  { id: 'fan-tommy',    displayName: 'TommyGuitar',  role: 'fan', color: '#818cf8', avatar: 'TG', tier: '🥈 Silver' },
+  { id: 'fan-jess', displayName: 'Jess_M', role: 'fan', color: '#a78bfa', avatar: 'JM', tier: '💎 Platinum' },
+  { id: 'fan-rockerdan', displayName: 'rockerdan92', role: 'fan', color: '#f472b6', avatar: 'RD', tier: '🥇 Gold' },
+  { id: 'fan-mikefan', displayName: 'mike_fan_01', role: 'fan', color: '#34d399', avatar: 'MF', tier: '🥈 Silver' },
+  { id: 'fan-chicagolou', displayName: 'ChicagoLou', role: 'fan', color: '#fbbf24', avatar: 'CL', tier: '🥇 Gold' },
+  { id: 'fan-tay', displayName: 'tay_rocks', role: 'fan', color: '#60a5fa', avatar: 'TR', tier: '🥈 Silver' },
+  { id: 'fan-mel', displayName: 'MelM', role: 'fan', color: '#fb923c', avatar: 'MM', tier: '💎 Platinum' },
+  { id: 'fan-super', displayName: 'superfan99', role: 'fan', color: '#c084fc', avatar: 'S9', tier: '🥇 Gold' },
+  { id: 'fan-drummer', displayName: 'drummer_kid', role: 'fan', color: '#4ade80', avatar: 'DK', tier: '🥉 Bronze' },
+  { id: 'fan-stacey', displayName: 'StaceyB', role: 'fan', color: '#f43f5e', avatar: 'SB', tier: '🥈 Silver' },
+  { id: 'fan-ashley', displayName: 'ashley_xo', role: 'fan', color: '#e879f9', avatar: 'AX', tier: '🥇 Gold' },
+  { id: 'fan-jake', displayName: 'Jake7H', role: 'fan', color: '#38bdf8', avatar: 'J7', tier: '💎 Platinum' },
+  { id: 'fan-midwest', displayName: 'MidwestMama', role: 'fan', color: '#facc15', avatar: 'MW', tier: '🥈 Silver' },
+  { id: 'fan-nate', displayName: 'nate_bass', role: 'fan', color: '#22d3ee', avatar: 'NB', tier: '🥉 Bronze' },
+  { id: 'fan-lauren', displayName: 'LaurenLive', role: 'fan', color: '#a3e635', avatar: 'LL', tier: '🥇 Gold' },
+  { id: 'fan-tommy', displayName: 'TommyGuitar', role: 'fan', color: '#818cf8', avatar: 'TG', tier: '🥈 Silver' },
 ];
 
 const FAN_MESSAGES = [
@@ -118,11 +118,11 @@ interface CrewConfig {
 }
 
 const CREW_CONFIG: Record<string, CrewConfig> = {
-  mike:    { id: 'crew-mike',  name: 'Mike S',  displayName: 'MIKE S',  badge: '🎸', avatar: 'MS', color: '#a855f7', gradient: 'linear-gradient(135deg, #8a1cfc, #ec4899)', instrument: 'Guitar',  cameraLabel: 'Backstage Cam',      bioAnchor: '#bio-member-1' },
-  michael: { id: 'crew-mike',  name: 'Mike S',  displayName: 'MIKE S',  badge: '🎸', avatar: 'MS', color: '#a855f7', gradient: 'linear-gradient(135deg, #8a1cfc, #ec4899)', instrument: 'Guitar',  cameraLabel: 'Backstage Cam',      bioAnchor: '#bio-member-1' },
-  sammy:   { id: 'crew-sammy', name: 'Sammy D', displayName: 'SAMMY D', badge: '🥁', avatar: 'SD', color: '#ec4899', gradient: 'linear-gradient(135deg, #ec4899, #f97316)', instrument: 'Drums',   cameraLabel: 'Drum Warm-Up',       bioAnchor: '#bio-member-4' },
-  ryan:    { id: 'crew-ryan',  name: 'Ryan K',  displayName: 'RYAN K',  badge: '🎹', avatar: 'RK', color: '#06b6d4', gradient: 'linear-gradient(135deg, #06b6d4, #8a1cfc)', instrument: 'Keys',    cameraLabel: 'Keys & Soundcheck',  bioAnchor: '#bio-member-2' },
-  tony:    { id: 'crew-tony',  name: 'Tony M',  displayName: 'TONY M',  badge: '🎤', avatar: 'TM', color: '#f97316', gradient: 'linear-gradient(135deg, #f97316, #ef4444)', instrument: 'Vocals',  cameraLabel: 'Vocal Check',        bioAnchor: '#bio-member-0' },
+  mike: { id: 'crew-mike', name: 'Mike S', displayName: 'MIKE S', badge: '🎸', avatar: 'MS', color: '#a855f7', gradient: 'linear-gradient(135deg, #8a1cfc, #ec4899)', instrument: 'Guitar', cameraLabel: 'Backstage Cam', bioAnchor: '#bio-member-1' },
+  michael: { id: 'crew-mike', name: 'Mike S', displayName: 'MIKE S', badge: '🎸', avatar: 'MS', color: '#a855f7', gradient: 'linear-gradient(135deg, #8a1cfc, #ec4899)', instrument: 'Guitar', cameraLabel: 'Backstage Cam', bioAnchor: '#bio-member-1' },
+  sammy: { id: 'crew-sammy', name: 'Sammy D', displayName: 'SAMMY D', badge: '🥁', avatar: 'SD', color: '#ec4899', gradient: 'linear-gradient(135deg, #ec4899, #f97316)', instrument: 'Drums', cameraLabel: 'Drum Warm-Up', bioAnchor: '#bio-member-4' },
+  ryan: { id: 'crew-ryan', name: 'Ryan K', displayName: 'RYAN K', badge: '🎹', avatar: 'RK', color: '#06b6d4', gradient: 'linear-gradient(135deg, #06b6d4, #8a1cfc)', instrument: 'Keys', cameraLabel: 'Keys & Soundcheck', bioAnchor: '#bio-member-2' },
+  tony: { id: 'crew-tony', name: 'Tony M', displayName: 'TONY M', badge: '🎤', avatar: 'TM', color: '#f97316', gradient: 'linear-gradient(135deg, #f97316, #ef4444)', instrument: 'Vocals', cameraLabel: 'Vocal Check', bioAnchor: '#bio-member-0' },
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -183,7 +183,7 @@ function FakeCameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
 
       // ── 3. Animated spotlight beams ──
       const beams = [
-        { xFrac: 0.18, phase: 0,        colorH: (t * 40) % 360 },
+        { xFrac: 0.18, phase: 0, colorH: (t * 40) % 360 },
         { xFrac: 0.50, phase: Math.PI / 3, colorH: (t * 40 + 120) % 360 },
         { xFrac: 0.78, phase: Math.PI / 1.5, colorH: (t * 40 + 240) % 360 },
       ];
@@ -305,7 +305,7 @@ function FakeCameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
       const grainAmt = 28;
       for (let i = 0; i < data.length; i += 4) {
         const grain = (Math.random() - 0.5) * grainAmt;
-        data[i]     = Math.min(255, Math.max(0, data[i]     + grain));
+        data[i] = Math.min(255, Math.max(0, data[i] + grain));
         data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + grain));
         data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + grain));
       }
@@ -346,7 +346,7 @@ function FakeCameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
 
       // ── 13. Broadcast timecode (bottom-left) ──
       const now = new Date();
-      const tc = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}:${String(Math.floor((ts % 1000) / 33)).padStart(2,'0')}`;
+      const tc = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}:${String(Math.floor((ts % 1000) / 33)).padStart(2, '0')}`;
       ctx.save();
       ctx.globalAlpha = 0.35;
       ctx.fillStyle = 'white';
@@ -557,14 +557,14 @@ function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void; crew: 
    DEMO VIOLATIONS — pre-seeded flagged messages for admin
 ═══════════════════════════════════════════════════════ */
 const DEMO_VIOLATIONS: { fanId: string; text: string; reason: string }[] = [
-  { fanId: 'fan-rockerdan', text: 'MAGA FOREVER vote trump 2024 make america great again!!!',       reason: '🏛️ Political content' },
-  { fanId: 'fan-super',     text: 'check my onlyfans.com link in bio for exclusive content 🔞',      reason: '🔞 Adult / explicit content' },
-  { fanId: 'fan-tommy',     text: 'follow me @tommyguitar88 for FREE giveaway — dm me now!',         reason: '📢 Spam / self-promotion' },
-  { fanId: 'fan-nate',      text: 'if they play that garbage song im gonna shoot up the whole venue', reason: '🚨 Threat / violence' },
-  { fanId: 'fan-midwest',   text: 'this is a hate speech test — racist slur goes here fyi',          reason: '⚠️ Hate speech / slur' },
-  { fanId: 'fan-stacey',    text: 'subscribe to my cashapp $staceybXO for show tickets giveaway',   reason: '📢 Spam / self-promotion' },
-  { fanId: 'fan-drummer',   text: 'bro biden literally ruined this country political rant incoming',  reason: '🏛️ Political content' },
-  { fanId: 'fan-tay',       text: 'xxx adult content link — check my bio for full video nsfw 🔞',     reason: '🔞 Adult / explicit content' },
+  { fanId: 'fan-rockerdan', text: 'MAGA FOREVER vote trump 2024 make america great again!!!', reason: '🏛️ Political content' },
+  { fanId: 'fan-super', text: 'check my onlyfans.com link in bio for exclusive content 🔞', reason: '🔞 Adult / explicit content' },
+  { fanId: 'fan-tommy', text: 'follow me @tommyguitar88 for FREE giveaway — dm me now!', reason: '📢 Spam / self-promotion' },
+  { fanId: 'fan-nate', text: 'if they play that garbage song im gonna shoot up the whole venue', reason: '🚨 Threat / violence' },
+  { fanId: 'fan-midwest', text: 'this is a hate speech test — racist slur goes here fyi', reason: '⚠️ Hate speech / slur' },
+  { fanId: 'fan-stacey', text: 'subscribe to my cashapp $staceybXO for show tickets giveaway', reason: '📢 Spam / self-promotion' },
+  { fanId: 'fan-drummer', text: 'bro biden literally ruined this country political rant incoming', reason: '🏛️ Political content' },
+  { fanId: 'fan-tay', text: 'xxx adult content link — check my bio for full video nsfw 🔞', reason: '🔞 Adult / explicit content' },
 ];
 
 
@@ -592,18 +592,18 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [reactionsVisible, setReactionsVisible] = useState(true);
 
   // ── Pinned message from crew dashboard ──
-  const [pinnedMessage, setPinnedMessage] = useState<{text: string; by: string} | null>(null);
+  const [pinnedMessage, setPinnedMessage] = useState<{ text: string; by: string } | null>(null);
 
   /* ── Admin panel state — pre-seeded so demo loads instantly ── */
   const [showAdminPanel, setShowAdminPanel] = useState(adminMode);
   const [bannedUsers, setBannedUsers] = useState<Set<string>>(new Set());
   const [mutedUsers, setMutedUsers] = useState<Set<string>>(new Set());
   const [warnedUsers, setWarnedUsers] = useState<Set<string>>(() => new Set(['fan-rockerdan']));
-  const [modLog, setModLog] = useState<{id:string;action:string;user:string;time:number;reason?:string}[]>(() => [
-    { id: 'seed-log-1', action: '🔇 Muted',  user: 'troll_acc22',  time: Date.now() - 8 * 60000 },
-    { id: 'seed-log-2', action: '🚫 Banned', user: 'hate_user99',  time: Date.now() - 22 * 60000, reason: '⚠️ Hate speech / slur' },
+  const [modLog, setModLog] = useState<{ id: string; action: string; user: string; time: number; reason?: string }[]>(() => [
+    { id: 'seed-log-1', action: '🔇 Muted', user: 'troll_acc22', time: Date.now() - 8 * 60000 },
+    { id: 'seed-log-2', action: '🚫 Banned', user: 'hate_user99', time: Date.now() - 22 * 60000, reason: '⚠️ Hate speech / slur' },
   ]);
-  const [flaggedMsgs, setFlaggedMsgs] = useState<{msg:ChatMsg;reason:string}[]>(() =>
+  const [flaggedMsgs, setFlaggedMsgs] = useState<{ msg: ChatMsg; reason: string }[]>(() =>
     DEMO_VIOLATIONS.slice(0, 3).map((v, i) => ({
       msg: {
         id: `seed-flag-${i}`,
@@ -614,7 +614,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       reason: v.reason,
     }))
   );
-  const [adminTab, setAdminTab] = useState<'live'|'flagged'|'merch'|'users'|'log'|'policy'|'stats'>(adminMode ? 'merch' : 'live');
+  const [adminTab, setAdminTab] = useState<'live' | 'flagged' | 'merch' | 'users' | 'log' | 'policy' | 'stats'>(adminMode ? 'merch' : 'live');
   const [blockedReason, setBlockedReason] = useState<string | null>(null);
   const adminAutoTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const adminViolationIdxRef = useRef(3); // start after the 3 pre-seeded ones
@@ -625,7 +625,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const activeFeedCrew = CREW_CONFIG[activeFeedId] ?? crew;
 
   // ── Fan spotlight lower-third ──
-  const [spotlight, setSpotlight] = useState<{account: FakeAccount; text: string} | null>(null);
+  const [spotlight, setSpotlight] = useState<{ account: FakeAccount; text: string } | null>(null);
   const spotlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Custom Flagged Words ──
@@ -650,7 +650,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           } else {
             setCustomWords([]);
           }
-        } catch {}
+        } catch { }
       }
     };
     window.addEventListener('storage', handleStorage);
@@ -659,12 +659,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   // 🎰 Live Raffle States
   const { member, isLoggedIn, openModal } = useMember();
-  const [raffleState, setRaffleState] = useState<{status: string, entrants: any[], prizes: any[], winners: any[], timer: number, minEntrants?: number, countdown?: number, winnerPins?: string[], timestamp?: number} | null>(null);
+  const [raffleState, setRaffleState] = useState<{ status: string, entrants: any[], prizes: any[], winners: any[], timer: number, minEntrants?: number, countdown?: number, winnerPins?: string[], timestamp?: number } | null>(null);
   const [hasEnteredRaffle, setHasEnteredRaffle] = useState(false);
   const [raffleWidgetClosed, setRaffleWidgetClosed] = useState(false);
   const [showClaimModal, setShowClaimModal] = useState(false);
   const [claimMethod, setClaimMethod] = useState<'shipping' | 'merch_table' | null>(null);
   const [nextRaffleCountdown, setNextRaffleCountdown] = useState<number | null>(null);
+
+  // 🛍️ Live Merch Drop Checkout States
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState<'form' | 'processing' | 'success'>('form');
+  const [shippingDetails, setShippingDetails] = useState({ name: '', email: '', address: '', city: '', zip: '', card: '•••• •••• •••• 4242' });
 
   // 🎵 Live Setlist States
   interface SetlistSong {
@@ -704,15 +709,15 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [merchTimeLeft, setMerchTimeLeft] = useState(0);
   const [merchSelectedProduct, setMerchSelectedProduct] = useState(MERCH_PRODUCTS[0].id);
   const [merchSelectedDuration, setMerchSelectedDuration] = useState(300);
-  const [activeMerchDrop, setActiveMerchDrop] = useState<{product: typeof MERCH_PRODUCTS[0]; totalTime: number} | null>(null);
+  const [activeMerchDrop, setActiveMerchDrop] = useState<{ product: typeof MERCH_PRODUCTS[0]; totalTime: number } | null>(null);
   const MERCH_TIMER_DURATION = 300; // legacy fallback
 
   // ── Per-feed stats (seeded with realistic demo data) ──
-  const FEED_STATS: Record<string, {label:string; badge:string; peakViewers:number; avgViewers:number; color:string; duration:string}> = {
-    mike:  { label: 'Mike S — Guitar',  badge: '🎸', peakViewers: 1847, avgViewers: 1247, color: '#a855f7', duration: '1h 23m' },
-    sammy: { label: 'Sammy D — Drums',  badge: '🥁', peakViewers: 203,  avgViewers: 84,   color: '#ec4899', duration: '58m' },
-    ryan:  { label: 'Ryan K — Keys',    badge: '🎹', peakViewers: 621,  avgViewers: 412,  color: '#06b6d4', duration: '1h 11m' },
-    tony:  { label: 'Tony M — Vocals',  badge: '🎤', peakViewers: 97,   avgViewers: 18,   color: '#f97316', duration: '44m' },
+  const FEED_STATS: Record<string, { label: string; badge: string; peakViewers: number; avgViewers: number; color: string; duration: string }> = {
+    mike: { label: 'Mike S — Guitar', badge: '🎸', peakViewers: 1847, avgViewers: 1247, color: '#a855f7', duration: '1h 23m' },
+    sammy: { label: 'Sammy D — Drums', badge: '🥁', peakViewers: 203, avgViewers: 84, color: '#ec4899', duration: '58m' },
+    ryan: { label: 'Ryan K — Keys', badge: '🎹', peakViewers: 621, avgViewers: 412, color: '#06b6d4', duration: '1h 11m' },
+    tony: { label: 'Tony M — Vocals', badge: '🎤', peakViewers: 97, avgViewers: 18, color: '#f97316', duration: '44m' },
   };
 
   const FLAG_KEYWORDS = [
@@ -737,7 +742,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const bcRef = useRef<BroadcastChannel | null>(null);
   const seenMsgIds = useRef<Set<string>>(new Set());
 
-  const CHAT_EMOJIS = ['😂','❤️','🔥','🤘','🎸','👏','⚡','😍','🙌','💀','👀','🎵','🫶','😭','💜','🤯','🎤','🎶','🥹','😎'];
+  const CHAT_EMOJIS = ['😂', '❤️', '🔥', '🤘', '🎸', '👏', '⚡', '😍', '🙌', '💀', '👀', '🎵', '🫶', '😭', '💜', '🤯', '🎤', '🎶', '🥹', '😎'];
 
   /* ── Stage gradient ── */
   const stageGradient = useMemo(() => {
@@ -814,7 +819,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         } else {
           setRaffleState(null);
         }
-      } catch {}
+      } catch { }
     };
 
     checkRaffle();
@@ -832,7 +837,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             const pb = JSON.parse(raw);
             if (pb.status !== 'idle') setRaffleState(pb);
           }
-        } catch {}
+        } catch { }
       }, 2000);
       return () => clearTimeout(t);
     }
@@ -887,8 +892,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           body: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`,
           pin: pin,
           prize: prizeName,
-        })).catch(() => {});
-      } catch {}
+        })).catch(() => { });
+      } catch { }
     }
   }, [raffleState?.status, raffleState?.winners, raffleWidgetClosed, hasEnteredRaffle, member]);
 
@@ -975,7 +980,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             setSetlist(parsed);
           }
         }
-      } catch {}
+      } catch { }
     };
 
     checkSetlist();
@@ -1000,7 +1005,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         event: 'song_like',
         payload: { songId, crewId: memberId }
       });
-    } catch {}
+    } catch { }
 
     // Broadcast the like event to crew via LocalStorage for same-browser testing
     try {
@@ -1009,7 +1014,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         crewId: memberId,
         ts: Date.now()
       }));
-    } catch {}
+    } catch { }
 
     // Float a heart reaction
     const floatHeart = {
@@ -1060,6 +1065,22 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         setMerchTimerActive(false);
         setActiveMerchDrop(null);
         setMerchTimeLeft(0);
+      }
+
+      if (type === 'MERCH_STOCK_DECREMENT') {
+        const { newStock } = payload;
+        setActiveMerchDrop(current => {
+          if (current && current.product) {
+            return {
+              ...current,
+              product: {
+                ...current.product,
+                stock: newStock
+              }
+            };
+          }
+          return current;
+        });
       }
 
       if (type === 'MOD_SYSTEM_MSG') {
@@ -1120,12 +1141,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     };
 
     bc.onmessage = handleBcMessage;
-    
+
     const globalBc = new BroadcastChannel('7h_live_global');
     globalBc.onmessage = handleBcMessage;
 
     return () => { bc.close(); globalBc.close(); bcRef.current = null; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memberId, adminMode]);
 
   /* ── Elapsed timer ── */
@@ -1307,10 +1328,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   /* ── Auto-flag new messages ── */
   useEffect(() => {
     if (messages.length === 0) return;
-    
+
     messages.forEach(msg => {
       if (msg.isSystem || !msg.account) return;
-      
+
       // 1. Check default regex keywords
       let flagged = false;
       for (const { kw, reason } of FLAG_KEYWORDS) {
@@ -1338,7 +1359,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         }
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages, customWords]);
 
   const syncCustomWords = (words: string[]) => {
@@ -1349,7 +1370,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         event: 'custom_words_sync',
         payload: { words, crewId: memberId }
       });
-    } catch {}
+    } catch { }
   };
 
   const handleAddCustomWord = (wordToAdd: string) => {
@@ -1429,21 +1450,24 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   /* ── Merch drop countdown ── */
   useEffect(() => {
-    if (!merchTimerActive || merchTimeLeft <= 0) return;
+    if (!merchTimerActive || merchTimeLeft <= 0 || !activeMerchDrop) return;
+
+    const targetEndTime = Date.now() + merchTimeLeft * 1000;
+
     const t = setInterval(() => {
-      setMerchTimeLeft(prev => {
-        if (prev <= 1) {
-          setMerchTimerActive(false);
-          setActiveMerchDrop(null);
-          // Broadcast drop ended to the fan page
-          if (adminMode) bcRef.current?.postMessage({ type: 'MERCH_DROP_END' });
-          return 0;
-        }
-        return prev - 1;
-      });
+      const remainingSeconds = Math.max(0, Math.round((targetEndTime - Date.now()) / 1000));
+      setMerchTimeLeft(remainingSeconds);
+
+      if (remainingSeconds <= 0) {
+        setMerchTimerActive(false);
+        setActiveMerchDrop(null);
+        // Broadcast drop ended to the fan page
+        if (adminMode) bcRef.current?.postMessage({ type: 'MERCH_DROP_END' });
+        clearInterval(t);
+      }
     }, 1000);
     return () => clearInterval(t);
-  }, [merchTimerActive, merchTimeLeft, adminMode]);
+  }, [merchTimerActive, adminMode, activeMerchDrop]);
 
   const handleMerchDrop = useCallback((productId: string, duration: number) => {
     const product = MERCH_PRODUCTS.find(p => p.id === productId);
@@ -1471,7 +1495,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
     setHype(h => Math.min(100, h + 30));
     addModAction('🛍 Merch Drop', product.name, `${product.price} · ${Math.floor(duration / 60)}min timer`);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addModAction]);
 
   /* ── Admin auto-inject: drop a new violation every ~18s while panel is open ── */
@@ -1648,7 +1672,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               }}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
               </svg>
               <span className="hidden sm:inline">Back</span>
             </Link>
@@ -1708,9 +1732,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             <Link
               href={
                 activeFeedId === 'mike' || activeFeedId === 'michael' ? '/crew-michael' :
-                activeFeedId === 'sammy' ? '/crew-sam' :
-                activeFeedId === 'ryan'  ? '/crew-ryan'  :
-                activeFeedId === 'tony'  ? '/crew-tony'  : '/crew'
+                  activeFeedId === 'sammy' ? '/crew-sam' :
+                    activeFeedId === 'ryan' ? '/crew-ryan' :
+                      activeFeedId === 'tony' ? '/crew-tony' : '/crew'
               }
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all hover:scale-105"
               style={{
@@ -1721,7 +1745,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               }}
             >
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
               <span className="hidden sm:inline">Crew Side</span>
             </Link>
@@ -1747,7 +1771,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           style={{ background: '#050508', borderBottom: '1px solid rgba(255,255,255,0.04)' }}
         >
           <span className="text-xs shrink-0 mr-1" style={{ color: 'rgba(255,255,255,0.2)' }}>CAM</span>
-          {(['mike','sammy','ryan','tony'] as const).map(key => {
+          {(['mike', 'sammy', 'ryan', 'tony'] as const).map(key => {
             const cfg = CREW_CONFIG[key];
             const feedSlug = key === 'mike' ? 'michael' : key;
             const isFeedLive = typeof window !== 'undefined' && localStorage.getItem(`is_live_${feedSlug}`) === 'true';
@@ -1788,17 +1812,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             {/* Canvas-based fake live camera feed — updates with cam switcher */}
             <div className="absolute inset-0">
               {crewIsLive ? (
-                <LiveKitStream 
-                  room={`live_${activeFeedId === 'mike' ? 'michael' : activeFeedId}`} 
-                  username="fan" 
-                  isPublisher={false} 
+                <LiveKitStream
+                  room={`live_${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
+                  username="fan"
+                  isPublisher={false}
                 />
               ) : (
                 <div className="absolute inset-0 bg-[#0a0a0f] flex flex-col items-center justify-center border border-white/5">
                   <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20">
-                      <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                      <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)"/>
+                      <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                      <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
                     </svg>
                   </div>
                   <h3 className="text-white/40 font-bold tracking-widest uppercase text-sm mb-1">Stream Offline</h3>
@@ -1838,7 +1862,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.85)' }}
                     >
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
                       </svg>
                       {viewerCount.toLocaleString()}
                     </div>
@@ -1884,7 +1908,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 if (!activeSong) return null;
                 return (
                   <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 max-w-[calc(100%-2rem)] animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <div 
+                    <div
                       className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-white text-xs font-black uppercase tracking-wider border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
                       style={{
                         background: 'linear-gradient(135deg, rgba(88,28,135,0.8), rgba(168,85,247,0.4))',
@@ -1907,12 +1931,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 return (
                   <div className="absolute top-20 left-4 sm:left-auto sm:right-4 z-40 w-[calc(100%-2rem)] sm:w-full sm:max-w-xs animate-in slide-in-from-right-8 fade-in duration-500">
                     <div className="bg-[#0a0a0e]/95 backdrop-blur-xl border-2 border-yellow-500/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)] text-white relative flex flex-col px-4 py-5 pointer-events-auto">
-                      
+
                       <button
                         onClick={() => setRaffleWidgetClosed(true)}
                         className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center bg-white/5 hover:bg-white/15 text-white/40 hover:text-white rounded-full transition-colors z-10"
                       >
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                       </button>
 
                       {raffleState.status === 'open' && (
@@ -1941,8 +1965,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 {raffleState.prizes[0].qty > 1 ? <span className="text-white bg-yellow-500/30 px-1.5 py-0.5 rounded text-xs mr-2">{raffleState.prizes[0].qty}x</span> : null}
                                 {raffleState.prizes[0].name}
                               </p>
-                              {raffleState.prizes.filter((p:any) => p.name).length > 1 && (
-                                <p className="text-yellow-500/70 text-xs mt-1">+ {raffleState.prizes.filter((p:any) => p.name).length - 1} more prizes</p>
+                              {raffleState.prizes.filter((p: any) => p.name).length > 1 && (
+                                <p className="text-yellow-500/70 text-xs mt-1">+ {raffleState.prizes.filter((p: any) => p.name).length - 1} more prizes</p>
                               )}
                             </div>
                           )}
@@ -1954,7 +1978,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               setRaffleWidgetClosed(false);
                               const fanName = member?.name || 'Fan';
                               localStorage.setItem('raffle_enter_sync', JSON.stringify({ fanName, email: member?.email || 'fan@7thheavenband.com', id: member?.id || 'unknown', crewId: memberId, ts: Date.now() }));
-                              try { supabase.channel('live_events').send({ type: 'broadcast', event: 'raffle_enter', payload: { fanName, email: member?.email || 'fan@7thheavenband.com', fanId: member?.id || 'unknown', crewId: memberId } }); } catch {}
+                              try { supabase.channel('live_events').send({ type: 'broadcast', event: 'raffle_enter', payload: { fanName, email: member?.email || 'fan@7thheavenband.com', fanId: member?.id || 'unknown', crewId: memberId } }); } catch { }
                               fetch('/api/email', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -1968,13 +1992,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
                                 inbox.unshift({ id: Date.now(), icon: '🎰', title: 'Raffle Entry Confirmed!', desc: `You've entered the live raffle. Stay tuned!`, time: 'Just now', isNew: true, color: 'yellow' });
                                 localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
-                              } catch {}
+                              } catch { }
                             }} className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-sm uppercase tracking-[0.15em] rounded-xl transition-colors shadow-[0_0_15px_rgba(234,179,8,0.4)]">
                               Enter Raffle
                             </button>
                           ) : (
                             <div className="w-full py-3 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 text-center font-black text-sm uppercase tracking-[0.15em] rounded-xl flex items-center justify-center gap-2">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
                               You're Entered!
                             </div>
                           )}
@@ -2029,7 +2053,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               );
                             })}
                           </div>
-                          
+
                           <div className="mt-4 p-3 bg-white/5 border border-white/10 rounded-xl text-center">
                             <p className="text-xs text-white/70 leading-relaxed font-semibold">
                               <span className="text-yellow-400 font-bold uppercase tracking-widest text-xs block mb-1">How to Claim</span>
@@ -2100,12 +2124,27 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <p className="text-white text-sm font-black leading-tight truncate">{activeMerchDrop.product.name}</p>
                         <p className="text-xs" style={{ color: activeMerchDrop.product.color }}>Only {activeMerchDrop.product.stock} left · shop.7thheavenband.com</p>
                       </div>
-                      {/* Price + countdown */}
-                      <div className="shrink-0 text-right">
-                        <p className="text-xl font-black" style={{ color: activeMerchDrop.product.color }}>{activeMerchDrop.product.price}</p>
-                        <p className="text-xs font-black tabular-nums" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                          {String(Math.floor(merchTimeLeft / 60)).padStart(2,'0')}:{String(merchTimeLeft % 60).padStart(2,'0')}
-                        </p>
+                      {/* Price + countdown + action button */}
+                      <div className="shrink-0 flex items-center gap-3">
+                        <div className="text-right">
+                          <p className="text-xl font-black" style={{ color: activeMerchDrop.product.color }}>{activeMerchDrop.product.price}</p>
+                          <p className="text-xs font-black tabular-nums" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                            {String(Math.floor(merchTimeLeft / 60)).padStart(2, '0')}:{String(merchTimeLeft % 60).padStart(2, '0')}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setCheckoutStep('form');
+                            setShowCheckoutModal(true);
+                          }}
+                          style={{
+                            background: activeMerchDrop.product.color,
+                            boxShadow: `0 0 15px ${activeMerchDrop.product.color}88`
+                          }}
+                          className="px-3.5 py-1.5 text-black font-black text-[10px] uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer border-none shrink-0"
+                        >
+                          BUY NOW
+                        </button>
                       </div>
                     </div>
                     {/* Progress bar */}
@@ -2172,7 +2211,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               <div className="shrink-0 px-4 py-3" style={{ borderBottom: '1px solid rgba(239,68,68,0.15)', background: 'rgba(239,68,68,0.05)' }}>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                     <span className="text-sm font-black uppercase tracking-wider" style={{ color: '#f87171' }}>Moderation Dashboard</span>
                   </div>
                   <div className="flex items-center gap-3 text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
@@ -2183,40 +2222,40 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 </div>
                 {/* Tabs */}
                 <div className="flex gap-1 flex-wrap">
-                  {(['live','flagged','merch','users','log','policy','stats'] as const).map(tab => (
+                  {(['live', 'flagged', 'merch', 'users', 'log', 'policy', 'stats'] as const).map(tab => (
                     <button key={tab} onClick={() => setAdminTab(tab as typeof adminTab)}
                       className="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all"
                       style={{
                         background: adminTab === tab
-                          ? tab === 'live'    ? 'rgba(34,197,94,0.18)'
-                          : tab === 'flagged' ? 'rgba(239,68,68,0.2)'
-                          : tab === 'merch'   ? 'rgba(251,191,36,0.18)'
-                          : tab === 'stats'   ? 'rgba(16,185,129,0.15)'
-                          : 'rgba(168,85,247,0.15)'
+                          ? tab === 'live' ? 'rgba(34,197,94,0.18)'
+                            : tab === 'flagged' ? 'rgba(239,68,68,0.2)'
+                              : tab === 'merch' ? 'rgba(251,191,36,0.18)'
+                                : tab === 'stats' ? 'rgba(16,185,129,0.15)'
+                                  : 'rgba(168,85,247,0.15)'
                           : 'rgba(255,255,255,0.04)',
                         color: adminTab === tab
-                          ? tab === 'live'    ? '#4ade80'
-                          : tab === 'flagged' ? '#f87171'
-                          : tab === 'merch'   ? '#fbbf24'
-                          : tab === 'stats'   ? '#34d399'
-                          : '#c084fc'
+                          ? tab === 'live' ? '#4ade80'
+                            : tab === 'flagged' ? '#f87171'
+                              : tab === 'merch' ? '#fbbf24'
+                                : tab === 'stats' ? '#34d399'
+                                  : '#c084fc'
                           : 'rgba(255,255,255,0.35)',
                         border: adminTab === tab
-                          ? tab === 'live'    ? '1px solid rgba(34,197,94,0.35)'
-                          : tab === 'flagged' ? '1px solid rgba(239,68,68,0.3)'
-                          : tab === 'merch'   ? '1px solid rgba(251,191,36,0.35)'
-                          : tab === 'stats'   ? '1px solid rgba(16,185,129,0.3)'
-                          : '1px solid rgba(168,85,247,0.25)'
+                          ? tab === 'live' ? '1px solid rgba(34,197,94,0.35)'
+                            : tab === 'flagged' ? '1px solid rgba(239,68,68,0.3)'
+                              : tab === 'merch' ? '1px solid rgba(251,191,36,0.35)'
+                                : tab === 'stats' ? '1px solid rgba(16,185,129,0.3)'
+                                  : '1px solid rgba(168,85,247,0.25)'
                           : '1px solid transparent',
                       }}
                     >
-                      {tab === 'live'    && `💬 Live${messages.filter(m => !m.isSystem).length > 0 ? ` (${messages.filter(m => !m.isSystem).length})` : ''}`}
+                      {tab === 'live' && `💬 Live${messages.filter(m => !m.isSystem).length > 0 ? ` (${messages.filter(m => !m.isSystem).length})` : ''}`}
                       {tab === 'flagged' && `🚨 Flagged${flaggedMsgs.length > 0 ? ` (${flaggedMsgs.length})` : ''}`}
-                      {tab === 'merch'   && `🛍 Merch${merchTimerActive ? ' ●' : ''}`}
-                      {tab === 'users'   && '👥 Users'}
-                      {tab === 'log'     && '📋 Log'}
-                      {tab === 'policy'  && '📜 Policy'}
-                      {tab === 'stats'   && '📊 Stats'}
+                      {tab === 'merch' && `🛍 Merch${merchTimerActive ? ' ●' : ''}`}
+                      {tab === 'users' && '👥 Users'}
+                      {tab === 'log' && '📋 Log'}
+                      {tab === 'policy' && '📜 Policy'}
+                      {tab === 'stats' && '📊 Stats'}
                     </button>
                   ))}
                 </div>
@@ -2237,8 +2276,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <div className="p-2 space-y-0.5">
                         {messages.map((msg, i) => {
                           const isFlagged = flaggedMsgs.some(f => f.msg.id === msg.id);
-                          const isBanned  = msg.account ? bannedUsers.has(msg.account.id) : false;
-                          const isMuted   = msg.account ? mutedUsers.has(msg.account.id)  : false;
+                          const isBanned = msg.account ? bannedUsers.has(msg.account.id) : false;
+                          const isMuted = msg.account ? mutedUsers.has(msg.account.id) : false;
                           return (
                             <div
                               key={msg.id}
@@ -2267,8 +2306,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                       <span className="text-xs font-black" style={{ color: msg.account?.color ?? '#888' }}>{msg.account?.displayName}</span>
                                       {msg.account?.tier && <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }}>{msg.account.tier}</span>}
                                       {isFlagged && <span className="text-xs px-1 rounded" style={{ background: 'rgba(239,68,68,0.2)', color: '#f87171', fontSize: 9 }}>🚨 FLAGGED</span>}
-                                      {isBanned  && <span className="text-xs px-1 rounded" style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171', fontSize: 9 }}>BANNED</span>}
-                                      {isMuted   && <span className="text-xs px-1 rounded" style={{ background: 'rgba(156,163,175,0.15)', color: '#9ca3af', fontSize: 9 }}>MUTED</span>}
+                                      {isBanned && <span className="text-xs px-1 rounded" style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171', fontSize: 9 }}>BANNED</span>}
+                                      {isMuted && <span className="text-xs px-1 rounded" style={{ background: 'rgba(156,163,175,0.15)', color: '#9ca3af', fontSize: 9 }}>MUTED</span>}
                                     </div>
                                     <p className="text-xs leading-snug mt-0.5" style={{ color: 'rgba(255,255,255,0.75)' }}>{msg.text}</p>
                                   </div>
@@ -2477,7 +2516,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           Add specific keywords or phrases. Any message containing these (case-insensitive) will be flagged for review.
                         </p>
                       </div>
-                      
+
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -2575,7 +2614,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         {[
                           { label: 'Total Views', val: Object.values(FEED_STATS).reduce((a, b) => a + b.peakViewers, 0).toLocaleString() },
                           { label: 'Mod Actions', val: modLog.length.toString() },
-                          { label: 'Chat Msgs',   val: messages.filter(m => !m.isSystem).length.toString() },
+                          { label: 'Chat Msgs', val: messages.filter(m => !m.isSystem).length.toString() },
                         ].map(({ label, val }) => (
                           <div key={label} className="p-2 rounded-lg text-center" style={{ background: 'rgba(255,255,255,0.04)' }}>
                             <p className="text-sm font-black text-white/80">{val}</p>
@@ -2623,7 +2662,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </div>
                           <div className="shrink-0 text-right">
                             <p className="text-2xl font-black tabular-nums" style={{ color: activeMerchDrop.product.color }}>
-                              {String(Math.floor(merchTimeLeft / 60)).padStart(2,'0')}:{String(merchTimeLeft % 60).padStart(2,'0')}
+                              {String(Math.floor(merchTimeLeft / 60)).padStart(2, '0')}:{String(merchTimeLeft % 60).padStart(2, '0')}
                             </p>
                             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>remaining</p>
                           </div>
@@ -2639,12 +2678,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           />
                         </div>
                         <button
-                          onClick={() => { 
-                            setMerchTimerActive(false); 
-                            setActiveMerchDrop(null); 
+                          onClick={() => {
+                            setMerchTimerActive(false);
+                            setActiveMerchDrop(null);
                             setMerchTimeLeft(0);
                             bcRef.current?.postMessage({ type: 'MERCH_DROP_END' });
-                            addModAction('🛍 Drop Ended', activeMerchDrop.product.name); 
+                            addModAction('🛍 Drop Ended', activeMerchDrop.product.name);
                           }}
                           className="w-full py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all hover:scale-[1.02]"
                           style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#f87171' }}
@@ -2819,13 +2858,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex gap-4">
-                    <button 
+                    <button
                       onClick={() => setActiveSidebarTab('chat')}
                       className={`text-sm font-black uppercase tracking-wider transition-colors ${activeSidebarTab === 'chat' ? 'text-white' : 'text-white/40 hover:text-white/70'}`}
                     >
                       💬 Chat
                     </button>
-                    <button 
+                    <button
                       onClick={() => setActiveSidebarTab('setlist')}
                       className={`text-sm font-black uppercase tracking-wider transition-colors ${activeSidebarTab === 'setlist' ? 'text-white' : 'text-white/40 hover:text-white/70'}`}
                     >
@@ -2853,401 +2892,397 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 <div className="flex-1 flex flex-col min-h-0 bg-[#09090d]">
                   {/* Sort Toggle header */}
                   <div className="shrink-0 flex items-center justify-between px-4 py-2 bg-white/[0.02] border-b border-white/[0.04]">
-                  <span className="text-2xs font-black uppercase tracking-widest text-white/40">Sort View</span>
-                  <div className="flex gap-1.5">
-                    <button
-                      onClick={() => setSetlistSort('order')}
-                      className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-all ${
-                        setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover:text-white/60'
-                      }`}
-                    >
-                      Setlist Order
-                    </button>
-                    <button
-                      onClick={() => setSetlistSort('likes')}
-                      className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-all ${
-                        setlistSort === 'likes' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' : 'bg-transparent text-white/30 hover:text-white/60 border border-transparent'
-                      }`}
-                    >
-                      Most Liked
-                    </button>
-                  </div>
-                </div>
-
-                {/* List of songs */}
-                <div data-lenis-prevent className="flex-1 overflow-y-auto p-3 space-y-2">
-                  {(() => {
-                    const sorted = [...setlist].sort((a, b) => {
-                      if (setlistSort === 'likes') {
-                        return b.likes - a.likes || setlist.indexOf(a) - setlist.indexOf(b);
-                      }
-                      return 0; // retain original setlist order
-                    });
-
-                    return sorted.map((song) => {
-                      const hasLiked = localStorage.getItem(`liked_song_${memberId}_${song.id}`) === 'true';
-                      return (
-                        <div 
-                          key={song.id}
-                          className={`flex items-center justify-between p-3 rounded-xl border transition-all ${
-                            song.isPlaying 
-                              ? 'bg-purple-500/10 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.15)] animate-in fade-in duration-300' 
-                              : 'bg-white/[0.02] border-white/5'
+                    <span className="text-2xs font-black uppercase tracking-widest text-white/40">Sort View</span>
+                    <div className="flex gap-1.5">
+                      <button
+                        onClick={() => setSetlistSort('order')}
+                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-all ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover:text-white/60'
                           }`}
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className={`text-sm shrink-0 ${song.isPlaying ? 'animate-pulse text-purple-400' : 'text-white/20'}`}>
-                              {song.isPlaying ? '🔊' : '🎵'}
-                            </span>
-                            <div className="min-w-0">
-                              <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-purple-300' : 'text-white/90'}`}>
-                                {song.title}
-                              </p>
-                              {song.isPlaying && (
-                                <span className="inline-block text-[9px] font-black uppercase tracking-widest text-purple-400 mt-0.5 animate-pulse">
-                                  Now Playing
-                                </span>
-                              )}
+                      >
+                        Setlist Order
+                      </button>
+                      <button
+                        onClick={() => setSetlistSort('likes')}
+                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-all ${setlistSort === 'likes' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' : 'bg-transparent text-white/30 hover:text-white/60 border border-transparent'
+                          }`}
+                      >
+                        Most Liked
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* List of songs */}
+                  <div data-lenis-prevent className="flex-1 overflow-y-auto p-3 space-y-2">
+                    {(() => {
+                      const sorted = [...setlist].sort((a, b) => {
+                        if (setlistSort === 'likes') {
+                          return b.likes - a.likes || setlist.indexOf(a) - setlist.indexOf(b);
+                        }
+                        return 0; // retain original setlist order
+                      });
+
+                      return sorted.map((song) => {
+                        const hasLiked = localStorage.getItem(`liked_song_${memberId}_${song.id}`) === 'true';
+                        return (
+                          <div
+                            key={song.id}
+                            className={`flex items-center justify-between p-3 rounded-xl border transition-all ${song.isPlaying
+                                ? 'bg-purple-500/10 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.15)] animate-in fade-in duration-300'
+                                : 'bg-white/[0.02] border-white/5'
+                              }`}
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <span className={`text-sm shrink-0 ${song.isPlaying ? 'animate-pulse text-purple-400' : 'text-white/20'}`}>
+                                {song.isPlaying ? '🔊' : '🎵'}
+                              </span>
+                              <div className="min-w-0">
+                                <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-purple-300' : 'text-white/90'}`}>
+                                  {song.title}
+                                </p>
+                                {song.isPlaying && (
+                                  <span className="inline-block text-[9px] font-black uppercase tracking-widest text-purple-400 mt-0.5 animate-pulse">
+                                    Now Playing
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="text-2xs font-mono font-bold text-white/40">
+                                {song.likes}
+                              </span>
+                              <button
+                                onClick={() => likeSong(song.id)}
+                                disabled={hasLiked}
+                                className={`w-7 h-7 flex items-center justify-center rounded-lg transition-all ${hasLiked
+                                    ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
+                                    : 'bg-white/5 border border-white/10 hover:border-white/20 text-white/50 hover:text-white hover:scale-105 active:scale-95'
+                                  }`}
+                                title={hasLiked ? 'Already Liked!' : 'Like this song'}
+                              >
+                                {hasLiked ? '❤️' : '🤍'}
+                              </button>
                             </div>
                           </div>
-
-                          <div className="flex items-center gap-2 shrink-0">
-                            <span className="text-2xs font-mono font-bold text-white/40">
-                              {song.likes}
-                            </span>
-                            <button
-                              onClick={() => likeSong(song.id)}
-                              disabled={hasLiked}
-                              className={`w-7 h-7 flex items-center justify-center rounded-lg transition-all ${
-                                hasLiked 
-                                  ? 'bg-red-500/10 text-red-500 cursor-not-allowed' 
-                                  : 'bg-white/5 border border-white/10 hover:border-white/20 text-white/50 hover:text-white hover:scale-105 active:scale-95'
-                              }`}
-                              title={hasLiked ? 'Already Liked!' : 'Like this song'}
-                            >
-                              {hasLiked ? '❤️' : '🤍'}
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    });
-                  })()}
+                        );
+                      });
+                    })()}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <>
-                {/* ── ADMIN-WATCHING BANNER ── visible to fans when mod is in admin mode */}
-                {showAdminPanel && (
-                  <div
-                    className="shrink-0 flex items-center justify-center gap-2 px-3 py-1.5"
-                    style={{
-                      background: 'rgba(239,68,68,0.08)',
-                      borderBottom: '1px solid rgba(239,68,68,0.2)',
-                      animation: 'modPulse 3s ease-in-out infinite',
-                    }}
-                  >
-                    <style>{`
+              ) : (
+                <>
+                  {/* ── ADMIN-WATCHING BANNER ── visible to fans when mod is in admin mode */}
+                  {showAdminPanel && (
+                    <div
+                      className="shrink-0 flex items-center justify-center gap-2 px-3 py-1.5"
+                      style={{
+                        background: 'rgba(239,68,68,0.08)',
+                        borderBottom: '1px solid rgba(239,68,68,0.2)',
+                        animation: 'modPulse 3s ease-in-out infinite',
+                      }}
+                    >
+                      <style>{`
                       @keyframes modPulse {
                         0%,100% { background: rgba(239,68,68,0.06); }
                         50%      { background: rgba(239,68,68,0.13); }
                       }
                     `}</style>
-                    <span style={{ fontSize: 11 }}>🛡️</span>
-                    <span style={{ fontSize: 11, color: 'rgba(252,165,165,0.85)', fontWeight: 700, letterSpacing: '0.05em' }}>
-                      MODERATOR IS MONITORING THIS CHAT
-                    </span>
-                    <span
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ background: '#ef4444', animation: 'pulse 1.4s infinite' }}
-                    />
-                  </div>
-                )}
+                      <span style={{ fontSize: 11 }}>🛡️</span>
+                      <span style={{ fontSize: 11, color: 'rgba(252,165,165,0.85)', fontWeight: 700, letterSpacing: '0.05em' }}>
+                        MODERATOR IS MONITORING THIS CHAT
+                      </span>
+                      <span
+                        className="w-1.5 h-1.5 rounded-full"
+                        style={{ background: '#ef4444', animation: 'pulse 1.4s infinite' }}
+                      />
+                    </div>
+                  )}
 
-                {/* ── PINNED MESSAGE BANNER ── shows when crew pins a message from dashboard */}
-                {pinnedMessage && (
-                  <div
-                    className="shrink-0 flex items-start gap-2 px-3 py-2"
-                    style={{
-                      background: 'linear-gradient(90deg, rgba(168,85,247,0.12), rgba(236,72,153,0.08))',
-                      borderBottom: '1px solid rgba(168,85,247,0.2)',
-                    }}
-                  >
-                    <span style={{ fontSize: 13, marginTop: 1 }}>📌</span>
-                    <div className="flex-1 min-w-0">
-                      <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 600, lineHeight: 1.4 }}>
-                        {pinnedMessage.text}
-                      </p>
-                      <p style={{ fontSize: 10, color: 'rgba(168,85,247,0.7)', marginTop: 2 }}>
-                        Pinned by {pinnedMessage.by}
-                      </p>
+                  {/* ── PINNED MESSAGE BANNER ── shows when crew pins a message from dashboard */}
+                  {pinnedMessage && (
+                    <div
+                      className="shrink-0 flex items-start gap-2 px-3 py-2"
+                      style={{
+                        background: 'linear-gradient(90deg, rgba(168,85,247,0.12), rgba(236,72,153,0.08))',
+                        borderBottom: '1px solid rgba(168,85,247,0.2)',
+                      }}
+                    >
+                      <span style={{ fontSize: 13, marginTop: 1 }}>📌</span>
+                      <div className="flex-1 min-w-0">
+                        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 600, lineHeight: 1.4 }}>
+                          {pinnedMessage.text}
+                        </p>
+                        <p style={{ fontSize: 10, color: 'rgba(168,85,247,0.7)', marginTop: 2 }}>
+                          Pinned by {pinnedMessage.by}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Messages — absolute inside relative wrapper guarantees scroll works */}
+                  <div className="flex-1 relative min-h-0">
+                    <div
+                      ref={chatContainerRef}
+                      data-lenis-prevent
+                      className="absolute inset-0 overflow-y-auto px-3 py-2 space-y-1"
+                      style={{ WebkitOverflowScrolling: 'touch' }}
+                    >
+                      {messages.length === 0 && (
+                        <div className="flex flex-col items-center justify-center h-32 text-center">
+                          <span className="text-2xl mb-2">👋</span>
+                          <p className="text-white/20 text-xs uppercase tracking-widest">Stream is starting...</p>
+                        </div>
+                      )}
+
+                      {messages.map(msg => {
+                        if (msg.isSystem || !msg.account) {
+                          return (
+                            <div key={msg.id} className="msg-new flex items-center justify-center py-1">
+                              <span
+                                className="px-3 py-1 rounded-full text-xs"
+                                style={{
+                                  background: 'rgba(255,255,255,0.05)',
+                                  color: 'rgba(255,255,255,0.35)',
+                                  fontSize: 11,
+                                }}
+                              >
+                                {msg.text}
+                              </span>
+                            </div>
+                          );
+                        }
+
+                        const isCrew = msg.account.role === 'crew';
+                        const isUser = msg.isUser;
+                        const isFlagged = flaggedMsgs.some(f => f.msg.id === msg.id || (f.msg.account?.id === msg.account?.id && f.msg.text === msg.text));
+                        const isBanned = msg.account && bannedUsers.has(msg.account.id);
+                        const flagEntry = flaggedMsgs.find(f => f.msg.id === msg.id || (f.msg.account?.id === msg.account?.id && f.msg.text === msg.text));
+
+                        return (
+                          <div
+                            key={msg.id}
+                            className="msg-new flex items-start gap-2 py-0.5 px-2 rounded-lg group"
+                            style={{
+                              background: isBanned
+                                ? 'rgba(239,68,68,0.06)'
+                                : isFlagged
+                                  ? 'rgba(239,68,68,0.04)'
+                                  : isCrew
+                                    ? 'rgba(138,28,252,0.08)'
+                                    : isUser
+                                      ? 'rgba(139,92,246,0.12)'
+                                      : 'transparent',
+                              border: isBanned
+                                ? '1px solid rgba(239,68,68,0.25)'
+                                : isFlagged
+                                  ? '1px solid rgba(239,68,68,0.15)'
+                                  : isCrew
+                                    ? '1px solid rgba(138,28,252,0.2)'
+                                    : isUser
+                                      ? '1px solid rgba(139,92,246,0.25)'
+                                      : '1px solid transparent',
+                              opacity: isBanned ? 0.55 : 1,
+                            }}
+                          >
+                            {/* Avatar */}
+                            <div
+                              className="w-6 h-6 rounded-full flex items-center justify-center text-white font-black shrink-0 mt-0.5"
+                              style={{ background: msg.account.color, fontSize: 9 }}
+                            >
+                              {msg.account.avatar}
+                            </div>
+
+                            <div className="flex-1 min-w-0">
+                              {/* Name row */}
+                              <div className="flex items-center flex-wrap gap-1.5 mb-0.5">
+                                <span
+                                  className="text-xs font-black leading-none"
+                                  style={{ color: msg.account.color }}
+                                >
+                                  {msg.account.displayName}
+                                </span>
+
+                                {isCrew && (
+                                  <span
+                                    className="px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider leading-none"
+                                    style={{
+                                      background: 'rgba(138,28,252,0.25)',
+                                      border: '1px solid rgba(138,28,252,0.4)',
+                                      color: '#c084fc',
+                                      fontSize: 9,
+                                    }}
+                                  >
+                                    {msg.account.badge} CREW
+                                  </span>
+                                )}
+
+                                {!isCrew && msg.account.tier && (
+                                  <span className="text-white/20 leading-none" style={{ fontSize: 9 }}>
+                                    {msg.account.tier}
+                                  </span>
+                                )}
+
+                                {isUser && (
+                                  <span
+                                    className="px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider leading-none"
+                                    style={{
+                                      background: 'rgba(139,92,246,0.25)',
+                                      border: '1px solid rgba(139,92,246,0.4)',
+                                      color: '#a78bfa',
+                                      fontSize: 9,
+                                    }}
+                                  >
+                                    You
+                                  </span>
+                                )}
+
+                                {/* Admin: flagged / banned badges */}
+                                {showAdminPanel && isBanned && (
+                                  <span className="px-1.5 py-0.5 rounded font-black uppercase leading-none"
+                                    style={{ background: 'rgba(239,68,68,0.25)', border: '1px solid rgba(239,68,68,0.4)', color: '#fca5a5', fontSize: 9 }}>
+                                    🚫 BANNED
+                                  </span>
+                                )}
+                                {showAdminPanel && isFlagged && !isBanned && (
+                                  <span className="px-1.5 py-0.5 rounded font-black uppercase leading-none"
+                                    style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5', fontSize: 9 }}>
+                                    ⚩ FLAGGED
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* Message text */}
+                              <p
+                                className="text-white/85 leading-snug break-words"
+                                style={{ fontSize: 13, textDecoration: isBanned ? 'line-through' : 'none', opacity: isBanned ? 0.5 : 1 }}
+                              >
+                                {msg.text}
+                              </p>
+
+                              {/* Flag reason tag — shown in admin mode */}
+                              {showAdminPanel && isFlagged && flagEntry && !isBanned && (
+                                <span
+                                  className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 rounded"
+                                  style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5', fontSize: 10, fontWeight: 700 }}
+                                >
+                                  {flagEntry.reason}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <div ref={chatEndRef} />
                     </div>
                   </div>
-                )}
 
-                {/* Messages — absolute inside relative wrapper guarantees scroll works */}
-                <div className="flex-1 relative min-h-0">
+                  {/* Chat input */}
                   <div
-                    ref={chatContainerRef}
-                    data-lenis-prevent
-                    className="absolute inset-0 overflow-y-auto px-3 py-2 space-y-1"
-                    style={{ WebkitOverflowScrolling: 'touch' }}
+                    className="shrink-0 p-3"
+                    style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
                   >
-                    {messages.length === 0 && (
-                      <div className="flex flex-col items-center justify-center h-32 text-center">
-                        <span className="text-2xl mb-2">👋</span>
-                        <p className="text-white/20 text-xs uppercase tracking-widest">Stream is starting...</p>
+                    {/* Emoji picker */}
+                    {showEmojiPicker && (
+                      <div
+                        className="mb-2 p-2 rounded-xl flex flex-wrap gap-1"
+                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                      >
+                        {CHAT_EMOJIS.map(em => (
+                          <button
+                            key={em}
+                            onClick={() => {
+                              setUserMessage(prev => prev + em);
+                              inputRef.current?.focus();
+                            }}
+                            className="text-lg hover:scale-125 transition-transform"
+                            style={{ lineHeight: 1 }}
+                          >
+                            {em}
+                          </button>
+                        ))}
                       </div>
                     )}
 
-                    {messages.map(msg => {
-                      if (msg.isSystem || !msg.account) {
-                        return (
-                          <div key={msg.id} className="msg-new flex items-center justify-center py-1">
-                            <span
-                              className="px-3 py-1 rounded-full text-xs"
-                              style={{
-                                background: 'rgba(255,255,255,0.05)',
-                                color: 'rgba(255,255,255,0.35)',
-                              fontSize: 11,
-                            }}
-                          >
-                            {msg.text}
-                          </span>
-                        </div>
-                      );
-                    }
-
-                    const isCrew = msg.account.role === 'crew';
-                    const isUser = msg.isUser;
-                    const isFlagged = flaggedMsgs.some(f => f.msg.id === msg.id || (f.msg.account?.id === msg.account?.id && f.msg.text === msg.text));
-                    const isBanned = msg.account && bannedUsers.has(msg.account.id);
-                    const flagEntry = flaggedMsgs.find(f => f.msg.id === msg.id || (f.msg.account?.id === msg.account?.id && f.msg.text === msg.text));
-
-                    return (
+                    {/* Blocked message warning */}
+                    {blockedReason && (
                       <div
-                        key={msg.id}
-                        className="msg-new flex items-start gap-2 py-0.5 px-2 rounded-lg group"
+                        className="flex items-center gap-2 mb-2 px-3 py-2 rounded-xl text-xs font-bold"
                         style={{
-                          background: isBanned
-                            ? 'rgba(239,68,68,0.06)'
-                            : isFlagged
-                            ? 'rgba(239,68,68,0.04)'
-                            : isCrew
-                            ? 'rgba(138,28,252,0.08)'
-                            : isUser
-                            ? 'rgba(139,92,246,0.12)'
-                            : 'transparent',
-                          border: isBanned
-                            ? '1px solid rgba(239,68,68,0.25)'
-                            : isFlagged
-                            ? '1px solid rgba(239,68,68,0.15)'
-                            : isCrew
-                            ? '1px solid rgba(138,28,252,0.2)'
-                            : isUser
-                            ? '1px solid rgba(139,92,246,0.25)'
-                            : '1px solid transparent',
-                          opacity: isBanned ? 0.55 : 1,
+                          background: 'rgba(239,68,68,0.12)',
+                          border: '1px solid rgba(239,68,68,0.35)',
+                          color: '#fca5a5',
+                          animation: 'slideInMsg 0.2s ease forwards',
                         }}
                       >
-                        {/* Avatar */}
-                        <div
-                          className="w-6 h-6 rounded-full flex items-center justify-center text-white font-black shrink-0 mt-0.5"
-                          style={{ background: msg.account.color, fontSize: 9 }}
-                        >
-                          {msg.account.avatar}
-                        </div>
-
-                        <div className="flex-1 min-w-0">
-                          {/* Name row */}
-                          <div className="flex items-center flex-wrap gap-1.5 mb-0.5">
-                            <span
-                              className="text-xs font-black leading-none"
-                              style={{ color: msg.account.color }}
-                            >
-                              {msg.account.displayName}
-                            </span>
-
-                            {isCrew && (
-                              <span
-                                className="px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider leading-none"
-                                style={{
-                                  background: 'rgba(138,28,252,0.25)',
-                                  border: '1px solid rgba(138,28,252,0.4)',
-                                  color: '#c084fc',
-                                  fontSize: 9,
-                                }}
-                              >
-                                {msg.account.badge} CREW
-                              </span>
-                            )}
-
-                            {!isCrew && msg.account.tier && (
-                              <span className="text-white/20 leading-none" style={{ fontSize: 9 }}>
-                                {msg.account.tier}
-                              </span>
-                            )}
-
-                            {isUser && (
-                              <span
-                                className="px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider leading-none"
-                                style={{
-                                  background: 'rgba(139,92,246,0.25)',
-                                  border: '1px solid rgba(139,92,246,0.4)',
-                                  color: '#a78bfa',
-                                  fontSize: 9,
-                                }}
-                              >
-                                You
-                              </span>
-                            )}
-
-                            {/* Admin: flagged / banned badges */}
-                            {showAdminPanel && isBanned && (
-                              <span className="px-1.5 py-0.5 rounded font-black uppercase leading-none"
-                                style={{ background: 'rgba(239,68,68,0.25)', border: '1px solid rgba(239,68,68,0.4)', color: '#fca5a5', fontSize: 9 }}>
-                                🚫 BANNED
-                              </span>
-                            )}
-                            {showAdminPanel && isFlagged && !isBanned && (
-                              <span className="px-1.5 py-0.5 rounded font-black uppercase leading-none"
-                                style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5', fontSize: 9 }}>
-                                ⚩ FLAGGED
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Message text */}
-                          <p
-                            className="text-white/85 leading-snug break-words"
-                            style={{ fontSize: 13, textDecoration: isBanned ? 'line-through' : 'none', opacity: isBanned ? 0.5 : 1 }}
-                          >
-                            {msg.text}
-                          </p>
-
-                          {/* Flag reason tag — shown in admin mode */}
-                          {showAdminPanel && isFlagged && flagEntry && !isBanned && (
-                            <span
-                              className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 rounded"
-                              style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5', fontSize: 10, fontWeight: 700 }}
-                            >
-                              {flagEntry.reason}
-                            </span>
-                          )}
-                        </div>
+                        <span className="shrink-0">⛔</span>
+                        <span><strong>WARNING:</strong> {blockedReason}</span>
                       </div>
-                    );
-                  })}
-                  <div ref={chatEndRef} />
-                  </div>
-                </div>
+                    )}
 
-                {/* Chat input */}
-                <div
-                  className="shrink-0 p-3"
-                  style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
-                >
-                  {/* Emoji picker */}
-                  {showEmojiPicker && (
-                    <div
-                      className="mb-2 p-2 rounded-xl flex flex-wrap gap-1"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
-                    >
-                      {CHAT_EMOJIS.map(em => (
-                        <button
-                          key={em}
-                          onClick={() => {
-                            setUserMessage(prev => prev + em);
-                            inputRef.current?.focus();
-                          }}
-                          className="text-lg hover:scale-125 transition-transform"
-                          style={{ lineHeight: 1 }}
-                        >
-                          {em}
-                        </button>
-                      ))}
+                    <div className="flex items-center gap-2">
+                      {/* Emoji toggle */}
+
+                      <button
+                        onClick={() => setShowEmojiPicker(v => !v)}
+                        className="w-9 h-9 flex items-center justify-center rounded-xl text-lg transition-all shrink-0"
+                        style={{
+                          background: showEmojiPicker ? 'rgba(168,85,247,0.2)' : 'rgba(255,255,255,0.05)',
+                          border: showEmojiPicker ? '1px solid rgba(168,85,247,0.4)' : '1px solid rgba(255,255,255,0.08)',
+                        }}
+                      >
+                        😊
+                      </button>
+
+                      {/* Input */}
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={userMessage}
+                        onChange={e => setUserMessage(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
+                        placeholder="Send a message..."
+                        maxLength={200}
+                        className="flex-1 rounded-xl px-3 py-2 text-sm text-white placeholder-white/25 outline-none transition-all"
+                        style={{
+                          background: 'rgba(255,255,255,0.05)',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                        }}
+                        onFocus={e => e.target.style.borderColor = 'rgba(168,85,247,0.4)'}
+                        onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
+                      />
+
+                      {/* Send */}
+                      <button
+                        onClick={handleSend}
+                        disabled={!userMessage.trim()}
+                        className="w-9 h-9 flex items-center justify-center rounded-xl shrink-0 transition-all"
+                        style={{
+                          background: userMessage.trim() ? '#8a1cfc' : 'rgba(255,255,255,0.05)',
+                          border: '1px solid transparent',
+                          opacity: userMessage.trim() ? 1 : 0.4,
+                          boxShadow: userMessage.trim() ? '0 0 12px rgba(138,28,252,0.4)' : 'none',
+                        }}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="22" y1="2" x2="11" y2="13" />
+                          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
+                      </button>
                     </div>
-                  )}
 
-                  {/* Blocked message warning */}
-                  {blockedReason && (
-                    <div
-                      className="flex items-center gap-2 mb-2 px-3 py-2 rounded-xl text-xs font-bold"
-                      style={{
-                        background: 'rgba(239,68,68,0.12)',
-                        border: '1px solid rgba(239,68,68,0.35)',
-                        color: '#fca5a5',
-                        animation: 'slideInMsg 0.2s ease forwards',
-                      }}
-                    >
-                      <span className="shrink-0">⛔</span>
-                      <span><strong>WARNING:</strong> {blockedReason}</span>
+                    {/* Chat Rules Helper Text */}
+                    <div className="mt-2 mb-1 px-1 flex justify-center">
+                      <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold text-center">
+                        Keep it rated PG-13 • No political statements
+                      </p>
                     </div>
-                  )}
-
-                  <div className="flex items-center gap-2">
-                    {/* Emoji toggle */}
-
-                    <button
-                      onClick={() => setShowEmojiPicker(v => !v)}
-                      className="w-9 h-9 flex items-center justify-center rounded-xl text-lg transition-all shrink-0"
-                      style={{
-                        background: showEmojiPicker ? 'rgba(168,85,247,0.2)' : 'rgba(255,255,255,0.05)',
-                        border: showEmojiPicker ? '1px solid rgba(168,85,247,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                      }}
-                    >
-                      😊
-                    </button>
-
-                    {/* Input */}
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={userMessage}
-                      onChange={e => setUserMessage(e.target.value)}
-                      onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
-                      placeholder="Send a message..."
-                      maxLength={200}
-                      className="flex-1 rounded-xl px-3 py-2 text-sm text-white placeholder-white/25 outline-none transition-all"
-                      style={{
-                        background: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                      }}
-                      onFocus={e => e.target.style.borderColor = 'rgba(168,85,247,0.4)'}
-                      onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
-                    />
-
-                    {/* Send */}
-                    <button
-                      onClick={handleSend}
-                      disabled={!userMessage.trim()}
-                      className="w-9 h-9 flex items-center justify-center rounded-xl shrink-0 transition-all"
-                      style={{
-                        background: userMessage.trim() ? '#8a1cfc' : 'rgba(255,255,255,0.05)',
-                        border: '1px solid transparent',
-                        opacity: userMessage.trim() ? 1 : 0.4,
-                        boxShadow: userMessage.trim() ? '0 0 12px rgba(138,28,252,0.4)' : 'none',
-                      }}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"/>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                      </svg>
-                    </button>
                   </div>
-
-                  {/* Chat Rules Helper Text */}
-                  <div className="mt-2 mb-1 px-1 flex justify-center">
-                    <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold text-center">
-                      Keep it rated PG-13 • No political statements
-                    </p>
-                  </div>
-                </div>
-              </>
-            )}
+                </>
+              )}
             </div>
           )}
         </div>
-        
+
         {/* RAFFLE CLAIM MODAL OVERLAY */}
         {showClaimModal && (() => {
           const winnerIdx = Math.max(0, raffleState?.winners.findIndex((w: any) => (w?.name || w) === member?.name) ?? 0);
@@ -3257,7 +3292,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm pointer-events-auto">
               <div className="bg-[#0a0a0e]/98 backdrop-blur-xl border border-yellow-500/40 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto text-white">
                 <button onClick={() => { setShowClaimModal(false); setClaimMethod(null); }} className="absolute top-3 right-3 text-white/50 hover:text-white transition-colors p-1 bg-white/5 hover:bg-white/10 rounded-full">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                 </button>
 
                 {!claimMethod ? (
@@ -3294,7 +3329,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <button onClick={() => setClaimMethod('shipping')}
                         className="w-full p-3 border border-white/10 hover:border-yellow-500/30 bg-white/5 rounded-xl flex items-center gap-3 transition-all text-left">
                         <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
                         </div>
                         <div>
                           <p className="font-bold text-xs text-white uppercase tracking-wider">Ship it to me</p>
@@ -3304,7 +3339,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <button onClick={() => setClaimMethod('merch_table')}
                         className="w-full p-3 border border-white/10 hover:border-yellow-500/30 bg-white/5 rounded-xl flex items-center gap-3 transition-all text-left">
                         <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
                         </div>
                         <div>
                           <p className="font-bold text-xs text-white uppercase tracking-wider">Pick up at Merch Table</p>
@@ -3316,7 +3351,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 ) : claimMethod === 'shipping' ? (
                   <div className="text-center py-4">
                     <div className="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>
                     </div>
                     <h3 className="text-lg font-black text-white uppercase tracking-wider mb-2">Shipping Claim</h3>
                     <p className="text-sm text-white/50 mb-6 px-4">Your 100% off voucher is being generated. You'll be transferred to Shopify to enter your shipping details.</p>
@@ -3345,6 +3380,211 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-white/30 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
                   </div>
                 ) : null}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ── LIVE DROP CHECKOUT MODAL OVERLAY ── */}
+        {showCheckoutModal && activeMerchDrop && (() => {
+          const handleCheckoutSubmit = (e: React.FormEvent) => {
+            e.preventDefault();
+            setCheckoutStep('processing');
+
+            // Simulate payment processing for 1.8 seconds
+            setTimeout(() => {
+              // Decrement the stock of the product in the local state or product catalog
+              let newStock = 0;
+              if (activeMerchDrop.product) {
+                activeMerchDrop.product.stock = Math.max(0, activeMerchDrop.product.stock - 1);
+                newStock = activeMerchDrop.product.stock;
+              }
+
+              // Broadcast stock update
+              bcRef.current?.postMessage({
+                type: 'MERCH_STOCK_DECREMENT',
+                payload: { newStock }
+              });
+
+              // Simulate adding a chat notification
+              const purchaseMsg: ChatMsg = {
+                id: 'msg_' + Date.now() + '_purchase',
+                account: member ? {
+                  id: member.id,
+                  name: shippingDetails.name || member.name,
+                  avatar: member.avatar || '',
+                  role: 'FAN',
+                  badge: 'FAN'
+                } as any : {
+                  id: 'anonymous',
+                  name: shippingDetails.name || 'Anonymous Fan',
+                  avatar: '',
+                  role: 'FAN',
+                  badge: 'FAN'
+                } as any,
+                text: `🛍️ just purchased the ${activeMerchDrop.product.name}!`,
+                timestamp: Date.now(),
+                isUser: !member
+              };
+
+              // Broadcast chat message
+              seenMsgIds.current.add(purchaseMsg.id);
+              bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: purchaseMsg });
+              setMessages(prev => [...prev, purchaseMsg]);
+
+              setCheckoutStep('success');
+            }, 1800);
+          };
+
+          return (
+            <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
+              <div className="bg-[#0c0c12]/98 backdrop-blur-xl border rounded-2xl p-6 w-full max-w-sm shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto text-white text-left"
+                style={{ borderColor: `${activeMerchDrop.product.color}55`, boxShadow: `0 0 40px ${activeMerchDrop.product.color}15` }}>
+
+                {/* Close Button */}
+                <button onClick={() => setShowCheckoutModal(false)} className="absolute top-3 right-3 text-white/50 hover:text-white transition-colors p-1 bg-white/5 hover:bg-white/10 rounded-full border-none cursor-pointer">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                </button>
+
+                {checkoutStep === 'form' && (
+                  <form onSubmit={handleCheckoutSubmit} className="space-y-4">
+                    <div className="text-center mb-2">
+                      <span className="text-4xl mb-1.5 block">{activeMerchDrop.product.emoji}</span>
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider"
+                        style={{ background: `${activeMerchDrop.product.color}22`, color: activeMerchDrop.product.color }}>
+                        🛍️ LIVE DROP MERCH
+                      </span>
+                      <h3 className="text-lg font-black text-white uppercase tracking-wider mt-2 leading-tight">
+                        {activeMerchDrop.product.name}
+                      </h3>
+                      <p className="text-sm font-black mt-1" style={{ color: activeMerchDrop.product.color }}>
+                        {activeMerchDrop.product.price}
+                      </p>
+                      <p className="text-[10px] text-white/40 mt-0.5 font-sans">Only {activeMerchDrop.product.stock} items left in stock</p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div>
+                        <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Full Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={shippingDetails.name}
+                          onChange={e => setShippingDetails(prev => ({ ...prev, name: e.target.value }))}
+                          placeholder="John Doe"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Email Address</label>
+                        <input
+                          type="email"
+                          required
+                          value={shippingDetails.email}
+                          onChange={e => setShippingDetails(prev => ({ ...prev, email: e.target.value }))}
+                          placeholder="john@example.com"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Shipping Address</label>
+                        <input
+                          type="text"
+                          required
+                          value={shippingDetails.address}
+                          onChange={e => setShippingDetails(prev => ({ ...prev, address: e.target.value }))}
+                          placeholder="123 Main St"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">City</label>
+                          <input
+                            type="text"
+                            required
+                            value={shippingDetails.city}
+                            onChange={e => setShippingDetails(prev => ({ ...prev, city: e.target.value }))}
+                            placeholder="Chicago"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">ZIP Code</label>
+                          <input
+                            type="text"
+                            required
+                            value={shippingDetails.zip}
+                            onChange={e => setShippingDetails(prev => ({ ...prev, zip: e.target.value }))}
+                            placeholder="60601"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Card Details (Mock)</label>
+                        <input
+                          type="text"
+                          required
+                          value={shippingDetails.card}
+                          onChange={e => setShippingDetails(prev => ({ ...prev, card: e.target.value }))}
+                          placeholder="4242 4242 4242 4242"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      style={{
+                        background: activeMerchDrop.product.color,
+                        boxShadow: `0 0 15px ${activeMerchDrop.product.color}44`
+                      }}
+                      className="w-full py-3 text-black font-black text-xs uppercase tracking-widest rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border-none mt-2 font-sans"
+                    >
+                      Authorize Payment
+                    </button>
+                  </form>
+                )}
+
+                {checkoutStep === 'processing' && (
+                  <div className="text-center py-10 space-y-4">
+                    <div className="w-12 h-12 border-4 border-white/10 border-t-white rounded-full animate-spin mx-auto"
+                      style={{ borderTopColor: activeMerchDrop.product.color }} />
+                    <h3 className="text-sm font-black uppercase tracking-widest text-white/80 font-sans">Securing payment</h3>
+                    <p className="text-[11px] text-white/40 max-w-[200px] mx-auto font-sans">Connecting to Shopify checkout secure gateways...</p>
+                  </div>
+                )}
+
+                {checkoutStep === 'success' && (
+                  <div className="text-center py-4 space-y-4">
+                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto"
+                      style={{ boxShadow: '0 0 20px rgba(16,185,129,0.1)' }}>
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-black text-white uppercase tracking-wider font-sans">Purchase Successful!</h3>
+                      <p className="text-xs text-white/50 mt-1 max-w-[220px] mx-auto font-sans">
+                        Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed.
+                      </p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-left space-y-1.5">
+                      <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest font-sans">Order Details</p>
+                      <p className="text-xs font-bold text-white/90 font-sans">Recipient: <span className="font-normal text-white/60">{shippingDetails.name}</span></p>
+                      <p className="text-xs font-bold text-white/90 font-sans">Ship To: <span className="font-normal text-white/60">{shippingDetails.address}, {shippingDetails.city}</span></p>
+                      <p className="text-xs font-bold text-white/90 font-sans">Price Paid: <span className="font-normal text-white/60">{activeMerchDrop.product.price} (includes shipping)</span></p>
+                    </div>
+                    <button
+                      onClick={() => setShowCheckoutModal(false)}
+                      style={{
+                        background: activeMerchDrop.product.color
+                      }}
+                      className="w-full py-3 text-black font-black text-xs uppercase tracking-widest rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border-none font-sans"
+                    >
+                      Return to Stream
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           );

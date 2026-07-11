@@ -19,6 +19,7 @@ interface Challenge {
 }
 
 export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [selectedShowId, setSelectedShowId] = useState<string>("");
   const [challenge, setChallenge] = useState<Partial<Challenge>>({
     enabled: false,
@@ -66,41 +67,55 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
   const selectedShow = shows.find((s) => s._id === selectedShowId);
 
   return (
-    <div className="relative bg-[#0a0a14] border border-white/[0.06] overflow-hidden">
+    <div className="relative bg-[#0a0a14] border border-white/[0.06] overflow-hidden transition-all duration-300">
       {/* Accent glow */}
       <div className="absolute top-0 left-0 w-64 h-32 bg-purple-600/10 blur-[60px] pointer-events-none" />
 
-      <div className="relative p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] font-bold text-purple-400 mb-0.5">Show Promotions</p>
-            <h3 className="text-white font-black text-lg">🎁 Invite Challenge</h3>
-            <p className="text-white/30 text-xs mt-0.5">Fans who invite N friends unlock a free merch item at the door</p>
+      {/* Accordion Toggle Header */}
+      <div 
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        className="relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-all flex items-center justify-between group"
+      >
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] font-bold text-purple-400 mb-0.5">Show Promotions</p>
+          <h3 className="text-white font-black text-lg flex items-center gap-2">
+            🎁 Invite Challenge
+            {challenge.enabled && selectedShowId && (
+              <span className="text-[9px] font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+                Active
+              </span>
+            )}
+          </h3>
+          <p className="text-white/30 text-xs mt-0.5">Fans who invite N friends unlock a free merch item at the door</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-bold text-white/40 uppercase tracking-wider hidden sm:inline">
+            {isCollapsed ? 'Expand' : 'Collapse'}
+          </span>
+          <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
+            ▼
           </div>
-          {challenge.enabled && selectedShowId && (
-            <span className="text-xs font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
-              Active
-            </span>
-          )}
         </div>
+      </div>
 
-        {/* Show picker */}
-        <div className="mb-4">
-          <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Select Show</label>
-          <select
-            value={selectedShowId}
-            onChange={(e) => setSelectedShowId(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500/50"
-          >
-            <option value="">— Pick a show —</option>
-            {shows.map((s) => (
-              <option key={s._id} value={s._id}>
-                {s.venue} · {s.city}, {s.state} · {s.date}
-              </option>
-            ))}
-          </select>
-        </div>
+      {!isCollapsed && (
+        <div className="relative p-6 pt-0 border-t border-white/[0.04] mt-1 space-y-5 animate-[fadeIn_0.2s_ease-out]">
+          {/* Show picker */}
+          <div className="mb-4 mt-4">
+            <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Select Show</label>
+            <select
+              value={selectedShowId}
+              onChange={(e) => setSelectedShowId(e.target.value)}
+              className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500/50"
+            >
+              <option value="">— Pick a show —</option>
+              {shows.map((s) => (
+                <option key={s._id} value={s._id}>
+                  {s.venue} · {s.city}, {s.state} · {s.date}
+                </option>
+              ))}
+            </select>
+          </div>
 
         {selectedShowId && (
           <div className="space-y-4">
@@ -208,6 +223,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }

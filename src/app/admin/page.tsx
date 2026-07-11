@@ -12,6 +12,7 @@ import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
 import ShowCrewPanel from "@/components/ShowCrewPanel";
 import InviteChallengePanel from "@/components/admin/InviteChallengePanel";
 import dynamic from 'next/dynamic';
+import QRCode from "react-qr-code";
 
 const AdminMap = dynamic(() => import('@/components/AdminMap'), {
   ssr: false,
@@ -130,6 +131,7 @@ export default function AdminDashboard() {
   const [createdAdmin, setCreatedAdmin] = useState<{ name: string; email: string; password: string } | null>(null);
   const [adminCreateError, setAdminCreateError] = useState('');
   const [adminCreateLoading, setAdminCreateLoading] = useState(false);
+  const [openInfoSection, setOpenInfoSection] = useState<string | null>(null);
 
   const [showJumpNav, setShowJumpNav] = useState(() => {
     if (typeof window === 'undefined') return true;
@@ -331,7 +333,7 @@ export default function AdminDashboard() {
   };
 
   // Crew Schedule DND Calendar State
-  const [schedules, setSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; startHour: number; endHour: number; isTimeOff?: boolean; isDraft?: boolean; labelOverride?: string; openSlots?: number }[]>(() => {
+  const [schedules, setSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; startHour: number; endHour: number; isTimeOff?: boolean; isDraft?: boolean; labelOverride?: string; openSlots?: number; isCoverageRequested?: boolean }[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
       const saved = localStorage.getItem('7h_crew_schedules');
@@ -379,6 +381,8 @@ export default function AdminDashboard() {
 
   const [editingShiftId, setEditingShiftId] = useState<string | null>(null);
   const [calendarView, setCalendarView] = useState<'timeline' | 'roster' | 'list'>('roster');
+  const [showEligibleCoverageList, setShowEligibleCoverageList] = useState(false);
+  const [onlyShowFitRole, setOnlyShowFitRole] = useState<boolean>(true);
   const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');
   const [selectedCrewAssignments, setSelectedCrewAssignments] = useState<{ [crewId: string]: { active: boolean; customized?: boolean; role: string; startHour: number; endHour: number } }>({});
   const [drawerCrewSearch, setDrawerCrewSearch] = useState('');
@@ -697,6 +701,21 @@ export default function AdminDashboard() {
   const [shopifyLoading, setShopifyLoading] = useState(true);
   const [shopifyPeriod, setShopifyPeriod] = useState(30);
   const [shopifyError, setShopifyError] = useState('');
+
+  // Shopify QR Code Modal states
+  const [selectedQrProduct, setSelectedQrProduct] = useState<any>(null);
+  const [selectedQrVariant, setSelectedQrVariant] = useState<any>(null);
+  const [qrLinkType, setQrLinkType] = useState<'product' | 'checkout'>('product');
+  const [qrSubtitle, setQrSubtitle] = useState('Official Merchandise');
+  const [qrIncludePrice, setQrIncludePrice] = useState(true);
+
+  const openQrModal = (product: any) => {
+    setSelectedQrProduct(product);
+    setSelectedQrVariant(null);
+    setQrLinkType('product');
+    setQrSubtitle('Official Merchandise');
+    setQrIncludePrice(true);
+  };
 
   // Fan Analytics
   const [fanData, setFanData] = useState<any>(null);
@@ -1582,6 +1601,35 @@ try {
 
   
   // ── Section Helper Render Functions for Movable Layout ──
+  const renderInfoToggle = (sectionId: string) => {
+    const isOpen = openInfoSection === sectionId;
+    return (
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpenInfoSection(isOpen ? null : sectionId);
+        }}
+        className="w-[18px] h-[18px] rounded-full bg-white/5 hover:bg-amber-500/20 border border-white/10 hover:border-amber-500/30 flex items-center justify-center text-[9px] font-black text-white/40 hover:text-amber-400 transition-all cursor-pointer shrink-0 ml-1.5"
+        title="Show info"
+      >
+        i
+      </button>
+    );
+  };
+
+  const renderInfoBanner = (sectionId: string, title: string, description: string) => {
+    if (openInfoSection !== sectionId) return null;
+    return (
+      <div className="mx-6 mt-4 p-3.5 bg-amber-500/5 border border-amber-500/15 text-amber-200/90 text-xs rounded-xl flex items-start gap-2.5 animate-[fadeIn_0.2s_ease-out] shrink-0" onClick={(e) => e.stopPropagation()}>
+        <span className="text-sm select-none">ℹ️</span>
+        <div>
+          <p className="font-extrabold uppercase tracking-wider text-[9px] text-amber-400">About {title}</p>
+          <p className="mt-0.5 leading-normal opacity-80">{description}</p>
+        </div>
+      </div>
+    );
+  };
   const renderShopify = () => (
     <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('shopify')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
@@ -1592,6 +1640,7 @@ try {
                   <h3 onClick={() => toggleSection('shopify')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#96bf48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                   Shopify Sales
+                  {renderInfoToggle('shopify')}
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -1634,6 +1683,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('shopify', 'Shopify Sales', 'Track real-time Shopify store order statistics, sales charts, and recent drop activity over custom date ranges.')}
               <div style={{ display: isSectionOpen('shopify') ? undefined : 'none' }}>
                 {shopifyLoading ? (
                 <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
@@ -1682,6 +1732,7 @@ try {
                       <table className="w-full text-left">
                         <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
                           <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
+                          <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
                           <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
                           <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
                           <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
@@ -1694,6 +1745,16 @@ try {
                                   {p.image && <img src={p.image} alt="" className="w-8 h-8 rounded object-cover border border-white/10" />}
                                   <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
                                 </div>
+                              </td>
+                              <td className="px-4 py-3 text-center">
+                                <button
+                                  type="button"
+                                  onClick={() => openQrModal(p)}
+                                  className="inline-flex items-center justify-center p-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
+                                  title="View & Print QR Code"
+                                >
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                </button>
                               </td>
                               <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
                               <td className="px-4 py-3 text-right">
@@ -1903,6 +1964,7 @@ try {
                       <table className="w-full text-left">
                         <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
                           <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
+                          <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
                           <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
                           <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
                           <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
@@ -1915,6 +1977,16 @@ try {
                                   {p.image && <img src={p.image} alt="" className="w-8 h-8 rounded object-cover border border-white/10" />}
                                   <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
                                 </div>
+                              </td>
+                              <td className="px-4 py-3 text-center">
+                                <button
+                                  type="button"
+                                  onClick={() => openQrModal(p)}
+                                  className="inline-flex items-center justify-center p-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
+                                  title="View & Print QR Code"
+                                >
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                </button>
                               </td>
                               <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
                               <td className="px-4 py-3 text-right">
@@ -1943,6 +2015,7 @@ try {
                   <h3 onClick={() => toggleSection('toursync')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                     Tour Dates Sync
+                    {renderInfoToggle('toursync')}
                   </h3>
                 </div>
                 <div className="flex items-center gap-3">
@@ -1955,6 +2028,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('toursync', 'Tour Dates Sync', 'Scrape legacy tour dates, run geocoding parsing, and sync them seamlessly to Sanity CMS and Supabase database.')}
               <div style={{ display: isSectionOpen('toursync') ? undefined : 'none' }} className="p-6">
                 <p className="text-sm text-white/40 mb-6 leading-relaxed">
                   Automatically scrapes the legacy 7th Heaven website (<a href="https://7thheavenband.com/tour.html" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com/tour.html</a>), extracts dates and venues, parses the location data, geocodes coordinates using nominatim cache, and syncs both Sanity CMS & Supabase database.
@@ -2026,6 +2100,7 @@ try {
                   <h3 onClick={() => toggleSection('bookings')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                   Booking Requests
+                  {renderInfoToggle('bookings')}
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -2035,6 +2110,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('bookings', 'Booking Requests', 'Manage client booking requests, review contact details, proposal prices, dates, and approve or decline reservations.')}
               <div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
                 <div className="p-0">
                 {bookings.length === 0 ? (
@@ -2163,6 +2239,7 @@ try {
                   <h3 onClick={() => toggleSection('planners')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                   Event Planners Directory
+                  {renderInfoToggle('planners')}
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -2174,6 +2251,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('planners', 'Event Planners Directory', 'Browse the list of event planners, view their contact information, and review past and current booking requests.')}
               <div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
                 <div className="p-0" data-lenis-prevent="true">
                 {bookings.length === 0 ? (
@@ -2244,6 +2322,7 @@ try {
                   <h3 onClick={() => toggleSection('photomod')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                   Fan Photo Moderation Queue
+                  {renderInfoToggle('photomod')}
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -2253,6 +2332,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('photomod', 'Fan Photo Moderation Queue', 'Review fan-submitted concert and show photos, check compliance, and approve or reject them for the public photo wall.')}
               <div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
                 <div className="p-0">
                 {moderationQueue.length === 0 ? (
@@ -2305,6 +2385,7 @@ try {
                   <h3 onClick={() => toggleSection('memorymod')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/><path d="M12 8v4l3 3"/></svg>
                     Memory Moderation Queue
+                    {renderInfoToggle('memorymod')}
                   </h3>
                 </div>
                 <div className="flex items-center gap-3">
@@ -2317,6 +2398,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('memorymod', 'Memory Moderation Queue', 'Review fan memories, stories, and concert anecdotes before they are published to the public website timeline.')}
               <div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="p-6">
                 {memoryQueue.length === 0 ? (
                   <div className="p-10 text-center text-white/30 text-sm">
@@ -2374,6 +2456,7 @@ try {
           <h3 onClick={() => toggleSection('featuredtrack')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/60"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
             Featured Song / Soundtrack Drop
+            {renderInfoToggle('featuredtrack')}
           </h3>
         </div>
         <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -2392,6 +2475,7 @@ try {
           </div>
         </div>
       </div>
+      {renderInfoBanner('featuredtrack', 'Featured Song / Soundtrack Drop', 'Upload and configure the band’s featured song release, edit track titles, lyrics, buy links, and toggle active soundtrack drops.')}
       <div style={{ display: isSectionOpen('featuredtrack') ? undefined : 'none' }} className="p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side: Upload Form */}
@@ -2744,6 +2828,7 @@ try {
                   <h3 onClick={() => toggleSection('referral')} className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
                     <span className="text-lg">🤝</span>
                     Referral Program
+                    {renderInfoToggle('referral')}
                   </h3>
                 </div>
                 <div className="flex items-center gap-3">
@@ -2752,6 +2837,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('referral', 'Referral Program', 'Track and manage user referrals, check invitation statistics, and monitor referral rewards and levels.')}
               <div style={{ display: isSectionOpen('referral') ? undefined : 'none' }} className="p-6">
                 <ReferralProgramPanel />
               </div>
@@ -2768,6 +2854,7 @@ try {
                   <h3 onClick={() => toggleSection('livealerts')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
                   Active Live Streams
+                  {renderInfoToggle('livealerts')}
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -2777,6 +2864,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('livealerts', 'Active Live Streams', 'Monitor active video feeds and broadcast room channels in real time, view subscriber notifications, and manage stream controls.')}
               <div style={{ display: isSectionOpen('livealerts') ? undefined : 'none' }}>
                 <div className="p-0">
                 {isLoading ? (
@@ -2849,7 +2937,10 @@ try {
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
                   </div>
-                  <h3 onClick={() => toggleSection('smsblast')} className="cursor-pointer text-lg font-bold tracking-tight text-white">SMS Proximity Blast</h3>
+                  <h3 onClick={() => toggleSection('smsblast')} className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                    SMS Proximity Blast
+                    {renderInfoToggle('smsblast')}
+                  </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
                   <div className="flex items-center gap-4">
@@ -2882,6 +2973,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('smsblast', 'SMS Proximity Blast', 'Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues.')}
               <div style={{ display: isSectionOpen('smsblast') ? undefined : 'none' }}>
                 {/* Auto-blast info bar */}
               <div className={`px-6 py-3 border-b border-white/5 flex items-center justify-between ${smsAutoBlast ? 'bg-emerald-500/5' : 'bg-white/[0.01]'}`}>
@@ -3116,6 +3208,7 @@ try {
                   <h3 onClick={() => toggleSection('crewsms')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   🛡️ Crew SMS Alert
+                  {renderInfoToggle('crewsms')}
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -3125,6 +3218,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('crewsms', 'Crew SMS Alert', 'Broadcast instant SMS alerts, shift notifications, or urgent calendar changes directly to all registered crew members.')}
               <div style={{ display: isSectionOpen('crewsms') ? undefined : 'none' }}>
                 <div className="p-6">
                 <p className="text-[0.7rem] text-white/40 mb-4">
@@ -3279,6 +3373,7 @@ try {
                   <h3 onClick={() => toggleSection('newsletter')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                   Newsletter Blast
+                  {renderInfoToggle('newsletter')}
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -3288,6 +3383,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('newsletter', 'Newsletter Blast', 'Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers.')}
               <div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
                 <div className="p-6">
                 <div className="space-y-4">
@@ -3365,6 +3461,7 @@ try {
                   <h3 onClick={() => toggleSection('registry')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                   Community Registry
+                  {renderInfoToggle('registry')}
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -3384,6 +3481,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('registry', 'Community Registry', 'Search and manage all user accounts registered in the database, view roles, and configure site settings.')}
               <div style={{ display: isSectionOpen('registry') ? undefined : 'none' }}>
                 <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
                 {isLoading ? (
@@ -3516,7 +3614,10 @@ try {
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
                   </div>
-                  <h3 onClick={() => toggleSection('crewcreation')} className="cursor-pointer text-lg font-bold tracking-tight text-white">Create Crew Account</h3>
+                  <h3 onClick={() => toggleSection('crewcreation')} className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                    Create Crew Account
+                    {renderInfoToggle('crewcreation')}
+                  </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
                   
@@ -3525,6 +3626,7 @@ try {
                   </div>
                 </div>
               </div>
+              {renderInfoBanner('crewcreation', 'Create Crew Account', 'Create and register new crew members in the system, set contact information, and provision login credentials.')}
               <div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
                 <div className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
@@ -3670,7 +3772,10 @@ try {
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
           </div>
-          <h3 onClick={() => toggleSection('admincreation')} className="cursor-pointer text-lg font-bold tracking-tight text-white">Create Admin Account</h3>
+          <h3 onClick={() => toggleSection('admincreation')} className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            Create Admin Account
+            {renderInfoToggle('admincreation')}
+          </h3>
         </div>
         <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
           <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('admincreation') ? 'rotate-0' : '-rotate-90')}>
@@ -3678,6 +3783,7 @@ try {
           </div>
         </div>
       </div>
+      {renderInfoBanner('admincreation', 'Create Admin Account', 'Register new band administrator or planner accounts with full database access and management permissions.')}
       <div style={{ display: isSectionOpen('admincreation') ? undefined : 'none' }}>
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
@@ -3777,8 +3883,41 @@ try {
   const addScheduleItem = () => {
     if (!draggedCrewMemberId || !activeDropDay) return;
 
+    const activeAssignments = Object.entries(selectedCrewAssignments).filter(([_, val]) => val.active);
+
+    // Overlap validation
     if (editingShiftId) {
-      const activeAssignments = Object.entries(selectedCrewAssignments).filter(([_, val]) => val.active);
+      for (const [crewId, details] of activeAssignments) {
+        const sh = details.customized ? details.startHour : dropStartHour;
+        const eh = details.customized ? details.endHour : dropEndHour;
+        const overlapping = getOverlappingShifts(crewId, activeDropDay, sh, eh, editingShiftId);
+        if (overlapping.length > 0) {
+          const name = findCrewName(crewId);
+          alert(`Cannot save shift: ${name} already has an overlapping shift (${overlapping[0].time}) scheduled on ${activeDropDay}.`);
+          return;
+        }
+      }
+    } else {
+      if (activeAssignments.length > 0) {
+        for (const [crewId, details] of activeAssignments) {
+          const overlapping = getOverlappingShifts(crewId, activeDropDay, details.startHour, details.endHour);
+          if (overlapping.length > 0) {
+            const name = findCrewName(crewId);
+            alert(`Cannot create shift: ${name} already has an overlapping shift (${overlapping[0].time}) scheduled on ${activeDropDay}.`);
+            return;
+          }
+        }
+      } else {
+        const overlapping = getOverlappingShifts(draggedCrewMemberId, activeDropDay, dropStartHour, dropEndHour);
+        if (overlapping.length > 0) {
+          const name = findCrewName(draggedCrewMemberId);
+          alert(`Cannot create shift: ${name} already has an overlapping shift (${overlapping[0].time}) scheduled on ${activeDropDay}.`);
+          return;
+        }
+      }
+    }
+
+    if (editingShiftId) {
       const firstActiveAssignment = activeAssignments[0];
       const firstActiveCrewId = firstActiveAssignment?.[0] || 'openshifts';
       const firstActiveDetails = firstActiveAssignment?.[1];
@@ -3799,7 +3938,8 @@ try {
               time: formatTimeFrame(sh, eh),
               role: r.toUpperCase(),
               location: dropLocation,
-              notes: dropNotes
+              notes: dropNotes,
+              isCoverageRequested: false
             };
           }
           return item;
@@ -3836,7 +3976,6 @@ try {
         return updated;
       });
     } else {
-      const activeAssignments = Object.entries(selectedCrewAssignments).filter(([_, val]) => val.active);
       
       setSchedules(current => {
         let updated = [...current];
@@ -3910,6 +4049,17 @@ try {
     });
   };
 
+  const getOverlappingShifts = (crewId: string, date: string, startHour: number, endHour: number, excludeShiftId?: string) => {
+    if (crewId === 'openshifts') return [];
+    return schedules.filter(s => 
+      s.crewId === crewId && 
+      s.date === date && 
+      s.id !== excludeShiftId &&
+      s.startHour < endHour && 
+      s.endHour > startHour
+    );
+  };
+
   // Merge static and dynamic lists
   const findCrewName = (crewId: string) => {
     if (crewId === 'openshifts') return 'OpenShifts';
@@ -3947,7 +4097,11 @@ try {
       { id: 'emily', name: 'Emily Hafften', role: 'SERVER', maxHours: 32, avatar: '/images/crew/emily.png' },
       { id: 'emma', name: 'Emma Smid', role: 'LINE COOK', maxHours: 40, avatar: '/images/crew/emma.png' },
       { id: 'erin', name: 'Erin Eagan', role: 'POSITION', maxHours: 40, avatar: '/images/crew/erin.png' },
-      { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png' }
+      { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png' },
+      { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff' },
+      { id: 'sammy', name: 'Sammy D', role: 'SERVER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff' },
+      { id: 'ryan', name: 'Ryan K', role: 'BUSSER', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff' },
+      { id: 'tony', name: 'Tony M', role: 'LINE COOK', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff' }
     ];
 
     const foundStatic = staticCrew.find(sc => sc.id === crewId);
@@ -4019,7 +4173,11 @@ try {
       { id: 'emily', name: 'Emily Hafften', role: 'SERVER', maxHours: 32, avatar: '/images/crew/emily.png' },
       { id: 'emma', name: 'Emma Smid', role: 'LINE COOK', maxHours: 40, avatar: '/images/crew/emma.png' },
       { id: 'erin', name: 'Erin Eagan', role: 'POSITION', maxHours: 40, avatar: '/images/crew/erin.png' },
-      { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png' }
+      { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png' },
+      { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff' },
+      { id: 'sammy', name: 'Sammy D', role: 'SERVER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff' },
+      { id: 'ryan', name: 'Ryan K', role: 'BUSSER', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff' },
+      { id: 'tony', name: 'Tony M', role: 'LINE COOK', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff' }
     ];
 
     const dynamicCrew = users
@@ -4320,6 +4478,19 @@ try {
       const dragData = e.dataTransfer.getData("text/plain");
       if (dragData.startsWith("shift:")) {
         const shiftId = dragData.split(":")[1];
+        
+        // Overlap validation
+        const draggedShift = schedules.find(s => s.id === shiftId);
+        if (draggedShift && crewId !== 'openshifts') {
+          const overlapping = getOverlappingShifts(crewId, dateStr, draggedShift.startHour, draggedShift.endHour, shiftId);
+          if (overlapping.length > 0) {
+            const member = crewMembers.find(c => c.id === crewId);
+            const memberName = member ? member.name : crewId;
+            alert(`Cannot reassign shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${dateStr}.`);
+            return;
+          }
+        }
+
         setSchedules(current => {
           const updated = current.map(s => {
             if (s.id === shiftId) {
@@ -4381,8 +4552,38 @@ try {
       setSelectedCrewAssignments(initialAssignments);
     };
 
+    const handleSelectCoverageRequest = (shift: any) => {
+      // 1. Calculate the Monday of the shift's week to update currentWeekStart
+      const shiftDate = new Date(shift.date + 'T12:00:00');
+      if (!isNaN(shiftDate.getTime())) {
+        const day = shiftDate.getDay();
+        const diff = shiftDate.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(shiftDate.setDate(diff));
+        setCurrentWeekStart(monday);
+      }
+      
+      // Reset onlyShowFitRole filter to true when opening a coverage request
+      setOnlyShowFitRole(true);
+      
+      // 2. Open the shift modal/sidebar
+      handleEditShiftClick(shift);
+
+      // 3. Scroll to the shift and trigger a pulsing visual cue
+      setTimeout(() => {
+        const element = document.getElementById(`shift-card-${shift.id}`) || document.getElementById(`shift-card-timeline-${shift.id}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+          element.classList.add('coverage-highlight-glow');
+          setTimeout(() => {
+            element.classList.remove('coverage-highlight-glow');
+          }, 4000);
+        }
+      }, 350);
+    };
+
     const handleEditShiftClick = (shift: any) => {
       setDrawerCrewSearch('');
+      setShowEligibleCoverageList(false);
       setEditingShiftId(shift.id);
       setDraggedCrewMemberId(shift.crewId);
       setActiveDropDay(shift.date);
@@ -4432,6 +4633,7 @@ try {
       return (
         <div
           key={shift.id}
+          id={`shift-card-${shift.id}`}
           draggable
           onDragStart={(e) => {
             e.stopPropagation();
@@ -4501,13 +4703,18 @@ try {
               </span>
             ) : null}
 
-            <div className="mt-1.5 flex items-center justify-start">
+            <div className="mt-1.5 flex items-center justify-start gap-1 flex-wrap">
               <span
                 style={{ backgroundColor: roleStyle.tagBg }}
                 className="px-1.5 py-0.5 rounded text-[7.5px] font-black uppercase tracking-wider leading-none text-white/90"
               >
                 {roleStyle.label}
               </span>
+              {shift.isCoverageRequested && (
+                <span className="px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-wider leading-none bg-red-500/20 border border-red-500/35 text-red-300 animate-pulse">
+                  ⏳ Coverage
+                </span>
+              )}
             </div>
           </div>
 
@@ -4836,6 +5043,28 @@ try {
                         <CrewAvatar member={member} />
                         <div className="min-w-0 wiw-tooltip-container">
                           <p className="text-sm font-bold text-white/80 truncate">{member.name}</p>
+                          <div className="mt-1">
+                            {(() => {
+                              const r = (member.role || 'Crew Member').toUpperCase();
+                              let colorClass = "text-white/60 bg-white/5 border-white/10";
+                              if (r.includes("AUDIO") || r.includes("MIX")) {
+                                colorClass = "text-violet-400 bg-violet-500/10 border-violet-500/25";
+                              } else if (r.includes("SERVER") || r.includes("HOST")) {
+                                colorClass = "text-pink-400 bg-pink-500/10 border-pink-500/25";
+                              } else if (r.includes("CHEF") || r.includes("COOK")) {
+                                colorClass = "text-emerald-400 bg-emerald-500/10 border-emerald-500/25";
+                              } else if (r.includes("MANAGER")) {
+                                colorClass = "text-amber-400 bg-amber-500/10 border-amber-500/25";
+                              } else if (r.includes("BUSSER")) {
+                                colorClass = "text-sky-400 bg-sky-500/10 border-sky-500/25";
+                              }
+                              return (
+                                <span className={`inline-block px-1.5 py-0.5 text-[8.5px] font-black tracking-wider rounded border uppercase ${colorClass}`}>
+                                  {member.role || 'Crew'}
+                                </span>
+                              );
+                            })()}
+                          </div>
                           
                           <div className="flex items-center gap-1.5 mt-1.5">
                             {member.id === 'al' ? (
@@ -4973,6 +5202,19 @@ try {
                   const dragData = e.dataTransfer.getData("text/plain");
                   if (dragData.startsWith("shift:")) {
                     const shiftId = dragData.split(":")[1];
+                    
+                    // Overlap validation
+                    const draggedShift = schedules.find(s => s.id === shiftId);
+                    if (draggedShift && draggedShift.crewId !== 'openshifts') {
+                      const overlapping = getOverlappingShifts(draggedShift.crewId, day.dateStr, draggedShift.startHour, draggedShift.endHour, shiftId);
+                      if (overlapping.length > 0) {
+                        const member = crewMembers.find(c => c.id === draggedShift.crewId);
+                        const memberName = member ? member.name : draggedShift.crewId;
+                        alert(`Cannot move shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${day.dateStr}.`);
+                        return;
+                      }
+                    }
+
                     setSchedules(current => {
                       const updated = current.map(s => {
                         if (s.id === shiftId) {
@@ -5101,6 +5343,19 @@ try {
                       const dragData = e.dataTransfer.getData("text/plain");
                       if (dragData.startsWith("shift:")) {
                         const shiftId = dragData.split(":")[1];
+                        
+                        // Overlap validation
+                        const draggedShift = schedules.find(s => s.id === shiftId);
+                        if (draggedShift && draggedShift.crewId !== 'openshifts') {
+                          const overlapping = getOverlappingShifts(draggedShift.crewId, day.dateStr, draggedShift.startHour, draggedShift.endHour, shiftId);
+                          if (overlapping.length > 0) {
+                            const member = crewMembers.find(c => c.id === draggedShift.crewId);
+                            const memberName = member ? member.name : draggedShift.crewId;
+                            alert(`Cannot move shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${day.dateStr}.`);
+                            return;
+                          }
+                        }
+
                         setSchedules(current => {
                           const updated = current.map(s => {
                             if (s.id === shiftId) {
@@ -5122,6 +5377,7 @@ try {
                       return (
                         <div
                           key={shift.id}
+                          id={`shift-card-timeline-${shift.id}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleEditShiftClick(shift);
@@ -5467,97 +5723,44 @@ try {
                   </div>
                 </div>
 
-                {/* Tour Date Picker */}
-                <div className="relative">
-                  <select
-                    value={selectedTourDate || ''}
-                    onChange={(e) => {
-                      const chosenDate = e.target.value;
-                      if (!chosenDate) {
-                        setSelectedTourDate(null);
-                        return;
-                      }
-                      setSelectedTourDate(chosenDate);
-                      // Jump to that week
-                      const chosen = new Date(chosenDate + 'T12:00:00');
-                      const day = chosen.getDay();
-                      const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
-                      setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
-                    }}
-                    className="appearance-none pr-8 pl-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[180px]"
-                  >
-                    <option value="">📅 All Tour Dates</option>
-                    {[...tourDates]
-                      .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
-                      .map((show, idx) => {
-                        const d = show.date ? new Date(show.date + 'T12:00:00') : null;
-                        const label = d
-                          ? `${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — ${show.venue || show.venue_name || ''}`
-                          : show.venue || show.venue_name || '';
-                        return (
-                          <option key={idx} value={show.date || ''}>{label}</option>
-                        );
-                      })}
-                  </select>
-                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* View and actions */}
-              <div className="flex items-center gap-2 flex-wrap">
-                <div className="flex items-center border border-white/10 bg-black/40 rounded-lg shadow-sm p-0.5 mr-2">
-                  <button
-                    type="button"
-                    onClick={() => setCalendarView('timeline')}
-                    className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-colors cursor-pointer border-none ${
-                      calendarView === 'timeline'
-                        ? 'bg-white/10 text-white'
-                        : 'text-white/40 hover:text-white bg-transparent'
-                    }`}
-                  >
-                    Grid
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCalendarView('roster')}
-                    className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-colors cursor-pointer border-none ${
-                      calendarView === 'roster'
-                        ? 'bg-white/10 text-white'
-                        : 'text-white/40 hover:text-white bg-transparent'
-                    }`}
-                  >
-                    Roster Board
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCalendarView('list')}
-                    className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-colors cursor-pointer border-none ${
-                      calendarView === 'list'
-                        ? 'bg-white/10 text-white'
-                        : 'text-white/40 hover:text-white bg-transparent'
-                    }`}
-                  >
-                    Daily Lists
-                  </button>
-                </div>
-
-                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
-                </button>
-                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                </button>
-                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                </button>
-                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                </button>
-                <button type="button" className="p-2 border border-white/10 bg-black/40 hover:bg-white/5 rounded-lg shadow-sm text-white/40 hover:text-white cursor-pointer flex items-center justify-center border-solid">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-                </button>
+                {/* ⏳ Coverage Requests Dropdown */}
+                {(() => {
+                  const coverageRequests = schedules.filter(s => s.isCoverageRequested);
+                  return (
+                    <div className="relative">
+                      <select
+                        value=""
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (!val) return;
+                          const shift = schedules.find(s => s.id === val);
+                          if (shift) {
+                            handleSelectCoverageRequest(shift);
+                          }
+                        }}
+                        className="appearance-none pr-8 pl-3 py-1.5 border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-xs font-bold text-red-400 hover:text-red-300 rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[190px]"
+                      >
+                        <option value="" className="text-white/40">🚨 {coverageRequests.length} Coverage {coverageRequests.length === 1 ? 'Request' : 'Requests'}</option>
+                        {coverageRequests.map(shift => {
+                          const member = crewMembers.find(m => m.id === shift.crewId);
+                          const name = member ? member.name : shift.crewName || shift.crewId;
+                          const dateObj = new Date(shift.date + 'T12:00:00');
+                          const dateLabel = !isNaN(dateObj.getTime())
+                            ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                            : shift.date;
+                          return (
+                            <option key={shift.id} value={shift.id} className="text-white bg-[#111116]">
+                              {name} — {shift.role} — {dateLabel}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-red-400">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             </div>
 
@@ -5655,9 +5858,16 @@ try {
                                 )}
                               </div>
                               {shiftCount > 0 && (
-                                <span className="text-[8px] font-black bg-emerald-500/15 text-emerald-400/70 px-1.5 py-0.5 rounded shrink-0">
-                                  {shiftCount}
-                                </span>
+                                <div className="relative group/badge shrink-0">
+                                  <span className="text-[8px] font-black bg-emerald-500/15 text-emerald-400/70 px-1.5 py-0.5 rounded cursor-help">
+                                    {shiftCount}
+                                  </span>
+                                  {/* Tooltip */}
+                                  <div className="absolute right-0 bottom-full mb-1.5 opacity-0 invisible group-hover/badge:opacity-100 group-hover/badge:visible transition-all duration-150 bg-[#1c1d22] text-white text-[9px] font-bold py-1 px-2 rounded border border-slate-700/50 shadow-xl whitespace-nowrap z-50 pointer-events-none flex items-center gap-1">
+                                    <span>ℹ️</span>
+                                    <span>{shiftCount} active {shiftCount === 1 ? 'shift' : 'shifts'} scheduled</span>
+                                  </div>
+                                </div>
                               )}
                             </button>
                           );
@@ -5797,6 +6007,7 @@ try {
 
             {/* Shift Config Modal / Side Drawer */}
             {activeDropDay && draggedCrewMemberId && (() => {
+              const editingShift = schedules.find(s => s.id === editingShiftId);
               const showFormDetails = !!editingShiftId || Object.values(selectedCrewAssignments).some(a => a.active);
               return (
                 <div className="fixed inset-0 bg-black/30 z-50 flex justify-end animate-[fadeIn_0.2s_ease]">
@@ -5838,7 +6049,217 @@ try {
                   </div>
 
                   {/* Modal Form */}
-                  <div className="p-5 flex-1 flex flex-col min-h-0 overflow-hidden space-y-4">
+                  <div className="p-5 flex-1 overflow-y-auto space-y-4 pr-1">
+                    
+                    {/* Coverage Request Alert / Control */}
+                    {(() => {
+                      const editingShift = schedules.find(s => s.id === editingShiftId);
+                      if (!editingShift) return null;
+                      
+                      if (!editingShift.isCoverageRequested) {
+                        return (
+                          <div className="shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSchedules(current => {
+                                  const updated = current.map(s => {
+                                    if (s.id === editingShiftId) {
+                                      return { ...s, isCoverageRequested: true };
+                                    }
+                                    return s;
+                                  });
+                                  localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                                  window.dispatchEvent(new Event('storage'));
+                                  fetch("/api/crew/calendar", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify(updated)
+                                  }).catch(err => console.error("Failed to sync schedules:", err));
+                                  return updated;
+                                });
+                              }}
+                              className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-xl text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                            >
+                              <span>🙋</span> Request Coverage
+                            </button>
+                          </div>
+                        );
+                      }
+                      
+                      // If coverage is requested:
+                      return (
+                        <div className="shrink-0 bg-red-500/10 border border-red-500/30 rounded-xl p-4 space-y-3">
+                          <div className="flex items-center justify-between gap-3 text-red-400">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm">🚨</span>
+                              <div>
+                                <p className="text-xs font-black uppercase tracking-wider">Coverage Requested</p>
+                                <p className="text-[10px] text-white/60 mt-0.5">
+                                  <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
+                                </p>
+                              </div>
+                            </div>
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                setSchedules(current => {
+                                  const updated = current.map(s => {
+                                    if (s.id === editingShiftId) {
+                                      return { ...s, isCoverageRequested: false };
+                                    }
+                                    return s;
+                                  });
+                                  localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                                  window.dispatchEvent(new Event('storage'));
+                                  fetch("/api/crew/calendar", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify(updated)
+                                  }).catch(err => console.error("Failed to sync schedules:", err));
+                                  return updated;
+                                });
+                              }}
+                              className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 text-[9px] font-black uppercase tracking-wider rounded border border-red-500/30 transition-colors"
+                            >
+                              Clear
+                            </button>
+                          </div>
+
+                          <div className="border-t border-white/5 pt-3 space-y-2.5">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-black uppercase tracking-wider text-white/50">Assign Coverage:</span>
+                              
+                              {/* Tab/Toggle for Fit Role vs Override */}
+                              <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/15">
+                                <button
+                                  type="button"
+                                  onClick={() => setOnlyShowFitRole(true)}
+                                  className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
+                                    onlyShowFitRole 
+                                      ? 'bg-amber-500 text-black font-black' 
+                                      : 'text-white/60 hover:text-white'
+                                  }`}
+                                >
+                                  🎯 Fit Role ({editingShift.role})
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setOnlyShowFitRole(false)}
+                                  className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
+                                    !onlyShowFitRole 
+                                      ? 'bg-red-500/20 text-red-300 border border-red-500/30 font-black' 
+                                      : 'text-white/60 hover:text-white'
+                                  }`}
+                                >
+                                  ⚠️ Override (All)
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* List of candidates */}
+                            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                              {(() => {
+                                const candidates = crewMembers
+                                  .filter(m => m.id !== 'openshifts' && m.id !== editingShift.crewId)
+                                  .filter(m => {
+                                    if (onlyShowFitRole) {
+                                      return (m.role || '').toUpperCase() === (editingShift.role || '').toUpperCase();
+                                    }
+                                    return true;
+                                  });
+
+                                if (candidates.length === 0) {
+                                  return (
+                                    <p className="text-[10px] text-white/40 italic py-1">
+                                      {onlyShowFitRole 
+                                        ? `No other crew members have the role '${editingShift.role}'` 
+                                        : 'No other crew members available'}
+                                    </p>
+                                  );
+                                }
+
+                                return candidates.map(member => {
+                                  const overlaps = getOverlappingShifts(
+                                    member.id,
+                                    editingShift.date,
+                                    editingShift.startHour,
+                                    editingShift.endHour,
+                                    editingShift.id
+                                  );
+                                  const isOverlapping = overlaps.length > 0;
+
+                                  return (
+                                    <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-5 h-5 rounded-full bg-white/10 overflow-hidden flex items-center justify-center text-[9px] font-bold text-white uppercase">
+                                          {member.avatar ? (
+                                            <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                                          ) : (
+                                            member.initials || member.name[0]
+                                          )}
+                                        </div>
+                                        <div>
+                                          <span className="text-xs font-bold text-white block leading-tight">{member.name}</span>
+                                          <div className="flex items-center gap-1.5 mt-0.5">
+                                            <span className="text-[8px] text-white/40 uppercase tracking-wider font-bold block">{member.role || 'Crew'}</span>
+                                            {isOverlapping && (
+                                              <span className="px-1 py-0.2 rounded text-[7px] font-black uppercase tracking-wider bg-red-500/20 border border-red-500/35 text-red-400">
+                                                ⚠️ Overlaps {overlaps[0].time}
+                                              </span>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <button
+                                        type="button"
+                                        disabled={isOverlapping}
+                                        onClick={() => {
+                                          // Reassign shift to this member
+                                          setSchedules(current => {
+                                            const updated = current.map(s => {
+                                              if (s.id === editingShiftId) {
+                                                return { 
+                                                  ...s, 
+                                                  crewId: member.id, 
+                                                  crewName: member.name,
+                                                  isCoverageRequested: false 
+                                                };
+                                              }
+                                              return s;
+                                            });
+                                            localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                                            window.dispatchEvent(new Event('storage'));
+                                            fetch("/api/crew/calendar", {
+                                              method: "POST",
+                                              headers: { "Content-Type": "application/json" },
+                                              body: JSON.stringify(updated)
+                                            }).catch(err => console.error("Failed to sync schedules:", err));
+                                            
+                                            // Close sidebar after successful reassign
+                                            setActiveDropDay(null);
+                                            setDraggedCrewMemberId(null);
+                                            setEditingShiftId(null);
+                                            return updated;
+                                          });
+                                        }}
+                                        className={`px-2 py-1 text-[9px] font-black uppercase tracking-wider rounded transition-colors border-none ${
+                                          isOverlapping
+                                            ? 'bg-white/5 text-white/20 cursor-not-allowed'
+                                            : 'bg-amber-500 hover:bg-amber-400 text-black cursor-pointer'
+                                        }`}
+                                      >
+                                        Assign
+                                      </button>
+                                    </div>
+                                  );
+                                });
+                              })()}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
                     
                     {/* Tour Date Show Card Info */}
                     {(() => {
@@ -5861,7 +6282,8 @@ try {
                     })()}
 
                     {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
-                    <div className="flex-1 min-h-0 flex flex-col">
+                    {!(editingShift && editingShift.isCoverageRequested) && (
+                      <div className="flex flex-col shrink-0">
                       <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</label>
                       
                       {/* Search and Grouping Controls */}
@@ -5923,12 +6345,22 @@ try {
                         )}
                       </div>
 
-                      <div className="space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0">
+                      <div className="space-y-2.5 pr-1 overflow-y-auto max-h-60 border border-white/5 bg-black/10 rounded-xl p-2.5">
                         {crewMembers
                           .filter(m => m.id !== 'openshifts')
                           .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
                           .map((member) => {
                             const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'SERVER', startHour: dropStartHour, endHour: dropEndHour };
+                            
+                            const overlaps = getOverlappingShifts(
+                              member.id,
+                              activeDropDay || '',
+                              assignment.startHour,
+                              assignment.endHour,
+                              editingShiftId || undefined
+                            );
+                            const isOverlapping = overlaps.length > 0;
+
                             return (
                               <div
                                 key={member.id}
@@ -5939,9 +6371,10 @@ try {
                                 }`}
                               >
                                 <div className="flex items-center justify-between">
-                                  <label className="flex items-center gap-3 cursor-pointer select-none">
+                                  <label className="flex items-center gap-3 select-none">
                                     <input
                                       type="checkbox"
+                                      disabled={isOverlapping && !assignment.active}
                                       checked={assignment.active}
                                       onChange={(e) => {
                                         const checked = e.target.checked;
@@ -5956,7 +6389,9 @@ try {
                                           }
                                         }));
                                       }}
-                                      className="rounded border-white/10 bg-black/40 text-amber-500 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
+                                      className={`rounded border-white/10 bg-black/40 text-amber-500 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 ${
+                                        isOverlapping && !assignment.active ? 'opacity-20 cursor-not-allowed' : 'cursor-pointer'
+                                      }`}
                                     />
                                     <div className="flex items-center gap-2">
                                       <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[9px] font-bold text-white uppercase overflow-hidden font-sans">
@@ -5966,7 +6401,14 @@ try {
                                           member.initials || member.name[0]
                                         )}
                                       </div>
-                                      <span className="text-xs font-bold text-white/95 font-sans">{member.name}</span>
+                                      <div>
+                                        <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
+                                        {isOverlapping && (
+                                          <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
+                                            ⚠️ Overlaps: {overlaps[0].time}
+                                          </span>
+                                        )}
+                                      </div>
                                     </div>
                                   </label>
                                   
@@ -6040,9 +6482,8 @@ try {
 
                                     <div>
                                       <span className="text-[0.55rem] font-bold text-white/40 block mb-1 uppercase tracking-wider">Specific Role / Duty</span>
-                                      <input
-                                        type="text"
-                                        value={assignment.role}
+                                      <select
+                                        value={assignment.role || 'SERVER'}
                                         onChange={(e) => {
                                           const r = e.target.value;
                                           setSelectedCrewAssignments(prev => ({
@@ -6053,9 +6494,29 @@ try {
                                             }
                                           }));
                                         }}
-                                        placeholder="e.g. CAMERA, AUDIO MIX"
-                                        className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold uppercase tracking-wide font-sans"
-                                      />
+                                        className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold uppercase tracking-wide font-sans cursor-pointer"
+                                      >
+                                        <option value="BAND SETUP">🎸 Band Setup</option>
+                                        <option value="MERCH TABLE">🛍️ Merch Table</option>
+                                        <option value="STAGE HAND">🔧 Stage Hand</option>
+                                        <option value="TEAR DOWN">📦 Tear Down</option>
+                                        <option value="AUDIO MIX">🎛️ Audio Mix</option>
+                                        <option value="LIGHTS">💡 Lights</option>
+                                        <option value="CAMERA">🎥 Camera</option>
+                                        <option value="UNLOADING">🚚 Unloading</option>
+                                        <option value="SERVER">🍽️ Server</option>
+                                        <option value="CHEF">👨‍🍳 Chef</option>
+                                        <option value="LINE COOK">🍳 Line Cook</option>
+                                        <option value="MANAGER">💼 Manager</option>
+                                        <option value="BUSSER">🧹 Busser</option>
+                                        {assignment.role && ![
+                                          "BAND SETUP", "MERCH TABLE", "STAGE HAND", "TEAR DOWN",
+                                          "AUDIO MIX", "LIGHTS", "CAMERA", "UNLOADING",
+                                          "SERVER", "CHEF", "LINE COOK", "MANAGER", "BUSSER"
+                                        ].includes(assignment.role.toUpperCase()) && (
+                                          <option value={assignment.role}>{assignment.role}</option>
+                                        )}
+                                      </select>
                                     </div>
                                   </div>
                                 )}
@@ -6064,9 +6525,10 @@ try {
                           })}
                       </div>
                     </div>
+                    )}
 
                     {/* Form Fields block */}
-                    <div className="space-y-4 shrink-0 mt-2 overflow-y-auto max-h-[45%] pr-1">
+                    <div className="space-y-4 shrink-0 mt-2 pr-1">
                       {showFormDetails && (
                       <>
                         <div className="grid grid-cols-2 gap-4">
@@ -6383,9 +6845,8 @@ try {
                                     {/* Role */}
                                     <div className="flex flex-col gap-0.5">
                                       <span className="text-[8px] font-bold text-white/35 uppercase tracking-wider">Role</span>
-                                      <input
-                                        type="text"
-                                        value={setting.role}
+                                      <select
+                                        value={setting.role || 'SERVER'}
                                         onChange={(e) => {
                                           const r = e.target.value;
                                           setNewGroupMemberSettings(prev => ({
@@ -6396,8 +6857,29 @@ try {
                                             }
                                           }));
                                         }}
-                                        className="px-2 py-1 bg-black border border-white/10 text-[9px] text-white rounded outline-none font-bold uppercase w-[85px] tracking-wide"
-                                      />
+                                        className="px-1.5 py-1 bg-black border border-white/10 text-[9px] text-white rounded outline-none font-bold uppercase w-[85px] tracking-wide cursor-pointer"
+                                      >
+                                        <option value="BAND SETUP">🎸 Setup</option>
+                                        <option value="MERCH TABLE">🛍️ Merch</option>
+                                        <option value="STAGE HAND">🔧 Hand</option>
+                                        <option value="TEAR DOWN">📦 Tear</option>
+                                        <option value="AUDIO MIX">🎛️ Audio</option>
+                                        <option value="LIGHTS">💡 Lights</option>
+                                        <option value="CAMERA">🎥 Camera</option>
+                                        <option value="UNLOADING">🚚 Unload</option>
+                                        <option value="SERVER">🍽️ Server</option>
+                                        <option value="CHEF">👨‍🍳 Chef</option>
+                                        <option value="LINE COOK">🍳 Cook</option>
+                                        <option value="MANAGER">💼 Mngr</option>
+                                        <option value="BUSSER">🧹 Busser</option>
+                                        {setting.role && ![
+                                          "BAND SETUP", "MERCH TABLE", "STAGE HAND", "TEAR DOWN",
+                                          "AUDIO MIX", "LIGHTS", "CAMERA", "UNLOADING",
+                                          "SERVER", "CHEF", "LINE COOK", "MANAGER", "BUSSER"
+                                        ].includes(setting.role.toUpperCase()) && (
+                                          <option value={setting.role}>{setting.role.slice(0,6)}</option>
+                                        )}
+                                      </select>
                                     </div>
 
                                     {/* Start Time */}
@@ -6666,6 +7148,16 @@ return (
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes coveragePulseGlow {
+          0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+          50% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+          100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .coverage-highlight-glow {
+          animation: coveragePulseGlow 1.5s ease-in-out infinite;
+          border: 2px solid #ef4444 !important;
+          z-index: 50 !important;
+        }
       `}</style>
       
       {/* Floating Quick Scroll Nav / Toggle Button */}
@@ -7761,6 +8253,225 @@ return (
           email={firstLoginEmail}
           onComplete={() => setShowSetPassword(false)}
         />
+      )}
+
+      {selectedQrProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
+          <style dangerouslySetInnerHTML={{ __html: `
+            @media print {
+              html, body, main, #__next, div:not(.print-tag-container):not(.print-tag-card):not(.print-tag-card *) {
+                background: white !important;
+                color: black !important;
+                visibility: hidden !important;
+                height: auto !important;
+              }
+              .no-print {
+                display: none !important;
+              }
+              .print-tag-container {
+                visibility: visible !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+              }
+              .print-tag-card {
+                visibility: visible !important;
+                border: 2px dashed #000000 !important;
+                background: white !important;
+                color: black !important;
+                width: 4in !important;
+                height: 6in !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 2rem !important;
+                box-sizing: border-box !important;
+                page-break-inside: avoid !important;
+              }
+            }
+          `}} />
+
+          <div className="bg-[#0f0f13] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-[scaleIn_0.2s_ease-out]">
+            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20">
+              <div>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  Print Merchandise QR Code
+                </h3>
+                <p className="text-xs text-white/40 mt-1">Generate printable retail labels for the merch table</p>
+              </div>
+              <button 
+                onClick={() => setSelectedQrProduct(null)} 
+                className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar">
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-accent)] mb-4">1. Select Target Destination</h4>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Link Destination Type</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setQrLinkType('product')}
+                          className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-all cursor-pointer ${
+                            qrLinkType === 'product'
+                              ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
+                              : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
+                          }`}
+                        >
+                          Product Detail Page
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setQrLinkType('checkout')}
+                          disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
+                          className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-all cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${
+                            qrLinkType === 'checkout'
+                              ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
+                              : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
+                          }`}
+                        >
+                          Direct Add to Cart
+                        </button>
+                      </div>
+                    </div>
+
+                    {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
+                      <div>
+                        <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">
+                          {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
+                        </label>
+                        <select
+                          value={selectedQrVariant ? selectedQrProduct.variants.findIndex((v: any) => v.id === selectedQrVariant.id) : '-1'}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value);
+                            setSelectedQrVariant(val === -1 ? null : selectedQrProduct.variants[val]);
+                          }}
+                          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
+                        >
+                          {qrLinkType === 'product' && <option value="-1">All Variants (Standard Detail Page)</option>}
+                          {selectedQrProduct.variants.map((v: any, index: number) => (
+                            <option key={index} value={index}>
+                              {v.title} — ${v.price.toFixed(2)}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-accent)] mb-4">2. Customize Tag Label</h4>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Sub-label Text</label>
+                      <input
+                        type="text"
+                        value={qrSubtitle}
+                        onChange={(e) => setQrSubtitle(e.target.value)}
+                        placeholder="Official Merchandise"
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between p-3 bg-black/20 border border-white/5 rounded-xl">
+                      <div>
+                        <p className="text-xs font-bold text-white">Show Price Tag</p>
+                        <p className="text-[0.6rem] text-white/40">Include product price at the bottom of the card</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setQrIncludePrice(!qrIncludePrice)}
+                        className={`w-10 h-6 rounded-full p-1 transition-colors cursor-pointer ${qrIncludePrice ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}
+                      >
+                        <div className={`w-4 h-4 bg-white rounded-full transition-transform ${qrIncludePrice ? 'translate-x-4' : 'translate-x-0'}`} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl text-[0.65rem] leading-relaxed text-white/60">
+                  <span className="text-amber-400 font-bold block mb-1">💡 Pro-Tip for Merch Tables</span>
+                  Generate a **Direct Add to Cart** QR code for each specific size (e.g. Medium vs. Large). When fans scan it, the item is instantly added to their Shopify cart for immediate checkout, keeping the queue moving fast!
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center justify-center bg-black/30 border border-white/5 rounded-2xl p-6 md:p-8">
+                <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/30 mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
+                
+                <div className="print-tag-container">
+                  <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px] shadow-lg">
+                    <div className="text-center">
+                      <div className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-black/60 mb-0.5">7th Heaven</div>
+                      <div className="text-[0.5rem] font-bold uppercase tracking-wider text-black/40">{qrSubtitle || 'Official Merchandise'}</div>
+                    </div>
+
+                    <div className="text-center my-2">
+                      <div className="text-sm font-black uppercase tracking-wide leading-tight max-w-[200px] truncate">{selectedQrProduct.title}</div>
+                      {selectedQrVariant && (
+                        <div className="text-[0.55rem] font-bold text-black/50 uppercase mt-0.5">Size / Type: {selectedQrVariant.title}</div>
+                      )}
+                    </div>
+
+                    <div className="p-3 bg-white border border-black/10 rounded-xl flex items-center justify-center">
+                      <QRCode
+                        value={
+                          qrLinkType === 'checkout' && selectedQrVariant
+                            ? `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/cart/${selectedQrVariant.id.split('/').pop()}:1`
+                            : `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/products/${selectedQrProduct.handle}`
+                        }
+                        size={150}
+                        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                        viewBox="0 0 150 150"
+                      />
+                    </div>
+
+                    <div className="text-center w-full">
+                      <p className="text-[0.55rem] font-black uppercase tracking-widest text-black/40 mb-2">Scan to Buy Now</p>
+                      {qrIncludePrice && (
+                        <div className="text-lg font-black border-t border-black/10 pt-2 text-black">
+                          ${(selectedQrVariant ? selectedQrVariant.price : selectedQrProduct.minPrice).toFixed(2)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-white/5 bg-black/20 flex items-center justify-end gap-3">
+              <button
+                onClick={() => setSelectedQrProduct(null)}
+                className="px-4 py-2 text-xs font-bold text-white/60 hover:text-white uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_15px_rgba(133,29,239,0.3)] border border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                Print Label
+              </button>
+            </div>
+          </div>
+        </div>
       )}
       </div>
     </div>

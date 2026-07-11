@@ -194,6 +194,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const [userId, setUserId] = useState('');
   const [role, setRole] = useState<'fan' | 'crew' | 'admin'>('crew');
   const [email, setEmail] = useState('');
+  const [isBroadcastPanelCollapsed, setIsBroadcastPanelCollapsed] = useState(false);
+  const [isScheduleCollapsed, setIsScheduleCollapsed] = useState(false);
+  const [isSetlistCollapsed, setIsSetlistCollapsed] = useState(false);
 
   // --- Work Schedule State ---
   const [crewSchedules, setCrewSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; isDraft?: boolean; approvalStatus?: 'pending' | 'approved' | 'declined'; declineReason?: string; isCoverageRequested?: boolean }[]>([]);
@@ -1919,58 +1922,95 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── EXACT HEADER LAYOUT ─── */}
       <header className="border-b border-white/[0.04] bg-[#050508]/50">
         <div className="site-container py-5 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center text-xl font-bold border border-purple-500 relative">
-            {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-black" />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-bold italic tracking-tight">{displayName}</span>
-              <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-black uppercase tracking-widest rounded flex items-center gap-1">🇮🇹 Crew</span>
-              
-              <div className="ml-6 flex items-center gap-2">
-                <span className="text-[10px] text-white/50 uppercase font-bold tracking-widest">Switch Feed:</span>
-                <select 
-                  className="bg-[#1c1c24] border border-white/10 rounded px-2 py-1 text-xs text-white outline-none focus:border-purple-500 hover:bg-white/5 transition-colors cursor-pointer"
-                  onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
-                  value={`/crew-${defaultMemberId || memberSlug}`}
-                >
-                  {Object.values(MEMBER_SEEDS).map(member => (
-                    <option key={member.id} value={`/crew-${member.id}`}>{member.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <Link
-                href={`/live/${defaultMemberId || memberSlug}`}
-                target="_blank"
-                className="ml-4 px-3 py-1 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded transition-colors flex items-center gap-1.5"
-              >
-                <span>See Fan Feed Page</span>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                </svg>
-              </Link>
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center text-xl font-bold border border-purple-500 relative">
+              {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-black" />
             </div>
-            <span className="text-xs text-white/40">{email}</span>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <span className="text-xl font-bold italic tracking-tight">{displayName}</span>
+                <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-black uppercase tracking-widest rounded flex items-center gap-1">🇮🇹 Crew</span>
+              </div>
+              <span className="text-xs text-white/40">{email}</span>
+            </div>
           </div>
-        </div>
-        <div className="px-4 py-2 bg-red-900/30 border border-red-500/30 rounded-full flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-          <span className="text-xs font-bold text-red-500 uppercase tracking-widest">{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
-        </div>
         </div>
       </header>
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
       <div className="site-container py-8 space-y-6">
 
+        {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
+        <div className="bg-[#111116]/80 border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300">
+           {/* Accordion Toggle Header */}
+           <div 
+             onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
+             className="p-5 border-b border-white/[0.05] flex items-center justify-between bg-[#181820] cursor-pointer select-none hover:bg-[#1f1f2a] transition-all group"
+           >
+              <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎥</div>
+                 <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <div>
+                       <h3 className="text-sm font-black italic tracking-wide text-white">
+                          Live Broadcast & Feed Center
+                       </h3>
+                       <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">
+                          Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls
+                       </p>
+                    </div>
+                    
+                    {/* Live/Offline status pill button in the feed container */}
+                    <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-white/5 border-white/10 text-white/40'}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
+                      <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
+                    </div>
+                 </div>
+              </div>
+              <div className="flex items-center gap-3">
+                 <span className="text-xs font-bold text-white/40 uppercase tracking-wider hidden sm:inline">
+                   {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
+                 </span>
+                 <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
+                    ▼
+                 </div>
+              </div>
+           </div>
 
-        <div className="flex items-center gap-2 text-white/50 text-sm uppercase tracking-widest font-black">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-          Crew Broadcast <span className="text-white/20 px-2">·</span> <span className="text-xs">{viewerCount} viewers</span>
-        </div>
+           {/* Collapsible Content */}
+           {!isBroadcastPanelCollapsed && (
+              <div className="p-6 space-y-6 bg-black/40">
+                {/* Switch Feed and Fan page links moved from header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-white/5 bg-[#14141c]/60">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-white/50 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
+                    <select 
+                      className="bg-[#1c1c24] border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-purple-500 hover:bg-white/5 transition-colors cursor-pointer"
+                      onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
+                      value={`/crew-${defaultMemberId || memberSlug}`}
+                    >
+                      {Object.values(MEMBER_SEEDS).map(member => (
+                        <option key={member.id} value={`/crew-${member.id}`}>{member.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <Link
+                    href={`/live/${defaultMemberId || memberSlug}`}
+                    target="_blank"
+                    className="px-4 py-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 self-start sm:self-auto"
+                  >
+                    <span>See Fan Feed Page</span>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                    </svg>
+                  </Link>
+                </div>
+
+                <div className="flex items-center gap-2 text-white/50 text-sm uppercase tracking-widest font-black">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                  Crew Broadcast <span className="text-white/20 px-2">·</span> <span className="text-xs">{viewerCount} viewers</span>
+                </div>
 
         {/* Callout Link - Only visible when stream is LIVE */}
         {isLive && (
@@ -2184,7 +2224,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                      onChange={e => setContent(e.target.value)}
                      onKeyDown={e => e.key === 'Enter' && handlePost()}
                      placeholder="Type a message..."
-                     className="w-full bg-[#1c1c24] border border-white/5 rounded-full px-5 py-3 pr-24 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#ec4899]/50 transition-colors"
+                     className="w-full bg-[#1c1c24] border border-white/5 rounded-full px-5 py-2.5 pr-24 text-xs text-white placeholder:text-white/30 outline-none focus:border-[#ec4899]/50 transition-colors"
                    />
                    <div className="absolute right-2 top-2 bottom-2 flex items-center gap-1">
                       <button 
@@ -2199,424 +2239,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       </button>
                    </div>
                 </div>
-              </div>
-           </div>
-        </div>
-      
-        {/* ─── YOUR WORK SCHEDULE CARD ─── */}
-          {(() => {
-            const myShifts = crewSchedules.filter(s => s.crewId === slug);
-            const pendingShifts = myShifts.filter(s => s.approvalStatus === 'pending');
-            const activeShifts = myShifts;
-            const coverageShifts = crewSchedules.filter(s => 
-              s.isCoverageRequested === true &&
-              s.crewId !== slug &&
-              isQualifiedForRole(slug, s.role)
-            );
-
-            return (
-              <>
-                <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-                   <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
-                      <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xl">📅</div>
-                         <div>
-                            <h3 className="text-sm font-black italic tracking-wide text-white">Your Work Schedule</h3>
-                            <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Assigned shifts, locations & responsibilities</p>
-                         </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setEmailSubject('General Scheduling Inquiry');
-                            setEmailMessage(`Hi Admin,\n\n[Your message here]`);
-                            setIsEmailModalOpen(true);
-                          }}
-                          className="px-3 py-1 bg-amber-500 hover:bg-amber-400 text-black rounded-full text-xs font-black uppercase tracking-widest cursor-pointer border-none transition-colors flex items-center gap-1"
-                        >
-                          📧 Contact Admins
-                        </button>
-                        {pendingShifts.length > 0 && (
-                          <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
-                            {pendingShifts.length} Pending
-                          </span>
-                        )}
-                        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full text-xs font-black uppercase tracking-widest">
-                          {activeShifts.length} Shifts
-                        </span>
-                      </div>
-                   </div>
-                   <div className="p-6">
-                     {/* Calendar Feed Subscription Utility */}
-                     <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 rounded-xl flex items-center justify-between gap-4 flex-col sm:flex-row">
-                       <div className="flex items-start gap-3">
-                         <span className="text-lg mt-0.5">🗓️</span>
-                         <div>
-                           <p className="text-xs font-bold text-purple-300">Sync with Google & Apple Calendar</p>
-                           <p className="text-[10px] text-white/50 mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
-                         </div>
-                       </div>
-                       <button
-                         onClick={() => {
-                           const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
-                           navigator.clipboard.writeText(icsUrl);
-                           alert("📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.");
-                         }}
-                         className="px-4 py-2 bg-purple-500 hover:bg-purple-400 text-black text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1.5 shrink-0"
-                       >
-                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                         Copy Feed URL
-                       </button>
-                     </div>
-  
-                     {activeShifts.length === 0 ? (
-                       <div className="text-center py-8 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
-                          <p className="text-white/30 text-xs italic">You have no upcoming work shifts scheduled.</p>
-                       </div>
-                     ) : (
-                       <div className="flex flex-col gap-3">
-                         {activeShifts.map((shift) => {
-                           const dateObj = new Date(shift.date + 'T00:00:00');
-                           const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                           const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
-                           const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-  
-                           return (
-                             <div 
-                               key={shift.id} 
-                               className="p-4 bg-black/40 border border-white/10 rounded-xl hover:border-white/20 hover:bg-white/[0.01] transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
-                             >
-                               {/* Date & Time Column */}
-                               <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
-                                 <div className="w-11 h-11 rounded-lg bg-amber-500/10 border border-amber-500/20 flex flex-col items-center justify-center text-center shrink-0">
-                                   <span className="text-[8px] text-amber-400 font-black uppercase tracking-wider">{month}</span>
-                                   <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
-                                 </div>
-                                 <div className="flex flex-col">
-                                   <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
-                                   <span className="text-xs font-black text-amber-400 mt-0.5">{shift.time}</span>
-                                 </div>
-                               </div>
-  
-                               {/* Role & Location Column */}
-                               <div className="flex-1 min-w-[200px]">
-                                 <div className="flex items-center gap-2 flex-wrap">
-                                   <span className="px-2 py-0.5 bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded">
-                                     {shift.role}
-                                   </span>
-                                   <span className="text-xs font-black text-white/80">
-                                     📍 {shift.location}
-                                   </span>
-                                 </div>
-                               </div>
-  
-                               {/* Status Badge & Action Column */}
-                               <div className="shrink-0 min-w-[140px] text-left md:text-right flex items-center md:justify-end">
-                                 {shift.approvalStatus === 'approved' || !shift.approvalStatus ? (
-                                   <div className="flex items-center gap-2">
-                                     <span className="px-2 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-emerald-400">
-                                       ✓ Approved
-                                     </span>
-                                     {shift.isCoverageRequested ? (
-                                       <span className="px-2 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-purple-500/10 border-purple-500/30 text-purple-300 animate-pulse">
-                                         ⏳ Coverage Requested
-                                       </span>
-                                     ) : (
-                                       <>
-                                         <button
-                                           type="button"
-                                           onClick={() => {
-                                             setEmailSubject(`Approved Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                             setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my approved shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
-                                             setIsEmailModalOpen(true);
-                                           }}
-                                           className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                         >
-                                           ✉️ Email Admin
-                                         </button>
-                                         <button
-                                           type="button"
-                                           onClick={() => handleRequestCoverage(shift.id)}
-                                           className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                         >
-                                           🙋 Request Coverage
-                                         </button>
-                                       </>
-                                     )}
-                                   </div>
-                                 ) : shift.approvalStatus === 'declined' ? (
-                                   <div className="flex items-center gap-2">
-                                     <span className="px-2 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
-                                       ✗ Declined
-                                     </span>
-                                     <button
-                                       type="button"
-                                       onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                       className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                     >
-                                       Approve
-                                     </button>
-                                     <button
-                                       type="button"
-                                       onClick={() => {
-                                         setEmailSubject(`Declined Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                         setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.\n\nReason for decline: ${shift.declineReason || ''}\n\n[Your message here]`);
-                                         setIsEmailModalOpen(true);
-                                       }}
-                                       className="px-2 py-0.5 bg-amber-500 hover:bg-amber-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                     >
-                                       ✉️ Email Admin
-                                     </button>
-                                   </div>
-                                 ) : (
-                                   <div className="flex items-center gap-1.5">
-                                     <button
-                                       type="button"
-                                       onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                       className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                     >
-                                       Approve
-                                     </button>
-                                     <button
-                                       type="button"
-                                       onClick={() => {
-                                         setDecliningShiftId(shift.id);
-                                         setIsDeclineModalOpen(true);
-                                       }}
-                                       className="px-2.5 py-1 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer"
-                                     >
-                                       Decline
-                                     </button>
-                                     <button
-                                       type="button"
-                                       onClick={() => {
-                                         setEmailSubject(`Pending Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                         setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
-                                         setIsEmailModalOpen(true);
-                                       }}
-                                       className="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                     >
-                                       ✉️ Email Admin
-                                     </button>
-                                   </div>
-                                 )}
-                               </div>
-  
-                               {/* Instructions/Notes Column */}
-                               {shift.notes || shift.declineReason ? (
-                                 <div className="flex-1 md:max-w-[40%] bg-white/[0.02] border border-white/[0.04] p-3 rounded-lg space-y-1">
-                                   {shift.notes && (
-                                     <>
-                                       <p className="text-[9px] text-white/40 font-bold uppercase tracking-wider">Instructions:</p>
-                                       <p className="text-xs text-white/60 leading-relaxed mt-0.5 italic">“{shift.notes}”</p>
-                                     </>
-                                   )}
-                                   {shift.declineReason && (
-                                     <>
-                                       <p className="text-[9px] text-rose-400/60 font-bold uppercase tracking-wider">Decline Reason:</p>
-                                       <p className="text-xs text-rose-300/80 leading-relaxed mt-0.5 italic">“{shift.declineReason}”</p>
-                                     </>
-                                   )}
-                                 </div>
-                               ) : (
-                                 <div className="hidden md:block flex-1 md:max-w-[40%] text-right">
-                                   <span className="text-[10px] text-white/20 italic">No special instructions</span>
-                                 </div>
-                               )}
-                             </div>
-                           );
-                         })}
-                       </div>
-                     )}
-                   </div>
-                </div>
-  
-                {/* Available Shift Coverage Requests */}
-                {coverageShifts.length > 0 && (
-                  <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-                    <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl">🚨</div>
-                        <div>
-                          <h3 className="text-sm font-black italic tracking-wide text-white">Available Shift Coverage Requests</h3>
-                          <p className="text-xs font-bold text-white/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
-                        </div>
-                      </div>
-                      <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
-                        {coverageShifts.length} Available
-                      </span>
-                    </div>
-                    <div className="p-6 flex flex-col gap-3">
-                      {coverageShifts.map((shift) => {
-                        const dateObj = new Date(shift.date + 'T00:00:00');
-                        const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                        const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
-                        const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-  
-                        return (
-                          <div 
-                            key={shift.id} 
-                            className="p-4 bg-purple-950/10 border border-purple-500/20 rounded-xl hover:border-purple-500/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
-                          >
-                            {/* Date & Time */}
-                            <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
-                              <div className="w-11 h-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
-                                <span className="text-[8px] text-purple-400 font-black uppercase tracking-wider">{month}</span>
-                                <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
-                              </div>
-                              <div className="flex flex-col">
-                                <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
-                                <span className="text-xs font-black text-purple-400 mt-0.5">{shift.time}</span>
-                              </div>
-                            </div>
-  
-                            {/* Role & Location */}
-                            <div className="flex-1 min-w-[200px]">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="px-2 py-0.5 bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[9px] font-black uppercase tracking-wider rounded">
-                                  {shift.role}
-                                </span>
-                                <span className="text-xs font-black text-white/80">
-                                  📍 {shift.location}
-                                </span>
-                                <span className="text-[10px] text-purple-300/80 italic ml-1">
-                                  (For: {shift.crewName})
-                                </span>
-                              </div>
-                            </div>
-  
-                            {/* Action Column */}
-                            <div className="shrink-0 min-w-[120px] text-left md:text-right flex items-center md:justify-end gap-2">
-                              <button
-                                type="button"
-                                onClick={() => handleAcceptCoverage(shift.id)}
-                                className="px-3 py-1.5 bg-purple-500 hover:bg-purple-400 text-black text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
-                              >
-                                🙋 Accept Shift
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </>
-            );
-          })()}
-
-        {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-        <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-           <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
-              <div className="flex items-center gap-3">
-                 <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-xl">📊</div>
-                 <div>
-                    <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
-                    <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
-                 </div>
-              </div>
-              {isLive && (
-                 <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
-                    ● Live Tracking
-                 </span>
-              )}
-           </div>
-
-           <div className="p-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                 
-                 {/* shopify sales card */}
-                 <div className="p-4 bg-gradient-to-br from-[#291e14] to-[#0c0c11] border border-amber-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-amber-500/40 transition-all duration-300 col-span-1">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-amber-500">🛍️ Merch Sales Revenue</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">${liveSalesRevenue.toFixed(2)}</p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">{liveSalesCount} purchases during broadcast</p>
-                 </div>
-
-                 {/* viewers card */}
-                 <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border border-emerald-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300 col-span-1">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-emerald-400">👁️ Live Viewers</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">{viewerCount}</p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">{isLive ? "Watching live right now" : "Offline"}</p>
-                 </div>
-
-                 {/* chat engagement card */}
-                 <div className="p-4 bg-gradient-to-br from-[#17172b] to-[#0c0c11] border border-[#8a1cfc]/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-[#8a1cfc]/40 transition-all duration-300">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#8a1cfc]/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-[#c084fc]">💭 Chat Engagement</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">{posts.filter(p => Date.now() - p.timestamp < 60000).length} / min</p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">
-                       {new Set(posts.map(p => p.account?.displayName || p.account?.name || 'Guest').filter(n => n !== 'RAFFLE BOT' && n !== '🛍️ STORE BOT')).size} active chatters · {posts.length} total
-                    </p>
-                 </div>
-
-              </div>
-           </div>
-        </div>
-
-        {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
-        <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-           <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[#181820]">
-              <div className="w-10 h-10 rounded-xl bg-[#ec4899]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
-              <div>
-                 <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
-                 <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
-              </div>
-           </div>
-           
-           <div className="p-4 space-y-4">
-              <div className="flex flex-col lg:flex-row gap-6 items-start">
-                 <div className="flex-1 min-w-0 w-full space-y-2">
-                    <h4 className="text-xs font-black uppercase tracking-widest text-[#ec4899]">🔍 Custom Flagged Keywords</h4>
-                    <p className="text-white/40 text-xs leading-relaxed">
-                       Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
-                    </p>
-
-                    <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-md mt-2">
-                       <input
-                         type="text"
-                         value={newCustomWord}
-                         onChange={e => setNewCustomWord(e.target.value)}
-                         placeholder="e.g. ticket-scalper"
-                         className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
-                       />
-                       <button
-                         type="submit"
-                         className="px-5 py-2.5 bg-[#ec4899] hover:bg-[#d83f87] text-black font-black text-xs uppercase tracking-wider rounded-xl transition-all"
-                       >
-                         Add Keyword
-                       </button>
-                    </form>
-                 </div>
-
-                 <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                    <p className="text-xs font-black uppercase tracking-widest text-white/40">Active Custom Filters</p>
-                    {customWords.length === 0 ? (
-                       <div className="text-center py-6 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
-                          <p className="text-white/20 text-xs italic">No custom keywords configured.</p>
-                       </div>
-                    ) : (
-                       <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
-                          {customWords.map(word => (
-                             <span
-                               key={word}
-                               className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-white/80"
-                             >
-                                <span>{word}</span>
-                                <button
-                                  type="button"
-                                  onClick={() => handleRemoveCustomWord(word)}
-                                  className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors"
-                                >
-                                   &times;
-                                </button>
-                             </span>
-                          ))}
-                       </div>
-                    )}
-                 </div>
               </div>
            </div>
         </div>
@@ -2699,6 +2321,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                        {['2m', '5m', '10m', '15m'].map((d) => (
                          <button 
                            key={d}
+                           type="button"
                            onClick={() => setDropDurationStr(d)}
                            className={`text-center p-2 rounded border text-xs font-bold ${dropDurationStr === d ? 'bg-[#ec4899]/20 border-[#ec4899] text-[#ec4899]' : 'bg-[#1c1c24] border-white/10 text-white/40 hover:bg-white/5'}`}
                          >
@@ -2725,6 +2348,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  </label>
 
                  <button 
+                   type="button"
                    onClick={launchFlashDrop}
                    className="w-full py-4 bg-gradient-to-r from-[#ec4899] to-pink-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all"
                  >
@@ -2732,6 +2356,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  </button>
 
                  <button 
+                   type="button"
                    onClick={() => {
                      const testPayload = { name: '7TH HEAVEN HOODIE 2026', price: '45.00', stock: 0, image: '/images/mockups/merch_hoodie.png', duration: 300 };
                      localStorage.setItem('7h_flash_drop', JSON.stringify({ ...testPayload, ts: Date.now() }));
@@ -2756,6 +2381,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   </div>
                   {raffleStatus !== 'idle' && (
                     <button 
+                       type="button"
                        onClick={cancelRaffle} 
                        className="px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20"
                     >
@@ -2825,20 +2451,22 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             {/* Action Buttons */}
                             <div className="flex items-center gap-1.5">
                               <button 
+                                type="button"
                                 onClick={() => startSpecificRaffle(idx)}
                                 disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                 className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-2xs font-black uppercase tracking-wider rounded-md transition-all ${
                                   (raffleStatus === 'idle' || raffleStatus === 'complete')
                                   ? 'border-amber-500 text-amber-500 hover:bg-amber-500/10' 
                                   : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
-                                    ? 'border-amber-500/50 bg-amber-500/20 text-amber-500' // highlight active
-                                    : 'border-white/10 text-white/30 opacity-30 shadow-none' // dim inactive
+                                    ? 'border-amber-500/50 bg-amber-500/20 text-amber-500' 
+                                    : 'border-white/10 text-white/30 opacity-30 shadow-none' 
                                 }`}
                               >
                                 {idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'Running' : 'Start'}
                               </button>
 
                               <button 
+                                type="button"
                                 onClick={() => removeQueueItem(idx)}
                                 disabled={raffleStatus !== 'idle' || raffleQueue.length === 1}
                                 className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all disabled:opacity-0 text-xs"
@@ -2846,94 +2474,540 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 ✕
                               </button>
                             </div>
-                         </div>
-                      </div>
-                    ))}
-                    
-                    <button 
-                       onClick={addQueueItem}
-                       disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                       className="w-full py-2 border border-dashed border-white/20 text-white/40 text-xs font-bold uppercase tracking-widest rounded-md hover:border-white/40 hover:text-white/80 transition-colors disabled:opacity-30"
-                     >
-                       + Add Another Raffle To Queue
-                     </button>
-                 </div>
-                 </div>
-
-                 {raffleStatus === 'open' && (
-                    <div className="mt-2 text-center p-3 border border-amber-500/20 bg-amber-500/5 rounded-xl">
-                       <p className="text-lg font-black text-white italic mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
-                       <p className="text-xs font-bold text-amber-500 uppercase tracking-widest mt-0.5">Fan entries collected</p>
-                       <div className="flex flex-col gap-2 mt-4 px-2">
-                        <div className="flex gap-2">
-                           <button onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
-                           <button onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
+                           </div>
                         </div>
-                        <button 
-                          onClick={rigWinForMe} 
-                          className="w-full py-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-lg text-xs font-black text-emerald-400 uppercase tracking-[0.2em] transition-all"
-                        >
-                          🧪 TEST: Rig Win for Me
-                        </button>
-                     </div>
-                    </div>
-                 )}
-
-                 {/* Draw Action */}
-                 <div className="mt-auto">
-                    {raffleStatus !== 'complete' ? (
-                       <button 
-                         onClick={drawWinner}
-                         disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
-                         className="w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all disabled:opacity-30 disabled:grayscale"
+                      ))}
+                      
+                      <button 
+                         type="button"
+                         onClick={addQueueItem}
+                         disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                         className="w-full py-2 border border-dashed border-white/20 text-white/40 text-xs font-bold uppercase tracking-widest rounded-md hover:border-white/40 hover:text-white/80 transition-colors disabled:opacity-30"
                        >
-                         {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
+                         + Add Another Raffle To Queue
                        </button>
-                    ) : (
-                       <div className="bg-[#1c1c24] border border-amber-500/30 rounded-xl p-4 text-center">
-                         <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(245,158,11,0.5)]">🎉</div>
-                         <h4 className="text-lg font-black text-white italic">Winner Selected</h4>
-                         <div className="flex flex-col gap-2 justify-center mt-3">
-                           {drawnWinners.map((w, i) => (
-                              <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/30">
-                                <span className="text-sm font-black">{w.name}</span>
-                                <span className="text-xs font-mono font-bold tracking-widest text-amber-300">PIN: {winnerPins[i] || '0000'}</span>
-                              </div>
-                           ))}
-                         </div>
-                         {raffleAutoRestartCountdown !== null && (
-                            <p className="text-xs font-bold text-white/40 mt-3 pt-3 border-t border-white/10">
-                              Next raffle auto-starts in <span className="text-amber-500 font-mono text-xs">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
-                            </p>
-                         )}
+                   </div>
+                   </div>
+
+                   {raffleStatus === 'open' && (
+                      <div className="mt-2 text-center p-3 border border-amber-500/20 bg-amber-500/5 rounded-xl">
+                         <p className="text-lg font-black text-white italic mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
+                         <p className="text-xs font-bold text-amber-500 uppercase tracking-widest mt-0.5">Fan entries collected</p>
+                         <div className="flex flex-col gap-2 mt-4 px-2">
+                          <div className="flex gap-2">
+                             <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
+                             <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
+                          </div>
+                          <button 
+                            type="button"
+                            onClick={rigWinForMe} 
+                            className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg text-xs font-black text-emerald-400 uppercase tracking-[0.2em] transition-all"
+                          >
+                            🧪 TEST: Rig Win for Me
+                          </button>
                        </div>
-                    )}
+                      </div>
+                   )}
+
+                   {/* Draw Action */}
+                   <div className="mt-auto">
+                      {raffleStatus !== 'complete' ? (
+                         <button 
+                           type="button"
+                           onClick={drawWinner}
+                           disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
+                           className="w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all disabled:opacity-30 disabled:grayscale"
+                         >
+                           {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
+                         </button>
+                      ) : (
+                         <div className="bg-[#1c1c24] border border-amber-500/30 rounded-xl p-4 text-center">
+                           <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(245,158,11,0.5)]">🎉</div>
+                           <h4 className="text-lg font-black text-white italic">Winner Selected</h4>
+                           <div className="flex flex-col gap-2 justify-center mt-3">
+                             {drawnWinners.map((w, i) => (
+                                <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/30">
+                                  <span className="text-sm font-black">{w.name}</span>
+                                  <span className="text-xs font-mono font-bold tracking-widest text-amber-300 font-sans">PIN: {winnerPins[i] || '0000'}</span>
+                                </div>
+                             ))}
+                           </div>
+                           {raffleAutoRestartCountdown !== null && (
+                              <p className="text-xs font-bold text-white/40 mt-3 pt-3 border-t border-white/10">
+                                Next raffle auto-starts in <span className="text-amber-500 font-mono text-xs">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
+                              </p>
+                           )}
+                         </div>
+                      )}
+                   </div>
+                </div>
+             </div>
+          </div>
+
+        {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
+        <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
+           <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
+              <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-xl">📊</div>
+                 <div>
+                    <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
+                    <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
+                 </div>
+              </div>
+              {isLive && (
+                 <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                    ● Live Tracking
+                 </span>
+              )}
+           </div>
+
+           <div className="p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                 
+                 {/* shopify sales card */}
+                 <div className="p-4 bg-gradient-to-br from-[#291e14] to-[#0c0c11] border border-amber-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-amber-500/40 transition-all duration-300 col-span-1">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-amber-500">🛍️ Merch Sales Revenue</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">${liveSalesRevenue.toFixed(2)}</p>
+                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">{liveSalesCount} purchases during broadcast</p>
+                 </div>
+
+                 {/* viewers card */}
+                 <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border border-emerald-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300 col-span-1">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-emerald-400">👁️ Live Viewers</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">{viewerCount}</p>
+                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">{isLive ? "Watching live right now" : "Offline"}</p>
+                 </div>
+
+                 {/* chat engagement card */}
+                 <div className="p-4 bg-gradient-to-br from-[#17172b] to-[#0c0c11] border border-[#8a1cfc]/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-[#8a1cfc]/40 transition-all duration-300">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#8a1cfc]/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-[#c084fc]">💭 Chat Engagement</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">{posts.filter(p => Date.now() - p.timestamp < 60000).length} / min</p>
+                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">
+                       {new Set(posts.map(p => p.account?.displayName || p.account?.name || 'Guest').filter(n => n !== 'RAFFLE BOT' && n !== '🛍️ STORE BOT')).size} active chatters · {posts.length} total
+                    </p>
                  </div>
 
               </div>
            </div>
+        </div>
 
-           {/* LIVE SETLIST & FAN LIKES */}
-           <div className="xl:col-span-2 bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col min-h-[500px]">
-              <div className="p-4 border-b border-white/[0.05] flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-[#181820]">
+        {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
+        <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
+           <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[#181820]">
+              <div className="w-10 h-10 rounded-xl bg-[#ec4899]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
+               <div>
+                  <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
+                  <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+               </div>
+            </div>
+            
+            <div className="p-4 space-y-4">
+               <div className="flex flex-col lg:flex-row gap-6 items-start">
+                  <div className="flex-1 min-w-0 w-full space-y-2">
+                     <h4 className="text-xs font-black uppercase tracking-widest text-[#ec4899]">🔍 Custom Flagged Keywords</h4>
+                     <p className="text-white/40 text-xs leading-relaxed font-sans font-semibold">
+                        Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
+                     </p>
+
+                     <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-md mt-2">
+                        <input
+                          type="text"
+                          value={newCustomWord}
+                          onChange={e => setNewCustomWord(e.target.value)}
+                          placeholder="e.g. ticket-scalper"
+                          className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
+                        />
+                        <button
+                          type="submit"
+                          className="px-5 py-2.5 bg-[#ec4899] hover:bg-[#d83f87] text-black font-black text-xs uppercase tracking-wider rounded-xl transition-all"
+                        >
+                          Add Keyword
+                        </button>
+                     </form>
+                  </div>
+
+                  <div className="w-full lg:w-[450px] shrink-0 space-y-2">
+                     <p className="text-xs font-black uppercase tracking-widest text-white/40">Active Custom Filters</p>
+                     {customWords.length === 0 ? (
+                        <div className="text-center py-6 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
+                           <p className="text-white/20 text-xs italic">No custom keywords configured.</p>
+                        </div>
+                     ) : (
+                        <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
+                           {customWords.map(word => (
+                              <span
+                                key={word}
+                                className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-white/80"
+                              >
+                                 <span>{word}</span>
+                                 <button
+                                   type="button"
+                                   onClick={() => handleRemoveCustomWord(word)}
+                                   className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors"
+                                 >
+                                    &times;
+                                 </button>
+                              </span>
+                           ))}
+                        </div>
+                     )}
+                  </div>
+               </div>
+            </div>
+         </div>
+
+        </div>
+      )}
+    </div>
+      
+        {/* ─── YOUR WORK SCHEDULE CARD ─── */}
+          {(() => {
+            const myShifts = crewSchedules.filter(s => s.crewId === slug);
+            const pendingShifts = myShifts.filter(s => s.approvalStatus === 'pending');
+            const activeShifts = myShifts;
+            const coverageShifts = crewSchedules.filter(s => 
+              s.isCoverageRequested === true &&
+              s.crewId !== slug &&
+              isQualifiedForRole(slug, s.role)
+            );
+
+            return (
+              <>
+                <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
+                   <div 
+                     onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
+                     className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820] cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
+                   >
+                      <div className="flex items-center gap-3">
+                         <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">📅</div>
+                         <div>
+                            <h3 className="text-sm font-black italic tracking-wide text-white">Your Work Schedule</h3>
+                            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
+                         </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEmailSubject('General Scheduling Inquiry');
+                            setEmailMessage(`Hi Admin,\n\n[Your message here]`);
+                            setIsEmailModalOpen(true);
+                          }}
+                          className="px-3 py-1 bg-amber-500 hover:bg-amber-400 text-black rounded-full text-xs font-black uppercase tracking-widest cursor-pointer border-none transition-colors flex items-center gap-1"
+                        >
+                          📧 Contact Admins
+                        </button>
+                        {pendingShifts.length > 0 && (
+                          <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                            {pendingShifts.length} Pending
+                          </span>
+                        )}
+                        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full text-xs font-black uppercase tracking-widest">
+                          {activeShifts.length} Shifts
+                        </span>
+                      </div>
+                      
+                      <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}>
+                        ▼
+                      </div>
+                   </div>
+                   {!isScheduleCollapsed && (
+                      <div className="p-6">
+                     {/* Calendar Feed Subscription Utility */}
+                     <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 rounded-xl flex items-center justify-between gap-4 flex-col sm:flex-row">
+                       <div className="flex items-start gap-3">
+                         <span className="text-lg mt-0.5">🗓️</span>
+                         <div>
+                           <p className="text-xs font-bold text-purple-300">Sync with Google & Apple Calendar</p>
+                           <p className="text-[10px] text-white/50 mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
+                         </div>
+                       </div>
+                       <button
+                         onClick={() => {
+                           const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
+                           navigator.clipboard.writeText(icsUrl);
+                           alert("📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.");
+                         }}
+                         className="px-4 py-2 bg-purple-500 hover:bg-purple-400 text-black text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1.5 shrink-0"
+                       >
+                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                         Copy Feed URL
+                       </button>
+                     </div>
+  
+                     {activeShifts.length === 0 ? (
+                       <div className="text-center py-8 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
+                          <p className="text-white/30 text-xs italic">You have no upcoming work shifts scheduled.</p>
+                       </div>
+                     ) : (
+                       <div className="flex flex-col gap-3">
+                         {activeShifts.map((shift) => {
+                           const dateObj = new Date(shift.date + 'T00:00:00');
+                           const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                           const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
+                           const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+  
+                           return (
+                             <div 
+                               key={shift.id} 
+                               className="p-4 bg-black/40 border border-white/10 rounded-xl hover:border-white/20 hover:bg-white/[0.01] transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                             >
+                               {/* Date & Time Column */}
+                               <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
+                                 <div className="w-11 h-11 rounded-lg bg-amber-500/10 border border-amber-500/20 flex flex-col items-center justify-center text-center shrink-0">
+                                   <span className="text-[8px] text-amber-400 font-black uppercase tracking-wider">{month}</span>
+                                   <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                 </div>
+                                 <div className="flex flex-col">
+                                   <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
+                                   <span className="text-xs font-black text-amber-400 mt-0.5">{shift.time}</span>
+                                 </div>
+                               </div>
+  
+                               {/* Role & Location Column */}
+                               <div className="flex-1 min-w-[180px]">
+                                 <div className="flex items-center gap-2 flex-wrap">
+                                   <span className="px-1.5 py-0.5 bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[8px] font-black uppercase tracking-wider rounded">
+                                     {shift.role}
+                                   </span>
+                                   <span className="text-[11px] font-black text-white/80">
+                                     📍 {shift.location}
+                                   </span>
+                                 </div>
+                               </div>
+  
+                               {/* Status Badge & Action Column */}
+                               <div className="shrink-0 min-w-[140px] text-left md:text-right flex items-center md:justify-end">
+                                 {shift.approvalStatus === 'approved' || !shift.approvalStatus ? (
+                                   <div className="flex items-center gap-2">
+                                     <span className="px-1.5 py-0.5 rounded border text-[8px] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-emerald-400">
+                                       ✓ Approved
+                                     </span>
+                                     {shift.isCoverageRequested ? (
+                                       <span className="px-1.5 py-0.5 rounded border text-[8px] font-black uppercase tracking-wider shrink-0 bg-purple-500/10 border-purple-500/30 text-purple-300 animate-pulse">
+                                         ⏳ Coverage Requested
+                                       </span>
+                                     ) : (
+                                       <>
+                                         <button
+                                           type="button"
+                                           onClick={() => {
+                                             setEmailSubject(`Approved Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                             setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my approved shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
+                                             setIsEmailModalOpen(true);
+                                           }}
+                                           className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[8px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                         >
+                                           ✉️ Email Admin
+                                         </button>
+                                         <button
+                                           type="button"
+                                           onClick={() => handleRequestCoverage(shift.id)}
+                                           className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white text-[8px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                         >
+                                           🙋 Request Coverage
+                                         </button>
+                                       </>
+                                     )}
+                                   </div>
+                                 ) : shift.approvalStatus === 'declined' ? (
+                                   <div className="flex items-center gap-2">
+                                     <span className="px-1.5 py-0.5 rounded border text-[8px] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
+                                       ✗ Declined
+                                     </span>
+                                     <button
+                                       type="button"
+                                       onClick={() => handleShiftResponse(shift.id, 'approved')}
+                                       className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[8px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                     >
+                                       Approve
+                                     </button>
+                                     <button
+                                       type="button"
+                                       onClick={() => {
+                                         setEmailSubject(`Declined Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                         setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.\n\nReason for decline: ${shift.declineReason || ''}\n\n[Your message here]`);
+                                         setIsEmailModalOpen(true);
+                                       }}
+                                       className="px-2 py-0.5 bg-amber-500 hover:bg-amber-400 text-black text-[8px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                     >
+                                       ✉️ Email Admin
+                                     </button>
+                                   </div>
+                                 ) : (
+                                   <div className="flex items-center gap-1.5">
+                                     <button
+                                       type="button"
+                                       onClick={() => handleShiftResponse(shift.id, 'approved')}
+                                       className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black text-[8px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                     >
+                                       Approve
+                                     </button>
+                                     <button
+                                       type="button"
+                                       onClick={() => {
+                                         setDecliningShiftId(shift.id);
+                                         setIsDeclineModalOpen(true);
+                                       }}
+                                       className="px-1.5 py-0.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[8px] font-black uppercase tracking-wider rounded transition-all cursor-pointer"
+                                     >
+                                       Decline
+                                     </button>
+                                     <button
+                                       type="button"
+                                       onClick={() => {
+                                         setEmailSubject(`Pending Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                         setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
+                                         setIsEmailModalOpen(true);
+                                       }}
+                                       className="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white text-[8px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                     >
+                                       ✉️ Email Admin
+                                     </button>
+                                   </div>
+                                 )}
+                               </div>
+  
+                               {/* Instructions/Notes Column */}
+                               {shift.notes || shift.declineReason ? (
+                                 <div className="flex-1 md:max-w-[40%] bg-white/[0.02] border border-white/[0.04] p-3 rounded-lg space-y-1">
+                                   {shift.notes && (
+                                     <>
+                                       <p className="text-[9px] text-white/40 font-bold uppercase tracking-wider">Instructions:</p>
+                                       <p className="text-xs text-white/60 leading-relaxed mt-0.5 italic">“{shift.notes}”</p>
+                                     </>
+                                   )}
+                                   {shift.declineReason && (
+                                     <>
+                                       <p className="text-[9px] text-rose-400/60 font-bold uppercase tracking-wider">Decline Reason:</p>
+                                       <p className="text-xs text-rose-300/80 leading-relaxed mt-0.5 italic">“{shift.declineReason}”</p>
+                                     </>
+                                   )}
+                                 </div>
+                               ) : (
+                                 <div className="hidden md:block flex-1 md:max-w-[40%] text-right">
+                                   <span className="text-[10px] text-white/20 italic">No special instructions</span>
+                                 </div>
+                               )}
+                             </div>
+                           );
+                         })}
+                       </div>
+                     )}
+                   </div>
+                  )}
+                </div>
+  
+                {/* Available Shift Coverage Requests */}
+                {coverageShifts.length > 0 && (
+                  <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
+                    <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl">🚨</div>
+                        <div>
+                          <h3 className="text-sm font-black italic tracking-wide text-white">Available Shift Coverage Requests</h3>
+                          <p className="text-xs font-bold text-white/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
+                        </div>
+                      </div>
+                      <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                        {coverageShifts.length} Available
+                      </span>
+                    </div>
+                    <div className="p-6 flex flex-col gap-3">
+                      {coverageShifts.map((shift) => {
+                        const dateObj = new Date(shift.date + 'T00:00:00');
+                        const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                        const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
+                        const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+  
+                        return (
+                          <div 
+                            key={shift.id} 
+                            className="p-4 bg-purple-950/10 border border-purple-500/20 rounded-xl hover:border-purple-500/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                          >
+                            {/* Date & Time */}
+                            <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
+                              <div className="w-11 h-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
+                                <span className="text-[8px] text-purple-400 font-black uppercase tracking-wider">{month}</span>
+                                <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
+                                <span className="text-xs font-black text-purple-400 mt-0.5">{shift.time}</span>
+                              </div>
+                            </div>
+  
+                            {/* Role & Location */}
+                            <div className="flex-1 min-w-[200px]">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="px-2 py-0.5 bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[9px] font-black uppercase tracking-wider rounded">
+                                  {shift.role}
+                                </span>
+                                <span className="text-xs font-black text-white/80">
+                                  📍 {shift.location}
+                                </span>
+                                <span className="text-[10px] text-purple-300/80 italic ml-1">
+                                  (For: {shift.crewName})
+                                </span>
+                              </div>
+                            </div>
+  
+                            {/* Action Column */}
+                            <div className="shrink-0 min-w-[120px] text-left md:text-right flex items-center md:justify-end gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleAcceptCoverage(shift.id)}
+                                className="px-3 py-1.5 bg-purple-500 hover:bg-purple-400 text-black text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
+                              >
+                                🙋 Accept Shift
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </>
+            );
+          })()}
+
+
+
+{/* LIVE SETLIST & FAN LIKES */}
+           <div className={`xl:col-span-2 bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'}`}>
+              <div 
+                onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
+                className="p-4 border-b border-white/[0.05] flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-[#181820] cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
+              >
                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl">🎵</div>
+                    <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎵</div>
                     <div>
                        <h3 className="text-sm font-black italic tracking-wide text-white">Live Setlist & Fan Likes</h3>
-                       <p className="text-xs font-bold text-white/40 uppercase tracking-widest">
+                       <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">
                          Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                        </p>
                     </div>
                  </div>
-                 <button 
-                    onClick={resetSetlistLikes} 
-                    className="px-4 py-2 text-2xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
-                 >
-                    Reset Likes
-                 </button>
+                 <div className="flex items-center gap-3 self-end md:self-auto">
+                    <button 
+                       onClick={(e) => { e.stopPropagation(); resetSetlistLikes(); }} 
+                       className="px-4 py-2 text-2xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold"
+                    >
+                       Reset Likes
+                    </button>
+                    <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}>
+                      ▼
+                    </div>
+                 </div>
               </div>
               
-              <div className="p-4 flex-1 flex flex-col justify-between gap-4">
+              {!isSetlistCollapsed && (
+                 <div className="p-4 flex-1 flex flex-col justify-between gap-4">
                  
                  {/* Song rows */}
                  <div data-lenis-prevent className="space-y-1.5 max-h-[300px] overflow-y-auto pr-1">
@@ -3041,8 +3115,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   </div>
                  
               </div>
-           </div>
-
+           )}
         </div>
       </div>
       

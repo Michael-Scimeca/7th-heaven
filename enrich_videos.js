@@ -5,7 +5,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const API_KEY = "AIzaSyA7GhQ-rfoHABp68RtJzW-iVa5bOVmSEIU";
+const API_KEY = process.env.YOUTUBE_API_KEY || "";
 const DATA_PATH = path.join(__dirname, "public/data/videos.json");
 
 function parseDuration(iso) {

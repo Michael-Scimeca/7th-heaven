@@ -1,5 +1,0 @@
-const renderRosterBoard = () => {
-/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx:5397:                {calendarView === 'roster' && renderRosterBoard()}
-"
->/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx#%    const renderRosterBoard = () => {">/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx"
->/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx*B                {calendarView === 'roster' && renderRosterBoard()}">/Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx8@R/Applications/Antigravity IDE.app/Contents/Resources/app/node_modules/@vscode/ripgrep/bin/rg --no-heading --with-filename --line-number --fixed-strings --ignore-file=/Users/michaelscimeca/Desktop/7thHeaven/.antigravityignore renderRosterBoard /Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsxZEfile:///Users/michaelscimeca/Desktop/7thHeaven/src/app/admin/page.tsx

@@ -3,7 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["*.trycloudflare.com", "*.loca.lt", "*.lhr.life", "*.tunnelmole.net", "10.0.0.189", "localhost:3000"],
   experimental: {
-    viewTransition: true,
     proxyClientMaxBodySize: "50mb",
   },
   images: {
