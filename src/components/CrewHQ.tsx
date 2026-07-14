@@ -58,7 +58,21 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   const [search, setSearch]           = useState("");
   const [flagged, setFlagged]         = useState<Set<string>>(new Set());
   const [banned, setBanned]           = useState<Set<string>>(new Set());
+  const [warned, setWarned]           = useState<Set<string>>(new Set());
+  const [simActive, setSimActive]     = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
+
+  // ─── Custom Flagged Keywords State ────────────────────────────────
+  const [customWords, setCustomWords] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const stored = localStorage.getItem('7h_custom_flagged_words');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [newCustomWord, setNewCustomWord] = useState('');
 
   // ─── Notes ────────────────────────────────────────────────────────
   const [crewNotes, setCrewNotes]   = useState("");
@@ -130,10 +144,17 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       if (f) setFlagged(new Set(JSON.parse(f)));
       const b = localStorage.getItem("7h_banned_users");
       if (b) setBanned(new Set(JSON.parse(b)));
+      const w = localStorage.getItem("7h_warned_users");
+      if (w) setWarned(new Set(JSON.parse(w)));
       const n = localStorage.getItem(`7h_crew_notes_${slug}`);
       if (n) setCrewNotes(n);
       setModerationCount(parseInt(localStorage.getItem(`7h_mod_count_${slug}`) || "0"));
     } catch {}
+
+    fetch("/api/chat/simulate")
+      .then(r => r.json())
+      .then(d => setSimActive(d.active))
+      .catch(() => {});
 
     fetch("/api/shopify/orders?days=365").then(r => r.json()).then(d => {
       if (d.orders) {
@@ -178,7 +199,20 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       })
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    // Also subscribe to custom words sync events
+    const liveEventsChannel = supabase.channel('live_events')
+      .on('broadcast', { event: 'custom_words_sync' }, ({ payload }) => {
+        if (payload?.words) {
+          setCustomWords(payload.words);
+          try { localStorage.setItem('7h_custom_flagged_words', JSON.stringify(payload.words)); } catch {}
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+      supabase.removeChannel(liveEventsChannel);
+    };
   }, [userId]);
 
   // Auto-scroll feed to bottom on new messages
@@ -195,6 +229,37 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     return v;
   });
 
+  const handleAddCustomWord = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const w = newCustomWord.trim().toLowerCase();
+    if (!w || customWords.includes(w)) return;
+    const next = [...customWords, w];
+    setCustomWords(next);
+    setNewCustomWord('');
+    try {
+      localStorage.setItem('7h_custom_flagged_words', JSON.stringify(next));
+      // Broadcast via Supabase Realtime so other dashboards and fans get the update!
+      await supabase.channel('live_events').send({
+        type: 'broadcast',
+        event: 'custom_words_sync',
+        payload: { words: next }
+      });
+    } catch {}
+  };
+
+  const handleRemoveCustomWord = async (word: string) => {
+    const next = customWords.filter(w => w !== word);
+    setCustomWords(next);
+    try {
+      localStorage.setItem('7h_custom_flagged_words', JSON.stringify(next));
+      await supabase.channel('live_events').send({
+        type: 'broadcast',
+        event: 'custom_words_sync',
+        payload: { words: next }
+      });
+    } catch {}
+  };
+
   const handleFlag = (msgId: string) => {
     setFlagged(prev => {
       const next = new Set(prev);
@@ -205,8 +270,39 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     bumpMod();
   };
 
-  const handleBan = (senderName: string) => {
+  const handleWarn = async (senderName: string, room: string) => {
     if (!senderName || senderName === displayName) return;
+    const currentlyWarned = warned.has(senderName);
+    const action = currentlyWarned ? 'unwarn' : 'warn';
+
+    setWarned(prev => {
+      const next = new Set(prev);
+      if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
+      try { localStorage.setItem("7h_warned_users", JSON.stringify([...next])); } catch {}
+      return next;
+    });
+    bumpMod();
+
+    try {
+      const res = await fetch('/api/moderation/warn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: senderName, room, action, reason: 'Inappropriate behavior' })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        console.error('Failed to update warning in database:', err.error);
+      }
+    } catch (e) {
+      console.error('Failed to call moderation warn API:', e);
+    }
+  };
+
+  const handleBan = async (senderName: string, room: string) => {
+    if (!senderName || senderName === displayName) return;
+    const currentlyBanned = banned.has(senderName);
+    const action = currentlyBanned ? 'unban' : 'ban';
+
     setBanned(prev => {
       const next = new Set(prev);
       if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
@@ -214,13 +310,62 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       return next;
     });
     bumpMod();
+
+    try {
+      const res = await fetch('/api/moderation/ban', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: senderName, action, room })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        console.error('Failed to update ban in database:', err.error);
+      }
+
+      if (action === 'ban') {
+        await fetch('/api/chat/ban', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ room, banned_name: senderName, reason: 'Moderator action' })
+        });
+      } else {
+        await fetch('/api/chat/unban', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ room, banned_name: senderName })
+        });
+      }
+    } catch (e) {
+      console.error('Failed to call moderation ban API:', e);
+    }
   };
 
-  const handleKick = async (msgId: string, senderName: string) => {
-    // Delete the message from DB (kick = remove message + temp ban)
-    await supabase.from("chat_messages").delete().eq("id", msgId);
-    setMsgs(prev => prev.filter(m => m.id !== msgId));
-    handleBan(senderName);
+  const handleKick = async (msgId: string, senderName: string, room: string) => {
+    if (!senderName) return;
+    if (!confirm(`WARNING: This will permanently remove ${senderName} from the site, delete their account and profile, and email them a notification. Are you sure you want to do this?`)) return;
+
+    try {
+      // 1. Delete the message
+      await supabase.from("chat_messages").delete().eq("id", msgId);
+      setMsgs(prev => prev.filter(m => m.id !== msgId));
+      
+      // 2. Call the site-wide kick API
+      const res = await fetch('/api/moderation/kick', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: senderName, room })
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Failed to remove user: ${err.error}`);
+      } else {
+        alert(`${senderName} has been successfully removed from the site.`);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error removing user');
+    }
   };
 
   const handleDeleteMsg = async (msgId: string) => {
@@ -239,6 +384,20 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     } catch {}
     setNotesSaved(true);
     setTimeout(() => setNotesSaved(false), 2500);
+  };
+
+  const toggleSimulator = async () => {
+    const nextState = !simActive;
+    try {
+      const res = await fetch("/api/chat/simulate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: nextState ? "start" : "stop", room: roomFilter === "all" ? "cruise_dashboard" : roomFilter })
+      });
+      if (res.ok) {
+        setSimActive(nextState);
+      }
+    } catch {}
   };
 
   // ─── Helpers ─────────────────────────────────────────────────────
@@ -263,6 +422,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     if (roomFilter !== "all" && m.room !== roomFilter) return false;
     if (roleFilter === "flagged" && !flagged.has(m.id)) return false;
     if (roleFilter === "banned" && !banned.has(m.sender_name)) return false;
+    if (roleFilter === "warned" && !warned.has(m.sender_name)) return false;
     if (search && !m.content.toLowerCase().includes(search.toLowerCase()) &&
         !m.sender_name.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
@@ -405,8 +565,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
         {/* ─── MAIN GRID: Chat Feed (wide) + Notes (narrow) ─── */}
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-5">
 
-          {/* ── SITE-WIDE CHAT FEEDS ──────────────────────────── */}
-          <div className="bg-[#080810] border border-white/[0.07] rounded-2xl overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
+          {/* ── LEFT COLUMN: SITE-WIDE MONITOR & POLICIES ─────── */}
+          <div className="flex flex-col gap-5 flex-1 min-w-0">
+            <div className="bg-[#080810] border border-white/[0.07] rounded-2xl overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
 
             {/* Feed header */}
             <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
@@ -415,6 +576,16 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <span className="font-black text-sm">📡 Site-Wide Chat Monitor</span>
                   <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[10px] text-white/30 font-mono">{msgs.length} msgs</span>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live"/>
+                  <button
+                    onClick={toggleSimulator}
+                    className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all cursor-pointer border ${
+                      simActive
+                        ? "bg-amber-500 text-black border-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.35)] animate-pulse"
+                        : "bg-white/5 border border-white/10 text-white/40 hover:text-white/60"
+                    }`}
+                  >
+                    {simActive ? "⚡ Sim Active" : "Start Sim"}
+                  </button>
                 </div>
 
                 {/* Search */}
@@ -432,6 +603,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   >
                     <option value="all">All Roles</option>
                     <option value="flagged">🚩 Flagged</option>
+                    <option value="warned">⚠️ Warned</option>
                     <option value="banned">🚫 Banned</option>
                   </select>
                 </div>
@@ -508,6 +680,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </span>
                           {isFlagged && <span className="text-[9px] text-yellow-400 font-bold">🚩 flagged</span>}
+                          {warned.has(msg.sender_name) && <span className="text-[9px] text-amber-400 font-bold">⚠️ warned</span>}
                           {isBanned && <span className="text-[9px] text-red-400 font-bold">🚫 banned</span>}
                         </div>
                         <p className="text-sm text-white/75 break-words">{msg.content}</p>
@@ -523,17 +696,24 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           }`}
                         >🚩</button>
                         <button
-                          onClick={() => handleBan(msg.sender_name)}
+                          onClick={() => handleWarn(msg.sender_name, msg.room)}
+                          title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
+                          className={`px-2 py-1 rounded-lg text-[10px] border transition-colors cursor-pointer ${
+                            warned.has(msg.sender_name) ? "border-amber-500/50 bg-amber-500/15 text-amber-400" : "border-amber-500/25 text-amber-500/70 hover:bg-amber-500/10"
+                          }`}
+                        >⚠️</button>
+                        <button
+                          onClick={() => handleBan(msg.sender_name, msg.room)}
                           title={isBanned ? "Unban user" : "Ban user"}
                           className={`px-2 py-1 rounded-lg text-[10px] border transition-colors cursor-pointer ${
                             isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
                           }`}
                         >🚫</button>
                         <button
-                          onClick={() => handleKick(msg.id, msg.sender_name)}
-                          title="Kick & delete message"
-                          className="px-2 py-1 rounded-lg text-[10px] border border-orange-500/25 text-orange-500/70 hover:bg-orange-500/10 transition-colors cursor-pointer"
-                        >👢</button>
+                          onClick={() => handleKick(msg.id, msg.sender_name, msg.room)}
+                          title="Remove Fan Completely"
+                          className="px-2 py-1 rounded-lg text-[10px] border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
+                        >🚪</button>
                         <button
                           onClick={() => handleDeleteMsg(msg.id)}
                           title="Delete message"
@@ -551,10 +731,77 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               <span>Showing {filteredMsgs.length} of {msgs.length} messages</span>
               <span className="flex items-center gap-3">
                 <span>🚩 {flagged.size} flagged</span>
+                <span>⚠️ {warned.size} warned</span>
                 <span>🚫 {banned.size} banned</span>
                 <span>🛡️ {moderationCount} actions taken</span>
               </span>
             </div>
+
+            {/* Chat Moderation Panel */}
+            <div className="bg-[#080810] border border-white/[0.07] rounded-2xl overflow-hidden shadow-2xl">
+               <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[#181820]">
+                  <div className="w-10 h-10 rounded-xl bg-[#ec4899]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
+                   <div>
+                      <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
+                      <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+                   </div>
+               </div>
+               
+               <div className="p-4 space-y-4">
+                  <div className="flex flex-col lg:flex-row gap-6 items-start">
+                     <div className="flex-1 min-w-0 w-full space-y-2">
+                        <h4 className="text-xs font-black uppercase tracking-widest text-[#ec4899]">🔍 Custom Flagged Keywords</h4>
+                        <p className="text-white/40 text-xs leading-relaxed font-sans font-semibold">
+                           Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
+                        </p>
+
+                        <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-md mt-2">
+                           <input
+                             type="text"
+                             value={newCustomWord}
+                             onChange={e => setNewCustomWord(e.target.value)}
+                             placeholder="e.g. ticket-scalper"
+                             className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
+                           />
+                           <button
+                             type="submit"
+                             className="px-5 py-2.5 bg-[#ec4899] hover:bg-[#d83f87] text-black font-black text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                           >
+                             Add Keyword
+                           </button>
+                        </form>
+                     </div>
+
+                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
+                        <p className="text-xs font-black uppercase tracking-widest text-white/40">Active Custom Filters</p>
+                        {customWords.length === 0 ? (
+                           <div className="text-center py-6 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
+                              <p className="text-white/20 text-xs italic">No custom keywords configured.</p>
+                           </div>
+                        ) : (
+                           <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
+                              {customWords.map(word => (
+                                 <span
+                                   key={word}
+                                   className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-white/80"
+                                 >
+                                    <span>{word}</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleRemoveCustomWord(word)}
+                                      className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer"
+                                    >
+                                       &times;
+                                    </button>
+                                 </span>
+                              ))}
+                           </div>
+                        )}
+                     </div>
+                  </div>
+               </div>
+            </div>
+          </div>
           </div>
 
           {/* ── RIGHT COLUMN ─────────────────────────────────── */}

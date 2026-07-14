@@ -669,7 +669,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   // 🛍️ Live Merch Drop Checkout States
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState<'form' | 'processing' | 'success'>('form');
+  const [checkoutSelectedSize, setCheckoutSelectedSize] = useState('L');
+  const [checkoutSelectedColor, setCheckoutSelectedColor] = useState('Black');
   const [shippingDetails, setShippingDetails] = useState({ name: '', email: '', address: '', city: '', zip: '', card: '•••• •••• •••• 4242' });
+  const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<'shipping' | 'merch_table'>('merch_table');
+  const [checkoutClaimPin, setCheckoutClaimPin] = useState('');
 
   // 🎵 Live Setlist States
   interface SetlistSong {
@@ -691,12 +695,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   // ── Merch drop (admin-controlled) ──
   const MERCH_PRODUCTS = [
-    { id: 'p1', name: '7th Heaven Tour Tee', price: '$35', emoji: '👕', badge: 'LIMITED', color: '#a855f7', stock: 47 },
-    { id: 'p2', name: 'Crew Hoodie — Black', price: '$65', emoji: '🧥', badge: 'NEW', color: '#ec4899', stock: 12 },
-    { id: 'p3', name: 'Live Vinyl — 2024', price: '$28', emoji: '💿', badge: 'EXCLUSIVE', color: '#06b6d4', stock: 99 },
-    { id: 'p4', name: 'Snapback Cap', price: '$30', emoji: '🧢', badge: 'BESTSELLER', color: '#f97316', stock: 31 },
-    { id: 'p5', name: 'Signed Poster (18×24)', price: '$45', emoji: '🖼️', badge: 'SIGNED', color: '#fbbf24', stock: 8 },
-    { id: 'p6', name: 'Fan Bundle Pack', price: '$89', emoji: '🎁', badge: 'BUNDLE', color: '#34d399', stock: 20 },
+    { id: 'p1', name: '7th Heaven Tour Tee', price: '$35', emoji: '👕', badge: 'LIMITED', color: '#a855f7', stock: 47, image: '/images/merch/logo-tee.png', description: 'Premium cotton tour tee featuring the 7th Heaven 2026 world tour graphic. Unisex fit.' },
+    { id: 'p2', name: 'Crew Hoodie — Black', price: '$65', emoji: '🧥', badge: 'NEW', color: '#ec4899', stock: 12, image: '/images/merch/hoodie.png', description: 'Heavyweight pullover hoodie with embroidered 7th Heaven logo. Fleece-lined for comfort.' },
+    { id: 'p3', name: 'Live Vinyl — 2024', price: '$28', emoji: '💿', badge: 'EXCLUSIVE', color: '#06b6d4', stock: 99, image: '/images/merch/vinyl.png', description: 'Limited pressing of the 2024 live set. 180g vinyl with gatefold sleeve.' },
+    { id: 'p4', name: 'Snapback Cap', price: '$30', emoji: '🧢', badge: 'BESTSELLER', color: '#f97316', stock: 31, image: '/images/merch/logo-tee.png', description: 'Structured snapback cap with raised embroidered 7H logo. One size fits all.' },
+    { id: 'p5', name: 'Signed Poster (18×24)', price: '$45', emoji: '🖼️', badge: 'SIGNED', color: '#fbbf24', stock: 8, image: '/images/merch/vinyl.png', description: 'Hand-signed 18×24 tour poster. Each one is unique, numbered and authenticated.' },
+    { id: 'p6', name: 'Fan Bundle Pack', price: '$89', emoji: '🎁', badge: 'BUNDLE', color: '#34d399', stock: 20, image: '/images/merch/hoodie.png', description: 'Exclusive bundle: Tour Tee + Vinyl + Sticker Pack. Save $15 vs. buying separately.' },
   ];
   const MERCH_DURATIONS = [
     { label: '2 min', seconds: 120 },
@@ -709,7 +713,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [merchTimeLeft, setMerchTimeLeft] = useState(0);
   const [merchSelectedProduct, setMerchSelectedProduct] = useState(MERCH_PRODUCTS[0].id);
   const [merchSelectedDuration, setMerchSelectedDuration] = useState(300);
-  const [activeMerchDrop, setActiveMerchDrop] = useState<{ product: typeof MERCH_PRODUCTS[0]; totalTime: number } | null>(null);
+  const [activeMerchDrop, setActiveMerchDrop] = useState<{ product: typeof MERCH_PRODUCTS[0] & { image?: string; imageUrl?: string }; totalTime: number } | null>(null);
   const MERCH_TIMER_DURATION = 300; // legacy fallback
 
   // ── Per-feed stats (seeded with realistic demo data) ──
@@ -937,7 +941,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     }
   }, [raffleState?.status, raffleState?.timestamp]);
 
-  // Supabase live_events subscription for raffle state, setlist state, and custom flagged words
+  // Supabase live_events subscription for raffle state, setlist state, custom flagged words, AND flash drops
   useEffect(() => {
     const eventsChannel = supabase.channel('live_events')
       .on('broadcast', { event: 'raffle_sync' }, (p) => {
@@ -962,12 +966,40 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           setCustomWords(pb.words);
         }
       })
+      .on('broadcast', { event: 'flash_drop' }, (p) => {
+        if (adminMode) return;
+        const payload = p.payload;
+        if (!payload) return;
+        const { name, price, stock, duration, image, description, variants } = payload;
+        const syntheticProduct = {
+          id: `flash-${Date.now()}`,
+          name: name || 'Flash Merch Drop',
+          price: price ? `$${parseFloat(price).toFixed(2)}` : '$45.00',
+          stock: stock || 15,
+          emoji: '🛍',
+          color: '#ec4899',
+          badge: 'LIMITED',
+          image: image || '/images/mockups/merch-hoodie.png',
+          description: description || '',
+          variants: variants || [],
+        };
+        setActiveMerchDrop({ product: syntheticProduct as any, totalTime: duration || 300 });
+        setMerchTimerActive(true);
+        setMerchTimeLeft(duration || 300);
+        setHype(h => Math.min(100, h + 40));
+      })
+      .on('broadcast', { event: 'cancel_flash_drop' }, () => {
+        if (adminMode) return;
+        setMerchTimerActive(false);
+        setActiveMerchDrop(null);
+        setMerchTimeLeft(0);
+      })
       .subscribe();
 
     return () => {
       supabase.removeChannel(eventsChannel);
     };
-  }, [memberId]);
+  }, [memberId, adminMode]);
 
   // Poll live_setlist_sync from localStorage (for cross-tab sync during testing)
   useEffect(() => {
@@ -1095,7 +1127,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
       if (type === 'FLASH_DROP' && !adminMode) {
         // Real CrewDashboard launched a flash drop → show it on the fan page
-        const { name, price, stock, duration } = payload;
+        const { name, price, stock, duration, image, description, variants, products } = payload;
         const syntheticProduct = {
           id: `flash-${Date.now()}`,
           name: name || 'Flash Merch Drop',
@@ -1104,6 +1136,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           emoji: '🛍',
           color: '#ec4899',
           badge: 'LIMITED',
+          image: image || '/images/mockups/merch-hoodie.png',
+          description: description || '',
+          variants: variants || [],
+          products: products || []
         };
         setActiveMerchDrop({ product: syntheticProduct as any, totalTime: duration || 300 });
         setMerchTimerActive(true);
@@ -1118,6 +1154,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         seenMsgIds.current.add(dropMsg.id);
         setMessages(prev => [...prev, dropMsg]);
         setHype(h => Math.min(100, h + 40));
+      }
+
+      if (type === 'CANCEL_FLASH_DROP' && !adminMode) {
+        setMerchTimerActive(false);
+        setActiveMerchDrop(null);
+        setMerchTimeLeft(0);
       }
 
       if (type === 'STREAM_STATE') {
@@ -1144,6 +1186,45 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
     const globalBc = new BroadcastChannel('7h_live_global');
     globalBc.onmessage = handleBcMessage;
+
+    // ── localStorage recovery: if a flash drop was launched BEFORE this tab opened,
+    //    pick it up immediately so the fan page never misses an active drop. ──
+    if (!adminMode) {
+      try {
+        const stored = localStorage.getItem('7h_flash_drop');
+        if (stored) {
+          const data = JSON.parse(stored);
+          // Only hydrate if the drop was set within the last hour (safety guard)
+          if (data && data.ts && (Date.now() - data.ts) < 3600_000) {
+            const { name, price, stock, duration, image, description, variants } = data;
+            const elapsed = Math.floor((Date.now() - data.ts) / 1000);
+            const remaining = (duration || 300) - elapsed;
+            if (remaining > 0) {
+              const syntheticProduct = {
+                id: `flash-${data.ts}`,
+                name: name || 'Flash Merch Drop',
+                price: price ? `$${parseFloat(price).toFixed(2)}` : '$45.00',
+                stock: stock || 15,
+                emoji: '🛍',
+                color: '#ec4899',
+                badge: 'LIMITED',
+                image: image || '/images/mockups/merch-hoodie.png',
+                description: description || '',
+                variants: variants || [],
+              };
+              setActiveMerchDrop({ product: syntheticProduct as any, totalTime: duration || 300 });
+              setMerchTimerActive(true);
+              setMerchTimeLeft(remaining);
+            } else {
+              // Drop expired — clean up
+              localStorage.removeItem('7h_flash_drop');
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Failed to recover flash drop from localStorage:', e);
+      }
+    }
 
     return () => { bc.close(); globalBc.close(); bcRef.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -2135,6 +2216,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <button
                           onClick={() => {
                             setCheckoutStep('form');
+                            // Reset size/color based on product type
+                            const pName = activeMerchDrop.product.name.toLowerCase();
+                            const isClo = pName.includes('shirt') || pName.includes('tee') || pName.includes('hood') || pName.includes('sweat') || pName.includes('jersey') || pName.includes('jacket') || pName.includes('tank') || pName.includes('hat') || pName.includes('cap');
+                            if (isClo) {
+                              setCheckoutSelectedSize(prev => prev || 'L');
+                              setCheckoutSelectedColor(prev => prev || 'Black');
+                            } else {
+                              setCheckoutSelectedSize('');
+                              setCheckoutSelectedColor('');
+                            }
                             setShowCheckoutModal(true);
                           }}
                           style={{
@@ -3391,6 +3482,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             e.preventDefault();
             setCheckoutStep('processing');
 
+            const claimPin = Math.floor(1000 + Math.random() * 9000).toString();
+            setCheckoutClaimPin(claimPin);
+
             // Simulate payment processing for 1.8 seconds
             setTimeout(() => {
               // Decrement the stock of the product in the local state or product catalog
@@ -3422,7 +3516,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   role: 'FAN',
                   badge: 'FAN'
                 } as any,
-                text: `🛍️ just purchased the ${activeMerchDrop.product.name}!`,
+                text: `🛍️ just purchased the ${activeMerchDrop.product.name}${checkoutSelectedSize ? ` (${checkoutSelectedSize}` : ''}${checkoutSelectedColor ? `${checkoutSelectedSize ? ' / ' : ' ('}${checkoutSelectedColor})` : checkoutSelectedSize ? ')' : ''} [${checkoutDeliveryMethod === 'merch_table' ? 'Merch Table Pickup' : 'Shipped to Home'}]!`,
                 timestamp: Date.now(),
                 isUser: !member
               };
@@ -3431,6 +3525,164 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               seenMsgIds.current.add(purchaseMsg.id);
               bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: purchaseMsg });
               setMessages(prev => [...prev, purchaseMsg]);
+
+              // Write persistent row to chat_messages database table so crew dashboard gets the update
+              const currentRoomSlug = activeFeedId === 'mike' ? 'michael' : activeFeedId;
+              supabase.from('chat_messages').insert({
+                room: currentRoomSlug,
+                sender_name: 'Shopify Bot',
+                sender_role: 'system',
+                sender_avatar: '🛍️',
+                content: `🛍️ ${shippingDetails.name || 'A fan'} purchased the ${activeMerchDrop.product.name}${checkoutSelectedSize ? ` (${checkoutSelectedSize}` : ''}${checkoutSelectedColor ? `${checkoutSelectedSize ? ' / ' : ' ('}${checkoutSelectedColor})` : checkoutSelectedSize ? ')' : ''} [${checkoutDeliveryMethod === 'merch_table' ? `Merch Table Pickup - PIN: ${claimPin}` : 'Shipped to Home'}]!`,
+              }).then();
+
+              // Save order to global admin_orders_list in localStorage
+              const isClothing = activeMerchDrop.product.name.toLowerCase().match(/shirt|tee|hoodie|sweat|jersey|jacket|tank|hat|cap/);
+              const newOrder = {
+                id: Date.now(),
+                customer: shippingDetails.name || 'Anonymous Fan',
+                email: shippingDetails.email,
+                address: checkoutDeliveryMethod === 'shipping' ? shippingDetails.address : '',
+                city: checkoutDeliveryMethod === 'shipping' ? shippingDetails.city : '',
+                zip: checkoutDeliveryMethod === 'shipping' ? shippingDetails.zip : '',
+                item: activeMerchDrop.product.name,
+                price: activeMerchDrop.product.price,
+                size: isClothing ? checkoutSelectedSize : null,
+                color: isClothing ? checkoutSelectedColor : null,
+                method: checkoutDeliveryMethod,
+                source: 'Flash Drop',
+                status: checkoutDeliveryMethod === 'merch_table' ? 'Ready for Pickup' : 'Pending',
+                image: activeMerchDrop.product.image || '/images/merch/vinyl.png',
+                ts: Date.now()
+              };
+
+              try {
+                const currentOrders = JSON.parse(localStorage.getItem('admin_orders_list') || '[]');
+                currentOrders.unshift(newOrder);
+                localStorage.setItem('admin_orders_list', JSON.stringify(currentOrders));
+              } catch (e) {
+                console.error('Failed to save to admin orders list:', e);
+              }
+
+              // Notify dashboard
+              bcRef.current?.postMessage({ type: 'ORDER_CREATED', payload: newOrder });
+
+              // Decrement inventory in Shopify storefront for flash drop
+              // Match product by name
+              fetch('/api/shopify/inventory')
+                .then(res => res.json())
+                .then(data => {
+                  const productList = data.products || data || [];
+                  const matchedProduct = productList.find((p: any) => 
+                    p.title.toLowerCase().includes(activeMerchDrop.product.name.toLowerCase()) || 
+                    activeMerchDrop.product.name.toLowerCase().includes(p.title.toLowerCase())
+                  );
+                  const matchedVariant = matchedProduct?.variants?.edges?.find((edge: any) => {
+                    const title = edge.node.title.toLowerCase();
+                    const matchesSize = !checkoutSelectedSize || title.includes(checkoutSelectedSize.toLowerCase());
+                    const matchesColor = !checkoutSelectedColor || title.includes(checkoutSelectedColor.toLowerCase());
+                    return matchesSize && matchesColor;
+                  })?.node || matchedProduct?.variants?.edges?.[0]?.node;
+
+                  if (matchedVariant?.id) {
+                    fetch('/api/shopify/inventory/adjust', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ variantId: matchedVariant.id, quantity: 1 })
+                    }).then(res => res.json())
+                      .then(d => console.log('[Shopify Flash Drop Sync Success]', d))
+                      .catch(err => console.error('[Shopify Flash Drop Sync Error]', err));
+                  }
+                })
+                .catch(err => console.error('[Shopify Inventory Load Error]', err));
+
+              // Save order to merch_pickup_queue in localStorage if choosing pickup
+              if (checkoutDeliveryMethod === 'merch_table') {
+                try {
+                  const queue = JSON.parse(localStorage.getItem('merch_pickup_queue') || '[]');
+                  queue.unshift({
+                    id: newOrder.id,
+                    code: `PU-${claimPin}`,
+                    item: activeMerchDrop.product.name,
+                    size: checkoutSelectedSize || null,
+                    color: checkoutSelectedColor || null,
+                    price: activeMerchDrop.product.price,
+                    customer: shippingDetails.name || 'Fan',
+                    email: shippingDetails.email,
+                    ts: Date.now(),
+                    claimed: false
+                  });
+                  localStorage.setItem('merch_pickup_queue', JSON.stringify(queue));
+                } catch (e) {
+                  console.error('Failed to update merch queue:', e);
+                }
+              }
+
+              // Send email confirmation
+              if (shippingDetails.email) {
+                const emailSubject = checkoutDeliveryMethod === 'merch_table'
+                  ? `🎫 Merch Pickup Confirmation [PIN: ${claimPin}] — 7th Heaven`
+                  : `📦 Merch Order Confirmed — 7th Heaven`;
+
+                const emailHtml = checkoutDeliveryMethod === 'merch_table'
+                  ? `<div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; color: #1a1a1a;">
+                      <h2 style="color: #10b981; margin-top: 0; text-transform: uppercase;">Merch Ready for Pickup</h2>
+                      <p>Hello <strong>${shippingDetails.name || 'Fan'}</strong>,</p>
+                      <p>Thank you for purchasing live! Your order has been registered for <strong>Merch Table Pickup</strong> at the venue.</p>
+                      
+                      <div style="background: #f4f4f5; padding: 24px; border-radius: 8px; text-align: center; margin: 20px 0;">
+                        <div style="margin-bottom: 16px;">
+                          <img src="${activeMerchDrop.product.image}" alt="${activeMerchDrop.product.name}" width="140" height="140" style="border-radius: 12px; border: 1px solid #eaeaea; display: inline-block; object-fit: cover;" />
+                        </div>
+                        <p style="font-weight: bold; font-size: 16px; margin: 0 0 4px 0; color: #000;">${activeMerchDrop.product.name}</p>
+                        ${activeMerchDrop.product.description ? `<p style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">${activeMerchDrop.product.description}</p>` : ''}
+                        ${checkoutSelectedSize ? `<p style="font-size: 13px; color: #333; margin: 4px 0 4px 0;"><strong>Size:</strong> ${checkoutSelectedSize}</p>` : ''}
+                        ${checkoutSelectedColor ? `<p style="font-size: 13px; color: #333; margin: 4px 0 8px 0;"><strong>Color:</strong> ${checkoutSelectedColor}</p>` : ''}
+                        <p style="font-size: 12px; color: #666; margin: 0 0 24px 0;">Price Paid: ${activeMerchDrop.product.price}</p>
+
+                        <p style="text-transform: uppercase; font-size: 11px; color: #666; margin: 0 0 8px 0; letter-spacing: 0.1em; font-weight: 800;">Your Single-Use QR Code</p>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PU-${claimPin}" alt="Scan QR Code" style="display: block; margin: 12px auto; border: 4px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" width="150" height="150" />
+                        <p style="font-size: 11px; color: #b45309; font-weight: bold; margin: 12px 0 0 0;">⚠️ This QR code is only valid for ONE claim. Do not share this email.</p>
+                      </div>
+                      
+                      <p style="font-weight: bold; color: #111827; font-size: 14px;">Please bring this QR code to the merch table to claim your item.</p>
+                      <p style="color: #888888; font-size: 11px; border-top: 1px solid #eaeaea; padding-top: 12px; margin-top: 24px;">
+                        7th Heaven Band Live Stream. Thank you for your support!
+                      </p>
+                    </div>`
+                  : `<div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; color: #1a1a1a;">
+                      <h2 style="color: #3b82f6; margin-top: 0; text-transform: uppercase;">Order Confirmed</h2>
+                      <p>Hello <strong>${shippingDetails.name || 'Fan'}</strong>,</p>
+                      <p>Your order has been successfully confirmed. It will be shipped to you shortly.</p>
+                      
+                      <div style="background: #f4f4f5; padding: 24px; border-radius: 8px; margin: 20px 0; text-align: center;">
+                        <div style="margin-bottom: 12px;">
+                          <img src="${activeMerchDrop.product.image}" alt="${activeMerchDrop.product.name}" width="140" height="140" style="border-radius: 12px; border: 1px solid #eaeaea; display: inline-block; object-fit: cover;" />
+                        </div>
+                        <p style="font-weight: bold; font-size: 16px; margin: 0 0 4px 0; color: #000;">${activeMerchDrop.product.name}</p>
+                        ${activeMerchDrop.product.description ? `<p style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">${activeMerchDrop.product.description}</p>` : ''}
+                        ${checkoutSelectedSize ? `<p style="font-size: 13px; color: #333; margin: 4px 0 4px 0;"><strong>Size:</strong> ${checkoutSelectedSize}</p>` : ''}
+                        ${checkoutSelectedColor ? `<p style="font-size: 13px; color: #333; margin: 4px 0 8px 0;"><strong>Color:</strong> ${checkoutSelectedColor}</p>` : ''}
+                        <p style="font-size: 12px; color: #666; margin: 0;">Price Paid: ${activeMerchDrop.product.price}</p>
+                      </div>
+
+                      <div style="background: #f4f4f5; padding: 16px; border-radius: 8px; margin: 20px 0;">
+                        <h4 style="margin: 0 0 8px 0; font-size: 12px; text-transform: uppercase; color: #666;">Shipping Address</h4>
+                        <p style="margin: 0; font-weight: bold;">${shippingDetails.name}</p>
+                        <p style="margin: 4px 0 0 0;">${shippingDetails.address}, ${shippingDetails.city}, ${shippingDetails.zip}</p>
+                      </div>
+                      <p>Your tracking number will be emailed to you as soon as the item ships.</p>
+                      <p style="color: #888888; font-size: 11px; border-top: 1px solid #eaeaea; padding-top: 12px; margin-top: 24px;">
+                        7th Heaven Band Live Stream. Thank you for your support!
+                      </p>
+                    </div>`;
+
+                fetch('/api/email', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ to: shippingDetails.email, subject: emailSubject, html: emailHtml })
+                }).catch(err => console.error('Failed to send confirmation email:', err));
+              }
 
               setCheckoutStep('success');
             }, 1800);
@@ -3448,8 +3700,24 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                 {checkoutStep === 'form' && (
                   <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-                    <div className="text-center mb-2">
-                      <span className="text-4xl mb-1.5 block">{activeMerchDrop.product.emoji}</span>
+                    <div className="text-center mb-2 flex flex-col items-center">
+                      <div className="w-20 h-20 rounded-xl border border-white/10 bg-white/5 overflow-hidden mb-2.5 shrink-0">
+                        <img 
+                          src={activeMerchDrop.product.image || '/images/merch/vinyl.png'} 
+                          alt={activeMerchDrop.product.name} 
+                          onError={(e) => {
+                            const name = activeMerchDrop.product.name.toLowerCase();
+                            if (name.includes('shirt') || name.includes('tee')) {
+                              e.currentTarget.src = '/images/merch/logo-tee.png';
+                            } else if (name.includes('hood') || name.includes('sweat')) {
+                              e.currentTarget.src = '/images/merch/hoodie.png';
+                            } else {
+                              e.currentTarget.src = '/images/merch/vinyl.png';
+                            }
+                          }}
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
                       <span className="text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider"
                         style={{ background: `${activeMerchDrop.product.color}22`, color: activeMerchDrop.product.color }}>
                         🛍️ LIVE DROP MERCH
@@ -3457,13 +3725,120 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <h3 className="text-lg font-black text-white uppercase tracking-wider mt-2 leading-tight">
                         {activeMerchDrop.product.name}
                       </h3>
-                      <p className="text-sm font-black mt-1" style={{ color: activeMerchDrop.product.color }}>
+                      {activeMerchDrop.product.description && (
+                        <p className="text-[11px] text-white/50 mt-1 max-w-[280px] leading-relaxed font-sans">
+                          {activeMerchDrop.product.description}
+                        </p>
+                      )}
+                      <p className="text-sm font-black mt-1.5" style={{ color: activeMerchDrop.product.color }}>
                         {activeMerchDrop.product.price}
                       </p>
                       <p className="text-[10px] text-white/40 mt-0.5 font-sans">Only {activeMerchDrop.product.stock} items left in stock</p>
                     </div>
 
                     <div className="space-y-3">
+                      <div>
+                        <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1.5 font-sans">Delivery Option</label>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setCheckoutDeliveryMethod('merch_table')}
+                            className={`py-2.5 px-3 rounded-xl border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                              checkoutDeliveryMethod === 'merch_table'
+                                ? 'bg-white text-black border-white'
+                                : 'bg-transparent text-white/60 border-white/10 hover:border-white/20'
+                            }`}
+                          >
+                            <span>🛍️ Pickup</span>
+                            <span className="text-[9px] opacity-60 normal-case font-normal font-sans">Merch Table</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCheckoutDeliveryMethod('shipping')}
+                            className={`py-2.5 px-3 rounded-xl border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                              checkoutDeliveryMethod === 'shipping'
+                                ? 'bg-white text-black border-white'
+                                : 'bg-transparent text-white/60 border-white/10 hover:border-white/20'
+                            }`}
+                          >
+                            <span>📦 Ship Home</span>
+                            <span className="text-[9px] opacity-60 normal-case font-normal font-sans">Standard Delivery</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Size Selector */}
+                      {(() => {
+                        const name = activeMerchDrop.product.name.toLowerCase();
+                        const isClothing = name.includes('shirt') || name.includes('tee') || name.includes('hood') || name.includes('sweat') || name.includes('jersey') || name.includes('jacket') || name.includes('tank');
+                        const hasVariants = activeMerchDrop.product.variants && activeMerchDrop.product.variants.length > 0;
+                        const sizeOptions = hasVariants 
+                          ? activeMerchDrop.product.variants.map((v: any) => v.title) 
+                          : (isClothing ? ['S', 'M', 'L', 'XL', 'XXL'] : null);
+                        if (!sizeOptions) return null;
+                        return (
+                          <div>
+                            <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1.5 font-sans">Select Size</label>
+                            <div className="flex flex-wrap gap-1.5">
+                              {sizeOptions.map((size: string) => (
+                                <button
+                                  key={size}
+                                  type="button"
+                                  onClick={() => setCheckoutSelectedSize(size)}
+                                  className={`px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                                    checkoutSelectedSize === size
+                                      ? 'bg-white text-black border-white'
+                                      : 'bg-transparent text-white/60 border-white/10 hover:border-white/30'
+                                  }`}
+                                >
+                                  {size}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+                      {/* Color Selector */}
+                      {(() => {
+                        const name = activeMerchDrop.product.name.toLowerCase();
+                        const isClothing = name.includes('shirt') || name.includes('tee') || name.includes('hood') || name.includes('sweat') || name.includes('jersey') || name.includes('jacket') || name.includes('tank') || name.includes('hat') || name.includes('cap');
+                        if (!isClothing) return null;
+                        const COLORS = [
+                          { name: 'Black', hex: '#1a1a1a' },
+                          { name: 'White', hex: '#f5f5f5' },
+                          { name: 'Heather Grey', hex: '#9ca3af' },
+                          { name: 'Navy', hex: '#1e3a5f' },
+                          { name: 'Red', hex: '#dc2626' },
+                          { name: 'Forest Green', hex: '#166534' },
+                        ];
+                        return (
+                          <div>
+                            <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1.5 font-sans">Select Color</label>
+                            <div className="flex flex-wrap gap-2">
+                              {COLORS.map((c) => (
+                                <button
+                                  key={c.name}
+                                  type="button"
+                                  onClick={() => setCheckoutSelectedColor(c.name)}
+                                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                                    checkoutSelectedColor === c.name
+                                      ? 'bg-white/10 text-white border-white'
+                                      : 'bg-transparent text-white/50 border-white/10 hover:border-white/30'
+                                  }`}
+                                >
+                                  <span
+                                    className="w-3.5 h-3.5 rounded-full shrink-0 border"
+                                    style={{ background: c.hex, borderColor: c.name === 'White' ? '#d1d5db' : c.hex }}
+                                  />
+                                  {c.name}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
+
                       <div>
                         <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Full Name</label>
                         <input
@@ -3472,7 +3847,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           value={shippingDetails.name}
                           onChange={e => setShippingDetails(prev => ({ ...prev, name: e.target.value }))}
                           placeholder="John Doe"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
                         />
                       </div>
                       <div>
@@ -3483,44 +3858,50 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           value={shippingDetails.email}
                           onChange={e => setShippingDetails(prev => ({ ...prev, email: e.target.value }))}
                           placeholder="john@example.com"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
                         />
                       </div>
-                      <div>
-                        <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Shipping Address</label>
-                        <input
-                          type="text"
-                          required
-                          value={shippingDetails.address}
-                          onChange={e => setShippingDetails(prev => ({ ...prev, address: e.target.value }))}
-                          placeholder="123 Main St"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
-                        />
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">City</label>
-                          <input
-                            type="text"
-                            required
-                            value={shippingDetails.city}
-                            onChange={e => setShippingDetails(prev => ({ ...prev, city: e.target.value }))}
-                            placeholder="Chicago"
-                            className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
-                          />
-                        </div>
-                        <div>
-                          <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">ZIP Code</label>
-                          <input
-                            type="text"
-                            required
-                            value={shippingDetails.zip}
-                            onChange={e => setShippingDetails(prev => ({ ...prev, zip: e.target.value }))}
-                            placeholder="60601"
-                            className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
-                          />
-                        </div>
-                      </div>
+                      
+                      {checkoutDeliveryMethod === 'shipping' && (
+                        <>
+                          <div>
+                            <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Shipping Address</label>
+                            <input
+                              type="text"
+                              required
+                              value={shippingDetails.address}
+                              onChange={e => setShippingDetails(prev => ({ ...prev, address: e.target.value }))}
+                              placeholder="123 Main St"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">City</label>
+                              <input
+                                type="text"
+                                required
+                                value={shippingDetails.city}
+                                onChange={e => setShippingDetails(prev => ({ ...prev, city: e.target.value }))}
+                                placeholder="Chicago"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">ZIP Code</label>
+                              <input
+                                type="text"
+                                required
+                                value={shippingDetails.zip}
+                                onChange={e => setShippingDetails(prev => ({ ...prev, zip: e.target.value }))}
+                                placeholder="60601"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
+
                       <div>
                         <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Card Details (Mock)</label>
                         <input
@@ -3529,7 +3910,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           value={shippingDetails.card}
                           onChange={e => setShippingDetails(prev => ({ ...prev, card: e.target.value }))}
                           placeholder="4242 4242 4242 4242"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
                         />
                       </div>
                     </div>
@@ -3556,7 +3937,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   </div>
                 )}
 
-                {checkoutStep === 'success' && (
+                {checkoutStep === 'success' && (() => {
+                  const successProdName = activeMerchDrop.product.name.toLowerCase();
+                  const successIsClothing = successProdName.includes('shirt') || successProdName.includes('tee') || successProdName.includes('hood') || successProdName.includes('sweat') || successProdName.includes('jersey') || successProdName.includes('jacket') || successProdName.includes('tank') || successProdName.includes('hat') || successProdName.includes('cap');
+                  return (
                   <div className="text-center py-4 space-y-4">
                     <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto"
                       style={{ boxShadow: '0 0 20px rgba(16,185,129,0.1)' }}>
@@ -3564,16 +3948,72 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     </div>
                     <div>
                       <h3 className="text-lg font-black text-white uppercase tracking-wider font-sans">Purchase Successful!</h3>
-                      <p className="text-xs text-white/50 mt-1 max-w-[220px] mx-auto font-sans">
-                        Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed.
+                      <p className="text-xs text-white/50 mt-1 max-w-[240px] mx-auto font-sans">
+                        {checkoutDeliveryMethod === 'merch_table' ? (
+                          <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed. Please check your email for your single-use QR code to claim your item.</span>
+                        ) : (
+                          <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed.</span>
+                        )}
                       </p>
                     </div>
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-left space-y-1.5">
-                      <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest font-sans">Order Details</p>
-                      <p className="text-xs font-bold text-white/90 font-sans">Recipient: <span className="font-normal text-white/60">{shippingDetails.name}</span></p>
-                      <p className="text-xs font-bold text-white/90 font-sans">Ship To: <span className="font-normal text-white/60">{shippingDetails.address}, {shippingDetails.city}</span></p>
-                      <p className="text-xs font-bold text-white/90 font-sans">Price Paid: <span className="font-normal text-white/60">{activeMerchDrop.product.price} (includes shipping)</span></p>
+                    
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-left space-y-3">
+                      {/* Product Image - large and prominent */}
+                      <div className="flex justify-center">
+                        <img 
+                          src={activeMerchDrop.product.image || '/images/merch/vinyl.png'} 
+                          alt={activeMerchDrop.product.name} 
+                          onError={(e) => {
+                            const name = activeMerchDrop.product.name.toLowerCase();
+                            if (name.includes('shirt') || name.includes('tee')) {
+                              e.currentTarget.src = '/images/merch/logo-tee.png';
+                            } else if (name.includes('hood') || name.includes('sweat')) {
+                              e.currentTarget.src = '/images/merch/hoodie.png';
+                            } else {
+                              e.currentTarget.src = '/images/merch/vinyl.png';
+                            }
+                          }}
+                          className="w-28 h-28 object-cover rounded-xl border border-white/10 shadow-lg" 
+                        />
+                      </div>
+
+                      {/* Product Description */}
+                      {activeMerchDrop.product.description && (
+                        <p className="text-[11px] text-white/50 text-center leading-relaxed font-sans px-2">
+                          {activeMerchDrop.product.description}
+                        </p>
+                      )}
+
+                      {/* Order Details */}
+                      <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
+                        <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest font-sans mb-1.5">Order Details</p>
+                        <p className="text-xs font-bold text-white/90 font-sans">Recipient: <span className="font-normal text-white/60">{shippingDetails.name}</span></p>
+                        <p className="text-xs font-bold text-white/90 font-sans truncate">Product: <span className="font-normal text-white/60">{activeMerchDrop.product.name}</span></p>
+                        {successIsClothing && checkoutSelectedSize && (
+                          <p className="text-xs font-bold text-white/90 font-sans">Size: <span className="font-normal text-white/60">{checkoutSelectedSize}</span></p>
+                        )}
+                        {successIsClothing && checkoutSelectedColor && (
+                          <p className="text-xs font-bold text-white/90 font-sans">Color: <span className="font-normal text-white/60 inline-flex items-center gap-1.5">
+                            <span className="inline-block w-2.5 h-2.5 rounded-full border border-white/20" style={{ background: checkoutSelectedColor === 'Black' ? '#1a1a1a' : checkoutSelectedColor === 'White' ? '#f5f5f5' : checkoutSelectedColor === 'Heather Grey' ? '#9ca3af' : checkoutSelectedColor === 'Navy' ? '#1e3a5f' : checkoutSelectedColor === 'Red' ? '#dc2626' : checkoutSelectedColor === 'Forest Green' ? '#166534' : '#888' }} />
+                            {checkoutSelectedColor}
+                          </span></p>
+                        )}
+                        <p className="text-xs font-bold text-white/90 font-sans">Method: <span className="font-normal text-white/60">{checkoutDeliveryMethod === 'merch_table' ? 'Merch Table Pickup' : 'Shipped to Home'}</span></p>
+                        {checkoutDeliveryMethod === 'shipping' && (
+                          <p className="text-xs font-bold text-white/90 font-sans truncate">Ship To: <span className="font-normal text-white/60">{shippingDetails.address}, {shippingDetails.city}</span></p>
+                        )}
+                        <p className="text-xs font-bold text-white/90 font-sans">Price Paid: <span className="font-normal text-white/60">{activeMerchDrop.product.price}</span></p>
+                      </div>
                     </div>
+
+                    {/* Email confirmation notice */}
+                    {shippingDetails.email && (
+                      <p className="text-xs text-emerald-400/80 font-sans flex items-center justify-center gap-1.5">
+                        <span>📧</span>
+                        <span>Confirmation email sent to <span className="underline underline-offset-2">{shippingDetails.email}</span></span>
+                      </p>
+                    )}
+
                     <button
                       onClick={() => setShowCheckoutModal(false)}
                       style={{
@@ -3584,7 +4024,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       Return to Stream
                     </button>
                   </div>
-                )}
+                  );
+                })()}
               </div>
             </div>
           );

@@ -73,5 +73,50 @@
     "email": "alexdemo@7thheaven.test",
     "pin": "486332",
     "expiresAt": 1783311311737
+  },
+  {
+    "email": "johndoe@7thheaven.com",
+    "pin": "845939",
+    "expiresAt": 1783760895716
+  },
+  {
+    "email": "testfan_1783827619184@example.com",
+    "pin": "692035",
+    "expiresAt": 1783828219502
+  },
+  {
+    "email": "testfan_1783827621240@example.com",
+    "pin": "449494",
+    "expiresAt": 1783828221254
+  },
+  {
+    "email": "testfan_1783827629542@example.com",
+    "pin": "638988",
+    "expiresAt": 1783828229548
+  },
+  {
+    "email": "testfan_1783827635740@example.com",
+    "pin": "562982",
+    "expiresAt": 1783828235745
+  },
+  {
+    "email": "superfan_new@7thheaven.com",
+    "pin": "331155",
+    "expiresAt": 1783906150344
+  },
+  {
+    "email": "fizz@buzz.com",
+    "pin": "463043",
+    "expiresAt": 1784566456423
+  },
+  {
+    "email": "registered_test@example.com",
+    "pin": "630171",
+    "expiresAt": 1784004263282
+  },
+  {
+    "email": "super_fan@gmail.com",
+    "pin": "551219",
+    "expiresAt": 1784006087603
   }
 ]

@@ -358,6 +358,159 @@ const siteStructure = [
 ];
 
 export default function SitemapPage() {
+  const [activeView, setActiveView] = useState<'flow' | 'directory'>('flow');
+  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+
+  // Nodes & Connections data
+  const flowNodes = [
+    // Column 0: Entry Interfaces
+    { id: 'home', label: 'Home Page (/)', type: 'page', desc: 'Cinematic band hero hub, active stream indicator, news items, and music player.', col: 0, row: 0 },
+    { id: 'shows', label: 'Show Details (/shows/[id])', type: 'page', desc: 'Venue details, RSVP deep link alerts, map directions, and referral sharing.', col: 0, row: 1 },
+    { id: 'live', label: 'Live Stream (/live)', type: 'page', desc: 'Real-time LiveKit streaming feed, chat room widget, and interactive raffles.', col: 0, row: 2 },
+    { id: 'store', label: 'Merch Store (/store)', type: 'page', desc: 'Browse store catalog dynamically populated by Shopify storefront APIs.', col: 0, row: 3 },
+    { id: 'book', label: 'Book Band (/book)', type: 'page', desc: 'Scheduling form that inserts requested event dates and creates client planner profiles.', col: 0, row: 4 },
+    { id: 'cruise', label: 'Cruise Booking (/cruise)', type: 'page', desc: 'Caribbean cruise travel notice board, boarding itinerary details, and cabin signup form.', col: 0, row: 5 },
+
+    // Column 1: User Dashboards
+    { id: 'fan_dash', label: 'Fan Dashboard (/fans)', type: 'page', desc: 'Alert inbox, raffle prize claims, concert proximity ZIP alerts, and profile username settings.', col: 1, row: 0 },
+    { id: 'planner_dash', label: 'Planner Dashboard (/planner)', type: 'page', desc: 'Edit booking checklists, verify status, and trigger event cancellations.', col: 1, row: 1 },
+    { id: 'passenger_dash', label: 'Cruiser Dashboard (/cruise/dashboard)', type: 'page', desc: 'Lounge notice board, passenger listings, chat channels, and interactive itinerary view.', col: 1, row: 2 },
+    { id: 'crew_dash', label: 'Crew Dashboard (/crew)', type: 'page', desc: 'Live broadcast studio tools, stream triggers, chat mod, and raffle prize launcher.', col: 1, row: 3 },
+    { id: 'admin_dash', label: 'Admin Command (/admin)', type: 'page', desc: 'Master approval checklist, announcements editor, photo wall moderation, and SMS blasts.', col: 1, row: 4 },
+
+    // Column 2: Processing APIs
+    { id: 'api_sms', label: 'SMS Alerts (/api/sms/*)', type: 'module', desc: 'Twilio webhook for SMS text notifications, live stream alarms, and directions.', col: 2, row: 0 },
+    { id: 'api_booking', label: 'Booking Logic (/api/booking)', type: 'module', desc: 'Supabase booking row verification and scheduling handler.', col: 2, row: 1 },
+    { id: 'api_cruise', label: 'Cruise Registration (/api/cruise/*)', type: 'module', desc: 'Registers interest and emails cruiser welcome letters.', col: 2, row: 2 },
+    { id: 'api_raffle', label: 'Raffle Engine (/api/picks)', type: 'module', desc: 'Random picker that generates one-time PIN claiming tokens.', col: 2, row: 3 },
+    { id: 'api_photo_mod', label: 'Image Moderation (/api/fans/*)', type: 'module', desc: 'Client-side TensorFlow.js nsfwjs image moderation filter for photo uploads.', col: 2, row: 4 },
+    { id: 'shopify_cart', label: 'Shopify Cart Tunnel', type: 'module', desc: 'Compiles cart items and redirects to Shopify headless checkout pages.', col: 2, row: 5 },
+    { id: 'api_tour_sync', label: 'Tour Date Sync (/api/sync-shows)', type: 'module', desc: 'Scrapes legacy tour dates and writes documents to Sanity CMS.', col: 2, row: 6 },
+    { id: 'api_newsletter', label: 'Newsletter API (/api/newsletter/*)', type: 'module', desc: 'Validates email registrations and pushes subscription lists to Resend.', col: 2, row: 7 },
+
+    // Column 3: Alerts & Emails
+    { id: 'email_fan_welcome', label: 'Welcome Fan Email', type: 'email', desc: 'HTML greeting dispatched when a fan registers a new account.', col: 3, row: 0 },
+    { id: 'email_planner_welcome', label: 'Welcome Planner Email', type: 'email', desc: 'Sent to booking clients containing client credentials.', col: 3, row: 1 },
+    { id: 'email_booking_confirm', label: 'Booking Confirmation Email', type: 'email', desc: 'Sends booking event itineraries to the planner.', col: 3, row: 2 },
+    { id: 'email_booking_admin', label: 'Booking Admin Alert Email', type: 'email', desc: 'Alerts band administrators of incoming booking applications.', col: 3, row: 3 },
+    { id: 'email_cruise_invite', label: 'Passenger Invite Link', type: 'email', desc: 'Sends cruiser passengers dynamic invite setup links.', col: 3, row: 4 },
+    { id: 'email_general_news', label: 'Newsletter Blast Template', type: 'email', desc: 'Formatted HTML email template for Resend newsletter integrations.', col: 3, row: 5 },
+    { id: 'sms_template_alert', label: 'SMS Notification Broadcasts', type: 'email', desc: 'Outbound texts notifying fans of streaming alarms and directions.', col: 3, row: 6 },
+
+    // Column 4: Database & State
+    { id: 'db_members', label: 'profiles / auth', type: 'db', desc: 'Supabase table storing user credentials, role permissions, and active statuses.', col: 4, row: 0 },
+    { id: 'db_bookings', label: 'bookings table', type: 'db', desc: 'Supabase storage holding active booking request forms and checklists.', col: 4, row: 1 },
+    { id: 'db_planners', label: 'planners table', type: 'db', desc: 'Supabase details table mapping planners to auth ids.', col: 4, row: 2 },
+    { id: 'db_cruise', label: 'cruise_interest table', type: 'db', desc: 'Supabase logs tracking cabin selections, cruiser status, and passenger payments.', col: 4, row: 3 },
+    { id: 'db_sms', label: 'sms_subscribers table', type: 'db', desc: 'Supabase data linking active phone numbers and ZIP coordinates.', col: 4, row: 4 },
+    { id: 'db_claims', label: 'claims table', type: 'db', desc: 'Supabase table tracking generated raffle prizes and claim pins.', col: 4, row: 5 },
+    { id: 'db_memories', label: 'fan_memories table', type: 'db', desc: 'Supabase logs tracking concert photo wall submissions.', col: 4, row: 6 },
+    { id: 'db_cms', label: 'Sanity Studio CMS', type: 'db', desc: 'CMS documents holding show schedules, member biographies, and homepage news.', col: 4, row: 7 }
+  ];
+
+  const flowConnections = [
+    { from: 'home', to: 'api_newsletter' },
+    { from: 'home', to: 'api_sms' },
+    { from: 'home', to: 'api_photo_mod' },
+    { from: 'home', to: 'store' },
+    { from: 'store', to: 'shopify_cart' },
+    { from: 'shows', to: 'api_sms' },
+    { from: 'live', to: 'fan_dash' },
+    { from: 'book', to: 'api_booking' },
+    { from: 'cruise', to: 'api_cruise' },
+
+    { from: 'fan_dash', to: 'api_newsletter' },
+    { from: 'fan_dash', to: 'api_raffle' },
+    { from: 'planner_dash', to: 'api_booking' },
+    { from: 'passenger_dash', to: 'api_cruise' },
+    { from: 'crew_dash', to: 'api_raffle' },
+    { from: 'crew_dash', to: 'api_live_alert' },
+    { from: 'admin_dash', to: 'api_tour_sync' },
+    { from: 'admin_dash', to: 'api_booking' },
+    { from: 'admin_dash', to: 'api_cruise' },
+
+    { from: 'api_newsletter', to: 'email_general_news' },
+    { from: 'api_sms', to: 'sms_template_alert' },
+    { from: 'api_live_alert', to: 'sms_template_alert' },
+    { from: 'api_booking', to: 'email_planner_welcome' },
+    { from: 'api_booking', to: 'email_booking_confirm' },
+    { from: 'api_booking', to: 'email_booking_admin' },
+    { from: 'api_cruise', to: 'email_cruise_invite' },
+    { from: 'api_cruise', to: 'email_fan_welcome' },
+
+    { from: 'api_newsletter', to: 'db_sms' },
+    { from: 'api_sms', to: 'db_sms' },
+    { from: 'api_booking', to: 'db_bookings' },
+    { from: 'api_booking', to: 'db_planners' },
+    { from: 'api_cruise', to: 'db_cruise' },
+    { from: 'api_raffle', to: 'db_claims' },
+    { from: 'api_photo_mod', to: 'db_memories' },
+    { from: 'api_tour_sync', to: 'db_cms' },
+
+    { from: 'db_members', to: 'fan_dash' },
+    { from: 'db_bookings', to: 'planner_dash' },
+    { from: 'db_cruise', to: 'passenger_dash' },
+    { from: 'db_sms', to: 'admin_dash' },
+    { from: 'db_cms', to: 'home' },
+    { from: 'db_cms', to: 'shows' },
+    { from: 'db_claims', to: 'fan_dash' }
+  ];
+
+  // Helper check: Is a node connected to the hovered node?
+  const isNodeConnected = (nodeId: string) => {
+    if (!hoveredNodeId) return true;
+    if (nodeId === hoveredNodeId) return true;
+    return flowConnections.some(
+      conn => (conn.from === hoveredNodeId && conn.to === nodeId) || (conn.to === hoveredNodeId && conn.from === nodeId)
+    );
+  };
+
+  const isConnectionActive = (conn: { from: string; to: string }) => {
+    if (!hoveredNodeId) return false;
+    return conn.from === hoveredNodeId || conn.to === hoveredNodeId;
+  };
+
+  const colWidth = 200;
+  const colGap = 40;
+  const startX = 40;
+  const paddingY = 80;
+  const canvasHeight = 900;
+  const heightY = canvasHeight - paddingY * 2;
+
+  const getCoords = (col: number, row: number, totalInCol: number) => {
+    const x = startX + col * (colWidth + colGap);
+    const stepY = totalInCol > 1 ? heightY / (totalInCol - 1) : 0;
+    const y = paddingY + row * stepY;
+    return { x, y };
+  };
+
+  const nodeCoords: Record<string, { x: number; y: number; type: string }> = {};
+  flowNodes.forEach(node => {
+    const totalInCol = flowNodes.filter(n => n.col === node.col).length;
+    const coords = getCoords(node.col, node.row, totalInCol);
+    nodeCoords[node.id] = { ...coords, type: node.type };
+  });
+
+  const getNodeColor = (type: string) => {
+    switch (type) {
+      case 'page': return {
+        text: 'text-cyan-400', border: 'border-cyan-500/20', activeBorder: 'border-cyan-500', bg: 'bg-cyan-500/5', activeBg: 'bg-cyan-500/10', glow: 'shadow-[0_0_15px_rgba(34,211,238,0.15)]', icon: '🌐'
+      };
+      case 'module': return {
+        text: 'text-pink-400', border: 'border-pink-500/20', activeBorder: 'border-pink-500', bg: 'bg-pink-500/5', activeBg: 'bg-pink-500/10', glow: 'shadow-[0_0_15px_rgba(244,63,94,0.15)]', icon: '⚙️'
+      };
+      case 'email': return {
+        text: 'text-amber-400', border: 'border-amber-500/20', activeBorder: 'border-amber-500', bg: 'bg-amber-500/5', activeBg: 'bg-amber-500/10', glow: 'shadow-[0_0_15px_rgba(245,158,11,0.15)]', icon: '📧'
+      };
+      case 'db': return {
+        text: 'text-emerald-400', border: 'border-emerald-500/20', activeBorder: 'border-emerald-500', bg: 'bg-emerald-500/5', activeBg: 'bg-emerald-500/10', glow: 'shadow-[0_0_15px_rgba(16,185,129,0.15)]', icon: '💾'
+      };
+      default: return {
+        text: 'text-white', border: 'border-white/10', activeBorder: 'border-white', bg: 'bg-white/5', activeBg: 'bg-white/10', glow: 'shadow-[0_0_15px_rgba(255,255,255,0.1)]', icon: '📄'
+      };
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[rgb(10,10,15)] pt-32 pb-24 px-8 md:px-16 lg:px-24 relative overflow-hidden">
       {/* Background ambient lighting */}
@@ -379,7 +532,186 @@ export default function SitemapPage() {
           </div>
         </header>
 
-        <div className="space-y-16">
+        {/* Tab Toggle */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12 relative z-20">
+          <button
+            onClick={() => setActiveView('flow')}
+            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer ${
+              activeView === 'flow'
+                ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.15)]"
+                : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
+            }`}
+          >
+            🗺️ Ecosystem Flow Map
+          </button>
+          <button
+            onClick={() => setActiveView('directory')}
+            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer ${
+              activeView === 'directory'
+                ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.15)]"
+                : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
+            }`}
+          >
+            📦 Directory Listing
+          </button>
+          <div className="w-px h-10 bg-white/10 self-center hidden md:block" />
+          <Link
+            href="/sitemap/visual"
+            className="px-6 py-3 border border-cyan-500/20 hover:border-cyan-500/40 text-cyan-400 text-xs font-black uppercase tracking-widest rounded-xl transition-all"
+          >
+            🖼️ Visual Connection Map
+          </Link>
+          <Link
+            href="/sitemap/flowchart"
+            className="px-6 py-3 border border-pink-500/20 hover:border-pink-500/40 text-pink-400 text-xs font-black uppercase tracking-widest rounded-xl transition-all"
+          >
+            🗺️ Flowchart Sitemap
+          </Link>
+        </div>
+
+        {activeView === 'flow' ? (
+          <div className="relative z-10 w-full overflow-x-auto pb-6">
+            <style dangerouslySetInnerHTML={{ __html: `
+              @keyframes linePulse {
+                to {
+                  stroke-dashoffset: -20;
+                }
+              }
+              .line-pulse-animation {
+                animation: linePulse 1.2s linear infinite;
+              }
+            `}} />
+            
+            <div className="min-w-[1240px] relative">
+              {/* Column Headings */}
+              <div className="grid grid-cols-5 gap-10 px-10 mb-8 select-none">
+                {[
+                  "1. Entry Interfaces",
+                  "2. User Dashboards",
+                  "3. Processing APIs",
+                  "4. Alerts & Emails",
+                  "5. Database & State"
+                ].map((title, i) => (
+                  <div key={i} className="text-center">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-white/40 pb-2 border-b border-white/5">{title}</h3>
+                  </div>
+                ))}
+              </div>
+
+              {/* Canvas viewport */}
+              <div className="w-[1200px] h-[900px] relative bg-black/40 border border-white/5 rounded-2xl p-6 overflow-hidden">
+                {/* SVG Connections overlay */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+                  {flowConnections.map((conn, idx) => {
+                    const fromNode = nodeCoords[conn.from];
+                    const toNode = nodeCoords[conn.to];
+                    if (!fromNode || !toNode) return null;
+
+                    const x1 = fromNode.x + colWidth;
+                    const y1 = fromNode.y + 24;
+                    const x2 = toNode.x;
+                    const y2 = toNode.y + 24;
+                    const dx = (x2 - x1) * 0.4;
+
+                    const d = `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+                    const active = isConnectionActive(conn);
+
+                    let strokeColor = "stroke-white/10";
+                    if (active) {
+                      if (fromNode.type === 'page') strokeColor = "stroke-cyan-400/80";
+                      else if (fromNode.type === 'module') strokeColor = "stroke-pink-400/80";
+                      else if (fromNode.type === 'email') strokeColor = "stroke-amber-400/80";
+                      else strokeColor = "stroke-emerald-400/80";
+                    }
+
+                    return (
+                      <g key={idx}>
+                        {/* Interactive hover container */}
+                        <path
+                          d={d}
+                          fill="none"
+                          stroke="transparent"
+                          strokeWidth={15}
+                          className="cursor-pointer pointer-events-auto"
+                          onMouseEnter={() => setHoveredNodeId(conn.from)}
+                          onMouseLeave={() => setHoveredNodeId(null)}
+                        />
+                        {/* Visible path */}
+                        <path
+                          d={d}
+                          fill="none"
+                          className={`${strokeColor} transition-all duration-300 ${active ? 'stroke-[2px] line-pulse-animation' : 'stroke-[1px]'}`}
+                          style={{
+                            strokeDasharray: active ? "6, 4" : undefined,
+                          }}
+                        />
+                      </g>
+                    );
+                  })}
+                </svg>
+
+                {/* Nodes list */}
+                {flowNodes.map(node => {
+                  const style = getNodeColor(node.type);
+                  const isHovered = hoveredNodeId === node.id;
+                  const isDimmed = hoveredNodeId && !isNodeConnected(node.id);
+
+                  return (
+                    <div
+                      key={node.id}
+                      style={{
+                        position: 'absolute',
+                        left: nodeCoords[node.id].x,
+                        top: nodeCoords[node.id].y,
+                        width: colWidth,
+                        height: 48,
+                      }}
+                      className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all duration-300 flex flex-col justify-center select-none ${
+                        isHovered
+                          ? `scale-[1.05] z-30 ${style.activeBorder} ${style.activeBg} ${style.glow}`
+                          : isDimmed
+                            ? 'opacity-20 grayscale pointer-events-none'
+                            : `z-20 ${style.border} ${style.bg} hover:border-white/20`
+                      }`}
+                      onMouseEnter={() => setHoveredNodeId(node.id)}
+                      onMouseLeave={() => setHoveredNodeId(null)}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm shrink-0">{style.icon}</span>
+                        <span className={`text-[0.62rem] font-bold uppercase tracking-wider truncate ${style.text}`}>{node.label}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Details panel */}
+            <div className="mt-6 p-5 bg-white/[0.02] border border-white/5 rounded-xl min-h-[90px] flex flex-col justify-center transition-all duration-300">
+              {hoveredNodeId ? (
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-lg">{getNodeColor(flowNodes.find(n => n.id === hoveredNodeId)?.type || '').icon}</span>
+                    <h4 className={`text-sm font-black uppercase tracking-widest ${getNodeColor(flowNodes.find(n => n.id === hoveredNodeId)?.type || '').text}`}>
+                      {flowNodes.find(n => n.id === hoveredNodeId)?.label}
+                    </h4>
+                    <span className="text-[0.55rem] font-mono px-2 py-0.5 rounded bg-white/5 uppercase text-white/40 border border-white/5">
+                      {flowNodes.find(n => n.id === hoveredNodeId)?.type}
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    {flowNodes.find(n => n.id === hoveredNodeId)?.desc}
+                  </p>
+                </div>
+              ) : (
+                <div className="text-center text-white/30 text-[0.65rem] py-2 uppercase tracking-widest font-black animate-pulse">
+                  💡 Hover over any node to trace user flows, API processes, email triggers, and database connections.
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-16">
           {siteStructure.map((category, idx) => (
             <section key={idx} className="relative">
               <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-8 border-b border-white/10 pb-4">
@@ -448,6 +780,7 @@ export default function SitemapPage() {
             </section>
           ))}
         </div>
+        )}
 
         {/* Tech Stack Section */}
         <section className="mt-20 pt-16 border-t border-white/10">
@@ -627,7 +960,7 @@ export default function SitemapPage() {
           <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-3 border-b border-white/10 pb-4">
             📧 Email Templates
           </h2>
-          <p className="text-white/30 text-xs mb-8">All transactional emails sent via Resend — 12 templates total. <a href="/admin/emails" className="text-[var(--color-accent)] hover:text-white transition-colors">Preview all →</a></p>
+          <p className="text-white/30 text-xs mb-8">All transactional emails sent via Resend — 18 templates total. <a href="/admin/emails" className="text-[var(--color-accent)] hover:text-white transition-colors">Preview all →</a></p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { name: "Booking Confirmation", desc: "Sent to the event planner after submitting a booking request.", category: "Booking", status: "live", icon: "📋" },
@@ -642,6 +975,12 @@ export default function SitemapPage() {
               { name: "Welcome — Planner", desc: "Sent after a planner creates their account from the booking flow.", category: "Account", status: "live", icon: "📋" },
               { name: "Booking Status Update", desc: "Sent when a booking is approved, cancelled, or completed.", category: "Booking", status: "live", icon: "✅" },
               { name: "Newsletter Blast", desc: "Sent to all fans & subscribers from the admin dashboard.", category: "Newsletter", status: "live", icon: "📨" },
+              { name: "Welcome — Crew", desc: "Sent to a new crew member when their account is created by admin.", category: "Account", status: "live", icon: "🛡️" },
+              { name: "New Account Alert — Admin", desc: "Sent to the site manager when a new account is created (crew, fan, or planner).", category: "Account", status: "live", icon: "🔐" },
+              { name: "Cruise Community Blast", desc: "Sent to all cruise signups with the latest news, updates, and announcements.", category: "Cruise", status: "live", icon: "⚓" },
+              { name: "Fan Invitation", desc: "Sent when an administrator invites a fan via CSV or text bulk list.", category: "Account", status: "live", icon: "✉️" },
+              { name: "Crew Work Hours Summary", desc: "Sent to a crew member summarizing their weekly/monthly scheduled hours and capacity load.", category: "Crew", status: "live", icon: "🕒" },
+              { name: "Schedule Change Alert", desc: "Sent to a crew member when their scheduled shift is added, updated, or removed.", category: "Crew", status: "live", icon: "🗓️" },
             ].map((email, i) => (
               <div key={i} className="p-5 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-3">

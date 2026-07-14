@@ -669,16 +669,31 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {inboxMessages.filter(m => m.color === 'yellow' || m.title?.includes('Win')).map((win, i) => {
               const pinMatch = win.desc?.match(/PIN: (\d+)/);
               const pin = pinMatch ? pinMatch[1] : null;
+              
+              let isClaimed = false;
+              if (typeof window !== 'undefined' && pin) {
+                try {
+                  const claimed = JSON.parse(localStorage.getItem('claimed_raffle_pins') || '[]');
+                  isClaimed = claimed.includes(pin);
+                } catch {}
+              }
+
               return (
-                <div key={i} className="bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 border-yellow-500/30 rounded-2xl p-6 relative overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? 'border-emerald-500/20 opacity-60' : 'border-yellow-500/30'} rounded-2xl p-6 relative overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]`}>
                   <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                     <span className="text-8xl">🏆</span>
                   </div>
                   <div className="flex items-start justify-between relative z-10">
                     <div>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-xs font-black text-yellow-500 uppercase tracking-widest mb-4">
-                        RAFFLE WINNER
-                      </span>
+                      {isClaimed ? (
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs font-black text-emerald-400 uppercase tracking-widest mb-4">
+                          ✓ PRIZE CLAIMED
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-xs font-black text-yellow-500 uppercase tracking-widest mb-4">
+                          RAFFLE WINNER
+                        </span>
+                      )}
                       <h3 className="text-2xl font-black text-white italic tracking-tight mb-2">
                         {win.title.replace('You Won the Raffle!', '').trim() || 'Prize Claim'}
                       </h3>
@@ -697,15 +712,17 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </div>
                         <div className="text-center">
                           <p className="text-xs text-white/40 uppercase font-black tracking-[0.2em] mb-1">Claim PIN</p>
-                          <p className="text-3xl font-black text-yellow-500 font-mono tracking-[0.3em]">{pin}</p>
+                          <p className={`text-3xl font-black ${isClaimed ? 'text-emerald-400 line-through' : 'text-yellow-500'} font-mono tracking-[0.3em]`}>{pin}</p>
                         </div>
                       </div>
                     )}
                   </div>
                   <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between relative z-10">
-                    <p className="text-xs text-white/30 font-bold uppercase tracking-widest">Show this at the merch table</p>
-                    <button className="text-xs text-yellow-500 font-black uppercase tracking-widest hover:text-white transition-colors">
-                      Full Details →
+                    <p className="text-xs text-white/30 font-bold uppercase tracking-widest">
+                      {isClaimed ? 'Prize handed off successfully' : 'Show this at the merch table'}
+                    </p>
+                    <button className={`text-xs ${isClaimed ? 'text-emerald-400' : 'text-yellow-500'} font-black uppercase tracking-widest hover:text-white transition-colors`}>
+                      {isClaimed ? 'Completed ✓' : 'Full Details →'}
                     </button>
                   </div>
                 </div>

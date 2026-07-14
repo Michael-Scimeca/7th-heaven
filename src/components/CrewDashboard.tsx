@@ -18,9 +18,11 @@ interface FakeAccount {
 
 interface ChatMsg {
   id: string;
-  account: FakeAccount;
+  account?: FakeAccount | null;
   text: string;
   timestamp: number;
+  isSystem?: boolean;
+  isUser?: boolean;
 }
 
 const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string }> = {
@@ -787,6 +789,133 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   
   // --- Chat Settings / Moderation State ---
   const [showChatSettings, setShowChatSettings] = useState(false);
+  const [warnedUsers, setWarnedUsers] = useState<Set<string>>(new Set());
+  const [bannedUsers, setBannedUsers] = useState<Set<string>>(new Set());
+
+
+  const handleWarn = async (username: string) => {
+    if (!username || username === 'MIKE S' || username === 'Tony M' || username === 'Sammy D' || username === 'Ryan K') return;
+    if (!confirm(`Are you sure you want to warn ${username}?`)) return;
+
+    setWarnedUsers(prev => {
+      const next = new Set(prev);
+      next.add(username);
+      return next;
+    });
+
+    try {
+      await fetch('/api/moderation/warn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: username, room: slug, action: 'warn', reason: 'Moderator warning' })
+      });
+
+      const systemMsg = {
+        id: `mod-warn-${Date.now()}`,
+        account: null,
+        text: `🛡️ ${username} has been warned by a moderator.`,
+        timestamp: Date.now(),
+        isSystem: true
+      };
+      bcRef.current?.postMessage({
+        type: 'MOD_SYSTEM_MSG',
+        payload: systemMsg
+      });
+
+      bcRef.current?.postMessage({
+        type: 'MOD_WARN',
+        payload: { username }
+      });
+
+      setPosts(prev => [...prev, systemMsg]);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleBan = async (username: string) => {
+    if (!username || username === 'MIKE S' || username === 'Tony M' || username === 'Sammy D' || username === 'Ryan K') return;
+    if (!confirm(`Are you sure you want to ban ${username}?`)) return;
+
+    setBannedUsers(prev => {
+      const next = new Set(prev);
+      next.add(username);
+      return next;
+    });
+
+    try {
+      await fetch('/api/moderation/ban', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: username, action: 'ban', room: slug })
+      });
+
+      await fetch('/api/chat/ban', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room: slug, banned_name: username, reason: 'Moderator action' })
+      });
+
+      const systemMsg = {
+        id: `mod-ban-${Date.now()}`,
+        account: null,
+        text: `🚫 ${username} has been banned by a moderator.`,
+        timestamp: Date.now(),
+        isSystem: true
+      };
+      bcRef.current?.postMessage({
+        type: 'MOD_SYSTEM_MSG',
+        payload: systemMsg
+      });
+
+      bcRef.current?.postMessage({
+        type: 'MOD_BAN',
+        payload: { username }
+      });
+
+      setPosts(prev => [...prev, systemMsg]);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleDeleteMsg = async (msgId: string) => {
+    if (!confirm('Are you sure you want to delete this message?')) return;
+    try {
+      await supabase.from('chat_messages').delete().eq('id', msgId);
+      setPosts(prev => prev.filter(p => p.id !== msgId));
+      
+      bcRef.current?.postMessage({
+        type: 'DELETE_MSG',
+        payload: { id: msgId }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleKick = async (username: string) => {
+    if (!username || username === 'MIKE S' || username === 'Tony M' || username === 'Sammy D' || username === 'Ryan K') return;
+    if (!confirm(`WARNING: This will permanently remove ${username} from the site, delete their account and profile, and email them a notification. Are you sure you want to do this?`)) return;
+
+    try {
+      const res = await fetch('/api/moderation/kick', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: username, room: slug })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Failed to kick user: ${err.error}`);
+      } else {
+        alert(`${username} has been successfully removed from the site.`);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error kicking user');
+    }
+  };
+
   const [customWords, setCustomWords] = useState<string[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
@@ -797,6 +926,76 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     }
   });
   const [newCustomWord, setNewCustomWord] = useState('');
+
+  // --- Global Orders & Pack Tracking State ---
+  const [orders, setOrders] = useState<any[]>([]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('admin_orders_list');
+      if (stored) {
+        setOrders(JSON.parse(stored));
+      } else {
+        // Populates standard high-end mock entries
+        const initialMock = [
+          {
+            id: 172088800001,
+            customer: "Michael Scimeca",
+            email: "mikeyscimeca@gmail.com",
+            address: "123 Chicago Ave",
+            city: "Chicago",
+            zip: "60611",
+            item: "7th Heaven Hoodie",
+            price: "$45.00",
+            size: "L",
+            color: "Black",
+            method: "shipping",
+            source: "Flash Drop",
+            status: "Pending",
+            image: "/images/merch/hoodie.png",
+            ts: Date.now() - 3600000 * 2
+          },
+          {
+            id: 172088800002,
+            customer: "Sarah Jenkins",
+            email: "sarahj@example.com",
+            address: "",
+            city: "",
+            zip: "",
+            item: "7th Heaven Tour Tee 2026",
+            price: "$35.00",
+            size: "M",
+            color: "White",
+            method: "merch_table",
+            source: "Store",
+            status: "Ready for Pickup",
+            image: "/images/merch/logo-tee.png",
+            ts: Date.now() - 3600000 * 5
+          }
+        ];
+        localStorage.setItem('admin_orders_list', JSON.stringify(initialMock));
+        setOrders(initialMock);
+      }
+    } catch {}
+  }, []);
+
+  const handleUpdateOrderStatus = (orderId: number, nextStatus: string) => {
+    setOrders(prev => {
+      const updated = prev.map(o => {
+        if (o.id === orderId) {
+          const updatedOrder = { ...o, status: nextStatus };
+          if (nextStatus === 'Shipped') {
+            updatedOrder.trackingNumber = `USPS-7H-${Math.floor(10000000 + Math.random() * 90000000)}`;
+          }
+          return updatedOrder;
+        }
+        return o;
+      });
+      localStorage.setItem('admin_orders_list', JSON.stringify(updated));
+      return updated;
+    });
+    showToast(`Order status updated to ${nextStatus}`, 'success', 'Fulfillment Updated');
+  };
 
   // --- Raffle State ---
   const [raffleStatus, setRaffleStatus] = useState<'idle' | 'open' | 'drawing' | 'complete'>('idle');
@@ -821,8 +1020,67 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const [inventoryQty, setInventoryQty] = useState(15);
   const [shopifyProducts, setShopifyProducts] = useState<any[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [selectedProducts, setSelectedProducts] = useState<Array<{
+    id: string;
+    title: string;
+    stock: number;
+    shopifyPrice: string;
+    flashPrice: string;
+    imageUrl: string;
+  }>>([]);
   const [dropDurationStr, setDropDurationStr] = useState('5m');
   const [globalDrop, setGlobalDrop] = useState(false);
+
+  // --- Active Drop State ---
+  const [activeDrop, setActiveDrop] = useState<{
+    products: typeof selectedProducts;
+    timeLeft: number;
+    totalDuration: number;
+  } | null>(null);
+
+  // Load active drop from storage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('7h_flash_drop');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        const elapsed = Math.floor((Date.now() - parsed.ts) / 1000);
+        const remaining = parsed.duration - elapsed;
+        if (remaining > 0) {
+          setActiveDrop({
+            products: parsed.products || [{
+              id: parsed.id,
+              title: parsed.name,
+              stock: parsed.stock,
+              shopifyPrice: parsed.price,
+              flashPrice: parsed.price,
+              imageUrl: parsed.image
+            }],
+            timeLeft: remaining,
+            totalDuration: parsed.duration
+          });
+        } else {
+          localStorage.removeItem('7h_flash_drop');
+        }
+      } catch {}
+    }
+  }, []);
+
+  // Timer loop for active drop
+  useEffect(() => {
+    if (!activeDrop) return;
+    const timer = setInterval(() => {
+      setActiveDrop(prev => {
+        if (!prev) return null;
+        if (prev.timeLeft <= 1) {
+          localStorage.removeItem('7h_flash_drop');
+          return null;
+        }
+        return { ...prev, timeLeft: prev.timeLeft - 1 };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [activeDrop]);
 
   // --- Raffle Restart State ---
   const [raffleAutoRestartCountdown, setRaffleAutoRestartCountdown] = useState<number | null>(null);
@@ -869,6 +1127,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       if (products.length > 0) {
         setSelectedProductId(products[0].id);
         setInventoryQty(products[0].quantityAvailable || 15);
+        const initialPrice = products[0].variants?.edges?.[0]?.node?.price?.amount || '45.00';
+        setSelectedProducts([
+          {
+            id: products[0].id,
+            title: products[0].title,
+            stock: products[0].quantityAvailable || 0,
+            shopifyPrice: initialPrice,
+            flashPrice: initialPrice,
+            imageUrl: products[0].images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png'
+          }
+        ]);
       }
     }).catch(console.error);
 
@@ -1112,7 +1381,46 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           return next.length > 100 ? next.slice(-100) : next;
         });
       })
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'chat_messages',
+          filter: `room=eq.${slug}`,
+        },
+        (payload: any) => {
+          const newMsg = payload.new;
+          if (!newMsg?.id) return;
+          
+          const mapped: ChatMsg = {
+            id: newMsg.id,
+            account: {
+              id: newMsg.sender_name || 'Guest',
+              name: newMsg.sender_name || 'Guest',
+              displayName: newMsg.sender_name || 'Anonymous',
+              role: newMsg.sender_role || 'fan',
+              avatar: newMsg.sender_avatar || 'G',
+              color: getAvatarColor(newMsg.sender_name || 'Guest')
+            },
+            text: newMsg.content,
+            timestamp: new Date(newMsg.created_at).getTime(),
+            isSystem: newMsg.sender_role === 'system'
+          };
+
+          setPosts(prev => {
+            if (prev.find(m => m.id === mapped.id)) return prev;
+            const next = [...prev, mapped];
+            return next.length > 100 ? next.slice(-100) : next;
+          });
+
+          // Broadcast to FakeLiveStream via BroadcastChannel so it syncs to the fan page!
+          bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: mapped });
+        }
+      )
       .subscribe();
+
+
 
     const viewerInterval = setInterval(() => {
       const live = localStorage.getItem(LS('viewer_count'));
@@ -1158,8 +1466,49 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         });
       }
 
+      if (type === 'MOD_WARN' && payload) {
+        setWarnedUsers(s => new Set(s).add(payload.username));
+      }
+
+      if (type === 'MOD_BAN' && payload) {
+        setBannedUsers(s => new Set(s).add(payload.username));
+      }
+
+      if (type === 'DELETE_MSG' && payload) {
+        setPosts(prev => prev.filter(p => p.id !== payload.id));
+      }
+
+      if (type === 'MOD_SYSTEM_MSG' && payload) {
+        if (seenBcMsgIds.current.has(payload.id)) return;
+        seenBcMsgIds.current.add(payload.id);
+        setPosts(prev => {
+          if (prev.find(m => m.id === payload.id)) return prev;
+          const next = [...prev, payload as ChatMsg];
+          return next.length > 100 ? next.slice(-100) : next;
+        });
+      }
+
       if (type === 'VIEWER_COUNT') {
         setViewerCount(payload);
+      }
+
+      if (type === 'ORDER_CREATED' && payload) {
+        setOrders(prev => {
+          if (prev.find(o => o.id === payload.id)) return prev;
+          const updated = [payload, ...prev];
+          localStorage.setItem('admin_orders_list', JSON.stringify(updated));
+          return updated;
+        });
+        showToast(
+          `${payload.customer} purchased ${payload.item}${payload.size ? ` (${payload.size})` : ''} via ${payload.source}!`, 
+          'success', 
+          '🛍️ New Order Received'
+        );
+        try {
+          const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-500.wav");
+          audio.volume = 0.4;
+          audio.play();
+        } catch {}
       }
     };
 
@@ -1835,6 +2184,35 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     setGlobalPinText('');
   };
 
+  const addProductToDrop = (prodId: string) => {
+    if (!prodId) return;
+    const prod = shopifyProducts.find(p => p.id === prodId);
+    if (!prod) return;
+    if (selectedProducts.some(p => p.id === prodId)) return;
+    const price = prod.variants?.edges?.[0]?.node?.price?.amount || '45.00';
+    const stock = prod.quantityAvailable || 0;
+    const image = prod.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
+    setSelectedProducts(prev => [
+      ...prev,
+      {
+        id: prodId,
+        title: prod.title,
+        stock: stock,
+        shopifyPrice: price,
+        flashPrice: price,
+        imageUrl: image
+      }
+    ]);
+  };
+
+  const removeProductFromDrop = (prodId: string) => {
+    setSelectedProducts(prev => prev.filter(p => p.id !== prodId));
+  };
+
+  const updateProductFlashPrice = (prodId: string, price: string) => {
+    setSelectedProducts(prev => prev.map(p => p.id === prodId ? { ...p, flashPrice: price } : p));
+  };
+
   const launchFlashDrop = () => {
      let seconds = 300;
      const dur = dropDurationStr.trim().toLowerCase();
@@ -1854,19 +2232,53 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
      
      if (isNaN(seconds) || seconds <= 0) seconds = 300;
 
-     const activeProduct = shopifyProducts.find(p => p.id === selectedProductId) || shopifyProducts[0];
-     const pName = activeProduct?.title || '7TH HEAVEN HOODIE 2026';
-     const pPrice = activeProduct ? activeProduct.variants.edges[0].node.price.amount : '45.00';
-     const pStock = activeProduct ? (activeProduct.quantityAvailable || 0) : inventoryQty;
-     const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
+     if (selectedProducts.length === 0) {
+       alert("Please add at least one product to the flash drop!");
+       return;
+     }
+
+     const firstProduct = selectedProducts[0];
+     const firstShopifyProd = shopifyProducts.find(sp => sp.id === firstProduct.id);
+     const firstVariantId = firstShopifyProd?.variants?.edges?.[0]?.node?.id || firstProduct.id;
+     const firstDescription = firstShopifyProd?.description || "";
+     const firstVariants = firstShopifyProd?.variants?.edges?.map((v: any) => ({
+        id: v.node.id,
+        title: v.node.title,
+        price: v.node.price?.amount || firstProduct.flashPrice,
+        quantityAvailable: v.node.quantityAvailable || 0
+     })) || [];
 
      const payload = {
-        name: pName,
-        price: pPrice,
-        stock: pStock,
-        image: pImageUrl,
-        duration: seconds
-     };
+         id: firstProduct.id,
+         variantId: firstVariantId,
+         name: firstProduct.title,
+         price: firstProduct.flashPrice,
+         stock: firstProduct.stock,
+         image: firstProduct.imageUrl,
+         description: firstDescription,
+         variants: firstVariants,
+         products: selectedProducts.map(p => {
+            const shopifyProd = shopifyProducts.find(sp => sp.id === p.id);
+            const variantId = shopifyProd?.variants?.edges?.[0]?.node?.id || p.id;
+            const prodVariants = shopifyProd?.variants?.edges?.map((v: any) => ({
+               id: v.node.id,
+               title: v.node.title,
+               price: v.node.price?.amount || p.flashPrice,
+               quantityAvailable: v.node.quantityAvailable || 0
+            })) || [];
+            return {
+               id: p.id,
+               variantId: variantId,
+               name: p.title,
+               price: p.flashPrice,
+               stock: p.stock,
+               image: p.imageUrl,
+               description: shopifyProd?.description || "",
+               variants: prodVariants
+            };
+         }),
+         duration: seconds
+      };
 
      // Sync drop via local storage directly across tabs (immediate sync for testing)
      localStorage.setItem('7h_flash_drop', JSON.stringify({ ...payload, ts: Date.now() }));
@@ -1891,6 +2303,31 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
      } catch (e) {
        console.error("Supabase Flash Drop Broadcast Error:", e);
      }
+
+     setActiveDrop({
+       products: [...selectedProducts],
+       timeLeft: seconds,
+       totalDuration: seconds
+     });
+  };
+
+  const cancelFlashDrop = () => {
+    localStorage.removeItem('7h_flash_drop');
+    setActiveDrop(null);
+    bcRef.current?.postMessage({ type: 'CANCEL_FLASH_DROP' });
+    if (globalDrop) {
+      const globalBc = new BroadcastChannel('7h_live_global');
+      globalBc.postMessage({ type: 'CANCEL_FLASH_DROP' });
+      setTimeout(() => globalBc.close(), 100);
+    }
+    try {
+      supabase.channel('live_events').send({
+        type: 'broadcast',
+        event: 'cancel_flash_drop'
+      });
+    } catch (e) {
+      console.error("Supabase Cancel Broadcast Error:", e);
+    }
   };
 
   const updateGlobalBanner = async () => {
@@ -2129,7 +2566,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           {/* CHAT PANEL (Right side) */}
           <div className="w-[400px] bg-[#0c0c11] border-l border-white/[0.05] flex flex-col shrink-0">
              <div className="p-4 border-b border-white/[0.05] flex items-center justify-between shrink-0">
-                <span className="text-xs font-black uppercase tracking-widest text-white/80">💭 Live Chat</span>
+                 <span className="text-xs font-black uppercase tracking-widest text-white/80">💭 Live Chat</span>
                 <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-white/40">
                    <div className="flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-emerald-500" /> {viewerCount} online
@@ -2164,24 +2601,110 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
              )}
 
              <div ref={chatScrollRef} data-lenis-prevent className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar flex flex-col min-h-0">
-                {posts.map(p => (
-                  <div key={p.id} className="flex gap-3">
-                     <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-black shrink-0 shadow-lg" style={{ backgroundColor: p.account?.color || getAvatarColor(p.account?.displayName || 'Crew') }}>
-                        {p.account?.avatar || 'C'}
-                     </div>
-                     <div>
-                        <div className="flex items-center gap-1.5 mb-0.5">
-                           <p className="text-sm font-bold uppercase tracking-tight" style={{ color: p.account?.color || getAvatarColor(p.account?.displayName || 'Crew') }}>{p.account?.displayName || 'Anonymous'}</p>
-                           {(p.account?.role === 'crew' || p.account?.role === 'admin') && (
-                              <span className="px-1 py-0.5 bg-[#8a1cfc]/20 border border-[#8a1cfc]/40 rounded text-2xs font-black uppercase tracking-wider text-[#c084fc]">
-                                CREW
-                              </span>
-                           )}
-                        </div>
-                        <p className="text-sm text-white/90 leading-snug">{p.text}</p>
-                     </div>
-                  </div>
-                ))}
+                {posts.map(p => {
+                  const isSystem = !p.account || p.isSystem;
+                  if (isSystem) {
+                    const isWarning = p.text.includes('warned') || p.text.includes('Warning');
+                    const isBan = p.text.includes('banned');
+                    const bg = isWarning 
+                      ? 'rgba(245,158,11,0.1)' 
+                      : isBan 
+                      ? 'rgba(239,68,68,0.1)' 
+                      : 'rgba(255,255,255,0.05)';
+                    const color = isWarning 
+                      ? '#fbbf24' 
+                      : isBan 
+                      ? '#f87171' 
+                      : 'rgba(255,255,255,0.35)';
+                    const border = isWarning 
+                      ? '1px solid rgba(245,158,11,0.2)' 
+                      : isBan 
+                      ? '1px solid rgba(239,68,68,0.2)' 
+                      : '1px solid transparent';
+                    return (
+                      <div key={p.id} className="flex items-center justify-center py-1">
+                        <span
+                          className="px-3 py-1 rounded-full text-2xs uppercase tracking-wider font-bold"
+                          style={{
+                            background: bg,
+                            color: color,
+                            border: border,
+                            fontSize: 10,
+                          }}
+                        >
+                          {p.text}
+                        </span>
+                      </div>
+                    );
+                  }
+
+                  const username = p.account?.displayName || p.account?.name || 'Anonymous';
+                  const isUserBanned = bannedUsers.has(username);
+                  const isUserWarned = warnedUsers.has(username);
+
+                  return (
+                    <div key={p.id} className="flex gap-3 relative group">
+                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-black shrink-0 shadow-lg" style={{ backgroundColor: p.account?.color || getAvatarColor(username) }}>
+                          {p.account?.avatar || 'C'}
+                       </div>
+                       <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
+                             <p className="text-sm font-bold uppercase tracking-tight" style={{ color: p.account?.color || getAvatarColor(username) }}>{username}</p>
+                             {(p.account?.role === 'crew' || p.account?.role === 'admin') && (
+                                <span className="px-1 py-0.5 bg-[#8a1cfc]/20 border border-[#8a1cfc]/40 rounded text-2xs font-black uppercase tracking-wider text-[#c084fc]">
+                                  CREW
+                                </span>
+                             )}
+                             {isUserWarned && (
+                                <span className="px-1 py-0.5 bg-amber-500/10 border border-amber-500/30 rounded text-2xs font-black uppercase tracking-wider text-amber-400">
+                                  WARNED
+                                </span>
+                             )}
+                             {isUserBanned && (
+                                <span className="px-1 py-0.5 bg-red-500/10 border border-red-500/30 rounded text-2xs font-black uppercase tracking-wider text-red-400">
+                                  BANNED
+                                </span>
+                             )}
+                          </div>
+                          <p className="text-sm text-white/90 leading-snug break-words" style={{ textDecoration: isUserBanned ? 'line-through' : 'none', opacity: isUserBanned ? 0.5 : 1 }}>{p.text}</p>
+                       </div>
+
+                       {/* Moderation Actions */}
+                       {p.account?.role !== 'crew' && p.account?.role !== 'admin' && (
+                         <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[#111116]/95 border border-white/10 rounded-lg p-1 shadow-lg z-20">
+                           <button
+                             onClick={() => handleWarn(username)}
+                             title={isUserWarned ? "Unwarn User" : "Warn User"}
+                             className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-amber-500/15 text-amber-500 hover:scale-105 transition-all cursor-pointer"
+                           >
+                             ⚠️
+                           </button>
+                           <button
+                             onClick={() => handleBan(username)}
+                             title={isUserBanned ? "Unban User" : "Ban User"}
+                             className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/15 text-red-500 hover:scale-105 transition-all cursor-pointer"
+                           >
+                             🚫
+                           </button>
+                           <button
+                             onClick={() => handleDeleteMsg(p.id)}
+                             title="Delete Message"
+                             className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-white/10 text-white/40 hover:scale-105 transition-all cursor-pointer"
+                           >
+                             🗑
+                           </button>
+                            <button
+                              onClick={() => handleKick(username)}
+                              title="Remove Fan Completely"
+                              className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 text-red-500 hover:scale-105 transition-all cursor-pointer"
+                            >
+                              🚪
+                            </button>
+                         </div>
+                       )}
+                    </div>
+                  );
+                })}
              </div>
 
              <div className="p-4 bg-[#111116] border-t border-white/[0.05] space-y-3 shrink-0">
@@ -2256,116 +2779,187 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  </div>
               </div>
               <div className="p-4">
-                 <div className="flex items-center justify-between mb-3 text-xs font-black uppercase tracking-widest">
-                    <div className="flex items-center gap-2">
-                       <span className="text-[#ec4899]">■ LIVE SHOPIFY INVENTORY</span>
-                       <a 
-                          href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[9px] text-white/40 hover:text-[#ec4899] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-[#ec4899]/30 bg-white/[0.02] hover:bg-[#ec4899]/5 px-2 py-0.5 rounded"
-                          title="Go to Shopify Products Admin"
+                 {activeDrop ? (
+                    <div className="space-y-4">
+                       {/* Submitted Status Header */}
+                       <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                             <span className="text-xs font-black uppercase tracking-widest text-emerald-400">Flash Sale Active</span>
+                          </div>
+                          <span className="text-[10px] text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
+                       </div>
+
+                       {/* Countdown timer */}
+                       <div className="bg-black/40 border border-white/5 rounded-xl p-4 text-center">
+                          <p className="text-xs font-black tracking-widest text-white/30 uppercase mb-1">Time Remaining</p>
+                          <p className="text-3xl font-black font-mono text-[#ec4899] tracking-wider animate-pulse">
+                             {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
+                          </p>
+                          <div className="w-full bg-white/5 h-1.5 rounded-full mt-3 overflow-hidden">
+                             <div 
+                                className="h-full bg-gradient-to-r from-[#ec4899] to-pink-500 transition-all duration-1000"
+                                style={{ width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%` }}
+                             />
+                          </div>
+                       </div>
+
+                       {/* Product List */}
+                       <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                          <p className="text-xs font-black tracking-widest uppercase text-white/30">Active Products</p>
+                          {activeDrop.products.map(p => (
+                             <div key={p.id} className="flex gap-3 p-2.5 bg-[#1c1c24] rounded-xl border border-white/5 items-center justify-between">
+                                <img src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                                <div className="flex-1 min-w-0">
+                                   <p className="text-xs font-bold truncate text-white" title={p.title}>{p.title}</p>
+                                   <p className="text-[10px] text-white/40 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                </div>
+                                <div className="shrink-0 text-right">
+                                   <p className="text-xs font-black text-[#ec4899] font-mono">${p.flashPrice}</p>
+                                </div>
+                             </div>
+                          ))}
+                       </div>
+
+                       {/* Actions */}
+                       <div className="pt-2">
+                          <button 
+                             type="button"
+                             onClick={cancelFlashDrop}
+                             className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-500 hover:text-red-400 text-xs font-black tracking-widest uppercase rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                          >
+                             🚫 Cancel Flash Drop
+                          </button>
+                       </div>
+                    </div>
+                 ) : (
+                    <>
+                       <div className="flex items-center justify-between mb-3 text-xs font-black uppercase tracking-widest">
+                          <div className="flex items-center gap-2">
+                             <span className="text-[#ec4899]">■ LIVE SHOPIFY INVENTORY</span>
+                             <a 
+                                href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[9px] text-white/40 hover:text-[#ec4899] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-[#ec4899]/30 bg-white/[0.02] hover:bg-[#ec4899]/5 px-2 py-0.5 rounded"
+                                title="Go to Shopify Products Admin"
+                             >
+                                Shopify Admin ↗
+                             </a>
+                          </div>
+                          <button onClick={() => window.location.reload()} className="text-white/30 hover:text-white flex items-center gap-1">↻ Refresh</button>
+                       </div>
+                       
+                       <div className="mb-4">
+                          <select 
+                             value=""
+                             onChange={e => {
+                                if (e.target.value) {
+                                   addProductToDrop(e.target.value);
+                                   e.target.value = "";
+                                }
+                             }}
+                             className="w-full bg-black border border-[#ec4899]/30 rounded-xl p-3 text-white font-bold text-sm outline-none focus:border-[#ec4899] cursor-pointer appearance-none"
+                             style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem top 50%', backgroundSize: '0.65rem auto' }}
+                          >
+                             <option value="" className="text-white/40">✚ Select product to add to Flash Drop...</option>
+                             {shopifyProducts.map(p => (
+                                <option key={p.id} value={p.id} disabled={selectedProducts.some(sp => sp.id === p.id)}>
+                                   {p.title} — ${p.variants?.edges?.[0]?.node?.price?.amount} ({(p.quantityAvailable || 0)} in stock)
+                                </option>
+                             ))}
+                          </select>
+                       </div>
+                       
+                       <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
+                          <p className="text-xs font-black tracking-widest uppercase text-white/30 mb-2">Selected Products & Flash Sale Prices</p>
+                          {selectedProducts.length === 0 ? (
+                             <div className="text-center py-6 bg-[#1c1c24]/50 border border-white/5 rounded-xl text-white/30 italic text-xs">
+                               No products selected yet. Select a product above.
+                             </div>
+                          ) : (
+                             selectedProducts.map(p => (
+                                <div key={p.id} className="flex gap-4 p-3 bg-[#1c1c24] rounded-xl border border-white/5 items-center justify-between">
+                                   <img src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                                   <div className="flex-1 min-w-0">
+                                      <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
+                                      <p className="text-[10px] text-white/40 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                   </div>
+                                   <div className="flex items-center gap-2 shrink-0">
+                                      <div className="flex items-center bg-black/60 border border-white/10 rounded-lg px-2 py-1 max-w-[90px]">
+                                         <span className="text-white/40 text-[10px] mr-1">$</span>
+                                         <input 
+                                            type="text" 
+                                            value={p.flashPrice} 
+                                            onChange={e => updateProductFlashPrice(p.id, e.target.value)} 
+                                            className="bg-transparent text-white font-mono font-black text-xs outline-none w-full text-right" 
+                                            placeholder="Price"
+                                         />
+                                      </div>
+                                      <button 
+                                         onClick={() => removeProductFromDrop(p.id)}
+                                         className="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-500 flex items-center justify-center font-bold text-xs transition-colors cursor-pointer border-none"
+                                         title="Remove from drop"
+                                      >
+                                         ✕
+                                      </button>
+                                   </div>
+                                </div>
+                             ))
+                          )}
+                       </div>
+
+                       <div className="grid grid-cols-2 gap-4 mb-4">
+                         <div>
+                           <p className="text-xs font-black tracking-widest uppercase text-white/30 mb-2">Total Products</p>
+                           <div className="w-full bg-[#1c1c24] border border-white/10 rounded-lg p-2.5 text-center text-xs font-bold font-mono">{selectedProducts.length}</div>
+                         </div>
+                         <div>
+                            <p className="text-xs font-black tracking-widest uppercase text-white/30 mb-2">Duration</p>
+                            <div className="grid grid-cols-4 gap-1">
+                              {['2m', '5m', '10m', '15m'].map((d) => (
+                                <button 
+                                  key={d}
+                                  type="button"
+                                  onClick={() => setDropDurationStr(d)}
+                                  className={`text-center py-2 rounded border text-[10px] font-bold ${dropDurationStr === d ? 'bg-[#ec4899]/20 border-[#ec4899] text-[#ec4899]' : 'bg-[#1c1c24] border-white/10 text-white/40 hover:bg-white/5'}`}
+                                >
+                                  {d}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                       </div>
+
+                       <label className="flex items-center gap-2 mb-4 cursor-pointer group">
+                         <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-[#ec4899] border-[#ec4899]' : 'border-white/20 group-hover:border-white/40 bg-black'}`}>
+                           {globalDrop && <span className="text-white text-[10px] font-bold">✓</span>}
+                         </div>
+                         <input type="checkbox" className="hidden" checked={globalDrop} onChange={e => setGlobalDrop(e.target.checked)} />
+                         <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
+                       </label>
+
+                       <button 
+                         type="button"
+                         onClick={launchFlashDrop}
+                         className="w-full py-4 bg-gradient-to-r from-[#ec4899] to-pink-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all"
                        >
-                          Shopify Admin ↗
-                       </a>
-                    </div>
-                    <button onClick={() => window.location.reload()} className="text-white/30 hover:text-white flex items-center gap-1">↻ Refresh</button>
-                 </div>
-                 
-                 <div className="mb-4">
-                    <select 
-                       value={selectedProductId || ''}
-                       onChange={e => setSelectedProductId(e.target.value)}
-                       className="w-full bg-black border border-[#ec4899]/30 rounded-xl p-3 text-white font-bold text-sm outline-none focus:border-[#ec4899] cursor-pointer appearance-none"
-                       style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem top 50%', backgroundSize: '0.65rem auto' }}
-                    >
-                       {shopifyProducts.length === 0 && (
-                          <option value="">{pName} — ${pPrice} ({pStock} in stock)</option>
-                       )}
-                       {shopifyProducts.map(p => (
-                          <option key={p.id} value={p.id}>
-                             {p.title} — ${p.variants.edges[0].node.price.amount} ({(p.quantityAvailable || 0)} in stock)
-                          </option>
-                       ))}
-                    </select>
-                 </div>
-                 
-                 <div className="flex gap-4 p-4 bg-[#1c1c24] rounded-xl border border-white/5 mb-4 items-center">
-                    <img src={pImageUrl} alt={pName} className="w-16 h-16 rounded bg-black object-cover" />
-                    <div className="flex-1">
-                       <p className="text-sm font-bold truncate pr-2" title={pName}>{pName}</p>
-                        <div className="flex items-center gap-3 mt-1">
-                           <p className="text-[#ec4899] font-black">${pPrice}</p>
-                           {activeProduct && (
-                              <a 
-                                 href={getShopifyProductAdminUrl(activeProduct.id)}
-                                 target="_blank"
-                                 rel="noopener noreferrer"
-                                 className="text-[10px] text-[#ec4899]/60 hover:text-[#ec4899] hover:underline font-bold"
-                              >
-                                 Edit on Shopify ↗
-                              </a>
-                           )}
-                        </div>
-                    </div>
-                 </div>
+                          🔥 Launch Flash Drop
+                       </button>
 
-                 <div className="grid grid-cols-2 gap-4 mb-4">
-                   <div>
-                     <p className="text-xs font-black tracking-widest uppercase text-white/30 mb-2">Stock <span className="text-[#ec4899]">(Shopify: {pStock})</span></p>
-                     <div className="w-full bg-[#1c1c24] border border-white/10 rounded-lg p-2.5 text-center text-xs font-bold font-mono">{pStock}</div>
-                   </div>
-                   <div>
-                     <p className="text-xs font-black tracking-widest uppercase text-white/30 mb-2">Duration</p>
-                     <div className="grid grid-cols-5 gap-1">
-                       {['2m', '5m', '10m', '15m'].map((d) => (
-                         <button 
-                           key={d}
-                           type="button"
-                           onClick={() => setDropDurationStr(d)}
-                           className={`text-center p-2 rounded border text-xs font-bold ${dropDurationStr === d ? 'bg-[#ec4899]/20 border-[#ec4899] text-[#ec4899]' : 'bg-[#1c1c24] border-white/10 text-white/40 hover:bg-white/5'}`}
-                         >
-                           {d}
-                         </button>
-                       ))}
-                       <input 
-                         type="text" 
-                         placeholder="1m 30s" 
-                         value={dropDurationStr} 
-                         onChange={e => setDropDurationStr(e.target.value)} 
-                         className="bg-black border border-white/20 text-white text-xs font-bold text-center rounded outline-none focus:border-[#ec4899] w-full" 
-                       />
-                     </div>
-                   </div>
-                 </div>
-
-                 <label className="flex items-center gap-2 mb-4 cursor-pointer group">
-                   <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-[#ec4899] border-[#ec4899]' : 'border-white/20 group-hover:border-white/40 bg-black'}`}>
-                     {globalDrop && <span className="text-white text-[10px] font-bold">✓</span>}
-                   </div>
-                   <input type="checkbox" className="hidden" checked={globalDrop} onChange={e => setGlobalDrop(e.target.checked)} />
-                   <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
-                 </label>
-
-                 <button 
-                   type="button"
-                   onClick={launchFlashDrop}
-                   className="w-full py-4 bg-gradient-to-r from-[#ec4899] to-pink-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all"
-                 >
-                    🔥 Launch Flash Drop
-                 </button>
-
-                 <button 
-                   type="button"
-                   onClick={() => {
-                     const testPayload = { name: '7TH HEAVEN HOODIE 2026', price: '45.00', stock: 0, image: '/images/mockups/merch_hoodie.png', duration: 300 };
-                     localStorage.setItem('7h_flash_drop', JSON.stringify({ ...testPayload, ts: Date.now() }));
-                     try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch {}
-                   }}
-                   className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-500 text-xs font-black tracking-widest uppercase rounded-xl transition-all"
-                 >
-                    [TESTING] Simulate Sold Out Merch Drop
-                 </button>
+                       <button 
+                         type="button"
+                         onClick={() => {
+                           const testPayload = { name: '7TH HEAVEN HOODIE 2026', price: '45.00', stock: 0, image: '/images/mockups/merch_hoodie.png', duration: 300 };
+                           localStorage.setItem('7h_flash_drop', JSON.stringify({ ...testPayload, ts: Date.now() }));
+                           try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch {}
+                         }}
+                         className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-500 text-xs font-black tracking-widest uppercase rounded-xl transition-all"
+                       >
+                          [TESTING] Simulate Sold Out Merch Drop
+                       </button>
+                    </>
+                 )}
               </div>
            </div>
 
@@ -2544,56 +3138,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
              </div>
           </div>
 
-        {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-        <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-           <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
-              <div className="flex items-center gap-3">
-                 <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-xl">📊</div>
-                 <div>
-                    <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
-                    <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
-                 </div>
-              </div>
-              {isLive && (
-                 <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
-                    ● Live Tracking
-                 </span>
-              )}
-           </div>
-
-           <div className="p-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                 
-                 {/* shopify sales card */}
-                 <div className="p-4 bg-gradient-to-br from-[#291e14] to-[#0c0c11] border border-amber-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-amber-500/40 transition-all duration-300 col-span-1">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-amber-500">🛍️ Merch Sales Revenue</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">${liveSalesRevenue.toFixed(2)}</p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">{liveSalesCount} purchases during broadcast</p>
-                 </div>
-
-                 {/* viewers card */}
-                 <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border border-emerald-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300 col-span-1">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-emerald-400">👁️ Live Viewers</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">{viewerCount}</p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">{isLive ? "Watching live right now" : "Offline"}</p>
-                 </div>
-
-                 {/* chat engagement card */}
-                 <div className="p-4 bg-gradient-to-br from-[#17172b] to-[#0c0c11] border border-[#8a1cfc]/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-[#8a1cfc]/40 transition-all duration-300">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#8a1cfc]/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-[#c084fc]">💭 Chat Engagement</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">{posts.filter(p => Date.now() - p.timestamp < 60000).length} / min</p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">
-                       {new Set(posts.map(p => p.account?.displayName || p.account?.name || 'Guest').filter(n => n !== 'RAFFLE BOT' && n !== '🛍️ STORE BOT')).size} active chatters · {posts.length} total
-                    </p>
-                 </div>
-
-              </div>
-           </div>
-        </div>
-
         {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
         <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
            <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[#181820]">
@@ -2658,6 +3202,72 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                </div>
             </div>
          </div>
+
+        {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
+        <div className="bg-[#111116] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
+           <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
+              <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-xl">📊</div>
+                 <div>
+                    <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
+                    <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
+                 </div>
+              </div>
+              {isLive && (
+                 <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                    ● Live Tracking
+                 </span>
+              )}
+           </div>
+
+           <div className="p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                 
+                 {/* store sales card */}
+                 <div className="p-4 bg-gradient-to-br from-[#291e34] to-[#0c0c11] border border-purple-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-purple-500/40 transition-all duration-300">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-purple-400">🛍️ Store Sales Revenue</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">
+                      ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                    </p>
+                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">
+                      {orders.filter(o => o.source === 'Store').length} purchases
+                    </p>
+                 </div>
+
+                 {/* flash drop sales card */}
+                 <div className="p-4 bg-gradient-to-br from-[#341e29] to-[#0c0c11] border border-pink-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-pink-500/40 transition-all duration-300">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-pink-500/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-pink-400">⚡ Flash Drop Sales</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">
+                      ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                    </p>
+                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">
+                      {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
+                    </p>
+                 </div>
+
+                 {/* raffle claims card */}
+                 <div className="p-4 bg-gradient-to-br from-[#292212] to-[#0c0c11] border border-amber-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-amber-500/40 transition-all duration-300">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-amber-500">🏆 Raffle Claims</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">
+                      {orders.filter(o => o.source === 'Raffle').length}
+                    </p>
+                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">prizes claimed by fans</p>
+                 </div>
+
+                 {/* viewers card */}
+                 <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border border-emerald-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-emerald-400">👁️ Live Viewers</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">{viewerCount}</p>
+                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">{isLive ? "Watching live right now" : "Offline"}</p>
+                 </div>
+
+              </div>
+           </div>
+        </div>
 
         </div>
       )}

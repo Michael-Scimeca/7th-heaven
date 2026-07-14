@@ -24,6 +24,90 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   const [isLoading, setIsLoading] = useState(true);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   
+  const isCrewOrAdmin = member?.role === 'crew' || member?.role === 'admin';
+
+  const handleKick = async (senderName: string) => {
+    if (!senderName || senderName === member?.name) return;
+    if (!confirm(`WARNING: This will permanently remove ${senderName} from the site, delete their account and profile, and email them a notification. Are you sure you want to do this?`)) return;
+
+    try {
+      const res = await fetch('/api/moderation/kick', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: senderName, room })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Failed to kick user: ${err.error}`);
+      } else {
+        alert(`${senderName} has been successfully removed from the site.`);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error kicking user');
+    }
+  };
+
+  const handleWarn = async (senderName: string) => {
+    if (!senderName || senderName === member?.name) return;
+    if (!confirm(`Are you sure you want to warn ${senderName}?`)) return;
+
+    try {
+      const res = await fetch('/api/moderation/warn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: senderName, room, action: 'warn', reason: 'Moderator warning' })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Failed to warn user: ${err.error}`);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error warning user');
+    }
+  };
+
+  const handleBan = async (senderName: string) => {
+    if (!senderName || senderName === member?.name) return;
+    if (!confirm(`Are you sure you want to ban ${senderName}?`)) return;
+
+    try {
+      // 1. Ban globally
+      const res = await fetch('/api/moderation/ban', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: senderName, action: 'ban', room })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Failed to ban user globally: ${err.error}`);
+        return;
+      }
+
+      // 2. Ban in room
+      await fetch('/api/chat/ban', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room, banned_name: senderName, reason: 'Moderator action' })
+      });
+    } catch (e) {
+      console.error(e);
+      alert('Error banning user');
+    }
+  };
+
+  const handleDeleteMsg = async (msgId: string) => {
+    if (!confirm('Are you sure you want to delete this message?')) return;
+    try {
+      const { error } = await supabase.from('chat_messages').delete().eq('id', msgId);
+      if (error) alert(`Failed to delete message: ${error.message}`);
+    } catch (e) {
+      console.error(e);
+      alert('Error deleting message');
+    }
+  };
+  
   const supabase = createClient();
   const room = "cruise_dashboard";
 
@@ -107,7 +191,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim() || !member || isSending || !chatEnabled) return;
+    if (!newMessage.trim() || !member || isSending || !chatEnabled || member.is_banned) return;
 
     // Client-side PG content filter (mirrors server blocklist)
     const PG_BLOCKED = [
@@ -268,6 +352,32 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         </div>
       )}
 
+      {/* User Warning Alert */}
+      {member?.is_warned && (
+        <div className="bg-amber-500/15 border-b border-amber-500/30 px-4 py-3 flex items-start gap-3 relative z-10 animate-[slideDown_0.3s_ease-out]">
+          <span className="text-amber-400 text-sm shrink-0">⚠️</span>
+          <div className="flex-1">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Warning Alert</h4>
+            <p className="text-amber-100/90 text-xs font-medium leading-relaxed">
+              You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* User Banned Alert */}
+      {member?.is_banned && (
+        <div className="bg-red-500/15 border-b border-red-500/30 px-4 py-3 flex items-start gap-3 relative z-10 animate-[slideDown_0.3s_ease-out]">
+          <span className="text-red-400 text-sm shrink-0">🚫</span>
+          <div className="flex-1">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
+            <p className="text-red-100/90 text-xs font-medium leading-relaxed">
+              You have been permanently banned from sending messages in this chat.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Messages Area */}
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-hide relative">
         {messages.length === 0 ? (
@@ -277,27 +387,85 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
             <p className="text-xs mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or ask the crew a question!</p>
           </div>
         ) : (
-          messages.map((msg) => (
-            <div key={msg.id} className="flex gap-3 animate-[slideIn_0.3s_ease-out]">
-              <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black border border-white/10 bg-[#15151f]">
-                {msg.sender_avatar.substring(0, 2).toUpperCase()}
-              </div>
-              <div className="flex flex-col flex-1">
-                <div className="flex items-baseline gap-2 mb-1">
-                  <span className="text-xs font-bold text-white/80">{msg.sender_name}</span>
-                  <span className={`text-2xs font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
-                    {msg.sender_role}
-                  </span>
-                  <span className="text-xs text-white/30 ml-auto font-mono">
+          messages.map((msg) => {
+            const isSystem = msg.sender_role === 'system';
+            if (isSystem) {
+              const isWarning = msg.content.includes('Warning') || msg.content.includes('warned');
+              const isBan = msg.content.includes('banned');
+              const bgClass = isWarning 
+                ? "bg-amber-500/10 border-amber-500/20 text-amber-200" 
+                : isBan 
+                ? "bg-red-500/10 border-red-500/20 text-red-200" 
+                : "bg-purple-500/10 border-purple-500/20 text-purple-200";
+              return (
+                <div key={msg.id} className={`flex items-center gap-2 p-3 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
+                  <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
+                  <div className="flex-1 leading-relaxed">
+                    {msg.content}
+                  </div>
+                  <span className="text-2xs opacity-40 shrink-0 font-mono ml-2">
                     {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
-                <div className="bg-white/5 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-white/70 inline-block w-fit max-w-[90%] leading-relaxed border border-white/[0.02]">
-                  {msg.content}
+              );
+            }
+
+            return (
+              <div key={msg.id} className="flex gap-3 animate-[slideIn_0.3s_ease-out] group relative">
+                <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black border border-white/10 bg-[#15151f]">
+                  {msg.sender_avatar.substring(0, 2).toUpperCase()}
                 </div>
+                <div className="flex flex-col flex-1 min-w-0">
+                  <div className="flex items-baseline gap-2 mb-1">
+                    <span className="text-xs font-bold text-white/80">{msg.sender_name}</span>
+                    <span className={`text-2xs font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
+                      {msg.sender_role}
+                    </span>
+                    <span className="text-xs text-white/30 ml-auto font-mono">
+                      {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div className="bg-white/5 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-white/70 inline-block w-fit max-w-[90%] leading-relaxed border border-white/[0.02] break-words">
+                    {msg.content}
+                  </div>
+                </div>
+
+                {/* Moderation actions for Crew/Admin */}
+                {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
+                  <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[#0b0b12]/95 border border-white/10 rounded-lg p-1 shadow-lg z-20">
+                    <button
+                      onClick={() => handleWarn(msg.sender_name)}
+                      title="Warn User"
+                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-amber-500/15 text-amber-500 hover:scale-105 transition-all cursor-pointer"
+                    >
+                      ⚠️
+                    </button>
+                    <button
+                      onClick={() => handleBan(msg.sender_name)}
+                      title="Ban User"
+                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/15 text-red-500 hover:scale-105 transition-all cursor-pointer"
+                    >
+                      🚫
+                    </button>
+                    <button
+                      onClick={() => handleDeleteMsg(msg.id)}
+                      title="Delete Message"
+                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-white/10 text-white/40 hover:scale-105 transition-all cursor-pointer"
+                    >
+                      🗑
+                    </button>
+                    <button
+                      onClick={() => handleKick(msg.sender_name)}
+                      title="Remove Fan Completely"
+                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 text-red-500 hover:scale-105 transition-all cursor-pointer"
+                    >
+                      🚪
+                    </button>
+                  </div>
+                )}
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 
@@ -314,14 +482,14 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
-                disabled={!member || isSending}
-                placeholder={member ? "Type a message..." : "Log in to chat"}
+                disabled={!member || isSending || member.is_banned}
+                placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message...") : "Log in to chat"}
                 className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white outline-none focus:border-[var(--color-accent)]/50 focus:bg-white/5 transition-all disabled:opacity-50"
                 maxLength={500}
               />
               <button
                 type="submit"
-                disabled={!newMessage.trim() || !member || isSending}
+                disabled={!newMessage.trim() || !member || isSending || member.is_banned}
                 className="absolute right-2 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 text-[var(--color-accent)] flex items-center justify-center hover:bg-[var(--color-accent)] hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-[var(--color-accent)]/20 disabled:hover:text-[var(--color-accent)]"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>

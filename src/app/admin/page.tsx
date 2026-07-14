@@ -109,7 +109,7 @@ function parseCruiseNotes(notes: string): ParsedCruiseNotes | null {
 }
 
 export default function AdminDashboard() {
-  const { member, isLoggedIn, login, logout } = useMember();
+  const { member, isLoggedIn, login, logout, openModal } = useMember();
   const [feeds, setFeeds] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [filterRole, setFilterRole] = useState<"All" | "fan" | "crew" | "admin">("All");
@@ -117,10 +117,127 @@ export default function AdminDashboard() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+
+  // Simulated Orders, Toast, and Tab States
+  const [simulatedOrders, setSimulatedOrders] = useState<any[]>([]);
+  const [shopifyTab, setShopifyTab] = useState<'shopify' | 'simulated'>('shopify');
+  const [activeToast, setActiveToast] = useState<{ message: string; title: string; type: 'success' | 'info' } | null>(null);
+
+  // Auto-dismiss toast
+  useEffect(() => {
+    if (activeToast) {
+      const timer = setTimeout(() => setActiveToast(null), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [activeToast]);
+
+  // Load simulated orders from localStorage on mount
   useEffect(() => {
     setMounted(true);
-    window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+      const stored = localStorage.getItem('admin_orders_list');
+      if (stored) {
+        setSimulatedOrders(JSON.parse(stored));
+      } else {
+        const initialMock = [
+          {
+            id: 172088800001,
+            customer: "Michael Scimeca",
+            email: "mikeyscimeca@gmail.com",
+            address: "123 Chicago Ave",
+            city: "Chicago",
+            zip: "60611",
+            item: "7th Heaven Hoodie",
+            price: "$45.00",
+            size: "L",
+            color: "Black",
+            method: "shipping",
+            source: "Flash Drop",
+            status: "Pending",
+            image: "/images/merch/hoodie.png",
+            ts: Date.now() - 3600000 * 2
+          },
+          {
+            id: 172088800002,
+            customer: "Sarah Jenkins",
+            email: "sarahj@example.com",
+            address: "",
+            city: "",
+            zip: "",
+            item: "7th Heaven Tour Tee 2026",
+            price: "$35.00",
+            size: "M",
+            color: "White",
+            method: "merch_table",
+            source: "Store",
+            status: "Ready for Pickup",
+            image: "/images/merch/logo-tee.png",
+            ts: Date.now() - 3600000 * 5
+          }
+        ];
+        localStorage.setItem('admin_orders_list', JSON.stringify(initialMock));
+        setSimulatedOrders(initialMock);
+      }
+    }
   }, []);
+
+  // Listen to BroadcastChannel for simulated orders
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const bc = new BroadcastChannel('7h_live_michael');
+    bc.onmessage = (evt) => {
+      const { type, payload } = evt.data ?? {};
+      if (type === 'ORDER_CREATED' && payload) {
+        setSimulatedOrders(prev => {
+          if (prev.find(o => o.id === payload.id)) return prev;
+          const updated = [payload, ...prev];
+          localStorage.setItem('admin_orders_list', JSON.stringify(updated));
+          return updated;
+        });
+
+        // Play notification chime sound
+        try {
+          const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-500.wav");
+          audio.volume = 0.4;
+          audio.play();
+        } catch {}
+
+        // Show toast
+        setActiveToast({
+          title: '🛍️ New Order Received',
+          message: `${payload.customer} purchased ${payload.item}${payload.size ? ` (${payload.size})` : ''} via ${payload.source}!`,
+          type: 'success'
+        });
+      }
+    };
+    return () => bc.close();
+  }, []);
+
+  // Update status and tracking of simulated orders
+  const handleUpdateSimulatedOrderStatus = (orderId: number, nextStatus: string) => {
+    setSimulatedOrders(prev => {
+      const updated = prev.map(o => {
+        if (o.id === orderId) {
+          const updatedOrder = { ...o, status: nextStatus };
+          if (nextStatus === 'Shipped') {
+            updatedOrder.trackingNumber = `USPS-7H-${Math.floor(10000000 + Math.random() * 90000000)}`;
+          }
+          return updatedOrder;
+        }
+        return o;
+      });
+      localStorage.setItem('admin_orders_list', JSON.stringify(updated));
+      return updated;
+    });
+
+    setActiveToast({
+      title: 'Fulfillment Updated',
+      message: `Order status updated to ${nextStatus}`,
+      type: 'success'
+    });
+  };
+
   const [adminTab, setAdminTab] = useState<'band' | 'cruise'>('band');
   const adminTabRef = useRef<'band' | 'cruise'>('band');
   const [unreadCruiseChat, setUnreadCruiseChat] = useState(0);
@@ -1573,6 +1690,13 @@ try {
                       className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-red-500/50 transition-colors"
                       required
                     />
+                    <button
+                      type="button"
+                      onClick={() => openModal("forgot")}
+                      className="text-[10px] text-red-400 hover:text-white transition-colors block text-right w-full mt-1.5"
+                    >
+                      Forgot Password?
+                    </button>
                   </div>
 
                   {adminLoginError && (
@@ -1639,45 +1763,61 @@ try {
                   </div>
                   <h3 onClick={() => toggleSection('shopify')} className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#96bf48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                  Shopify Sales
-                  {renderInfoToggle('shopify')}
+                  Shopify
                 </h3>
                 </div>
                 <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
-                  <div className="flex items-center gap-3">
+                  {/* Shopify vs Simulated Toggle */}
                   <div className="flex bg-black rounded p-1 border border-white/10">
-                    {[7, 30, 90].map(d => (
+                    <button
+                      onClick={() => setShopifyTab('shopify')}
+                      className={`px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors ${shopifyTab === 'shopify' ? 'bg-[#96bf48]/20 text-[#96bf48]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                    >
+                      Shopify API
+                    </button>
+                    <button
+                      onClick={() => setShopifyTab('simulated')}
+                      className={`px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors ${shopifyTab === 'simulated' ? 'bg-purple-500/20 text-[#c084fc]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                    >
+                      Simulated Checkouts
+                    </button>
+                  </div>
+                  {shopifyTab === 'shopify' && (
+                    <div className="flex items-center gap-3 animate-in fade-in duration-300">
+                      <div className="flex bg-black rounded p-1 border border-white/10">
+                        {[7, 30, 90].map(d => (
+                          <button
+                            key={d}
+                            onClick={async () => {
+                              setShopifyPeriod(d);
+                              setShopifyLoading(true);
+                              try {
+                                const res = await fetch(`/api/shopify/orders?days=${d}`);
+                                if (res.ok) { setShopifyData(await res.json()); setShopifyError(''); }
+                              } catch {}
+                              setShopifyLoading(false);
+                            }}
+                            className={`px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors ${shopifyPeriod === d ? 'bg-[#96bf48]/20 text-[#96bf48]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                          >
+                            {d}d
+                          </button>
+                        ))}
+                      </div>
                       <button
-                        key={d}
                         onClick={async () => {
-                          setShopifyPeriod(d);
                           setShopifyLoading(true);
                           try {
-                            const res = await fetch(`/api/shopify/orders?days=${d}`);
+                            const res = await fetch(`/api/shopify/orders?days=${shopifyPeriod}`);
                             if (res.ok) { setShopifyData(await res.json()); setShopifyError(''); }
                           } catch {}
                           setShopifyLoading(false);
                         }}
-                        className={`px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors ${shopifyPeriod === d ? 'bg-[#96bf48]/20 text-[#96bf48]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                        className="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-[0.6rem] font-bold uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all"
                       >
-                        {d}d
+                        ↻ Refresh
                       </button>
-                    ))}
-                  </div>
-                  <button
-                    onClick={async () => {
-                      setShopifyLoading(true);
-                      try {
-                        const res = await fetch(`/api/shopify/orders?days=${shopifyPeriod}`);
-                        if (res.ok) { setShopifyData(await res.json()); setShopifyError(''); }
-                      } catch {}
-                      setShopifyLoading(false);
-                    }}
-                    className="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-[0.6rem] font-bold uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all"
-                  >
-                    ↻ Refresh
-                  </button>
-                </div>
+                    </div>
+                  )}
                   <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('shopify') ? 'rotate-0' : '-rotate-90')}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
                   </div>
@@ -1685,9 +1825,10 @@ try {
               </div>
               {renderInfoBanner('shopify', 'Shopify Sales', 'Track real-time Shopify store order statistics, sales charts, and recent drop activity over custom date ranges.')}
               <div style={{ display: isSectionOpen('shopify') ? undefined : 'none' }}>
-                {shopifyLoading ? (
-                <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
-              ) : shopifyError ? (
+                {shopifyTab === 'shopify' ? (
+                  shopifyLoading ? (
+                    <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
+                  ) : shopifyError ? (
                 <div className="p-16 text-center">
                   <span className="text-4xl opacity-20 block mb-4">🛒</span>
                   <p className="text-white/40 text-sm">{shopifyError}</p>
@@ -2000,7 +2141,153 @@ try {
                     </div>
                   )}
                 </div>
-              ) : null}
+              ) : null) : (
+                <div className="p-6 animate-in fade-in duration-300">
+                  {/* Simulated Metrics Grid */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div className="bg-black/30 border border-purple-500/20 rounded-xl p-5 hover:border-purple-500/40 transition-all">
+                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-purple-400 mb-2">Simulated Revenue</p>
+                      <p className="text-2xl font-black text-white font-mono">
+                        ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                      </p>
+                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Store + Flash Drop</p>
+                    </div>
+                    <div className="bg-black/30 border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all">
+                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Store Purchases</p>
+                      <p className="text-2xl font-black text-white font-mono">
+                        {simulatedOrders.filter(o => o.source === 'Store').length}
+                      </p>
+                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Normal store checkout</p>
+                    </div>
+                    <div className="bg-black/30 border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all">
+                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Flash Drops</p>
+                      <p className="text-2xl font-black text-white font-mono">
+                        {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
+                      </p>
+                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Live drop purchases</p>
+                    </div>
+                    <div className="bg-black/30 border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all">
+                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Raffle Claims</p>
+                      <p className="text-2xl font-black text-white font-mono">
+                        {simulatedOrders.filter(o => o.source === 'Raffle').length}
+                      </p>
+                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Claims via winning PIN</p>
+                    </div>
+                  </div>
+
+                  {/* Fulfillment & Pack Tracking Table */}
+                  <div className="bg-black/20 border border-white/5 rounded-xl overflow-hidden">
+                    <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+                      <h4 className="text-sm font-bold flex items-center gap-2">
+                        📦 Simulated Order Fulfillment & Package Tracking Queue
+                      </h4>
+                      <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{simulatedOrders.length} total orders</span>
+                    </div>
+                    <div className="max-h-[500px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+                      {simulatedOrders.length === 0 ? (
+                        <div className="p-8 text-center text-white/30 text-xs">No simulated orders yet. Go to store page and purchase items!</div>
+                      ) : (
+                        <table className="w-full text-left">
+                          <thead>
+                            <tr className="bg-[#0f0f13] text-[0.55rem] uppercase tracking-widest text-white/25 border-b border-white/5">
+                              <th className="px-4 py-3 font-bold">Order ID</th>
+                              <th className="px-4 py-3 font-bold">Customer</th>
+                              <th className="px-4 py-3 font-bold">Item Details</th>
+                              <th className="px-4 py-3 font-bold">Source</th>
+                              <th className="px-4 py-3 font-bold">Fulfillment Status</th>
+                              <th className="px-4 py-3 font-bold">Actions</th>
+                              <th className="px-4 py-3 font-bold text-right">Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {simulatedOrders.map((order) => (
+                              <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                <td className="px-4 py-3">
+                                  <div className="font-mono text-xs font-bold text-purple-400">#SIM-{order.id.toString().slice(-6)}</div>
+                                  <div className="text-[0.55rem] text-white/30 mt-0.5">
+                                    {new Date(order.ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                  </div>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="text-sm font-bold text-white/90">{order.customer}</div>
+                                  <div className="text-[0.6rem] text-white/40">{order.email || 'No email provided'}</div>
+                                  {order.address && (
+                                    <div className="text-[0.55rem] text-white/30 mt-0.5 truncate max-w-[150px]" title={`${order.address}, ${order.city}, ${order.zip}`}>
+                                      📍 {order.address}, {order.city}
+                                    </div>
+                                  )}
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="text-sm text-white/80 font-bold">{order.item}</div>
+                                  {(order.size || order.color) && (
+                                    <div className="text-[0.6rem] text-white/40 mt-0.5">
+                                      {order.size && <span>Size: {order.size}</span>}
+                                      {order.size && order.color && <span> · </span>}
+                                      {order.color && <span>Color: {order.color}</span>}
+                                    </div>
+                                  )}
+                                  {order.method && (
+                                    <div className="text-[0.55rem] text-purple-400/80 font-semibold uppercase tracking-wider mt-0.5">
+                                      {order.method === 'merch_table' ? 'Merch Table Pickup' : 'Shipping'}
+                                    </div>
+                                  )}
+                                </td>
+                                <td className="px-4 py-3">
+                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest ${
+                                    order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30'
+                                    : order.source === 'Raffle' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                    : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                                  }`}>{order.source}</span>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="flex flex-col gap-1">
+                                    <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${
+                                      order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                                      : order.status === 'Ready for Pickup' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                      : 'bg-white/5 text-white/40 border border-white/10'
+                                    }`}>{order.status}</span>
+                                    {order.trackingNumber && (
+                                      <div className="text-[0.55rem] font-mono text-emerald-400/80 mt-0.5">
+                                        🚚 {order.trackingNumber}
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-4 py-3">
+                                  {order.status === 'Pending' && order.method === 'shipping' && (
+                                    <button
+                                      onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
+                                      className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(168,85,247,0.3)] hover:scale-105 active:scale-95"
+                                    >
+                                      🚚 Ship Package
+                                    </button>
+                                  )}
+                                  {order.status === 'Ready for Pickup' && (
+                                    <button
+                                      onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
+                                      className="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-black text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.3)] hover:scale-105 active:scale-95"
+                                    >
+                                      🎫 Claim Merch
+                                    </button>
+                                  )}
+                                  {(order.status === 'Shipped' || order.status === 'Claimed') && (
+                                    <span className="text-[0.55rem] text-emerald-400/60 font-bold uppercase tracking-wider">
+                                      ✓ Complete
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">
+                                  {order.price || '$0.00'}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
               </div>
             </section>
   );
@@ -8470,6 +8757,15 @@ return (
                 Print Label
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {activeToast && (
+        <div className="fixed bottom-6 right-6 z-[9999] bg-[#14141c] border border-emerald-500/30 text-white px-5 py-4 rounded-xl shadow-2xl flex items-start gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
+          <div className="text-xl">🛍️</div>
+          <div>
+            <p className="text-xs font-black text-emerald-400 uppercase tracking-widest">{activeToast.title}</p>
+            <p className="text-sm text-white/90 font-medium mt-0.5">{activeToast.message}</p>
           </div>
         </div>
       )}

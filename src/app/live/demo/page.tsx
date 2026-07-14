@@ -310,9 +310,21 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const [flashName, setFlashName] = useState('');
   const [flashPrice, setFlashPrice] = useState('');
   const [flashImage, setFlashImage] = useState('/images/mockups/merch_hoodie.png');
+  const [flashProducts, setFlashProducts] = useState<{id: string, name: string, price: string, stock: number, image: string}[]>([]);
+  const [activeProductIndex, setActiveProductIndex] = useState(0);
+  const [purchasedProductId, setPurchasedProductId] = useState<string | null>(null);
+  const [activeCheckoutProduct, setActiveCheckoutProduct] = useState<any>(null);
   const [hasPurchased, setHasPurchased] = useState(false);
   const [flashTimeLeft, setFlashTimeLeft] = useState(0);
   const [flashAllowPickup, setFlashAllowPickup] = useState(false);
+
+  const currentProduct = flashProducts[activeProductIndex] || {
+    id: 'default',
+    name: flashName,
+    price: flashPrice,
+    stock: flashStock,
+    image: flashImage
+  };
 
   // Ship vs Pickup choice modal
   const [showFulfillmentModal, setShowFulfillmentModal] = useState(false);
@@ -604,15 +616,73 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       const promptEmail = window.prompt("Testing Dispatch: What is your exact Resend account email address to receive the test?", member?.email || fallbackEmail);
       const targetEmail = promptEmail ? promptEmail.trim() : fallbackEmail;
 
-      fetch('/api/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: targetEmail,
-          subject: '🏆 You Won the 7th Heaven Raffle!',
-          html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:Arial,Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #FBBF24;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ''}<a href="${claimUrl}" style="display:inline-block;background:#FBBF24;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`
+      // Query Shopify Storefront first
+      fetch('/api/shopify/inventory')
+        .then(res => res.json())
+        .then(async (data) => {
+          const prizes = raffleState.prizes || [];
+          const matchedPrizes = await Promise.all(prizes.map(async (p: any) => {
+            let displayImage = '/images/merch/vinyl.png';
+            const lowerPrize = p.name.toLowerCase();
+            if (lowerPrize.includes('shirt') || lowerPrize.includes('tee')) {
+              displayImage = '/images/merch/logo-tee.png';
+            } else if (lowerPrize.includes('hood') || lowerPrize.includes('sweat')) {
+              displayImage = '/images/merch/hoodie.png';
+            }
+
+            let displayTitle = p.name;
+            let displayDescription = 'Exclusive 7th Heaven Raffle Item';
+
+            if (data && Array.isArray(data.products)) {
+              const matched = data.products.find((prod: any) => {
+                if (p.productId && (prod.id === p.productId || prod.id?.includes(p.productId))) return true;
+                const title = prod.title.toLowerCase().trim();
+                return title.includes(lowerPrize) || lowerPrize.includes(title);
+              });
+              if (matched) {
+                displayImage = matched.images?.edges?.[0]?.node?.url || matched.images?.[0]?.url || displayImage;
+                displayTitle = matched.title || displayTitle;
+                displayDescription = matched.description || displayDescription;
+              }
+            }
+            return { name: p.name, qty: p.qty || 1, image: displayImage, title: displayTitle, description: displayDescription };
+          }));
+
+          const prizesListHtml = matchedPrizes.map((p: any) => `
+            <div style="background:#0a0a0e;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:16px;text-align:center;margin-bottom:12px;">
+              <div style="margin-bottom:10px;"><img src="${p.image}" alt="${p.title}" width="100" height="100" style="border-radius:6px;border:1px solid rgba(255,255,255,0.1);display:inline-block;" /></div>
+              <p style="margin:0;color:#fff;font-size:18px;font-weight:900;">${p.title}</p>
+              <p style="margin:4px 0 0;color:#FBBF24;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">Size/Variant: ${p.name.includes(' - ') ? p.name.split(' - ')[1] : 'Any Size'}</p>
+              <p style="margin:4px 0 0;color:#666;font-size:11px;font-weight:bold;">Quantity: ${p.qty}</p>
+            </div>
+          `).join('');
+
+          const displayDescription = 'Congratulations — your name was drawn live in front of everyone.';
+          const displayImage = matchedPrizes[0]?.image || '/images/merch/vinyl.png';
+          const displayTitle = prizeName;
+
+          fetch('/api/email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to: targetEmail,
+              subject: '🏆 You Won the 7th Heaven Raffle!',
+              html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:Arial,Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">${displayDescription}</p><div style="margin-bottom:24px;"><p style="margin:0 0 16px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-align:center;">Your Prizes Bundle</p>${prizesListHtml}</div>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 24px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ''}${claimUrl ? `<div style="margin:0 auto 28px;text-align:center;"><p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">OR SCAN QR CODE TO REDEEM</p><div style="display:inline-block;padding:12px;background:#fff;border-radius:12px;"><img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(claimUrl)}" width="140" height="140" alt="Claim QR Code" style="display:block;" /></div></div>` : ''}<a href="${claimUrl}" style="display:inline-block;background:#FBBF24;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`
+            })
+          }).catch(console.error);
         })
-      }).catch(console.error);
+        .catch(err => {
+          console.error("Shopify error in live stream win email (page.tsx):", err);
+          fetch('/api/email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to: targetEmail,
+              subject: '🏆 You Won the 7th Heaven Raffle!',
+              html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:Arial,Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #FBBF24;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 16px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 24px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ''}${claimUrl ? `<div style="margin:0 auto 28px;text-align:center;"><p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">OR SCAN QR CODE TO REDEEM</p><div style="display:inline-block;padding:12px;background:#fff;border-radius:12px;"><img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(claimUrl)}" width="140" height="140" alt="Claim QR Code" style="display:block;" /></div></div>` : ''}<a href="${claimUrl}" style="display:inline-block;background:#FBBF24;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`
+            })
+          })
+        });
       try {
         const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
         inbox.unshift({ id: Date.now(), icon: '🏆', title: 'You Won the Raffle!', desc: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`, time: 'Just now', isNew: true, color: 'yellow' });
@@ -845,16 +915,30 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       if (e.key === '7h_global_pinned' && e.newValue) {
         setActivePinned(e.newValue === 'null' ? null : JSON.parse(e.newValue));
       }
-      if (e.key === '7h_flash_drop' && e.newValue) {
-        const data = JSON.parse(e.newValue);
-        setFlashName(data.name || 'Signature Item');
-        setFlashPrice(data.price || '0.00');
-        const parsedStock = parseInt(data.stock);
-        setFlashStock(!isNaN(parsedStock) ? parsedStock : 50);
-        setFlashImage(data.image || '/images/mockups/merch_hoodie.png');
-        setFlashTimeLeft(parseInt(data.duration) || 300);
-        setHasPurchased(false);
-        setShowFlashDrop(true);
+      if (e.key === '7h_flash_drop') {
+        if (!e.newValue) {
+          setShowFlashDrop(false);
+        } else {
+          const data = JSON.parse(e.newValue);
+          const productsList = data.products || [{
+            id: data.id || 'default',
+            name: data.name || 'Signature Item',
+            price: data.price || '0.00',
+            stock: parseInt(data.stock) || 50,
+            image: data.image || '/images/mockups/merch_hoodie.png'
+          }];
+          setFlashProducts(productsList);
+          setActiveProductIndex(0);
+          setFlashName(productsList[0]?.name || 'Signature Item');
+          setFlashPrice(productsList[0]?.price || '0.00');
+          setFlashStock(productsList[0]?.stock || 0);
+          setFlashImage(productsList[0]?.image || '/images/mockups/merch_hoodie.png');
+          setFlashTimeLeft(parseInt(data.duration) || 300);
+          setHasPurchased(false);
+          setPurchasedProductId(null);
+          setActiveCheckoutProduct(null);
+          setShowFlashDrop(true);
+        }
       }
     };
     window.addEventListener('storage', handleStorage);
@@ -875,14 +959,27 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     const eventsChannel = supabase.channel('live_events')
       .on('broadcast', { event: 'flash_drop' }, (payload) => {
         const data = payload.payload;
-        setFlashName(data.name || 'Signature Item');
-        setFlashPrice(data.price || '0.00');
-        const parsedStock2 = parseInt(data.stock);
-        setFlashStock(!isNaN(parsedStock2) ? parsedStock2 : 50);
-        setFlashImage(data.image || '/images/mockups/merch_hoodie.png');
+        const productsList = data.products || [{
+          id: data.id || 'default',
+          name: data.name || 'Signature Item',
+          price: data.price || '0.00',
+          stock: parseInt(data.stock) || 50,
+          image: data.image || '/images/mockups/merch_hoodie.png'
+        }];
+        setFlashProducts(productsList);
+        setActiveProductIndex(0);
+        setFlashName(productsList[0]?.name || 'Signature Item');
+        setFlashPrice(productsList[0]?.price || '0.00');
+        setFlashStock(productsList[0]?.stock || 0);
+        setFlashImage(productsList[0]?.image || '/images/mockups/merch_hoodie.png');
         setFlashTimeLeft(parseInt(data.duration) || 300);
         setHasPurchased(false);
+        setPurchasedProductId(null);
+        setActiveCheckoutProduct(null);
         setShowFlashDrop(true);
+      })
+      .on('broadcast', { event: 'cancel_flash_drop' }, () => {
+        setShowFlashDrop(false);
       })
       .on('broadcast', { event: 'merch_sync' }, (payload) => {
         const data = payload.payload;
@@ -977,6 +1074,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
   /* ── Simulate Purchase Flow & Headless API ── */
   const handlePurchase = () => {
+    setActiveCheckoutProduct(currentProduct);
     if (flashAllowPickup) {
       // Show ship vs pickup choice first
       setShowFulfillmentModal(true);
@@ -990,6 +1088,11 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const handleFulfillmentChoice = (choice: 'ship' | 'pickup') => {
     setFulfillmentChoice(choice);
     setShowFulfillmentModal(false);
+    
+    const prodName = activeCheckoutProduct?.name || flashName;
+    const prodPrice = activeCheckoutProduct?.price || flashPrice;
+    const prodId = activeCheckoutProduct?.id || 'default';
+
     if (choice === 'pickup') {
       // Generate a pickup confirmation code
       const code = 'PU-' + String(Math.floor(100000 + Math.random() * 900000));
@@ -999,8 +1102,8 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       queue.unshift({
         id: Date.now(),
         code,
-        item: flashName,
-        price: flashPrice,
+        item: prodName,
+        price: prodPrice,
         customer: member?.name || 'Fan',
         email: member?.email || '',
         ts: Date.now(),
@@ -1009,16 +1112,16 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       localStorage.setItem('merch_pickup_queue', JSON.stringify(queue));
       // Notify VIP inbox
       const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
-      inbox.unshift({ id: Date.now(), icon: '🛍️', title: 'Pickup Reserved!', desc: `Your ${flashName} is reserved for pickup. Code: ${code}`, time: 'Just now', isNew: true, color: 'yellow' });
+      inbox.unshift({ id: Date.now(), icon: '🛍️', title: 'Pickup Reserved!', desc: `Your ${prodName} is reserved for pickup. Code: ${code}`, time: 'Just now', isNew: true, color: 'yellow' });
       localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
 
       // Persist to Supabase
       Promise.resolve(supabase.from('merch_pickups').insert({
         fan_email: member?.email || '',
         fan_name: member?.name || 'Fan',
-        product_name: flashName,
+        product_name: prodName,
         quantity: 1,
-        total: parseFloat(flashPrice.replace(/[^0-9.]/g, '')) || 0,
+        total: parseFloat(prodPrice.replace(/[^0-9.]/g, '')) || 0,
         pin: code,
         stream_id: `live_${memberId?.toString().toLowerCase().trim()}`,
       })).catch(() => {});
@@ -1027,17 +1130,39 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         user_email: member?.email || '',
         type: 'merch_pickup',
         title: '🛍️ Pickup Reserved!',
-        body: `Your ${flashName} is reserved for pickup. Code: ${code}`,
+        body: `Your ${prodName} is reserved for pickup. Code: ${code}`,
         pin: code,
-        prize: flashName,
+        prize: prodName,
       })).catch(() => {});
       
       recordSale(1); // Record 1 quantity for pickup
       setHasPurchased(true);
+      setPurchasedProductId(prodId);
     } else {
       setCheckoutQuantity(1);
       setIsCheckoutOpen(true);
     }
+  };
+
+  const handleBuyProduct = (p: any) => {
+    setActiveCheckoutProduct(p);
+    if (flashAllowPickup) {
+      setShowFulfillmentModal(true);
+    } else {
+      setCheckoutQuantity(1);
+      setIsCheckoutOpen(true);
+    }
+  };
+
+  const handleBuyOriginal = () => {
+    const defaultProduct = {
+      id: 'default',
+      name: flashName,
+      price: flashPrice,
+      stock: flashStock,
+      image: flashImage
+    };
+    handleBuyProduct(defaultProduct);
   };
 
   const recordSale = (qty: number) => {
@@ -1094,7 +1219,20 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       recordSale(checkoutQuantity); // Add revenue directly to global counter
 
       setHasPurchased(true);
-      if (flashStock > 0) setFlashStock(s => Math.max(0, s - checkoutQuantity));
+      const checkoutProduct = activeCheckoutProduct || currentProduct;
+      const prodId = checkoutProduct.id;
+      setPurchasedProductId(prodId);
+      setFlashProducts(prev => {
+        const updated = prev.map(p => p.id === prodId ? { ...p, stock: Math.max(0, p.stock - checkoutQuantity) } : p);
+        const match = updated.find(p => p.id === prodId);
+        if (match && prodId === currentProduct.id) {
+          setFlashStock(match.stock);
+        }
+        return updated;
+      });
+      if (prodId === currentProduct.id && flashStock > 0) {
+        setFlashStock(s => Math.max(0, s - checkoutQuantity));
+      }
       
       // Automatically trigger 100% hype rush 
       setHype(100);
@@ -1105,7 +1243,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         account: {
           id: 'system', name: 'System', displayName: 'SYSTEM', role: 'admin', color: '#ec4899', avatar: '🛍️', joinYear: 2024
         },
-        text: `Just snagged ${checkoutQuantity > 1 ? `${checkoutQuantity} copies of ` : 'the '}${flashName}! 🔥🔥🔥`,
+        text: `Just snagged ${checkoutQuantity > 1 ? `${checkoutQuantity} copies of ` : 'the '}${checkoutProduct.name}! 🔥🔥🔥`,
         timestamp: Date.now(),
       }]);
     }, 1500);
@@ -1770,12 +1908,24 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                   </button>
                   
                   {/* Left: product image */}
-                  <div className="w-1/3 bg-white/5 flex items-center justify-center p-2 relative shrink-0">
+                  <div className="w-1/3 bg-white/5 flex flex-col items-center justify-center p-2 relative shrink-0">
                     <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/20 to-transparent" />
-                    <img src={flashImage} alt="Flash Drop Item" className="w-full object-contain mix-blend-screen relative z-10 drop-shadow-xl" onError={(e) => { e.currentTarget.src = '/images/mockups/merch_hoodie.png'; }} />
-                    {flashStock <= 0 && (
+                    <img src={currentProduct.image} alt="Flash Drop Item" className="w-full object-contain mix-blend-screen relative z-10 drop-shadow-xl h-24" onError={(e) => { e.currentTarget.src = '/images/mockups/merch_hoodie.png'; }} />
+                    {currentProduct.stock <= 0 && (
                       <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] flex items-center justify-center z-20">
                         <span className="text-white/80 font-black tracking-widest uppercase rotate-[-15deg] border-2 border-white/80 px-2 py-1 text-xs">Sold Out</span>
+                      </div>
+                    )}
+                    {/* Navigation dot markers for multi-item */}
+                    {flashProducts.length > 1 && (
+                      <div className="flex gap-1 mt-2 relative z-30 bg-black/40 px-2 py-0.5 rounded-full">
+                        {flashProducts.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setActiveProductIndex(idx)}
+                            className={`w-1.5 h-1.5 rounded-full transition-colors cursor-pointer border-none outline-none ${activeProductIndex === idx ? 'bg-pink-500' : 'bg-white/30 hover:bg-white/60'}`}
+                          />
+                        ))}
                       </div>
                     )}
                   </div>
@@ -1789,21 +1939,36 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                             </span>
                           </div>
                         </div>
-                        <h3 className="text-sm font-bold truncate pr-6 leading-tight">{flashName}</h3>
+
+                        {flashProducts.length > 1 && (
+                          <select
+                            value={activeProductIndex}
+                            onChange={e => setActiveProductIndex(parseInt(e.target.value))}
+                            className="bg-black/60 border border-pink-500/30 rounded px-2 py-1 text-2xs text-pink-400 font-bold mb-1.5 outline-none cursor-pointer w-fit max-w-full"
+                          >
+                            {flashProducts.map((p, idx) => (
+                              <option key={p.id} value={idx} className="bg-black text-white text-xs">
+                                {idx + 1}. {p.name} (${p.price})
+                              </option>
+                            ))}
+                          </select>
+                        )}
+
+                        <h3 className="text-sm font-bold truncate pr-6 leading-tight text-white">{currentProduct.name}</h3>
                         <div className="flex items-center gap-3 mt-2">
-                          <span className={`text-xl font-black ${flashStock <= 0 ? 'text-white/30' : ''}`}>${flashPrice}</span>
+                          <span className={`text-xl font-black ${currentProduct.stock <= 0 ? 'text-white/30' : ''}`}>${currentProduct.price}</span>
                           <div className="h-1 flex-1 bg-white/10 rounded-full overflow-hidden">
-                            <div className={`h-full transition-all duration-500 ${flashStock <= 0 ? 'bg-zinc-600' : 'bg-pink-500'}`} style={{ width: `${Math.max(0, Math.min(100, (flashStock / 50) * 100))}%` }} />
+                            <div className={`h-full transition-all duration-500 ${currentProduct.stock <= 0 ? 'bg-zinc-600' : 'bg-pink-500'}`} style={{ width: `${Math.max(0, Math.min(100, (currentProduct.stock / 50) * 100))}%` }} />
                           </div>
-                          <span className="text-xs text-white/50 font-bold uppercase whitespace-nowrap"><span className={flashStock <= 0 ? "text-red-500 font-black" : "text-white"}>{flashStock}</span> LEFT</span>
+                          <span className="text-xs text-white/50 font-bold uppercase whitespace-nowrap"><span className={currentProduct.stock <= 0 ? "text-red-500 font-black" : "text-white"}>{currentProduct.stock}</span> LEFT</span>
                         </div>
                         
-                        {flashStock <= 0 ? (
+                        {currentProduct.stock <= 0 ? (
                           <div className="mt-3 py-2 bg-red-500/10 border border-red-500/30 rounded-lg text-center flex flex-col items-center justify-center">
                              <p className="text-red-500 font-black text-sm uppercase tracking-widest">All Sold Out</p>
                              <p className="text-white/40 text-2xs mt-0.5 uppercase tracking-widest">Drop Sale Is Over</p>
                           </div>
-                        ) : hasPurchased ? (
+                        ) : hasPurchased && purchasedProductId === currentProduct.id ? (
                           fulfillmentChoice === 'pickup' && pickupCode ? (
                             <div className="mt-3 py-2 bg-emerald-500/10 border border-emerald-500/40 rounded-lg text-center">
                               <p className="text-emerald-400 font-black text-xs uppercase tracking-widest">✓ Pickup Reserved</p>
@@ -1817,11 +1982,11 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                             </button>
                           )
                         ) : (
-                          <button onClick={handlePurchase} className="w-full mt-3 py-2 bg-white text-black font-black text-sm uppercase tracking-wider rounded-lg hover:bg-pink-400 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg hover:shadow-pink-500/50">
+                          <button onClick={handlePurchase} className="w-full mt-3 py-2 bg-white text-black font-black text-sm uppercase tracking-wider rounded-lg hover:bg-pink-400 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg hover:shadow-pink-500/50 border-none">
                             {flashAllowPickup ? '🛍️ Buy / Pick Up' : 'Buy Now'}
                           </button>
                         )}
-                        {flashAllowPickup && !hasPurchased && flashStock > 0 && (
+                        {flashAllowPickup && (!hasPurchased || purchasedProductId !== currentProduct.id) && currentProduct.stock > 0 && (
                           <p className="text-2xs text-pink-400/60 text-center mt-1">Pickup at merch table available tonight</p>
                         )}
                       </div>
@@ -1835,8 +2000,8 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                 <div className="bg-[#0f0f18] border border-pink-500/30 rounded-2xl w-full max-w-xs overflow-hidden shadow-2xl">
                   <div className="bg-gradient-to-r from-pink-600/20 to-transparent px-5 py-4 border-b border-white/10">
                     <p className="text-xs text-pink-400 font-black uppercase tracking-widest mb-0.5">🔥 Flash Drop</p>
-                    <h3 className="text-white font-black text-sm">{flashName}</h3>
-                    <p className="text-pink-400 font-black">${flashPrice}</p>
+                    <h3 className="text-white font-black text-sm">{currentProduct.name}</h3>
+                    <p className="text-pink-400 font-black">${currentProduct.price}</p>
                   </div>
                   <div className="p-5">
                     <p className="text-white/50 text-xs mb-4 text-center">How would you like to receive this?</p>
@@ -2088,22 +2253,27 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
             <div className="p-6">
               {/* Order Summary */}
-              <div className="flex gap-4 mb-6 p-4 bg-white/[0.02] rounded-xl border border-white/[0.05]">
-                <div className="w-20 h-20 bg-white/5 rounded-lg flex items-center justify-center shrink-0 object-contain p-1 border border-white/10">
-                  <img src={flashImage} alt="Product" className="w-full h-full object-contain" onError={(e) => { e.currentTarget.src = '/images/mockups/merch_hoodie.png' }} />
-                </div>
-                <div className="flex flex-col justify-center flex-1">
-                  <h3 className="text-lg font-bold text-white mb-1">{flashName}</h3>
-                  <div className="flex items-center justify-between">
-                    <p className="text-pink-400 font-black text-xl">${flashPrice}</p>
-                    <div className="flex items-center gap-3 bg-black/40 rounded-lg p-1 border border-white/10 shrink-0">
-                      <button onClick={() => setCheckoutQuantity(Math.max(1, checkoutQuantity - 1))} className="w-6 h-6 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded text-white font-bold cursor-pointer transition-colors">-</button>
-                      <span className="text-xs font-bold w-4 text-center select-none">{checkoutQuantity}</span>
-                      <button onClick={() => setCheckoutQuantity(Math.min(flashStock, checkoutQuantity + 1))} className="w-6 h-6 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded text-white font-bold cursor-pointer transition-colors">+</button>
+              {(() => {
+                const checkoutProduct = activeCheckoutProduct || currentProduct;
+                return (
+                  <div className="flex gap-4 mb-6 p-4 bg-white/[0.02] rounded-xl border border-white/[0.05]">
+                    <div className="w-20 h-20 bg-white/5 rounded-lg flex items-center justify-center shrink-0 object-contain p-1 border border-white/10">
+                      <img src={checkoutProduct.image} alt="Product" className="w-full h-full object-contain" onError={(e) => { e.currentTarget.src = '/images/mockups/merch_hoodie.png' }} />
+                    </div>
+                    <div className="flex flex-col justify-center flex-1">
+                      <h3 className="text-lg font-bold text-white mb-1">{checkoutProduct.name}</h3>
+                      <div className="flex items-center justify-between">
+                        <p className="text-pink-400 font-black text-xl">${checkoutProduct.price}</p>
+                        <div className="flex items-center gap-3 bg-black/40 rounded-lg p-1 border border-white/10 shrink-0">
+                          <button onClick={() => setCheckoutQuantity(Math.max(1, checkoutQuantity - 1))} className="w-6 h-6 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded text-white font-bold cursor-pointer transition-colors">-</button>
+                          <span className="text-xs font-bold w-4 text-center select-none">{checkoutQuantity}</span>
+                          <button onClick={() => setCheckoutQuantity(Math.min(checkoutProduct.stock, checkoutQuantity + 1))} className="w-6 h-6 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded text-white font-bold cursor-pointer transition-colors">+</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                );
+              })()}
 
               {/* Secure Checkout Redirection */}
               <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl mb-6">

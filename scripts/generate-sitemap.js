@@ -34,7 +34,8 @@ for (const f of allFiles) {
 }
 
 function img(name, alt) {
-  return `<img src="/images/mockups/${name}.png" alt="${alt}" onerror="this.style.display='none'" />`;
+  const cb = Date.now();
+  return `<img src="/images/mockups/${name}.png?v=${cb}" alt="${alt}" onerror="this.style.display='none'" />`;
 }
 
 const now = new Date().toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
@@ -117,7 +118,7 @@ const onboardingFlows = [
     steps:[
       {n:1,title:'Form Page',img:'cruise_landing',tag:'Form page'},
       {n:2,title:'PIN Email Sent',img:'email_auth_pin',tag:'Email',portrait:true},
-      {n:3,title:'Enter PIN on Site',img:'cruise_form_b',tag:'Verify page'},
+      {n:3,title:'Enter PIN on Site',img:'cruise_gate',tag:'Verify page'},
     ],
     branch:[
       {label:'EMAIL',img:'email_cruise_confirmation',tag:'Confirm Email',portrait:true},

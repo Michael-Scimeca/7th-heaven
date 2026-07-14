@@ -7,12 +7,21 @@ import * as nsfwjs from "nsfwjs";
 
 export default function FanUploadForm() {
   const { member, isLoggedIn, openModal } = useMember();
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
   const [uploading, setUploading] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(() => {
+    return searchParams?.get("mockSuccess") === "true";
+  });
   const [dragOver, setDragOver] = useState(false);
-  const [isScanning, setIsScanning] = useState(false);
-  const [scanStatus, setScanStatus] = useState<string>('');
-  const [previews, setPreviews] = useState<string[]>([]);
+  const [isScanning, setIsScanning] = useState(() => {
+    return searchParams?.get("mockScanning") === "true";
+  });
+  const [scanStatus, setScanStatus] = useState<string>(() => {
+    return searchParams?.get("mockScanning") === "true" ? "Scanning 1/1: concert-moment.jpg" : "";
+  });
+  const [previews, setPreviews] = useState<string[]>(() => {
+    return searchParams?.get("mockScanning") === "true" ? ["/sitemap-screenshots/fan-photo-wall.png"] : [];
+  });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [fileSafetyFlags, setFileSafetyFlags] = useState<Record<string, string>>({});
   const fileRef = useRef<HTMLInputElement>(null);

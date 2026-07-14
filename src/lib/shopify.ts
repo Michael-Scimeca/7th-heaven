@@ -11,8 +11,8 @@
  *    NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN="xxxxx"
  */
 
-const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com';
-const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || 'demo_token';
+const domain = (process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com').replace(/"/g, '');
+const storefrontAccessToken = (process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || 'demo_token').replace(/"/g, '');
 
 async function shopifyFetch<T>({ query, variables }: { query: string; variables?: any }): Promise<{ status: number; body: T }> {
   const endpoint = `https://${domain}/api/2025-01/graphql.json`;
@@ -62,10 +62,11 @@ export async function getProducts() {
                 }
               }
             }
-            variants(first: 1) {
+            variants(first: 10) {
               edges {
                 node {
                   id
+                  title
                   price {
                     amount
                     currencyCode
@@ -116,3 +117,35 @@ export async function createCheckout(variantId: string) {
   const response = await shopifyFetch<any>({ query, variables });
   return response.body.data?.cartCreate?.cart?.checkoutUrl;
 }
+
+/**
+ * Find a Shopify product by prize name
+ */
+export async function getShopifyProductForPrize(prizeName: string) {
+  try {
+    const products = await getProducts();
+    if (!products || products.length === 0) return null;
+
+    const lowerPrize = prizeName.toLowerCase().trim();
+
+    // Try to find a match on title or handle
+    const matched = products.find((p: any) => {
+      const title = p.title.toLowerCase().trim();
+      const handle = p.handle.toLowerCase().trim();
+      return title.includes(lowerPrize) || lowerPrize.includes(title) || handle.includes(lowerPrize) || lowerPrize.includes(handle);
+    });
+
+    if (matched) {
+      const imgUrl = matched.images?.edges?.[0]?.node?.url || '';
+      return {
+        title: matched.title,
+        description: matched.description || 'Exclusive 7th Heaven Merch',
+        imageUrl: imgUrl,
+      };
+    }
+  } catch (err) {
+    console.error('Error fetching Shopify product for prize:', err);
+  }
+  return null;
+}
+

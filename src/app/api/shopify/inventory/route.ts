@@ -57,6 +57,9 @@ export async function GET() {
                         price
                         compareAtPrice
                         inventoryQuantity
+                        inventoryItem {
+                          id
+                        }
                       }
                     }
                   }
@@ -77,9 +80,11 @@ export async function GET() {
           edges: e.node.variants.edges.map((v: any) => ({
             node: {
               id: v.node.id,
+              title: v.node.title,
               price: { amount: v.node.price, currencyCode: 'USD' },
               compareAtPrice: v.node.compareAtPrice ? { amount: v.node.compareAtPrice, currencyCode: 'USD' } : null,
               quantityAvailable: v.node.inventoryQuantity,
+              inventoryItemId: v.node.inventoryItem?.id,
             }
           }))
         }
@@ -123,6 +128,7 @@ export async function GET() {
                   edges {
                     node {
                       id
+                      title
                       price { amount currencyCode }
                       compareAtPrice { amount currencyCode }
                       quantityAvailable

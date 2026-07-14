@@ -276,7 +276,7 @@ export default async function Home() {
 
  {/* ====== TOUR LIST (full — same as /tour page) ====== */}
  <section id="tour">
-    <TourList initialShows={upcomingShows} />
+    <TourList initialShows={upcomingShows} hideMap={true} />
   </section>
 
 

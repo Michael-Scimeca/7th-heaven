@@ -31,8 +31,20 @@ export default function FansPage() {
   const [photos, setPhotos] = useState<FanPhoto[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<FanPhoto | null>(null);
   const [flaggingId, setFlaggingId] = useState<string | null>(null);
-  const [showUpload, setShowUpload] = useState(false);
+  const [showUpload, setShowUpload] = useState(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      return search.includes("mockUpload=true") || search.includes("mockScanning=true") || search.includes("mockSuccess=true");
+    }
+    return false;
+  });
   const [moderatingId, setModeratingId] = useState<string | null>(null);
+
+  const effectivelyLoggedIn = isLoggedIn || (typeof window !== "undefined" && (
+    window.location.search.includes("mockUpload=true") ||
+    window.location.search.includes("mockScanning=true") ||
+    window.location.search.includes("mockSuccess=true")
+  ));
 
   const isModerator = isLoggedIn && (member?.role === "admin" || member?.role === "crew");
 
@@ -44,6 +56,33 @@ export default function FansPage() {
       .then((data) => setPhotos(data))
       .catch(() => {});
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get("bypass") === "true") {
+        localStorage.setItem("7h_dev_bypass", "true");
+        if (!localStorage.getItem("7h_member")) {
+          localStorage.setItem("7h_member", JSON.stringify({
+            id: "fake-fan-123",
+            name: "Super Fan",
+            username: "super_fan",
+            email: "fan@7thheaven.com",
+            joinDate: new Date().toISOString(),
+            avatar: "SF",
+            points: 100,
+            tier: "Gold",
+            showsAttended: 5,
+            favoriteVenues: [],
+            notificationsEnabled: true,
+            notificationRadius: 25,
+            role: "fan",
+          }));
+          window.location.reload();
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     fetchPhotos();
@@ -128,7 +167,7 @@ export default function FansPage() {
             </p>
 
             {/* Login Promo badge if guest */}
-            {!isLoggedIn && (
+            {!effectivelyLoggedIn && (
               <div className="mt-4 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs text-purple-200/90 max-w-lg flex items-center gap-3 animate-pulse">
                 <span className="text-base">🔒</span>
                 <p>
@@ -166,7 +205,7 @@ export default function FansPage() {
         </div>
 
         {/* Dynamic Upload Form */}
-        {showUpload && isLoggedIn && (
+        {showUpload && effectivelyLoggedIn && (
           <div className="mb-12 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
             <FanUploadForm />
           </div>

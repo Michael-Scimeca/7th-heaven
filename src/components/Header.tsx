@@ -172,7 +172,7 @@ export function Header() {
     {link.label === "Live" && !isLoggedIn && (
       <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 hidden group-hover/navlink:block pointer-events-none z-[100]">
         <div className="bg-black/95 text-[9px] text-white/80 border border-white/10 rounded px-2.5 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.8)] whitespace-nowrap">
-          <span className="text-[var(--color-accent)] font-bold">Note:</span> Sign in or sign up to see live feed
+          <span className="text-[var(--color-accent)] font-bold">Note:</span> Sign in to chat & join raffles during live streams
         </div>
         {/* Tooltip arrow */}
         <div className="w-1.5 h-1.5 bg-black border-l border-t border-white/10 absolute -top-1 left-1/2 -translate-x-1/2 rotate-45" />

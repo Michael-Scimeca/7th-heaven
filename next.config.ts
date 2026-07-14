@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
       // Fonts
       "font-src 'self' https://fonts.gstatic.com",
       // Images — allow data URIs for generated OG images
-      "img-src 'self' data: blob: https://cdn.sanity.io https://lh3.googleusercontent.com https://7thheavenband.com https://www.7thheavenband.com https://cdn.shopify.com https://img.youtube.com https://*.basemaps.cartocdn.com",
+      "img-src 'self' data: blob: https://api.qrserver.com https://cdn.sanity.io https://lh3.googleusercontent.com https://7thheavenband.com https://www.7thheavenband.com https://cdn.shopify.com https://img.youtube.com https://*.basemaps.cartocdn.com",
       // Connect — Supabase, LiveKit, Sanity, Upstash
       "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.livekit.cloud wss://*.livekit.cloud https://*.sanity.io https://*.upstash.io https://hcaptcha.com https://www.googletagmanager.com https://*.myshopify.com",
       // Media — LiveKit streams

@@ -125,6 +125,7 @@ export default function EmailMapPage() {
                   <Node label="WELCOME FAN" sub="welcomeFan" icon="🎸" color="purple" small />
                   <Node label="RAFFLE ENTRY" sub="raffleEntry" icon="🎟️" color="purple" small />
                   <Node label="RAFFLE WIN" sub="raffleWin + PIN" icon="🏆" color="purple" small />
+                  <Node label="RAFFLE LOSS" sub="raffleLoss" icon="🎟️" color="purple" small />
                 </div>
               </div>
 

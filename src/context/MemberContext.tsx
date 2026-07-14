@@ -21,6 +21,7 @@ export interface Member {
  phone?: string;
  cruise_signup_id?: string;
  signup_source?: string;
+ is_warned?: boolean;
 }
 
 interface MemberContextType {
@@ -28,10 +29,10 @@ interface MemberContextType {
  isLoggedIn: boolean;
  hydrated: boolean;
  isModalOpen: boolean;
- openModal: (mode?: "login" | "signup", role?: "fan" | "crew") => void;
+ openModal: (mode?: "login" | "signup" | "forgot", role?: "fan" | "crew") => void;
  closeModal: () => void;
- modalMode: "login" | "signup";
- setModalMode: (mode: "login" | "signup") => void;
+ modalMode: "login" | "signup" | "forgot";
+ setModalMode: (mode: "login" | "signup" | "forgot") => void;
  modalLoginRole: "fan" | "crew";
  login: (email: string, password: string) => Promise<boolean>;
  signup: (name: string, email: string, password: string, phone?: string, username?: string) => Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }>;
@@ -70,7 +71,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  const [member, setMember] = useState<Member | null>(null);
  const [hydrated, setHydrated] = useState(false);
  const [isModalOpen, setIsModalOpen] = useState(false);
- const [modalMode, setModalMode] = useState<"login" | "signup">("login");
+ const [modalMode, setModalMode] = useState<"login" | "signup" | "forgot">("login");
  const [modalLoginRole, setModalLoginRole] = useState<"fan" | "crew">("fan");
 
   // Load member and setup auth listener
@@ -93,11 +94,18 @@ export function MemberProvider({ children }: { children: ReactNode }) {
             // Fetch profile details
             const { data: profile } = await supabase
               .from("profiles")
-              .select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source")
+              .select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source, is_banned, is_warned")
               .eq("id", user.id)
               .single();
 
             if (!active) return;
+
+            if (profile?.is_banned) {
+              console.warn("User is banned, signing out...");
+              await supabase.auth.signOut();
+              setMember(null);
+              return;
+            }
 
             const role = profile?.role || "fan";
             const fullName = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
@@ -129,6 +137,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
               role: resolvedRole as Member["role"],
               cruise_signup_id: profile?.cruise_signup_id || undefined,
               signup_source: profile?.signup_source || undefined,
+              is_warned: !!profile?.is_warned,
             };
 
             setMember(syncedMember);
@@ -197,7 +206,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   }
  }, [member]);
 
- const openModal = (mode: "login" | "signup" = "login", role: "fan" | "crew" = "fan") => {
+ const openModal = (mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" = "fan") => {
   setModalMode(mode);
   setModalLoginRole(role);
   setIsModalOpen(true);
@@ -209,11 +218,18 @@ export function MemberProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
    // Check fake logins bypass
+   const savedPassword = typeof window !== 'undefined' ? localStorage.getItem(`7h_dev_password_${email.toLowerCase()}`) : null;
    const fakeUser = fakeLogins.find(
-    u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+    u => u.email.toLowerCase() === email.toLowerCase() && (password === savedPassword || (!savedPassword && u.password === password))
    );
 
    if (fakeUser) {
+    const storedBans = typeof window !== 'undefined' ? localStorage.getItem("7h_banned_users") : null;
+    const bannedList = storedBans ? JSON.parse(storedBans) : [];
+    if (bannedList.includes(fakeUser.username) || bannedList.includes(fakeUser.name) || bannedList.includes(fakeUser.email)) {
+      throw new Error("This account has been banned.");
+    }
+
     const fakeMember: Member = {
      id: `fake-${fakeUser.role}-${Date.now()}`,
      name: fakeUser.name,
@@ -239,47 +255,58 @@ export function MemberProvider({ children }: { children: ReactNode }) {
 
    // Authenticate via Supabase Auth
    try {
-   const { createClient } = await import("@/utils/supabase/client");
-   const supabase = createClient();
-   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-   if (error || !data.user) return false;
+    const { createClient } = await import("@/utils/supabase/client");
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error || !data.user) return false;
 
-   // Fetch profile for role
-   const { data: profile } = await supabase.from("profiles").select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source").eq("id", data.user.id).single();
-   const role = profile?.role || "fan";
-   const fullName = data.user.user_metadata?.full_name || data.user.email?.split("@")[0] || "User";
-   const profileUsername = profile?.username || data.user.user_metadata?.username || '';
+    // Fetch profile for role
+    const { data: profile } = await supabase.from("profiles").select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source, is_banned, is_warned").eq("id", data.user.id).single();
 
-   const supabaseMember: Member = {
-    id: data.user.id,
-    name: fullName,
-    username: profileUsername,
-    email: data.user.email?.toLowerCase() || email.toLowerCase(),
-    joinDate: data.user.created_at || new Date().toISOString(),
-    avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
-    points: profile?.points ?? 0,
-    tier: (profile?.tier as Member["tier"]) ?? "Bronze",
-    showsAttended: profile?.shows_attended ?? 0,
-    favoriteVenues: [],
-    notificationsEnabled: profile?.notifications_enabled ?? false,
-    notificationRadius: profile?.notification_radius ?? 25,
-    role: role as Member["role"],
-    cruise_signup_id: profile?.cruise_signup_id || undefined,
-    signup_source: profile?.signup_source || undefined,
-   };
+    if (profile?.is_banned) {
+      console.warn("Attempted login to banned account:", email);
+      await supabase.auth.signOut();
+      throw new Error("This account has been banned.");
+    }
 
-   // Cache member profile (NOT the password) for fast access
-   localStorage.setItem("7h_member", JSON.stringify(supabaseMember));
+    const role = profile?.role || "fan";
+    const fullName = data.user.user_metadata?.full_name || data.user.email?.split("@")[0] || "User";
+    const profileUsername = profile?.username || data.user.user_metadata?.username || '';
 
-   setMember(supabaseMember);
-   setIsModalOpen(false);
-   localStorage.removeItem('vip_inbox_messages');
-   return true;
-  } catch (e) {
-   console.error("Login error:", e);
-   return false;
-  }
- };
+    const supabaseMember: Member = {
+     id: data.user.id,
+     name: fullName,
+     username: profileUsername,
+     email: data.user.email?.toLowerCase() || email.toLowerCase(),
+     joinDate: data.user.created_at || new Date().toISOString(),
+     avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
+     points: profile?.points ?? 0,
+     tier: (profile?.tier as Member["tier"]) ?? "Bronze",
+     showsAttended: profile?.shows_attended ?? 0,
+     favoriteVenues: [],
+     notificationsEnabled: profile?.notifications_enabled ?? false,
+     notificationRadius: profile?.notification_radius ?? 25,
+     role: role as Member["role"],
+     cruise_signup_id: profile?.cruise_signup_id || undefined,
+     signup_source: profile?.signup_source || undefined,
+     is_warned: !!profile?.is_warned,
+    };
+
+    // Cache member profile (NOT the password) for fast access
+    localStorage.setItem("7h_member", JSON.stringify(supabaseMember));
+
+    setMember(supabaseMember);
+    setIsModalOpen(false);
+    localStorage.removeItem('vip_inbox_messages');
+    return true;
+   } catch (e: any) {
+    console.error("Login error:", e);
+    if (e?.message === "This account has been banned.") {
+      throw e;
+    }
+    return false;
+   }
+  };
 
  const signup = async (name: string, email: string, password: string, phone?: string, username?: string): Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }> => {
   // Determine role based on email

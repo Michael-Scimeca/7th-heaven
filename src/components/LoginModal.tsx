@@ -35,7 +35,11 @@ export default function LoginModal() {
  // PIN Verification States
  const [pinSent, setPinSent] = useState(false);
  const [pinCode, setPinCode] = useState("");
- const [signUpPayload, setSignUpPayload] = useState<any>(null);
+  const [signUpPayload, setSignUpPayload] = useState<any>(null);
+
+  // Forgot Password States
+  const [forgotPinSent, setForgotPinSent] = useState(false);
+  const [forgotPinCode, setForgotPinCode] = useState("");
 
  // Track if this is an invitation flow
  const [isInviteFlow, setIsInviteFlow] = useState(false);
@@ -125,31 +129,115 @@ export default function LoginModal() {
   setLoading(false);
  };
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-  setLoading(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+   e.preventDefault();
+   setError("");
+   setLoading(true);
 
-  if (modalMode === "login") {
-   const ok = await login(email, password);
-    if (!ok) {
-     setError("Invalid email or password. Try again or sign up.");
+   if (modalMode === "forgot") {
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
+    if (!forgotPinSent) {
+      try {
+        const res = await fetch("/api/auth/send-pin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          setError(data.error || "Failed to send reset code.");
+        } else {
+          setForgotPinSent(true);
+          setError("");
+        }
+      } catch (err) {
+        setError("Failed to request reset PIN. Try again.");
+      }
+      setLoading(false);
+      return;
     } else {
-    // Redirect based on logged-in user's role
-    const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
-    const acctRole = stored.role;
-    const acctUsername = stored.username || 'me';
-    if (acctRole === 'crew') {
-     window.location.href = '/crew';
-    } else if (acctRole === 'event_planner') {
-     window.location.href = '/planner';
-    } else if (acctRole === 'admin') {
-     window.location.href = '/admin';
-    } else {
-     window.location.href = `/fans/${acctUsername}`;
+      if (!forgotPinCode || forgotPinCode.length !== 6) {
+        setError("Please enter a valid 6-digit code.");
+        setLoading(false);
+        return;
+      }
+      if (password.length < 4) {
+        setError("Password must be 4+ characters.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/auth/reset-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, pin: forgotPinCode, password }),
+        });
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          setError(data.error || "Failed to reset password.");
+        } else {
+          if (typeof window !== 'undefined' && (data.devBypass || process.env.NODE_ENV !== 'production')) {
+            localStorage.setItem(`7h_dev_password_${email.toLowerCase()}`, password);
+          }
+          const loginOk = await login(email, password);
+          if (loginOk) {
+            setForgotPinSent(false);
+            setForgotPinCode("");
+            setPassword("");
+            const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
+            const acctRole = stored.role;
+            const acctUsername = stored.username || 'me';
+            if (acctRole === 'crew') {
+              window.location.href = '/crew';
+            } else if (acctRole === 'event_planner') {
+              window.location.href = '/planner';
+            } else if (acctRole === 'admin') {
+              window.location.href = '/admin';
+            } else {
+              window.location.href = `/fans/${acctUsername}`;
+            }
+          } else {
+            setError("Password updated, but automatic login failed. Please sign in manually.");
+          }
+        }
+      } catch (err) {
+        setError("Error resetting password. Please try again.");
+      }
+      setLoading(false);
+      return;
     }
    }
-  } else {
+
+   if (modalMode === "login") {
+     try {
+       const ok = await login(email, password);
+       if (!ok) {
+        setError("Invalid email or password. Try again or sign up.");
+       } else {
+        // Redirect based on logged-in user's role
+        const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
+        const acctRole = stored.role;
+        const acctUsername = stored.username || 'me';
+        if (acctRole === 'crew') {
+         window.location.href = '/crew';
+        } else if (acctRole === 'event_planner') {
+         window.location.href = '/planner';
+        } else if (acctRole === 'admin') {
+         window.location.href = '/admin';
+        } else {
+         window.location.href = `/fans/${acctUsername}`;
+        }
+       }
+     } catch (err: any) {
+       setError(err.message || "Failed to log in.");
+     }
+   } else {
    if (!name.trim()) { setError("Name is required"); setLoading(false); return; }
     if (!isValidEmail(email)) { setError("Please enter a valid email address"); setLoading(false); return; }
     if (password.length < 4) { setError("Password must be 4+ characters"); setLoading(false); return; }
@@ -336,25 +424,27 @@ export default function LoginModal() {
        <span className="text-[var(--color-accent)]">7</span>th <em className="text-[var(--color-accent)]">heaven</em>
       </h2>
        <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 mt-1">
-        {modalMode === "login" ? "Login as Fan or Crew" : isInviteFlow ? "Complete Your Profile" : "Join the Family"}
+        {modalMode === "forgot" ? "Reset Your Password" : modalMode === "login" ? "Login as Fan or Crew" : isInviteFlow ? "Complete Your Profile" : "Join the Family"}
        </p>
      </div>
 
      {/* Tabs */}
-     <div className="flex mb-6 border-b border-white/10">
-      <button
-       onClick={() => { setModalMode("login"); setError(""); setAdminMode(false); }}
-       className={`flex-1 pb-3 text-xs font-bold uppercase tracking-[0.15em] transition-colors cursor-pointer ${modalMode === "login" ? "text-[var(--color-accent)] border-b-2 border-[var(--color-accent)]" : "text-white/30 hover:text-white/50"}`}
-      >
-       Login
-      </button>
-      <button
-       onClick={() => { setModalMode("signup"); setError(""); setAdminMode(false); }}
-       className={`flex-1 pb-3 text-xs font-bold uppercase tracking-[0.15em] transition-colors cursor-pointer ${modalMode === "signup" ? "text-[var(--color-accent)] border-b-2 border-[var(--color-accent)]" : "text-white/30 hover:text-white/50"}`}
-      >
-       Sign Up
-      </button>
-     </div>
+     {modalMode !== "forgot" && (
+      <div className="flex mb-6 border-b border-white/10">
+       <button
+        onClick={() => { setModalMode("login"); setError(""); setAdminMode(false); }}
+        className={`flex-1 pb-3 text-xs font-bold uppercase tracking-[0.15em] transition-colors cursor-pointer ${modalMode === "login" ? "text-[var(--color-accent)] border-b-2 border-[var(--color-accent)]" : "text-white/30 hover:text-white/50"}`}
+       >
+        Login
+       </button>
+       <button
+        onClick={() => { setModalMode("signup"); setError(""); setAdminMode(false); }}
+        className={`flex-1 pb-3 text-xs font-bold uppercase tracking-[0.15em] transition-colors cursor-pointer ${modalMode === "signup" ? "text-[var(--color-accent)] border-b-2 border-[var(--color-accent)]" : "text-white/30 hover:text-white/50"}`}
+       >
+        Sign Up
+       </button>
+      </div>
+     )}
 
      {/* Role selector — Login only */}
      {modalMode === 'login' && !adminMode && (
@@ -686,7 +776,7 @@ export default function LoginModal() {
           {wantNotifications && (
            <div>
             <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
-            <input
+         <input
              type="text"
              value={zipCode}
              onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
@@ -700,36 +790,95 @@ export default function LoginModal() {
        </>
       )}
 
+      {/* Forgot Password Flow */}
+      {modalMode === "forgot" && (
+        <div className="flex flex-col gap-3.5">
+          {!forgotPinSent ? (
+            <div>
+              <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email Address</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+                required
+              />
+            </div>
+          ) : (
+            <>
+              <div className="text-center text-xs text-emerald-400 bg-emerald-500/10 px-3 py-2 border border-emerald-500/20 rounded">
+                🔑 A verification code has been sent to <strong>{email}</strong>
+              </div>
+              <div>
+                <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Verification PIN</label>
+                <input
+                  type="text"
+                  maxLength={6}
+                  value={forgotPinCode}
+                  onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  placeholder="123456"
+                  className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-black"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">New Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+                  required
+                />
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
       {/* Email + Password — side by side on signup, stacked on login */}
-      <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-3' : 'flex flex-col gap-2.5'}>
-        <div>
-         <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
-         <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="your@email.com"
-          autoComplete="off"
-          readOnly={isInviteFlow}
-          data-lpignore="true"
-          data-form-type="other"
-          className={`w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
-         />
+      {modalMode !== "forgot" && (
+        <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-3' : 'flex flex-col gap-2.5'}>
+          <div>
+           <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
+           <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            autoComplete="off"
+            readOnly={isInviteFlow}
+            data-lpignore="true"
+            data-form-type="other"
+            className={`w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
+           />
+          </div>
+          <div>
+           <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Password</label>
+           <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            autoComplete="new-password"
+            data-lpignore="true"
+            data-form-type="other"
+            className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+           />
+           {modalMode === "login" && (
+            <button
+             type="button"
+             onClick={() => { setModalMode("forgot"); setError(""); setForgotPinSent(false); }}
+             className="text-[10px] text-[var(--color-accent)] hover:text-white transition-colors block text-right w-full mt-1.5"
+            >
+             Forgot Password?
+            </button>
+           )}
+          </div>
         </div>
-        <div>
-         <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Password</label>
-         <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
-          autoComplete="new-password"
-          data-lpignore="true"
-          data-form-type="other"
-          className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
-         />
-        </div>
-      </div>
+      )}
 
 
 
@@ -757,7 +906,7 @@ export default function LoginModal() {
        disabled={loading}
        className="w-full py-2.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(133,29,239,0.3)]"
       >
-       {loading ? "..." : modalMode === "login" ? "Sign In" : "Create Account"}
+       {loading ? "..." : modalMode === "forgot" ? (forgotPinSent ? "Reset Password" : "Send Reset PIN") : modalMode === "login" ? "Sign In" : "Create Account"}
       </button>
       {modalMode === "signup" && (
        <p className="text-[10px] text-white/25 text-center leading-relaxed">
@@ -768,7 +917,7 @@ export default function LoginModal() {
      )}
 
      {/* OAuth Social Login for Fans */}
-     {loginRole === 'fan' && (
+     {loginRole === 'fan' && modalMode !== "forgot" && (
       <>
        <div className="flex items-center gap-3 my-3">
         <div className="flex-1 h-px bg-white/10" />
@@ -802,14 +951,22 @@ export default function LoginModal() {
       </>
      )}
 
-      {modalMode === "login" && (
-       <p className="text-center text-xs text-white/30 mt-3 font-medium">
-        Don&apos;t have an account?{" "}
-        <button onClick={() => setModalMode("signup")} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer">
-         Sign up free to become a fan member
-        </button>
-       </p>
-      )}
+     {modalMode === "forgot" && (
+      <p className="text-center text-xs text-white/30 mt-3 font-medium">
+       <button type="button" onClick={() => { setModalMode("login"); setError(""); }} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer">
+        ← Back to Sign In
+       </button>
+      </p>
+     )}
+
+     {modalMode === "login" && (
+      <p className="text-center text-xs text-white/30 mt-3 font-medium">
+       Don&apos;t have an account?{" "}
+       <button onClick={() => setModalMode("signup")} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer">
+        Sign up free to become a fan member
+       </button>
+      </p>
+     )}
 
       {/* Dev Quick Logins — shown on both login & signup tabs */}
       {process.env.NODE_ENV === 'development' && (

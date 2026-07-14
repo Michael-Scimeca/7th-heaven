@@ -31,6 +31,13 @@ export async function GET() {
     `
   } as never);
 
+  // 1.1 Add is_warned column to profiles table
+  const { error: e1_1 } = await admin.rpc('run_sql' as never, {
+    sql: `
+      alter table public.profiles add column if not exists is_warned boolean default false;
+    `
+  } as never);
+
   // rpc may not exist — fall back to raw insert approach
   // Use Supabase's pg_catalog to verify the table exists
   const { data: tableExists } = await admin
@@ -40,11 +47,21 @@ export async function GET() {
     .eq('table_name', 'chat_bans')
     .maybeSingle();
 
-  steps.push({ step: 'check table exists', ok: !!tableExists });
+  // Verify column profiles.is_warned exists
+  const { data: columnExists } = await admin
+    .from('information_schema.columns')
+    .select('column_name')
+    .eq('table_schema', 'public')
+    .eq('table_name', 'profiles')
+    .eq('column_name', 'is_warned')
+    .maybeSingle();
 
-  if (!tableExists) {
-    steps.push({ step: 'create table', ok: false, error: 'Table does not exist and could not be created via REST. Please run the SQL migration manually in Supabase SQL Editor.' });
-    return NextResponse.json({ steps, instructions: 'See /supabase/migrations/chat_bans.sql' });
+  steps.push({ step: 'check table exists', ok: !!tableExists });
+  steps.push({ step: 'check is_warned column exists', ok: !!columnExists });
+
+  if (!tableExists || !columnExists) {
+    steps.push({ step: 'create table / columns', ok: false, error: 'Table or column does not exist and could not be verified/created. Please run the SQL migration manually.' });
+    return NextResponse.json({ steps, instructions: 'Run ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS is_warned boolean DEFAULT false;' });
   }
 
   return NextResponse.json({ steps, message: 'chat_bans table is ready!' });

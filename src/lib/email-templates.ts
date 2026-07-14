@@ -166,19 +166,45 @@ export function raffleWin(b: { prizeName: string; pin: string; claimUrl: string 
     `<td style="width:48px;height:56px;background:#0a0a0e;border:2px solid #FBBF24;border-radius:8px;text-align:center;font-size:28px;font-weight:900;color:#FBBF24;font-family:monospace;">${d}</td>`
   ).join('<td style="width:8px;"></td>');
 
+  const lowerPrize = b.prizeName.toLowerCase();
+  let imgPath = '/images/merch/vinyl.png';
+  if (lowerPrize.includes('shirt') || lowerPrize.includes('tee')) {
+    imgPath = '/images/merch/logo-tee.png';
+  } else if (lowerPrize.includes('hood') || lowerPrize.includes('sweat')) {
+    imgPath = '/images/merch/hoodie.png';
+  }
+  const fullImgUrl = imgPath;
+
   return wrap(`
     <div style="text-align:center;">
       <p style="font-size:52px;margin:0 0 16px;">🏆</p>
       <h1 style="margin:0 0 12px;color:#fff;font-size:28px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1>
       <p style="margin:0 0 32px;color:#888;font-size:15px;">Congratulations — your name was drawn live!</p>
-      <div style="background:#0a0a0e;border:2px solid #FBBF24;border-radius:12px;padding:24px;margin-bottom:28px;">
-        <p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p>
+      
+      <div style="background:#0a0a0e;border:2px solid #FBBF24;border-radius:12px;padding:24px;margin-bottom:28px;text-align:center;">
+        <p style="margin:0 0 16px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p>
+        <div style="margin-bottom:16px;">
+          <img src="${fullImgUrl}" alt="${sanitize(b.prizeName)}" width="120" height="120" style="border-radius:8px;border:1px solid rgba(255,255,255,0.1);display:inline-block;" />
+        </div>
         <p style="margin:0;color:#fff;font-size:22px;font-weight:900;">${sanitize(b.prizeName)}</p>
+        <p style="margin:8px 0 0;color:#FBBF24;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">
+          Size: ${lowerPrize.includes('shirt') || lowerPrize.includes('tee') || lowerPrize.includes('hood') || lowerPrize.includes('sweat') ? 'S / M / L / XL / XXL (Select at Pickup/Checkout)' : 'Any Size'}
+        </p>
       </div>
+
       ${b.pin ? `
         <p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Claim PIN</p>
         <table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table>
-        <p style="margin:0 0 28px;color:#444;font-size:11px;">Show this PIN to the crew at the merch table</p>
+        <p style="margin:0 0 24px;color:#444;font-size:11px;">Show this PIN to the crew at the merch table</p>
+      ` : ''}
+      ${b.claimUrl ? `
+        <div style="margin:0 auto 28px;text-align:center;">
+          <p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">One-Time Use QR Code</p>
+          <div style="display:inline-block;padding:12px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(b.claimUrl)}" width="140" height="140" alt="Claim QR Code" style="display:block;" />
+          </div>
+          <p style="margin:12px 0 0;color:#ef4444;font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">⚠️ SINGLE-USE REDEMPTION ONLY</p>
+        </div>
       ` : ''}
       <a href="${b.claimUrl}" style="${btnGold}">Open My Claim Page</a>
     </div>
@@ -197,6 +223,24 @@ export function raffleEntry(b: { prizeName: string }) {
         You've been entered to win <strong style="color:#fff;">${sanitize(b.prizeName)}</strong>. Stay tuned — the winner will be drawn live on stream!
       </p>
       <p style="margin:0;color:rgba(255,255,255,0.3);font-size:13px;">Good luck! 🤞</p>
+    </div>
+  `);
+}
+
+// 4.5. RAFFLE Thanks for Trying
+export function raffleLoss(b: { prizeName: string }) {
+  return wrap(`
+    <div style="text-align:center;">
+      <p style="font-size:48px;margin:0 0 16px;">😢</p>
+      <h1 style="margin:0 0 12px;color:#F43F5E;font-size:24px;font-weight:900;text-transform:uppercase;">Thanks For Trying</h1>
+      <p style="margin:0 0 24px;color:rgba(255,255,255,0.6);font-size:15px;line-height:1.6;">
+        Thank you for entering our live stream raffle for <strong style="color:#fff;">${sanitize(b.prizeName)}</strong>.
+        Unfortunately, your name wasn't drawn this time.
+      </p>
+      <p style="margin:0 0 28px;color:rgba(255,255,255,0.4);font-size:14px;line-height:1.6;">
+        Don't worry — we host drawings regularly during our live streams. Stay tuned and try your luck in the next one!
+      </p>
+      <p style="margin:0;color:rgba(255,255,255,0.3);font-size:13px;">Better luck next time! 🤞</p>
     </div>
   `);
 }
@@ -380,6 +424,14 @@ export const EMAIL_TEMPLATES = [
     render: () => raffleEntry({ prizeName: 'Signed Vinyl Record' }),
   },
   {
+    id: 'raffle_loss',
+    name: 'Raffle Thanks for Trying',
+    description: 'Sent to a fan who entered the raffle but did not win.',
+    category: 'Live Stream',
+    status: 'live' as const,
+    render: () => raffleLoss({ prizeName: 'Signed Vinyl Record' }),
+  },
+  {
     id: 'welcome_fan',
     name: 'Welcome — Fan',
     description: 'Sent after a fan creates their account.',
@@ -524,6 +576,41 @@ export const EMAIL_TEMPLATES = [
         { date: 'Tue, Jan 24', venue: 'Station 34', role: 'Server', time: '4:00 PM - 10:00 PM' },
         { date: 'Wed, Jan 25', venue: 'Old Republic', role: 'Server', time: '5:00 PM - 11:00 PM' }
       ]
+    }),
+  },
+  {
+    id: 'flash_merch_pickup',
+    name: '🛍️ Flash Merch - Table Pickup',
+    description: 'Sent to a fan confirming their live drop purchase for venue pickup (includes PIN and single-use QR code).',
+    category: 'Live Stream',
+    status: 'live' as const,
+    render: () => flashMerchPickup({
+      name: 'Michael Scimeca',
+      prizeName: '7th Heaven Tour Tee 2026',
+      pin: '3501',
+      size: 'L',
+      color: 'Black',
+      description: 'Official 2026 tour tee — premium cotton blend with front & back graphics.',
+      imageUrl: 'https://7thheavenband.com/images/merch/logo-tee.png'
+    }),
+  },
+  {
+    id: 'flash_merch_shipping',
+    name: '📦 Flash Merch - Shipping',
+    description: 'Sent to a fan confirming their live drop purchase for home delivery.',
+    category: 'Live Stream',
+    status: 'live' as const,
+    render: () => flashMerchShipping({
+      name: 'Michael Scimeca',
+      prizeName: 'Crew Hoodie — Black',
+      address: '123 Chicago Ave',
+      city: 'Chicago, IL',
+      zip: '60611',
+      price: '$65.00',
+      size: 'L',
+      color: 'Black',
+      description: 'Heavyweight pullover hoodie with embroidered 7th Heaven crest.',
+      imageUrl: 'https://7thheavenband.com/images/merch/hoodie.png'
     }),
   },
 ];
@@ -959,6 +1046,157 @@ export function scheduleChangeAlert(b: {
       </div>
 
       <a href="https://7thheavenband.com/crew" style="${btnStyle}">Open Crew Portal</a>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 11. FLASH MERCH PURCHASE - PICKUP (with QR Code)
+// ═══════════════════════════════════════════════
+export function flashMerchPickup(b: { name: string; prizeName: string; pin: string; price?: string; imageUrl?: string; size?: string; color?: string; description?: string }) {
+  const lowerPrize = b.prizeName.toLowerCase();
+  let imgPath = b.imageUrl || '/images/merch/vinyl.png';
+  if (imgPath.startsWith('https://7thheavenband.com')) {
+    imgPath = imgPath.replace('https://7thheavenband.com', '');
+  }
+  if (imgPath === '/images/merch/vinyl.png') {
+    if (lowerPrize.includes('shirt') || lowerPrize.includes('tee')) {
+      imgPath = '/images/merch/logo-tee.png';
+    } else if (lowerPrize.includes('hood') || lowerPrize.includes('sweat')) {
+      imgPath = '/images/merch/hoodie.png';
+    }
+  }
+
+  const imgHtml = imgPath 
+    ? `<div style="margin-bottom:16px;"><img src="${sanitize(imgPath)}" alt="${sanitize(b.prizeName)}" width="140" height="140" style="border-radius:12px;border:1px solid rgba(255,255,255,0.1);display:inline-block;object-fit:cover;" /></div>`
+    : '';
+
+  const descHtml = b.description
+    ? `<p style="margin:4px 0 0;color:rgba(255,255,255,0.45);font-size:12px;line-height:1.4;">${sanitize(b.description)}</p>`
+    : '';
+
+  const sizeHtml = b.size
+    ? `<p style="margin:8px 0 0;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Size:</strong> ${sanitize(b.size)}</p>`
+    : '';
+
+  const colorMap: Record<string, string> = { Black: '#1a1a1a', White: '#f5f5f5', 'Heather Grey': '#9ca3af', Navy: '#1e3a5f', Red: '#dc2626', 'Forest Green': '#166534' };
+  const colorHtml = b.color
+    ? `<p style="margin:6px 0 0;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Color:</strong> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${colorMap[b.color] || '#888'};border:1px solid rgba(255,255,255,0.2);vertical-align:middle;margin-right:4px;"></span>${sanitize(b.color)}</p>`
+    : '';
+
+  return wrap(`
+    <div style="text-align:center;">
+      <p style="font-size:52px;margin:0 0 16px;">🛍️</p>
+      <h1 style="margin:0 0 12px;color:#fff;font-size:26px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">Merch Ready for Pickup</h1>
+      <p style="margin:0 0 32px;color:#888;font-size:15px;">Your live stream purchase has been registered for venue pickup!</p>
+      
+      <div style="background:#0a0a0e;border:2px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;margin-bottom:28px;text-align:left;">
+        <p style="margin:0 0 16px;color:rgba(255,255,255,0.4);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-align:center;">Order Details</p>
+        <div style="text-align:center;margin-bottom:20px;">
+          ${imgHtml}
+          <p style="margin:0;color:#fff;font-size:20px;font-weight:900;">${sanitize(b.prizeName)}</p>
+          ${descHtml}
+          ${sizeHtml}
+          ${colorHtml}
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">
+          <p style="margin:0 0 8px;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Recipient:</strong> ${sanitize(b.name)}</p>
+          <p style="margin:0 0 8px;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Method:</strong> Merch Table Pickup</p>
+          <p style="margin:0;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Price Paid:</strong> ${sanitize(b.price || '$45.00')}</p>
+        </div>
+      </div>
+
+      <div style="margin:0 auto 28px;text-align:center;">
+        <p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">One-Time Use QR Code</p>
+        <div style="display:inline-block;padding:12px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=PU-${b.pin}" width="140" height="140" alt="Claim QR Code" style="display:block;" />
+        </div>
+        <p style="margin:12px 0 0;color:#ef4444;font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">⚠️ SINGLE-USE REDEMPTION ONLY</p>
+      </div>
+
+      <div style="background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);border-radius:12px;padding:20px;margin-bottom:28px;text-align:left;">
+        <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.5;">
+          <strong>Pickup Instructions:</strong> Please bring this email with the QR code to the show's Merch Table. Once scanned, your item will be handed to you. This ticket is only valid for ONE handoff.
+        </p>
+      </div>
+
+      <a href="https://7thheavenband.com" style="${btnStyle}">Visit Website</a>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 12. FLASH MERCH PURCHASE - SHIPPING
+// ═══════════════════════════════════════════════
+export function flashMerchShipping(b: { name: string; prizeName: string; address: string; city: string; zip: string; price: string; imageUrl?: string; size?: string; color?: string; description?: string }) {
+  const lowerPrize = b.prizeName.toLowerCase();
+  let imgPath = b.imageUrl || '/images/merch/vinyl.png';
+  if (imgPath.startsWith('https://7thheavenband.com')) {
+    imgPath = imgPath.replace('https://7thheavenband.com', '');
+  }
+  if (imgPath === '/images/merch/vinyl.png') {
+    if (lowerPrize.includes('shirt') || lowerPrize.includes('tee')) {
+      imgPath = '/images/merch/logo-tee.png';
+    } else if (lowerPrize.includes('hood') || lowerPrize.includes('sweat')) {
+      imgPath = '/images/merch/hoodie.png';
+    }
+  }
+
+  const imgHtml = imgPath 
+    ? `<div style="margin-bottom:16px;"><img src="${sanitize(imgPath)}" alt="${sanitize(b.prizeName)}" width="140" height="140" style="border-radius:12px;border:1px solid rgba(255,255,255,0.1);display:inline-block;object-fit:cover;" /></div>`
+    : '';
+
+  const descHtml = b.description
+    ? `<p style="margin:4px 0 0;color:rgba(255,255,255,0.45);font-size:12px;line-height:1.4;">${sanitize(b.description)}</p>`
+    : '';
+
+  const sizeHtml = b.size
+    ? `<p style="margin:8px 0 0;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Size:</strong> ${sanitize(b.size)}</p>`
+    : '';
+
+  const colorMap: Record<string, string> = { Black: '#1a1a1a', White: '#f5f5f5', 'Heather Grey': '#9ca3af', Navy: '#1e3a5f', Red: '#dc2626', 'Forest Green': '#166534' };
+  const colorHtml = b.color
+    ? `<p style="margin:6px 0 0;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Color:</strong> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${colorMap[b.color] || '#888'};border:1px solid rgba(255,255,255,0.2);vertical-align:middle;margin-right:4px;"></span>${sanitize(b.color)}</p>`
+    : '';
+
+  return wrap(`
+    <div style="text-align:center;">
+      <p style="font-size:52px;margin:0 0 16px;">📦</p>
+      <h1 style="margin:0 0 12px;color:#fff;font-size:26px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">Order Confirmed</h1>
+      <p style="margin:0 0 32px;color:#888;font-size:15px;">Your order has been confirmed and is being prepped for shipment!</p>
+      
+      <div style="background:#0a0a0e;border:2px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;margin-bottom:28px;text-align:left;">
+        <p style="margin:0 0 16px;color:rgba(255,255,255,0.4);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-align:center;">Order Details</p>
+        <div style="text-align:center;margin-bottom:20px;">
+          ${imgHtml}
+          <p style="margin:0;color:#fff;font-size:20px;font-weight:900;">${sanitize(b.prizeName)}</p>
+          ${descHtml}
+          ${sizeHtml}
+          ${colorHtml}
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">
+          <p style="margin:0 0 8px;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Recipient:</strong> ${sanitize(b.name)}</p>
+          <p style="margin:0 0 8px;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Method:</strong> Shipped to Home</p>
+          <p style="margin:0;color:rgba(255,255,255,0.6);font-size:13px;"><strong>Price Paid:</strong> ${sanitize(b.price)}</p>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin-bottom:28px;text-align:left;">
+        <p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Shipping Address</p>
+        <p style="margin:0;color:#fff;font-size:14px;font-weight:700;">${sanitize(b.name)}</p>
+        <p style="margin:4px 0 0;color:rgba(255,255,255,0.6);font-size:13px;line-height:1.4;">
+          ${sanitize(b.address)}<br/>
+          ${sanitize(b.city)}, ${sanitize(b.zip)}
+        </p>
+      </div>
+
+      <div style="background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;margin-bottom:28px;text-align:left;">
+        <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.5;">
+          <strong>Next Steps:</strong> We are packing your order. As soon as it leaves the warehouse, we will email you with your parcel tracking link.
+        </p>
+      </div>
+
+      <a href="https://7thheavenband.com" style="${btnStyle}">Go to Shop</a>
     </div>
   `);
 }

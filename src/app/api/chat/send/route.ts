@@ -218,6 +218,7 @@ export async function POST(req: Request) {
     const supabase = getAdminClient();
     const now = new Date().toISOString();
 
+    // 3.1 Check room-specific ban
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: banRow } = await (supabase as any)
       .from('chat_bans')
@@ -233,6 +234,20 @@ export async function POST(req: Request) {
         : 'permanently';
       return NextResponse.json(
         { error: `You have been banned from this chat ${expMsg}.` },
+        { status: 403 }
+      );
+    }
+
+    // 3.2 Check global profile ban (username or full_name)
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_banned')
+      .or(`username.eq.${(sender_name as string).trim()},full_name.eq.${(sender_name as string).trim()}`)
+      .maybeSingle();
+
+    if (profile?.is_banned) {
+      return NextResponse.json(
+        { error: 'You have been banned from the chat permanently.' },
         { status: 403 }
       );
     }
