@@ -238,13 +238,19 @@ export function Header() {
      : displayRole === 'event_planner' ? 'bg-[#280529] border-fuchsia-500/60 text-fuchsia-400'
      : 'bg-[#14121a] border-white/20 text-white/70';
 
+    const isAvatarUrl = member?.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/') || member.avatar.startsWith('data:'));
+
     return (
      <Link
       href={dashboardHref}
       className="relative w-10 h-10 flex items-center justify-center bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]/70 text-purple-300 text-sm font-black hover:bg-[var(--color-accent)]/35 hover:border-[var(--color-accent)] transition-all rounded-sm"
       title={dashboardTitle}
      >
-      {displayInitials}
+      {isAvatarUrl ? (
+       <img src={member.avatar} alt={displayName} className="w-full h-full object-cover rounded-sm" />
+      ) : (
+       displayInitials
+      )}
       {/* Overlapping Pill Badge */}
       <span className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2 py-[1px] rounded-full text-[9px] font-black tracking-widest border uppercase whitespace-nowrap shadow-lg ${badgeColors}`}>
        <span className="w-1.5 h-1.5 rounded-full bg-current" />

@@ -25,6 +25,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
 import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
 import CustomScrollbar from "@/components/CustomScrollbar";
+import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 
 interface ParsedCruiseNotes {
   cabin?: string;
@@ -2757,7 +2758,9 @@ try {
     );
   };
   const renderAnnouncements = () => (
-    <section id="admin-sec-announcements" className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <div className="space-y-6">
+      <ProfilePhotoUploader />
+      <section id="admin-sec-announcements" className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <div onClick={() => toggleSection('announcements')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -2911,6 +2914,7 @@ try {
         </div>
       </div>
     </section>
+  </div>
   );
 
   const renderAnalytics = () => (

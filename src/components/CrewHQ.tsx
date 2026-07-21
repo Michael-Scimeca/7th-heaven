@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 
 const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string; role: string }> = {
   sammy:   { id: "sammy",   name: "Sammy D",        email: "sammy@7thheaven.com",   avatar: "SD", role: "Vocalist" },
@@ -561,6 +562,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </Link>
           </div>
         </div>
+
+        {/* ─── OFFICIAL PROFILE & SCHEDULING PHOTO UPLOADER ─────── */}
+        <ProfilePhotoUploader />
 
         {/* ─── MAIN GRID: Chat Feed (wide) + Notes (narrow) ─── */}
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-5">

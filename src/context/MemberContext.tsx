@@ -41,6 +41,7 @@ interface MemberContextType {
  updateLocation: (lat: number, lng: number) => void;
  toggleNotifications: (enabled: boolean) => void;
  setNotificationRadius: (miles: number) => void;
+ updateAvatar: (avatarUrl: string) => Promise<void>;
 }
 
 const MemberContext = createContext<MemberContextType | null>(null);
@@ -447,6 +448,26 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   setMember(prev => prev ? { ...prev, notificationRadius: miles } : prev);
  };
 
+ const updateAvatar = async (avatarUrl: string) => {
+  setMember(prev => prev ? { ...prev, avatar: avatarUrl } : prev);
+  try {
+   const stored = localStorage.getItem("7h_member");
+   if (stored) {
+    const parsed = JSON.parse(stored);
+    parsed.avatar = avatarUrl;
+    localStorage.setItem("7h_member", JSON.stringify(parsed));
+   }
+   const { createClient } = await import("@/utils/supabase/client");
+   const supabase = createClient();
+   const { data: { user } } = await supabase.auth.getUser();
+   if (user) {
+    await supabase.from("profiles").update({ avatar_url: avatarUrl }).eq("id", user.id);
+   }
+  } catch (err) {
+   console.error("Failed to update avatar:", err);
+  }
+ };
+
  return (
   <MemberContext.Provider value={{
    member,
@@ -465,6 +486,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
    updateLocation,
    toggleNotifications,
    setNotificationRadius,
+   updateAvatar,
   }}>
    {children}
   </MemberContext.Provider>
