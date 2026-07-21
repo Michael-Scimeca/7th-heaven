@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
+import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 
 const navLinks: { href: string; label: string; isCta?: boolean }[] = [
  { href: "/bio", label: "Bio" },
@@ -171,6 +172,7 @@ export function Header() {
      />
     )}
     {link.label}
+    {link.label === "Cruise" && <CruiseWaveAnimation />}
     {link.label === "Live" && !hasLiveStreams && (
       <span
         className="absolute -top-2.5 left-0 text-[7px] font-black uppercase tracking-widest text-white/40 px-1 py-0 rounded border border-white/10 bg-white/[0.04] pointer-events-none whitespace-nowrap"
