@@ -209,161 +209,66 @@ export function Header() {
  <div className="flex items-center gap-4 z-10">
 
  {(isLoggedIn || isDemoPage) ? (
- <div className="flex items-center gap-2">
-  {/* Role label badge */}
-  {(() => {
-    const role = isDemoFanPage || isDemoCruisePage ? 'fan' : member?.role;
-    const isCruiseSignup = !!member?.cruise_signup_id;
-    const isCruiseOnly = member?.signup_source === 'cruise_member_signup' || isDemoCruisePage;
-    const showCruise = isCruiseSignup || isDemoCruisePage || (pathname ? pathname.startsWith('/cruise') : false);
-
-    if (role === 'admin') {
-     return (
-      <div className="flex items-center gap-1.5">
-       <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-amber-500/15 border-amber-500/30 text-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.15)]">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
-        ADMIN
-       </span>
-       {showCruise && (
-        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
-         🚢 CRUISE
-        </span>
-       )}
-      </div>
-     );
-    }
-
-    if (role === 'crew') {
-     return (
-      <div className="flex items-center gap-1.5">
-       <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-emerald-500/15 border-emerald-500/30 text-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.15)]">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-        CREW
-       </span>
-       {showCruise && (
-        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
-         🚢 CRUISE
-        </span>
-       )}
-      </div>
-     );
-    }
-
-    if (role === 'event_planner') {
-     return (
-      <div className="flex items-center gap-1.5">
-       <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-fuchsia-500/15 border-fuchsia-500/30 text-fuchsia-400 shadow-[0_0_6px_rgba(217,70,239,0.15)]">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-        PLANNER
-       </span>
-       {showCruise && (
-        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
-         🚢 CRUISE
-        </span>
-       )}
-      </div>
-     );
-    }
-
-    if (showCruise) {
-     if (isCruiseOnly) {
-      return (
-       <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
-        🚢 CRUISE MEMBER
-       </span>
-      );
-     }
-
-     if (showCruise) {
-       return (
-        <div className="flex items-center gap-1.5">
-         <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-white/[0.06] border-white/[0.12] text-white/50">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-          FAN
-         </span>
-         <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-cyan-500/15 border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.15)]">
-          🚢 CRUISE MEMBER
-         </span>
-        </div>
-       );
-     }
-    }
-
-    return (
-     <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-[3px] rounded-full text-2xs font-black uppercase tracking-[0.15em] border bg-white/[0.06] border-white/[0.12] text-white/50">
-      <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-      FAN
-     </span>
-    );
-   })()}
- {(() => {
-   const displayRole = isDemoFanPage || isDemoCruisePage ? 'fan' : member?.role;
-   const displayName = isDemoFanPage ? 'Demo Fan' : (isDemoCruisePage ? 'Demo Cruiser' : member?.name || 'Guest');
-   const displayInitials = displayName ? displayName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : (member?.avatar || 'G');
-   const dashboardHref = isDemoFanPage ? '/fans/demo'
-    : isDemoCruisePage ? '/cruise/demo'
-    : displayRole === 'event_planner' ? '/planner'
-    : displayRole === 'crew' ? '/crew'
-    : displayRole === 'admin' ? '/admin'
-    : `/fans/${member?.username || 'me'}`;
-   const dashboardTitle = isDemoFanPage ? 'Fan Dashboard (Demo)'
-    : isDemoCruisePage ? 'Cruise Dashboard (Demo)'
-    : displayRole === 'event_planner' ? 'Planner Dashboard'
-    : displayRole === 'crew' ? 'Crew Dashboard'
-    : displayRole === 'admin' ? 'Admin Dashboard'
-    : 'Fan Dashboard';
-  return (
-  <Link
-   href={dashboardHref}
-   className="relative w-9 h-9 flex items-center justify-center bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/30 transition-all"
-   title={dashboardTitle}
-  >
-   {displayInitials}
-   {/* Role indicator dot */}
+  <div className="flex items-center gap-2.5">
+   {/* Logged in User Avatar Box + Overlapping Badge */}
    {(() => {
-    if (displayRole === 'admin') return (
-     <span className="absolute -bottom-[3px] -right-[3px] w-[14px] h-[14px] rounded-full bg-amber-400 border-2 border-[rgb(10,10,15)] flex items-center justify-center">
-      <svg width="7" height="7" viewBox="0 0 24 24" fill="rgb(10,10,15)"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
-     </span>
-    );
-    if (displayRole === 'crew') return (
-     <span className="absolute -bottom-[3px] -right-[3px] w-[14px] h-[14px] rounded-full bg-emerald-400 border-2 border-[rgb(10,10,15)] flex items-center justify-center">
-      <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(10,10,15)" strokeWidth="4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-     </span>
-    );
-    if (displayRole === 'event_planner') return (
-     <span className="absolute -bottom-[3px] -right-[3px] w-[14px] h-[14px] rounded-full bg-fuchsia-500 border-2 border-[rgb(10,10,15)] flex items-center justify-center">
-      <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(10,10,15)" strokeWidth="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-     </span>
-    );
-    const isCruiseSignup = !!member?.cruise_signup_id;
-    const isCruiseOnly = member?.signup_source === 'cruise_member_signup';
-    const showCruise = isCruiseSignup || isCruiseOnly || (pathname ? pathname.startsWith('/cruise') : false);
-    if (showCruise) {
-      return (
-       <span className="absolute -bottom-[3px] -right-[3px] w-[14px] h-[14px] rounded-full bg-cyan-400 border-2 border-[rgb(10,10,15)] flex items-center justify-center text-[8px] leading-none">
-        🚢
-       </span>
-      );
-     }
+    const displayRole = isDemoFanPage || isDemoCruisePage ? 'fan' : (member?.role || 'fan');
+    const displayName = isDemoFanPage ? 'Demo Fan' : (isDemoCruisePage ? 'Demo Cruiser' : member?.name || 'Guest');
+    const displayInitials = displayName ? displayName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : 'G';
+    const dashboardHref = isDemoFanPage ? '/fans/demo'
+     : isDemoCruisePage ? '/cruise/demo'
+     : displayRole === 'event_planner' ? '/planner'
+     : displayRole === 'crew' ? '/crew'
+     : displayRole === 'admin' ? '/admin'
+     : `/fans/${member?.username || 'me'}`;
+    const dashboardTitle = isDemoFanPage ? 'Fan Dashboard (Demo)'
+     : isDemoCruisePage ? 'Cruise Dashboard (Demo)'
+     : displayRole === 'event_planner' ? 'Planner Dashboard'
+     : displayRole === 'crew' ? 'Crew Dashboard'
+     : displayRole === 'admin' ? 'Admin Dashboard'
+     : 'Fan Dashboard';
+
+    const roleBadgeText = displayRole === 'admin' ? 'ADMIN'
+     : displayRole === 'crew' ? 'CREW'
+     : displayRole === 'event_planner' ? 'PLANNER'
+     : 'FAN';
+
+    const badgeColors = displayRole === 'admin' ? 'bg-[#291705] border-amber-500/60 text-amber-400'
+     : displayRole === 'crew' ? 'bg-[#052912] border-emerald-500/60 text-emerald-400'
+     : displayRole === 'event_planner' ? 'bg-[#280529] border-fuchsia-500/60 text-fuchsia-400'
+     : 'bg-[#14121a] border-white/20 text-white/70';
+
     return (
-     <span className="absolute -bottom-[3px] -right-[3px] w-[12px] h-[12px] rounded-full bg-white/50 border-2 border-[rgb(10,10,15)] flex items-center justify-center">
-      <svg width="6" height="6" viewBox="0 0 24 24" fill="rgb(10,10,15)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-     </span>
+     <Link
+      href={dashboardHref}
+      className="relative w-10 h-10 flex items-center justify-center bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]/70 text-purple-300 text-sm font-black hover:bg-[var(--color-accent)]/35 hover:border-[var(--color-accent)] transition-all rounded-sm"
+      title={dashboardTitle}
+     >
+      {displayInitials}
+      {/* Overlapping Pill Badge */}
+      <span className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2 py-[1px] rounded-full text-[9px] font-black tracking-widest border uppercase whitespace-nowrap shadow-lg ${badgeColors}`}>
+       <span className="w-1.5 h-1.5 rounded-full bg-current" />
+       {roleBadgeText}
+      </span>
+     </Link>
     );
    })()}
-  </Link>
-  );
- })()}
- <button
-  onClick={() => { logout(); window.location.href = '/'; }}
-  className="h-9 px-3 flex items-center justify-center gap-2 border border-white/10 text-white/30 hover:border-rose-500/40 hover:text-rose-400 transition-all cursor-pointer bg-white/[0.02]"
-  title="Sign Out"
-  id="header-sign-out"
- >
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-  <span className="text-xs font-bold uppercase tracking-widest hidden sm:block">Sign Out</span>
- </button>
+
+   {/* Square Sign Out Button */}
+   <button
+    onClick={() => { logout(); window.location.href = '/'; }}
+    className="w-10 h-10 flex items-center justify-center border border-white/15 text-white/50 hover:border-white/40 hover:text-white transition-all cursor-pointer bg-white/[0.04] hover:bg-white/[0.08] rounded-sm"
+    title="Sign Out"
+    id="header-sign-out"
+   >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+     <polyline points="16 17 21 12 16 7"/>
+     <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+   </button>
+  </div>
+ ) : (n>
  </div>
   ) : (
    <div className="flex items-center gap-1.5">
