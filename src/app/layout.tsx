@@ -162,7 +162,6 @@ export default async function RootLayout({
               {isDraftMode && <VisualEditing />}
               
               <DirectMessageChat />
-              <PageNav />
             </div>
           </SmoothScroll>
         </Providers>

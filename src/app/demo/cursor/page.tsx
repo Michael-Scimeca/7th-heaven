@@ -3,370 +3,323 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-type CursorPreset = "tobias" | "magnetic" | "neon" | "particles" | "spotlight";
+type CursorPreset = "pick" | "neon" | "particles";
 
 export default function CursorTestingPage() {
-  const [preset, setPreset] = useState<CursorPreset>("tobias");
-  const [hoverText, setHoverText] = useState<string | null>(null);
+  const [preset, setPreset] = useState<CursorPreset>("pick");
 
+  // The leading sharp dot + 4 lagging pick blobs
   const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const picksRef = useRef<(SVGSVGElement | null)[]>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // DOM refs for zero-lag 120fps telemetry (NO React re-renders on mousemove!)
   const posXRef = useRef<HTMLSpanElement>(null);
   const posYRef = useRef<HTMLSpanElement>(null);
   const velRef = useRef<HTMLSpanElement>(null);
-  const hoverStateRef = useRef<HTMLParagraphElement>(null);
 
-  const posRef = useRef({
-    targetX: -100,
-    targetY: -100,
-    dotX: -100,
-    dotY: -100,
-    ringX: -100,
-    ringY: -100,
-    lastX: 0,
-    lastY: 0,
-    isHovered: false,
-    isClicked: false,
+  const pos = useRef({
+    mx: -200, my: -200,
+    lastX: 0, lastY: 0,
   });
 
-  const particlesRef = useRef<Array<{ x: number; y: number; vx: number; vy: number; radius: number; alpha: number; color: string }>>([]);
+  // Each of the 5 nodes has its own lerped position
+  const nodes = useRef(
+    Array.from({ length: 5 }, () => ({ x: -200, y: -200 }))
+  );
+
+  const particlesRef = useRef<
+    { x: number; y: number; vx: number; vy: number; r: number; a: number }[]
+  >([]);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      posRef.current.targetX = e.clientX;
-      posRef.current.targetY = e.clientY;
-
+    const onMove = (e: MouseEvent) => {
+      pos.current.mx = e.clientX;
+      pos.current.my = e.clientY;
       if (posXRef.current) posXRef.current.textContent = `${e.clientX}`;
       if (posYRef.current) posYRef.current.textContent = `${e.clientY}`;
 
       if (preset === "particles") {
-        const colors = ["#851DEF", "#ec4899", "#3b82f6", "#06b6d4", "#f59e0b"];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 3; i++) {
           particlesRef.current.push({
-            x: e.clientX,
-            y: e.clientY,
-            vx: (Math.random() - 0.5) * 3,
-            vy: (Math.random() - 0.5) * 3,
-            radius: Math.random() * 4 + 2,
-            alpha: 1,
-            color,
+            x: e.clientX, y: e.clientY,
+            vx: (Math.random() - 0.5) * 3.5,
+            vy: (Math.random() - 0.5) * 3.5,
+            r: Math.random() * 5 + 2,
+            a: 1,
           });
         }
       }
     };
+    window.addEventListener("mousemove", onMove, { passive: true });
 
-    const handleMouseDown = () => {
-      posRef.current.isClicked = true;
-      if (dotRef.current) dotRef.current.classList.add("scale-75");
-    };
+    // Cascade lerp: smooth stretch without bounce snap-back
+    const speeds = [0.85, 0.48, 0.28, 0.16, 0.09];
 
-    const handleMouseUp = () => {
-      posRef.current.isClicked = false;
-      if (dotRef.current) dotRef.current.classList.remove("scale-75");
-    };
-
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-
-    // 120 FPS RAF loop using direct DOM transform3d updates
-    let animId: number;
-    const renderLoop = () => {
-      const p = posRef.current;
-
-      // Calculate velocity
-      const dx = p.targetX - p.lastX;
-      const dy = p.targetY - p.lastY;
-      const vel = Math.round(Math.sqrt(dx * dx + dy * dy));
+    let raf: number;
+    const loop = () => {
+      const { mx, my, lastX, lastY } = pos.current;
+      const vel = Math.round(Math.sqrt((mx - lastX) ** 2 + (my - lastY) ** 2));
       if (velRef.current) velRef.current.textContent = `${vel}`;
-      p.lastX = p.targetX;
-      p.lastY = p.targetY;
+      pos.current.lastX = mx;
+      pos.current.lastY = my;
 
-      // High-performance lerp math for smooth motion
-      p.dotX += (p.targetX - p.dotX) * 0.45;
-      p.dotY += (p.targetY - p.dotY) * 0.45;
-      p.ringX += (p.targetX - p.ringX) * 0.18;
-      p.ringY += (p.targetY - p.ringY) * 0.18;
+      for (let i = 0; i < 5; i++) {
+        const tx = i === 0 ? mx : nodes.current[i - 1].x;
+        const ty = i === 0 ? my : nodes.current[i - 1].y;
+        nodes.current[i].x += (tx - nodes.current[i].x) * speeds[i];
+        nodes.current[i].y += (ty - nodes.current[i].y) * speeds[i];
+      }
 
+      // Move leading sharp dot (snaps to mouse instantly)
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${p.dotX}px, ${p.dotY}px, 0) translate(-50%, -50%)`;
-      }
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${p.ringX}px, ${p.ringY}px, 0) translate(-50%, -50%)`;
+        dotRef.current.style.left = `${mx}px`;
+        dotRef.current.style.top = `${my}px`;
       }
 
-      // Render Canvas Particles
+      // Move the pick SVG elements (they have the gooey treatment)
+      picksRef.current.forEach((pick, i) => {
+        if (pick) {
+          pick.style.left = `${nodes.current[i].x}px`;
+          pick.style.top = `${nodes.current[i].y}px`;
+        }
+      });
+
+      // Particle canvas
       const canvas = canvasRef.current;
       if (canvas) {
         const ctx = canvas.getContext("2d");
-        if (ctx) {
+        if (ctx && preset === "particles") {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
-          particlesRef.current.forEach((pt, idx) => {
-            pt.x += pt.vx;
-            pt.y += pt.vy;
-            pt.alpha -= 0.025;
-            pt.radius *= 0.96;
-
-            if (pt.alpha <= 0 || pt.radius <= 0.2) {
-              particlesRef.current.splice(idx, 1);
-              return;
-            }
-
+          particlesRef.current.forEach((p, idx) => {
+            p.x += p.vx; p.y += p.vy;
+            p.a -= 0.022; p.r *= 0.97;
+            if (p.a <= 0 || p.r < 0.2) { particlesRef.current.splice(idx, 1); return; }
             ctx.save();
-            ctx.globalAlpha = Math.max(0, pt.alpha);
-            ctx.fillStyle = pt.color;
+            ctx.globalAlpha = Math.max(0, p.a);
+            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+            grad.addColorStop(0, "#C245AA");
+            grad.addColorStop(1, "#9C27B000");
+            ctx.fillStyle = grad;
             ctx.beginPath();
-            ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
           });
+        } else if (ctx && preset !== "particles") {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
       }
 
-      animId = requestAnimationFrame(renderLoop);
+      raf = requestAnimationFrame(loop);
     };
-
-    animId = requestAnimationFrame(renderLoop);
+    raf = requestAnimationFrame(loop);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
-      cancelAnimationFrame(animId);
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
     };
   }, [preset]);
 
-  // Resize canvas
+  // Canvas size
   useEffect(() => {
-    const handleResize = () => {
+    const resize = () => {
       if (canvasRef.current) {
         canvasRef.current.width = window.innerWidth;
         canvasRef.current.height = window.innerHeight;
       }
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
   }, []);
 
-  // Magnetic hover handler
-  const handleMagneticMove = (e: React.MouseEvent<HTMLElement>) => {
-    const el = e.currentTarget;
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - (rect.left + rect.width / 2);
-    const y = e.clientY - (rect.top + rect.height / 2);
-
-    el.style.transform = `translate3d(${x * 0.25}px, ${y * 0.25}px, 0)`;
-  };
-
-  const handleMagneticLeave = (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = "translate3d(0, 0, 0)";
-    posRef.current.isHovered = false;
-    setHoverText(null);
-    if (hoverStateRef.current) {
-      hoverStateRef.current.textContent = "IDLE";
-      hoverStateRef.current.className = "text-2xl font-black text-white/40";
-    }
-  };
-
-  const handleHoverEnter = (text: string) => {
-    posRef.current.isHovered = true;
-    setHoverText(text);
-    if (hoverStateRef.current) {
-      hoverStateRef.current.textContent = "HOVERING";
-      hoverStateRef.current.className = "text-2xl font-black text-emerald-400";
-    }
-  };
+  // Bigger sizes = gooey blob is thick and rubbery; tail fades
+  const pickSizes  = [23, 19, 15, 11, 7];
+  const pickColors = ["#9C27B0", "#A92EAD", "#B83AAA", "#C845A8", "#D852A4"];
+  const pickOpacity = [1, 0.95, 0.88, 0.78, 0.6];
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white selection:bg-[var(--color-accent)] selection:text-white relative overflow-hidden font-sans pt-24 pb-20 cursor-none">
-      {/* Particle Canvas Layer */}
-      <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-30" />
+    <div className="min-h-screen bg-[#050508] text-white relative overflow-hidden font-sans pt-24 pb-20">
 
-      {/* Primary Dot */}
-      <div
-        ref={dotRef}
-        className={`fixed top-0 left-0 pointer-events-none z-50 rounded-full will-change-transform ${
-          hoverText
-            ? "w-4 h-4 bg-[var(--color-accent)] shadow-[0_0_15px_rgba(133,29,239,0.8)]"
-            : preset === "neon"
-            ? "w-4 h-4 bg-cyan-400 shadow-[0_0_20px_#06b6d4,0_0_40px_#851DEF]"
-            : "w-2.5 h-2.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-        }`}
-      />
+      {/* Force cursor:none everywhere — overrides pointer/default on links/buttons */}
+      <style>{`*, *:hover, *:active, *:focus { cursor: none !important; }`}</style>
 
-      {/* Lagging Outer Ring / Guitar Pick */}
+      {/* ── SVG Gooey Filter ── */}
+      <svg className="absolute w-0 h-0" aria-hidden="true">
+        <defs>
+          <filter id="gooey">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9"
+              result="goo"
+            />
+            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* ── Particle Canvas ── */}
+      <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none" style={{ zIndex: 2147483646 }} />
+
+      {/* ── Gooey Guitar Pick Cursor Container ──
+           filter:url(#gooey) applied here so all picks merge into one liquid blob  */}
       <div
-        ref={ringRef}
-        className={`fixed top-0 left-0 pointer-events-none z-40 will-change-transform flex items-center justify-center transition-all duration-200 ease-out ${
-          hoverText
-            ? "w-20 h-24"
-            : preset === "spotlight"
-            ? "w-44 h-44 rounded-full border-2 border-white/30 bg-white/5 backdrop-invert"
-            : preset === "neon"
-            ? "w-20 h-20 rounded-full border-2 border-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.4)]"
-            : "w-10 h-10 rounded-full border-2 border-white/40 bg-transparent"
-        }`}
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          zIndex: 2147483647,
+          filter: preset !== "particles" ? "url(#gooey)" : "none",
+        }}
       >
-        {hoverText ? (
-          /* Guitar Pick Shape when gooey / hovered */
-          <div className="relative w-full h-full flex items-center justify-center">
-            <svg
-              viewBox="0 0 100 115"
-              className="absolute inset-0 w-full h-full fill-[var(--color-accent)]/30 stroke-[var(--color-accent)] stroke-[3] filter drop-shadow-[0_0_12px_rgba(133,29,239,0.8)]"
-            >
-              <path d="M 50,8 C 78,8 95,25 90,52 C 80,80 50,108 50,108 C 50,108 20,80 10,52 C 5,25 22,8 50,8 Z" />
-            </svg>
-            <span className="relative z-10 text-[9px] font-black uppercase tracking-widest text-purple-200 select-none pb-2 text-center leading-tight">
-              {hoverText}
-            </span>
-          </div>
-        ) : null}
+        {pickSizes.map((size, i) => (
+          <svg
+            key={i}
+            ref={(el) => { picksRef.current[i] = el; }}
+            viewBox="0 0 100 120"
+            className="absolute will-change-[left,top]"
+            style={{
+              width: size,
+              height: size,
+              marginLeft: -(size / 2),
+              marginTop: -(size / 2),
+              opacity: preset === "particles" ? 0 : pickOpacity[i],
+              filter: preset === "neon"
+                ? `drop-shadow(0 0 ${8 + i * 4}px ${pickColors[i]}cc)`
+                : "none",
+            }}
+          >
+            {/*
+              Guitar pick (Dunlop standard) traced path:
+              - Wide domed top arc (nearly full width)
+              - Left/right sides curve gently inward
+              - Comes to a sharp rounded tip at bottom
+            */}
+            <path
+              d="M 50,4 C 22,4 4,20 4,42 C 4,68 26,92 50,116 C 74,92 96,68 96,42 C 96,20 78,4 50,4 Z"
+              fill={preset === "particles" ? "transparent" : pickColors[i]}
+            />
+          </svg>
+        ))}
       </div>
 
-      <div className="site-container relative z-10">
+
+      {/* ═══ PAGE CONTENT ═══ */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-10 border-b border-white/10">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-10 border-b border-white/10 mb-10">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <span className="px-3 py-1 rounded-full text-2xs font-black uppercase tracking-widest bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 text-[var(--color-accent)]">
-                ⚡ 120 FPS High-Performance Engine
+              <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#9C27B0]/20 border border-[#9C27B0]/40 text-[#C245AA]">
+                🎸 Guitar Pick Gooey Cursor · SVG Blob Filter
               </span>
-              <span className="text-xs text-white/40">Zero React State Lag</span>
             </div>
-            <h1 className="font-[var(--font-heading)] text-4xl md:text-6xl font-black uppercase italic tracking-tight text-white">
+            <h1
+              className="text-4xl md:text-6xl font-black uppercase italic tracking-tight"
+              style={{ fontFamily: "var(--font-heading, sans-serif)" }}
+            >
               Custom Cursor Lab
             </h1>
-            <p className="text-white/60 text-sm max-w-xl mt-1">
-              Ultra-smooth lerp physics with direct DOM transforms and 3D Guitar Pick morphing hover state.
+            <p className="text-white/50 text-sm max-w-xl mt-2">
+              5-node cascade with <code className="text-[#C245AA] bg-black/40 px-1.5 py-0.5 rounded">feGaussianBlur</code> + <code className="text-white/60">feColorMatrix</code> — the pick shape is always on, not hover-triggered.
             </p>
           </div>
-
-          <Link
-            href="/"
-            className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
-          >
-            ← Back to Home
+          <Link href="/" className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+            ← Back
           </Link>
         </div>
 
-        {/* Live Telemetry Panel (DOM Direct - Zero Lag!) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
+        {/* Telemetry */}
+        <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">X Coordinate</p>
-            <p className="text-2xl font-black text-cyan-400"><span ref={posXRef}>0</span><span className="text-xs text-white/30 ml-1">px</span></p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">X</p>
+            <p className="text-2xl font-black text-[#C245AA]"><span ref={posXRef}>0</span><span className="text-xs text-white/30 ml-1">px</span></p>
           </div>
           <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Y Coordinate</p>
-            <p className="text-2xl font-black text-cyan-400"><span ref={posYRef}>0</span><span className="text-xs text-white/30 ml-1">px</span></p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Y</p>
+            <p className="text-2xl font-black text-[#C245AA]"><span ref={posYRef}>0</span><span className="text-xs text-white/30 ml-1">px</span></p>
           </div>
           <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
             <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Velocity</p>
-            <p className="text-2xl font-black text-purple-400"><span ref={velRef}>0</span><span className="text-xs text-white/30 ml-1">px/f</span></p>
-          </div>
-          <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Hover State</p>
-            <p ref={hoverStateRef} className="text-2xl font-black text-white/40">IDLE</p>
+            <p className="text-2xl font-black text-[#9C27B0]"><span ref={velRef}>0</span><span className="text-xs text-white/30 ml-1">px/f</span></p>
           </div>
         </div>
 
-        {/* Preset Selector */}
-        <div className="my-8 bg-[#0d0d18] border border-white/10 rounded-2xl p-2 flex flex-wrap gap-2">
-          {(["tobias", "magnetic", "neon", "particles", "spotlight"] as CursorPreset[]).map((p) => (
+        {/* Preset Switcher */}
+        <div className="bg-[#0d0d18] border border-white/10 rounded-2xl p-2 flex flex-wrap gap-2 mb-12">
+          {([
+            ["pick",      "🎸 Guitar Pick Gooey"],
+            ["neon",      "✨ Neon Glow"],
+            ["particles", "🎨 Particle Trail"],
+          ] as [CursorPreset, string][]).map(([p, label]) => (
             <button
               key={p}
               onClick={() => setPreset(p)}
-              className={`flex-1 min-w-[130px] py-3 px-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+              className={`flex-1 min-w-[140px] py-3 px-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                 preset === p
-                  ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(133,29,239,0.4)]"
+                  ? "bg-[#9C27B0] text-white shadow-[0_0_20px_#9C27B080]"
                   : "text-white/50 hover:text-white hover:bg-white/5"
               }`}
             >
-              {p === "tobias" && "🎯 Classic Ring"}
-              {p === "magnetic" && "🧲 Magnetic Snap"}
-              {p === "neon" && "✨ Neon Aura"}
-              {p === "particles" && "🎨 Particle Trail"}
-              {p === "spotlight" && "🔍 Spotlight Lens"}
+              {label}
             </button>
           ))}
         </div>
 
-        {/* Test Targets */}
-        <div className="space-y-6 my-10">
-          <h2 className="font-[var(--font-heading)] text-2xl font-black uppercase italic text-white">
-            Hover & Interactivity Test Targets
-          </h2>
+        {/* Test Zones — just filler content to move over */}
+        <h2 className="text-2xl font-black uppercase italic text-white mb-6" style={{ fontFamily: "var(--font-heading, sans-serif)" }}>
+          Move Around — Feel the Gooey Pick
+        </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Target 1 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {[
+            { title: "Slow & Slow",   desc: "Move slowly — the cascade collapses into one fat pick blob.", color: "hover:border-[#9C27B0]/60", badge: "text-[#9C27B0]" },
+            { title: "Fast Whip",     desc: "Whip fast — the pick nodes stretch into a long gooey liquid tail.", color: "hover:border-[#C245AA]/60", badge: "text-[#C245AA]" },
+            { title: "Tight Circles", desc: "Draw tight circles — watch the pick blob swirl and merge.", color: "hover:border-[#E35FA4]/60", badge: "text-[#E35FA4]" },
+          ].map((t, i) => (
             <div
-              onMouseMove={handleMagneticMove}
-              onMouseLeave={handleMagneticLeave}
-              onMouseEnter={() => handleHoverEnter("EXPLORE")}
-              className="bg-[#0c0c16] border border-white/10 hover:border-[var(--color-accent)]/50 rounded-3xl p-8 transition-colors cursor-pointer group flex flex-col justify-between min-h-[240px]"
+              key={i}
+              className={`bg-[#0c0c16] border border-white/10 ${t.color} rounded-3xl p-8 transition-colors group flex flex-col justify-between min-h-[220px]`}
             >
               <div>
-                <span className="text-xs font-black uppercase tracking-wider text-purple-400">Target #1</span>
-                <h3 className="font-[var(--font-heading)] text-2xl font-black uppercase italic text-white mt-1 group-hover:text-[var(--color-accent)] transition-colors">
-                  Guitar Pick Gooey Morph
+                <span className={`text-xs font-black uppercase tracking-wider ${t.badge}`}>Zone {i + 1}</span>
+                <h3 className="text-xl font-black uppercase italic text-white mt-1 transition-colors" style={{ fontFamily: "var(--font-heading, sans-serif)" }}>
+                  {t.title}
                 </h3>
-                <p className="text-xs text-white/50 mt-2">
-                  Hover over this card to watch the ring morph smoothly into a glowing 3D Guitar Pick shape.
-                </p>
-              </div>
-
-              <div className="mt-6 inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-purple-300">
-                <span>Hover for Guitar Pick</span>
-                <span>→</span>
+                <p className="text-xs text-white/50 mt-2">{t.desc}</p>
               </div>
             </div>
+          ))}
+        </div>
 
-            {/* Target 2 */}
-            <div
-              onMouseMove={handleMagneticMove}
-              onMouseLeave={handleMagneticLeave}
-              onMouseEnter={() => handleHoverEnter("CLICK")}
-              className="bg-[#0c0c16] border border-white/10 hover:border-cyan-500/50 rounded-3xl p-8 transition-colors cursor-pointer group flex flex-col justify-between min-h-[240px]"
-            >
-              <div>
-                <span className="text-xs font-black uppercase tracking-wider text-cyan-400">Target #2</span>
-                <h3 className="font-[var(--font-heading)] text-2xl font-black uppercase italic text-white mt-1 group-hover:text-cyan-400 transition-colors">
-                  Button Click State
-                </h3>
-                <p className="text-xs text-white/50 mt-2">
-                  Click anywhere to test the inner dot click flash response.
-                </p>
-              </div>
-
-              <button className="mt-6 w-full py-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-black text-xs uppercase tracking-widest rounded-xl transition-colors">
-                Test Click Down
-              </button>
+        {/* Code Card */}
+        <div className="bg-[#0b0b14] border border-white/10 rounded-3xl p-8">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-black uppercase italic text-white" style={{ fontFamily: "var(--font-heading, sans-serif)" }}>
+              Technique Breakdown
+            </h3>
+            <span className="text-xs text-emerald-400 font-bold">✓ Always-on pick shape</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+            <div className="bg-black/60 p-4 rounded-xl border border-white/10">
+              <p className="text-[#9C27B0] font-bold mb-2">// SVG Guitar Pick Path</p>
+              <pre className="text-white/60 whitespace-pre-wrap leading-relaxed">{`<path d="
+  M 50,6
+  C 82,6 96,26 91,54
+  C 82,82 50,110 50,110
+  C 50,110 18,82 9,54
+  C 4,26 18,6 50,6 Z
+" fill="#9C27B0" />`}</pre>
             </div>
-
-            {/* Target 3 */}
-            <div
-              onMouseMove={handleMagneticMove}
-              onMouseLeave={handleMagneticLeave}
-              onMouseEnter={() => handleHoverEnter("SELECT")}
-              className="bg-[#0c0c16] border border-white/10 hover:border-amber-500/50 rounded-3xl p-8 transition-colors cursor-pointer group flex flex-col justify-between min-h-[240px]"
-            >
-              <div>
-                <span className="text-xs font-black uppercase tracking-wider text-amber-400">Target #3</span>
-                <h3 className="font-[var(--font-heading)] text-2xl font-black uppercase italic text-white mt-1 group-hover:text-amber-400 transition-colors">
-                  Guitar Pick Badge
-                </h3>
-                <p className="text-xs text-white/50 mt-2">
-                  Test custom pick label text inside the guitar pick shape.
-                </p>
-              </div>
-
-              <div className="mt-6 px-4 py-3 bg-white/[0.04] border border-white/10 rounded-xl text-xs font-mono text-white/60">
-                will-change: transform;
-              </div>
+            <div className="bg-black/60 p-4 rounded-xl border border-white/10">
+              <p className="text-[#C245AA] font-bold mb-2">// Cascade Lerp (5 nodes)</p>
+              <pre className="text-white/60 whitespace-pre-wrap leading-relaxed">{`const speeds = [0.95,0.55,0.38,0.26,0.17];
+for (let i = 0; i < 5; i++) {
+  const t = i === 0 ? mouse : nodes[i-1];
+  nodes[i].x += (t.x - nodes[i].x) * speeds[i];
+  nodes[i].y += (t.y - nodes[i].y) * speeds[i];
+}`}</pre>
             </div>
           </div>
         </div>

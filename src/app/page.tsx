@@ -154,108 +154,13 @@ export default async function Home() {
      <div className="absolute inset-0 bg-[var(--color-accent)]/[0.08] mix-blend-overlay" />
    </div>
 
-   {/* Hero Content — Band Name + Tagline */}
+   {/* Hero Content */}
    <div className="relative z-[3] site-container pt-[calc(72px+6rem)] pb-8 flex flex-col justify-end min-h-[60vh]">
-     <div className="max-w-2xl animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.5s_both]">
-       <Logo className="w-48 sm:w-64 lg:w-80 mb-4 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]" />
-       <p className="text-lg sm:text-xl lg:text-2xl font-bold text-white/80 leading-snug tracking-tight max-w-md">
-         {tagline}
-       </p>
-       <p className="text-sm text-white/40 mt-2 uppercase tracking-[0.15em] font-bold">
-         {subTagline}
-       </p>
-       <div className="flex flex-wrap gap-3 mt-6">
-         <Link href="/tour" className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-xs font-black uppercase tracking-widest rounded-lg transition-all shadow-[0_4px_20px_rgba(133,29,239,0.4)] flex items-center gap-2">
-           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-           See Us Live
-         </Link>
-         <Link href="/music" className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/15 text-white text-xs font-black uppercase tracking-widest rounded-lg transition-all flex items-center gap-2">
-           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="5.5" cy="17.5" r="2.5" /><circle cx="17.5" cy="15.5" r="2.5" /><path d="M8 17V5l12-2v12" /></svg>
-           Listen Now
-         </Link>
-       </div>
-
-        {/* Live Feed Thumbnails */}
-        <div className="mt-6">
-          <HeroLiveThumbs />
-        </div>
+     {/* Live Feed Thumbnails */}
+     <div className="mt-6">
+       <HeroLiveThumbs />
      </div>
    </div>
-
-   {/* ── Compact Info Cards — Tour Dates + Latest Release ── */}
-   <div className="relative z-[4] site-container pb-6">
-     <div className="flex flex-col sm:flex-row gap-3 animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.9s_both] max-w-4xl">
-
-       {/* Tour Dates Card */}
-        <div className="flex-[1.5] min-w-0">
-          <HeroUpcomingShows upcomingShows={upcomingShows} />
-        </div>
-
-       {/* Latest Release Card */}
-       {release && (
-       <div className="flex-1 min-w-0">
-        <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)]">
-          {/* Header */}
-          <div className="flex items-center gap-1.5 mb-2">
-            <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-emerald-400">Latest Release</span>
-          </div>
-
-          {/* Album row */}
-          <div className="flex gap-3 items-center">
-            {/* Album art */}
-            <div className="w-16 h-16 sm:w-18 sm:h-18 rounded overflow-hidden border border-white/10 shrink-0 relative group">
-              <Image
-                src={release.youtubeId ? `https://img.youtube.com/vi/${release.youtubeId}/hqdefault.jpg` : '/images/hero-banner.png'}
-                alt={release.title || 'Latest Release'}
-                fill
-                sizes="72px"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              {release.youtubeId && (
-                <Link href={`/video`} className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3" /></svg>
-                </Link>
-              )}
-            </div>
-
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-              <h3 className="text-white font-bold text-xs leading-tight truncate">{release.title || 'New Release'}</h3>
-              <p className="text-[8px] text-white/25 mt-0.5 uppercase tracking-wider">{release.type || 'Single'} · {release.year || '2025'}</p>
-              <div className="flex flex-wrap gap-1 mt-1.5">
-                {release.spotifyLink && (
-                  <a href={release.spotifyLink} target="_blank" rel="noopener noreferrer" className="px-2 py-1 bg-[#1DB954]/15 hover:bg-[#1DB954]/25 border border-[#1DB954]/25 text-[#1DB954] text-[8px] font-bold uppercase tracking-wider rounded transition-all flex items-center gap-0.5">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-                    Spotify
-                  </a>
-                )}
-                {release.appleMusicLink && (
-                  <a href={release.appleMusicLink} target="_blank" rel="noopener noreferrer" className="px-2 py-1 bg-[#FC3C44]/15 hover:bg-[#FC3C44]/25 border border-[#FC3C44]/25 text-[#FC3C44] text-[8px] font-bold uppercase tracking-wider rounded transition-all flex items-center gap-0.5">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0019.7.263C18.96.11 18.21.06 17.46.04a69.69 69.69 0 00-1.4-.03L6.06.01c-.5 0-1 .01-1.5.04C3.82.07 3.08.12 2.35.27a5.1 5.1 0 00-1.89.63A4.89 4.89 0 00.28 2.26a5.1 5.1 0 00-.23.55A9.13 9.13 0 000 5.87v12.26c.05.86.16 1.69.44 2.49.41 1.17 1.18 2.05 2.27 2.63.62.33 1.29.5 1.99.58.79.09 1.58.11 2.38.11h10.2c.67 0 1.34-.02 2-.07a7.54 7.54 0 001.64-.29 4.84 4.84 0 002.53-1.84 4.98 4.98 0 00.75-1.79c.22-.77.3-1.55.33-2.35.04-.68.04-1.36.04-2.04V8.16c0-.69-.01-1.37-.04-2.04zM16.87 17c0 .18-.03.36-.09.53a1.08 1.08 0 01-.83.7c-.32.06-.64.1-.96.14a2.72 2.72 0 01-.67-.01c-.57-.08-1.01-.44-1.13-1-.07-.3-.05-.6.03-.89.15-.54.56-.87 1.08-.99.26-.06.53-.1.79-.16.22-.05.34-.17.37-.4V10.6a.54.54 0 00-.02-.15.27.27 0 00-.22-.2c-.07-.02-.14-.02-.22-.01l-4.6.93c-.09.02-.18.04-.26.08-.12.06-.18.16-.19.29-.01.07-.01.14-.01.22v7.48c0 .26-.04.51-.13.75-.14.4-.43.66-.82.79-.29.1-.59.15-.89.18-.35.03-.69.03-1.03-.04-.59-.12-1-.51-1.12-1.1-.08-.37-.05-.74.08-1.09.18-.48.56-.78 1.04-.91.26-.07.52-.11.78-.17.2-.04.33-.16.36-.36.01-.07.01-.14.01-.21V8.6c0-.22.02-.43.07-.65a1.1 1.1 0 01.78-.83c.18-.06.37-.1.56-.13l5.33-1.08c.26-.05.52-.1.79-.12.36-.03.59.16.65.52.01.1.02.2.02.3V17z"/></svg>
-                    Apple
-                  </a>
-                )}
-                {release.buyLink && (
-                  <a href={release.buyLink} target="_blank" rel="noopener noreferrer" className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/50 text-[8px] font-bold uppercase tracking-wider rounded transition-all">
-                    Buy
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-       </div>
-       )}
-
-       {/* Now Playing — Mini Track Player */}
-       <div className="flex-1 min-w-0">
-         <FeaturedTrack mini />
-       </div>
-
-     </div>
-   </div>
-
  </section>
 
   {/* Global Announcement Banner */}

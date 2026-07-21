@@ -153,12 +153,14 @@ export function Header() {
         setMobileOpen(false);
       }
     }}
-    className={`relative px-2.5 py-1 text-[0.7rem] uppercase font-bold tracking-wider transition-all duration-200 max-lg:text-lg max-lg:px-6 max-lg:py-3 flex items-center gap-1.5 group/navlink ${
+    className={`relative px-2.5 py-1.5 uppercase font-bold tracking-wider transition-all duration-200 max-lg:text-lg max-lg:px-6 max-lg:py-3 inline-flex items-center justify-center gap-1.5 leading-none group/navlink font-[family-name:var(--font-rockstar)] ${
     link.isCta
-     ? "text-white bg-[var(--color-accent)] hover:bg-[#9d3cff] rounded-full px-4 py-1 font-black tracking-widest shadow-[0_0_12px_rgba(133,29,239,0.35)] hover:shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:scale-105 max-lg:mt-2 text-[0.65rem]"
-     : pathname === link.href
-      ? "text-[var(--color-text-primary)]"
-      : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+     ? "text-white bg-[var(--color-accent)] hover:bg-[#9d3cff] rounded-full px-4.5 py-2 font-black tracking-widest shadow-[0_0_12px_rgba(133,29,239,0.35)] hover:shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:scale-105 max-lg:mt-2 text-[clamp(11px,1.1vw,18px)]"
+     : `text-[clamp(12px,1.35vw,22px)] ${
+        pathname === link.href
+         ? "text-[var(--color-text-primary)]"
+         : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+       }`
     }`}
     id={`nav-${link.label.toLowerCase()}`}
    >
@@ -170,10 +172,10 @@ export function Header() {
     )}
     {link.label}
     {link.label === "Live" && !hasLiveStreams && (
-      <span 
-       className="text-[7px] font-black uppercase tracking-widest text-white/30 px-1 py-0 rounded border border-white/10 bg-white/[0.02] ml-1"
+      <span
+        className="absolute -top-2.5 left-0 text-[7px] font-black uppercase tracking-widest text-white/40 px-1 py-0 rounded border border-white/10 bg-white/[0.04] pointer-events-none whitespace-nowrap"
       >
-       offline
+        offline
       </span>
      )}
     {link.label === "Live" && !isLoggedIn && (

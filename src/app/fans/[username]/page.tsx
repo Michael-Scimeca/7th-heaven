@@ -14,6 +14,7 @@ const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
   loading: () => <p className="text-white/40 animate-pulse">Loading upload form...</p>,
 });
 import PickAwardsSection from "@/components/PickAwardsSection";
+import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
 
 export default function FanAccountPage({ params }: { params: Promise<{ username: string }> }) {
@@ -362,8 +363,16 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* Account Identity Header */}
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
           <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black text-[var(--color-accent)]">
-              {effectiveMember?.name?.split(' ').map((n: string)=>n[0]).join('').substring(0,2).toUpperCase() || '?'}
+            <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black text-[var(--color-accent)] overflow-hidden shrink-0">
+              {(effectiveMember?.avatar || member?.avatar) && ((effectiveMember?.avatar || member?.avatar).startsWith('http') || (effectiveMember?.avatar || member?.avatar).startsWith('/') || (effectiveMember?.avatar || member?.avatar).startsWith('data:')) ? (
+                <img
+                  src={effectiveMember?.avatar || member?.avatar}
+                  alt={effectiveMember?.name || 'Profile'}
+                  className="w-full h-full object-cover rounded-full"
+                />
+              ) : (
+                effectiveMember?.name?.split(' ').map((n: string)=>n[0]).join('').substring(0,2).toUpperCase() || '?'
+              )}
               <span className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full ${
                 effectiveMember?.role === 'admin' ? 'bg-amber-400' :
                 effectiveMember?.role === 'crew' ? 'bg-emerald-400' :
@@ -1102,6 +1111,9 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
           {/* Right Column / Sidebar */}
           <div className="space-y-8">
+
+            {/* Profile Photo Uploader Card */}
+            <ProfilePhotoUploader />
             
             {/* VIP Inbox */}
             <div className="bg-[#0a0a0f]/80 border border-white/5 p-6 flex flex-col justify-between hover:border-white/10 transition-colors">
