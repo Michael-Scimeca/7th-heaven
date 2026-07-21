@@ -457,7 +457,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
     // Supabase Realtime subscription for cross-browser chat sync
     const chatChannel = supabase.channel('live_chat')
-      .on('broadcast', { event: 'new_message' }, ({ payload }) => {
+      .on('broadcast', { event: 'new_message' }, ({ payload }: { payload: any }) => {
         if (!payload?.id) return;
         setMessages(prev => {
           if (prev.find(m => m.id === payload.id)) return prev;
@@ -944,7 +944,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
     window.addEventListener('storage', handleStorage);
 
     chatChannelRef.current = supabase.channel('live_chat_demo')
-      .on('broadcast', { event: 'new_reaction' }, (payload) => {
+      .on('broadcast', { event: 'new_reaction' }, (payload: any) => {
         const data = payload.payload as FloatingEmoji;
         setFloating(prev => {
           if (prev.find(r => r.id === data.id)) return prev;
@@ -952,12 +952,12 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
         });
         setHype(h => Math.min(100, h + 2));
       })
-      .subscribe((status) => {
+      .subscribe((status: any) => {
         console.log('Fan Live Chat Status:', status);
       });
 
     const eventsChannel = supabase.channel('live_events')
-      .on('broadcast', { event: 'flash_drop' }, (payload) => {
+      .on('broadcast', { event: 'flash_drop' }, (payload: any) => {
         const data = payload.payload;
         const productsList = data.products || [{
           id: data.id || 'default',
@@ -981,12 +981,12 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
       .on('broadcast', { event: 'cancel_flash_drop' }, () => {
         setShowFlashDrop(false);
       })
-      .on('broadcast', { event: 'merch_sync' }, (payload) => {
+      .on('broadcast', { event: 'merch_sync' }, (payload: any) => {
         const data = payload.payload;
         if (data.timer !== undefined) setFlashTimeLeft(data.timer);
         if (data.stock !== undefined) setFlashStock(data.stock);
       })
-      .on('broadcast', { event: 'stream_state' }, (payload) => {
+      .on('broadcast', { event: 'stream_state' }, (payload: any) => {
         const data = payload.payload;
         // Accept stream end if: userId matches directly, OR userId contains the memberId slug,
         // OR this is the only stream we're watching (single-room page)
@@ -999,7 +999,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
           setRaffleState(null); // Clear raffle on stream end
         }
       })
-      .on('broadcast', { event: 'raffle_sync' }, (p) => {
+      .on('broadcast', { event: 'raffle_sync' }, (p: any) => {
         const pb = p.payload;
         // Only sync if this raffle belongs to the member we are watching
         if (pb && (pb.userId === memberId || memberId === 'michael')) {
@@ -1010,7 +1010,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
           }
         }
       })
-      .on('broadcast', { event: 'reaction' }, (payload) => {
+      .on('broadcast', { event: 'reaction' }, (payload: any) => {
         const data = payload.payload;
         setFloating(prev => [...prev, { ...data, createdAt: Date.now() }]);
         setHype(h => Math.min(100, h + 2));

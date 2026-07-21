@@ -45,7 +45,7 @@ export async function adminKillStream(streamId: string) {
     }
   }
   
-  revalidatePath("/admin");
+  revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
   return { success: true };
 }
@@ -73,7 +73,7 @@ export async function adminBanUser(userId: string) {
     if (profileError) return { success: false, error: profileError.message };
   }
   
-  revalidatePath("/admin");
+  revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
   return { success: true };
 }
@@ -99,7 +99,7 @@ export async function crewBanUser(userId: string) {
     if (profileError) return { success: false, error: profileError.message };
   }
   
-  revalidatePath("/admin");
+  revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
   return { success: true };
 }
@@ -136,12 +136,15 @@ export async function seedMockData() {
     }
   }
 
-  revalidatePath("/admin");
+  revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
   return { success: true };
 }
 
 export async function adminCreateCrewMember({ name, email, password: providedPassword, phone, username }: { name: string; email: string; password?: string; phone?: string; username?: string }) {
+  if (!phone || phone.replace(/\D/g, '').length !== 10) {
+    return { success: false, error: 'A valid 10-digit phone number is required to create a crew account.' };
+  }
   console.log(`[Admin] Creating crew member ${email}`);
   // Use provided password or generate a secure temporary one
   const password = providedPassword || (Math.random().toString(36).slice(-10) + "!A1");
@@ -209,13 +212,13 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
     console.error('[Admin] Email send failed (non-fatal):', emailErr);
   }
 
-  revalidatePath('/admin');
+  revalidatePath('/admin/[username]', 'page');
   revalidatePath('/crew');
   return { success: true, password };
 }
 
-export async function adminCreateAdmin({ name, email }: { name: string; email: string }) {
-  console.log(`[Admin] Creating admin account for ${email}`);
+export async function adminCreateAdmin({ name, email, username }: { name: string; email: string; username: string }) {
+  console.log(`[Admin] Creating admin account for ${email} with username ${username}`);
   // Generate a secure temporary password
   const password = Math.random().toString(36).slice(-10) + '!A7';
 
@@ -234,11 +237,11 @@ export async function adminCreateAdmin({ name, email }: { name: string; email: s
     return { success: false, error: authErr.message };
   }
 
-  // Set role = admin in profiles table
+  // Set role = admin and username in profiles table
   if (authData?.user) {
     const { error: profileErr } = await supabaseAdmin
       .from('profiles')
-      .update({ role: 'admin' })
+      .update({ role: 'admin', username })
       .eq('id', authData.user.id);
     if (profileErr) {
       console.error('[Admin] Profile role update error:', profileErr);
@@ -279,7 +282,7 @@ export async function adminCreateAdmin({ name, email }: { name: string; email: s
     console.error('[Admin] Admin welcome email failed (non-fatal):', emailErr);
   }
 
-  revalidatePath('/admin');
+  revalidatePath('/admin/[username]', 'page');
   return { success: true, password };
 }
 
@@ -297,4 +300,82 @@ export async function adminResetPassword(userId: string, email: string) {
   }
 
   return { success: true, password: newPassword };
+}
+
+export async function seed20CrewMembers() {
+  console.log("[Admin] Seeding 20 mock crew members...");
+  
+  const mockNames = [
+    "Alice Smith", "Bob Jones", "Charlie Brown", "David Miller", "Emma Wilson",
+    "Frank Thomas", "Grace Taylor", "Henry Anderson", "Ivy Thomas", "Jack Jackson",
+    "Katie White", "Liam Harris", "Mia Martin", "Noah Clark", "Olivia Lewis",
+    "Peter Walker", "Quinn Hall", "Ryan Allen", "Sophia Young", "Tyler King"
+  ];
+  
+  const createdCrew = [];
+  const postfix = Math.floor(Math.random() * 1000);
+  
+  for (let i = 0; i < mockNames.length; i++) {
+    const name = mockNames[i];
+    const email = `crew_${i}_${postfix}@seventhheaven.com`;
+    const password = `tempPass123!A${i}`;
+    const phone = `1555555${String(i + 1).padStart(4, '0')}`;
+    const username = `crew_${i}_${postfix}`;
+    
+    // Check if profile with this email or phone already exists to avoid auth error
+    const { data: existing } = await supabaseAdmin.from('profiles').select('id, full_name').eq('email', email);
+    if (existing && existing.length > 0) {
+      createdCrew.push({
+        id: existing[0].id,
+        name: existing[0].full_name || name,
+        phone
+      });
+      continue;
+    }
+    
+    // Create auth user
+    const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: {
+        full_name: name,
+        username,
+        needs_password_reset: false
+      }
+    });
+    
+    if (authErr) {
+      console.error(`Auth error creating mock crew member ${name}:`, authErr);
+      continue;
+    }
+    
+    if (authData?.user) {
+      // Set role and phone in profiles table
+      const { error } = await supabaseAdmin
+        .from('profiles')
+        .update({
+          role: 'crew',
+          phone,
+          username,
+          crew_duty: ['SOUND', 'EQUIPMENT SETUP', 'STAGE HAND', 'MERCH', 'LIGHTS'][i % 5]
+        })
+        .eq('id', authData.user.id);
+        
+      if (error) {
+        console.error(`Profile update error for mock crew member ${name}:`, error);
+      } else {
+        createdCrew.push({
+          id: authData.user.id,
+          name,
+          phone
+        });
+      }
+    }
+  }
+  
+  revalidatePath("/admin/[username]", "page");
+  revalidatePath("/crew");
+  
+  return { success: true, crew: createdCrew };
 }

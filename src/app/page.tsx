@@ -15,6 +15,7 @@ import FeaturedTrack from "@/components/FeaturedTrack";
 import HeroLiveThumbs from "@/components/HeroLiveThumbs";
 import { VENUE_LINKS } from "@/lib/venue-links";
 import { sanityClient, queries, SanityBandMember, SanityTourDate, SanitySiteSettings } from "@/lib/sanity";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
 
 const FALLBACK_STATS = [
  { number: "40+", label: "Years Performing" },
@@ -133,23 +134,6 @@ export default async function Home() {
  return (
  <>
   <LiveStatusSign />
-
-  {/* Global Announcement Banner */}
-  {settings?.announcement?.isActive && settings.announcement.text && (!settings.announcement.expiresAt || new Date(settings.announcement.expiresAt) > now) && (
-   <div className="fixed top-[72px] left-0 w-screen z-[49] bg-gradient-to-r from-[var(--color-accent)] to-[#6b1dcf] animate-[fade-in-down_0.5s_var(--ease-out-expo)_0.2s_both] shadow-[0_4px_25px_rgba(133,29,239,0.4)] border-b border-white/20">
-    <div className="site-container py-3 flex flex-col sm:flex-row items-center justify-center gap-4">
-     <div className="flex items-center gap-3">
-      <span className="text-lg animate-pulse shrink-0">⚠️</span>
-      <div className="text-xs sm:text-sm font-black italic text-white uppercase tracking-widest leading-snug [&_p]:m-0 [&_p]:inline" dangerouslySetInnerHTML={{ __html: settings.announcement.text }} />
-     </div>
-     {settings.announcement.link && (
-      <Link href={settings.announcement.link} className="shrink-0 px-5 py-2 bg-black/30 hover:bg-black/50 text-white text-xs font-black uppercase tracking-widest rounded-lg transition-colors border border-white/20">
-       {settings.announcement.linkText || "Read More"}
-      </Link>
-     )}
-    </div>
-   </div>
-  )}
 
  {/* ====== HERO ====== */}
  <section className="relative min-h-screen flex flex-col justify-end overflow-hidden" id="hero">
@@ -273,6 +257,16 @@ export default async function Home() {
    </div>
 
  </section>
+
+  {/* Global Announcement Banner */}
+  {settings?.announcement?.isActive && settings.announcement.text && (!settings.announcement.expiresAt || new Date(settings.announcement.expiresAt) > now) && (
+    <AnnouncementBanner 
+      text={settings.announcement.text}
+      link={settings.announcement.link}
+      linkText={settings.announcement.linkText}
+      inline={true}
+    />
+  )}
 
  {/* ====== TOUR LIST (full — same as /tour page) ====== */}
  <section id="tour">

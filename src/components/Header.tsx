@@ -75,7 +75,7 @@ export function Header() {
   // Real-time listener for instant updates
   const supabase = createClient();
   const channel = supabase.channel('header_live_events')
-    .on('broadcast', { event: 'stream_state' }, (payload) => {
+    .on('broadcast', { event: 'stream_state' }, (payload: any) => {
       if (payload.payload?.isLive !== undefined) {
         checkLive(); // Re-evaluate when any stream state changes
       }
@@ -128,15 +128,15 @@ export function Header() {
       }
     }}
   >
-   <div className="w-[160px] h-[32px] md:w-[180px] md:h-[36px]">
+   <div className="w-[106px] h-[20px] md:w-[120px] md:h-[22px]">
     <Logo className="w-full h-full text-white" />
    </div>
   </Link>
 
  {/* Desktop Nav */}
  <nav
- className={`flex items-center gap-1 max-lg:fixed max-lg:inset-0 max-lg:flex-col max-lg:justify-center max-lg:items-center max-lg:gap-6 max-lg:bg-[rgba(10,10,15,0.95)] max-lg:backdrop-blur-3xl max-lg:transition-opacity max-lg:duration-300 ${
- mobileOpen ? "max-lg:opacity-100 max-lg:pointer-events-auto" : "max-lg:opacity-0 max-lg:pointer-events-none"
+ className={`flex items-center gap-1 max-lg:fixed max-lg:inset-0 max-lg:flex-col max-lg:justify-center max-lg:items-center max-lg:gap-6 max-lg:bg-[rgba(10,10,15,0.95)] max-lg:backdrop-blur-3xl ${
+ mobileOpen ? "max-lg:opacity-100 max-lg:pointer-events-auto max-lg:visible" : "max-lg:opacity-0 max-lg:pointer-events-none max-lg:invisible"
  }`}
  id="main-nav"
  >
@@ -153,9 +153,9 @@ export function Header() {
         setMobileOpen(false);
       }
     }}
-    className={`relative px-4 py-2 text-base font-medium tracking-wide transition-all duration-200 max-lg:text-xl max-lg:px-6 max-lg:py-3 flex items-center gap-2 group/navlink ${
+    className={`relative px-2.5 py-1 text-[0.7rem] uppercase font-bold tracking-wider transition-all duration-200 max-lg:text-lg max-lg:px-6 max-lg:py-3 flex items-center gap-1.5 group/navlink ${
     link.isCta
-     ? "text-white bg-[var(--color-accent)] hover:bg-[#9d3cff] rounded-full px-5 py-1.5 font-bold shadow-[0_0_16px_rgba(133,29,239,0.35)] hover:shadow-[0_0_24px_rgba(133,29,239,0.5)] hover:scale-105 max-lg:mt-2"
+     ? "text-white bg-[var(--color-accent)] hover:bg-[#9d3cff] rounded-full px-4 py-1 font-black tracking-widest shadow-[0_0_12px_rgba(133,29,239,0.35)] hover:shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:scale-105 max-lg:mt-2 text-[0.65rem]"
      : pathname === link.href
       ? "text-[var(--color-text-primary)]"
       : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
@@ -164,11 +164,18 @@ export function Header() {
    >
     {link.label === "Live" && hasLiveStreams && (
      <span 
-      className="inline-block w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" 
+      className="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" 
       title="Live streams are currently active!"
      />
     )}
     {link.label}
+    {link.label === "Live" && !hasLiveStreams && (
+      <span 
+       className="text-[7px] font-black uppercase tracking-widest text-white/30 px-1 py-0 rounded border border-white/10 bg-white/[0.02] ml-1"
+      >
+       offline
+      </span>
+     )}
     {link.label === "Live" && !isLoggedIn && (
       <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 hidden group-hover/navlink:block pointer-events-none z-[100]">
         <div className="bg-black/95 text-[9px] text-white/80 border border-white/10 rounded px-2.5 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.8)] whitespace-nowrap">
@@ -179,7 +186,7 @@ export function Header() {
       </div>
      )}
     {pathname === link.href && (
-    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 accent-gradient-bg " />
+    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 accent-gradient-bg " />
     )}
    </Link>
   ))}
@@ -359,22 +366,22 @@ export function Header() {
  </button>
  </div>
   ) : (
-   <div className="flex items-center gap-2">
-     <button
-       onClick={() => openModal("login")}
-       className="h-9 px-3 flex items-center justify-center gap-2 border border-white/15 text-white/40 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-all cursor-pointer bg-white/[0.02] rounded-md"
-       title="Sign In"
-      >
-       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-       <span className="text-xs font-bold uppercase tracking-widest hidden sm:block">Sign In</span>
-      </button>
+   <div className="flex items-center gap-1.5">
+      <button
+        onClick={() => openModal("login")}
+        className="h-7 px-2.5 flex items-center justify-center gap-1.5 border border-white/15 text-white/40 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-all cursor-pointer bg-white/[0.02] rounded-md"
+        title="Sign In"
+       >
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span className="text-[0.65rem] font-bold uppercase tracking-wider hidden sm:block">Sign In</span>
+       </button>
       <button
        onClick={() => openModal("signup")}
-       className="h-9 px-3 flex items-center justify-center gap-2 border border-[var(--color-accent)]/30 text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-white transition-all cursor-pointer bg-[rgba(133,29,239,0.08)] rounded-md shadow-[0_0_12px_rgba(133,29,239,0.15)]"
+       className="h-7 px-2.5 flex items-center justify-center gap-1.5 border border-[var(--color-accent)]/30 text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-white transition-all cursor-pointer bg-[rgba(133,29,239,0.08)] rounded-md shadow-[0_0_10px_rgba(133,29,239,0.15)]"
        title="Sign Up"
       >
-       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
-       <span className="text-xs font-bold uppercase tracking-widest hidden sm:block">Sign Up</span>
+       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
+       <span className="text-[0.65rem] font-bold uppercase tracking-wider hidden sm:block">Sign Up</span>
       </button>
    </div>
   )}

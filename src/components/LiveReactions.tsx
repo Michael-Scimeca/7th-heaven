@@ -38,7 +38,7 @@ export function LiveReactions({ className = '', mode = 'both' }: LiveReactionsPr
    config: { broadcast: { self: true } },
   });
   channel
-   .on('broadcast', { event: 'reaction' }, (payload) => {
+   .on('broadcast', { event: 'reaction' }, (payload: any) => {
     const emoji = payload.payload?.emoji;
     if (!emoji) return;
     setFloating(prev => [...prev, {

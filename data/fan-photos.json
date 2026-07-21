@@ -154,5 +154,19 @@
     "instagram": "@nate_bass_player",
     "submittedAt": "2021-05-14T22:30:00.000Z",
     "approved": true
+  },
+  {
+    "id": "fp_rejected_demo",
+    "filename": "demo_rejected_photo.jpg",
+    "src": "https://img.youtube.com/vi/qp5Y312eiS8/hqdefault.jpg",
+    "name": "Super Fan",
+    "venue": "Station 34",
+    "city": "Mt. Prospect, IL",
+    "date": "July 2026",
+    "caption": "Backstage setup!",
+    "submittedAt": "2026-07-14T22:00:00.000Z",
+    "approved": false,
+    "rejected": true,
+    "rejection_reason": "Image contains duplicate upload or spam content."
   }
 ]

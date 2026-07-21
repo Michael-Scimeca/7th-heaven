@@ -121,16 +121,6 @@ export default function AwardPicksPanel() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-bold">
-            🎸 Award <span className="text-[var(--color-accent)]">Picks</span>
-          </h3>
-          <p className="text-xs text-white/30 mt-1">Award collectible guitar picks to fans for attending shows, buying merch, and more.</p>
-        </div>
-      </div>
-
       {/* Pick Type Selection */}
       <div>
         <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Select Pick Type</label>

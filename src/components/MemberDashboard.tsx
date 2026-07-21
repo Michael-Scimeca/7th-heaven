@@ -101,13 +101,13 @@ export default function MemberDashboard() {
    }, 3500);
  };
 
- useEffect(() => {
-  if (!member?.name) return;
-  fetch("/api/fans")
-    .then(r => r.json())
-    .then(data => setMyPhotos(data.filter((p: any) => p.name === member.name)))
-    .catch(() => {});
- }, [member?.name]);
+  useEffect(() => {
+   if (!member?.name) return;
+   fetch("/api/fans?all=true")
+     .then(r => r.json())
+     .then(data => setMyPhotos(data.filter((p: any) => p.name === member.name)))
+     .catch(() => {});
+  }, [member?.name]);
 
  // Pre-fill name from member
  useEffect(() => {
@@ -361,6 +361,88 @@ export default function MemberDashboard() {
     {/* Photo Upload System */}
     <div className="mb-10">
       <FanUploadForm />
+    </div>
+
+    {/* My Photo Submissions */}
+    <div className="mb-10 p-6 bg-white/[0.02] border border-white/10 rounded-2xl">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-lg font-bold">
+          My Photo <span className="gradient-text">Submissions</span>
+        </h2>
+        <span className="text-xs uppercase tracking-[0.15em] text-white/25">Fan Wall Activity</span>
+      </div>
+
+      {myPhotos.length === 0 ? (
+        <div className="py-8 flex flex-col items-center border border-white/5 bg-white/5 rounded-xl border-dashed">
+          <p className="text-sm text-white/50 font-bold">No photo submissions found.</p>
+          <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Upload a photo to join the fan wall!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {myPhotos.map((photo: any) => (
+            <div
+              key={photo.id}
+              className={`group relative bg-black/40 border rounded-xl overflow-hidden backdrop-blur-md transition-all ${
+                photo.rejected
+                  ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
+                  : photo.approved
+                  ? "border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
+                  : "border-white/10"
+              }`}
+            >
+              <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
+                <img
+                  src={photo.src}
+                  alt={photo.caption || "Upload"}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                
+                {/* Status Overlay Badge */}
+                <div className="absolute top-2 right-2 shadow-lg">
+                  {photo.approved ? (
+                    <span className="px-2.5 py-1 bg-emerald-500/90 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-emerald-400/20">
+                      ✅ Published
+                    </span>
+                  ) : photo.rejected ? (
+                    <span className="px-2.5 py-1 bg-red-500/95 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-red-400/30">
+                      ⚠️ Declined
+                    </span>
+                  ) : (
+                    <span className="px-2.5 py-1 bg-yellow-500/90 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded border border-yellow-400/20 font-black">
+                      ⏳ Pending
+                    </span>
+                  )}
+                </div>
+              </div>
+              
+              <div className="p-4 flex flex-col gap-2">
+                {photo.caption && (
+                  <p className="text-xs text-white/70 italic border-l-2 border-purple-500/30 pl-2 line-clamp-2">
+                    "{photo.caption}"
+                  </p>
+                )}
+                
+                {/* Declined Details block */}
+                {photo.rejected && (
+                  <div className="mt-2 p-2.5 bg-red-500/5 border border-red-500/15 rounded-lg text-left">
+                    <p className="text-[0.6rem] text-red-400 font-extrabold uppercase tracking-widest mb-1">
+                      Reason for Decline
+                    </p>
+                    <p className="text-2xs text-red-200/80 leading-normal font-medium">
+                      {photo.rejection_reason || "Content does not meet community guidelines."}
+                    </p>
+                  </div>
+                )}
+                
+                <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/5 text-[0.65rem] text-white/30">
+                  {photo.venue && <span className="truncate">📍 {photo.venue}</span>}
+                  <span className="font-mono">{new Date(photo.submittedAt).toLocaleDateString()}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
 
     {/* Stats Row */}

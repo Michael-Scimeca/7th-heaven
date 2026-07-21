@@ -32,6 +32,7 @@ function generateBookingId() {
 function buildPlannerEmailHtml(booking: any) {
   const cancelUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/book/cancel?token=${booking.cancelToken}&id=${booking.bookingId}`;
   const dashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/planner`;
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
   const td1 = `padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;`;
   const td2 = `padding:8px 0;color:#fff;font-size:14px;font-weight:600;`;
 
@@ -56,20 +57,28 @@ function buildPlannerEmailHtml(booking: any) {
       if (s.notes) {
         metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style:italic;">Notes: "${sanitize(s.notes)}"</span>`;
       }
+      const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(s.date)}&venue=${encodeURIComponent(booking.venueName || '')}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(typeLabel)}&startTime=${encodeURIComponent(s.startTime || '')}&endTime=${encodeURIComponent(s.endTime || '')}`;
       return `<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:#fff;">
         <span style="font-size:11px;color:#a855f7;text-transform:uppercase;font-weight:700;letter-spacing:1px;display:block;margin-bottom:2px;">Show #${idx + 1}</span>
         <strong>📅 ${sanitize(dateStr)}</strong> · ${sanitize(s.startTime) || 'TBD'} – ${sanitize(s.endTime) || 'TBD'}
         <br/><span style="color:rgba(255,255,255,0.4);font-size:12px;">Format: ${sanitize(typeLabel)}${sanitize(customStr)}</span>
         ${metaInfo}
+        <div style="margin-top:8px;">
+          <a href="${icsUrl}" style="display:inline-block;padding:4px 8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#a855f7;font-size:10px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:0.5px;">📅 Add to Calendar (.ics)</a>
+        </div>
       </div>`;
     }).join("");
   } else {
     const legacyDate = Array.isArray(booking.eventDates) && booking.eventDates.length > 0
       ? booking.eventDates.map((d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })).join(', ')
       : (booking.eventDate ? new Date(booking.eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD');
+    const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(booking.eventDate || '')}&venue=${encodeURIComponent(booking.venueName || '')}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(booking.eventType)}&startTime=${encodeURIComponent(booking.startTime || '')}&endTime=${encodeURIComponent(booking.endTime || '')}`;
     scheduleHtml = `<div style="color:#fff;">
       <strong>📅 ${sanitize(legacyDate)}</strong> · ${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}
       <br/><span style="color:rgba(255,255,255,0.4);font-size:12px;">Format: ${sanitize(eventTypeLabels[booking.eventType] || booking.eventType)}</span>
+      <div style="margin-top:8px;">
+        <a href="${icsUrl}" style="display:inline-block;padding:4px 8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#a855f7;font-size:10px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:0.5px;">📅 Add to Calendar (.ics)</a>
+      </div>
     </div>`;
   }
 
@@ -137,6 +146,7 @@ function buildPlannerEmailHtml(booking: any) {
 
 function buildAdminNotificationHtml(booking: any) {
   const replyMailto = `mailto:${booking.email}?subject=Re: Booking ${booking.bookingId} — 7th Heaven`;
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
   const td1 = `padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;`;
   const td2 = `padding:6px 0;color:#fff;font-size:14px;font-weight:600;`;
 
@@ -161,20 +171,28 @@ function buildAdminNotificationHtml(booking: any) {
       if (s.notes) {
         metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style:italic;">Notes: "${sanitize(s.notes)}"</span>`;
       }
+      const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(s.date)}&venue=${encodeURIComponent(booking.venueName || '')}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(typeLabel)}&startTime=${encodeURIComponent(s.startTime || '')}&endTime=${encodeURIComponent(s.endTime || '')}`;
       return `<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:#fff;">
         <span style="font-size:10px;color:#a855f7;text-transform:uppercase;font-weight:700;letter-spacing:1px;display:block;margin-bottom:2px;">Show #${idx + 1}</span>
         <strong>📅 ${sanitize(dateStr)}</strong> · ${sanitize(s.startTime) || 'TBD'} – ${sanitize(s.endTime) || 'TBD'}
         <br/><span style="color:rgba(255,255,255,0.4);font-size:12px;">Format: ${sanitize(typeLabel)}${sanitize(customStr)}</span>
         ${metaInfo}
+        <div style="margin-top:8px;">
+          <a href="${icsUrl}" style="display:inline-block;padding:4px 8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#a855f7;font-size:10px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:0.5px;">📅 Add to Calendar (.ics)</a>
+        </div>
       </div>`;
     }).join("");
   } else {
     const legacyDate = Array.isArray(booking.eventDates) && booking.eventDates.length > 0
       ? booking.eventDates.map((d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })).join(', ')
       : (booking.eventDate ? new Date(booking.eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD');
+    const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(booking.eventDate || '')}&venue=${encodeURIComponent(booking.venueName || '')}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(booking.eventType)}&startTime=${encodeURIComponent(booking.startTime || '')}&endTime=${encodeURIComponent(booking.endTime || '')}`;
     scheduleHtml = `<div style="color:#fff;">
       <strong>📅 ${sanitize(legacyDate)}</strong> · ${sanitize(booking.startTime) || 'TBD'} – ${sanitize(booking.endTime) || 'TBD'}
       <br/><span style="color:rgba(255,255,255,0.4);font-size:12px;">Format: ${sanitize(eventTypeLabels[booking.eventType] || booking.eventType)}</span>
+      <div style="margin-top:8px;">
+        <a href="${icsUrl}" style="display:inline-block;padding:4px 8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#a855f7;font-size:10px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:0.5px;">📅 Add to Calendar (.ics)</a>
+      </div>
     </div>`;
   }
 
@@ -448,7 +466,7 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         to: data.email,
-        subject: `Booking Confirmed — ${firstBookingId} | 7th Heaven`,
+        subject: `Booking Request Received — ${firstBookingId} | 7th Heaven`,
         html: buildPlannerEmailHtml(booking),
       }),
     }).catch(err => console.error("Planner email failed:", err));
@@ -594,7 +612,6 @@ export async function PATCH(request: Request) {
           lat,
           lng
         });
-        console.log(`Successfully auto-created Sanity tourDate for confirmed booking: ${bookingId}`);
         revalidatePath("/tour");
       } catch (sanityErr) {
         console.error("Failed to auto-create Sanity tourDate for confirmed booking:", sanityErr);

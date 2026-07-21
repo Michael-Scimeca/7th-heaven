@@ -51,6 +51,7 @@ const pages: PageNode[] = [
   { id: "crew", name: "Crew Dashboard", route: "/crew", screenshot: "/sitemap-screenshots/crew.png", category: "dashboard", desc: "Crew broadcast studio with live streaming controls, chat moderation, interactive raffle engine, and flash merch drops.", sections: ["Broadcast Studio", "Live Chat", "Raffle Engine", "Flash Drops", "Fan Management"], col: 2, row: 4 },
   { id: "admin", name: "Admin Command", route: "/admin", screenshot: "/sitemap-screenshots/admin.png", category: "admin", desc: "Master operations center — band announcements, analytics, Shopify sales, booking approval, live streams, photo moderation, SMS blasts, community registry, and audit log.", sections: ["Band Announcements", "Analytics", "Shopify Sales", "Booking Approval", "Live Streams", "Photo Moderation", "SMS Blasts", "Community Registry", "Audit Log", "Cruise Tab"], col: 2, row: 5 },
   { id: "claim", name: "Raffle Prize Claim", route: "/claim/[pin]", screenshot: "/sitemap-screenshots/claim.png", category: "dashboard", desc: "Redemption portal for raffle winners — size selection, dynamic QR code verification, single-use security block, and manual hand-off validation.", sections: ["PIN Verification", "Prize Details", "Size Selection", "Redemption Hand-Off"], col: 2, row: 6 },
+  { id: "proximity", name: "Proximity Demo", route: "/demo/proximity", screenshot: "/sitemap-screenshots/proximity-demo.png", category: "dashboard", desc: "Interactive GPS-based show discovery and SMS alert simulation. Customize search radius, profile details, and show types to see real-time phone alerts.", sections: ["Phone Mockup", "Profile Setup", "Search Radius", "Show Type Preferences", "SMS Alerts"], col: 2, row: 7 },
 
   // ── Column 3: Admin Tools & Email Templates ──
   { id: "admin_emails", name: "Email Templates", route: "/admin/emails", screenshot: "/sitemap-screenshots/admin-emails.png", category: "email", desc: "Visual email template editor with live HTML preview, code view, test send, and 14 templates covering booking, account, cruise, live stream, and newsletter.", sections: ["Template Sidebar", "Live Preview", "Code View", "Send Test", "14 Templates"], col: 3, row: 0 },
@@ -80,6 +81,7 @@ const connections: Connection[] = [
   { from: "cruise_verify", to: "cruise_dash", label: "PIN Verified", type: "auth" },
   { from: "live", to: "fans", label: "Fan Interaction", type: "auth" },
   { from: "fans", to: "crew", label: "Crew Promotion", type: "auth" },
+  { from: "fans", to: "proximity", label: "Proximity Alerts", type: "navigation" },
 
   // Data flows
   { from: "store", to: "admin", label: "Sales Data", type: "data" },

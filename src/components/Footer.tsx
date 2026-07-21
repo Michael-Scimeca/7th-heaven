@@ -39,6 +39,7 @@ const footerLinks = [
   { href: "/#music-player-section", label: "Music" },
   { href: "/video", label: "Video" },
   { href: "/contact", label: "Contact" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 const FALLBACK_SOCIAL_LINKS = [
@@ -258,6 +259,7 @@ export function Footer() {
         <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 text-sm font-black uppercase tracking-widest text-white/30 mt-4 md:mt-0">
           <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+          <Link href="/returns" className="hover:text-white transition-colors">Returns</Link>
           <Link href="/marketing" className="hover:text-[var(--color-accent)] transition-colors">Press Kit</Link>
           <Link href="/sitemap" className="hover:text-[var(--color-accent)] transition-colors">Sitemap</Link>
           <Link href="/demo/proximity" className="hover:text-[var(--color-accent)] transition-colors">Dev Demo</Link>

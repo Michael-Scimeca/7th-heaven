@@ -174,7 +174,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       .select("*")
       .order("created_at", { ascending: false })
       .limit(200)
-      .then(({ data }) => {
+      .then(({ data }: any) => {
         if (data) setMsgs(data.reverse() as SiteChatMsg[]);
       });
 
@@ -183,7 +183,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       .channel(`crew_hq_allfeeds_${userId}`)
       .on("postgres_changes", {
         event: "INSERT", schema: "public", table: "chat_messages"
-      }, (payload) => {
+      }, (payload: any) => {
         const m = payload.new as SiteChatMsg;
         setMsgs(prev => {
           if (prev.find(x => x.id === m.id)) return prev;
@@ -193,7 +193,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       // Also listen for DELETEs (kick/delete)
       .on("postgres_changes", {
         event: "DELETE", schema: "public", table: "chat_messages"
-      }, (payload) => {
+      }, (payload: any) => {
         const old = payload.old as { id: string };
         if (old?.id) setMsgs(prev => prev.filter(m => m.id !== old.id));
       })
@@ -201,7 +201,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
     // Also subscribe to custom words sync events
     const liveEventsChannel = supabase.channel('live_events')
-      .on('broadcast', { event: 'custom_words_sync' }, ({ payload }) => {
+      .on('broadcast', { event: 'custom_words_sync' }, ({ payload }: { payload: any }) => {
         if (payload?.words) {
           setCustomWords(payload.words);
           try { localStorage.setItem('7h_custom_flagged_words', JSON.stringify(payload.words)); } catch {}

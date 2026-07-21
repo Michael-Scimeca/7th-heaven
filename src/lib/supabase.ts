@@ -1,13 +1,18 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient as createSupabaseClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient as createBrowserClient } from './supabase/client';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
 const globalForSupabase = globalThis as unknown as {
-  supabase: SupabaseClient | undefined;
+  supabase: SupabaseClient | any;
 };
 
-export const supabase = globalForSupabase.supabase ?? createClient(supabaseUrl, supabaseKey);
+export const supabase = globalForSupabase.supabase ?? (
+  typeof window !== 'undefined'
+    ? createBrowserClient()
+    : createSupabaseClient(supabaseUrl, supabaseKey)
+);
 
 if (process.env.NODE_ENV !== 'production') {
   globalForSupabase.supabase = supabase;

@@ -171,7 +171,7 @@ export default function CrewFeed() {
    .on(
     "postgres_changes",
     { event: "INSERT", schema: "public", table: "feed_posts" },
-    (payload) => {
+    (payload: any) => {
      const newPost = payload.new as FeedPostDB;
      setPosts((prev) => [newPost, ...prev]);
      setNewPostIds((prev) => new Set(prev).add(newPost.id));

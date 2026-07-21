@@ -147,10 +147,10 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
     // Subscribe to new messages, pinned updates & chat toggle
     const channel = supabase
       .channel(`room_${room}`)
-      .on("broadcast", { event: "pin_update" }, (payload) => {
+      .on("broadcast", { event: "pin_update" }, (payload: any) => {
         setPinnedMessage(payload.payload.pin);
       })
-      .on("broadcast", { event: "chat_toggle" }, (payload) => {
+      .on("broadcast", { event: "chat_toggle" }, (payload: any) => {
         setChatEnabled(payload.payload.chatEnabled);
       })
       .on("postgres_changes", {
@@ -158,7 +158,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         schema: "public",
         table: "chat_messages",
         filter: `room=eq.${room}`
-      }, (payload) => {
+      }, (payload: any) => {
         const newMsg = payload.new as ChatMessage;
         setMessages((prev) => [...prev, newMsg]);
       })
@@ -166,7 +166,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         event: "DELETE",
         schema: "public",
         table: "chat_messages"
-      }, (payload) => {
+      }, (payload: any) => {
         const oldMsg = payload.old as { id: string };
         if (oldMsg && oldMsg.id) {
           setMessages((prev) => prev.filter((m) => m.id !== oldMsg.id));

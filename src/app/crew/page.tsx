@@ -28,7 +28,7 @@ export default function CrewPortalPage() {
     // Auto-redirect logged-in crew to their own studio
     const crewMatch = CREW_MEMBERS.find(
       (c) => member?.email?.toLowerCase().includes(c.emailKey)
-    );
+    ) || CREW_MEMBERS[0]; // Fallback to first crew member (Michael)
     if (crewMatch) {
       router.replace(crewMatch.path);
     }

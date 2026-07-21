@@ -15,10 +15,18 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
 
+import localFont from "next/font/local";
+
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const rockstar = localFont({
+  src: "../../public/Fonts/Rockstar-ExtraBold.otf",
+  variable: "--font-rockstar",
+  display: "swap",
 });
 
 const barlowCondensed = Barlow_Condensed({
@@ -116,7 +124,7 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${barlowCondensed.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${rockstar.variable} ${barlowCondensed.variable}`} suppressHydrationWarning>
       <head>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />

@@ -203,28 +203,7 @@ export default function BulkInvitePanel() {
   };
 
   return (
-    <div className="relative bg-[#0a0a14] border border-white/[0.06] overflow-hidden rounded-2xl shadow-2xl">
-      {/* Ambient glow overlay */}
-      <div className="absolute top-0 left-0 w-64 h-32 bg-purple-600/10 blur-[60px] pointer-events-none" />
-
-      <div className="relative p-6 md:p-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/5">
-          <div>
-            <p className="text-[0.65rem] uppercase tracking-[0.2em] font-bold text-[var(--color-accent)] mb-0.5">Fan Base Builder</p>
-            <h3 className="text-white font-black text-lg italic uppercase tracking-wider flex items-center gap-2">📧 Bulk Fan Invitations</h3>
-            <p className="text-white/40 text-xs mt-1">Upload CSV or paste contacts to invite them with pre-confirmed signup codes.</p>
-          </div>
-          {invites.length > 0 && (
-            <button
-              onClick={clearList}
-              disabled={sending}
-              className="text-xs font-bold uppercase tracking-widest text-white/30 hover:text-white bg-white/5 hover:bg-white/10 px-3.5 py-2 rounded-lg border border-white/15 cursor-pointer disabled:opacity-30"
-            >
-              Clear List
-            </button>
-          )}
-        </div>
+    <>
 
         {/* Input Form Stage */}
         {invites.length === 0 ? (
@@ -290,13 +269,24 @@ export default function BulkInvitePanel() {
                 </div>
               </div>
               
-              <button
-                onClick={dispatchInvites}
-                disabled={sending}
-                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-xs font-black uppercase tracking-widest rounded-lg shadow-lg shadow-[var(--color-accent)]/20 transition-all border border-[var(--color-accent)]/30 disabled:opacity-40 cursor-pointer"
-              >
-                {sending ? "⚡ Sending Invites..." : "✉️ Send Invitation Email Blasts"}
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={clearList}
+                  disabled={sending}
+                  className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-white/60 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg border border-white/15 cursor-pointer disabled:opacity-30"
+                >
+                  Clear List
+                </button>
+                <button
+                  type="button"
+                  onClick={dispatchInvites}
+                  disabled={sending}
+                  className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-xs font-black uppercase tracking-widest rounded-lg shadow-lg shadow-[var(--color-accent)]/20 transition-all border border-[var(--color-accent)]/30 disabled:opacity-40 cursor-pointer"
+                >
+                  {sending ? "⚡ Sending Invites..." : "✉️ Send Invitation Email Blasts"}
+                </button>
+              </div>
             </div>
 
             {/* Results Toast */}
@@ -360,7 +350,6 @@ export default function BulkInvitePanel() {
             </div>
           </div>
         )}
-      </div>
-    </div>
+    </>
   );
 }

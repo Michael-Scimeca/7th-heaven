@@ -46,7 +46,7 @@ export default function AdminFeedPost() {
     const flattened = Object.values(newState).flat();
     setOnlineMembers(flattened);
    })
-   .subscribe(async (status) => {
+   .subscribe(async (status: any) => {
     if (status === 'SUBSCRIBED') {
      await channel.track({
       name: selectedMember.name,

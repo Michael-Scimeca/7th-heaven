@@ -5,6 +5,14 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay, isValidEmail } from "@/lib/validation";
+import {
+  BANDS_DATA,
+  PORTS_DATA,
+  FAQS_EXTENDED,
+  CRUISE_HISTORY,
+  ITINERARY_2027,
+  ITINERARY_2028,
+} from "./cruiseData";
 
 const ITINERARY = [
   {
@@ -117,6 +125,33 @@ export default function CruisePage() {
     insurance: "no", prepaidGratuities: "yes", howHeard: "7th Heaven"
   });
 
+  const [activeAnchor, setActiveAnchor] = useState("itinerary");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["itinerary", "bands-ports", "pricing", "ship-explorer", "faqs", "book-now"];
+      const scrollPosition = window.scrollY + 350; // Offset for highlights
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveAnchor(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  const [activeItinYear, setActiveItinYear] = useState<2027 | 2028>(2027);
+  const [activePriceYear, setActivePriceYear] = useState<2027 | 2028>(2027);
+  const [foodTypeTab, setFoodTypeTab] = useState<"included" | "paid">("included");
+
   const [guests, setGuests] = useState<{
     active: boolean;
     name: string;
@@ -134,13 +169,7 @@ export default function CruisePage() {
   ]);
 
   const [signature, setSignature] = useState("");
-  const [signatureDate, setSignatureDate] = useState(() => {
-    const today = new Date();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    return `${mm}/${dd}/${yyyy}`;
-  });
+  const [signatureDate, setSignatureDate] = useState("");
 
   const [openPanel, setOpenPanel] = useState<number>(-1); // -1 = primary booker open by default
   const [primaryOpen, setPrimaryOpen] = useState(true);
@@ -165,6 +194,12 @@ export default function CruisePage() {
   const AVATAR_COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#f59e0b", "#10b981", "#ef4444", "#ec4899", "#8b5cf6"];
 
   useEffect(() => {
+    const today = new Date();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    setSignatureDate(`${mm}/${dd}/${yyyy}`);
+
     const loadStats = async () => {
       try {
         const res = await fetch('/api/cruise/count');
@@ -493,27 +528,844 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </p>
         </div>
 
-        {/* Signup Form Card */}
-        <div id="signup" className="relative z-10 site-container mt-[100px]">
-          {/* 2028 Cruise Announcement Callout */}
-          <div className="mb-10 p-5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/20 text-left flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-black uppercase tracking-widest mb-1.5">
-                Now Booking 2028
+      </section>
+
+      {/* Sticky quick-jump anchor link bar */}
+      <div className="sticky top-[73px] z-50 w-full bg-[#0a0a0f]/90 backdrop-blur-md border-y border-white/5 py-4">
+        <div className="site-container">
+          <div className="flex flex-wrap items-center justify-center gap-2 max-w-5xl mx-auto">
+            {[
+              { id: "itinerary", label: "⛵ Itinerary" },
+              { id: "bands-ports", label: "🎸 Bands & Ports" },
+              { id: "pricing", label: "💰 Pricing & Cabins" },
+              { id: "ship-explorer", label: "🚢 Ship Explorer" },
+              { id: "faqs", label: "❓ FAQs & History" },
+              { id: "book-now", label: "✍️ Book Now" },
+            ].map(tab => (
+              <a
+                key={tab.id}
+                href={`#${tab.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(tab.id)?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className={`px-4 py-2 text-2xs md:text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer flex items-center gap-1.5 no-underline ${
+                  activeAnchor === tab.id
+                    ? 'bg-gradient-to-tr from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20'
+                    : 'text-white/60 hover:text-white hover:bg-white/5 bg-transparent'
+                }`}
+              >
+                {tab.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── SECTION 1: ITINERARIES & DATES ── */}
+      <section id="itinerary" className="py-20 site-container border-t border-white/5">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              Day-by-Day <span className="accent-gradient-text">Schedules</span>
+            </h2>
+            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+              Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
+            </p>
+
+            {/* Itinerary Year Toggle */}
+            <div className="flex gap-2 justify-center mt-8">
+              <button
+                type="button"
+                onClick={() => setActiveItinYear(2027)}
+                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                  activeItinYear === 2027
+                    ? "bg-cyan-500 text-black font-black"
+                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white"
+                }`}
+              >
+                2027 Star of the Seas (7-Night)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveItinYear(2028)}
+                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                  activeItinYear === 2028
+                    ? "bg-amber-500 text-black font-black"
+                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white"
+                }`}
+              >
+                2028 Legend of the Seas (8-Night)
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-black/30 border border-white/5 rounded-3xl overflow-hidden mb-12 text-left">
+            {(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028).map((day, i) => (
+              <div key={day.day} className={`flex flex-col lg:flex-row ${i % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} min-h-[380px] border-b border-white/5 last:border-b-0`}>
+                <div className="relative lg:w-[40%] h-56 lg:h-auto overflow-hidden bg-black">
+                  <div className="absolute inset-0 bg-cyan-950/20 z-10" />
+                  <div className="absolute top-5 left-5 bg-black/75 backdrop-blur-md rounded-xl px-4 py-2.5 border border-white/10 z-20">
+                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${ITIN_TYPE_ACCENT[day.type]} block`}>Day {day.day}</span>
+                    <span className="text-xl leading-none">{day.icon}</span>
+                  </div>
+                  <div className="p-8 absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black via-black/40 to-transparent text-left">
+                    <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${ITIN_TYPE_ACCENT[day.type]}`}>{day.label}</span>
+                    <h3 className="text-xl md:text-2xl font-black italic uppercase text-white leading-tight mt-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{day.port}</h3>
+                  </div>
+                </div>
+
+                <div className="flex-1 flex items-center px-8 lg:px-12 py-8 bg-[#07070b]/40">
+                  <div className="w-full max-w-xl">
+                    <div className="relative space-y-0 text-left">
+                      <div className={`absolute left-[7px] top-2 bottom-2 w-[2px] bg-gradient-to-b ${ITIN_TYPE_BAR[day.type]} opacity-20`} />
+                      {day.schedule.map((item, si) => (
+                        <div key={si} className="relative flex items-start gap-4 pb-4 last:pb-0">
+                          <div className={`shrink-0 w-4 h-4 rounded-full border-2 border-[var(--color-bg-primary)] mt-0.5 z-10 ${ITIN_CAT_DOT[item.cat]}`} />
+                          <span className="shrink-0 text-[10px] font-black text-white/20 w-16 pt-1 tabular-nums">{item.time}</span>
+                          <span className={`text-xs leading-snug pt-0.5 ${ITIN_CAT_TEXT[item.cat]}`}>{item.event}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center py-6">
+            <button 
+              type="button"
+              onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
+              className="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-lg shadow-cyan-500/20 cursor-pointer border-none"
+            >
+              Secure Stateroom & Join Us
+            </button>
+          </div>
+        </section>
+
+      {/* ── SECTION 2: BANDS & PORTS ── */}
+      <section id="bands-ports" className="py-20 site-container border-t border-white/5">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              Featured Artists <span className="accent-gradient-text">& Ports</span>
+            </h2>
+            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+              Meet the band members performing live on the ship and preview your exotic Caribbean destinations.
+            </p>
+          </div>
+
+          {/* Bands/Artists Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            {BANDS_DATA.map((band, idx) => (
+              <div key={idx} className="bg-gradient-to-br from-[#0c0c14] to-[#12121e] border border-white/5 rounded-3xl p-8 text-left flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+                <div>
+                  <span className="text-4xl block mb-4">{band.logo}</span>
+                  <h3 className="text-xl font-black uppercase text-white tracking-wide">{band.name}</h3>
+                  <p className="text-white/50 text-xs md:text-sm mt-3 leading-relaxed">{band.desc}</p>
+                </div>
+                <div className="mt-8 pt-4 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between">
+                  <a href={band.website} target="_blank" rel="noopener noreferrer" className="text-xs text-cyan-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline">Visit Band Site →</a>
+                  <a href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request" className="text-[10px] text-white/30 uppercase tracking-widest hover:text-white transition-all">Booking Inquiries</a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Ports of Call Section */}
+          <div className="border-t border-white/5 pt-16">
+            <h3 className="text-2xl font-black uppercase italic text-white tracking-tight mb-8 text-center" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              Ports of Call Catalog
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+              {PORTS_DATA.map((port, idx) => (
+                <div key={idx} className="bg-[#0b0b12] border border-white/5 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-cyan-500/30 transition-colors">
+                  <div className="h-44 w-full relative overflow-hidden bg-black/45">
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] to-transparent z-10" />
+                    {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover scale-105" />}
+                  </div>
+                  <div className="p-6 relative z-20 -mt-10">
+                    <h4 className="text-base font-extrabold text-white uppercase tracking-tight mb-2">{port.name}</h4>
+                    <p className="text-white/40 text-xs leading-relaxed">{port.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+      {/* ── SECTION 3: CABINS & PRICING ── */}
+      <section id="pricing" className="py-20 site-container border-t border-white/5">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
+            </h2>
+            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+              Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms.
+            </p>
+
+            {/* Pricing Year Toggle */}
+            <div className="flex gap-2 justify-center mt-8">
+              <button
+                type="button"
+                onClick={() => setActivePriceYear(2027)}
+                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                  activePriceYear === 2027
+                    ? "bg-cyan-500 text-black font-black"
+                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white"
+                }`}
+              >
+                2027 Star of the Seas (7-Night)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActivePriceYear(2028)}
+                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                  activePriceYear === 2028
+                    ? "bg-amber-500 text-black font-black"
+                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white"
+                }`}
+              >
+                2028 Legend of the Seas (8-Night)
+              </button>
+            </div>
+          </div>
+
+          {/* Pricing Grid */}
+          <div className="space-y-16">
+            {/* GROUP RATES */}
+            <div className="bg-[#0b0b12] border border-cyan-500/20 rounded-3xl p-6 md:p-8 relative overflow-hidden text-left">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/5">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Exclusive Group Deal</span>
+                  <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
+                </div>
+                <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl px-4 py-2.5 max-w-md text-2xs leading-relaxed text-cyan-200/90 font-medium">
+                  💡 <strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {(activePriceYear === 2027
+                  ? [
+                      { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪" },
+                      { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included" },
+                      { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included" },
+                      { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
+                      { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
+                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included" },
+                      { code: "IG", title: "Infinite Grand Suite", price: "Prevailing", status: "soldout", badge: "Sold Out - Prevailing Only", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑" },
+                    ]
+                  : [
+                      { code: "Q2", title: "Interior Plus", price: "$1,832.98", status: "info", badge: "Available", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", inclusions: "Gratuities Included" },
+                      { code: "IF", title: "Infinite Central Park", price: "$2,032.98", status: "info", badge: "Available", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included" },
+                      { code: "N5", title: "Ocean View", price: "$2,162.98", status: "info", badge: "Available", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included" },
+                      { code: "D4", title: "Ocean View Balcony", price: "$2,472.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
+                      { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
+                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included" },
+                      { code: "JY", title: "Sky Junior Suite", price: "$8,122.98", status: "warning", badge: "1 Available!", image: "/images/cruise/jy.png", icon: "👑", inclusions: "Gratuities Included" },
+                      { code: "IG", title: "Infinite Grand Suite", price: "$7,195.98", status: "warning", badge: "1 Available!", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", inclusions: "Gratuities Included" },
+                    ]
+                ).map((room, idx) => (
+                  <div key={idx} className={`bg-black/30 border rounded-2xl p-5 flex flex-col justify-between transition-all ${
+                    room.status === "soldout" ? "border-white/5 opacity-55" :
+                    room.status === "warning" ? "border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.05)] hover:border-amber-500/50" :
+                    "border-white/10 hover:border-cyan-500/40"
+                  }`}>
+                    <div>
+                      {room.image && (
+                        <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 border border-white/5 bg-black/45 text-center">
+                          <img src={room.image} alt={room.title} className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                      <div className="flex justify-between items-start gap-2 mb-3 text-left">
+                        <span className="text-2xl">{room.icon}</span>
+                        <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
+                          room.status === "soldout" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
+                          room.status === "warning" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
+                          "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                        }`}>{room.badge}</span>
+                      </div>
+                      <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
+                      <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
+                    </div>
+
+                    <div className="mt-6 border-t border-white/5 pt-4 text-left">
+                      {room.price === "Prevailing" ? (
+                        <p className="text-xs text-white/40 italic font-medium">Prevailing Rates Only</p>
+                      ) : (
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl font-black text-white">{room.price}</span>
+                          <span className="text-2xs text-white/40">USD pp</span>
+                        </div>
+                      )}
+                      {room.inclusions && (
+                        <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* PREVAILING RATES */}
+            {activePriceYear === 2027 && (
+              <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 rounded-3xl p-6 md:p-8 relative overflow-hidden text-left">
+                <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--color-accent)]/5 rounded-full blur-[100px] pointer-events-none" />
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/5">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Variable Market Pricing</span>
+                    <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Prevailing Rate Cabins (2027)</h3>
+                  </div>
+                  <div className="bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/25 rounded-xl px-4 py-2.5 max-w-md text-2xs leading-relaxed text-purple-200/90 font-medium">
+                    ⚠️ <strong>NOTICE:</strong> Gratuities are <strong>NOT included</strong> in rates below (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[
+                    { code: "ZI", title: "Inside GTY", price: "$1,430.77", label: "Guaranteed Cabin", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪" },
+                    { code: "YO", title: "Ocean View GTY", price: "$1,691.27", label: "Guaranteed Cabin", image: "/images/cruise/n5.jpg", icon: "🌊" },
+                    { code: "IF", title: "Infinite Central Park", price: "$1,907.27", label: "Central Park View", image: "/images/cruise/if.jpg", icon: "🌳" },
+                    { code: "XB", title: "Oceanview Balcony GTY", price: "$1,903.77", label: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅" },
+                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,237.77", label: "Balcony Access", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢" },
+                    { code: "JY", title: "Sky Junior Suite", price: "$5,157.77", label: "Suite Class Luxury", image: "/images/cruise/jy.png", icon: "👑" },
+                  ].map((room: { code: string; title: string; price: string; label: string; image: string; icon: string; warning?: boolean; }, idx) => (
+                    <div key={idx} className={`bg-black/30 border rounded-2xl p-5 flex flex-col justify-between transition-all ${
+                      room.warning ? "border-amber-500/30 hover:border-amber-500/50" : "border-white/10 hover:border-[var(--color-accent)]/30"
+                    }`}>
+                      <div>
+                        {room.image && (
+                          <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 border border-white/5 bg-black/45 text-center">
+                            <img src={room.image} alt={room.title} className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                        <div className="flex justify-between items-start gap-2 mb-3 text-left">
+                          <span className="text-2xl">{room.icon}</span>
+                          <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
+                            room.warning ? "bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse" : "bg-white/5 text-white/40 border border-white/10"
+                          }`}>{room.label}</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
+                        <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
+                      </div>
+
+                      <div className="mt-6 border-t border-white/5 pt-4 text-left">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl font-black text-white">{room.price}</span>
+                          <span className="text-2xs text-white/40">USD pp</span>
+                        </div>
+                        <span className="text-[9px] text-white/20 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Cancellation Guidelines */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-16 text-left">
+            <div className="bg-gradient-to-br from-[#0c051a] to-[#140b28] border border-[var(--color-accent)]/20 rounded-3xl p-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[var(--color-accent)]/10 rounded-full blur-[80px]" />
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">⚠️</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Crucial Booking Policy</h3>
+              </div>
+              <p className="text-sm font-black text-amber-400 uppercase tracking-widest mb-4">
+                You must be booked through us to participate
+              </p>
+              <p className="text-white/60 text-xs md:text-sm leading-relaxed mb-6">
+                To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
+              </p>
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-3">
+                <p className="text-xs text-white/50">
+                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
+                </p>
+                <p className="text-xs text-white/50">
+                  💳 <strong>Deposit:</strong> $250 per person to secure your cabin and rate.
+                </p>
+                <p className="text-xs text-white/50">
+                  📅 <strong>Final Payment Deadline:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-[#050c1a] to-[#0b1428] border border-cyan-500/20 rounded-3xl p-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/10 rounded-full blur-[80px]" />
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">⚙️</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">How To Book</h3>
+              </div>
+              <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4">
+                Flexible rates, rate matching & price drops
+              </p>
+              <ul className="space-y-3 text-xs text-white/60 leading-normal">
+                <li className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions. We can book any room category available.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span>We match and often beat rates you find elsewhere. We also automatically re-roll your room if prices drop before the final payment deadline!</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span><strong>Group Rate Inclusions:</strong> If you book under our group rate cabins, gratuities are fully included.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-br from-[#100318] to-[#1d0d2b] border border-purple-500/20 rounded-3xl p-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-[80px]" />
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">📅</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
+              </div>
+              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
+                Understand your refund terms before booking
+              </p>
+              <div className="space-y-4 text-xs text-white/60 leading-relaxed">
+                <div>
+                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-1">Group Rate Rooms:</h4>
+                  {activePriceYear === 2027 ? (
+                    <ul className="list-disc pl-4 space-y-0.5">
+                      <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
+                      <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
+                      <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
+                      <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
+                      <li>After Nov 10, 2026: <strong>50% of cabin cost</strong></li>
+                      <li>After Dec 10, 2026: <strong>No refund</strong></li>
+                    </ul>
+                  ) : (
+                    <ul className="list-disc pl-4 space-y-0.5">
+                      <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
+                      <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
+                      <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
+                      <li>Sept 11, 2027 – Nov 8, 2027: <strong>$200 pp fee</strong></li>
+                      <li>After Nov 8, 2027: <strong>50% of cabin cost</strong></li>
+                      <li>After Dec 9, 2027: <strong>No refund</strong></li>
+                    </ul>
+                  )}
+                </div>
+                <div>
+                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-0.5">Prevailing Rate (Refundable):</h4>
+                  <p>Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty. After that: standard cruise lines fee percentages apply (25%, 50%, 100%).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stateroom Suite Class Perks */}
+          <div className="border-t border-white/5 pt-16">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 px-4 py-1 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20">
+                Accommodations Guide
               </span>
-              <h4 className="text-sm font-black text-white uppercase tracking-wider">
-                2028 Chicago Music Cruise — Legend of the Seas
-              </h4>
-              <p className="text-2xs text-white/50 leading-relaxed">
-                8-Night Southern Caribbean Voyage • Depart January 8, 2028 • Royal Caribbean
+              <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                Stateroom Catalog & Suite Perks
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
+              {/* Stateroom Categories Tab Column */}
+              <div className="lg:col-span-1 bg-white/[0.02] border border-white/5 p-6 rounded-3xl flex flex-col justify-between">
+                <div>
+                  <h3 className="text-sm font-black uppercase text-white tracking-widest mb-6 border-b border-white/5 pb-3">Stateroom Categories</h3>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { id: "suites", label: "👑 Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
+                      { id: "balcony", label: "🌅 Balconies & Infinite", desc: "Private sliding glass doors opening to ocean breeze." },
+                      { id: "ocean", label: "🌊 Ocean View", desc: "Large windows overlooking port approaches." },
+                      { id: "interior", label: "🚪 Interior Rooms", desc: "Efficient, comfortable, and budget-friendly." },
+                    ].map(tab => (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setStateroomTab(tab.id as any)}
+                        className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${
+                          stateroomTab === tab.id
+                            ? "bg-[var(--color-accent)]/10 border-[var(--color-accent)]/50"
+                            : "bg-black/20 border-white/5 hover:border-white/10"
+                        }`}
+                      >
+                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">{tab.label}</h4>
+                        <p className="text-[10px] text-white/40 mt-1 leading-normal">{tab.desc}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-8 bg-black/40 border border-white/5 p-4 rounded-2xl">
+                  <h4 className="text-2xs font-black uppercase text-white tracking-widest mb-2">Available layouts:</h4>
+                  {stateroomTab === "suites" && (
+                    <div className="space-y-2 text-xs text-white/70">
+                      <p>• Ultimate Family Townhouse</p>
+                      <p>• Royal Loft Suite</p>
+                      <p>• Owner&apos;s Suite</p>
+                      <p>• Grand Suite (1 Bedroom & 2 Bedroom)</p>
+                      <p>• Sky Junior Suite</p>
+                      <p>• Surfside Family Suite</p>
+                    </div>
+                  )}
+                  {stateroomTab === "balcony" && (
+                    <div className="space-y-2 text-xs text-white/70">
+                      <p>• Infinite Ocean View Balcony</p>
+                      <p>• Infinite Central Park Balcony</p>
+                      <p>• Ocean View Balcony</p>
+                      <p>• Central Park View Balcony</p>
+                      <p>• Surfside Family View Balcony</p>
+                    </div>
+                  )}
+                  {stateroomTab === "ocean" && (
+                    <div className="space-y-2 text-xs text-white/70">
+                      <p>• Panoramic Ocean View</p>
+                      <p>• Ocean View</p>
+                    </div>
+                  )}
+                  {stateroomTab === "interior" && (
+                    <div className="space-y-2 text-xs text-white/70">
+                      <p>• Interior</p>
+                      <p>• Spacious Interior</p>
+                      <p>• Central Park View Interior</p>
+                      <p>• Surfside Family View Interior</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Suite Class Benefits Column (Span 2) */}
+              <div className="lg:col-span-2 bg-[#0d0d14] border border-cyan-500/20 p-6 md:p-8 rounded-3xl flex flex-col justify-between">
+                <div>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/5">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">VIP Experiences</span>
+                      <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Suite Class Perks</h3>
+                    </div>
+                    <div className="flex gap-1.5 bg-black/40 p-1 rounded-xl border border-white/5">
+                      {(["sea", "sky", "star"] as const).map(perk => (
+                        <button
+                          key={perk}
+                          type="button"
+                          onClick={() => setSuiteTab(perk)}
+                          className={`px-3.5 py-1.5 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                            suiteTab === perk
+                              ? "bg-[var(--color-accent)] text-white"
+                              : "bg-transparent text-white/40 hover:text-white"
+                          }`}
+                        >
+                          {perk} Class
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Benefits List */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 text-xs text-white/60">
+                    {suiteTab === "sea" && [
+                      "Dedicated check-in line",
+                      "Priority boarding",
+                      "Dinner at Coastal Kitchen (subject to availability)*",
+                      "All-day access to Star | Sky | Sea dining",
+                      "Royal Caribbean plush bathrobes for use onboard",
+                      "Luxury pillow top mattress and linen",
+                      "Luxury bathroom amenities",
+                      "Lavazza Espresso coffee machine"
+                    ].map((perk, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <span className="text-purple-400 font-extrabold shrink-0">✓</span>
+                        <span>{perk}</span>
+                      </div>
+                    ))}
+
+                    {suiteTab === "sky" && [
+                      "Concierge service",
+                      "All-day access to Coastal Kitchen*",
+                      "All-day access to Star & Sky dining",
+                      "Complimentary VOOM Surf + Stream (1 device pp)†",
+                      "Specialty bottled water upon arrival",
+                      "Flexible arrival boarding & priority departure",
+                      "Priority dining reservations",
+                      "Reserved seating in select entertainment venues",
+                      "Suite Lounge access (complimentary hors d’oeuvres/cocktails)",
+                      "Access to Suite Sun Deck (The Grove on Star)",
+                      "Royal Caribbean plush bathrobes for use onboard",
+                      "Luxury pillow top mattress and linen",
+                      "Luxury bathroom amenities",
+                      "Lavazza Espresso coffee machine"
+                    ].map((perk, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <span className="text-cyan-400 font-extrabold shrink-0">✓</span>
+                        <span>{perk}</span>
+                      </div>
+                    ))}
+
+                    {suiteTab === "star" && [
+                      "Exclusive access to Royal Genie service§",
+                      "All-day access to Coastal Kitchen*",
+                      "All-day access to Star & Sky dining",
+                      "Complimentary Deluxe Beverage Package (ages 21+)†",
+                      "Complimentary Refreshment Package (under legal age)†",
+                      "Still and sparkling water replenished daily",
+                      "Complimentary Gratuities for stateroom/dining staffΔ",
+                      "Complimentary VOOM Surf + Stream powered by Starlink",
+                      "Expedited boarding & departure",
+                      "Best seats in the house in select entertainment venues",
+                      "Priority entrance to many onboard activities††",
+                      "Suite Lounge access (complimentary hors d'oeuvres/cocktails)",
+                      "Access to Suite Sun Deck, and The Grove",
+                      "Complimentary minibar stocked with Coca-Cola & water",
+                      "Complimentary laundry and pressing services",
+                      "Luxury mattress, pillows, and linens",
+                      "Luxury bathroom amenities",
+                      "Luxury bathrobes for use onboard",
+                      "In-suite coffee machine"
+                    ].map((perk, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <span className="text-amber-400 font-extrabold shrink-0">✓</span>
+                        <span>{perk}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Disclaimers & Notes */}
+                <div className="mt-8 border-t border-white/5 pt-4 text-[10px] text-white/30 space-y-1">
+                  {suiteTab === "sea" && (
+                    <>
+                      <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
+                      <p>** Sea Class guests do not have access to stateroom lounges.</p>
+                      <p>— Complimentary gratuities are not included for Sea Class guests.</p>
+                    </>
+                  )}
+                  {suiteTab === "sky" && (
+                    <>
+                      <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
+                      <p>† VOOM Surf + Stream package: One device per person is included for guests booked in a Sky Suite (not included in Sky Junior Suite).</p>
+                    </>
+                  )}
+                  {suiteTab === "star" && (
+                    <>
+                      <p>§ Royal Genie services are for Star Class guests only and cannot be extended to friends/family in other staterooms.</p>
+                      <p>* Reservations required for dinner at Coastal Kitchen. Beverages not in Deluxe Package are charged.</p>
+                      <p>Δ Gratuities apply to standard housekeeping/dining. genie/concierge tipping is at guest discretion.</p>
+                      <p>†† Reduced wait times for select activities during published hours, excluding sea day peaks (1:00 PM – 4:00 PM).</p>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      {/* ── SECTION 4: SHIP EXPLORER ── */}
+      <section id="ship-explorer" className="py-20 site-container border-t border-white/5">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
+            </h2>
+            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+              Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.
+            </p>
+          </div>
+
+          {/* Specs & Dimensions */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 text-center">
+            {[
+              { label: "Gross Tonnage", value: "248,663 GT", icon: "⚖️" },
+              { label: "Total Length", value: "1,196.9 Feet", icon: "📐" },
+              { label: "Total Width", value: "159.1 Feet", icon: "↔️" },
+              { label: "Decks Tall", value: "20 Decks", icon: "🏢" },
+            ].map((stat, idx) => (
+              <div key={idx} className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 hover:border-cyan-500/20 transition-colors">
+                <span className="text-3xl block mb-2">{stat.icon}</span>
+                <span className="text-[10px] text-white/30 font-black uppercase tracking-wider block">{stat.label}</span>
+                <span className="text-lg md:text-xl font-black text-white mt-1 block">{stat.value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Dining Tab Section */}
+          <div className="bg-[#0b0b12] border border-white/5 rounded-3xl p-6 md:p-8 text-left mb-16">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-white/5">
+              <div>
+                <h3 className="text-xl font-black uppercase text-white">Dining Explorer Guide</h3>
+                <p className="text-xs text-white/40 mt-1">Discover included food spots and premium specialty restaurants.</p>
+              </div>
+              <div className="flex bg-black/40 p-1 rounded-xl border border-white/5 shrink-0 self-center">
+                <button
+                  type="button"
+                  onClick={() => setFoodTypeTab("included")}
+                  className={`px-4 py-2 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
+                    foodTypeTab === "included" ? "bg-cyan-500 text-black font-black" : "bg-transparent text-white/40 hover:text-white"
+                  }`}
+                >
+                  Included (Free)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFoodTypeTab("paid")}
+                  className={`px-4 py-2 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
+                    foodTypeTab === "paid" ? "bg-cyan-500 text-black font-black" : "bg-transparent text-white/40 hover:text-white"
+                  }`}
+                >
+                  Specialty (With Fee)
+                </button>
+              </div>
+            </div>
+
+            {/* Food Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-xs text-white/60">
+              {(foodTypeTab === "included"
+                ? [
+                    "Windjammer Buffet", "Main Dining Room", "Park Cafe", "Pearl Cafe",
+                    "Sorrento's Pizza", "Basecamp", "Surfside Bites", "Surfside Eatery",
+                    "El Loco Fresh", "Creme De La Crepe", "Pig Out BBQ", "Toast & Garden",
+                    "Mai Thai", "Feta Mediterranean", "La Cocinita", "Sprinkles Ice Cream",
+                    "Coastal Kitchen (Suites)", "The Grove (Suites)", "Vitality Cafe", "Room Service (Breakfast)"
+                  ]
+                : [
+                    "Chops Grille", "Izumi Hibachi", "Izumi Sushi", "Izumi in the Park",
+                    "Hooked Seafood", "Giovanni's Italian Kitchen", "Playmakers Sports Bar", "Lincoln Park Supper Club",
+                    "Desserted Milkshake Bar", "Pier 7", "Celebration Table", "Starbucks Coffee",
+                    "Sugar Beach", "Room Service (Lunch/Dinner)", "Trellis Bar Dining"
+                  ]
+              ).map((food, idx) => (
+                <div key={idx} className="bg-black/30 border border-white/5 p-4 rounded-xl flex items-center gap-2">
+                  <span className="text-cyan-400 font-extrabold shrink-0">✓</span>
+                  <span className="font-medium text-white">{food}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bars, Lounges, and Entertainment Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+            {/* Bars & Clubs */}
+            <div className="bg-[#0b0b12] border border-white/5 rounded-3xl p-6 md:p-8">
+              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-4 border-b border-white/5 pb-2">Bars, Clubs & Lounges</h3>
+              <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
+                {[
+                  "Lime & Coconut Bar", "Rye & Beam", "Lemon Post Bar", "Swim & Tonic Pool Bar",
+                  "The Hideaway Lounge", "Vue Bar", "Overlook Bar & Pods", "Basecamp Bar",
+                  "Trellis Bar", "Boleros Latin Bar", "Cantina Fresca", "Bubbles Champagne Bar",
+                  "Point & Feather Pub", "Schooner Bar", "1400 Lobby Bar", "Dueling Pianos Lounge",
+                  "Lou's Jazz & Blues", "Music Hall Lounge", "Playmakers Lounge", "Casino Royale Bar"
+                ].map((bar, idx) => (
+                  <p key={idx} className="flex items-center gap-1.5">
+                    <span className="text-cyan-400">🍹</span> {bar}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            {/* Kids & Family Areas */}
+            <div className="bg-[#0b0b12] border border-white/5 rounded-3xl p-6 md:p-8">
+              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-4 border-b border-white/5 pb-2">Onboard Entertainment & Family Areas</h3>
+              <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
+                {[
+                  "Back to the Future Musical", "Torque Racing Arena", "SOL Pool Zone", "Create! Art Studio",
+                  "The Price is Right Game", "The Quest Adult Game", "Comedy Live Theater", "Headliner Concert Stage",
+                  "Dueling Pianos Duel", "Spotlight Karaoke Box", "Music Hall Nightclub", "Absolute Zero Ice Rink",
+                  "Ultimate Family Townhouse", "Splashaway Bay", "Flowrider Surf Simulator", "Adrenaline Peak Climb",
+                  "Adventure Ocean Kids Club", "Central Park Gardens", "Lost Dunes Mini Golf", "Surfside Carousel"
+                ].map((act, idx) => (
+                  <p key={idx} className="flex items-center gap-1.5">
+                    <span className="text-purple-400">⚡</span> {act}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+      {/* ── SECTION 5: FAQS & HISTORY ── */}
+      <section id="faqs" className="py-20 site-container border-t border-white/5">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              Cruise FAQs <span className="accent-gradient-text">& Travel History</span>
+            </h2>
+            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+              Find answers to important passport requirements, dining configurations, and explore our 25-year cruising history timeline.
+            </p>
+          </div>
+
+          {/* Crucial Passport Warning Callout */}
+          <div className="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-left mb-12 flex items-start gap-4">
+            <span className="text-3xl shrink-0">🛂</span>
+            <div>
+              <h4 className="text-sm font-black text-white uppercase tracking-wider">Crucial Passport Requirements</h4>
+              <p className="text-xs text-white/50 leading-relaxed mt-1">
+                A physical passport book valid for 6 months post-cruise is highly recommended for all travelers. For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method. Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-bold underline hover:text-white">travel.state.gov</a> to ensure compliance.
               </p>
             </div>
-            <a 
-              href="mailto:info@NTDVacations.com?subject=Booking 2028 Chicago Music Cruise - Legend of the Seas"
-              className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-black uppercase tracking-wider text-2xs rounded-lg transition-all shrink-0 text-center animate-pulse"
-            >
-              Book 2028 Here
-            </a>
+          </div>
+
+          {/* FAQs List */}
+          <div className="space-y-4 mb-16 text-left">
+            {FAQS_EXTENDED.map((faq, i) => (
+              <div key={i} className="border border-white/5 bg-black/10 rounded-2xl overflow-hidden">
+                <button 
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-5 text-left hover:bg-white/[0.02] transition-colors cursor-pointer border-none bg-transparent"
+                >
+                  <span className="font-bold text-sm md:text-base text-white pr-4">{faq.q}</span>
+                  <span className={`text-white/30 text-lg transition-transform ${openFaq === i ? 'rotate-45' : ''}`}>+</span>
+                </button>
+                {openFaq === i && (
+                  <div className="px-5 pb-5 -mt-1">
+                    <p className="text-xs md:text-sm text-white/40 leading-relaxed">{faq.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Cruise History Section */}
+          <div className="border-t border-white/5 pt-16">
+            <h3 className="text-2xl font-black uppercase italic text-white tracking-tight mb-8 text-center" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              Over 25 Years of Cruising History
+            </h3>
+            <div className="relative max-w-4xl mx-auto pl-6 border-l border-cyan-500/20 text-left space-y-8">
+              <div className="absolute top-0 bottom-0 left-[23px] w-[1px] bg-gradient-to-b from-cyan-500 to-transparent pointer-events-none" />
+              {CRUISE_HISTORY.map((hist, idx) => (
+                <div key={idx} className="relative pl-6">
+                  {/* Timeline Dot */}
+                  <div className="absolute left-[-31px] top-1.5 w-4 h-4 rounded-full border-2 border-[var(--color-bg-primary)] bg-cyan-400 z-10 shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                  <span className="text-xs font-black text-cyan-400 block font-mono">{hist.year}</span>
+                  <h4 className="text-sm font-extrabold text-white uppercase mt-0.5">{hist.ship}</h4>
+                  <p className="text-[11px] text-white/40 mt-1 leading-normal">{hist.details}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+      {/* ── SECTION 6: BOOK NOW (Official form & NTD contacts) ── */}
+      <section id="book-now" className="py-20 site-container border-t border-white/5">
+        <div id="signup" className="relative z-10 mt-6">
+          {/* VIP Community Count Progress Bar */}
+          <div className="bg-white/[0.03] border border-white/5 rounded-3xl p-6 md:p-8 mb-10 text-left">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+              <div>
+                <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-2xs font-bold uppercase tracking-widest mb-3">Community Hub Goal</span>
+                <h3 className="text-xl md:text-2xl font-black uppercase text-white leading-tight">Fan Cruise Registry</h3>
+                <p className="text-white/40 text-xs md:text-sm mt-1">Join other fans inside the passenger lounge to plan deck events and coordinate table seating.</p>
+              </div>
+              <div className="flex items-baseline gap-2 bg-[#0c0c14] border border-white/5 p-4 rounded-2xl shrink-0">
+                <span className="text-3xl font-black text-white">{totalGuests}</span>
+                <span className="text-white/40 text-2xs uppercase font-bold tracking-wider">Registered Attendees</span>
+              </div>
+            </div>
+            <div className="h-2.5 w-full bg-white/5 border border-white/5 rounded-full overflow-hidden mb-3">
+              <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-1000 shadow-[0_0_8px_rgba(6,182,212,0.8)]" style={{ width: `${progress}%` }} />
+            </div>
+            <div className="flex justify-between text-2xs font-bold uppercase tracking-wider text-white/30">
+              <span>0 Registered</span>
+              <span className="text-cyan-400 font-extrabold">{progress.toFixed(0)}% of goal ({GOAL} cap)</span>
+            </div>
           </div>
 
           <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 md:p-10 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
@@ -1040,63 +1892,70 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               )}
             </div>
 
-            {/* Sidebar Column */}
-            <div className="flex flex-col gap-6">
-              {/* How it works */}
-              <div className="p-5 bg-white/[0.04] backdrop-blur-md border border-white/[0.1] rounded-2xl text-left">
-                <p className="text-xs text-white/30 font-bold uppercase tracking-widest mb-3">Booking Process</p>
+            {/* Sidebar Column: NTD Vacations Contacts & Payment Portal */}
+            <div className="lg:col-span-1 text-left space-y-8">
+              {/* Online Payment Portal Link */}
+              <div className="bg-[#0b0b12] border border-purple-500/20 p-6 rounded-2xl text-left relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-[60px]" />
+                <span className="text-3xl block mb-2">💳</span>
+                <h4 className="text-sm font-black text-white uppercase tracking-wider">Already Booked?</h4>
+                <p className="text-2xs text-white/40 mt-1 leading-normal">
+                  Submit additional payments, modify balances, or authorize custom charges directly with the Royal Caribbean processor.
+                </p>
+                <a 
+                  href="https://www.chicagomusiccruise.com/payment.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-block mt-4 px-4 py-2 bg-purple-500 hover:bg-purple-400 text-white font-black uppercase tracking-wider text-2xs rounded-lg transition-all"
+                >
+                  Go to Payment Portal
+                </a>
+              </div>
+
+              {/* Travel coordinators list */}
+              <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-6">
+                <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Travel Coordinators</h3>
                 <div className="space-y-4">
                   {[
-                    "Fill out guest names, DOBs, and t-shirt sizes",
-                    "Enter deposit payment card details ($250/pp)",
-                    "Submit booking request to lock in group rates",
-                    "Receive confirmation email & access the Passenger Lounge"
-                  ].map((s, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-2xs font-black text-[var(--color-accent)] shrink-0">{i+1}</span>
-                      <p className="text-xs text-white/50 leading-normal">{s}</p>
+                    { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
+                    { name: "Mary Grivas", role: "Excursions / Hotels & Air", phone: "(877) 683-9753 ext 5", email: "Mary@NTDVacations.com" },
+                    { name: "Alan McRae", role: "Schedules & Logistics", phone: "(877) 683-9753 ext 5", email: "alan@NTDVacations.com" },
+                  ].map((coord, idx) => (
+                    <div key={idx} className="text-2xs leading-normal">
+                      <h4 className="font-extrabold text-white">{coord.name}</h4>
+                      <p className="text-white/35 font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
+                      <p className="text-white/50 font-mono mt-1">{coord.phone}</p>
+                      <a href={`mailto:${coord.email}`} className="text-cyan-400 font-bold hover:underline">{coord.email}</a>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Payment Portal Card */}
-              <div className="p-5 rounded-2xl bg-purple-950/15 border border-purple-500/20 text-left">
-                <h4 className="text-xs font-black uppercase text-white tracking-wider mb-1">Already Booked?</h4>
-                <p className="text-2xs text-white/45 leading-relaxed mb-4">
-                  Need to make a deposit or pay off your cabin balance? Access our secure online payment portal to submit transaction details.
-                </p>
-                <a 
-                  href="/cruise/payment"
-                  className="w-full block text-center py-2.5 border border-purple-500/30 hover:border-purple-500/60 bg-purple-500/10 text-purple-400 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all hover:bg-purple-500/25"
-                >
-                  Make a Payment
-                </a>
-              </div>
-
-              {/* Fan Interest Tracker */}
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1 text-left">Voyage Interest Tracker</p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/[0.04] border border-white/[0.1] rounded-xl p-4 text-center">
-                  <p className="text-3xl font-black text-white">{signupCount}</p>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Cabins</p>
-                </div>
-                <div className="bg-white/[0.04] border border-white/[0.1] rounded-xl p-4 text-center">
-                  <p className="text-3xl font-black text-white">{totalGuests}</p>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Passengers</p>
+              {/* Voyage Interest Tracker */}
+              <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-4">
+                <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Voyage Tracker</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-center">
+                    <p className="text-3xl font-black text-white">{signupCount}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Cabins</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-center">
+                    <p className="text-3xl font-black text-white">{totalGuests}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Passengers</p>
+                  </div>
                 </div>
               </div>
 
-              {/* Who's Joined */}
+              {/* Who's Booked */}
               {joinedFans.length > 0 && (
-                <div className="p-5 bg-white/[0.04] border border-white/[0.1] rounded-xl text-left">
-                  <p className="text-xs text-white/30 font-bold uppercase tracking-widest mb-4">Who&apos;s Booked</p>
+                <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Who&apos;s Booked</h3>
                   <div className="flex items-center mb-4">
                     <div className="flex -space-x-2">
                       {joinedFans.slice(0, 8).map((fan, i) => (
                         <div
                           key={i}
-                          className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-[#0d0d14] shrink-0 relative z-[1] hover:z-10 hover:scale-110 transition-transform cursor-default"
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-[#0d0d14] shrink-0 relative z-[1] hover:z-10 hover:scale-110 transition-transform cursor-default"
                           style={{ backgroundColor: fan.anonymous ? '#374151' : AVATAR_COLORS[i % AVATAR_COLORS.length], zIndex: 8 - i }}
                           title={fan.anonymous ? 'Anonymous Fan' : fan.name}
                         >
@@ -1104,7 +1963,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       ))}
                       {joinedFans.length > 8 && (
-                        <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white/60 bg-white/10 border-2 border-[#0d0d14] shrink-0">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white/60 bg-white/10 border-2 border-[#0d0d14] shrink-0">
                           +{joinedFans.length - 8}
                         </div>
                       )}
@@ -1112,7 +1971,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
                   <div className="flex flex-wrap gap-x-1 gap-y-0.5">
                     {joinedFans.map((fan, i) => (
-                      <span key={i} className="text-xs text-white/40">
+                      <span key={i} className="text-2xs text-white/40">
                         {fan.anonymous ? 'Anonymous' : fan.name.split(' ')[0]}
                         {fan.guest_count > 1 && <span className="text-white/20"> +{fan.guest_count - 1}</span>}
                         {i < joinedFans.length - 1 && <span className="text-white/15 mx-0.5">·</span>}
@@ -1124,569 +1983,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
           </div>
         </div>
-        </div>
-      </section>
-
-      {/* ── OFFICIAL BOOKING DETAILS SECTION ── */}
-      <section className="py-20 bg-black/40 border-y border-white/5 relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="site-container relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-3 px-4 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">
-              Official Booking Guide
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-              How to Book <span className="accent-gradient-text">& Join Us</span>
-            </h2>
-            <p className="text-white/45 mt-4 text-sm md:text-base leading-relaxed">
-              Ensure you are part of the official 7th Heaven group events, dining, and custom fan activities by reserving through our certified travel partner.
-            </p>
-          </div>
-
-          {/* Crucial Booking Policy, How To Book, & Cancellation Guides */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 text-left">
-            <div className="bg-gradient-to-br from-[#0c051a] to-[#140b28] border border-[var(--color-accent)]/20 rounded-3xl p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-[var(--color-accent)]/10 rounded-full blur-[80px]" />
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">⚠️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Crucial Booking Policy</h3>
-              </div>
-              <p className="text-sm font-black text-amber-400 uppercase tracking-widest mb-4">
-                You must be booked through us to participate
-              </p>
-              <p className="text-white/60 text-xs md:text-sm leading-relaxed mb-6">
-                To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
-              </p>
-              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-3">
-                <p className="text-xs text-white/50">
-                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
-                </p>
-                <p className="text-xs text-white/50">
-                  💳 <strong>Deposit:</strong> $250 per person to secure your cabin and rate.
-                </p>
-                <p className="text-xs text-white/50">
-                  📅 <strong>Final Payment Deadline:</strong> October 1, 2026.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-[#050c1a] to-[#0b1428] border border-cyan-500/20 rounded-3xl p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/10 rounded-full blur-[80px]" />
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">⚙️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">How To Book</h3>
-              </div>
-              <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4">
-                Flexible rates, rate matching & price drops
-              </p>
-              <ul className="space-y-3 text-xs text-white/60 leading-normal">
-                <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions. We can book any room category available.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span>We match and often beat rates you find elsewhere. We also automatically re-roll your room if prices drop before October 1, 2026!</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span><strong>Group Rate Inclusions:</strong> If you book under our group rate cabins, gratuities are fully included.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span><strong>GTY (Guarantee) Rooms:</strong> Please note that GTY cabin assignments are made by Royal Caribbean later and may feature obstructed views or poor ship placement.</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-gradient-to-br from-[#100318] to-[#1d0d2b] border border-purple-500/20 rounded-3xl p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-[80px]" />
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">📅</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
-              </div>
-              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
-                Understand your refund terms before booking
-              </p>
-              <div className="space-y-4 text-xs text-white/60 leading-relaxed">
-                <div>
-                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-1">Group Rate Rooms:</h4>
-                  <ul className="list-disc pl-4 space-y-0.5">
-                    <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
-                    <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
-                    <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
-                    <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
-                    <li>After Nov 10, 2026: <strong>50% of cabin cost</strong></li>
-                    <li>After Dec 10, 2026: <strong>No refund</strong></li>
-                    <li><em>No insurance? Future cruise credit option ($100 change fee pp).</em></li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-0.5">Prevailing Rate (Refundable):</h4>
-                  <p>Cancel by Oct 10, 2026 for no penalty. After Oct 12: lose 25% • After Oct 27: lose 50% • After Nov 10: lose 100%.</p>
-                </div>
-                <div>
-                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-0.5">Prevailing Rate (Non-Refundable):</h4>
-                  <p>Deposit is lost upon cancellation. After Oct 12: lose 25% + deposit • After Oct 27: lose 50% + deposit • After Nov 10: lose 100% + deposit.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ── CABIN CATOLOG: GROUP RATES VS PREVAILING RATES ── */}
-          <div className="space-y-16">
-            {/* GROUP RATES */}
-            <div className="bg-[#0b0b12] border border-cyan-500/20 rounded-3xl p-6 md:p-8 relative overflow-hidden text-left">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-              
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/5">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Exclusive Group Deal</span>
-                  <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Limited Group Rate Cabins</h3>
-                </div>
-                <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl px-4 py-2.5 max-w-md text-2xs leading-relaxed text-cyan-200/90 font-medium">
-                  💡 <strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪" },
-                  { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included" },
-                  { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included" },
-                  { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
-                  { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
-                  { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included" },
-                  { code: "IG", title: "Infinite Grand Suite", price: "Prevailing", status: "soldout", badge: "Sold Out - Prevailing Only", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑" },
-                ].map((room, idx) => (
-                  <div key={idx} className={`bg-black/30 border rounded-2xl p-5 flex flex-col justify-between transition-all ${
-                    room.status === "soldout" ? "border-white/5 opacity-55" :
-                    room.status === "warning" ? "border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.05)] hover:border-amber-500/50" :
-                    "border-white/10 hover:border-cyan-500/40"
-                  }`}>
-                    <div>
-                      {room.image && (
-                        <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 border border-white/5">
-                          <img src={room.image} alt={room.title} className="w-full h-full object-cover" />
-                        </div>
-                      )}
-                      <div className="flex justify-between items-start gap-2 mb-3">
-                        <span className="text-2xl">{room.icon}</span>
-                        <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
-                          room.status === "soldout" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
-                          room.status === "warning" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
-                          "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-                        }`}>{room.badge}</span>
-                      </div>
-                      <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
-                      <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5">{room.title}</h4>
-                    </div>
-
-                    <div className="mt-6 border-t border-white/5 pt-4">
-                      {room.price === "Prevailing" ? (
-                        <p className="text-xs text-white/40 italic font-medium">Prevailing Rates Only</p>
-                      ) : (
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-xl font-black text-white">{room.price}</span>
-                          <span className="text-2xs text-white/40">USD pp</span>
-                        </div>
-                      )}
-                      {room.inclusions && (
-                        <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* PREVAILING RATES */}
-            <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 rounded-3xl p-6 md:p-8 relative overflow-hidden text-left">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--color-accent)]/5 rounded-full blur-[100px] pointer-events-none" />
-              
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/5">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Variable Market Pricing</span>
-                  <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Prevailing Rate Cabins</h3>
-                </div>
-                <div className="bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/25 rounded-xl px-4 py-2.5 max-w-md text-2xs leading-relaxed text-purple-200/90 font-medium">
-                  ⚠️ <strong>NOTICE:</strong> Gratuities are <strong>NOT included</strong> in rates below (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  { code: "ZI", title: "Inside GTY", price: "$1,430.77", label: "Guaranteed Cabin", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪" },
-                  { code: "YO", title: "Ocean View GTY", price: "$1,691.27", label: "Guaranteed Cabin", image: "/images/cruise/n5.jpg", icon: "🌊" },
-                  { code: "IF", title: "Infinite Central Park", price: "$1,907.27", label: "Central Park View", image: "/images/cruise/if.jpg", icon: "🌳" },
-                  { code: "XB", title: "Oceanview Balcony GTY", price: "$1,903.77", label: "8 Cabins Left!", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", warning: true },
-                  { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,237.77", label: "Balcony Access", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢" },
-                  { code: "JY", title: "Sky Junior Suite", price: "$5,157.77", label: "Suite Class Luxury", image: "/images/cruise/jy.png", icon: "👑" },
-                ].map((room, idx) => (
-                  <div key={idx} className={`bg-black/30 border rounded-2xl p-5 flex flex-col justify-between transition-all ${
-                    room.warning ? "border-amber-500/30 hover:border-amber-500/50" : "border-white/10 hover:border-[var(--color-accent)]/30"
-                  }`}>
-                    <div>
-                      {room.image && (
-                        <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 border border-white/5">
-                          <img src={room.image} alt={room.title} className="w-full h-full object-cover" />
-                        </div>
-                      )}
-                      <div className="flex justify-between items-start gap-2 mb-3">
-                        <span className="text-2xl">{room.icon}</span>
-                        <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
-                          room.warning ? "bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse" : "bg-white/5 text-white/40 border border-white/10"
-                        }`}>{room.label}</span>
-                      </div>
-                      <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
-                      <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5">{room.title}</h4>
-                    </div>
-
-                    <div className="mt-6 border-t border-white/5 pt-4">
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="text-xl font-black text-white">{room.price}</span>
-                        <span className="text-2xs text-white/40">USD pp</span>
-                      </div>
-                      <span className="text-[9px] text-white/20 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── STATEROOM CATEGORIES & SUITE PERKS ── */}
-      <section className="py-20 bg-black/20 border-b border-white/5 relative">
-        <div className="site-container relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 px-4 py-1 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20">
-              Accommodations Guide
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-              Stateroom Catalog <span className="text-cyan-400">& Suite Perks</span>
-            </h2>
-            <p className="text-white/45 mt-4 text-sm md:text-base leading-relaxed">
-              Explore the main stateroom layouts available on the Star of the Seas and the exclusive luxury benefits of booking Suite Class.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
-            {/* Stateroom Categories Tab Column */}
-            <div className="lg:col-span-1 bg-white/[0.02] border border-white/5 p-6 rounded-3xl flex flex-col justify-between">
-              <div>
-                <h3 className="text-sm font-black uppercase text-white tracking-widest mb-6 border-b border-white/5 pb-3">Stateroom Categories</h3>
-                
-                <div className="flex flex-col gap-2">
-                  {[
-                    { id: "suites", title: "Suites", desc: "Ultimate luxury and service" },
-                    { id: "balcony", title: "Balcony", desc: "Private outdoor balcony access" },
-                    { id: "ocean", title: "Ocean View", desc: "Stunning sea & destination views" },
-                    { id: "interior", title: "Interior", desc: "Spacious and comfortable interior" }
-                  ].map(tab => (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      onClick={() => setStateroomTab(tab.id as any)}
-                      className={`text-left p-3.5 rounded-xl border transition-all cursor-pointer ${
-                        stateroomTab === tab.id
-                          ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400"
-                          : "bg-transparent border-transparent text-white/50 hover:bg-white/[0.02] hover:text-white"
-                      }`}
-                    >
-                      <p className="font-extrabold text-sm uppercase tracking-wider">{tab.title}</p>
-                      <p className="text-2xs opacity-85 mt-0.5">{tab.desc}</p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tab content list */}
-              <div className="mt-8 bg-black/40 border border-white/5 p-4 rounded-2xl">
-                {stateroomTab === "suites" && (
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-[10px] font-black text-amber-400 uppercase tracking-widest">👑 Star Class Suites</p>
-                      <p className="text-xs text-white/70 mt-1">Ultimate Family Townhouse, Royal Loft Suite, Icon Loft Suite</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-cyan-400 uppercase tracking-widest">⭐ Sky Class Suites</p>
-                      <p className="text-xs text-white/70 mt-1">Owner’s Suite, Sunset Corner Suite, Sunset Suite, Infinite Grand Suite, Grand Suite, Panoramic Suite, Sky Junior Suite</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-purple-400 uppercase tracking-widest">✨ Sea Class Suites</p>
-                      <p className="text-xs text-white/70 mt-1">Sunset Junior Suite, Surfside Family Suite, Junior Suite, Suite/Deluxe Guarantee</p>
-                    </div>
-                  </div>
-                )}
-                {stateroomTab === "balcony" && (
-                  <div className="space-y-2 text-xs text-white/70">
-                    <p>• Infinite Ocean View Balcony</p>
-                    <p>• Infinite Family Balcony</p>
-                    <p>• Ocean View Balcony</p>
-                    <p>• Central Park View Balcony</p>
-                    <p>• Surfside Family View Balcony</p>
-                  </div>
-                )}
-                {stateroomTab === "ocean" && (
-                  <div className="space-y-2 text-xs text-white/70">
-                    <p>• Panoramic Ocean View</p>
-                    <p>• Ocean View</p>
-                  </div>
-                )}
-                {stateroomTab === "interior" && (
-                  <div className="space-y-2 text-xs text-white/70">
-                    <p>• Interior</p>
-                    <p>• Spacious Interior</p>
-                    <p>• Central Park View Interior</p>
-                    <p>• Surfside Family View Interior</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Suite Class Benefits Column (Span 2) */}
-            <div className="lg:col-span-2 bg-[#0d0d14] border border-cyan-500/20 p-6 md:p-8 rounded-3xl flex flex-col justify-between">
-              <div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/5">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">VIP Experiences</span>
-                    <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Suite Class Perks</h3>
-                  </div>
-                  <div className="flex gap-1.5 bg-black/40 p-1 rounded-xl border border-white/5">
-                    {(["sea", "sky", "star"] as const).map(perk => (
-                      <button
-                        key={perk}
-                        type="button"
-                        onClick={() => setSuiteTab(perk)}
-                        className={`px-3.5 py-1.5 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                          suiteTab === perk
-                            ? "bg-[var(--color-accent)] text-white"
-                            : "bg-transparent text-white/40 hover:text-white"
-                        }`}
-                      >
-                        {perk} Class
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Benefits List */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 text-xs text-white/60">
-                  {suiteTab === "sea" && [
-                    "Dedicated check-in line",
-                    "Priority boarding",
-                    "Dinner at Coastal Kitchen (subject to availability)*",
-                    "All-day access to Star | Sky | Sea dining",
-                    "Royal Caribbean plush bathrobes for use onboard",
-                    "Luxury pillow top mattress and linen",
-                    "Luxury bathroom amenities",
-                    "Lavazza Espresso coffee machine"
-                  ].map((perk, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <span className="text-purple-400 font-extrabold shrink-0">✓</span>
-                      <span>{perk}</span>
-                    </div>
-                  ))}
-
-                  {suiteTab === "sky" && [
-                    "Concierge service",
-                    "All-day access to Coastal Kitchen*",
-                    "All-day access to Star & Sky dining",
-                    "Complimentary VOOM Surf + Stream (1 device pp)†",
-                    "Specialty bottled water upon arrival",
-                    "Flexible arrival boarding & priority departure",
-                    "Priority dining reservations",
-                    "Reserved seating in select entertainment venues",
-                    "Suite Lounge access (complimentary hors d’oeuvres/cocktails)",
-                    "Access to Suite Sun Deck (The Grove on Star)",
-                    "Royal Caribbean plush bathrobes for use onboard",
-                    "Luxury pillow top mattress and linen",
-                    "Luxury bathroom amenities",
-                    "Lavazza Espresso coffee machine"
-                  ].map((perk, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <span className="text-cyan-400 font-extrabold shrink-0">✓</span>
-                      <span>{perk}</span>
-                    </div>
-                  ))}
-
-                  {suiteTab === "star" && [
-                    "Exclusive access to Royal Genie service§",
-                    "All-day access to Coastal Kitchen*",
-                    "All-day access to Star & Sky dining",
-                    "Complimentary Deluxe Beverage Package (ages 21+)†",
-                    "Complimentary Refreshment Package (under legal age)†",
-                    "Still and sparkling water replenished daily",
-                    "Complimentary Gratuities for stateroom/dining staffΔ",
-                    "Complimentary VOOM Surf + Stream powered by Starlink",
-                    "Expedited boarding & departure",
-                    "Best seats in the house in select entertainment venues",
-                    "Priority entrance to many onboard activities††",
-                    "Suite Lounge access (complimentary hors d'oeuvres/cocktails)",
-                    "Access to Suite Sun Deck, and The Grove",
-                    "Complimentary minibar stocked with Coca-Cola & water",
-                    "Complimentary laundry and pressing services",
-                    "Luxury mattress, pillows, and linens",
-                    "Luxury bathroom amenities",
-                    "Luxury bathrobes for use onboard",
-                    "In-suite coffee machine"
-                  ].map((perk, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <span className="text-amber-400 font-extrabold shrink-0">✓</span>
-                      <span>{perk}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Disclaimers & Notes */}
-              <div className="mt-8 border-t border-white/5 pt-4 text-[10px] text-white/30 space-y-1">
-                {suiteTab === "sea" && (
-                  <>
-                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
-                    <p>** Sea Class guests do not have access to stateroom lounges.</p>
-                    <p>— Complimentary gratuities are not included for Sea Class guests.</p>
-                  </>
-                )}
-                {suiteTab === "sky" && (
-                  <>
-                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
-                    <p>† VOOM Surf + Stream package: One device per person is included for guests booked in a Sky Suite (not included in Sky Junior Suite).</p>
-                  </>
-                )}
-                {suiteTab === "star" && (
-                  <>
-                    <p>§ Royal Genie services are for Star Class guests only and cannot be extended to friends/family in other staterooms.</p>
-                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages not in Deluxe Package are charged.</p>
-                    <p>Δ Gratuities apply to standard housekeeping/dining. genie/concierge tipping is at guest discretion.</p>
-                    <p>†† Reduced wait times for select activities during published hours, excluding sea day peaks (1:00 PM – 4:00 PM).</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── ITINERARY TIMELINE (Layout N style) ── */}
-      <section className="mb-20">
-        <div className="site-container mb-10 text-center">
-          <h2 className="text-3xl font-black uppercase italic tracking-tight" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-            Day-by-Day <span className="accent-gradient-text">Schedule</span>
-          </h2>
-          <div className="flex items-center justify-center gap-5 mt-4 flex-wrap">
-            {[{dot:"bg-[var(--color-accent)]",label:"Band"},{dot:"bg-cyan-400",label:"Excursion"},{dot:"bg-emerald-400",label:"Food"},{dot:"bg-white/25",label:"Ship"}].map(l => (
-              <div key={l.label} className="flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${l.dot}`} />
-                <span className="text-2xs font-bold uppercase tracking-widest text-white/30">{l.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        {ITINERARY.map((day, i) => (
-          <div key={day.day} className={`flex flex-col ${i % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} min-h-[480px] overflow-hidden`}>
-            {/* Photo */}
-            <div className="relative lg:w-[42%] h-56 lg:h-auto overflow-hidden">
-              <img src={day.photo} alt={day.port} className="absolute inset-0 w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-700" />
-              <div className={`absolute inset-0 bg-gradient-to-${i % 2 === 0 ? "r" : "l"} from-transparent via-black/30 to-[var(--color-bg-primary)]`} />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-transparent to-transparent lg:hidden" />
-              <div className="absolute top-5 left-5 bg-black/65 backdrop-blur-md rounded-xl px-4 py-2.5 border border-white/10">
-                <span className={`text-2xs font-black uppercase tracking-[0.3em] ${ITIN_TYPE_ACCENT[day.type]} block`}>Day {day.day}</span>
-                <span className="text-2xl leading-none">{day.icon}</span>
-              </div>
-            </div>
-            {/* Schedule */}
-            <div className="flex-1 flex items-stretch px-8 lg:px-14 py-10">
-              <div className="w-full max-w-xl mx-auto lg:mx-0">
-                <div className="mb-6 pb-5 border-b border-white/[0.06]">
-                  <span className={`text-2xs font-black uppercase tracking-[0.3em] ${ITIN_TYPE_ACCENT[day.type]}`}>{day.label}</span>
-                  <h3 className="text-[clamp(1.6rem,4vw,2.5rem)] font-black italic uppercase text-white leading-none mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{day.port}</h3>
-                </div>
-                <div className="relative space-y-0">
-                  <div className={`absolute left-[7px] top-2 bottom-2 w-[2px] bg-gradient-to-b ${ITIN_TYPE_BAR[day.type]} opacity-20`} />
-                  {day.schedule.map((item, si) => (
-                    <div key={si} className="relative flex items-start gap-4 pb-4 last:pb-0">
-                      <div className={`shrink-0 w-4 h-4 rounded-full border-2 border-[var(--color-bg-primary)] mt-0.5 z-10 ${ITIN_CAT_DOT[item.cat]}`} />
-                      <span className="shrink-0 text-2xs font-black text-white/20 w-16 pt-1 tabular-nums">{item.time}</span>
-                      <span className={`text-sm leading-snug pt-0.5 ${ITIN_CAT_TEXT[item.cat]}`}>{item.event}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* ── WHAT'S INCLUDED ── */}
-      <section className="site-container mb-20">
-        <h2 className="text-3xl font-black uppercase italic tracking-tight mb-8 text-center" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-          What&apos;s <span className="accent-gradient-text">Included</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            { icon: "🎸", title: "Multiple Live Shows", desc: "Acoustic sets, full-band concerts, and exclusive jam sessions throughout the cruise." },
-            { icon: "🤝", title: "Meet & Greet", desc: "Hang with the band in small groups. Photos, conversations, and fan-only moments." },
-            { icon: "🍽️", title: "All Meals Included", desc: "Main dining, buffets, and room service included in your cabin rate." },
-            { icon: "🏝️", title: "3 Island Stops", desc: "Cozumel, Grand Cayman, and Roatán with optional group excursions." },
-            { icon: "🎉", title: "Exclusive Events", desc: "Sail-away party, sunset deck sessions, and a grand finale after-party." },
-            { icon: "💰", title: "Group Rate Pricing", desc: "The more fans who sign up, the better the deal we negotiate for everyone." },
-          ].map(item => (
-            <div key={item.title} className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-colors">
-              <span className="text-2xl block mb-3">{item.icon}</span>
-              <h3 className="text-sm font-bold text-white mb-1">{item.title}</h3>
-              <p className="text-sm text-white/35 leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="site-container mb-16 pb-16">
-        <h2 className="text-3xl font-black uppercase italic tracking-tight mb-8 text-center" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-          Questions? <span className="accent-gradient-text">Answers.</span>
-        </h2>
-        <div className="space-y-3">
-          {FAQS.map((faq, i) => (
-            <div key={i} className="border border-white/5 rounded-xl overflow-hidden">
-              <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                className="w-full flex items-center justify-between p-5 text-left hover:bg-white/[0.02] transition-colors cursor-pointer">
-                <span className="font-bold text-base text-white pr-4">{faq.q}</span>
-                <span className={`text-white/30 text-lg transition-transform ${openFaq === i ? 'rotate-45' : ''}`}>+</span>
-              </button>
-              {openFaq === i && (
-                <div className="px-5 pb-5 -mt-1">
-                  <p className="text-base text-white/40 leading-relaxed">{faq.a}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── CRUISE COMMUNITY CTA ── */}
-      <section className="site-container mb-16 pb-16">
-        <div className="relative p-10 md:p-16 rounded-[2.5rem] overflow-hidden text-center bg-[#0d0d14] border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.1)]">
-          <div className="absolute inset-0 opacity-10">
-            <img src="/images/cruise-hero.png" alt="" className="w-full h-full object-cover grayscale" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/40 to-transparent" />
-          </div>
-          <div className="relative z-10">
-            <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold uppercase tracking-widest mb-6">Authenticated Experience</span>
-            <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tight mb-4" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-              The Cruise <span className="text-cyan-400">Community</span>
-            </h2>
-            <p className="text-white/50 text-base max-w-xl mx-auto mb-10 leading-relaxed">
-              Don&apos;t just book — belong. Join the private hub for cruise attendees to vote on setlists, view deck maps, and meet other fans before we set sail.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a href="#signup" className="px-10 py-4 bg-cyan-500 hover:bg-cyan-400 text-[#0d0d14] font-black uppercase tracking-widest text-sm rounded-xl transition-all shadow-lg shadow-cyan-500/20">Join the Community</a>
-              <a href="/cruise/dashboard" className="px-10 py-4 bg-white/5 hover:bg-white/10 text-white font-black uppercase tracking-widest text-sm rounded-xl border border-cyan-500/30 hover:border-cyan-500/60 transition-all">Passenger Lounge</a>
-            </div>
-          </div>
-        </div>
+      </div>
       </section>
     </div>
   );

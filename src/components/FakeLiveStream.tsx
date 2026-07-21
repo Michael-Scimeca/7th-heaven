@@ -944,7 +944,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   // Supabase live_events subscription for raffle state, setlist state, custom flagged words, AND flash drops
   useEffect(() => {
     const eventsChannel = supabase.channel('live_events')
-      .on('broadcast', { event: 'raffle_sync' }, (p) => {
+      .on('broadcast', { event: 'raffle_sync' }, (p: any) => {
         const pb = p.payload;
         if (pb && (pb.userId === memberId || memberId === 'michael')) {
           if (pb.status === 'idle') {
@@ -954,19 +954,19 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           }
         }
       })
-      .on('broadcast', { event: 'setlist_sync' }, (p) => {
+      .on('broadcast', { event: 'setlist_sync' }, (p: any) => {
         const pb = p.payload;
         if (pb && (pb.userId === memberId || memberId === 'michael')) {
           if (pb.setlist) setSetlist(pb.setlist);
         }
       })
-      .on('broadcast', { event: 'custom_words_sync' }, (p) => {
+      .on('broadcast', { event: 'custom_words_sync' }, (p: any) => {
         const pb = p.payload;
         if (pb && pb.words) {
           setCustomWords(pb.words);
         }
       })
-      .on('broadcast', { event: 'flash_drop' }, (p) => {
+      .on('broadcast', { event: 'flash_drop' }, (p: any) => {
         if (adminMode) return;
         const payload = p.payload;
         if (!payload) return;
@@ -1698,7 +1698,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   return (
     <>
       <style>{`
-        header, footer, .page-nav { display: none !important; }
+        footer, .page-nav { display: none !important; }
         body { overflow: hidden !important; }
 
         @keyframes slideInMsg {
@@ -1732,7 +1732,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
       {/* ── Main layout ── */}
       <section
-        className="fixed inset-0 top-0 z-40 flex flex-col overflow-hidden"
+        className="fixed bottom-0 left-0 right-0 top-[72px] z-40 flex flex-col overflow-hidden"
         style={{ background: '#07070a' }}
       >
 
@@ -3771,9 +3771,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       {(() => {
                         const name = activeMerchDrop.product.name.toLowerCase();
                         const isClothing = name.includes('shirt') || name.includes('tee') || name.includes('hood') || name.includes('sweat') || name.includes('jersey') || name.includes('jacket') || name.includes('tank');
-                        const hasVariants = activeMerchDrop.product.variants && activeMerchDrop.product.variants.length > 0;
+                        const hasVariants = (activeMerchDrop.product as any).variants && (activeMerchDrop.product as any).variants.length > 0;
                         const sizeOptions = hasVariants 
-                          ? activeMerchDrop.product.variants.map((v: any) => v.title) 
+                          ? (activeMerchDrop.product as any).variants.map((v: any) => v.title) 
                           : (isClothing ? ['S', 'M', 'L', 'XL', 'XXL'] : null);
                         if (!sizeOptions) return null;
                         return (

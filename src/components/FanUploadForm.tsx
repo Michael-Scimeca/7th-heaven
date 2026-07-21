@@ -169,15 +169,24 @@ export default function FanUploadForm() {
     }
 
     const fd = new FormData(formRef.current);
-    const dateValue = fd.get("date") as string;
-    if (dateValue) {
-      // Create date at noon UTC to avoid timezone issues with YYYY-MM-DD
-      const showDate = new Date(dateValue + "T12:00:00Z").getTime();
-      const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
-      if (Date.now() - showDate > SEVEN_DAYS_MS) {
-        alert("Uploads are locked for shows that occurred more than 7 days ago.");
-        return;
-      }
+    const venueValue = (fd.get("venue") as string || '').trim();
+    const dateValue = (fd.get("date") as string || '').trim();
+
+    if (!venueValue) {
+      alert("Please enter a venue or event name.");
+      return;
+    }
+    if (!dateValue) {
+      alert("Please select a date.");
+      return;
+    }
+
+    // Create date at noon UTC to avoid timezone issues with YYYY-MM-DD
+    const showDate = new Date(dateValue + "T12:00:00Z").getTime();
+    const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+    if (Date.now() - showDate > SEVEN_DAYS_MS) {
+      alert("Uploads are locked for shows that occurred more than 7 days ago.");
+      return;
     }
 
     setUploading(true);
@@ -296,14 +305,14 @@ export default function FanUploadForm() {
             <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 bg-white/[0.02] border border-white/5 p-4 rounded-xl">
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-[0.15em] text-white/30 block mb-1.5 px-1">Venue / Event</label>
-                  <input type="text" name="venue" placeholder="e.g. Durty Nellies"
+                  <label className="text-xs font-bold uppercase tracking-[0.15em] text-white/30 block mb-1.5 px-1">Venue / Event <span className="text-[var(--color-accent)]">*</span></label>
+                  <input type="text" name="venue" placeholder="e.g. Durty Nellies" required
                     className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:bg-white/[0.05] focus:outline-none transition-all"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-[0.15em] text-white/30 block mb-1.5 px-1">Date</label>
-                  <input type="date" name="date"
+                  <label className="text-xs font-bold uppercase tracking-[0.15em] text-white/30 block mb-1.5 px-1">Date <span className="text-[var(--color-accent)]">*</span></label>
+                  <input type="date" name="date" required
                     className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:border-[var(--color-accent)] focus:bg-white/[0.05] focus:outline-none transition-all [color-scheme:dark]"
                   />
                 </div>

@@ -9,6 +9,8 @@ const CATEGORIES = [
     name: "Internal & Dashboards",
     pages: [
       { path: "/admin", label: "🔒 Admin Panel" },
+      { path: "/admin/MikeyS", label: "🔒 Admin: MikeyS" },
+      { path: "/admin/RichH", label: "🔒 Admin: RichH" },
       { path: "/admin/emails", label: "📧 Email Templates" },
       { path: "/admin/legal", label: "⚖️ Legal Compliance Guide" },
       { path: "/crew-michael", label: "🎸 Crew: Michael" },
@@ -36,6 +38,8 @@ const CATEGORIES = [
       { path: "/merch", label: "Merch" },
       { path: "/contact", label: "Contact" },
       { path: "/book", label: "Book" },
+      { path: "/faq", label: "FAQ" },
+      { path: "/returns", label: "Returns & Refunds" },
     ]
   },
   {
@@ -62,6 +66,7 @@ const CATEGORIES = [
       { path: "/privacy", label: "📜 Privacy Policy" },
       { path: "/terms", label: "📜 Terms of Service" },
       { path: "/sitemap", label: "Sitemap" },
+      { path: "/sitemap/flowchart", label: "🗺️ Flowchart Sitemap" },
     ]
   }
 ];
@@ -143,7 +148,7 @@ export function PageNav() {
                       onClick={() => {
                         setIsOpen(false);
                         // Bypasses login for Restricted pages in dev mode
-                        if (['/crew', '/admin', '/admin/emails', '/admin/legal', '/fans', '/planner'].includes(page.path)) {
+                        if (['/crew', '/admin', '/admin/MikeyS', '/admin/RichH', '/admin/emails', '/admin/legal', '/fans', '/planner'].includes(page.path)) {
                           localStorage.setItem('7h_dev_bypass', 'true');
                         }
                       }}

@@ -166,9 +166,8 @@ export default function EmailPreviewPage() {
                   <iframe
                     srcDoc={html}
                     className="w-full border-0"
-                    style={{ minHeight: 700 }}
+                    style={{ height: 900 }}
                     title={`Preview: ${active.name}`}
-                    sandbox=""
                   />
                 </div>
               </div>

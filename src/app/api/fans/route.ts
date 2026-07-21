@@ -155,7 +155,7 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { id, action } = await request.json();
+    const { id, action, reason } = await request.json();
     if (!id || !['approve', 'reject', 'flag'].includes(action)) {
       return NextResponse.json({ error: "Invalid parameters" }, { status: 400 });
     }
@@ -172,14 +172,13 @@ export async function PATCH(request: Request) {
       photos[photoIndex].approved = true;
       photos[photoIndex].flagged = false;
       photos[photoIndex].safety_flag = undefined;
+      photos[photoIndex].rejected = false;
     } else if (action === 'reject') {
-      // Optional: Delete the file from the filesystem here if desired
-      const photoPath = path.join(process.cwd(), "public", photos[photoIndex].src);
-      if (fs.existsSync(photoPath)) {
-        try { fs.unlinkSync(photoPath); } catch {}
-      }
-      
-      photos = photos.filter((p: any) => p.id !== id);
+      photos[photoIndex].rejected = true;
+      photos[photoIndex].approved = false;
+      photos[photoIndex].flagged = false;
+      photos[photoIndex].safety_flag = undefined;
+      photos[photoIndex].rejection_reason = reason || 'Content does not meet community guidelines.';
     } else if (action === 'flag') {
       photos[photoIndex].flagged = true;
     }

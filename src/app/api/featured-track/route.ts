@@ -98,8 +98,6 @@ export async function POST(request: Request) {
     const compression = formData.get('compression') as 'superb' | 'standard' | 'high' | 'none' || 'standard';
     const normalize = formData.get('normalize') === 'true';
 
-    console.log("[API POST /api/featured-track] Received formData keys:", Array.from(formData.keys()));
-    console.log("[API POST /api/featured-track] title:", title, "visibility:", visibility);
 
     if (!title || !visibility) {
       return NextResponse.json({ error: 'Missing required parameters (title/visibility)' }, { status: 400 });
@@ -276,7 +274,7 @@ export async function POST(request: Request) {
 
     // Trigger router revalidations to refresh static content
     revalidatePath('/', 'page');
-    revalidatePath('/admin', 'page');
+    revalidatePath('/admin/[username]', 'page');
 
     return NextResponse.json({ success: true, track: { ...newDrop, songs: insertedSongs } });
   } catch (err: any) {
@@ -314,7 +312,7 @@ export async function PATCH(request: Request) {
 
     // Trigger router revalidations
     revalidatePath('/', 'page');
-    revalidatePath('/admin', 'page');
+    revalidatePath('/admin/[username]', 'page');
 
     return NextResponse.json({ success: true, message: 'Featured drop closed successfully' });
   } catch (err: any) {

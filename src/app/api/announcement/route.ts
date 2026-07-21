@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { sanityWriteClient, queries, fetchSanity } from '@/lib/sanity';
 
 export const dynamic = 'force-dynamic';
@@ -30,8 +30,9 @@ export async function POST(req: Request) {
 
     // Force Next.js to drop its cache for the homepage immediately
     revalidatePath('/', 'page');
-    revalidatePath('/admin', 'page');
+    revalidatePath('/admin/[username]', 'page');
     revalidatePath('/crew', 'page');
+    revalidateTag('sanity:settings', {});
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

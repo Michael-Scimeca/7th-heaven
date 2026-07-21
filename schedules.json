@@ -3,7 +3,7 @@
     "id": "mock_1",
     "crewId": "arjun",
     "crewName": "Arjun Patel",
-    "date": "2023-01-23",
+    "date": "2026-07-20",
     "startHour": 17,
     "endHour": 22,
     "time": "5:00 PM - 10:00 PM",
@@ -15,19 +15,20 @@
     "id": "mock_2",
     "crewId": "abbie",
     "crewName": "Abbie Janssen",
-    "date": "2023-01-24",
+    "date": "2026-07-21",
     "startHour": 17,
     "endHour": 22,
     "time": "5:00 PM - 10:00 PM",
     "role": "SERVER",
     "location": "The Chicago Theatre",
-    "notes": ""
+    "notes": "",
+    "isCoverageRequested": true
   },
   {
     "id": "mock_3",
     "crewId": "al",
     "crewName": "Al Hollie",
-    "date": "2023-01-25",
+    "date": "2026-07-22",
     "startHour": 18,
     "endHour": 23.5,
     "time": "6:00 PM - 11:30 PM",
@@ -39,7 +40,7 @@
     "id": "mock_4",
     "crewId": "andrea",
     "crewName": "Andrea Kinzinger",
-    "date": "2023-01-26",
+    "date": "2026-07-23",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -51,7 +52,7 @@
     "id": "mock_5",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2023-01-26",
+    "date": "2026-07-23",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -64,7 +65,7 @@
     "id": "mock_6",
     "crewId": "chris",
     "crewName": "Chris Loxely",
-    "date": "2023-01-27",
+    "date": "2026-07-24",
     "startHour": 18,
     "endHour": 23.5,
     "time": "6:00 PM - 11:30 PM",
@@ -76,7 +77,7 @@
     "id": "mock_7",
     "crewId": "dave_croke",
     "crewName": "Dave Croke",
-    "date": "2023-01-27",
+    "date": "2026-07-24",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -88,7 +89,7 @@
     "id": "mock_8",
     "crewId": "abbie",
     "crewName": "Abbie Janssen",
-    "date": "2023-01-27",
+    "date": "2026-07-24",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -100,7 +101,7 @@
     "id": "mock_9",
     "crewId": "daniel",
     "crewName": "Daniel Kim",
-    "date": "2023-01-28",
+    "date": "2026-07-25",
     "startHour": 17,
     "endHour": 24,
     "time": "5:00 PM - 12:00 AM",
@@ -112,7 +113,7 @@
     "id": "mock_10",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2023-01-29",
+    "date": "2026-07-26",
     "startHour": 12,
     "endHour": 17,
     "time": "12:00 PM - 5:00 PM",
@@ -122,10 +123,10 @@
     "openSlots": 2
   },
   {
-    "id": "show_shift_2026-01-02_0_1784007485890",
+    "id": "show_shift_2026-07-15_0_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-02",
+    "date": "2026-07-15",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -136,10 +137,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-02_1_1784007485890",
+    "id": "show_shift_2026-07-15_1_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-02",
+    "date": "2026-07-15",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -150,10 +151,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-02_2_1784007485890",
+    "id": "show_shift_2026-07-15_2_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-02",
+    "date": "2026-07-15",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -164,10 +165,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-02_3_1784007485890",
+    "id": "show_shift_2026-07-15_3_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-02",
+    "date": "2026-07-15",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -178,10 +179,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-03_0_1784007485890",
+    "id": "show_shift_2026-07-16_0_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-03",
+    "date": "2026-07-16",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -192,10 +193,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-03_1_1784007485890",
+    "id": "show_shift_2026-07-16_1_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-03",
+    "date": "2026-07-16",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -206,10 +207,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-03_2_1784007485890",
+    "id": "show_shift_2026-07-16_2_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-03",
+    "date": "2026-07-16",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -220,10 +221,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-03_3_1784007485890",
+    "id": "show_shift_2026-07-16_3_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-03",
+    "date": "2026-07-16",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -234,178 +235,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-09_0_1784007485890",
+    "id": "show_shift_2026-07-30_0_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-09",
-    "startHour": 16,
-    "endHour": 22,
-    "time": "4:00 PM - 10:00 PM",
-    "role": "BAND EQUIPMENT",
-    "location": "Rookies at Hoffman Est., IL",
-    "notes": "Auto-generated for show: Rookies",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-09_1_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-09",
-    "startHour": 15,
-    "endHour": 20,
-    "time": "3:00 PM - 8:00 PM",
-    "role": "UNLOADING",
-    "location": "Rookies at Hoffman Est., IL",
-    "notes": "Auto-generated for show: Rookies",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-09_2_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-09",
-    "startHour": 18,
-    "endHour": 23,
-    "time": "6:00 PM - 11:00 PM",
-    "role": "CAMERA",
-    "location": "Rookies at Hoffman Est., IL",
-    "notes": "Auto-generated for show: Rookies",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-09_3_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-09",
-    "startHour": 17,
-    "endHour": 23,
-    "time": "5:00 PM - 11:00 PM",
-    "role": "AUDIO MIX",
-    "location": "Rookies at Hoffman Est., IL",
-    "notes": "Auto-generated for show: Rookies",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-10_0_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-10",
-    "startHour": 16,
-    "endHour": 22,
-    "time": "4:00 PM - 10:00 PM",
-    "role": "BAND EQUIPMENT",
-    "location": "Private Event",
-    "notes": "Auto-generated for show: Private Event",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-10_1_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-10",
-    "startHour": 15,
-    "endHour": 20,
-    "time": "3:00 PM - 8:00 PM",
-    "role": "UNLOADING",
-    "location": "Private Event",
-    "notes": "Auto-generated for show: Private Event",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-10_2_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-10",
-    "startHour": 18,
-    "endHour": 23,
-    "time": "6:00 PM - 11:00 PM",
-    "role": "CAMERA",
-    "location": "Private Event",
-    "notes": "Auto-generated for show: Private Event",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-10_3_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-10",
-    "startHour": 17,
-    "endHour": 23,
-    "time": "5:00 PM - 11:00 PM",
-    "role": "AUDIO MIX",
-    "location": "Private Event",
-    "notes": "Auto-generated for show: Private Event",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-11_0_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-11",
-    "startHour": 16,
-    "endHour": 22,
-    "time": "4:00 PM - 10:00 PM",
-    "role": "BAND EQUIPMENT",
-    "location": "Sundance Saloon at Mundelein, IL",
-    "notes": "Auto-generated for show: Sundance Saloon",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-11_1_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-11",
-    "startHour": 15,
-    "endHour": 20,
-    "time": "3:00 PM - 8:00 PM",
-    "role": "UNLOADING",
-    "location": "Sundance Saloon at Mundelein, IL",
-    "notes": "Auto-generated for show: Sundance Saloon",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-11_2_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-11",
-    "startHour": 18,
-    "endHour": 23,
-    "time": "6:00 PM - 11:00 PM",
-    "role": "CAMERA",
-    "location": "Sundance Saloon at Mundelein, IL",
-    "notes": "Auto-generated for show: Sundance Saloon",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-11_3_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-11",
-    "startHour": 17,
-    "endHour": 23,
-    "time": "5:00 PM - 11:00 PM",
-    "role": "AUDIO MIX",
-    "location": "Sundance Saloon at Mundelein, IL",
-    "notes": "Auto-generated for show: Sundance Saloon",
-    "openSlots": 1,
-    "isDraft": true
-  },
-  {
-    "id": "show_shift_2026-01-17_0_1784007485890",
-    "crewId": "openshifts",
-    "crewName": "OpenShifts",
-    "date": "2026-01-17",
+    "date": "2026-07-30",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -416,10 +249,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-17_1_1784007485890",
+    "id": "show_shift_2026-07-30_1_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-17",
+    "date": "2026-07-30",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -430,10 +263,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-17_2_1784007485890",
+    "id": "show_shift_2026-07-30_2_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-17",
+    "date": "2026-07-30",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -444,10 +277,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-17_3_1784007485890",
+    "id": "show_shift_2026-07-30_3_1784587989539",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-17",
+    "date": "2026-07-30",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -458,10 +291,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-28_0_1784007485890",
+    "id": "show_shift_2026-08-10_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-28",
+    "date": "2026-08-10",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -472,10 +305,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-28_1_1784007485890",
+    "id": "show_shift_2026-08-10_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-28",
+    "date": "2026-08-10",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -486,10 +319,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-28_2_1784007485890",
+    "id": "show_shift_2026-08-10_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-28",
+    "date": "2026-08-10",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -500,10 +333,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-28_3_1784007485890",
+    "id": "show_shift_2026-08-10_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-28",
+    "date": "2026-08-10",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -514,10 +347,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-30_0_1784007485890",
+    "id": "show_shift_2026-08-12_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-30",
+    "date": "2026-08-12",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -528,10 +361,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-30_1_1784007485890",
+    "id": "show_shift_2026-08-12_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-30",
+    "date": "2026-08-12",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -542,10 +375,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-30_2_1784007485890",
+    "id": "show_shift_2026-08-12_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-30",
+    "date": "2026-08-12",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -556,10 +389,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-30_3_1784007485890",
+    "id": "show_shift_2026-08-12_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-30",
+    "date": "2026-08-12",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -570,10 +403,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-31_0_1784007485890",
+    "id": "show_shift_2026-08-13_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-31",
+    "date": "2026-08-13",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -584,10 +417,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-31_1_1784007485890",
+    "id": "show_shift_2026-08-13_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-31",
+    "date": "2026-08-13",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -598,10 +431,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-31_2_1784007485890",
+    "id": "show_shift_2026-08-13_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-31",
+    "date": "2026-08-13",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -612,10 +445,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-01-31_3_1784007485890",
+    "id": "show_shift_2026-08-13_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-01-31",
+    "date": "2026-08-13",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -626,10 +459,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-06_0_1784007485890",
+    "id": "show_shift_2026-08-19_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-06",
+    "date": "2026-08-19",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -640,10 +473,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-06_1_1784007485890",
+    "id": "show_shift_2026-08-19_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-06",
+    "date": "2026-08-19",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -654,10 +487,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-06_2_1784007485890",
+    "id": "show_shift_2026-08-19_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-06",
+    "date": "2026-08-19",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -668,10 +501,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-06_3_1784007485890",
+    "id": "show_shift_2026-08-19_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-06",
+    "date": "2026-08-19",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -682,10 +515,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-07_0_1784007485890",
+    "id": "show_shift_2026-08-20_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-07",
+    "date": "2026-08-20",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -696,10 +529,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-07_1_1784007485890",
+    "id": "show_shift_2026-08-20_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-07",
+    "date": "2026-08-20",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -710,10 +543,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-07_2_1784007485890",
+    "id": "show_shift_2026-08-20_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-07",
+    "date": "2026-08-20",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -724,10 +557,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-07_3_1784007485890",
+    "id": "show_shift_2026-08-20_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-07",
+    "date": "2026-08-20",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -738,10 +571,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-11_0_1784007485890",
+    "id": "show_shift_2026-08-24_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-11",
+    "date": "2026-08-24",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -752,10 +585,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-11_1_1784007485890",
+    "id": "show_shift_2026-08-24_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-11",
+    "date": "2026-08-24",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -766,10 +599,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-11_2_1784007485890",
+    "id": "show_shift_2026-08-24_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-11",
+    "date": "2026-08-24",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -780,10 +613,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-11_3_1784007485890",
+    "id": "show_shift_2026-08-24_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-11",
+    "date": "2026-08-24",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -794,10 +627,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-13_0_1784007485890",
+    "id": "show_shift_2026-08-26_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-13",
+    "date": "2026-08-26",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -808,10 +641,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-13_1_1784007485890",
+    "id": "show_shift_2026-08-26_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-13",
+    "date": "2026-08-26",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -822,10 +655,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-13_2_1784007485890",
+    "id": "show_shift_2026-08-26_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-13",
+    "date": "2026-08-26",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -836,10 +669,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-13_3_1784007485890",
+    "id": "show_shift_2026-08-26_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-13",
+    "date": "2026-08-26",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -850,10 +683,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-14_0_1784007485890",
+    "id": "show_shift_2026-08-27_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-14",
+    "date": "2026-08-27",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -864,10 +697,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-14_1_1784007485890",
+    "id": "show_shift_2026-08-27_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-14",
+    "date": "2026-08-27",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -878,10 +711,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-14_2_1784007485890",
+    "id": "show_shift_2026-08-27_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-14",
+    "date": "2026-08-27",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -892,10 +725,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-14_3_1784007485890",
+    "id": "show_shift_2026-08-27_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-14",
+    "date": "2026-08-27",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -906,10 +739,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-20_0_1784007485890",
+    "id": "show_shift_2026-09-02_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-20",
+    "date": "2026-09-02",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -920,10 +753,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-20_1_1784007485890",
+    "id": "show_shift_2026-09-02_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-20",
+    "date": "2026-09-02",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -934,10 +767,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-20_2_1784007485890",
+    "id": "show_shift_2026-09-02_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-20",
+    "date": "2026-09-02",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -948,10 +781,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-20_3_1784007485890",
+    "id": "show_shift_2026-09-02_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-20",
+    "date": "2026-09-02",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -962,10 +795,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-21_0_1784007485890",
+    "id": "show_shift_2026-09-03_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-21",
+    "date": "2026-09-03",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -976,10 +809,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-21_1_1784007485890",
+    "id": "show_shift_2026-09-03_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-21",
+    "date": "2026-09-03",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -990,10 +823,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-21_2_1784007485890",
+    "id": "show_shift_2026-09-03_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-21",
+    "date": "2026-09-03",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1004,10 +837,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-21_3_1784007485890",
+    "id": "show_shift_2026-09-03_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-21",
+    "date": "2026-09-03",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1018,10 +851,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-27_0_1784007485890",
+    "id": "show_shift_2026-09-09_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-27",
+    "date": "2026-09-09",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1032,10 +865,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-27_1_1784007485890",
+    "id": "show_shift_2026-09-09_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-27",
+    "date": "2026-09-09",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1046,10 +879,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-27_2_1784007485890",
+    "id": "show_shift_2026-09-09_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-27",
+    "date": "2026-09-09",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1060,10 +893,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-27_3_1784007485890",
+    "id": "show_shift_2026-09-09_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-27",
+    "date": "2026-09-09",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1074,10 +907,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-28_0_1784007485890",
+    "id": "show_shift_2026-09-10_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-28",
+    "date": "2026-09-10",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1088,10 +921,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-28_1_1784007485890",
+    "id": "show_shift_2026-09-10_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-28",
+    "date": "2026-09-10",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1102,10 +935,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-28_2_1784007485890",
+    "id": "show_shift_2026-09-10_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-28",
+    "date": "2026-09-10",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1116,10 +949,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-02-28_3_1784007485890",
+    "id": "show_shift_2026-09-10_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-02-28",
+    "date": "2026-09-10",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1130,10 +963,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-01_0_1784007485890",
+    "id": "show_shift_2026-09-11_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-01",
+    "date": "2026-09-11",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1144,10 +977,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-01_1_1784007485890",
+    "id": "show_shift_2026-09-11_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-01",
+    "date": "2026-09-11",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1158,10 +991,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-01_2_1784007485890",
+    "id": "show_shift_2026-09-11_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-01",
+    "date": "2026-09-11",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1172,10 +1005,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-01_3_1784007485890",
+    "id": "show_shift_2026-09-11_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-01",
+    "date": "2026-09-11",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1186,10 +1019,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-06_0_1784007485890",
+    "id": "show_shift_2026-09-16_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-06",
+    "date": "2026-09-16",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1200,10 +1033,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-06_1_1784007485890",
+    "id": "show_shift_2026-09-16_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-06",
+    "date": "2026-09-16",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1214,10 +1047,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-06_2_1784007485890",
+    "id": "show_shift_2026-09-16_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-06",
+    "date": "2026-09-16",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1228,10 +1061,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-06_3_1784007485890",
+    "id": "show_shift_2026-09-16_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-06",
+    "date": "2026-09-16",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1242,10 +1075,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-07_0_1784007485890",
+    "id": "show_shift_2026-09-17_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-07",
+    "date": "2026-09-17",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1256,10 +1089,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-07_1_1784007485890",
+    "id": "show_shift_2026-09-17_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-07",
+    "date": "2026-09-17",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1270,10 +1103,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-07_2_1784007485890",
+    "id": "show_shift_2026-09-17_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-07",
+    "date": "2026-09-17",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1284,10 +1117,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-07_3_1784007485890",
+    "id": "show_shift_2026-09-17_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-07",
+    "date": "2026-09-17",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1298,10 +1131,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-11_0_1784007485890",
+    "id": "show_shift_2026-09-21_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-11",
+    "date": "2026-09-21",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1312,10 +1145,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-11_1_1784007485890",
+    "id": "show_shift_2026-09-21_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-11",
+    "date": "2026-09-21",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1326,10 +1159,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-11_2_1784007485890",
+    "id": "show_shift_2026-09-21_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-11",
+    "date": "2026-09-21",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1340,10 +1173,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-11_3_1784007485890",
+    "id": "show_shift_2026-09-21_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-11",
+    "date": "2026-09-21",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1354,10 +1187,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-22_0_1784007485890",
+    "id": "show_shift_2026-10-02_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-22",
+    "date": "2026-10-02",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1368,10 +1201,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-22_1_1784007485890",
+    "id": "show_shift_2026-10-02_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-22",
+    "date": "2026-10-02",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1382,10 +1215,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-22_2_1784007485890",
+    "id": "show_shift_2026-10-02_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-22",
+    "date": "2026-10-02",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1396,10 +1229,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-22_3_1784007485890",
+    "id": "show_shift_2026-10-02_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-22",
+    "date": "2026-10-02",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1410,10 +1243,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-27_0_1784007485890",
+    "id": "show_shift_2026-10-07_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-27",
+    "date": "2026-10-07",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1424,10 +1257,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-27_1_1784007485890",
+    "id": "show_shift_2026-10-07_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-27",
+    "date": "2026-10-07",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1438,10 +1271,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-27_2_1784007485890",
+    "id": "show_shift_2026-10-07_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-27",
+    "date": "2026-10-07",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1452,10 +1285,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-27_3_1784007485890",
+    "id": "show_shift_2026-10-07_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-27",
+    "date": "2026-10-07",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1466,10 +1299,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-28_0_1784007485890",
+    "id": "show_shift_2026-10-08_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-28",
+    "date": "2026-10-08",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1480,10 +1313,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-28_1_1784007485890",
+    "id": "show_shift_2026-10-08_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-28",
+    "date": "2026-10-08",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1494,10 +1327,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-28_2_1784007485890",
+    "id": "show_shift_2026-10-08_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-28",
+    "date": "2026-10-08",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1508,10 +1341,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-03-28_3_1784007485890",
+    "id": "show_shift_2026-10-08_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-03-28",
+    "date": "2026-10-08",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1522,10 +1355,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-03_0_1784007485890",
+    "id": "show_shift_2026-10-14_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-03",
+    "date": "2026-10-14",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1536,10 +1369,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-03_1_1784007485890",
+    "id": "show_shift_2026-10-14_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-03",
+    "date": "2026-10-14",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1550,10 +1383,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-03_2_1784007485890",
+    "id": "show_shift_2026-10-14_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-03",
+    "date": "2026-10-14",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1564,10 +1397,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-03_3_1784007485890",
+    "id": "show_shift_2026-10-14_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-03",
+    "date": "2026-10-14",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1578,10 +1411,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-04_0_1784007485890",
+    "id": "show_shift_2026-10-15_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-04",
+    "date": "2026-10-15",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1592,10 +1425,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-04_1_1784007485890",
+    "id": "show_shift_2026-10-15_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-04",
+    "date": "2026-10-15",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1606,10 +1439,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-04_2_1784007485890",
+    "id": "show_shift_2026-10-15_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-04",
+    "date": "2026-10-15",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1620,10 +1453,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-04_3_1784007485890",
+    "id": "show_shift_2026-10-15_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-04",
+    "date": "2026-10-15",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1634,10 +1467,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-10_0_1784007485890",
+    "id": "show_shift_2026-10-21_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-10",
+    "date": "2026-10-21",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1648,10 +1481,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-10_1_1784007485890",
+    "id": "show_shift_2026-10-21_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-10",
+    "date": "2026-10-21",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1662,10 +1495,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-10_2_1784007485890",
+    "id": "show_shift_2026-10-21_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-10",
+    "date": "2026-10-21",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1676,10 +1509,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-10_3_1784007485890",
+    "id": "show_shift_2026-10-21_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-10",
+    "date": "2026-10-21",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1690,10 +1523,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-11_0_1784007485890",
+    "id": "show_shift_2026-10-22_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-11",
+    "date": "2026-10-22",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1704,10 +1537,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-11_1_1784007485890",
+    "id": "show_shift_2026-10-22_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-11",
+    "date": "2026-10-22",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1718,10 +1551,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-11_2_1784007485890",
+    "id": "show_shift_2026-10-22_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-11",
+    "date": "2026-10-22",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1732,10 +1565,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-11_3_1784007485890",
+    "id": "show_shift_2026-10-22_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-11",
+    "date": "2026-10-22",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1746,10 +1579,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-17_0_1784007485890",
+    "id": "show_shift_2026-10-28_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-17",
+    "date": "2026-10-28",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1760,10 +1593,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-17_1_1784007485890",
+    "id": "show_shift_2026-10-28_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-17",
+    "date": "2026-10-28",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1774,10 +1607,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-17_2_1784007485890",
+    "id": "show_shift_2026-10-28_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-17",
+    "date": "2026-10-28",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1788,10 +1621,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-17_3_1784007485890",
+    "id": "show_shift_2026-10-28_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-17",
+    "date": "2026-10-28",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1802,10 +1635,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-18_0_1784007485890",
+    "id": "show_shift_2026-10-29_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-18",
+    "date": "2026-10-29",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1816,10 +1649,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-18_1_1784007485890",
+    "id": "show_shift_2026-10-29_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-18",
+    "date": "2026-10-29",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1830,10 +1663,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-18_2_1784007485890",
+    "id": "show_shift_2026-10-29_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-18",
+    "date": "2026-10-29",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1844,10 +1677,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-18_3_1784007485890",
+    "id": "show_shift_2026-10-29_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-18",
+    "date": "2026-10-29",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1858,10 +1691,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-24_0_1784007485890",
+    "id": "show_shift_2026-11-04_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-24",
+    "date": "2026-11-04",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1872,10 +1705,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-24_1_1784007485890",
+    "id": "show_shift_2026-11-04_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-24",
+    "date": "2026-11-04",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1886,10 +1719,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-24_2_1784007485890",
+    "id": "show_shift_2026-11-04_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-24",
+    "date": "2026-11-04",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1900,10 +1733,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-24_3_1784007485890",
+    "id": "show_shift_2026-11-04_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-24",
+    "date": "2026-11-04",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1914,10 +1747,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-25_0_1784007485890",
+    "id": "show_shift_2026-11-05_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-25",
+    "date": "2026-11-05",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1928,10 +1761,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-25_1_1784007485890",
+    "id": "show_shift_2026-11-05_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-25",
+    "date": "2026-11-05",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1942,10 +1775,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-25_2_1784007485890",
+    "id": "show_shift_2026-11-05_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-25",
+    "date": "2026-11-05",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -1956,10 +1789,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-04-25_3_1784007485890",
+    "id": "show_shift_2026-11-05_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-04-25",
+    "date": "2026-11-05",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -1970,10 +1803,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-01_0_1784007485890",
+    "id": "show_shift_2026-11-11_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-01",
+    "date": "2026-11-11",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -1984,10 +1817,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-01_1_1784007485890",
+    "id": "show_shift_2026-11-11_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-01",
+    "date": "2026-11-11",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -1998,10 +1831,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-01_2_1784007485890",
+    "id": "show_shift_2026-11-11_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-01",
+    "date": "2026-11-11",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2012,10 +1845,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-01_3_1784007485890",
+    "id": "show_shift_2026-11-11_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-01",
+    "date": "2026-11-11",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2026,10 +1859,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-02_0_1784007485890",
+    "id": "show_shift_2026-11-12_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-02",
+    "date": "2026-11-12",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2040,10 +1873,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-02_1_1784007485890",
+    "id": "show_shift_2026-11-12_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-02",
+    "date": "2026-11-12",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2054,10 +1887,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-02_2_1784007485890",
+    "id": "show_shift_2026-11-12_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-02",
+    "date": "2026-11-12",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2068,10 +1901,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-02_3_1784007485890",
+    "id": "show_shift_2026-11-12_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-02",
+    "date": "2026-11-12",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2082,10 +1915,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-08_0_1784007485890",
+    "id": "show_shift_2026-11-18_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-08",
+    "date": "2026-11-18",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2096,10 +1929,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-08_1_1784007485890",
+    "id": "show_shift_2026-11-18_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-08",
+    "date": "2026-11-18",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2110,10 +1943,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-08_2_1784007485890",
+    "id": "show_shift_2026-11-18_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-08",
+    "date": "2026-11-18",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2124,10 +1957,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-08_3_1784007485890",
+    "id": "show_shift_2026-11-18_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-08",
+    "date": "2026-11-18",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2138,10 +1971,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-09_0_1784007485890",
+    "id": "show_shift_2026-11-19_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-09",
+    "date": "2026-11-19",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2152,10 +1985,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-09_1_1784007485890",
+    "id": "show_shift_2026-11-19_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-09",
+    "date": "2026-11-19",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2166,10 +1999,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-09_2_1784007485890",
+    "id": "show_shift_2026-11-19_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-09",
+    "date": "2026-11-19",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2180,10 +2013,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-09_3_1784007485890",
+    "id": "show_shift_2026-11-19_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-09",
+    "date": "2026-11-19",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2194,10 +2027,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-15_0_1784007485890",
+    "id": "show_shift_2026-11-25_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-15",
+    "date": "2026-11-25",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2208,10 +2041,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-15_1_1784007485890",
+    "id": "show_shift_2026-11-25_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-15",
+    "date": "2026-11-25",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2222,10 +2055,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-15_2_1784007485890",
+    "id": "show_shift_2026-11-25_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-15",
+    "date": "2026-11-25",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2236,10 +2069,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-15_3_1784007485890",
+    "id": "show_shift_2026-11-25_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-15",
+    "date": "2026-11-25",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2250,10 +2083,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-16_0_1784007485890",
+    "id": "show_shift_2026-11-26_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-16",
+    "date": "2026-11-26",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2264,10 +2097,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-16_1_1784007485890",
+    "id": "show_shift_2026-11-26_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-16",
+    "date": "2026-11-26",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2278,10 +2111,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-16_2_1784007485890",
+    "id": "show_shift_2026-11-26_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-16",
+    "date": "2026-11-26",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2292,10 +2125,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-16_3_1784007485890",
+    "id": "show_shift_2026-11-26_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-16",
+    "date": "2026-11-26",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2306,10 +2139,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-22_0_1784007485890",
+    "id": "show_shift_2026-12-02_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-22",
+    "date": "2026-12-02",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2320,10 +2153,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-22_1_1784007485890",
+    "id": "show_shift_2026-12-02_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-22",
+    "date": "2026-12-02",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2334,10 +2167,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-22_2_1784007485890",
+    "id": "show_shift_2026-12-02_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-22",
+    "date": "2026-12-02",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2348,10 +2181,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-22_3_1784007485890",
+    "id": "show_shift_2026-12-02_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-22",
+    "date": "2026-12-02",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2362,10 +2195,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-23_0_1784007485890",
+    "id": "show_shift_2026-12-03_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-23",
+    "date": "2026-12-03",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2376,10 +2209,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-23_1_1784007485890",
+    "id": "show_shift_2026-12-03_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-23",
+    "date": "2026-12-03",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2390,10 +2223,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-23_2_1784007485890",
+    "id": "show_shift_2026-12-03_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-23",
+    "date": "2026-12-03",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2404,10 +2237,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-23_3_1784007485890",
+    "id": "show_shift_2026-12-03_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-23",
+    "date": "2026-12-03",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2418,10 +2251,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-24_0_1784007485890",
+    "id": "show_shift_2026-12-04_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-24",
+    "date": "2026-12-04",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2432,10 +2265,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-24_1_1784007485890",
+    "id": "show_shift_2026-12-04_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-24",
+    "date": "2026-12-04",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2446,10 +2279,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-24_2_1784007485890",
+    "id": "show_shift_2026-12-04_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-24",
+    "date": "2026-12-04",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2460,10 +2293,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-24_3_1784007485890",
+    "id": "show_shift_2026-12-04_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-24",
+    "date": "2026-12-04",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2474,10 +2307,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-29_0_1784007485890",
+    "id": "show_shift_2026-12-09_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-29",
+    "date": "2026-12-09",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2488,10 +2321,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-29_1_1784007485890",
+    "id": "show_shift_2026-12-09_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-29",
+    "date": "2026-12-09",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2502,10 +2335,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-29_2_1784007485890",
+    "id": "show_shift_2026-12-09_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-29",
+    "date": "2026-12-09",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2516,10 +2349,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-29_3_1784007485890",
+    "id": "show_shift_2026-12-09_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-29",
+    "date": "2026-12-09",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2530,10 +2363,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-30_0_1784007485890",
+    "id": "show_shift_2026-12-10_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-30",
+    "date": "2026-12-10",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2544,10 +2377,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-30_1_1784007485890",
+    "id": "show_shift_2026-12-10_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-30",
+    "date": "2026-12-10",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2558,10 +2391,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-30_2_1784007485890",
+    "id": "show_shift_2026-12-10_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-30",
+    "date": "2026-12-10",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2572,10 +2405,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-05-30_3_1784007485890",
+    "id": "show_shift_2026-12-10_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-05-30",
+    "date": "2026-12-10",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2586,10 +2419,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-04_0_1784007485890",
+    "id": "show_shift_2026-12-15_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-04",
+    "date": "2026-12-15",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2600,10 +2433,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-04_1_1784007485890",
+    "id": "show_shift_2026-12-15_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-04",
+    "date": "2026-12-15",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2614,10 +2447,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-04_2_1784007485890",
+    "id": "show_shift_2026-12-15_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-04",
+    "date": "2026-12-15",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2628,10 +2461,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-04_3_1784007485890",
+    "id": "show_shift_2026-12-15_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-04",
+    "date": "2026-12-15",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2642,10 +2475,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-05_0_1784007485890",
+    "id": "show_shift_2026-12-16_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-05",
+    "date": "2026-12-16",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2656,10 +2489,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-05_1_1784007485890",
+    "id": "show_shift_2026-12-16_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-05",
+    "date": "2026-12-16",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2670,10 +2503,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-05_2_1784007485890",
+    "id": "show_shift_2026-12-16_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-05",
+    "date": "2026-12-16",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2684,10 +2517,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-05_3_1784007485890",
+    "id": "show_shift_2026-12-16_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-05",
+    "date": "2026-12-16",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2698,10 +2531,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-06_0_1784007485890",
+    "id": "show_shift_2026-12-17_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-06",
+    "date": "2026-12-17",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2712,10 +2545,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-06_1_1784007485890",
+    "id": "show_shift_2026-12-17_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-06",
+    "date": "2026-12-17",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2726,10 +2559,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-06_2_1784007485890",
+    "id": "show_shift_2026-12-17_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-06",
+    "date": "2026-12-17",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2740,10 +2573,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-06_3_1784007485890",
+    "id": "show_shift_2026-12-17_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-06",
+    "date": "2026-12-17",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2754,10 +2587,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-07_0_1784007485890",
+    "id": "show_shift_2026-12-18_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-07",
+    "date": "2026-12-18",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2768,10 +2601,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-07_1_1784007485890",
+    "id": "show_shift_2026-12-18_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-07",
+    "date": "2026-12-18",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2782,10 +2615,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-07_2_1784007485890",
+    "id": "show_shift_2026-12-18_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-07",
+    "date": "2026-12-18",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2796,10 +2629,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-07_3_1784007485890",
+    "id": "show_shift_2026-12-18_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-07",
+    "date": "2026-12-18",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2810,10 +2643,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-11_0_1784007485890",
+    "id": "show_shift_2026-12-22_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-11",
+    "date": "2026-12-22",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2824,10 +2657,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-11_1_1784007485890",
+    "id": "show_shift_2026-12-22_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-11",
+    "date": "2026-12-22",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2838,10 +2671,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-11_2_1784007485890",
+    "id": "show_shift_2026-12-22_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-11",
+    "date": "2026-12-22",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2852,10 +2685,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-11_3_1784007485890",
+    "id": "show_shift_2026-12-22_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-11",
+    "date": "2026-12-22",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2866,10 +2699,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-12_0_1784007485890",
+    "id": "show_shift_2026-12-23_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-12",
+    "date": "2026-12-23",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2880,10 +2713,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-12_1_1784007485890",
+    "id": "show_shift_2026-12-23_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-12",
+    "date": "2026-12-23",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2894,10 +2727,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-12_2_1784007485890",
+    "id": "show_shift_2026-12-23_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-12",
+    "date": "2026-12-23",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2908,10 +2741,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-12_3_1784007485890",
+    "id": "show_shift_2026-12-23_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-12",
+    "date": "2026-12-23",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2922,10 +2755,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-13_0_1784007485890",
+    "id": "show_shift_2026-12-24_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-13",
+    "date": "2026-12-24",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2936,10 +2769,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-13_1_1784007485890",
+    "id": "show_shift_2026-12-24_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-13",
+    "date": "2026-12-24",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -2950,10 +2783,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-13_2_1784007485890",
+    "id": "show_shift_2026-12-24_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-13",
+    "date": "2026-12-24",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -2964,10 +2797,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-13_3_1784007485890",
+    "id": "show_shift_2026-12-24_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-13",
+    "date": "2026-12-24",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -2978,10 +2811,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-17_0_1784007485890",
+    "id": "show_shift_2026-12-28_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-17",
+    "date": "2026-12-28",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -2992,10 +2825,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-17_1_1784007485890",
+    "id": "show_shift_2026-12-28_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-17",
+    "date": "2026-12-28",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3006,10 +2839,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-17_2_1784007485890",
+    "id": "show_shift_2026-12-28_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-17",
+    "date": "2026-12-28",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3020,10 +2853,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-17_3_1784007485890",
+    "id": "show_shift_2026-12-28_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-17",
+    "date": "2026-12-28",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3034,10 +2867,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-18_0_1784007485890",
+    "id": "show_shift_2026-12-29_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-18",
+    "date": "2026-12-29",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3048,10 +2881,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-18_1_1784007485890",
+    "id": "show_shift_2026-12-29_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-18",
+    "date": "2026-12-29",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3062,10 +2895,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-18_2_1784007485890",
+    "id": "show_shift_2026-12-29_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-18",
+    "date": "2026-12-29",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3076,10 +2909,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-18_3_1784007485890",
+    "id": "show_shift_2026-12-29_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-18",
+    "date": "2026-12-29",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3090,10 +2923,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-19_0_1784007485890",
+    "id": "show_shift_2026-12-30_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-19",
+    "date": "2026-12-30",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3104,10 +2937,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-19_1_1784007485890",
+    "id": "show_shift_2026-12-30_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-19",
+    "date": "2026-12-30",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3118,10 +2951,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-19_2_1784007485890",
+    "id": "show_shift_2026-12-30_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-19",
+    "date": "2026-12-30",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3132,10 +2965,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-19_3_1784007485890",
+    "id": "show_shift_2026-12-30_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-19",
+    "date": "2026-12-30",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3146,10 +2979,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-20_0_1784007485890",
+    "id": "show_shift_2026-12-31_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-20",
+    "date": "2026-12-31",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3160,10 +2993,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-20_1_1784007485890",
+    "id": "show_shift_2026-12-31_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-20",
+    "date": "2026-12-31",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3174,10 +3007,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-20_2_1784007485890",
+    "id": "show_shift_2026-12-31_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-20",
+    "date": "2026-12-31",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3188,10 +3021,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-20_3_1784007485890",
+    "id": "show_shift_2026-12-31_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-20",
+    "date": "2026-12-31",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3202,10 +3035,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-21_0_1784007485890",
+    "id": "show_shift_2027-01-01_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-21",
+    "date": "2027-01-01",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3216,10 +3049,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-21_1_1784007485890",
+    "id": "show_shift_2027-01-01_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-21",
+    "date": "2027-01-01",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3230,10 +3063,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-21_2_1784007485890",
+    "id": "show_shift_2027-01-01_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-21",
+    "date": "2027-01-01",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3244,10 +3077,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-21_3_1784007485890",
+    "id": "show_shift_2027-01-01_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-21",
+    "date": "2027-01-01",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3258,10 +3091,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-24_0_1784007485890",
+    "id": "show_shift_2027-01-04_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-24",
+    "date": "2027-01-04",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3272,10 +3105,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-24_1_1784007485890",
+    "id": "show_shift_2027-01-04_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-24",
+    "date": "2027-01-04",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3286,10 +3119,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-24_2_1784007485890",
+    "id": "show_shift_2027-01-04_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-24",
+    "date": "2027-01-04",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3300,10 +3133,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-24_3_1784007485890",
+    "id": "show_shift_2027-01-04_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-24",
+    "date": "2027-01-04",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3314,10 +3147,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-25_0_1784007485890",
+    "id": "show_shift_2027-01-05_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-25",
+    "date": "2027-01-05",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3328,10 +3161,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-25_1_1784007485890",
+    "id": "show_shift_2027-01-05_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-25",
+    "date": "2027-01-05",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3342,10 +3175,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-25_2_1784007485890",
+    "id": "show_shift_2027-01-05_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-25",
+    "date": "2027-01-05",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3356,10 +3189,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-25_3_1784007485890",
+    "id": "show_shift_2027-01-05_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-25",
+    "date": "2027-01-05",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3370,10 +3203,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-26_0_1784007485890",
+    "id": "show_shift_2027-01-06_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-26",
+    "date": "2027-01-06",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3384,10 +3217,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-26_1_1784007485890",
+    "id": "show_shift_2027-01-06_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-26",
+    "date": "2027-01-06",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3398,10 +3231,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-26_2_1784007485890",
+    "id": "show_shift_2027-01-06_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-26",
+    "date": "2027-01-06",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3412,10 +3245,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-26_3_1784007485890",
+    "id": "show_shift_2027-01-06_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-26",
+    "date": "2027-01-06",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3426,10 +3259,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-27_0_1784007485890",
+    "id": "show_shift_2027-01-07_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-27",
+    "date": "2027-01-07",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3440,10 +3273,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-27_1_1784007485890",
+    "id": "show_shift_2027-01-07_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-27",
+    "date": "2027-01-07",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3454,10 +3287,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-27_2_1784007485890",
+    "id": "show_shift_2027-01-07_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-27",
+    "date": "2027-01-07",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3468,10 +3301,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-27_3_1784007485890",
+    "id": "show_shift_2027-01-07_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-27",
+    "date": "2027-01-07",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3482,10 +3315,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-28_0_1784007485890",
+    "id": "show_shift_2027-01-08_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-28",
+    "date": "2027-01-08",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3496,10 +3329,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-28_1_1784007485890",
+    "id": "show_shift_2027-01-08_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-28",
+    "date": "2027-01-08",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3510,10 +3343,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-28_2_1784007485890",
+    "id": "show_shift_2027-01-08_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-28",
+    "date": "2027-01-08",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3524,10 +3357,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-06-28_3_1784007485890",
+    "id": "show_shift_2027-01-08_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-06-28",
+    "date": "2027-01-08",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3538,10 +3371,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-01_0_1784007485890",
+    "id": "show_shift_2027-01-11_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-01",
+    "date": "2027-01-11",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3552,10 +3385,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-01_1_1784007485890",
+    "id": "show_shift_2027-01-11_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-01",
+    "date": "2027-01-11",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3566,10 +3399,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-01_2_1784007485890",
+    "id": "show_shift_2027-01-11_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-01",
+    "date": "2027-01-11",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3580,10 +3413,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-01_3_1784007485890",
+    "id": "show_shift_2027-01-11_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-01",
+    "date": "2027-01-11",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3594,10 +3427,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-02_0_1784007485890",
+    "id": "show_shift_2027-01-12_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-02",
+    "date": "2027-01-12",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3608,10 +3441,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-02_1_1784007485890",
+    "id": "show_shift_2027-01-12_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-02",
+    "date": "2027-01-12",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3622,10 +3455,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-02_2_1784007485890",
+    "id": "show_shift_2027-01-12_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-02",
+    "date": "2027-01-12",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3636,10 +3469,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-02_3_1784007485890",
+    "id": "show_shift_2027-01-12_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-02",
+    "date": "2027-01-12",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3650,10 +3483,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-03_0_1784007485890",
+    "id": "show_shift_2027-01-13_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-03",
+    "date": "2027-01-13",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3664,10 +3497,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-03_1_1784007485890",
+    "id": "show_shift_2027-01-13_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-03",
+    "date": "2027-01-13",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3678,10 +3511,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-03_2_1784007485890",
+    "id": "show_shift_2027-01-13_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-03",
+    "date": "2027-01-13",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3692,10 +3525,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-03_3_1784007485890",
+    "id": "show_shift_2027-01-13_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-03",
+    "date": "2027-01-13",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3706,10 +3539,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-05_0_1784007485890",
+    "id": "show_shift_2027-01-15_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-05",
+    "date": "2027-01-15",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3720,10 +3553,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-05_1_1784007485890",
+    "id": "show_shift_2027-01-15_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-05",
+    "date": "2027-01-15",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3734,10 +3567,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-05_2_1784007485890",
+    "id": "show_shift_2027-01-15_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-05",
+    "date": "2027-01-15",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3748,10 +3581,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-05_3_1784007485890",
+    "id": "show_shift_2027-01-15_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-05",
+    "date": "2027-01-15",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3762,10 +3595,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-09_0_1784007485890",
+    "id": "show_shift_2027-01-19_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-09",
+    "date": "2027-01-19",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3776,10 +3609,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-09_1_1784007485890",
+    "id": "show_shift_2027-01-19_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-09",
+    "date": "2027-01-19",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3790,10 +3623,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-09_2_1784007485890",
+    "id": "show_shift_2027-01-19_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-09",
+    "date": "2027-01-19",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3804,10 +3637,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-09_3_1784007485890",
+    "id": "show_shift_2027-01-19_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-09",
+    "date": "2027-01-19",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3818,10 +3651,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-10_0_1784007485890",
+    "id": "show_shift_2027-01-20_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-10",
+    "date": "2027-01-20",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3832,10 +3665,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-10_1_1784007485890",
+    "id": "show_shift_2027-01-20_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-10",
+    "date": "2027-01-20",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3846,10 +3679,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-10_2_1784007485890",
+    "id": "show_shift_2027-01-20_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-10",
+    "date": "2027-01-20",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3860,10 +3693,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-10_3_1784007485890",
+    "id": "show_shift_2027-01-20_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-10",
+    "date": "2027-01-20",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3874,10 +3707,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-11_0_1784007485890",
+    "id": "show_shift_2027-01-21_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-11",
+    "date": "2027-01-21",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3888,10 +3721,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-11_1_1784007485890",
+    "id": "show_shift_2027-01-21_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-11",
+    "date": "2027-01-21",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3902,10 +3735,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-11_2_1784007485890",
+    "id": "show_shift_2027-01-21_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-11",
+    "date": "2027-01-21",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3916,10 +3749,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-11_3_1784007485890",
+    "id": "show_shift_2027-01-21_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-11",
+    "date": "2027-01-21",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3930,10 +3763,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-12_0_1784007485890",
+    "id": "show_shift_2027-01-22_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-12",
+    "date": "2027-01-22",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -3944,10 +3777,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-12_1_1784007485890",
+    "id": "show_shift_2027-01-22_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-12",
+    "date": "2027-01-22",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -3958,10 +3791,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-12_2_1784007485890",
+    "id": "show_shift_2027-01-22_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-12",
+    "date": "2027-01-22",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -3972,10 +3805,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-12_3_1784007485890",
+    "id": "show_shift_2027-01-22_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-12",
+    "date": "2027-01-22",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -3986,10 +3819,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-15_0_1784007485890",
+    "id": "show_shift_2027-01-25_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-15",
+    "date": "2027-01-25",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4000,10 +3833,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-15_1_1784007485890",
+    "id": "show_shift_2027-01-25_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-15",
+    "date": "2027-01-25",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4014,10 +3847,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-15_2_1784007485890",
+    "id": "show_shift_2027-01-25_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-15",
+    "date": "2027-01-25",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4028,10 +3861,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-15_3_1784007485890",
+    "id": "show_shift_2027-01-25_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-15",
+    "date": "2027-01-25",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4042,10 +3875,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-16_0_1784007485890",
+    "id": "show_shift_2027-01-26_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-16",
+    "date": "2027-01-26",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4056,10 +3889,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-16_1_1784007485890",
+    "id": "show_shift_2027-01-26_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-16",
+    "date": "2027-01-26",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4070,10 +3903,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-16_2_1784007485890",
+    "id": "show_shift_2027-01-26_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-16",
+    "date": "2027-01-26",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4084,10 +3917,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-16_3_1784007485890",
+    "id": "show_shift_2027-01-26_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-16",
+    "date": "2027-01-26",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4098,10 +3931,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-17_0_1784007485890",
+    "id": "show_shift_2027-01-27_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-17",
+    "date": "2027-01-27",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4112,10 +3945,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-17_1_1784007485890",
+    "id": "show_shift_2027-01-27_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-17",
+    "date": "2027-01-27",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4126,10 +3959,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-17_2_1784007485890",
+    "id": "show_shift_2027-01-27_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-17",
+    "date": "2027-01-27",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4140,10 +3973,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-17_3_1784007485890",
+    "id": "show_shift_2027-01-27_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-17",
+    "date": "2027-01-27",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4154,10 +3987,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-18_0_1784007485890",
+    "id": "show_shift_2027-01-28_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-18",
+    "date": "2027-01-28",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4168,10 +4001,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-18_1_1784007485890",
+    "id": "show_shift_2027-01-28_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-18",
+    "date": "2027-01-28",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4182,10 +4015,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-18_2_1784007485890",
+    "id": "show_shift_2027-01-28_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-18",
+    "date": "2027-01-28",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4196,10 +4029,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-18_3_1784007485890",
+    "id": "show_shift_2027-01-28_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-18",
+    "date": "2027-01-28",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4210,10 +4043,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-19_0_1784007485890",
+    "id": "show_shift_2027-01-29_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-19",
+    "date": "2027-01-29",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4224,10 +4057,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-19_1_1784007485890",
+    "id": "show_shift_2027-01-29_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-19",
+    "date": "2027-01-29",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4238,10 +4071,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-19_2_1784007485890",
+    "id": "show_shift_2027-01-29_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-19",
+    "date": "2027-01-29",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4252,10 +4085,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-19_3_1784007485890",
+    "id": "show_shift_2027-01-29_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-19",
+    "date": "2027-01-29",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4266,10 +4099,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-22_0_1784007485890",
+    "id": "show_shift_2027-02-01_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-22",
+    "date": "2027-02-01",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4280,10 +4113,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-22_1_1784007485890",
+    "id": "show_shift_2027-02-01_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-22",
+    "date": "2027-02-01",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4294,10 +4127,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-22_2_1784007485890",
+    "id": "show_shift_2027-02-01_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-22",
+    "date": "2027-02-01",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4308,10 +4141,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-22_3_1784007485890",
+    "id": "show_shift_2027-02-01_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-22",
+    "date": "2027-02-01",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4322,10 +4155,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-23_0_1784007485890",
+    "id": "show_shift_2027-02-02_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-23",
+    "date": "2027-02-02",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4336,10 +4169,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-23_1_1784007485890",
+    "id": "show_shift_2027-02-02_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-23",
+    "date": "2027-02-02",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4350,10 +4183,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-23_2_1784007485890",
+    "id": "show_shift_2027-02-02_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-23",
+    "date": "2027-02-02",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4364,10 +4197,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-23_3_1784007485890",
+    "id": "show_shift_2027-02-02_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-23",
+    "date": "2027-02-02",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4378,10 +4211,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-24_0_1784007485890",
+    "id": "show_shift_2027-02-03_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-24",
+    "date": "2027-02-03",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4392,10 +4225,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-24_1_1784007485890",
+    "id": "show_shift_2027-02-03_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-24",
+    "date": "2027-02-03",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4406,10 +4239,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-24_2_1784007485890",
+    "id": "show_shift_2027-02-03_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-24",
+    "date": "2027-02-03",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4420,10 +4253,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-24_3_1784007485890",
+    "id": "show_shift_2027-02-03_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-24",
+    "date": "2027-02-03",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4434,10 +4267,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-25_0_1784007485890",
+    "id": "show_shift_2027-02-04_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-25",
+    "date": "2027-02-04",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4448,10 +4281,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-25_1_1784007485890",
+    "id": "show_shift_2027-02-04_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-25",
+    "date": "2027-02-04",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4462,10 +4295,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-25_2_1784007485890",
+    "id": "show_shift_2027-02-04_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-25",
+    "date": "2027-02-04",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4476,10 +4309,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-25_3_1784007485890",
+    "id": "show_shift_2027-02-04_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-25",
+    "date": "2027-02-04",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4490,10 +4323,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-26_0_1784007485890",
+    "id": "show_shift_2027-02-05_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-26",
+    "date": "2027-02-05",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4504,10 +4337,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-26_1_1784007485890",
+    "id": "show_shift_2027-02-05_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-26",
+    "date": "2027-02-05",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4518,10 +4351,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-26_2_1784007485890",
+    "id": "show_shift_2027-02-05_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-26",
+    "date": "2027-02-05",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4532,10 +4365,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-26_3_1784007485890",
+    "id": "show_shift_2027-02-05_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-26",
+    "date": "2027-02-05",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4546,10 +4379,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-30_0_1784007485890",
+    "id": "show_shift_2027-02-09_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-30",
+    "date": "2027-02-09",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4560,10 +4393,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-30_1_1784007485890",
+    "id": "show_shift_2027-02-09_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-30",
+    "date": "2027-02-09",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4574,10 +4407,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-30_2_1784007485890",
+    "id": "show_shift_2027-02-09_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-30",
+    "date": "2027-02-09",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4588,10 +4421,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-30_3_1784007485890",
+    "id": "show_shift_2027-02-09_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-30",
+    "date": "2027-02-09",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4602,10 +4435,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-31_0_1784007485890",
+    "id": "show_shift_2027-02-10_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-31",
+    "date": "2027-02-10",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4616,10 +4449,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-31_1_1784007485890",
+    "id": "show_shift_2027-02-10_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-31",
+    "date": "2027-02-10",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4630,10 +4463,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-31_2_1784007485890",
+    "id": "show_shift_2027-02-10_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-31",
+    "date": "2027-02-10",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4644,10 +4477,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-07-31_3_1784007485890",
+    "id": "show_shift_2027-02-10_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-07-31",
+    "date": "2027-02-10",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4658,10 +4491,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-01_0_1784007485890",
+    "id": "show_shift_2027-02-11_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-01",
+    "date": "2027-02-11",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4672,10 +4505,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-01_1_1784007485890",
+    "id": "show_shift_2027-02-11_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-01",
+    "date": "2027-02-11",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4686,10 +4519,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-01_2_1784007485890",
+    "id": "show_shift_2027-02-11_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-01",
+    "date": "2027-02-11",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4700,10 +4533,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-01_3_1784007485890",
+    "id": "show_shift_2027-02-11_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-01",
+    "date": "2027-02-11",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4714,10 +4547,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-02_0_1784007485890",
+    "id": "show_shift_2027-02-12_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-02",
+    "date": "2027-02-12",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4728,10 +4561,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-02_1_1784007485890",
+    "id": "show_shift_2027-02-12_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-02",
+    "date": "2027-02-12",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4742,10 +4575,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-02_2_1784007485890",
+    "id": "show_shift_2027-02-12_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-02",
+    "date": "2027-02-12",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4756,10 +4589,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-02_3_1784007485890",
+    "id": "show_shift_2027-02-12_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-02",
+    "date": "2027-02-12",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4770,10 +4603,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-04_0_1784007485890",
+    "id": "show_shift_2027-02-14_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-04",
+    "date": "2027-02-14",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4784,10 +4617,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-04_1_1784007485890",
+    "id": "show_shift_2027-02-14_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-04",
+    "date": "2027-02-14",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4798,10 +4631,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-04_2_1784007485890",
+    "id": "show_shift_2027-02-14_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-04",
+    "date": "2027-02-14",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4812,10 +4645,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-04_3_1784007485890",
+    "id": "show_shift_2027-02-14_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-04",
+    "date": "2027-02-14",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4826,10 +4659,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-06_0_1784007485890",
+    "id": "show_shift_2027-02-16_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-06",
+    "date": "2027-02-16",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4840,10 +4673,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-06_1_1784007485890",
+    "id": "show_shift_2027-02-16_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-06",
+    "date": "2027-02-16",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4854,10 +4687,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-06_2_1784007485890",
+    "id": "show_shift_2027-02-16_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-06",
+    "date": "2027-02-16",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4868,10 +4701,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-06_3_1784007485890",
+    "id": "show_shift_2027-02-16_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-06",
+    "date": "2027-02-16",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4882,10 +4715,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-07_0_1784007485890",
+    "id": "show_shift_2027-02-17_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-07",
+    "date": "2027-02-17",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4896,10 +4729,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-07_1_1784007485890",
+    "id": "show_shift_2027-02-17_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-07",
+    "date": "2027-02-17",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4910,10 +4743,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-07_2_1784007485890",
+    "id": "show_shift_2027-02-17_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-07",
+    "date": "2027-02-17",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4924,10 +4757,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-07_3_1784007485890",
+    "id": "show_shift_2027-02-17_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-07",
+    "date": "2027-02-17",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4938,10 +4771,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-08_0_1784007485890",
+    "id": "show_shift_2027-02-18_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-08",
+    "date": "2027-02-18",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -4952,10 +4785,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-08_1_1784007485890",
+    "id": "show_shift_2027-02-18_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-08",
+    "date": "2027-02-18",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -4966,10 +4799,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-08_2_1784007485890",
+    "id": "show_shift_2027-02-18_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-08",
+    "date": "2027-02-18",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -4980,10 +4813,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-08_3_1784007485890",
+    "id": "show_shift_2027-02-18_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-08",
+    "date": "2027-02-18",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -4994,10 +4827,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-09_0_1784007485890",
+    "id": "show_shift_2027-02-19_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-09",
+    "date": "2027-02-19",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5008,10 +4841,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-09_1_1784007485890",
+    "id": "show_shift_2027-02-19_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-09",
+    "date": "2027-02-19",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5022,10 +4855,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-09_2_1784007485890",
+    "id": "show_shift_2027-02-19_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-09",
+    "date": "2027-02-19",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5036,10 +4869,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-09_3_1784007485890",
+    "id": "show_shift_2027-02-19_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-09",
+    "date": "2027-02-19",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5050,10 +4883,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-13_0_1784007485890",
+    "id": "show_shift_2027-02-23_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-13",
+    "date": "2027-02-23",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5064,10 +4897,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-13_1_1784007485890",
+    "id": "show_shift_2027-02-23_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-13",
+    "date": "2027-02-23",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5078,10 +4911,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-13_2_1784007485890",
+    "id": "show_shift_2027-02-23_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-13",
+    "date": "2027-02-23",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5092,10 +4925,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-13_3_1784007485890",
+    "id": "show_shift_2027-02-23_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-13",
+    "date": "2027-02-23",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5106,10 +4939,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-14_0_1784007485890",
+    "id": "show_shift_2027-02-24_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-14",
+    "date": "2027-02-24",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5120,10 +4953,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-14_1_1784007485890",
+    "id": "show_shift_2027-02-24_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-14",
+    "date": "2027-02-24",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5134,10 +4967,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-14_2_1784007485890",
+    "id": "show_shift_2027-02-24_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-14",
+    "date": "2027-02-24",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5148,10 +4981,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-14_3_1784007485890",
+    "id": "show_shift_2027-02-24_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-14",
+    "date": "2027-02-24",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5162,10 +4995,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-15_0_1784007485890",
+    "id": "show_shift_2027-02-25_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-15",
+    "date": "2027-02-25",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5176,10 +5009,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-15_1_1784007485890",
+    "id": "show_shift_2027-02-25_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-15",
+    "date": "2027-02-25",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5190,10 +5023,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-15_2_1784007485890",
+    "id": "show_shift_2027-02-25_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-15",
+    "date": "2027-02-25",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5204,10 +5037,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-15_3_1784007485890",
+    "id": "show_shift_2027-02-25_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-15",
+    "date": "2027-02-25",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5218,10 +5051,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-19_0_1784007485890",
+    "id": "show_shift_2027-03-01_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-19",
+    "date": "2027-03-01",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5232,10 +5065,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-19_1_1784007485890",
+    "id": "show_shift_2027-03-01_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-19",
+    "date": "2027-03-01",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5246,10 +5079,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-19_2_1784007485890",
+    "id": "show_shift_2027-03-01_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-19",
+    "date": "2027-03-01",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5260,10 +5093,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-19_3_1784007485890",
+    "id": "show_shift_2027-03-01_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-19",
+    "date": "2027-03-01",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5274,10 +5107,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-20_0_1784007485890",
+    "id": "show_shift_2027-03-02_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-20",
+    "date": "2027-03-02",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5288,10 +5121,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-20_1_1784007485890",
+    "id": "show_shift_2027-03-02_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-20",
+    "date": "2027-03-02",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5302,10 +5135,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-20_2_1784007485890",
+    "id": "show_shift_2027-03-02_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-20",
+    "date": "2027-03-02",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5316,10 +5149,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-20_3_1784007485890",
+    "id": "show_shift_2027-03-02_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-20",
+    "date": "2027-03-02",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5330,10 +5163,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-21_0_1784007485890",
+    "id": "show_shift_2027-03-03_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-21",
+    "date": "2027-03-03",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5344,10 +5177,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-21_1_1784007485890",
+    "id": "show_shift_2027-03-03_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-21",
+    "date": "2027-03-03",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5358,10 +5191,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-21_2_1784007485890",
+    "id": "show_shift_2027-03-03_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-21",
+    "date": "2027-03-03",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5372,10 +5205,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-21_3_1784007485890",
+    "id": "show_shift_2027-03-03_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-21",
+    "date": "2027-03-03",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5386,10 +5219,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-22_0_1784007485890",
+    "id": "show_shift_2027-03-04_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-22",
+    "date": "2027-03-04",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5400,10 +5233,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-22_1_1784007485890",
+    "id": "show_shift_2027-03-04_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-22",
+    "date": "2027-03-04",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5414,10 +5247,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-22_2_1784007485890",
+    "id": "show_shift_2027-03-04_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-22",
+    "date": "2027-03-04",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5428,10 +5261,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-22_3_1784007485890",
+    "id": "show_shift_2027-03-04_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-22",
+    "date": "2027-03-04",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5442,10 +5275,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-23_0_1784007485890",
+    "id": "show_shift_2027-03-05_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-23",
+    "date": "2027-03-05",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5456,10 +5289,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-23_1_1784007485890",
+    "id": "show_shift_2027-03-05_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-23",
+    "date": "2027-03-05",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5470,10 +5303,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-23_2_1784007485890",
+    "id": "show_shift_2027-03-05_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-23",
+    "date": "2027-03-05",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5484,10 +5317,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-23_3_1784007485890",
+    "id": "show_shift_2027-03-05_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-23",
+    "date": "2027-03-05",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5498,10 +5331,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-27_0_1784007485890",
+    "id": "show_shift_2027-03-09_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-27",
+    "date": "2027-03-09",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5512,10 +5345,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-27_1_1784007485890",
+    "id": "show_shift_2027-03-09_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-27",
+    "date": "2027-03-09",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5526,10 +5359,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-27_2_1784007485890",
+    "id": "show_shift_2027-03-09_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-27",
+    "date": "2027-03-09",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5540,10 +5373,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-27_3_1784007485890",
+    "id": "show_shift_2027-03-09_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-27",
+    "date": "2027-03-09",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5554,10 +5387,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-28_0_1784007485890",
+    "id": "show_shift_2027-03-10_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-28",
+    "date": "2027-03-10",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5568,10 +5401,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-28_1_1784007485890",
+    "id": "show_shift_2027-03-10_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-28",
+    "date": "2027-03-10",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5582,10 +5415,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-28_2_1784007485890",
+    "id": "show_shift_2027-03-10_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-28",
+    "date": "2027-03-10",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5596,10 +5429,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-28_3_1784007485890",
+    "id": "show_shift_2027-03-10_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-28",
+    "date": "2027-03-10",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5610,10 +5443,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-29_0_1784007485890",
+    "id": "show_shift_2027-03-11_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-29",
+    "date": "2027-03-11",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5624,10 +5457,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-29_1_1784007485890",
+    "id": "show_shift_2027-03-11_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-29",
+    "date": "2027-03-11",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5638,10 +5471,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-29_2_1784007485890",
+    "id": "show_shift_2027-03-11_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-29",
+    "date": "2027-03-11",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5652,10 +5485,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-29_3_1784007485890",
+    "id": "show_shift_2027-03-11_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-29",
+    "date": "2027-03-11",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5666,10 +5499,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-30_0_1784007485890",
+    "id": "show_shift_2027-03-12_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-30",
+    "date": "2027-03-12",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5680,10 +5513,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-30_1_1784007485890",
+    "id": "show_shift_2027-03-12_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-30",
+    "date": "2027-03-12",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5694,10 +5527,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-30_2_1784007485890",
+    "id": "show_shift_2027-03-12_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-30",
+    "date": "2027-03-12",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5708,10 +5541,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-08-30_3_1784007485890",
+    "id": "show_shift_2027-03-12_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-08-30",
+    "date": "2027-03-12",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5722,10 +5555,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-02_0_1784007485890",
+    "id": "show_shift_2027-03-15_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-02",
+    "date": "2027-03-15",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5736,10 +5569,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-02_1_1784007485890",
+    "id": "show_shift_2027-03-15_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-02",
+    "date": "2027-03-15",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5750,10 +5583,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-02_2_1784007485890",
+    "id": "show_shift_2027-03-15_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-02",
+    "date": "2027-03-15",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5764,10 +5597,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-02_3_1784007485890",
+    "id": "show_shift_2027-03-15_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-02",
+    "date": "2027-03-15",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5778,10 +5611,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-04_0_1784007485890",
+    "id": "show_shift_2027-03-17_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-04",
+    "date": "2027-03-17",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5792,10 +5625,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-04_1_1784007485890",
+    "id": "show_shift_2027-03-17_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-04",
+    "date": "2027-03-17",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5806,10 +5639,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-04_2_1784007485890",
+    "id": "show_shift_2027-03-17_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-04",
+    "date": "2027-03-17",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5820,10 +5653,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-04_3_1784007485890",
+    "id": "show_shift_2027-03-17_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-04",
+    "date": "2027-03-17",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5834,10 +5667,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-05_0_1784007485890",
+    "id": "show_shift_2027-03-18_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-05",
+    "date": "2027-03-18",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5848,10 +5681,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-05_1_1784007485890",
+    "id": "show_shift_2027-03-18_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-05",
+    "date": "2027-03-18",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5862,10 +5695,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-05_2_1784007485890",
+    "id": "show_shift_2027-03-18_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-05",
+    "date": "2027-03-18",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5876,10 +5709,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-05_3_1784007485890",
+    "id": "show_shift_2027-03-18_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-05",
+    "date": "2027-03-18",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5890,10 +5723,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-06_0_1784007485890",
+    "id": "show_shift_2027-03-19_0_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-06",
+    "date": "2027-03-19",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5904,10 +5737,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-06_1_1784007485890",
+    "id": "show_shift_2027-03-19_1_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-06",
+    "date": "2027-03-19",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5918,10 +5751,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-06_2_1784007485890",
+    "id": "show_shift_2027-03-19_2_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-06",
+    "date": "2027-03-19",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5932,10 +5765,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-06_3_1784007485890",
+    "id": "show_shift_2027-03-19_3_1784587989540",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-06",
+    "date": "2027-03-19",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -5946,10 +5779,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-09_0_1784007485890",
+    "id": "show_shift_2027-03-22_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-09",
+    "date": "2027-03-22",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -5960,10 +5793,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-09_1_1784007485890",
+    "id": "show_shift_2027-03-22_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-09",
+    "date": "2027-03-22",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -5974,10 +5807,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-09_2_1784007485890",
+    "id": "show_shift_2027-03-22_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-09",
+    "date": "2027-03-22",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -5988,10 +5821,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-09_3_1784007485890",
+    "id": "show_shift_2027-03-22_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-09",
+    "date": "2027-03-22",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6002,10 +5835,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-11_0_1784007485890",
+    "id": "show_shift_2027-03-24_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-11",
+    "date": "2027-03-24",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6016,10 +5849,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-11_1_1784007485890",
+    "id": "show_shift_2027-03-24_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-11",
+    "date": "2027-03-24",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6030,10 +5863,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-11_2_1784007485890",
+    "id": "show_shift_2027-03-24_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-11",
+    "date": "2027-03-24",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6044,10 +5877,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-11_3_1784007485890",
+    "id": "show_shift_2027-03-24_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-11",
+    "date": "2027-03-24",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6058,10 +5891,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-12_0_1784007485890",
+    "id": "show_shift_2027-03-25_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-12",
+    "date": "2027-03-25",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6072,10 +5905,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-12_1_1784007485890",
+    "id": "show_shift_2027-03-25_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-12",
+    "date": "2027-03-25",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6086,10 +5919,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-12_2_1784007485890",
+    "id": "show_shift_2027-03-25_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-12",
+    "date": "2027-03-25",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6100,10 +5933,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-12_3_1784007485890",
+    "id": "show_shift_2027-03-25_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-12",
+    "date": "2027-03-25",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6114,10 +5947,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-18_0_1784007485890",
+    "id": "show_shift_2027-03-31_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-18",
+    "date": "2027-03-31",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6128,10 +5961,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-18_1_1784007485890",
+    "id": "show_shift_2027-03-31_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-18",
+    "date": "2027-03-31",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6142,10 +5975,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-18_2_1784007485890",
+    "id": "show_shift_2027-03-31_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-18",
+    "date": "2027-03-31",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6156,10 +5989,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-18_3_1784007485890",
+    "id": "show_shift_2027-03-31_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-18",
+    "date": "2027-03-31",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6170,10 +6003,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-19_0_1784007485890",
+    "id": "show_shift_2027-04-01_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-19",
+    "date": "2027-04-01",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6184,10 +6017,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-19_1_1784007485890",
+    "id": "show_shift_2027-04-01_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-19",
+    "date": "2027-04-01",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6198,10 +6031,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-19_2_1784007485890",
+    "id": "show_shift_2027-04-01_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-19",
+    "date": "2027-04-01",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6212,10 +6045,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-19_3_1784007485890",
+    "id": "show_shift_2027-04-01_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-19",
+    "date": "2027-04-01",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6226,10 +6059,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-20_0_1784007485890",
+    "id": "show_shift_2027-04-02_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-20",
+    "date": "2027-04-02",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6240,10 +6073,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-20_1_1784007485890",
+    "id": "show_shift_2027-04-02_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-20",
+    "date": "2027-04-02",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6254,10 +6087,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-20_2_1784007485890",
+    "id": "show_shift_2027-04-02_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-20",
+    "date": "2027-04-02",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6268,10 +6101,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-20_3_1784007485890",
+    "id": "show_shift_2027-04-02_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-20",
+    "date": "2027-04-02",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6282,10 +6115,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-23_0_1784007485890",
+    "id": "show_shift_2027-04-05_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-23",
+    "date": "2027-04-05",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6296,10 +6129,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-23_1_1784007485890",
+    "id": "show_shift_2027-04-05_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-23",
+    "date": "2027-04-05",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6310,10 +6143,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-23_2_1784007485890",
+    "id": "show_shift_2027-04-05_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-23",
+    "date": "2027-04-05",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6324,10 +6157,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-23_3_1784007485890",
+    "id": "show_shift_2027-04-05_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-23",
+    "date": "2027-04-05",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6338,10 +6171,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-25_0_1784007485890",
+    "id": "show_shift_2027-04-07_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-25",
+    "date": "2027-04-07",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6352,10 +6185,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-25_1_1784007485890",
+    "id": "show_shift_2027-04-07_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-25",
+    "date": "2027-04-07",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6366,10 +6199,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-25_2_1784007485890",
+    "id": "show_shift_2027-04-07_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-25",
+    "date": "2027-04-07",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6380,10 +6213,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-25_3_1784007485890",
+    "id": "show_shift_2027-04-07_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-25",
+    "date": "2027-04-07",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6394,10 +6227,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-26_0_1784007485890",
+    "id": "show_shift_2027-04-08_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-26",
+    "date": "2027-04-08",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6408,10 +6241,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-26_1_1784007485890",
+    "id": "show_shift_2027-04-08_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-26",
+    "date": "2027-04-08",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6422,10 +6255,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-26_2_1784007485890",
+    "id": "show_shift_2027-04-08_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-26",
+    "date": "2027-04-08",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6436,10 +6269,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-26_3_1784007485890",
+    "id": "show_shift_2027-04-08_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-26",
+    "date": "2027-04-08",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6450,10 +6283,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-27_0_1784007485890",
+    "id": "show_shift_2027-04-09_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-27",
+    "date": "2027-04-09",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6464,10 +6297,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-27_1_1784007485890",
+    "id": "show_shift_2027-04-09_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-27",
+    "date": "2027-04-09",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6478,10 +6311,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-27_2_1784007485890",
+    "id": "show_shift_2027-04-09_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-27",
+    "date": "2027-04-09",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6492,10 +6325,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-09-27_3_1784007485890",
+    "id": "show_shift_2027-04-09_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-09-27",
+    "date": "2027-04-09",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6506,10 +6339,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-02_0_1784007485890",
+    "id": "show_shift_2027-04-14_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-02",
+    "date": "2027-04-14",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6520,10 +6353,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-02_1_1784007485890",
+    "id": "show_shift_2027-04-14_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-02",
+    "date": "2027-04-14",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6534,10 +6367,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-02_2_1784007485890",
+    "id": "show_shift_2027-04-14_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-02",
+    "date": "2027-04-14",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6548,10 +6381,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-02_3_1784007485890",
+    "id": "show_shift_2027-04-14_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-02",
+    "date": "2027-04-14",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6562,10 +6395,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-03_0_1784007485890",
+    "id": "show_shift_2027-04-15_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-03",
+    "date": "2027-04-15",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6576,10 +6409,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-03_1_1784007485890",
+    "id": "show_shift_2027-04-15_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-03",
+    "date": "2027-04-15",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6590,10 +6423,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-03_2_1784007485890",
+    "id": "show_shift_2027-04-15_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-03",
+    "date": "2027-04-15",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6604,10 +6437,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-03_3_1784007485890",
+    "id": "show_shift_2027-04-15_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-03",
+    "date": "2027-04-15",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6618,10 +6451,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-10_0_1784007485890",
+    "id": "show_shift_2027-04-22_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-10",
+    "date": "2027-04-22",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6632,10 +6465,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-10_1_1784007485890",
+    "id": "show_shift_2027-04-22_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-10",
+    "date": "2027-04-22",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6646,10 +6479,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-10_2_1784007485890",
+    "id": "show_shift_2027-04-22_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-10",
+    "date": "2027-04-22",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6660,10 +6493,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-10_3_1784007485890",
+    "id": "show_shift_2027-04-22_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-10",
+    "date": "2027-04-22",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6674,10 +6507,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-16_0_1784007485890",
+    "id": "show_shift_2027-04-28_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-16",
+    "date": "2027-04-28",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6688,10 +6521,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-16_1_1784007485890",
+    "id": "show_shift_2027-04-28_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-16",
+    "date": "2027-04-28",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6702,10 +6535,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-16_2_1784007485890",
+    "id": "show_shift_2027-04-28_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-16",
+    "date": "2027-04-28",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6716,10 +6549,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-16_3_1784007485890",
+    "id": "show_shift_2027-04-28_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-16",
+    "date": "2027-04-28",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6730,10 +6563,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-17_0_1784007485890",
+    "id": "show_shift_2027-04-29_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-17",
+    "date": "2027-04-29",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6744,10 +6577,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-17_1_1784007485890",
+    "id": "show_shift_2027-04-29_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-17",
+    "date": "2027-04-29",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6758,10 +6591,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-17_2_1784007485890",
+    "id": "show_shift_2027-04-29_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-17",
+    "date": "2027-04-29",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6772,10 +6605,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-17_3_1784007485890",
+    "id": "show_shift_2027-04-29_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-17",
+    "date": "2027-04-29",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6786,10 +6619,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-23_0_1784007485890",
+    "id": "show_shift_2027-05-05_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-23",
+    "date": "2027-05-05",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6800,10 +6633,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-23_1_1784007485890",
+    "id": "show_shift_2027-05-05_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-23",
+    "date": "2027-05-05",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6814,10 +6647,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-23_2_1784007485890",
+    "id": "show_shift_2027-05-05_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-23",
+    "date": "2027-05-05",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6828,10 +6661,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-23_3_1784007485890",
+    "id": "show_shift_2027-05-05_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-23",
+    "date": "2027-05-05",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6842,10 +6675,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-24_0_1784007485890",
+    "id": "show_shift_2027-05-06_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-24",
+    "date": "2027-05-06",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6856,10 +6689,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-24_1_1784007485890",
+    "id": "show_shift_2027-05-06_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-24",
+    "date": "2027-05-06",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6870,10 +6703,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-24_2_1784007485890",
+    "id": "show_shift_2027-05-06_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-24",
+    "date": "2027-05-06",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6884,10 +6717,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-24_3_1784007485890",
+    "id": "show_shift_2027-05-06_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-24",
+    "date": "2027-05-06",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6898,10 +6731,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-30_0_1784007485890",
+    "id": "show_shift_2027-05-12_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-30",
+    "date": "2027-05-12",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6912,10 +6745,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-30_1_1784007485890",
+    "id": "show_shift_2027-05-12_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-30",
+    "date": "2027-05-12",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6926,10 +6759,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-30_2_1784007485890",
+    "id": "show_shift_2027-05-12_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-30",
+    "date": "2027-05-12",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6940,10 +6773,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-30_3_1784007485890",
+    "id": "show_shift_2027-05-12_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-30",
+    "date": "2027-05-12",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -6954,10 +6787,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-31_0_1784007485890",
+    "id": "show_shift_2027-05-13_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-31",
+    "date": "2027-05-13",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -6968,10 +6801,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-31_1_1784007485890",
+    "id": "show_shift_2027-05-13_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-31",
+    "date": "2027-05-13",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -6982,10 +6815,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-31_2_1784007485890",
+    "id": "show_shift_2027-05-13_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-31",
+    "date": "2027-05-13",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -6996,10 +6829,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-10-31_3_1784007485890",
+    "id": "show_shift_2027-05-13_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-10-31",
+    "date": "2027-05-13",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7010,10 +6843,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-06_0_1784007485890",
+    "id": "show_shift_2027-05-19_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-06",
+    "date": "2027-05-19",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7024,10 +6857,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-06_1_1784007485890",
+    "id": "show_shift_2027-05-19_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-06",
+    "date": "2027-05-19",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7038,10 +6871,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-06_2_1784007485890",
+    "id": "show_shift_2027-05-19_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-06",
+    "date": "2027-05-19",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7052,10 +6885,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-06_3_1784007485890",
+    "id": "show_shift_2027-05-19_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-06",
+    "date": "2027-05-19",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7066,10 +6899,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-07_0_1784007485890",
+    "id": "show_shift_2027-05-20_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-07",
+    "date": "2027-05-20",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7080,10 +6913,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-07_1_1784007485890",
+    "id": "show_shift_2027-05-20_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-07",
+    "date": "2027-05-20",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7094,10 +6927,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-07_2_1784007485890",
+    "id": "show_shift_2027-05-20_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-07",
+    "date": "2027-05-20",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7108,10 +6941,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-07_3_1784007485890",
+    "id": "show_shift_2027-05-20_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-07",
+    "date": "2027-05-20",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7122,10 +6955,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-14_0_1784007485890",
+    "id": "show_shift_2027-05-27_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-14",
+    "date": "2027-05-27",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7136,10 +6969,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-14_1_1784007485890",
+    "id": "show_shift_2027-05-27_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-14",
+    "date": "2027-05-27",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7150,10 +6983,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-14_2_1784007485890",
+    "id": "show_shift_2027-05-27_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-14",
+    "date": "2027-05-27",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7164,10 +6997,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-14_3_1784007485890",
+    "id": "show_shift_2027-05-27_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-14",
+    "date": "2027-05-27",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7178,10 +7011,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-15_0_1784007485890",
+    "id": "show_shift_2027-05-28_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-15",
+    "date": "2027-05-28",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7192,10 +7025,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-15_1_1784007485890",
+    "id": "show_shift_2027-05-28_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-15",
+    "date": "2027-05-28",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7206,10 +7039,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-15_2_1784007485890",
+    "id": "show_shift_2027-05-28_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-15",
+    "date": "2027-05-28",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7220,10 +7053,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-15_3_1784007485890",
+    "id": "show_shift_2027-05-28_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-15",
+    "date": "2027-05-28",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7234,10 +7067,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-20_0_1784007485890",
+    "id": "show_shift_2027-06-02_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-20",
+    "date": "2027-06-02",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7248,10 +7081,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-20_1_1784007485890",
+    "id": "show_shift_2027-06-02_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-20",
+    "date": "2027-06-02",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7262,10 +7095,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-20_2_1784007485890",
+    "id": "show_shift_2027-06-02_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-20",
+    "date": "2027-06-02",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7276,10 +7109,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-20_3_1784007485890",
+    "id": "show_shift_2027-06-02_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-20",
+    "date": "2027-06-02",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7290,10 +7123,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-21_0_1784007485890",
+    "id": "show_shift_2027-06-03_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-21",
+    "date": "2027-06-03",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7304,10 +7137,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-21_1_1784007485890",
+    "id": "show_shift_2027-06-03_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-21",
+    "date": "2027-06-03",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7318,10 +7151,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-21_2_1784007485890",
+    "id": "show_shift_2027-06-03_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-21",
+    "date": "2027-06-03",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7332,10 +7165,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-21_3_1784007485890",
+    "id": "show_shift_2027-06-03_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-21",
+    "date": "2027-06-03",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7346,10 +7179,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-22_0_1784007485890",
+    "id": "show_shift_2027-06-04_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-22",
+    "date": "2027-06-04",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7360,10 +7193,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-22_1_1784007485890",
+    "id": "show_shift_2027-06-04_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-22",
+    "date": "2027-06-04",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7374,10 +7207,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-22_2_1784007485890",
+    "id": "show_shift_2027-06-04_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-22",
+    "date": "2027-06-04",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7388,10 +7221,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-22_3_1784007485890",
+    "id": "show_shift_2027-06-04_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-22",
+    "date": "2027-06-04",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7402,10 +7235,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-25_0_1784007485890",
+    "id": "show_shift_2027-06-07_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-25",
+    "date": "2027-06-07",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7416,10 +7249,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-25_1_1784007485890",
+    "id": "show_shift_2027-06-07_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-25",
+    "date": "2027-06-07",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7430,10 +7263,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-25_2_1784007485890",
+    "id": "show_shift_2027-06-07_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-25",
+    "date": "2027-06-07",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7444,10 +7277,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-25_3_1784007485890",
+    "id": "show_shift_2027-06-07_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-25",
+    "date": "2027-06-07",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7458,10 +7291,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-28_0_1784007485890",
+    "id": "show_shift_2027-06-10_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-28",
+    "date": "2027-06-10",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7472,10 +7305,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-28_1_1784007485890",
+    "id": "show_shift_2027-06-10_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-28",
+    "date": "2027-06-10",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7486,10 +7319,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-28_2_1784007485890",
+    "id": "show_shift_2027-06-10_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-28",
+    "date": "2027-06-10",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7500,10 +7333,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-11-28_3_1784007485890",
+    "id": "show_shift_2027-06-10_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-11-28",
+    "date": "2027-06-10",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7514,10 +7347,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-04_0_1784007485890",
+    "id": "show_shift_2027-06-16_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-04",
+    "date": "2027-06-16",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7528,10 +7361,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-04_1_1784007485890",
+    "id": "show_shift_2027-06-16_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-04",
+    "date": "2027-06-16",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7542,10 +7375,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-04_2_1784007485890",
+    "id": "show_shift_2027-06-16_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-04",
+    "date": "2027-06-16",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7556,10 +7389,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-04_3_1784007485890",
+    "id": "show_shift_2027-06-16_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-04",
+    "date": "2027-06-16",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7570,10 +7403,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-05_0_1784007485890",
+    "id": "show_shift_2027-06-17_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-05",
+    "date": "2027-06-17",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7584,10 +7417,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-05_1_1784007485890",
+    "id": "show_shift_2027-06-17_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-05",
+    "date": "2027-06-17",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7598,10 +7431,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-05_2_1784007485890",
+    "id": "show_shift_2027-06-17_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-05",
+    "date": "2027-06-17",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7612,10 +7445,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-05_3_1784007485890",
+    "id": "show_shift_2027-06-17_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-05",
+    "date": "2027-06-17",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7626,10 +7459,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-12_0_1784007485890",
+    "id": "show_shift_2027-06-24_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-12",
+    "date": "2027-06-24",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7640,10 +7473,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-12_1_1784007485890",
+    "id": "show_shift_2027-06-24_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-12",
+    "date": "2027-06-24",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7654,10 +7487,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-12_2_1784007485890",
+    "id": "show_shift_2027-06-24_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-12",
+    "date": "2027-06-24",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7668,10 +7501,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-12_3_1784007485890",
+    "id": "show_shift_2027-06-24_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-12",
+    "date": "2027-06-24",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7682,10 +7515,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-18_0_1784007485890",
+    "id": "show_shift_2027-06-30_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-18",
+    "date": "2027-06-30",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7696,10 +7529,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-18_1_1784007485890",
+    "id": "show_shift_2027-06-30_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-18",
+    "date": "2027-06-30",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7710,10 +7543,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-18_2_1784007485890",
+    "id": "show_shift_2027-06-30_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-18",
+    "date": "2027-06-30",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7724,10 +7557,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-18_3_1784007485890",
+    "id": "show_shift_2027-06-30_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-18",
+    "date": "2027-06-30",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7738,10 +7571,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-19_0_1784007485890",
+    "id": "show_shift_2027-07-01_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-19",
+    "date": "2027-07-01",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7752,10 +7585,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-19_1_1784007485890",
+    "id": "show_shift_2027-07-01_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-19",
+    "date": "2027-07-01",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7766,10 +7599,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-19_2_1784007485890",
+    "id": "show_shift_2027-07-01_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-19",
+    "date": "2027-07-01",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7780,10 +7613,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-19_3_1784007485890",
+    "id": "show_shift_2027-07-01_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-19",
+    "date": "2027-07-01",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7794,10 +7627,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-26_0_1784007485890",
+    "id": "show_shift_2027-07-08_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-26",
+    "date": "2027-07-08",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7808,10 +7641,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-26_1_1784007485890",
+    "id": "show_shift_2027-07-08_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-26",
+    "date": "2027-07-08",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7822,10 +7655,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-26_2_1784007485890",
+    "id": "show_shift_2027-07-08_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-26",
+    "date": "2027-07-08",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7836,10 +7669,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-26_3_1784007485890",
+    "id": "show_shift_2027-07-08_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-26",
+    "date": "2027-07-08",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7850,10 +7683,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-31_0_1784007485890",
+    "id": "show_shift_2027-07-13_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-31",
+    "date": "2027-07-13",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7864,10 +7697,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-31_1_1784007485890",
+    "id": "show_shift_2027-07-13_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-31",
+    "date": "2027-07-13",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7878,10 +7711,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-31_2_1784007485890",
+    "id": "show_shift_2027-07-13_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-31",
+    "date": "2027-07-13",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7892,10 +7725,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2026-12-31_3_1784007485890",
+    "id": "show_shift_2027-07-13_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2026-12-31",
+    "date": "2027-07-13",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",
@@ -7906,10 +7739,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2027-01-10_0_1784007485890",
+    "id": "show_shift_2027-07-23_0_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2027-01-10",
+    "date": "2027-07-23",
     "startHour": 16,
     "endHour": 22,
     "time": "4:00 PM - 10:00 PM",
@@ -7920,10 +7753,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2027-01-10_1_1784007485890",
+    "id": "show_shift_2027-07-23_1_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2027-01-10",
+    "date": "2027-07-23",
     "startHour": 15,
     "endHour": 20,
     "time": "3:00 PM - 8:00 PM",
@@ -7934,10 +7767,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2027-01-10_2_1784007485890",
+    "id": "show_shift_2027-07-23_2_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2027-01-10",
+    "date": "2027-07-23",
     "startHour": 18,
     "endHour": 23,
     "time": "6:00 PM - 11:00 PM",
@@ -7948,10 +7781,10 @@
     "isDraft": true
   },
   {
-    "id": "show_shift_2027-01-10_3_1784007485890",
+    "id": "show_shift_2027-07-23_3_1784587989541",
     "crewId": "openshifts",
     "crewName": "OpenShifts",
-    "date": "2027-01-10",
+    "date": "2027-07-23",
     "startHour": 17,
     "endHour": 23,
     "time": "5:00 PM - 11:00 PM",

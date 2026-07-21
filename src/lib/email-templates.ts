@@ -6,23 +6,32 @@ function sanitize(str: string | undefined | null): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+function getInitials(name: string | undefined | null): string {
+  if (!name) return 'C';
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  return name.trim().slice(0, 2).toUpperCase();
+}
+
 // ── Brand wrapper shared by all templates ──
 function wrap(content: string): string {
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#050508;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#050508;padding:40px 16px;">
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark only"><meta name="supported-color-schemes" content="dark only"></head>
+<body style="margin:0;padding:0;background-color:#050508;background:#050508;color:#ffffff;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#050508;background:#050508;padding:40px 16px;">
 <tr><td align="center">
 <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;">
 <!-- Header -->
-<tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:20px 40px;text-align:center;border-radius:16px 16px 0 0;">
+<tr><td style="background-color:#7c3aed;background:linear-gradient(135deg,#7c3aed,#a855f7);padding:20px 40px;text-align:center;border-radius:16px 16px 0 0;">
 <p style="margin:0;color:#fff;font-size:18px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN</p>
 </td></tr>
 <!-- Body -->
-<tr><td style="background:#0a0a0f;padding:40px 32px;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05);">
+<tr><td style="background-color:#0a0a0f;background:#0a0a0f;padding:40px 32px;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05);">
 ${content}
 </td></tr>
 <!-- Footer -->
-<tr><td style="background:#08080c;padding:24px 32px;text-align:center;border:1px solid rgba(255,255,255,0.05);border-top:none;border-radius:0 0 16px 16px;">
+<tr><td style="background-color:#08080c;background:#08080c;padding:24px 32px;text-align:center;border:1px solid rgba(255,255,255,0.05);border-top:none;border-radius:0 0 16px 16px;">
 <p style="margin:0 0 8px;color:#444;font-size:11px;">© ${new Date().getFullYear()} 7th Heaven — All rights reserved</p>
 <p style="margin:0 0 8px;color:#7c3aed;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7thheavenband.com</p>
 <p style="margin:0 0 6px;color:#333;font-size:10px;">7th Heaven · Chicago, IL 60601</p>
@@ -32,8 +41,8 @@ ${content}
 }
 
 // ── Shared button style ──
-const btnStyle = `display:inline-block;background:#7c3aed;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
-const btnGold = `display:inline-block;background:#FBBF24;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
+const btnStyle = `display:inline-block;background-color:#7c3aed;background:#7c3aed;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
+const btnGold = `display:inline-block;background-color:#FBBF24;background:#FBBF24;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
 
 // ═══════════════════════════════════════════════
 // 1. BOOKING CONFIRMATION (sent to planner)
@@ -46,6 +55,8 @@ export function bookingConfirmation(b: {
 }) {
   const cancelUrl = b.cancelToken ? `https://7thheavenband.com/book/cancel?token=${b.cancelToken}&id=${b.bookingId}` : 'https://7thheavenband.com/planner';
   const dashboardUrl = 'https://7thheavenband.com/planner';
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
+  const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(b.bookingId)}&date=${encodeURIComponent(b.eventDate)}&venue=${encodeURIComponent(b.venueName || '')}&city=${encodeURIComponent(b.venueCity)}&state=${encodeURIComponent(b.venueState)}&eventType=${encodeURIComponent(b.eventType)}&startTime=${encodeURIComponent(b.startTime || '')}&endTime=${encodeURIComponent(b.endTime || '')}`;
   const td1 = 'padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;';
   const td2 = 'padding:8px 0;color:#fff;font-size:14px;font-weight:600;';
   return wrap(`
@@ -87,6 +98,9 @@ export function bookingConfirmation(b: {
         <tr><td style="color:#a855f7;font-weight:900;font-size:15px;width:28px;vertical-align:top;padding-right:12px;">3</td><td style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.5;">You'll receive a final quote and contract once confirmed.</td></tr>
       </table>
     </div>
+    <div style="text-align:center;margin-bottom:16px;">
+      <a href="${icsUrl}" style="display:inline-block;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#a855f7;font-size:12px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">📅 Add to Google / Outlook Calendar (.ics)</a>
+    </div>
     <div style="text-align:center;margin-bottom:24px;">
       <a href="${dashboardUrl}" style="${btnStyle}">View My Booking Dashboard</a>
     </div>
@@ -105,6 +119,8 @@ export function bookingAdminNotification(b: {
   indoorOutdoor?: string; expectedAttendance?: string; details?: string;
 }) {
   const replyMailto = `mailto:${b.email}?subject=Re: Booking ${b.bookingId} — 7th Heaven`;
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
+  const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(b.bookingId)}&date=${encodeURIComponent(b.eventDate)}&venue=${encodeURIComponent(b.venueName || '')}&city=${encodeURIComponent(b.venueCity)}&state=${encodeURIComponent(b.venueState)}&eventType=${encodeURIComponent(b.eventType)}&startTime=${encodeURIComponent(b.startTime || '')}&endTime=${encodeURIComponent(b.endTime || '')}`;
   const td1 = 'padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;';
   const td2 = 'padding:6px 0;color:#fff;font-size:14px;font-weight:600;';
   return wrap(`
@@ -113,6 +129,7 @@ export function bookingAdminNotification(b: {
     <div style="text-align:center;margin-bottom:24px;">
       <a href="${replyMailto}" style="${btnStyle}">Reply to ${sanitize(b.name)} →</a>
       ${b.phone ? `<br/><a href="tel:${sanitize(b.phone)}" style="display:inline-block;margin-top:8px;color:#a855f7;font-size:14px;font-weight:600;text-decoration:none;">${sanitize(b.phone)}</a>` : ''}
+      <br/><a href="${icsUrl}" style="display:inline-block;margin-top:12px;padding:6px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#a855f7;font-size:11px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">📅 Add to Calendar (.ics)</a>
     </div>
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:16px;">
       <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Planner Contact</p>
@@ -313,14 +330,14 @@ export function cruiseConfirmation(b: {
       </div>`;
   }
 
-  return `<!DOCTYPE html><html><head><meta charset="utf-8" /></head>
-<body style="margin:0;padding:0;background:#0a0a0f;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  return `<!DOCTYPE html><html><head><meta charset="utf-8" /><meta name="color-scheme" content="dark only"><meta name="supported-color-schemes" content="dark only"></head>
+<body style="margin:0;padding:0;background-color:#0a0a0f;background:#0a0a0f;color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
   <div style="max-width:560px;margin:0 auto;padding:40px 24px;">
     <div style="text-align:center;margin-bottom:32px;">
       <h1 style="margin:0;color:#fff;font-size:28px;font-weight:900;font-style:italic;letter-spacing:-0.5px;">🚢 You're on the List!</h1>
       <p style="margin:8px 0 0;color:rgba(255,255,255,0.4);font-size:14px;">7th Heaven Cruise — Interest Confirmed</p>
     </div>
-    <div style="background:#111118;border:1px solid rgba(138,28,252,0.3);border-radius:16px;padding:32px;margin-bottom:24px;">
+    <div style="background-color:#111118;background:#111118;border:1px solid rgba(138,28,252,0.3);border-radius:16px;padding:32px;margin-bottom:24px;">
       <p style="margin:0 0 16px;color:#fff;font-size:16px;">Hey <strong>${b.name}</strong>,</p>
       <p style="margin:0 0 16px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">
         Thanks for signing up for the <strong style="color:#fff;">7th Heaven Caribbean Cruise</strong>!
@@ -438,6 +455,22 @@ export const EMAIL_TEMPLATES = [
     category: 'Account',
     status: 'live' as const,
     render: () => welcomeFan({ name: 'Sarah Johnson' }),
+  },
+  {
+    id: 'fan_upload_approved',
+    name: 'Fan Upload Approved',
+    description: 'Sent to a fan when their Photo/Video Wall upload is approved.',
+    category: 'Account',
+    status: 'live' as const,
+    render: () => fanUploadApproved({ name: 'Sarah Johnson', title: 'Front Row at Chicago Theatre!' }),
+  },
+  {
+    id: 'fan_upload_rejected',
+    name: 'Fan Upload Rejected',
+    description: 'Sent to a fan when their Photo/Video Wall upload is rejected.',
+    category: 'Account',
+    status: 'live' as const,
+    render: () => fanUploadRejected({ name: 'Sarah Johnson', title: 'Front Row at Chicago Theatre!', reason: 'Image contains non-band related advertising or spam text.' }),
   },
   {
     id: 'welcome_planner',
@@ -579,6 +612,38 @@ export const EMAIL_TEMPLATES = [
     }),
   },
   {
+    id: 'crew_sms_dispatched_alert',
+    name: 'Crew SMS Dispatched Alert',
+    description: 'Sent to administrators notifying them that a crew SMS alert has been dispatched with date, time, location, and recipient crew list details.',
+    category: 'Crew',
+    status: 'live' as const,
+    render: () => crewSmsDispatchedAlert({
+      message: 'Show Alert for Old Republic (Jul 16): Check in by 4:30 PM today.',
+      showDate: 'July 16, 2026',
+      showTime: '5:00 PM - 10:00 PM',
+      showVenue: 'Old Republic at Elgin, IL',
+      recipients: [
+        { name: 'Sammy D', phone: '(815) 555-0199', email: 'sammy@7thheaven.com', avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', role: 'SERVER', hours: '5:00 PM - 10:00 PM' },
+        { name: 'John Doe', phone: '(312) 555-0144', email: 'john@7thheaven.com', avatar: 'https://ui-avatars.com/api/?name=John+Doe&background=3b82f6&color=fff', role: 'SERVER', hours: '5:00 PM - 10:00 PM' },
+        { name: 'Unique Crew Member', phone: '(708) 555-0188', email: 'unique@7thheaven.com', avatar: 'https://ui-avatars.com/api/?name=Unique+Crew+Member&background=10b981&color=fff', role: 'SERVER', hours: '5:00 PM - 10:00 PM' }
+      ]
+    }),
+  },
+  {
+    id: 'crew_sms_alert_received',
+    name: 'Crew SMS Alert Received',
+    description: 'Sent to a crew member when they receive an SMS alert notification.',
+    category: 'Crew',
+    status: 'live' as const,
+    render: () => crewSmsAlertReceived({
+      memberName: 'Alex Rivera',
+      message: 'Show Alert for Old Republic (Jul 16): Check in by 4:30 PM today.',
+      showDate: 'July 16, 2026',
+      showTime: '5:00 PM - 10:00 PM',
+      showVenue: 'Old Republic at Elgin, IL'
+    }),
+  },
+  {
     id: 'flash_merch_pickup',
     name: '🛍️ Flash Merch - Table Pickup',
     description: 'Sent to a fan confirming their live drop purchase for venue pickup (includes PIN and single-use QR code).',
@@ -611,6 +676,22 @@ export const EMAIL_TEMPLATES = [
       color: 'Black',
       description: 'Heavyweight pullover hoodie with embroidered 7th Heaven crest.',
       imageUrl: 'https://7thheavenband.com/images/merch/hoodie.png'
+    }),
+  },
+  {
+    id: 'shift_coverage_request',
+    name: 'Shift Coverage Request',
+    description: 'Sent to qualified crew members when someone requests coverage for their shift.',
+    category: 'Crew',
+    status: 'live' as const,
+    render: () => shiftCoverageRequest({
+      requestingCrewName: 'Abbie Janssen',
+      role: 'SERVER',
+      date: 'July 24, 2026',
+      time: '4:00 PM - 10:00 PM',
+      location: 'Station 34',
+      shiftId: 'demo-shift-id',
+      recipientSlug: 'abbie',
     }),
   },
 ];
@@ -689,6 +770,9 @@ export function bookingStatusUpdate(b: {
     completed: { emoji: '🎉', color: '#a78bfa', label: 'Completed', msg: 'Your event has been marked as completed. Thank you!' },
   };
   const s = statusConfig[b.status];
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
+  const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(b.bookingId)}&date=${encodeURIComponent(b.eventDate)}&venue=${encodeURIComponent(b.venueName || '')}&city=${encodeURIComponent(b.venueCity)}&state=${encodeURIComponent(b.venueState)}&eventType=${encodeURIComponent(b.eventType)}`;
+
   return wrap(`
     <h1 style="margin:0 0 8px;color:#fff;font-size:26px;font-weight:900;text-align:center;">${s.emoji} Booking ${s.label}</h1>
     <p style="margin:0 0 28px;color:rgba(255,255,255,0.4);font-size:13px;text-align:center;">${s.msg}</p>
@@ -703,8 +787,13 @@ export function bookingStatusUpdate(b: {
         </table>
       </td></tr>
     </table>
+    ${b.status === 'confirmed' ? `
+    <div style="text-align:center;margin-bottom:12px;">
+      <a href="${icsUrl}" style="display:inline-block;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#a855f7;font-size:12px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">📅 Add to Google / Outlook Calendar (.ics)</a>
+    </div>
+    ` : ''}
     <div style="text-align:center;margin:24px 0;">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com'}/planner" style="${btnStyle}">View in Dashboard</a>
+      <a href="${SITE_URL}/planner" style="${btnStyle}">View in Dashboard</a>
     </div>
   `);
 }
@@ -780,6 +869,14 @@ export function welcomeCrew(data: { name: string; email: string; username?: stri
         </p>
       </td></tr>
     </table>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+      <tr><td style="padding:12px 16px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);border-radius:10px;">
+        <p style="margin:0 0 6px;color:#10b981;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">📋 ONBOARDING CHECKLIST</p>
+        <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.6;">
+          Please go to your Profile page and fill in your <strong style="color:#fff;">phone number</strong> and upload a <strong style="color:#fff;">profile picture (avatar)</strong>. This ensures the management can successfully assign you shifts on the Crew Schedule and alert you via group texts!
+        </p>
+      </td></tr>
+    </table>
     <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:10px;padding:14px 16px;margin-bottom:24px;">
       <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.6;">⚠️ <strong style="color:#fbbf24;">Security Notice:</strong> Please change your password immediately after logging in. Never share your credentials via email or text.</p>
     </div>
@@ -830,21 +927,21 @@ export function newAccountAdminAlert(data: {
 // 14. CRUISE COMMUNITY BLAST (sent to all cruise signups)
 // ═══════════════════════════════════════════════
 export function cruiseCommunityBlast(data: { subject: string; body: string }) {
-  const btnCruise = `display:inline-block;background:#06b6d4;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
+  const btnCruise = `display:inline-block;background-color:#06b6d4;background:#06b6d4;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
 
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#050508;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#050508;padding:40px 16px;">
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark only"><meta name="supported-color-schemes" content="dark only"></head>
+<body style="margin:0;padding:0;background-color:#050508;background:#050508;color:#ffffff;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#050508;background:#050508;padding:40px 16px;">
 <tr><td align="center">
 <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;">
 <!-- Cruise Header -->
-<tr><td style="background:linear-gradient(135deg,#0e7490,#06b6d4,#0891b2);padding:24px 40px;text-align:center;border-radius:16px 16px 0 0;">
+<tr><td style="background-color:#06b6d4;background:linear-gradient(135deg,#0e7490,#06b6d4,#0891b2);padding:24px 40px;text-align:center;border-radius:16px 16px 0 0;">
 <p style="margin:0 0 4px;font-size:28px;">🚢</p>
 <p style="margin:0 0 4px;color:#fff;font-size:18px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN CRUISE</p>
 <p style="margin:0;color:rgba(255,255,255,0.6);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;">Community Update</p>
 </td></tr>
 <!-- Body -->
-<tr><td style="background:#0a0a0f;padding:40px 32px;border-left:1px solid rgba(6,182,212,0.15);border-right:1px solid rgba(6,182,212,0.15);">
+<tr><td style="background-color:#0a0a0f;background:#0a0a0f;padding:40px 32px;border-left:1px solid rgba(6,182,212,0.15);border-right:1px solid rgba(6,182,212,0.15);">
 <h1 style="margin:0 0 24px;color:#fff;font-size:24px;font-weight:900;text-align:center;letter-spacing:-0.5px;">${sanitize(data.subject).replace('🚢 ', '')}</h1>
 <div style="color:rgba(255,255,255,0.75);font-size:15px;line-height:1.7;margin-bottom:32px;">${data.body}</div>
 <div style="text-align:center;margin-bottom:24px;">
@@ -855,7 +952,7 @@ export function cruiseCommunityBlast(data: { subject: string; body: string }) {
 </div>
 </td></tr>
 <!-- Footer -->
-<tr><td style="background:#08080c;padding:24px 32px;text-align:center;border:1px solid rgba(6,182,212,0.1);border-top:none;border-radius:0 0 16px 16px;">
+<tr><td style="background-color:#08080c;background:#08080c;padding:24px 32px;text-align:center;border:1px solid rgba(6,182,212,0.1);border-top:none;border-radius:0 0 16px 16px;">
 <p style="margin:0 0 8px;color:#444;font-size:11px;">© ${new Date().getFullYear()} 7th Heaven — All rights reserved</p>
 <p style="margin:0 0 8px;color:#06b6d4;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7thheavenband.com/cruise</p>
 <p style="margin:0 0 6px;color:#333;font-size:10px;">7th Heaven · Chicago, IL 60601</p>
@@ -999,6 +1096,7 @@ export function scheduleChangeAlert(b: {
   actionType: 'added' | 'updated' | 'deleted';
   shifts: Array<{ date: string; venue: string; role: string; time: string }>;
 }) {
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
   let actionDescription = '';
   if (b.actionType === 'added') {
     actionDescription = `The following shifts have been assigned to you:`;
@@ -1021,12 +1119,14 @@ export function scheduleChangeAlert(b: {
       <div style="background:#0a0a0f;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;margin-bottom:24px;text-align:left;">
         <p style="margin:0 0 12px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Shift Schedule Details</p>
         <table style="width:100%;border-collapse:collapse;font-size:13px;">
-          ${b.shifts.map((s, idx) => `
+          ${b.shifts.map((s, idx) => {
+            const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=crew-shift-${idx}&date=${encodeURIComponent(s.date)}&venue=${encodeURIComponent(s.venue)}&eventType=${encodeURIComponent(s.role)}&startTime=${encodeURIComponent(s.time.split(' - ')[0] || '')}&endTime=${encodeURIComponent(s.time.split(' - ')[1] || '')}`;
+            return `
             <tr style="${idx < b.shifts.length - 1 ? 'border-bottom:1px solid rgba(255,255,255,0.04);' : ''}">
-              <td style="padding:12px 0;vertical-align:top;width:120px;">
+              <td style="padding:12px 0;vertical-align:middle;width:110px;">
                 <strong style="color:#fff;font-size:12px;">${sanitize(s.date)}</strong>
               </td>
-              <td style="padding:12px 0;vertical-align:top;">
+              <td style="padding:12px 0;vertical-align:middle;">
                 <div style="font-weight:700;color:#fff;font-size:13px;">${sanitize(s.venue)}</div>
                 <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">
                   <span style="color:#10b981;font-weight:bold;text-transform:uppercase;">${sanitize(s.role)}</span>
@@ -1034,8 +1134,12 @@ export function scheduleChangeAlert(b: {
                   <span>${sanitize(s.time)}</span>
                 </div>
               </td>
+              <td style="padding:12px 0;vertical-align:middle;text-align:right;width:100px;">
+                <a href="${icsUrl}" style="color:#10b981;text-decoration:none;font-size:10px;font-weight:700;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);padding:4px 8px;border-radius:6px;display:inline-block;text-transform:uppercase;letter-spacing:0.5px;">📅 Add to Cal</a>
+              </td>
             </tr>
-          `).join('')}
+            `;
+          }).join('')}
         </table>
       </div>
 
@@ -1049,6 +1153,159 @@ export function scheduleChangeAlert(b: {
     </div>
   `);
 }
+
+// ═══════════════════════════════════════════════
+// 17b. CREW SMS DISPATCHED ALERT (sent to admins)
+// ═══════════════════════════════════════════════
+export function crewSmsDispatchedAlert(b: {
+  message: string;
+  showDate?: string;
+  showVenue?: string;
+  showTime?: string;
+  recipients?: Array<{
+    name: string;
+    phone: string;
+    email: string;
+    avatar?: string;
+    role?: string;
+    hours?: string;
+  }>;
+  sentToNames?: string[];
+}) {
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
+  let recipientList = b.recipients;
+  if (!Array.isArray(recipientList) || recipientList.length === 0) {
+    const fallbackNames = Array.isArray(b.sentToNames) && b.sentToNames.length > 0
+      ? b.sentToNames
+      : ['None (All Crew)'];
+    recipientList = fallbackNames.map(name => ({
+      name,
+      phone: 'N/A',
+      email: '',
+      avatar: '',
+      role: 'CREW',
+      hours: 'N/A'
+    }));
+  }
+
+  return wrap(`
+    <div style="text-align:left;">
+      <h2 style="margin:0 0 16px;color:#fff;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #7c3aed;padding-bottom:12px;">🛡️ Crew SMS Alert Dispatched</h2>
+      <p style="color:rgba(255,255,255,0.7);font-size:14px;line-height:1.6;margin:0 0 24px;">
+        An administrator has dispatched a new SMS alert to the crew members. Here is the full dispatch log:
+      </p>
+
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin-bottom:20px;">
+        <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">📅 Show / Event Details</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;color:#fff;margin-bottom:14px;">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:10px 0;color:rgba(255,255,255,0.4);width:120px;">Date</td><td style="padding:10px 0;font-weight:600;">${sanitize(b.showDate) || 'N/A'}</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:10px 0;color:rgba(255,255,255,0.4);">Time</td><td style="padding:10px 0;font-weight:600;">${sanitize(b.showTime) || 'N/A'}</td></tr>
+          <tr><td style="padding:10px 0;color:rgba(255,255,255,0.4);">Place / Venue</td><td style="padding:10px 0;font-weight:600;">${sanitize(b.showVenue) || 'N/A'}</td></tr>
+        </table>
+        <div style="text-align:center;border-top:1px solid rgba(255,255,255,0.04);padding-top:14px;">
+          <a href="${SITE_URL}/api/calendar/ics?bookingId=admin-crew-alert&date=${encodeURIComponent(b.showDate || '')}&venue=${encodeURIComponent(b.showVenue || '')}&eventType=Admin Crew Alert&startTime=${encodeURIComponent(b.showTime?.split(' - ')[0] || '')}&endTime=${encodeURIComponent(b.showTime?.split(' - ')[1] || '')}" style="display:inline-block;padding:6px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#a855f7;font-size:11px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">📅 Add to Calendar (.ics)</a>
+        </div>
+      </div>
+
+      <div style="background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;margin-bottom:20px;">
+        <p style="margin:0 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a855f7;font-weight:800;">📝 SMS Message Text</p>
+        <div style="font-size:14px;color:rgba(255,255,255,0.75);font-style:italic;line-height:1.6;">
+          "${sanitize(b.message)}"
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin-bottom:24px;">
+        <p style="margin:0 0 16px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">👥 SMS Recipients (${recipientList.length})</p>
+        
+        <table style="width:100%;border-collapse:collapse;">
+          ${recipientList.map((r, idx) => {
+            const initials = getInitials(r.name);
+            const isLocalAvatar = r.avatar && (r.avatar.startsWith('/') || r.avatar.startsWith('http')) && !r.avatar.includes('ui-avatars.com');
+            const avatarHtml = isLocalAvatar
+              ? `<img src="${r.avatar}" alt="${sanitize(r.name)}" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);display:block;" />`
+              : `<div style="width:32px;height:32px;border-radius:50%;background:#7c3aed;color:#fff;text-align:center;line-height:32px;font-weight:800;font-size:11px;letter-spacing:0.5px;border:1px solid rgba(255,255,255,0.15);">${initials}</div>`;
+            const roleStr = r.role || 'Crew';
+            const hoursStr = r.hours || 'N/A';
+            const rawPhone = r.phone || '';
+            const digits = rawPhone.replace(/\D/g, '');
+            const clean = digits.startsWith('1') && digits.length === 11 ? digits.slice(1) : digits;
+            const formattedPhone = clean.length === 10
+              ? `${clean.slice(0, 3)}-${clean.slice(3, 6)}-${clean.slice(6)}`
+              : rawPhone;
+            return `
+              <tr style="${idx < recipientList.length - 1 ? 'border-bottom:1px solid rgba(255,255,255,0.04);' : ''}">
+                <td style="padding:12px 0;width:40px;vertical-align:middle;">
+                  ${avatarHtml}
+                </td>
+                <td style="padding:12px 0 12px 12px;vertical-align:middle;">
+                  <div style="font-weight:700;color:#fff;font-size:13px;">${sanitize(r.name)}</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">${sanitize(formattedPhone)}</div>
+                </td>
+                <td style="padding:12px 0;vertical-align:middle;text-align:right;">
+                  <span style="display:inline-block;background:rgba(124,58,237,0.1);color:#a855f7;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 8px;border-radius:6px;border:1px solid rgba(124,58,237,0.2);">${sanitize(roleStr)}</span>
+                  <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">⏱️ ${sanitize(hoursStr)}</div>
+                </td>
+              </tr>
+            `;
+          }).join('')}
+        </table>
+      </div>
+
+      <div style="text-align:center;">
+        <a href="https://7thheavenband.com/admin" style="${btnStyle}">Open Admin Panel</a>
+      </div>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 17c. CREW SMS ALERT RECEIVED (sent to crew members)
+// ═══════════════════════════════════════════════
+export function crewSmsAlertReceived(b: {
+  memberName: string;
+  message: string;
+  showDate?: string;
+  showVenue?: string;
+  showTime?: string;
+}) {
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
+  return wrap(`
+    <div style="text-align:left;">
+      <h2 style="margin:0 0 16px;color:#fff;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #7c3aed;padding-bottom:12px;">🛡️ Crew Alert</h2>
+      
+      <p style="color:rgba(255,255,255,0.75);font-size:14px;line-height:1.6;margin:0 0 24px;">
+        Hello <strong style="color:#fff;">${sanitize(b.memberName)}</strong>, a new alert has been dispatched for your upcoming show crew assignment:
+      </p>
+
+      <div style="background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;margin-bottom:20px;">
+        <p style="margin:0 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a855f7;font-weight:800;">📝 Alert Message</p>
+        <div style="font-size:14px;color:rgba(255,255,255,0.85);font-style:italic;line-height:1.6;">
+          "${sanitize(b.message)}"
+        </div>
+      </div>
+
+      ${b.showVenue || b.showDate ? `
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin-bottom:24px;">
+        <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">📅 Show / Event Details</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;color:#fff;margin-bottom:14px;">
+          ${b.showDate ? `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:10px 0;color:rgba(255,255,255,0.4);width:120px;">Date</td><td style="padding:10px 0;font-weight:600;">${sanitize(b.showDate)}</td></tr>` : ''}
+          ${b.showTime ? `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:10px 0;color:rgba(255,255,255,0.4);">Time</td><td style="padding:10px 0;font-weight:600;">${sanitize(b.showTime)}</td></tr>` : ''}
+          ${b.showVenue ? `<tr><td style="padding:10px 0;color:rgba(255,255,255,0.4);">Place / Venue</td><td style="padding:10px 0;font-weight:600;">${sanitize(b.showVenue)}</td></tr>` : ''}
+        </table>
+        <div style="text-align:center;border-top:1px solid rgba(255,255,255,0.04);padding-top:14px;">
+          <a href="${SITE_URL}/api/calendar/ics?bookingId=crew-alert&date=${encodeURIComponent(b.showDate || '')}&venue=${encodeURIComponent(b.showVenue || '')}&eventType=Crew Alert&startTime=${encodeURIComponent(b.showTime?.split(' - ')[0] || '')}&endTime=${encodeURIComponent(b.showTime?.split(' - ')[1] || '')}" style="display:inline-block;padding:6px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#a855f7;font-size:11px;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:1px;">📅 Add to Calendar (.ics)</a>
+        </div>
+      </div>
+      ` : ''}
+
+      <div style="text-align:center;">
+        <a href="https://7thheavenband.com/crew" style="${btnStyle}">Open Crew Portal</a>
+      </div>
+    </div>
+  `);
+}
+
+
 
 // ═══════════════════════════════════════════════
 // 11. FLASH MERCH PURCHASE - PICKUP (with QR Code)
@@ -1198,5 +1455,96 @@ export function flashMerchShipping(b: { name: string; prizeName: string; address
 
       <a href="https://7thheavenband.com" style="${btnStyle}">Go to Shop</a>
     </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 27. FAN UPLOAD APPROVED (sent when fan wall upload approved)
+// ═══════════════════════════════════════════════
+export function fanUploadApproved(data: { name: string; title: string }) {
+  return wrap(`
+    <h1 style="margin:0 0 8px;color:#10b981;font-size:26px;font-weight:900;text-align:center;">Photo Wall Approved! 🎉</h1>
+    <p style="margin:0 0 28px;color:rgba(255,255,255,0.4);font-size:13px;text-align:center;">Your moments are now live for the community to see.</p>
+    <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 28px;">
+      Hey <strong style="color:#fff;">${sanitize(data.name)}</strong>, good news! The media you uploaded ("${sanitize(data.title)}") has been approved by the 7th Heaven team and is now published to the public Fan Photo & Video Wall!
+    </p>
+    <div style="text-align:center;margin:24px 0;">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com'}/fan-photo-wall" style="${btnStyle}">View Photo Wall</a>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 28. FAN UPLOAD REJECTED (sent when fan wall upload rejected with reason)
+// ═══════════════════════════════════════════════
+export function fanUploadRejected(data: { name: string; title: string; reason: string }) {
+  return wrap(`
+    <h1 style="margin:0 0 8px;color:#ef4444;font-size:26px;font-weight:900;text-align:center;">Photo Wall Upload Declined ❌</h1>
+    <p style="margin:0 0 28px;color:rgba(255,255,255,0.4);font-size:13px;text-align:center;">Your photo upload could not be approved.</p>
+    <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 28px;">
+      Hey <strong style="color:#fff;">${sanitize(data.name)}</strong>, we wanted to let you know that the media you uploaded ("${sanitize(data.title)}") could not be published to the Fan Wall.
+    </p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+      <tr><td style="padding:12px 16px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.15);border-radius:10px;margin-bottom:8px;">
+        <p style="margin:0 0 6px;color:#fca5a5;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">REASON FOR DECLINE</p>
+        <p style="margin:0;color:#fff;font-size:14px;font-weight:700;line-height:1.6;">
+          ${sanitize(data.reason)}
+        </p>
+      </td></tr>
+    </table>
+    <p style="color:rgba(255,255,255,0.5);font-size:13px;line-height:1.6;margin:0 0 28px;">
+      Please ensure your uploads contain band-related content, show appropriate community guidelines, and don't feature copyrighted audio/video from other sources.
+    </p>
+    <div style="text-align:center;margin:24px 0;">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com'}/fan-photo-wall" style="${btnStyle}">Back to Fan Wall</a>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════
+// 29. SHIFT COVERAGE REQUEST (sent to qualified crew members)
+// ═══════════════════════════════════════════════
+export function shiftCoverageRequest(b: {
+  requestingCrewName: string;
+  role: string;
+  date: string;
+  time: string;
+  location: string;
+  shiftId: string;
+  recipientSlug: string;
+}) {
+  const acceptUrl = `http://localhost:3000/crew-${b.recipientSlug}?action=accept-coverage&shiftId=${b.shiftId}`;
+  const declineUrl = `http://localhost:3000/crew-${b.recipientSlug}?action=decline-coverage&shiftId=${b.shiftId}`;
+  const td1 = 'padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:120px;vertical-align:top;';
+  const td2 = 'padding:8px 0;color:#fff;font-size:14px;font-weight:600;';
+
+  return wrap(`
+    <div style="text-align:center;margin-bottom:24px;">
+      <p style="margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#a855f7;font-weight:800;text-align:center;">🚨 Shift Coverage Request</p>
+      <h1 style="margin:0 0 12px;font-size:24px;font-weight:900;color:#fff;text-align:center;">Can You Cover This Shift?</h1>
+      <p style="margin:0;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.5;text-align:center;">
+        <strong style="color:#fff;">${sanitize(b.requestingCrewName)}</strong> is looking for coverage. Since you are qualified for this role, we're reaching out to see if you can take it!
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:28px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Shift Details</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="${td1}">Role Required</td><td style="${td2};color:#a855f7;">${sanitize(b.role)}</td></tr>
+        <tr><td style="${td1}">Date</td><td style="${td2}">${sanitize(b.date)}</td></tr>
+        <tr><td style="${td1}">Time</td><td style="${td2}">${sanitize(b.time)}</td></tr>
+        <tr><td style="${td1}">Location</td><td style="${td2}">📍 ${sanitize(b.location)}</td></tr>
+      </table>
+    </div>
+
+    <div style="text-align:center;margin-bottom:16px;">
+      <a href="${acceptUrl}" style="${btnGold}">🙋 Accept Shift</a>
+      <span style="display:inline-block;width:12px;"></span>
+      <a href="${declineUrl}" style="display:inline-block;background-color:#1f2937;background:#1f2937;color:#9ca3af;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);">Decline</a>
+    </div>
+
+    <p style="color:rgba(255,255,255,0.35);font-size:11px;text-align:center;margin-top:24px;line-height:1.5;">
+      Clicking "Accept Shift" will instantly log you in and add this shift to your schedule. The first qualified crew member to claim this shift will receive it.
+    </p>
   `);
 }

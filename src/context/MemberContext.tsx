@@ -165,11 +165,14 @@ export function MemberProvider({ children }: { children: ReactNode }) {
         }
 
         // Listen for auth changes
-        const { data: { subscription: sub } } = supabase.auth.onAuthStateChange(async (event, session) => {
+        const { data: { subscription: sub } } = supabase.auth.onAuthStateChange(async (event: any, session: any) => {
           if (event === "SIGNED_IN" && session?.user) {
             await syncUser(session.user);
           } else if (event === "SIGNED_OUT") {
-            if (active) setMember(null);
+            if (active) {
+              const stored = localStorage.getItem("7h_member");
+              if (!stored) setMember(null);
+            }
           }
         });
         subscription = sub;
@@ -197,14 +200,15 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
- // Persist member to localStorage
- useEffect(() => {
-  if (member) {
-   localStorage.setItem("7h_member", JSON.stringify(member));
-  } else {
-   localStorage.removeItem("7h_member");
-  }
- }, [member]);
+  // Persist member to localStorage
+  useEffect(() => {
+   if (!hydrated) return;
+   if (member) {
+    localStorage.setItem("7h_member", JSON.stringify(member));
+   } else {
+    localStorage.removeItem("7h_member");
+   }
+  }, [member, hydrated]);
 
  const openModal = (mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" = "fan") => {
   setModalMode(mode);

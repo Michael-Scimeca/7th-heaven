@@ -62,7 +62,7 @@ export default function ProximityPanel() {
       .select("zip, notification_radius, notifications_enabled")
       .eq("id", member.id)
       .single()
-      .then(({ data }) => {
+      .then(({ data }: any) => {
         if (data) {
           setZip(data.zip || "");
           setRadius(data.notification_radius || 50);

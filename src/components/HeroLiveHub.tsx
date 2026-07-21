@@ -145,7 +145,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
     if (!isSupabaseConfigured) return;
     const channel = supabase
       .channel("hero_live_hub")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "feed_posts" }, (payload) => {
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "feed_posts" }, (payload: any) => {
         const newPost = payload.new as FeedPostDB;
         if (["photo", "video", "crowd"].includes(newPost.post_type)) {
           setPosts((prev) => [newPost, ...prev]);

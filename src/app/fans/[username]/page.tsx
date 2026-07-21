@@ -33,9 +33,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   const [liveAlertStatus, setLiveAlertStatus] = useState<'idle' | 'saving' | 'subscribed' | 'error'>('idle');
   const [liveAlertSubscribed, setLiveAlertSubscribed] = useState(false);
   const [liveAlertsEnabled, setLiveAlertsEnabled] = useState(true);
-  const [memoryText, setMemoryText] = useState('');
-  const [memorySubmitting, setMemorySubmitting] = useState(false);
-  const [memorySubmitted, setMemorySubmitted] = useState(false);
+
 
   // Cruise Community Toggle State
   const [isCruiser, setIsCruiser] = useState(false);
@@ -101,10 +99,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
     checkCruiser();
   }, [member?.email, member?.signup_source]);
 
-  // Check if show has already passed (using lastShow, prompt stays active for 3 days after show)
-  const showHasPassed = lastShow?.date
-    ? (Date.now() - new Date(lastShow.date + 'T00:00:00').getTime()) < (3 * 24 * 60 * 60 * 1000)
-    : false;
+
 
   // Check if fan already subscribed to live alerts
   useEffect(() => {
@@ -167,7 +162,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   // Fetch member-specific data when logged in
   useEffect(() => {
     if (!member?.name) return;
-    fetch("/api/fans").then(r => r.json()).then(data => setMyPhotos(data.filter((p: any) => p.name === member.name))).catch(() => {});
+    fetch("/api/fans?all=true").then(r => r.json()).then(data => setMyPhotos(data.filter((p: any) => p.name === member.name))).catch(() => {});
   }, [member?.name]);
 
   // Live stream polling — checks actual crew live status + Supabase broadcasts
@@ -964,122 +959,9 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         </div>
         )}
 
-        {/* 🎸 Post-Show Memory Prompt */}
-        {showHasPassed && !memorySubmitted && (
-          <div className="mb-8 bg-[#0f0f17] border border-white/[0.06] overflow-hidden">
-            <div className="h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
-            <div className="p-6">
-              <div className="flex items-start gap-4 mb-5">
-                <span className="text-3xl">🎸</span>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.15em] text-purple-400 font-bold mb-0.5">Post-Show</p>
-                  <h3 className="text-white font-black text-base">
-                    How was {nextShow?.venue}?
-                  </h3>
-                  <p className="text-white/30 text-xs mt-0.5">
-                    {nextShow?.date ? new Date(nextShow.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''}
-                  </p>
-                </div>
-              </div>
 
-              <textarea
-                value={memoryText}
-                onChange={(e) => setMemoryText(e.target.value.slice(0, 280))}
-                placeholder="Share a memory from the show…"
-                rows={3}
-                className="w-full bg-white/[0.03] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500/50 placeholder:text-white/20 resize-none mb-2"
-              />
-              <div className="flex items-center justify-between">
-                <p className="text-2xs text-white/20 font-bold">{memoryText.length}/280</p>
-                <button
-                  onClick={async () => {
-                    if (!memoryText.trim()) return;
-                    setMemorySubmitting(true);
-                    try {
-                      await fetch('/api/fans/memories', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          show_id: nextShow?._id,
-                          memory_text: memoryText,
-                          display_name: member?.name || 'Fan',
-                        }),
-                      });
-                    } catch {}
-                    setMemorySubmitting(false);
-                    setMemorySubmitted(true);
-                  }}
-                  disabled={memorySubmitting || !memoryText.trim()}
-                  className="px-6 py-2.5 bg-purple-600 text-white text-xs font-black uppercase tracking-widest hover:bg-purple-500 transition-all disabled:opacity-40"
-                >
-                  {memorySubmitting ? 'Saving…' : '✍ Share Memory'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
-        {memorySubmitted && (
-          <div className="mb-8 p-5 border border-emerald-500/20 bg-emerald-500/[0.04] text-center">
-            <p className="text-emerald-400 font-bold text-sm">🎶 Memory submitted for review! It will appear once approved. See you at the next show.</p>
-          </div>
-        )}
 
-        {/* 🔗 Referral Code with QR */}
-        {referralEnabled && (
-        <div className="mb-8 p-6 bg-gradient-to-br from-[#0c0c1a] to-[#0a0a14] border border-amber-500/20 rounded-2xl relative overflow-hidden">
-          <div className="absolute -left-16 -bottom-16 w-48 h-48 bg-amber-500/5 blur-[80px] rounded-full" />
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">🔗 Referral Program</span>
-            </div>
-            <p className="text-white/50 text-sm mb-5 max-w-md">Share your code with friends — when they sign up, you both earn picks and climb the leaderboard!</p>
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 p-4 bg-black/40 border border-amber-500/20 rounded-xl">
-                  <span className="font-mono text-xl font-black text-amber-400 tracking-[0.15em] flex-1">{referralCode}</span>
-                  <button
-                    onClick={() => { navigator.clipboard.writeText(`https://7thheavenband.com/join?ref=${referralCode}`); setReferralCopied(true); setTimeout(() => setReferralCopied(false), 2000); }}
-                    className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${referralCopied ? 'bg-emerald-500 text-white' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black'}`}
-                  >
-                    {referralCopied ? '✓ Copied!' : 'Copy Link'}
-                  </button>
-                </div>
-              </div>
-              {/* QR Code via API */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-28 h-28 bg-white rounded-lg p-1.5 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
-                  <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`https://7thheavenband.com/join?ref=${referralCode}`)}&bgcolor=ffffff&color=000000`}
-                    alt="Referral QR Code"
-                    className="w-full h-full"
-                  />
-                </div>
-                <span className="text-2xs uppercase tracking-widest text-white/20 font-bold">Scan to Join</span>
-              </div>
-            </div>
-            {/* Milestone tracker */}
-            {referralMilestones.length > 0 && (
-            <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold uppercase tracking-widest text-white/30">Referral Milestones</span>
-              </div>
-              <div className="flex items-center gap-2">
-                {referralMilestones.map((m, i) => {
-                  const colors = ['text-blue-400', 'text-amber-400', 'text-fuchsia-400', 'text-yellow-400', 'text-emerald-400', 'text-cyan-400'];
-                  return (
-                  <div key={i} className="flex-1 text-center p-2 bg-white/[0.02] border border-white/5 rounded-lg">
-                    <p className={`text-lg font-black ${colors[i % colors.length]}`}>{m.threshold}</p>
-                    <p className="text-2xs text-white/30 font-bold uppercase tracking-widest mt-0.5">{m.emoji} {m.reward}</p>
-                  </div>
-                  );
-                })}
-              </div>
-            </div>
-            )}
-          </div>
-        </div>
-        )}
 
         {/* Prize Wallet */}
         <div className="mb-8 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border border-[var(--color-accent)]/30 rounded-2xl relative overflow-hidden shadow-[0_0_40px_rgba(168,85,247,0.15)] group">
@@ -1156,18 +1038,54 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   {myPhotos.map(photo => {
                     const isVideo = photo.type === "video" || photo.src.endsWith(".mp4") || photo.src.endsWith(".mov");
                     return (
-                      <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden group border border-white/10 bg-black/20">
+                      <div key={photo.id} className={`relative aspect-square rounded-xl overflow-hidden group border bg-black/20 ${photo.rejected ? 'border-red-500/40' : 'border-white/10'}`}>
                         {isVideo ? (
                           <video src={photo.src} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" autoPlay loop muted playsInline />
                         ) : (
                           <img src={photo.src} alt={photo.venue} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                          <p className="text-sm font-bold text-white truncate">{photo.venue || 'Live Event'}</p>
-                          <p className={`text-xs font-black uppercase tracking-widest mt-0.5 ${photo.approved ? 'text-emerald-400' : 'text-amber-400'}`}>
-                            {photo.approved ? 'Live on wall' : 'In Review'}
-                          </p>
+                        
+                        {/* Status Badge */}
+                        <div className="absolute top-2 right-2 z-10">
+                          {photo.approved ? (
+                            <span className="px-2 py-0.5 bg-emerald-500 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
+                              Live
+                            </span>
+                          ) : photo.rejected ? (
+                            <span className="px-2 py-0.5 bg-red-500 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
+                              Declined
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 bg-yellow-500 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded font-black shadow-md">
+                              Review
+                            </span>
+                          )}
                         </div>
+
+                        {/* Rejected overlay details */}
+                        {photo.rejected ? (
+                          <div className="absolute inset-0 bg-red-950/80 backdrop-blur-2xs flex flex-col justify-between p-3.5 text-left z-20">
+                            <div>
+                              <p className="text-[0.65rem] font-black text-red-400 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                <span>⚠️</span> Declined
+                              </p>
+                              <div className="p-2 bg-red-900/20 border border-red-500/10 rounded">
+                                <p className="text-2xs text-red-100/90 font-medium leading-normal line-clamp-4">
+                                  {photo.rejection_reason || 'Content does not meet community guidelines.'}
+                                </p>
+                              </div>
+                            </div>
+                            <p className="text-2xs font-mono text-white/30 truncate mt-auto">{photo.venue || 'Live Event'}</p>
+                          </div>
+                        ) : (
+                          /* Hover overlay for approved/pending */
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                            <p className="text-sm font-bold text-white truncate">{photo.venue || 'Live Event'}</p>
+                            <p className={`text-xs font-black uppercase tracking-widest mt-0.5 ${photo.approved ? 'text-emerald-400' : 'text-amber-400'}`}>
+                              {photo.approved ? 'Live on wall' : 'In Review'}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     );
                   })}

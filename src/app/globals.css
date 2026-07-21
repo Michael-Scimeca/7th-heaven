@@ -44,8 +44,20 @@ html.lenis, html.lenis body {
  --color-warning: #f59e0b;
 
  /* Fonts */
- --font-heading: var(--font-barlow-condensed);
- --font-body: var(--font-barlow);
+ --font-heading: var(--font-rockstar);
+ --font-body: var(--font-inter);
+
+ /* Fluid Typography Sizing */
+ --font-size-xs: clamp(0.7rem, 0.65rem + 0.2vw, 0.8rem);
+ --font-size-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.95rem);
+ --font-size-base: clamp(0.9rem, 0.85rem + 0.3vw, 1.1rem);
+ --font-size-lg: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+ --font-size-xl: clamp(1.3rem, 1.2rem + 0.5vw, 1.6rem);
+ --font-size-2xl: clamp(1.5rem, 1.35rem + 0.7vw, 2rem);
+ --font-size-3xl: clamp(1.8rem, 1.6rem + 0.9vw, 2.5rem);
+ --font-size-4xl: clamp(2.2rem, 1.95rem + 1.2vw, 3.2rem);
+ --font-size-5xl: clamp(2.8rem, 2.45rem + 1.6vw, 4.2rem);
+ --font-size-6xl: clamp(3.5rem, 3rem + 2vw, 5.5rem);
 
  /* Animation */
  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -54,9 +66,19 @@ html.lenis, html.lenis body {
  --animate-fade-in: fade-in 0.6s var(--ease-out-expo) forwards;
  --animate-page-enter: page-enter 0.3s ease-out forwards;
  --animate-pulse-line: pulse-line 2s ease-in-out infinite;
+ --animate-ticker: ticker 12s linear infinite;
 }
 
 /* --- Keyframes --- */
+@keyframes ticker {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 @keyframes page-enter {
   from {
     opacity: 0;
@@ -171,22 +193,61 @@ html.lenis, html.lenis body {
  -moz-osx-font-smoothing: grayscale;
  }
 
- body {
- background-color: var(--color-bg-primary);
- color: var(--color-text-primary);
- font-family: var(--font-barlow), sans-serif;
- font-weight: 400;
- line-height: 1.6;
- min-height: 100vh;
- overscroll-behavior-x: none;
- }
+  body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-inter), "Inter", sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    min-height: 100vh;
+    overscroll-behavior-x: none;
+    position: relative;
+  }
 
- /* Heading typography — Barlow Condensed 800 italic */
- h1, h2, h3, h4, h5, h6 {
- font-family: var(--font-barlow-condensed), var(--font-inter), sans-serif;
- font-weight: 800;
- font-style: italic;
- }
+
+
+  /* Dust overlay class */
+  .c-dusted:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-image: url(/assets/images/dust.png);
+    pointer-events: none;
+    opacity: 1;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/images/dust.png");
+    background-repeat: repeat;
+    background-size: cover;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 99998;
+    mix-blend-mode: screen;
+  }
+
+  /* Heading typography — Rockstar ExtraBold */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-rockstar), "Rockstar", sans-serif;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+ h1 { font-size: var(--font-size-5xl); }
+ h2 { font-size: var(--font-size-4xl); }
+ h3 { font-size: var(--font-size-3xl); }
+ h4 { font-size: var(--font-size-2xl); }
+ h5 { font-size: var(--font-size-xl); }
+ h6 { font-size: var(--font-size-lg); }
 
  a { color: inherit; text-decoration: none; }
  button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
@@ -225,27 +286,25 @@ html.lenis, html.lenis body {
 
 /* --- Typography Utilities --- */
 @utility heading-hero {
- font-family: var(--font-barlow-condensed);
+ font-family: var(--font-rockstar), "Rockstar", sans-serif;
  font-size: clamp(3.5rem, 8vw, 7rem);
  font-weight: 900;
- font-style: italic;
  text-transform: uppercase;
  letter-spacing: -0.05em;
  line-height: 0.9;
 }
 
 @utility heading-section {
- font-family: var(--font-barlow-condensed);
+ font-family: var(--font-rockstar), "Rockstar", sans-serif;
  font-size: clamp(2.5rem, 5vw, 4rem);
  font-weight: 900;
- font-style: italic;
  text-transform: uppercase;
  letter-spacing: -0.02em;
  line-height: 1;
 }
 
 @utility heading-card {
- font-family: var(--font-barlow-condensed);
+ font-family: var(--font-rockstar), "Rockstar", sans-serif;
  font-size: 1.5rem;
  font-weight: 800;
  text-transform: uppercase;
@@ -253,7 +312,7 @@ html.lenis, html.lenis body {
 }
 
 @utility text-body {
- font-family: var(--font-barlow);
+ font-family: var(--font-inter), "Inter", sans-serif;
  font-size: 1rem;
  font-weight: 400;
  line-height: 1.7;
@@ -261,7 +320,7 @@ html.lenis, html.lenis body {
 }
 
 @utility text-eyebrow {
- font-family: var(--font-barlow);
+ font-family: var(--font-inter), "Inter", sans-serif;
  font-size: 0.7rem;
  font-weight: 900;
  text-transform: uppercase;
@@ -442,6 +501,13 @@ html.lenis, html.lenis body {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+/* Prevent transition flash during window resize */
+@media (max-width: 1023px) {
+  #main-nav {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
 }
 
 

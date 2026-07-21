@@ -17,6 +17,8 @@ interface PickupOrder {
   email: string;
   ts: number;
   claimed: boolean;
+  size?: string;
+  color?: string;
 }
 
 interface RaffleWin {
@@ -122,7 +124,7 @@ function MerchDashboard() {
         .eq('status', 'complete');
 
       if (dbRaffles) {
-        dbRaffles.forEach(raffle => {
+        dbRaffles.forEach((raffle: any) => {
           let winnerPins = [];
           try {
             winnerPins = typeof raffle.winner_pins === 'string' ? JSON.parse(raffle.winner_pins) : raffle.winner_pins;
