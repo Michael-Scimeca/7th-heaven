@@ -224,24 +224,32 @@ export function Header() {
           </Link>
 
           {/* User Profile Avatar with FAN Badge */}
-          {isLoggedIn || isDemoPage ? (
-            <div className="flex items-center gap-3">
-              <Link
-                href={dashboardHref}
-                className="relative w-9 h-9 rounded-full bg-blue-500/20 border-2 border-blue-400 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
-                title={displayName}
-              >
-                {isAvatarUrl ? (
-                  <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" />
-                ) : (
-                  <span>{initials}</span>
-                )}
-                <span className="absolute -bottom-1 -right-1 px-1 py-[0.5px] bg-[#851DEF] text-[7px] font-black uppercase text-white rounded-full border border-white/40 shadow-sm leading-none">
-                  FAN
-                </span>
-              </Link>
+          <div className="flex items-center gap-2.5">
+            <Link
+              href={isLoggedIn || isDemoPage ? dashboardHref : "#"}
+              onClick={(e) => {
+                if (!isLoggedIn && !isDemoPage) {
+                  e.preventDefault();
+                  openModal("login");
+                }
+              }}
+              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-sky-500 border-2 border-sky-400 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
+              title={isLoggedIn ? displayName : "Sign In to Fan Account"}
+            >
+              {isAvatarUrl ? (
+                <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" />
+              ) : (
+                <span className="text-white font-black text-xs">{initials || "FAN"}</span>
+              )}
+              
+              {/* Overlapping Purple FAN Badge */}
+              <span className="absolute -bottom-1 -right-1.5 w-5 h-5 bg-[#851DEF] text-[7px] font-black uppercase text-white rounded-full border-2 border-[#100320] flex items-center justify-center shadow-md leading-none">
+                FAN
+              </span>
+            </Link>
 
-              {/* Sign Out Icon */}
+            {/* Sign Out / Sign In Action Icon */}
+            {isLoggedIn || isDemoPage ? (
               <button
                 onClick={() => {
                   logout();
@@ -257,13 +265,12 @@ export function Header() {
                   <line x1="21" y1="12" x2="9" y2="12" />
                 </svg>
               </button>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
+            ) : (
               <button
                 onClick={() => openModal("login")}
-                className="text-white/80 hover:text-white transition-colors p-1 cursor-pointer"
+                className="text-white/60 hover:text-white transition-colors cursor-pointer p-1"
                 title="Sign In"
+                id="header-sign-in"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
@@ -271,8 +278,8 @@ export function Header() {
                   <line x1="15" y1="12" x2="3" y2="12" />
                 </svg>
               </button>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Mobile Menu Toggle Button */}
           <button
