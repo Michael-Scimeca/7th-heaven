@@ -233,17 +233,19 @@ export function Header() {
                   openModal("login");
                 }
               }}
-              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-sky-500 border-2 border-sky-400 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
+              className="relative w-11 h-11 rounded-full bg-[#38bdf8] border-2 border-[#38bdf8] flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
               title={isLoggedIn ? displayName : "Sign In to Fan Account"}
             >
               {isAvatarUrl ? (
                 <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" />
               ) : (
-                <span className="text-white font-black text-xs">{initials || "FAN"}</span>
+                <div className="w-full h-full rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm">
+                  {initials || "7H"}
+                </div>
               )}
               
               {/* Overlapping Purple FAN Badge */}
-              <span className="absolute -bottom-1 -right-1.5 w-5 h-5 bg-[#851DEF] text-[7px] font-black uppercase text-white rounded-full border-2 border-[#100320] flex items-center justify-center shadow-md leading-none">
+              <span className="absolute -bottom-1 -right-2 w-6 h-6 bg-[#7c00ff] text-[9px] font-black uppercase text-white rounded-full border-2 border-[#100320] flex items-center justify-center shadow-lg leading-none">
                 FAN
               </span>
             </Link>
