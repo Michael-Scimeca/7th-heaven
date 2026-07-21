@@ -180,27 +180,39 @@ export default function CursorTestingPage() {
         }`}
       />
 
-      {/* Secondary Lagging Outer Ring (.cursor2) */}
+      {/* Secondary Lagging Outer Ring (.cursor2) - Morphs to Guitar Pick when gooey/hovered */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40 rounded-full transition-all duration-300 flex items-center justify-center ${
-          preset === "tobias"
-            ? isHovered
-              ? "w-16 h-16 border-2 border-[var(--color-accent)]/80 bg-[var(--color-accent)]/15 scale-110 shadow-[0_0_25px_rgba(133,29,239,0.25)]"
-              : isClicked
-              ? "w-8 h-8 border-white/60 bg-white/10"
-              : "w-10 h-10 border-2 border-white/40 bg-transparent"
+        className={`fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40 transition-all duration-300 flex items-center justify-center ${
+          isHovered
+            ? "w-20 h-24 scale-110 drop-shadow-[0_0_25px_rgba(133,29,239,0.8)]"
             : preset === "spotlight"
-            ? "w-44 h-44 border-white/30 bg-white/5 backdrop-invert backdrop-blur-[2px]"
+            ? "w-44 h-44 rounded-full border-white/30 bg-white/5 backdrop-invert backdrop-blur-[2px]"
             : preset === "neon"
-            ? "w-20 h-20 border-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.4)]"
-            : "w-12 h-12 border-[var(--color-accent)]/50 bg-[var(--color-accent)]/10"
+            ? "w-20 h-20 rounded-full border-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.4)]"
+            : isClicked
+            ? "w-8 h-8 rounded-full border-white/60 bg-white/10"
+            : "w-10 h-10 rounded-full border-2 border-white/40 bg-transparent"
         }`}
       >
-        {hoverText && (
-          <span className="text-[9px] font-black uppercase tracking-widest text-purple-300 animate-pulse select-none">
-            {hoverText}
-          </span>
+        {isHovered ? (
+          <div className="relative w-full h-full flex items-center justify-center animate-bounce duration-1000">
+            <svg
+              viewBox="0 0 100 115"
+              className="absolute inset-0 w-full h-full fill-[var(--color-accent)]/25 stroke-[var(--color-accent)] stroke-[3] filter drop-shadow-[0_0_12px_rgba(133,29,239,0.9)]"
+            >
+              <path d="M 50,8 C 78,8 95,25 90,52 C 80,80 50,108 50,108 C 50,108 20,80 10,52 C 5,25 22,8 50,8 Z" />
+            </svg>
+            <span className="relative z-10 text-[9px] font-black uppercase tracking-widest text-purple-200 select-none pb-2 text-center leading-tight">
+              {hoverText || "7H PICK"}
+            </span>
+          </div>
+        ) : (
+          hoverText && (
+            <span className="text-[9px] font-black uppercase tracking-widest text-purple-300 animate-pulse select-none">
+              {hoverText}
+            </span>
+          )
         )}
       </div>
 
