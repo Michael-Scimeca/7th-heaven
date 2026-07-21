@@ -130,12 +130,12 @@ export function Header() {
       <div className="max-w-[1500px] mx-auto px-4 md:px-8 h-[72px] flex items-center justify-between relative">
         
         {/* ── LEFT NAV GROUP ── */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-rockstar)]">
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-inter-tight)]">
           {leftNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-[clamp(13px,1.1vw,18px)] font-black uppercase tracking-wider transition-colors duration-200 ${
+              className={`text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider transition-colors duration-200 ${
                 pathname === link.href ? "text-white" : "text-white/80 hover:text-white"
               }`}
             >
@@ -162,15 +162,15 @@ export function Header() {
         </Link>
 
         {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-        <div className="flex items-center gap-4 xl:gap-6 ml-auto lg:ml-0 font-[family-name:var(--font-rockstar)] z-10">
+        <div className="flex items-center gap-4 xl:gap-6 ml-auto lg:ml-0 font-[family-name:var(--font-inter-tight)] z-10">
           
           {/* Live Stream link */}
           <Link
             href="/live"
-            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,1.1vw,18px)] font-black uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
           >
             {/* Live / Offline badge */}
-            <span className="absolute -top-3.5 right-0 flex items-center gap-1 text-[7px] font-black uppercase tracking-widest text-white/90 bg-red-600/90 border border-red-400 px-1.5 py-[1px] rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)] whitespace-nowrap">
+            <span className="absolute -top-3.5 right-0 flex items-center gap-1 text-[7px] font-black uppercase tracking-widest text-white/90 bg-red-600/90 border border-red-400 px-1.5 py-[1px] rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)] whitespace-nowrap font-sans">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               {hasLiveStreams ? "LIVE" : "OFFLINE"}
             </span>
@@ -180,7 +180,7 @@ export function Header() {
           {/* Cruise link */}
           <Link
             href="/cruise"
-            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,1.1vw,18px)] font-black uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
           >
             CRUISE
             <CruiseWaveAnimation />
@@ -197,7 +197,7 @@ export function Header() {
 
             <Link
               href="/book"
-              className="px-5 py-1.5 border-2 border-white rounded-[18px] text-white text-[13px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_12px_rgba(255,255,255,0.2)]"
+              className="px-5 py-1.5 border-2 border-white rounded-[18px] text-white text-[clamp(12px,1.2vw,18px)] font-semibold uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_12px_rgba(255,255,255,0.2)]"
             >
               BOOK US
             </Link>

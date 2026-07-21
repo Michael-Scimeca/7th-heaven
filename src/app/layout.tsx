@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Barlow_Condensed } from "next/font/google";
+import { Inter, Inter_Tight, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -20,6 +19,12 @@ import localFont from "next/font/local";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
   display: "swap",
 });
 
@@ -150,7 +155,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body style={{ fontFamily: "var(--font-inter)", letterSpacing: "-.02em" }} suppressHydrationWarning>
+      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable}`} style={{ fontFamily: "var(--font-inter)", letterSpacing: "-.02em" }} suppressHydrationWarning>
         <Providers>
           <ScrollToTop />
           <SmoothScroll>
