@@ -13,6 +13,7 @@ import HeroUpcomingShows from "@/components/HeroUpcomingShows";
 import HomeMerch from "@/components/HomeMerch";
 import FeaturedTrack from "@/components/FeaturedTrack";
 import HeroLiveThumbs from "@/components/HeroLiveThumbs";
+import HeroAlbumPlayer from "@/components/HeroAlbumPlayer";
 import { VENUE_LINKS } from "@/lib/venue-links";
 import { sanityClient, queries, SanityBandMember, SanityTourDate, SanitySiteSettings } from "@/lib/sanity";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
@@ -154,13 +155,16 @@ export default async function Home() {
      <div className="absolute inset-0 bg-[var(--color-accent)]/[0.08] mix-blend-overlay" />
    </div>
 
-   {/* Hero Content */}
-   <div className="relative z-[3] site-container pt-[calc(72px+6rem)] pb-8 flex flex-col justify-end min-h-[60vh]">
-     {/* Live Feed Thumbnails */}
-     <div className="mt-6">
-       <HeroLiveThumbs />
-     </div>
-   </div>
+    {/* Hero Content */}
+    <div className="relative z-[3] site-container pt-[calc(72px+6rem)] pb-8 flex flex-col justify-end min-h-[60vh] gap-6">
+      {/* Latest Album Player with Spotify, Apple Music & Store Links */}
+      <HeroAlbumPlayer release={release} />
+
+      {/* Live Feed Thumbnails */}
+      <div className="mt-2">
+        <HeroLiveThumbs />
+      </div>
+    </div>
  </section>
 
   {/* Global Announcement Banner */}
