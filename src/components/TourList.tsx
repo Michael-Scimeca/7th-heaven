@@ -513,13 +513,26 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     return displayShows.filter(s => showPastShows || !isShowOver(s));
   }, [displayShows, showPastShows]);
 
-  // Derive filter options from current data source
-  const months = useMemo(() => [...new Set(activeShowsByTime.map((s: any) => s.date.split(' ')[0]))], [activeShowsByTime]);
+  // Derive filter options from current upcoming tour dates list
+  const upcomingShowsList = useMemo(() => {
+    return displayShows.filter(s => !isShowOver(s));
+  }, [displayShows]);
+
+  const months = useMemo(() => {
+    const list = showPastShows ? activeShowsByTime : upcomingShowsList;
+    return [...new Set(list.map((s: any) => s.date.split(' ')[0]))];
+  }, [showPastShows, activeShowsByTime, upcomingShowsList]);
+
   const locationOptions = useMemo(() => {
-   const counts: Record<string, number> = {};
-   activeShowsByTime.forEach((s: any) => { if (s.city) counts[s.city] = (counts[s.city] || 0) + 1; });
-   return Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([city]) => city);
-  }, [activeShowsByTime]);
+    // Only show cities that are currently on the upcoming tour list
+    const upcomingCities = new Set<string>();
+    upcomingShowsList.forEach((s: any) => {
+      if (s.city && s.city.trim()) {
+        upcomingCities.add(s.city.trim());
+      }
+    });
+    return Array.from(upcomingCities).sort((a, b) => a.localeCompare(b));
+  }, [upcomingShowsList]);
 
  const tableRef = useRef<HTMLDivElement>(null);
 
