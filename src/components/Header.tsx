@@ -162,7 +162,7 @@ export function Header() {
         </Link>
 
         {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-        <div className="flex items-center gap-4 xl:gap-6 ml-auto lg:ml-0 font-[family-name:var(--font-inter-tight)] z-10">
+        <div className="flex items-center gap-2.5 xl:gap-3.5 ml-auto lg:ml-0 font-[family-name:var(--font-inter-tight)] z-10">
           
           {/* Live Stream link */}
           <Link
@@ -197,7 +197,7 @@ export function Header() {
 
             <Link
               href="/book"
-              className="px-5 py-1.5 border-2 border-white rounded-[18px] text-white text-[clamp(12px,1.2vw,18px)] font-semibold uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_12px_rgba(255,255,255,0.2)]"
+              className="px-4 py-1.5 border-2 border-white rounded-[18px] text-white text-[clamp(12px,1.2vw,18px)] font-semibold uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_12px_rgba(255,255,255,0.2)]"
             >
               BOOK US
             </Link>
@@ -213,10 +213,10 @@ export function Header() {
           {/* Cart Icon */}
           <Link
             href="/store"
-            className="text-white/80 hover:text-white transition-colors p-1"
+            className="text-white/80 hover:text-white transition-colors p-0.5 mx-0.5"
             title="Cart / Store"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="9" cy="21" r="1"/>
               <circle cx="20" cy="21" r="1"/>
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
@@ -224,7 +224,7 @@ export function Header() {
           </Link>
 
           {/* User Profile Avatar with FAN Badge */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5">
             <Link
               href={isLoggedIn || isDemoPage ? dashboardHref : "#"}
               onClick={(e) => {
