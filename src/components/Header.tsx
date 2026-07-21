@@ -127,7 +127,7 @@ export function Header() {
           : "bg-[#100320]/80 backdrop-blur-md"
       }`}
     >
-      <div className="w-full px-4 sm:px-8 lg:px-[80px] h-[72px] flex items-center justify-between relative">
+      <div className="w-full px-[clamp(16px,4.5vw,80px)] h-[72px] flex items-center justify-between relative">
         
         {/* ── LEFT NAV GROUP ── */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-inter-tight)]">
