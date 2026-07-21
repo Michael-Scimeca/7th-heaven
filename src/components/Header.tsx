@@ -8,312 +8,304 @@ import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 
-const navLinks: { href: string; label: string; isCta?: boolean }[] = [
- { href: "/bio", label: "Bio" },
- { href: "/music", label: "Music" },
- { href: "/store", label: "Store" },
- { href: "/video", label: "Video" },
- { href: "/live", label: "Live" },
- { href: "/cruise", label: "Cruise" },
- { href: "/fan-photo-wall", label: "Fan Wall" },
- { href: "/book", label: "Book Us", isCta: true },
+const leftNavLinks = [
+  { href: "/bio", label: "BIO" },
+  { href: "/music", label: "MUSIC" },
+  { href: "/store", label: "STORE" },
+  { href: "/video", label: "MEDIA" },
+  { href: "/fan-photo-wall", label: "FAN WALL" },
 ];
 
 export function Header() {
- const pathname = usePathname();
- const router = useRouter();
- const [scrolled, setScrolled] = useState(false);
- const [mobileOpen, setMobileOpen] = useState(false);
- const [isCrewLive, setIsCrewLive] = useState(false);
- const [hasLiveStreams, setHasLiveStreams] = useState(false);
- const { member, isLoggedIn, openModal, logout } = useMember();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isCrewLive, setIsCrewLive] = useState(false);
+  const [hasLiveStreams, setHasLiveStreams] = useState(false);
+  const { member, isLoggedIn, openModal, logout } = useMember();
 
- const isDemoFanPage = pathname === '/fans/demo';
- const isDemoCruisePage = pathname === '/cruise/demo';
- const isDemoPage = isDemoFanPage || isDemoCruisePage;
+  const isDemoFanPage = pathname === "/fans/demo";
+  const isDemoCruisePage = pathname === "/cruise/demo";
+  const isDemoPage = isDemoFanPage || isDemoCruisePage;
 
- // Check for active live streams
- useEffect(() => {
-  const checkLive = async () => {
-   if (document.visibilityState !== 'visible') return;
-   try {
-    // 1. Check LiveKit API
-    const res = await fetch("/api/live-rooms");
-    const data = await res.json();
-    const allRooms = data.rooms || [];
-    
-    // Count any room that starts with 'live_' as a valid stream
-    const validRooms = allRooms.filter((r: any) => r.name?.startsWith('live_'));
-    
-    if (validRooms.length > 0) {
-      setHasLiveStreams(true);
-      return;
-    }
-    
-    // 3. Fallback: check Supabase directly for live status
+  // Check live stream status
+  useEffect(() => {
+    const checkLive = async () => {
+      if (document.visibilityState !== "visible") return;
+      try {
+        const res = await fetch("/api/live-rooms");
+        const data = await res.json();
+        const allRooms = data.rooms || [];
+        const validRooms = allRooms.filter((r: any) => r.name?.startsWith("live_"));
+
+        if (validRooms.length > 0) {
+          setHasLiveStreams(true);
+          return;
+        }
+
+        const supabase = createClient();
+        const { data: dbStreams } = await supabase
+          .from("live_streams")
+          .select("id")
+          .eq("status", "live")
+          .limit(1);
+
+        setHasLiveStreams(!!(dbStreams && dbStreams.length > 0));
+      } catch (err) {
+        console.error("Failed to check live status", err);
+      }
+    };
+
+    checkLive();
+    const interval = setInterval(checkLive, 60000);
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") checkLive();
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     const supabase = createClient();
-    const { data: dbStreams } = await supabase
-      .from('live_streams')
-      .select('id')
-      .eq('status', 'live')
-      .limit(1);
-      
-    setHasLiveStreams(!!(dbStreams && dbStreams.length > 0));
-    
-   } catch (err) {
-    console.error("Failed to check live status", err);
-   }
-  };
-  checkLive();
-  const interval = setInterval(checkLive, 60000); // Backed off to 60s, relies on realtime channel below
-  
-  // Handle visibility changes to trigger an immediate check when user returns
-  const handleVisibilityChange = () => {
-    if (document.visibilityState === 'visible') checkLive();
-  };
-  document.addEventListener('visibilitychange', handleVisibilityChange);
+    const channel = supabase
+      .channel("header_live_events")
+      .on("broadcast", { event: "stream_state" }, () => checkLive())
+      .subscribe();
 
-  // Real-time listener for instant updates
-  const supabase = createClient();
-  const channel = supabase.channel('header_live_events')
-    .on('broadcast', { event: 'stream_state' }, (payload: any) => {
-      if (payload.payload?.isLive !== undefined) {
-        checkLive(); // Re-evaluate when any stream state changes
-      }
-    })
-    .subscribe();
-    
-  return () => {
-    clearInterval(interval);
-    document.removeEventListener('visibilitychange', handleVisibilityChange);
-    supabase.removeChannel(channel);
-  };
- }, []);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
- // Poll localStorage every second to detect if this crew member is live
- useEffect(() => {
-  const check = () => setIsCrewLive(localStorage.getItem('crew_is_live') === 'true');
-  check();
-  const interval = setInterval(check, 1000);
-  return () => clearInterval(interval);
- }, []);
+  useEffect(() => {
+    const check = () => setIsCrewLive(localStorage.getItem("crew_is_live") === "true");
+    check();
+    const interval = setInterval(check, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
- useEffect(() => {
- const handler = () => setScrolled(window.scrollY > 40);
- window.addEventListener("scroll", handler, { passive: true });
- return () => window.removeEventListener("scroll", handler);
- }, []);
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
 
- useEffect(() => {
- setMobileOpen(false);
- }, [pathname]);
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
- return (
- <header
- className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
- scrolled
- ? "bg-[rgba(10,10,15,0.85)] backdrop-blur-xl border-[var(--color-border)] shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
- : "bg-transparent border-white/0"
- }`}
- >
- <div className="site-container flex items-center justify-between h-[72px]">
- {/* Logo */}
-  <Link 
-    href="/" 
-    className="z-10 relative" 
-    id="header-logo"
-    onClick={(e) => {
-      if (pathname === "/") {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }}
-  >
-   <div className="w-[106px] h-[20px] md:w-[120px] md:h-[22px]">
-    <Logo className="w-full h-full text-white" />
-   </div>
-  </Link>
+  const displayRole = isDemoFanPage || isDemoCruisePage ? "fan" : member?.role || "fan";
+  const displayName = isDemoFanPage ? "Demo Fan" : isDemoCruisePage ? "Demo Cruiser" : member?.name || "Guest";
+  const initials = displayName
+    .split(" ")
+    .map((n: string) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+  const dashboardHref = isDemoFanPage
+    ? "/fans/demo"
+    : isDemoCruisePage
+    ? "/cruise/demo"
+    : displayRole === "event_planner"
+    ? "/planner"
+    : displayRole === "crew"
+    ? "/crew"
+    : displayRole === "admin"
+    ? "/admin"
+    : `/fans/${member?.username || "me"}`;
 
- {/* Desktop Nav */}
- <nav
- className={`flex items-center gap-1 max-lg:fixed max-lg:inset-0 max-lg:flex-col max-lg:justify-center max-lg:items-center max-lg:gap-6 max-lg:bg-[rgba(10,10,15,0.95)] max-lg:backdrop-blur-3xl ${
- mobileOpen ? "max-lg:opacity-100 max-lg:pointer-events-auto max-lg:visible" : "max-lg:opacity-0 max-lg:pointer-events-none max-lg:invisible"
- }`}
- id="main-nav"
- >
-  {navLinks
-    .map((link) => (
-   <Link
-    key={link.href}
-    href={link.href}
-    onClick={(e) => {
-      if (pathname === link.href) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        setMobileOpen(false);
-      }
-    }}
-    className={`relative px-2.5 py-1.5 uppercase font-bold tracking-wider transition-all duration-200 max-lg:text-lg max-lg:px-6 max-lg:py-3 inline-flex items-center justify-center gap-1.5 leading-none group/navlink font-[family-name:var(--font-rockstar)] ${
-    link.isCta
-     ? "text-white bg-[var(--color-accent)] hover:bg-[#9d3cff] rounded-full px-4.5 py-2 font-black tracking-widest shadow-[0_0_12px_rgba(133,29,239,0.35)] hover:shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:scale-105 max-lg:mt-2 text-[clamp(11px,1.1vw,18px)]"
-     : `text-[clamp(12px,1.35vw,22px)] ${
-        pathname === link.href
-         ? "text-[var(--color-text-primary)]"
-         : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-       }`
-    }`}
-    id={`nav-${link.label.toLowerCase()}`}
-   >
-    {link.label === "Live" && hasLiveStreams && (
-     <span 
-      className="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" 
-      title="Live streams are currently active!"
-     />
-    )}
-    {link.label}
-    {link.label === "Cruise" && <CruiseWaveAnimation />}
-    {link.label === "Live" && !hasLiveStreams && (
-      <span
-        className="absolute -top-2.5 left-0 text-[7px] font-black uppercase tracking-widest text-white/40 px-1 py-0 rounded border border-white/10 bg-white/[0.04] pointer-events-none whitespace-nowrap"
-      >
-        offline
-      </span>
-     )}
-    {link.label === "Live" && !isLoggedIn && (
-      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 hidden group-hover/navlink:block pointer-events-none z-[100]">
-        <div className="bg-black/95 text-[9px] text-white/80 border border-white/10 rounded px-2.5 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.8)] whitespace-nowrap">
-          <span className="text-[var(--color-accent)] font-bold">Note:</span> Sign in to chat & join raffles during live streams
+  const isAvatarUrl =
+    member?.avatar &&
+    (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"));
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/10 ${
+        scrolled
+          ? "bg-[#100320]/95 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
+          : "bg-[#100320]/80 backdrop-blur-md"
+      }`}
+    >
+      <div className="max-w-[1500px] mx-auto px-4 md:px-8 h-[72px] flex items-center justify-between relative">
+        
+        {/* ── LEFT NAV GROUP ── */}
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-rockstar)]">
+          {leftNavLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-[clamp(13px,1.1vw,18px)] font-black uppercase tracking-wider transition-colors duration-200 ${
+                pathname === link.href ? "text-white" : "text-white/80 hover:text-white"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* ── CENTER LOGO ── */}
+        <Link
+          href="/"
+          className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center z-10"
+          id="header-logo"
+          onClick={(e) => {
+            if (pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+        >
+          <div className="w-[150px] md:w-[180px] h-[26px]">
+            <Logo className="w-full h-full text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]" />
+          </div>
+        </Link>
+
+        {/* ── RIGHT NAV & ACTIONS GROUP ── */}
+        <div className="flex items-center gap-4 xl:gap-6 ml-auto lg:ml-0 font-[family-name:var(--font-rockstar)] z-10">
+          
+          {/* Live Stream link */}
+          <Link
+            href="/live"
+            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,1.1vw,18px)] font-black uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+          >
+            {/* Live / Offline badge */}
+            <span className="absolute -top-3.5 right-0 flex items-center gap-1 text-[7px] font-black uppercase tracking-widest text-white/90 bg-red-600/90 border border-red-400 px-1.5 py-[1px] rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)] whitespace-nowrap">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              {hasLiveStreams ? "LIVE" : "OFFLINE"}
+            </span>
+            LIVE STREAM
+          </Link>
+
+          {/* Cruise link */}
+          <Link
+            href="/cruise"
+            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,1.1vw,18px)] font-black uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+          >
+            CRUISE
+            <CruiseWaveAnimation />
+          </Link>
+
+          {/* Book Us pill button with spark accents */}
+          <div className="hidden lg:flex flex-col items-center justify-center relative">
+            {/* Top dashes \ | / */}
+            <div className="flex items-center gap-1 text-white/40 text-[7px] leading-none mb-[2px] pointer-events-none tracking-widest font-mono">
+              <span>\</span>
+              <span>|</span>
+              <span>/</span>
+            </div>
+
+            <Link
+              href="/book"
+              className="px-5 py-1.5 border-2 border-white rounded-[18px] text-white text-[13px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_12px_rgba(255,255,255,0.2)]"
+            >
+              BOOK US
+            </Link>
+
+            {/* Bottom dashes / | \ */}
+            <div className="flex items-center gap-1 text-white/40 text-[7px] leading-none mt-[2px] pointer-events-none tracking-widest font-mono">
+              <span>/</span>
+              <span>|</span>
+              <span>\</span>
+            </div>
+          </div>
+
+          {/* Cart Icon */}
+          <Link
+            href="/store"
+            className="text-white/80 hover:text-white transition-colors p-1"
+            title="Cart / Store"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+          </Link>
+
+          {/* User Profile Avatar with FAN Badge */}
+          {isLoggedIn || isDemoPage ? (
+            <div className="flex items-center gap-3">
+              <Link
+                href={dashboardHref}
+                className="relative w-9 h-9 rounded-full bg-blue-500/20 border-2 border-blue-400 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
+                title={displayName}
+              >
+                {isAvatarUrl ? (
+                  <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" />
+                ) : (
+                  <span>{initials}</span>
+                )}
+                <span className="absolute -bottom-1 -right-1 px-1 py-[0.5px] bg-[#851DEF] text-[7px] font-black uppercase text-white rounded-full border border-white/40 shadow-sm leading-none">
+                  FAN
+                </span>
+              </Link>
+
+              {/* Sign Out Icon */}
+              <button
+                onClick={() => {
+                  logout();
+                  window.location.href = "/";
+                }}
+                className="text-white/60 hover:text-white transition-colors cursor-pointer p-1"
+                title="Sign Out"
+                id="header-sign-out"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => openModal("login")}
+                className="text-white/80 hover:text-white transition-colors p-1 cursor-pointer"
+                title="Sign In"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                  <polyline points="10 17 15 12 10 7" />
+                  <line x1="15" y1="12" x2="3" y2="12" />
+                </svg>
+              </button>
+            </div>
+          )}
+
+          {/* Mobile Menu Toggle Button */}
+          <button
+            className="flex lg:hidden w-8 h-8 items-center justify-center z-50 relative ml-1"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle navigation"
+            id="mobile-menu-toggle"
+          >
+            <span
+              className={`relative w-[22px] h-0.5 transition-all duration-300 ${
+                mobileOpen
+                  ? "bg-transparent before:top-0 before:rotate-45 after:bottom-0 after:-rotate-45"
+                  : "bg-white before:-top-[7px] after:-bottom-[7px]"
+              } before:content-[''] before:absolute before:left-0 before:w-full before:h-0.5 before:bg-white before:transition-all before:duration-300 after:content-[''] after:absolute after:left-0 after:w-full after:h-0.5 after:bg-white after:transition-all after:duration-300`}
+            />
+          </button>
         </div>
-        {/* Tooltip arrow */}
-        <div className="w-1.5 h-1.5 bg-black border-l border-t border-white/10 absolute -top-1 left-1/2 -translate-x-1/2 rotate-45" />
+
+        {/* ── MOBILE OVERLAY DRAWER ── */}
+        {mobileOpen && (
+          <div className="fixed inset-0 bg-[#0c021a]/98 backdrop-blur-3xl z-40 flex flex-col justify-center items-center gap-6 font-[family-name:var(--font-rockstar)]">
+            <Link href="/bio" className="text-2xl font-black text-white uppercase">BIO</Link>
+            <Link href="/music" className="text-2xl font-black text-white uppercase">MUSIC</Link>
+            <Link href="/store" className="text-2xl font-black text-white uppercase">STORE</Link>
+            <Link href="/video" className="text-2xl font-black text-white uppercase">MEDIA</Link>
+            <Link href="/fan-photo-wall" className="text-2xl font-black text-white uppercase">FAN WALL</Link>
+            <Link href="/live" className="text-2xl font-black text-white uppercase">LIVE STREAM</Link>
+            <Link href="/cruise" className="text-2xl font-black text-white uppercase">CRUISE</Link>
+            <Link href="/book" className="px-6 py-2 border-2 border-white rounded-[20px] text-white text-lg font-black uppercase mt-4">BOOK US</Link>
+          </div>
+        )}
+
       </div>
-     )}
-    {pathname === link.href && (
-    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 accent-gradient-bg " />
-    )}
-   </Link>
-  ))}
-
-
-
- {isCrewLive && (
-  <button
-   onClick={() => isLoggedIn ? router.push("/crew") : openModal("login")}
-   className="relative flex items-center gap-2 px-4 py-1.5 ml-4 mr-2 text-sm font-extrabold tracking-widest text-white uppercase bg-red-600 rounded-full hover:bg-red-500 hover:scale-105 shadow-[0_0_15px_rgba(220,38,38,0.6)] transition-all animate-pulse border border-red-400"
-   id="nav-go-live"
-  >
-   <span className="w-2 h-2 bg-white rounded-full drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]"></span>
-   Go Live
-  </button>
- )}
- </nav>
-
- {/* Actions */}
- <div className="flex items-center gap-4 z-10">
-
- {(isLoggedIn || isDemoPage) ? (
-  <div className="flex items-center gap-2.5">
-   {/* Logged in User Avatar Box + Overlapping Badge */}
-   {(() => {
-    const displayRole = isDemoFanPage || isDemoCruisePage ? 'fan' : (member?.role || 'fan');
-    const displayName = isDemoFanPage ? 'Demo Fan' : (isDemoCruisePage ? 'Demo Cruiser' : member?.name || 'Guest');
-    const displayInitials = displayName ? displayName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : 'G';
-    const dashboardHref = isDemoFanPage ? '/fans/demo'
-     : isDemoCruisePage ? '/cruise/demo'
-     : displayRole === 'event_planner' ? '/planner'
-     : displayRole === 'crew' ? '/crew'
-     : displayRole === 'admin' ? '/admin'
-     : `/fans/${member?.username || 'me'}`;
-    const dashboardTitle = isDemoFanPage ? 'Fan Dashboard (Demo)'
-     : isDemoCruisePage ? 'Cruise Dashboard (Demo)'
-     : displayRole === 'event_planner' ? 'Planner Dashboard'
-     : displayRole === 'crew' ? 'Crew Dashboard'
-     : displayRole === 'admin' ? 'Admin Dashboard'
-     : 'Fan Dashboard';
-
-    const roleBadgeText = displayRole === 'admin' ? 'ADMIN'
-     : displayRole === 'crew' ? 'CREW'
-     : displayRole === 'event_planner' ? 'PLANNER'
-     : 'FAN';
-
-    const badgeColors = displayRole === 'admin' ? 'bg-[#291705] border-amber-500/60 text-amber-400'
-     : displayRole === 'crew' ? 'bg-[#052912] border-emerald-500/60 text-emerald-400'
-     : displayRole === 'event_planner' ? 'bg-[#280529] border-fuchsia-500/60 text-fuchsia-400'
-     : 'bg-[#14121a] border-white/20 text-white/70';
-
-    const isAvatarUrl = member?.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/') || member.avatar.startsWith('data:'));
-
-    return (
-     <Link
-      href={dashboardHref}
-      className="relative w-10 h-10 flex items-center justify-center bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]/70 text-purple-300 text-sm font-black hover:bg-[var(--color-accent)]/35 hover:border-[var(--color-accent)] transition-all rounded-sm"
-      title={dashboardTitle}
-     >
-      {isAvatarUrl ? (
-       <img src={member.avatar} alt={displayName} className="w-full h-full object-cover rounded-sm" />
-      ) : (
-       displayInitials
-      )}
-      {/* Overlapping Pill Badge */}
-      <span className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2 py-[1px] rounded-full text-[9px] font-black tracking-widest border uppercase whitespace-nowrap shadow-lg ${badgeColors}`}>
-       <span className="w-1.5 h-1.5 rounded-full bg-current" />
-       {roleBadgeText}
-      </span>
-     </Link>
-    );
-   })()}
-
-   {/* Square Sign Out Button */}
-   <button
-    onClick={() => { logout(); window.location.href = '/'; }}
-    className="w-10 h-10 flex items-center justify-center border border-white/15 text-white/50 hover:border-white/40 hover:text-white transition-all cursor-pointer bg-white/[0.04] hover:bg-white/[0.08] rounded-sm"
-    title="Sign Out"
-    id="header-sign-out"
-   >
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-     <polyline points="16 17 21 12 16 7"/>
-     <line x1="21" y1="12" x2="9" y2="12"/>
-    </svg>
-   </button>
-  </div>
- ) : (
-   <div className="flex items-center gap-1.5">
-      <button
-        onClick={() => openModal("login")}
-        className="h-7 px-2.5 flex items-center justify-center gap-1.5 border border-white/15 text-white/40 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-all cursor-pointer bg-white/[0.02] rounded-md"
-        title="Sign In"
-       >
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span className="text-[0.65rem] font-bold uppercase tracking-wider hidden sm:block">Sign In</span>
-       </button>
-      <button
-       onClick={() => openModal("signup")}
-       className="h-7 px-2.5 flex items-center justify-center gap-1.5 border border-[var(--color-accent)]/30 text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-white transition-all cursor-pointer bg-[rgba(133,29,239,0.08)] rounded-md shadow-[0_0_10px_rgba(133,29,239,0.15)]"
-       title="Sign Up"
-      >
-       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
-       <span className="text-[0.65rem] font-bold uppercase tracking-wider hidden sm:block">Sign Up</span>
-      </button>
-   </div>
-  )}
- <button
- className="hidden max-lg:flex w-8 h-8 items-center justify-center z-50 relative"
- onClick={() => setMobileOpen(!mobileOpen)}
- aria-label="Toggle navigation"
- id="mobile-menu-toggle"
- >
- <span
- className={`relative w-[22px] h-0.5 transition-all duration-300 ${
- mobileOpen
- ? "bg-transparent before:top-0 before:rotate-45 after:bottom-0 after:-rotate-45"
- : "bg-[var(--color-text-primary)] before:-top-[7px] after:-bottom-[7px]"
- } before:content-[''] before:absolute before:left-0 before:w-full before:h-0.5 before:bg-[var(--color-text-primary)] before: before:transition-all before:duration-300 after:content-[''] after:absolute after:left-0 after:w-full after:h-0.5 after:bg-[var(--color-text-primary)] after: after:transition-all after:duration-300`}
- />
- </button>
- </div>
- </div>
- </header>
- );
+    </header>
+  );
 }
