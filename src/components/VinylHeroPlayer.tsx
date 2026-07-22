@@ -92,6 +92,19 @@ const ALBUMS: Album[] = [
       { id: "n4", number: 4, title: "ELECTRIC NIGHT", duration: "3:55", audioUrl: "/audio/demo-track.mp3" },
     ],
   },
+  {
+    id: "usa-uk",
+    title: "USA-UK",
+    subtitle: "7TH HEAVEN",
+    year: "2017",
+    coverImage: "/images/hero-banner.png",
+    centerLabelColor: "#10b981",
+    tracks: [
+      { id: "u1", number: 1, title: "ATLANTIC", duration: "3:35", audioUrl: "/audio/demo-track.mp3" },
+      { id: "u2", number: 2, title: "LONDON NIGHTS", duration: "3:50", audioUrl: "/audio/demo-track.mp3" },
+      { id: "u3", number: 3, title: "CHICAGO BOUND", duration: "4:02", audioUrl: "/audio/demo-track.mp3" },
+    ],
+  },
 ];
 
 export default function VinylHeroPlayer() {
@@ -194,8 +207,8 @@ export default function VinylHeroPlayer() {
     startX.current = null;
   };
 
-  // Width of each album disc item slot in slider
-  const ITEM_WIDTH = 220;
+  // Fixed slot distance for smooth sliding centering (190px per disc slot)
+  const SLOT_WIDTH = 190;
 
   return (
     <div className="relative w-fit ml-auto flex items-center justify-end select-none py-2">
@@ -208,13 +221,13 @@ export default function VinylHeroPlayer() {
         onError={() => setAudioError(true)}
       />
 
-      {/* Album Slider Container */}
+      {/* ── MAIN TURNTABLE PLAYER + SLIDING ALBUM TRACK CONTAINER ── */}
       <div className="relative flex items-center">
         
         {/* Navigation Arrow Left */}
         <button
           onClick={handlePrevAlbum}
-          className="absolute -left-12 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
+          className="absolute -left-12 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-40 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
           title="Previous Album"
         >
           ‹
@@ -223,30 +236,30 @@ export default function VinylHeroPlayer() {
         {/* Navigation Arrow Right */}
         <button
           onClick={handleNextAlbum}
-          className="absolute -right-12 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
+          className="absolute -right-12 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-40 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
           title="Next Album"
         >
           ›
         </button>
 
-        {/* ── ONE FIXED TURNTABLE PLAYER BOX ── */}
+        {/* ── STATIONARY "PLAYABLE SECTION" (TURNTABLE BOX SLEEVE) ── */}
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className="relative flex items-center"
         >
           
-          {/* STATIONARY PLAYER SLEEVE CARD */}
-          <div className="relative w-[245px] h-[245px] sm:w-[270px] sm:h-[270px] bg-[#220436]/95 border border-white/25 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden z-20 group/box">
+          {/* PLAYABLE SECTION SLEEVE BOX */}
+          <div className="relative w-[245px] h-[245px] sm:w-[270px] sm:h-[270px] bg-[#220436]/95 border-2 border-purple-500/50 rounded-2xl p-4 shadow-[0_0_35px_rgba(133,29,239,0.35)] flex flex-col justify-between overflow-hidden z-20 group/box">
             
-            {/* Top Controls Header (STATIONARY) */}
+            {/* Top Controls Header (STATIONARY PLAY SECTION) */}
             <div className="flex items-center justify-between z-30">
-              <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
-                VINYL STEREO
+              <span className="text-[9px] font-black uppercase tracking-widest text-purple-300 font-mono">
+                PLAYABLE SECTION
               </span>
 
               {/* Playback Controls |<< ► >>| */}
-              <div className="flex items-center gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+              <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
                 <button
                   onClick={(e) => { e.stopPropagation(); prevTrack(); }}
                   className="text-white/70 hover:text-white transition-colors cursor-pointer"
@@ -277,7 +290,7 @@ export default function VinylHeroPlayer() {
               </div>
             </div>
 
-            {/* ── SLIDING ALBUMS TRACK (PASSSES THROUGH PLAYER BOX SLOT) ── */}
+            {/* ── SLIDING VINYL DISCS SLIDER TRACK (PASSES HORIZONTALLY THROUGH PLAYABLE SECTION) ── */}
             <div
               className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10"
               onTouchStart={(e) => handleStart(e.touches[0].clientX)}
@@ -289,9 +302,9 @@ export default function VinylHeroPlayer() {
               onMouseLeave={handleEnd}
             >
               <div
-                className="flex items-center gap-12 transition-transform duration-500 ease-out absolute"
+                className="flex items-center gap-10 transition-transform duration-500 ease-out absolute"
                 style={{
-                  transform: `translateX(calc(${-activeAlbumIdx * ITEM_WIDTH}px + ${dragOffset}px))`,
+                  transform: `translateX(calc(${-activeAlbumIdx * SLOT_WIDTH}px + ${dragOffset}px))`,
                 }}
               >
                 {ALBUMS.map((album, idx) => {
@@ -308,10 +321,10 @@ export default function VinylHeroPlayer() {
                       }}
                       className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 ${
                         isActive
-                          ? "w-40 h-40 sm:w-44 sm:h-44 bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl opacity-100 scale-100"
-                          : "w-36 h-36 sm:w-40 sm:h-40 bg-neutral-950 border-4 border-neutral-900 shadow-xl opacity-25 hover:opacity-80 scale-85"
+                          ? "w-40 h-40 sm:w-44 sm:h-44 bg-neutral-950 border-[6px] border-neutral-900 shadow-[0_0_25px_rgba(234,179,8,0.3)] opacity-100 scale-100"
+                          : "w-36 h-36 sm:w-40 sm:h-40 bg-neutral-950 border-4 border-neutral-900 shadow-xl opacity-30 hover:opacity-85 scale-85"
                       } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
-                      title={`Album: ${album.title}`}
+                      title={`Slide ${album.title} into Playable Section`}
                     >
                       {/* Concentric Record Grooves */}
                       <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border border-neutral-800/80 flex items-center justify-center">
@@ -339,7 +352,7 @@ export default function VinylHeroPlayer() {
               </div>
             </div>
 
-            {/* Stylus Needle Arm (STATIONARY OVERLAY) */}
+            {/* Stylus Needle Arm (STATIONARY OVERLAY ON PLAYABLE SECTION) */}
             <div
               className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right z-30 ${
                 isPlaying ? "rotate-[15deg]" : "rotate-0"
@@ -352,7 +365,7 @@ export default function VinylHeroPlayer() {
               </svg>
             </div>
 
-            {/* Bottom Title Box + Waveform (STATIONARY) */}
+            {/* Bottom Title Box + Waveform (STATIONARY PLAY SECTION BADGE) */}
             <div className="flex items-end justify-between z-30">
               <div className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[140px] truncate">
                 <div className="text-[11px] font-black uppercase leading-tight truncate">
@@ -363,7 +376,7 @@ export default function VinylHeroPlayer() {
                 </div>
               </div>
 
-              {/* Hover Tracklist Indicator */}
+              {/* Hover Tracklist Prompt / Waveform */}
               <div className="flex items-center gap-1.5 text-white/60 text-[9px] font-bold">
                 <span className="hidden group-hover/box:inline text-[8px] font-black uppercase tracking-widest text-purple-300 animate-pulse">
                   Tracklist ›
@@ -378,7 +391,7 @@ export default function VinylHeroPlayer() {
 
           </div>
 
-          {/* ── HOVER-TO-REVEAL TRACKLIST PANEL ── */}
+          {/* ── HOVER-TO-REVEAL TRACKLIST PANEL (SLIDES OUT TO THE RIGHT OF PLAYABLE SECTION) ── */}
           <div
             className={`flex flex-col text-left transition-all duration-500 ease-out origin-left z-20 ${
               isHovered
