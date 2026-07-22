@@ -139,9 +139,14 @@ export default function VinylHeroPlayer() {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      // Set spinning immediately — don't wait for audio promise
+      setIsPlaying(true);
+      setAudioError(false);
       audioRef.current.play()
-        .then(() => { setIsPlaying(true); setAudioError(false); })
-        .catch(() => setIsPlaying(false));
+        .catch(() => {
+          setIsPlaying(false);
+          setAudioError(true);
+        });
     }
   };
 
@@ -205,11 +210,11 @@ export default function VinylHeroPlayer() {
             >
               {({ isActive }) => (
                 <div
-                  className={`relative rounded-full flex items-center justify-center transition-all duration-500 mx-auto ${
+                  className={`relative rounded-full flex items-center justify-center mx-auto ${
                     isActive
                       ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
-                      : "opacity-20 scale-90 z-0"
-                  } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
+                      : "opacity-20 scale-90 z-0 transition-all duration-500"
+                  } ${isActive && isPlaying ? "[animation:spin_4s_linear_infinite]" : "transition-all duration-500"}`}
                   style={{
                     width: "176px",
                     height: "176px",
