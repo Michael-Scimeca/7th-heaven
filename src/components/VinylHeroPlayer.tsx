@@ -179,93 +179,14 @@ export default function VinylHeroPlayer() {
 
       {/* ── SWIPER VINYL DISC SLIDER ── */}
       <div className="relative" style={{ width: '700px' }}>
-        {/* Player Sleeve Box — sits as overlay over the center active disc */}
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
-          aria-hidden="true"
-        >
-          {/* The 270×270 sleeve card, centered in the 700px swiper */}
-          <div className="relative w-[270px] h-[270px] bg-[#220436]/85 border border-white/20 rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col justify-between pointer-events-auto">
 
-            {/* Top Controls */}
-            <div className="flex items-center justify-between z-10">
-              <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
-                VINYL STEREO
-              </span>
-              <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
-                <button
-                  onClick={(e) => { e.stopPropagation(); prevTrack(); }}
-                  className="text-white/70 hover:text-white transition-colors cursor-pointer"
-                  title="Previous Track"
-                >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
-                </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-                  className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md"
-                  title={isPlaying ? "Pause" : "Play"}
-                >
-                  {isPlaying ? (
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                  ) : (
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  )}
-                </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); nextTrack(); }}
-                  className="text-white/70 hover:text-white transition-colors cursor-pointer"
-                  title="Next Track"
-                >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-                </button>
-                <div className="w-[1px] h-3 bg-white/20 my-auto" />
-                <button
-                  onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
-                  className={`p-1 rounded-full transition-all cursor-pointer ${showTracklist ? "text-[#d946ef] bg-purple-500/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
-                  title="Toggle Playlist"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
-                    <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Stylus Needle */}
-            <div className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right z-10 ${isPlaying ? "rotate-[15deg]" : "rotate-0"}`}>
-              <svg width="60" height="70" viewBox="0 0 60 70" fill="none">
-                <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-                <circle cx="50" cy="5" r="4" fill="#eab308" />
-                <circle cx="20" cy="55" r="3" fill="white" />
-              </svg>
-            </div>
-
-            {/* Bottom: Album title + waveform */}
-            <div className="flex items-end justify-between z-10">
-              <div
-                onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
-                className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[155px] cursor-pointer hover:bg-purple-100 transition-colors"
-                title="Toggle Playlist"
-              >
-                <div className="text-[11px] font-black uppercase leading-tight flex items-center gap-1">
-                  <span className="truncate">{currentAlbum.title}</span>
-                  <span className="text-[8px] font-bold text-purple-600 bg-purple-100 px-1 rounded shrink-0">PLAYLIST ☰</span>
-                </div>
-                <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
-                  {currentTrack.title}
-                </div>
-              </div>
-              <div className="flex items-center gap-0.5 pb-0.5">
-                <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
-                <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
-                <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
-              </div>
-            </div>
-          </div>
+        {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <div className="w-[270px] h-[270px] bg-[#220436]/85 border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
         </div>
 
-        {/* ── SWIPER: centeredSlides + slidesPerView auto (centered-auto pattern) ── */}
+
+        {/* LAYER 2: Swiper disc track — z-20, sits ON TOP of the sleeve background so disc is visible */}
         <Swiper
           slidesPerView="auto"
           centeredSlides={true}
@@ -274,7 +195,7 @@ export default function VinylHeroPlayer() {
           spaceBetween={30}
           grabCursor={true}
           onSlideChange={handleSlideChange}
-          style={{ overflow: "visible" }}
+          style={{ overflow: "visible", position: "relative", zIndex: 20 }}
           className="vinyl-swiper"
         >
           {ALBUMS.map((album, idx) => (
@@ -317,7 +238,78 @@ export default function VinylHeroPlayer() {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+          <div className="relative w-[270px] h-[270px] flex flex-col justify-between p-4 pointer-events-none">
+
+            {/* Top Controls */}
+            <div className="flex items-center justify-between pointer-events-auto">
+              <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
+                VINYL STEREO
+              </span>
+              <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
+                <button onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md" title={isPlaying ? "Pause" : "Play"}>
+                  {isPlaying ? (
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                  ) : (
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  )}
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); nextTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Next Track">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+                </button>
+                <div className="w-[1px] h-3 bg-white/20 my-auto" />
+                <button
+                  onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+                  className={`p-1 rounded-full transition-all cursor-pointer ${showTracklist ? "text-[#d946ef] bg-purple-500/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+                  title="Toggle Playlist"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                    <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Stylus Needle */}
+            <div className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right ${isPlaying ? "rotate-[15deg]" : "rotate-0"}`}>
+              <svg width="60" height="70" viewBox="0 0 60 70" fill="none">
+                <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+                <circle cx="50" cy="5" r="4" fill="#eab308" />
+                <circle cx="20" cy="55" r="3" fill="white" />
+              </svg>
+            </div>
+
+            {/* Bottom: Title + Waveform */}
+            <div className="flex items-end justify-between pointer-events-auto">
+              <div
+                onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+                className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[155px] cursor-pointer hover:bg-purple-100 transition-colors"
+              >
+                <div className="text-[11px] font-black uppercase leading-tight flex items-center gap-1">
+                  <span className="truncate">{currentAlbum.title}</span>
+                  <span className="text-[8px] font-bold text-purple-600 bg-purple-100 px-1 rounded shrink-0">PLAYLIST ☰</span>
+                </div>
+                <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                  {currentTrack.title}
+                </div>
+              </div>
+              <div className="flex items-center gap-0.5 pb-0.5">
+                <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+                <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
+                <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
 
       {/* ── TRACKLIST PANEL ── */}
       <div
