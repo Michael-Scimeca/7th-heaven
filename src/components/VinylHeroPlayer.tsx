@@ -227,24 +227,6 @@ export default function VinylHeroPlayer() {
         onMouseLeave={() => setIsHovered(false)}
         className="relative flex items-center overflow-visible"
       >
-        
-        {/* Left Circular Navigation Button */}
-        <button
-          onClick={handlePrevAlbum}
-          className="absolute -left-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#18032b]/90 border border-white/20 text-white flex items-center justify-center z-40 cursor-pointer shadow-2xl hover:bg-white hover:text-black transition-all"
-          title="Previous Album"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-
-        {/* Right Circular Navigation Button */}
-        <button
-          onClick={handleNextAlbum}
-          className="absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#18032b]/90 border border-white/20 text-white flex items-center justify-center z-40 cursor-pointer shadow-2xl hover:bg-white hover:text-black transition-all"
-          title="Next Album"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
 
         {/* ── STATIONARY TURNTABLE SLEEVE BOX (VINYL STEREO PLAYER) ── */}
         <div className="relative w-[270px] h-[270px] bg-[#220436]/95 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box">
