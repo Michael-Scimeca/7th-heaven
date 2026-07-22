@@ -78,6 +78,20 @@ const ALBUMS: Album[] = [
       { id: "s5", number: 5, title: "KEEP ROCKIN'", duration: "4:20", audioUrl: "/audio/demo-track.mp3" },
     ],
   },
+  {
+    id: "next-level",
+    title: "NEXT LEVEL",
+    subtitle: "7TH HEAVEN",
+    year: "2019",
+    coverImage: "/images/hero-banner.png",
+    centerLabelColor: "#8b5cf6",
+    tracks: [
+      { id: "n1", number: 1, title: "SHINE ON", duration: "3:30", audioUrl: "/audio/demo-track.mp3" },
+      { id: "n2", number: 2, title: "ALWAYS THERE", duration: "3:45", audioUrl: "/audio/demo-track.mp3" },
+      { id: "n3", number: 3, title: "DREAM BIG", duration: "4:10", audioUrl: "/audio/demo-track.mp3" },
+      { id: "n4", number: 4, title: "ELECTRIC NIGHT", duration: "3:55", audioUrl: "/audio/demo-track.mp3" },
+    ],
+  },
 ];
 
 export default function VinylHeroPlayer() {
@@ -85,16 +99,14 @@ export default function VinylHeroPlayer() {
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioError, setAudioError] = useState(false);
-  const [slideOffset, setSlideOffset] = useState(0);
-  const [isSliding, setIsSliding] = useState(false);
+  
+  const [dragOffset, setDragOffset] = useState(0);
+  const isDragging = useRef(false);
+  const startX = useRef<number | null>(null);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const touchStartX = useRef<number | null>(null);
-  const isDragging = useRef(false);
 
   const currentAlbum = ALBUMS[activeAlbumIdx];
-  const prevAlbum = ALBUMS[(activeAlbumIdx - 1 + ALBUMS.length) % ALBUMS.length];
-  const nextAlbum = ALBUMS[(activeAlbumIdx + 1) % ALBUMS.length];
   const currentTrack = currentAlbum.tracks[activeTrackIdx] || currentAlbum.tracks[0];
 
   const playTrack = (trackIdx: number) => {
@@ -140,62 +152,49 @@ export default function VinylHeroPlayer() {
     playTrack(nextIdx);
   };
 
-  const handleNextAlbum = () => {
-    if (isSliding) return;
-    setIsSliding(true);
-    setSlideOffset(-160);
+  const selectAlbum = (idx: number) => {
+    if (idx === activeAlbumIdx) return;
+    setActiveAlbumIdx(idx);
+    setActiveTrackIdx(0);
+    setIsPlaying(false);
+  };
 
-    setTimeout(() => {
-      setActiveAlbumIdx((prev) => (prev + 1) % ALBUMS.length);
-      setActiveTrackIdx(0);
-      setIsPlaying(false);
-      setSlideOffset(0);
-      setIsSliding(false);
-    }, 300);
+  const handleNextAlbum = () => {
+    const nextIdx = (activeAlbumIdx + 1) % ALBUMS.length;
+    selectAlbum(nextIdx);
   };
 
   const handlePrevAlbum = () => {
-    if (isSliding) return;
-    setIsSliding(true);
-    setSlideOffset(160);
-
-    setTimeout(() => {
-      setActiveAlbumIdx((prev) => (prev - 1 + ALBUMS.length) % ALBUMS.length);
-      setActiveTrackIdx(0);
-      setIsPlaying(false);
-      setSlideOffset(0);
-      setIsSliding(false);
-    }, 300);
+    const prevIdx = (activeAlbumIdx - 1 + ALBUMS.length) % ALBUMS.length;
+    selectAlbum(prevIdx);
   };
 
-  // ── Drag & Touch Swipe Handlers ──
-  const handleTouchStart = (clientX: number) => {
-    touchStartX.current = clientX;
+  // ── Drag / Touch Handlers for Sliding List ──
+  const handleStart = (clientX: number) => {
     isDragging.current = true;
+    startX.current = clientX;
   };
 
-  const handleTouchMove = (clientX: number) => {
-    if (!isDragging.current || touchStartX.current === null) return;
-    const diff = clientX - touchStartX.current;
-    // Bound drag offset for natural spring resistance
-    setSlideOffset(Math.max(-120, Math.min(120, diff)));
+  const handleMove = (clientX: number) => {
+    if (!isDragging.current || startX.current === null) return;
+    const delta = clientX - startX.current;
+    setDragOffset(delta);
   };
 
-  const handleTouchEnd = () => {
+  const handleEnd = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
-    if (slideOffset < -40) {
+    if (dragOffset < -50) {
       handleNextAlbum();
-    } else if (slideOffset > 40) {
+    } else if (dragOffset > 50) {
       handlePrevAlbum();
-    } else {
-      setSlideOffset(0);
     }
-    touchStartX.current = null;
+    setDragOffset(0);
+    startX.current = null;
   };
 
   return (
-    <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 select-none">
+    <div className="relative w-full max-w-5xl mx-auto flex flex-col items-center select-none overflow-hidden py-4">
       
       {/* Hidden Audio Element */}
       <audio
@@ -205,220 +204,216 @@ export default function VinylHeroPlayer() {
         onError={() => setAudioError(true)}
       />
 
-      {/* ── VINYL CAROUSEL SLIDER WRAPPER ── */}
-      <div
-        className="relative flex items-center justify-center gap-1 sm:gap-3 touch-pan-x cursor-grab active:cursor-grabbing py-2"
-        onTouchStart={(e) => handleTouchStart(e.touches[0].clientX)}
-        onTouchMove={(e) => handleTouchMove(e.touches[0].clientX)}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={(e) => handleTouchStart(e.clientX)}
-        onMouseMove={(e) => handleTouchMove(e.clientX)}
-        onMouseUp={handleTouchEnd}
-        onMouseLeave={handleTouchEnd}
+      {/* Navigation Arrow Controls */}
+      <button
+        onClick={handlePrevAlbum}
+        className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-xl font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
+        title="Previous Album"
       >
-        
-        {/* Left Side Faded Vinyl (Previous Album) */}
-        <div
-          onClick={handlePrevAlbum}
-          className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-40 hover:opacity-90 transition-all duration-300 cursor-pointer flex items-center justify-center shrink-0 -mr-8 sm:-mr-10 z-0 scale-85 hover:scale-95 group/prev"
-          title={`Slide to ${prevAlbum.title}`}
-        >
-          {/* Previous Album Cover Center Label */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-neutral-800 flex items-center justify-center">
-            <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/40 flex items-center justify-center text-[7px] sm:text-[8px] font-black text-white shadow-md overflow-hidden relative"
-              style={{ backgroundColor: prevAlbum.centerLabelColor }}
-            >
-              <Image src={prevAlbum.coverImage} alt={prevAlbum.title} fill className="object-cover opacity-70" />
-              <span className="relative z-10 font-bold uppercase drop-shadow">Prev</span>
-            </div>
-          </div>
-          {/* Navigation Overlay Chevron */}
-          <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover/prev:opacity-100 transition-opacity">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><polyline points="15 18 9 12 15 6" /></svg>
-          </div>
-        </div>
+        ‹
+      </button>
 
-        {/* ── ACTIVE TURNTABLE VINYL PLAYER CARD ── */}
-        <div
-          className="relative w-[240px] h-[240px] sm:w-[260px] sm:h-[260px] bg-[#220436]/95 border border-white/20 rounded-2xl p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-10 group transition-transform duration-300"
-          style={{
-            transform: `translateX(${slideOffset}px)`,
-          }}
-        >
-          
-          {/* Top Controls Header */}
-          <div className="flex items-center justify-between z-20">
-            <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
-              VINYL STEREO
-            </span>
+      <button
+        onClick={handleNextAlbum}
+        className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-xl font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
+        title="Next Album"
+      >
+        ›
+      </button>
 
-            {/* Playback Controls |<< ► >>| */}
-            <div className="flex items-center gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-              <button
-                onClick={(e) => { e.stopPropagation(); prevTrack(); }}
-                className="text-white/70 hover:text-white transition-colors cursor-pointer"
-                title="Previous Track"
+      {/* ── HORIZONTAL SLIDING VINYL ALBUM LIST TRACK ── */}
+      <div
+        className="flex items-center gap-6 sm:gap-10 transition-transform duration-500 ease-out cursor-grab active:cursor-grabbing px-12"
+        style={{
+          transform: `translateX(calc(${-activeAlbumIdx * 200}px + ${dragOffset}px))`,
+        }}
+        onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+        onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+        onTouchEnd={handleEnd}
+        onMouseDown={(e) => handleStart(e.clientX)}
+        onMouseMove={(e) => handleMove(e.clientX)}
+        onMouseUp={handleEnd}
+        onMouseLeave={handleEnd}
+      >
+        {ALBUMS.map((album, idx) => {
+          const isActive = idx === activeAlbumIdx;
+
+          if (isActive) {
+            return (
+              /* ── ACTIVE TURNTABLE PLAYER + TRACKLIST ITEM ── */
+              <div
+                key={album.id}
+                className="flex flex-col md:flex-row items-center gap-5 sm:gap-7 shrink-0 z-20 transition-all duration-500 scale-100"
               >
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
-              </button>
-
-              <button
-                onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-                className="w-5 h-5 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md"
-                title={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? (
-                  <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                ) : (
-                  <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                )}
-              </button>
-
-              <button
-                onClick={(e) => { e.stopPropagation(); nextTrack(); }}
-                className="text-white/70 hover:text-white transition-colors cursor-pointer"
-                title="Next Track"
-              >
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Center Vinyl Disc with Needle Arm */}
-          <div className="relative flex items-center justify-center my-auto">
-            {/* Spinning Vinyl Record Disc */}
-            <div
-              className={`relative w-40 h-40 sm:w-44 sm:h-44 rounded-full bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl flex items-center justify-center transition-all duration-300 ${
-                isPlaying ? "animate-[spin_4s_linear_infinite]" : ""
-              }`}
-            >
-              {/* Concentric Record Grooves */}
-              <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border border-neutral-800/80 flex items-center justify-center">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border border-neutral-800/60 flex items-center justify-center">
+                {/* Turntable Player Box */}
+                <div className="relative w-[240px] h-[240px] sm:w-[270px] sm:h-[270px] bg-[#220436]/95 border border-white/25 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden group">
                   
-                  {/* Center Album Art Label */}
-                  <div
-                    className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-amber-400 flex items-center justify-center shadow-lg"
-                    style={{ backgroundColor: currentAlbum.centerLabelColor }}
-                  >
-                    <Image
-                      src={currentAlbum.coverImage}
-                      alt={currentAlbum.title}
-                      fill
-                      className="object-cover opacity-80"
-                    />
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                      <span className="w-2.5 h-2.5 rounded-full bg-white/90 shadow border border-black/40" />
+                  {/* Top Controls Header */}
+                  <div className="flex items-center justify-between z-20">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
+                      VINYL STEREO
+                    </span>
+
+                    {/* Playback Controls |<< ► >>| */}
+                    <div className="flex items-center gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); prevTrack(); }}
+                        className="text-white/70 hover:text-white transition-colors cursor-pointer"
+                        title="Previous Track"
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+                      </button>
+
+                      <button
+                        onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+                        className="w-5.5 h-5.5 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md"
+                        title={isPlaying ? "Pause" : "Play"}
+                      >
+                        {isPlaying ? (
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                        ) : (
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        )}
+                      </button>
+
+                      <button
+                        onClick={(e) => { e.stopPropagation(); nextTrack(); }}
+                        className="text-white/70 hover:text-white transition-colors cursor-pointer"
+                        title="Next Track"
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Center Spinning Vinyl Disc */}
+                  <div className="relative flex items-center justify-center my-auto">
+                    <div
+                      className={`relative w-40 h-40 sm:w-44 sm:h-44 rounded-full bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl flex items-center justify-center transition-all duration-300 ${
+                        isPlaying ? "animate-[spin_4s_linear_infinite]" : ""
+                      }`}
+                    >
+                      <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border border-neutral-800/80 flex items-center justify-center">
+                        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border border-neutral-800/60 flex items-center justify-center">
+                          <div
+                            className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-amber-400 flex items-center justify-center shadow-lg"
+                            style={{ backgroundColor: album.centerLabelColor }}
+                          >
+                            <Image
+                              src={album.coverImage}
+                              alt={album.title}
+                              fill
+                              className="object-cover opacity-80"
+                            />
+                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                              <span className="w-2.5 h-2.5 rounded-full bg-white/90 shadow border border-black/40" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Stylus Needle Arm */}
+                    <div
+                      className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right ${
+                        isPlaying ? "rotate-[15deg]" : "rotate-0"
+                      }`}
+                    >
+                      <svg width="60" height="70" viewBox="0 0 60 70" fill="none">
+                        <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+                        <circle cx="50" cy="5" r="4" fill="#eab308" />
+                        <circle cx="20" cy="55" r="3" fill="white" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Bottom Title Box + Waveform */}
+                  <div className="flex items-end justify-between z-20">
+                    <div className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[140px] truncate">
+                      <div className="text-[11px] font-black uppercase leading-tight truncate">
+                        {album.title}
+                      </div>
+                      <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate">
+                        {currentTrack.title}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-0.5 text-white/50 pb-0.5 font-mono text-xs">
+                      <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+                      <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
+                      <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
                     </div>
                   </div>
 
                 </div>
+
+                {/* Tracklist List Panel */}
+                <div className="flex flex-col text-left w-[200px] sm:w-[240px] shrink-0">
+                  <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-purple-300">
+                      {album.title} TRACKLIST
+                    </span>
+                    <span className="text-[9px] font-bold text-white/40">
+                      {album.tracks.length} SONGS
+                    </span>
+                  </div>
+
+                  <ol className="space-y-1 font-sans text-[11px] sm:text-[12px] font-bold uppercase text-white/70 tracking-tight max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500/40">
+                    {album.tracks.map((track, tIdx) => {
+                      const isSelected = tIdx === activeTrackIdx;
+
+                      return (
+                        <li
+                          key={track.id}
+                          onClick={() => playTrack(tIdx)}
+                          className={`flex items-center gap-2 px-1.5 py-0.5 rounded cursor-pointer transition-all duration-200 ${
+                            isSelected
+                              ? "text-[#d946ef] font-black bg-purple-500/15 text-purple-200 shadow-sm"
+                              : "hover:text-white hover:bg-white/5"
+                          }`}
+                        >
+                          <span className="text-[9px] font-mono opacity-50 w-4 text-right">
+                            {track.number}.
+                          </span>
+                          <span className="truncate flex-1">
+                            {track.title}
+                          </span>
+                          {isSelected && isPlaying && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-pulse" />
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </div>
+
               </div>
-            </div>
-
-            {/* Stylus Needle Arm Overlapping Disc */}
-            <div
-              className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right ${
-                isPlaying ? "rotate-[15deg]" : "rotate-0"
-              }`}
-            >
-              <svg width="60" height="70" viewBox="0 0 60 70" fill="none">
-                <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-                <circle cx="50" cy="5" r="4" fill="#eab308" />
-                <circle cx="20" cy="55" r="3" fill="white" />
-              </svg>
-            </div>
-          </div>
-
-          {/* Bottom Title Box + Soundwave Icon */}
-          <div className="flex items-end justify-between z-20">
-            {/* White Title Overlay Box */}
-            <div className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[140px] truncate">
-              <div className="text-[11px] font-black uppercase leading-tight truncate">
-                {currentAlbum.title}
-              </div>
-              <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate">
-                {currentTrack.title}
-              </div>
-            </div>
-
-            {/* Sound Wave Graphic (~v~) */}
-            <div className="flex items-center gap-0.5 text-white/50 pb-0.5 font-mono text-xs">
-              <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
-              <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
-              <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
-            </div>
-          </div>
-
-        </div>
-
-        {/* Right Side Faded Vinyl (Next Album) */}
-        <div
-          onClick={handleNextAlbum}
-          className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-40 hover:opacity-90 transition-all duration-300 cursor-pointer flex items-center justify-center shrink-0 -ml-8 sm:-ml-10 z-0 scale-85 hover:scale-95 group/next"
-          title={`Slide to ${nextAlbum.title}`}
-        >
-          {/* Next Album Cover Center Label */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-neutral-800 flex items-center justify-center">
-            <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/40 flex items-center justify-center text-[7px] sm:text-[8px] font-black text-white shadow-md overflow-hidden relative"
-              style={{ backgroundColor: nextAlbum.centerLabelColor }}
-            >
-              <Image src={nextAlbum.coverImage} alt={nextAlbum.title} fill className="object-cover opacity-70" />
-              <span className="relative z-10 font-bold uppercase drop-shadow">Next</span>
-            </div>
-          </div>
-          {/* Navigation Overlay Chevron */}
-          <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover/next:opacity-100 transition-opacity">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
-          </div>
-        </div>
-
-      </div>
-
-      {/* ── TRACKLIST PANEL (RIGHT SIDE) ── */}
-      <div className="flex flex-col text-left max-w-[240px] sm:max-w-[270px]">
-        
-        {/* Album Selector Header */}
-        <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10">
-          <span className="text-[10px] font-black uppercase tracking-widest text-purple-300">
-            {currentAlbum.title} TRACKLIST
-          </span>
-          <span className="text-[9px] font-bold text-white/40">
-            {currentAlbum.tracks.length} SONGS
-          </span>
-        </div>
-
-        {/* Scrollable Tracklist */}
-        <ol className="space-y-1 font-sans text-[11px] sm:text-[12px] font-bold uppercase text-white/70 tracking-tight max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500/40">
-          {currentAlbum.tracks.map((track, idx) => {
-            const isSelected = idx === activeTrackIdx;
-
-            return (
-              <li
-                key={track.id}
-                onClick={() => playTrack(idx)}
-                className={`flex items-center gap-2 px-1.5 py-0.5 rounded cursor-pointer transition-all duration-200 ${
-                  isSelected
-                    ? "text-[#d946ef] font-black bg-purple-500/15 text-purple-200 shadow-sm"
-                    : "hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <span className="text-[9px] font-mono opacity-50 w-4 text-right">
-                  {track.number}.
-                </span>
-                <span className="truncate flex-1">
-                  {track.title}
-                </span>
-                {isSelected && isPlaying && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-pulse" />
-                )}
-              </li>
             );
-          })}
-        </ol>
+          }
 
+          {/* ── INACTIVE FADED VINYL RECORD ITEM IN SLIDING LIST ── */}
+          return (
+            <div
+              key={album.id}
+              onClick={() => selectAlbum(idx)}
+              className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-35 hover:opacity-85 transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 scale-90 hover:scale-100 group"
+              title={`Slide to ${album.title}`}
+            >
+              {/* Concentric Record Grooves */}
+              <div className="w-24 h-24 sm:w-30 sm:h-30 rounded-full border border-neutral-800 flex items-center justify-center">
+                <div
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-white/30 flex items-center justify-center relative shadow-md"
+                  style={{ backgroundColor: album.centerLabelColor }}
+                >
+                  <Image src={album.coverImage} alt={album.title} fill className="object-cover opacity-70" />
+                  <span className="relative z-10 text-[8px] font-black text-white uppercase drop-shadow">
+                    {album.title.split(" ")[0]}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
     </div>
