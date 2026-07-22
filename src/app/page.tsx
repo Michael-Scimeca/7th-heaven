@@ -138,32 +138,10 @@ export default async function Home() {
   <LiveStatusSign />
 
   {/* ====== HERO ====== */}
-  <section className="relative w-full pt-[clamp(16px,4.5vw,80px)] px-[clamp(16px,4.5vw,80px)] pb-[clamp(16px,4.5vw,80px)] bg-[#0d0914]" id="hero">
+  <section className="relative w-full p-[25px] bg-[#0d0914]" id="hero">
     {/* Purple Rounded Hero Card Container */}
-    <div className="relative w-full min-h-[85vh] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[#38095c] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[clamp(20px,4vw,60px)] pt-[104px]">
+    <div className="relative w-full h-[calc(100vh-50px)] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[#38095c] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
       
-      {/* BG - Band Photo with Deep Purple Overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/hero-band-bg.png"
-          alt="7th Heaven performing live"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-top opacity-30 mix-blend-luminosity"
-        />
-        {/* Deep Purple Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#350a54]/90 via-[#270640]/90 to-[#180329]" />
-      </div>
-
-      {/* LEFT FADE: at the very left edge of the hero card — fades overflowed album discs to transparent */}
-      <div
-        className="absolute left-0 top-0 bottom-0 pointer-events-none z-[4]"
-        style={{
-          width: '200px',
-          background: 'linear-gradient(to right, #180329 0%, transparent 100%)',
-        }}
-      />
 
       {/* Hero Content: Live Feed Cards at Bottom Left, Vinyl MP3 Album Player centered at 50% */}
 

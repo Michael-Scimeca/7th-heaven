@@ -510,4 +510,21 @@ html.lenis, html.lenis body {
   }
 }
 
+/* ── Vinyl Swiper: left-edge fade mask via ::before on wrapper ── */
+.vinyl-slider-wrap {
+  position: relative;
+  overflow: visible;
+}
 
+.vinyl-slider-wrap::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -50px;
+  left: -600px;
+  bottom: -50px;
+  width: 700px;
+  background: linear-gradient(to right, rgba(56, 9, 92, 1) 0%, rgba(56, 9, 92, 1) 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 25;
+}
