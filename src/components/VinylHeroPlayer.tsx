@@ -215,9 +215,11 @@ export default function VinylHeroPlayer() {
 
   // Total slots: [-3, -2, -1, 0, 1] = 5 discs at 210px spacing
   // Disc track total width: 5 * 210 = 1050px
-  // Active disc (slot 0) is at index 3 (0-based), center offset = 3 * 210 + 105 = 735px from left
+  // Active disc (slot 0) is at index 3 (0-based), center at 3 * 210 + 105 = 735px from left
+  const DISC_SPACING = 210;
   const DISC_SIZE = 176;
   const ACTIVE_DISC_SIZE = 192;
+
 
   return (
     <div className="relative flex items-center justify-end select-none py-4 overflow-visible">
