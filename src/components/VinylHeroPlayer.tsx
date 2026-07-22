@@ -195,7 +195,7 @@ export default function VinylHeroPlayer() {
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto flex flex-col items-center select-none overflow-hidden py-2">
+    <div className="relative w-fit ml-auto flex items-center justify-end select-none overflow-hidden py-2">
       
       {/* Hidden Audio Element */}
       <audio
@@ -204,23 +204,6 @@ export default function VinylHeroPlayer() {
         onEnded={nextTrack}
         onError={() => setAudioError(true)}
       />
-
-      {/* Side Arrow Navigation */}
-      <button
-        onClick={handlePrevAlbum}
-        className="absolute left-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
-        title="Previous Album"
-      >
-        ‹
-      </button>
-
-      <button
-        onClick={handleNextAlbum}
-        className="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
-        title="Next Album"
-      >
-        ›
-      </button>
 
       {/* ── HORIZONTAL SLIDING VINYL ALBUM LIST TRACK ── */}
       <div
