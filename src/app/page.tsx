@@ -155,15 +155,13 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#350a54]/90 via-[#270640]/90 to-[#180329]" />
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-[3] flex flex-col justify-end gap-6 mt-auto">
-        {/* Latest Album Player with Spotify, Apple Music & Store Links */}
-        <HeroAlbumPlayer release={release} />
+      {/* Hero Content: Live Feed Cards at Bottom Left, Album Player at Bottom Right */}
+      <div className="relative z-[3] flex flex-col md:flex-row items-end justify-between gap-6 mt-auto">
+        {/* Bottom Left Live Feed Cards */}
+        <HeroLiveThumbs />
 
-        {/* Live Feed Thumbnails */}
-        <div className="mt-2">
-          <HeroLiveThumbs />
-        </div>
+        {/* Bottom Right Latest Album Player */}
+        <HeroAlbumPlayer release={release} />
       </div>
     </div>
   </section>
