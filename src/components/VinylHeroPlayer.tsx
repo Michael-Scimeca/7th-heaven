@@ -231,7 +231,7 @@ export default function VinylHeroPlayer() {
       <div className="relative flex items-center justify-center overflow-visible">
         
         {/* ── 1. STATIONARY TURNTABLE PLAYER SLEEVE BOX (STATIONARY ON RIGHT) ── */}
-        <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box">
+        <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between z-10 group/box">
           
           {/* Top Controls Header */}
           <div className="flex items-center justify-between z-30">
@@ -335,9 +335,9 @@ export default function VinylHeroPlayer() {
 
         </div>
 
-        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK (3 DISCS LEFT, 1 DISC RIGHT) ── */}
+        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK (FLOATS ON TOP z-20) ── */}
         <div
-          className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10 overflow-visible"
+          className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-20 overflow-visible"
           onTouchStart={(e) => handleStart(e.touches[0].clientX)}
           onTouchMove={(e) => handleMove(e.touches[0].clientX)}
           onTouchEnd={handleEnd}
@@ -372,8 +372,8 @@ export default function VinylHeroPlayer() {
                   }}
                   className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 ${
                     isActive
-                      ? "w-44 h-44 bg-[#0a0a0c] border-[5px] border-neutral-800 shadow-[0_0_35px_rgba(234,179,8,0.4)] opacity-100 scale-100 z-20"
-                      : "w-40 h-40 bg-black/90 border-4 border-neutral-900 shadow-xl opacity-40 hover:opacity-90 scale-85 z-10 hover:border-purple-500"
+                      ? "w-44 h-44 bg-[#0a0a0c] border-[5px] border-neutral-800 shadow-[0_0_35px_rgba(234,179,8,0.5)] opacity-100 scale-100 z-30"
+                      : "w-40 h-40 bg-black/90 border-4 border-neutral-900 shadow-xl opacity-20 hover:opacity-60 z-10 hover:border-purple-500"
                   } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
                   style={{
                     position: 'absolute',
