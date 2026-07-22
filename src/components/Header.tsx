@@ -120,14 +120,15 @@ export function Header() {
     (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"));
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/10 ${
-        scrolled
-          ? "bg-[#100320]/95 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
-          : "bg-[#100320]/80 backdrop-blur-md"
-      }`}
-    >
-      <div className="w-full px-[clamp(16px,4.5vw,80px)] h-[72px] flex items-center justify-between relative">
+    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none transition-all duration-300">
+      <div className="w-full pt-[clamp(12px,3.5vw,60px)] px-[clamp(12px,3.5vw,60px)]">
+        <div
+          className={`w-full h-[72px] flex items-center justify-between relative px-6 md:px-12 rounded-t-[28px] md:rounded-t-[36px] transition-all duration-300 pointer-events-auto ${
+            scrolled
+              ? "bg-[#380e54]/95 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-b border-white/10"
+              : "bg-transparent"
+          }`}
+        >
         
         {/* ── LEFT NAV GROUP ── */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-inter-tight)]">
@@ -315,6 +316,7 @@ export function Header() {
         )}
 
       </div>
-    </header>
+    </div>
+  </header>
   );
 }
