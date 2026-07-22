@@ -137,9 +137,9 @@ export default async function Home() {
   <LiveStatusSign />
 
   {/* ====== HERO ====== */}
-  <section className="relative w-full pt-[clamp(12px,3.5vw,60px)] px-[clamp(12px,3.5vw,60px)] pb-[clamp(12px,3.5vw,60px)] bg-[#0e0a14]" id="hero">
+  <section className="relative w-full pt-[clamp(16px,4.5vw,80px)] px-[clamp(16px,4.5vw,80px)] pb-[clamp(16px,4.5vw,80px)] bg-[#0d0914]" id="hero">
     {/* Purple Rounded Hero Card Container */}
-    <div className="relative w-full min-h-[85vh] rounded-[28px] md:rounded-[36px] overflow-hidden bg-[#350a54] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-6 md:p-12 pt-[90px]">
+    <div className="relative w-full min-h-[85vh] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[#38095c] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[clamp(20px,4vw,60px)] pt-[104px]">
       
       {/* BG - Band Photo with Deep Purple Overlay */}
       <div className="absolute inset-0 z-0">
