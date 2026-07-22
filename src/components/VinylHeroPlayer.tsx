@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 interface Track {
@@ -108,7 +108,6 @@ const ALBUMS: Album[] = [
 ];
 
 export default function VinylHeroPlayer() {
-  // Start on JUKEBOX (index 1) so 1 album sits to the left (BE HERE) and 2+ sit to the right (SYNERGY, NEXT LEVEL) exactly like user screenshot
   const [activeAlbumIdx, setActiveAlbumIdx] = useState(1);
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -116,6 +115,7 @@ export default function VinylHeroPlayer() {
   const [audioError, setAudioError] = useState(false);
   
   const [dragOffset, setDragOffset] = useState(0);
+  const [isDraggingState, setIsDraggingState] = useState(false);
   const isDragging = useRef(false);
   const startX = useRef<number | null>(null);
 
@@ -187,6 +187,7 @@ export default function VinylHeroPlayer() {
   // ── Drag & Touch Handlers for Album Slider ──
   const handleStart = (clientX: number) => {
     isDragging.current = true;
+    setIsDraggingState(true);
     startX.current = clientX;
   };
 
@@ -199,9 +200,10 @@ export default function VinylHeroPlayer() {
   const handleEnd = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
-    if (dragOffset < -40) {
+    setIsDraggingState(false);
+    if (dragOffset < -30) {
       handleNextAlbum();
-    } else if (dragOffset > 40) {
+    } else if (dragOffset > 30) {
       handlePrevAlbum();
     }
     setDragOffset(0);
@@ -316,7 +318,9 @@ export default function VinylHeroPlayer() {
           onMouseLeave={handleEnd}
         >
           <div
-            className="flex items-center transition-transform duration-500 ease-out absolute"
+            className={`flex items-center absolute ${
+              isDraggingState ? "transition-none" : "transition-transform duration-500 ease-out"
+            }`}
             style={{
               transform: `translateX(calc(${(0 - activeAlbumIdx) * DISC_SPACING}px + ${dragOffset}px))`,
               left: '47px',
