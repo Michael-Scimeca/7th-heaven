@@ -85,10 +85,16 @@ export default function VinylHeroPlayer() {
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioError, setAudioError] = useState(false);
+  const [slideOffset, setSlideOffset] = useState(0);
+  const [isSliding, setIsSliding] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const isDragging = useRef(false);
 
   const currentAlbum = ALBUMS[activeAlbumIdx];
+  const prevAlbum = ALBUMS[(activeAlbumIdx - 1 + ALBUMS.length) % ALBUMS.length];
+  const nextAlbum = ALBUMS[(activeAlbumIdx + 1) % ALBUMS.length];
   const currentTrack = currentAlbum.tracks[activeTrackIdx] || currentAlbum.tracks[0];
 
   const playTrack = (trackIdx: number) => {
@@ -135,17 +141,57 @@ export default function VinylHeroPlayer() {
   };
 
   const handleNextAlbum = () => {
-    const nextAlbumIdx = (activeAlbumIdx + 1) % ALBUMS.length;
-    setActiveAlbumIdx(nextAlbumIdx);
-    setActiveTrackIdx(0);
-    setIsPlaying(false);
+    if (isSliding) return;
+    setIsSliding(true);
+    setSlideOffset(-160);
+
+    setTimeout(() => {
+      setActiveAlbumIdx((prev) => (prev + 1) % ALBUMS.length);
+      setActiveTrackIdx(0);
+      setIsPlaying(false);
+      setSlideOffset(0);
+      setIsSliding(false);
+    }, 300);
   };
 
   const handlePrevAlbum = () => {
-    const prevAlbumIdx = (activeAlbumIdx - 1 + ALBUMS.length) % ALBUMS.length;
-    setActiveAlbumIdx(prevAlbumIdx);
-    setActiveTrackIdx(0);
-    setIsPlaying(false);
+    if (isSliding) return;
+    setIsSliding(true);
+    setSlideOffset(160);
+
+    setTimeout(() => {
+      setActiveAlbumIdx((prev) => (prev - 1 + ALBUMS.length) % ALBUMS.length);
+      setActiveTrackIdx(0);
+      setIsPlaying(false);
+      setSlideOffset(0);
+      setIsSliding(false);
+    }, 300);
+  };
+
+  // ── Drag & Touch Swipe Handlers ──
+  const handleTouchStart = (clientX: number) => {
+    touchStartX.current = clientX;
+    isDragging.current = true;
+  };
+
+  const handleTouchMove = (clientX: number) => {
+    if (!isDragging.current || touchStartX.current === null) return;
+    const diff = clientX - touchStartX.current;
+    // Bound drag offset for natural spring resistance
+    setSlideOffset(Math.max(-120, Math.min(120, diff)));
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    if (slideOffset < -40) {
+      handleNextAlbum();
+    } else if (slideOffset > 40) {
+      handlePrevAlbum();
+    } else {
+      setSlideOffset(0);
+    }
+    touchStartX.current = null;
   };
 
   return (
@@ -160,24 +206,46 @@ export default function VinylHeroPlayer() {
       />
 
       {/* ── VINYL CAROUSEL SLIDER WRAPPER ── */}
-      <div className="relative flex items-center gap-3">
+      <div
+        className="relative flex items-center justify-center gap-1 sm:gap-3 touch-pan-x cursor-grab active:cursor-grabbing py-2"
+        onTouchStart={(e) => handleTouchStart(e.touches[0].clientX)}
+        onTouchMove={(e) => handleTouchMove(e.touches[0].clientX)}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={(e) => handleTouchStart(e.clientX)}
+        onMouseMove={(e) => handleTouchMove(e.clientX)}
+        onMouseUp={handleTouchEnd}
+        onMouseLeave={handleTouchEnd}
+      >
         
         {/* Left Side Faded Vinyl (Previous Album) */}
         <div
           onClick={handlePrevAlbum}
-          className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-40 hover:opacity-75 transition-all duration-500 cursor-pointer hidden xl:flex items-center justify-center shrink-0 -mr-10 z-0 scale-90 hover:scale-95"
-          title="Previous Album"
+          className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-40 hover:opacity-90 transition-all duration-300 cursor-pointer flex items-center justify-center shrink-0 -mr-8 sm:-mr-10 z-0 scale-85 hover:scale-95 group/prev"
+          title={`Slide to ${prevAlbum.title}`}
         >
-          {/* Vinyl Grooves */}
-          <div className="w-20 h-20 rounded-full border border-neutral-800 flex items-center justify-center">
-            <div className="w-10 h-10 rounded-full bg-purple-900/60 border border-purple-400/40 flex items-center justify-center text-[8px] font-bold text-white">
-              7H
+          {/* Previous Album Cover Center Label */}
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-neutral-800 flex items-center justify-center">
+            <div
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/40 flex items-center justify-center text-[7px] sm:text-[8px] font-black text-white shadow-md overflow-hidden relative"
+              style={{ backgroundColor: prevAlbum.centerLabelColor }}
+            >
+              <Image src={prevAlbum.coverImage} alt={prevAlbum.title} fill className="object-cover opacity-70" />
+              <span className="relative z-10 font-bold uppercase drop-shadow">Prev</span>
             </div>
+          </div>
+          {/* Navigation Overlay Chevron */}
+          <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover/prev:opacity-100 transition-opacity">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><polyline points="15 18 9 12 15 6" /></svg>
           </div>
         </div>
 
         {/* ── ACTIVE TURNTABLE VINYL PLAYER CARD ── */}
-        <div className="relative w-[240px] h-[240px] sm:w-[260px] sm:h-[260px] bg-[#220436]/90 border border-white/20 rounded-2xl p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-10 group">
+        <div
+          className="relative w-[240px] h-[240px] sm:w-[260px] sm:h-[260px] bg-[#220436]/95 border border-white/20 rounded-2xl p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-10 group transition-transform duration-300"
+          style={{
+            transform: `translateX(${slideOffset}px)`,
+          }}
+        >
           
           {/* Top Controls Header */}
           <div className="flex items-center justify-between z-20">
@@ -186,9 +254,9 @@ export default function VinylHeroPlayer() {
             </span>
 
             {/* Playback Controls |<< ► >>| */}
-            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+            <div className="flex items-center gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
               <button
-                onClick={prevTrack}
+                onClick={(e) => { e.stopPropagation(); prevTrack(); }}
                 className="text-white/70 hover:text-white transition-colors cursor-pointer"
                 title="Previous Track"
               >
@@ -196,7 +264,7 @@ export default function VinylHeroPlayer() {
               </button>
 
               <button
-                onClick={togglePlay}
+                onClick={(e) => { e.stopPropagation(); togglePlay(); }}
                 className="w-5 h-5 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md"
                 title={isPlaying ? "Pause" : "Play"}
               >
@@ -208,7 +276,7 @@ export default function VinylHeroPlayer() {
               </button>
 
               <button
-                onClick={nextTrack}
+                onClick={(e) => { e.stopPropagation(); nextTrack(); }}
                 className="text-white/70 hover:text-white transition-colors cursor-pointer"
                 title="Next Track"
               >
@@ -221,7 +289,7 @@ export default function VinylHeroPlayer() {
           <div className="relative flex items-center justify-center my-auto">
             {/* Spinning Vinyl Record Disc */}
             <div
-              className={`relative w-40 h-40 sm:w-44 sm:h-44 rounded-full bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl flex items-center justify-center ${
+              className={`relative w-40 h-40 sm:w-44 sm:h-44 rounded-full bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl flex items-center justify-center transition-all duration-300 ${
                 isPlaying ? "animate-[spin_4s_linear_infinite]" : ""
               }`}
             >
@@ -288,14 +356,22 @@ export default function VinylHeroPlayer() {
         {/* Right Side Faded Vinyl (Next Album) */}
         <div
           onClick={handleNextAlbum}
-          className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-40 hover:opacity-75 transition-all duration-500 cursor-pointer hidden xl:flex items-center justify-center shrink-0 -ml-10 z-0 scale-90 hover:scale-95"
-          title="Next Album"
+          className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-40 hover:opacity-90 transition-all duration-300 cursor-pointer flex items-center justify-center shrink-0 -ml-8 sm:-ml-10 z-0 scale-85 hover:scale-95 group/next"
+          title={`Slide to ${nextAlbum.title}`}
         >
-          {/* Vinyl Grooves */}
-          <div className="w-20 h-20 rounded-full border border-neutral-800 flex items-center justify-center">
-            <div className="w-10 h-10 rounded-full bg-fuchsia-900/60 border border-fuchsia-400/40 flex items-center justify-center text-[8px] font-bold text-white">
-              7H
+          {/* Next Album Cover Center Label */}
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-neutral-800 flex items-center justify-center">
+            <div
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/40 flex items-center justify-center text-[7px] sm:text-[8px] font-black text-white shadow-md overflow-hidden relative"
+              style={{ backgroundColor: nextAlbum.centerLabelColor }}
+            >
+              <Image src={nextAlbum.coverImage} alt={nextAlbum.title} fill className="object-cover opacity-70" />
+              <span className="relative z-10 font-bold uppercase drop-shadow">Next</span>
             </div>
+          </div>
+          {/* Navigation Overlay Chevron */}
+          <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover/next:opacity-100 transition-opacity">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
           </div>
         </div>
 
