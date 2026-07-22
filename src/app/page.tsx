@@ -14,6 +14,7 @@ import HomeMerch from "@/components/HomeMerch";
 import FeaturedTrack from "@/components/FeaturedTrack";
 import HeroLiveThumbs from "@/components/HeroLiveThumbs";
 import HeroAlbumPlayer from "@/components/HeroAlbumPlayer";
+import VinylHeroPlayer from "@/components/VinylHeroPlayer";
 import { VENUE_LINKS } from "@/lib/venue-links";
 import { sanityClient, queries, SanityBandMember, SanityTourDate, SanitySiteSettings } from "@/lib/sanity";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
@@ -155,13 +156,13 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#350a54]/90 via-[#270640]/90 to-[#180329]" />
       </div>
 
-      {/* Hero Content: Live Feed Cards at Bottom Left, Album Player at Bottom Right */}
-      <div className="relative z-[3] flex flex-col md:flex-row items-end justify-between gap-6 mt-auto">
+      {/* Hero Content: Live Feed Cards at Bottom Left, Vinyl MP3 Album Player at Bottom Right */}
+      <div className="relative z-[3] flex flex-col xl:flex-row items-end justify-between gap-6 mt-auto">
         {/* Bottom Left Live Feed Cards */}
         <HeroLiveThumbs />
 
-        {/* Bottom Right Latest Album Player */}
-        <HeroAlbumPlayer release={release} />
+        {/* Bottom Right Vinyl MP3 Player & Album Tracklist Slider */}
+        <VinylHeroPlayer />
       </div>
     </div>
   </section>
