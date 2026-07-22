@@ -123,11 +123,7 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none transition-all duration-300">
       <div className="w-full pt-[clamp(16px,4.5vw,80px)] px-[clamp(16px,4.5vw,80px)]">
         <div
-          className={`w-full h-[84px] flex items-center justify-between relative px-[clamp(20px,4vw,60px)] rounded-t-[32px] md:rounded-t-[40px] pt-3 transition-all duration-300 pointer-events-auto ${
-            scrolled
-              ? "bg-[#38095c]/95 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-b border-white/10"
-              : "bg-transparent"
-          }`}
+          className="w-full h-[84px] flex items-center justify-between relative px-[clamp(20px,4vw,60px)] pt-3 bg-transparent pointer-events-auto"
         >
         
         {/* ── LEFT NAV GROUP ── */}
