@@ -108,7 +108,8 @@ const ALBUMS: Album[] = [
 ];
 
 export default function VinylHeroPlayer() {
-  const [activeAlbumIdx, setActiveAlbumIdx] = useState(0);
+  // Start on JUKEBOX (index 1) so 1 album sits to the left (BE HERE) and 2+ sit to the right (SYNERGY, NEXT LEVEL) exactly like user screenshot
+  const [activeAlbumIdx, setActiveAlbumIdx] = useState(1);
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -207,11 +208,11 @@ export default function VinylHeroPlayer() {
     startX.current = null;
   };
 
-  // Exact step distance: disc width (176px) + gap-8 (32px) = 208px
-  const STEP = 208;
+  // Distance between center points of consecutive vinyl discs (210px)
+  const DISC_SPACING = 210;
 
   return (
-    <div className="relative flex items-center justify-end select-none py-2 overflow-visible">
+    <div className="relative flex items-center justify-center select-none py-4 overflow-visible">
       
       {/* Hidden Audio Element */}
       <audio
@@ -221,15 +222,15 @@ export default function VinylHeroPlayer() {
         onError={() => setAudioError(true)}
       />
 
-      {/* ── MAIN CONTAINER WRAPPER ── */}
+      {/* ── MAIN TURNTABLE PLAYER AND VINYL DISCS ROW WRAPPER ── */}
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative flex items-center overflow-visible"
+        className="relative flex items-center justify-center overflow-visible"
       >
-
-        {/* ── STATIONARY TURNTABLE SLEEVE BOX (VINYL STEREO PLAYER) ── */}
-        <div className="relative w-[270px] h-[270px] bg-[#220436]/95 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box">
+        
+        {/* ── 1. STATIONARY TURNTABLE PLAYER SLEEVE BOX (CENTERED) ── */}
+        <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box">
           
           {/* Top Controls Header */}
           <div className="flex items-center justify-between z-30">
@@ -269,73 +270,6 @@ export default function VinylHeroPlayer() {
             </div>
           </div>
 
-          {/* ── VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK ── */}
-          <div
-            className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10 overflow-visible"
-            onTouchStart={(e) => handleStart(e.touches[0].clientX)}
-            onTouchMove={(e) => handleMove(e.touches[0].clientX)}
-            onTouchEnd={handleEnd}
-            onMouseDown={(e) => handleStart(e.clientX)}
-            onMouseMove={(e) => handleMove(e.clientX)}
-            onMouseUp={handleEnd}
-            onMouseLeave={handleEnd}
-          >
-            {/* The active disc sits at left: 47px inside the 270px card (perfectly centered). */}
-            <div
-              className="flex items-center gap-8 transition-transform duration-500 ease-out absolute"
-              style={{
-                left: '47px',
-                transform: `translateX(calc(${-activeAlbumIdx * STEP}px + ${dragOffset}px))`,
-              }}
-            >
-              {ALBUMS.map((album, idx) => {
-                const isActive = idx === activeAlbumIdx;
-
-                return (
-                  <div
-                    key={album.id}
-                    onClick={(e) => {
-                      if (!isActive) {
-                        e.stopPropagation();
-                        selectAlbum(idx);
-                      }
-                    }}
-                    className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 w-44 h-44 ${
-                      isActive
-                        ? "bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl opacity-100 scale-100 z-20"
-                        : "bg-neutral-950 border-4 border-neutral-900 shadow-xl opacity-40 hover:opacity-90 scale-85 z-10"
-                    } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
-                    title={`Slide ${album.title} into Vinyl Stereo Player`}
-                  >
-                    {/* Concentric Record Grooves */}
-                    <div className="w-36 h-36 rounded-full border border-neutral-800/80 flex items-center justify-center">
-                      <div className="w-28 h-28 rounded-full border border-neutral-800/60 flex items-center justify-center">
-                        {/* Center Album Art Label */}
-                        <div
-                          className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 flex flex-col items-center justify-center shadow-lg"
-                          style={{ backgroundColor: album.centerLabelColor }}
-                        >
-                          <Image
-                            src={album.coverImage}
-                            alt={album.title}
-                            fill
-                            className="object-cover opacity-75"
-                          />
-                          <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-1 text-center">
-                            <span className="text-[7px] font-black text-white uppercase tracking-tighter drop-shadow leading-none">
-                              {album.title}
-                            </span>
-                            <span className="w-2 h-2 rounded-full bg-white/90 shadow border border-black/40 mt-0.5" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
           {/* Stylus Needle Arm (STATIONARY OVERLAY) */}
           <div
             className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right z-30 ${
@@ -370,7 +304,79 @@ export default function VinylHeroPlayer() {
 
         </div>
 
-        {/* ── HOVER-TO-REVEAL TRACKLIST PANEL ── */}
+        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK (EXTENDS LEFT & RIGHT) ── */}
+        <div
+          className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10 overflow-visible"
+          onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+          onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+          onTouchEnd={handleEnd}
+          onMouseDown={(e) => handleStart(e.clientX)}
+          onMouseMove={(e) => handleMove(e.clientX)}
+          onMouseUp={handleEnd}
+          onMouseLeave={handleEnd}
+        >
+          <div
+            className="flex items-center transition-transform duration-500 ease-out absolute"
+            style={{
+              transform: `translateX(calc(${(0 - activeAlbumIdx) * DISC_SPACING}px + ${dragOffset}px))`,
+              left: '47px',
+            }}
+          >
+            {ALBUMS.map((album, idx) => {
+              const isActive = idx === activeAlbumIdx;
+
+              return (
+                <div
+                  key={album.id}
+                  onClick={(e) => {
+                    if (!isActive) {
+                      e.stopPropagation();
+                      selectAlbum(idx);
+                    }
+                  }}
+                  className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 ${
+                    isActive
+                      ? "w-44 h-44 bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl opacity-100 scale-100 z-20"
+                      : "w-40 h-40 bg-neutral-950 border-4 border-neutral-900 shadow-xl opacity-25 hover:opacity-75 scale-85 z-10"
+                  } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${idx * DISC_SPACING}px`,
+                    width: '176px',
+                    height: '176px',
+                  }}
+                  title={`Slide ${album.title} into Vinyl Stereo Player`}
+                >
+                  {/* Concentric Record Grooves */}
+                  <div className="w-36 h-36 rounded-full border border-neutral-800/80 flex items-center justify-center">
+                    <div className="w-28 h-28 rounded-full border border-neutral-800/60 flex items-center justify-center">
+                      {/* Center Album Art Label */}
+                      <div
+                        className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 flex flex-col items-center justify-center shadow-lg"
+                        style={{ backgroundColor: album.centerLabelColor }}
+                      >
+                        <Image
+                          src={album.coverImage}
+                          alt={album.title}
+                          fill
+                          className="object-cover opacity-75"
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-1 text-center">
+                          <span className="text-[7px] font-black text-white uppercase tracking-tighter drop-shadow leading-none">
+                            {album.title}
+                          </span>
+                          <span className="w-2 h-2 rounded-full bg-white/90 shadow border border-black/40 mt-0.5" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── 3. HOVER-TO-REVEAL TRACKLIST PANEL (SLIDES OUT TO RIGHT) ── */}
         <div
           className={`flex flex-col text-left transition-all duration-500 ease-out origin-left z-20 ${
             isHovered
