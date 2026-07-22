@@ -341,7 +341,7 @@ export default function VinylHeroPlayer() {
                   className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 ${
                     isActive
                       ? "w-44 h-44 bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl opacity-100 scale-100 z-20"
-                      : "w-40 h-40 bg-neutral-950 border-4 border-neutral-900 shadow-xl opacity-25 hover:opacity-75 scale-85 z-10"
+                      : "w-40 h-40 bg-neutral-950 border-4 border-neutral-900 shadow-xl opacity-100 scale-90 z-10 hover:border-purple-400"
                   } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
                   style={{
                     position: 'absolute',
@@ -352,8 +352,8 @@ export default function VinylHeroPlayer() {
                   title={`Slide ${album.title} into Vinyl Stereo Player`}
                 >
                   {/* Concentric Record Grooves */}
-                  <div className="w-36 h-36 rounded-full border border-neutral-800/80 flex items-center justify-center">
-                    <div className="w-28 h-28 rounded-full border border-neutral-800/60 flex items-center justify-center">
+                  <div className="w-36 h-36 rounded-full border border-neutral-700 flex items-center justify-center">
+                    <div className="w-28 h-28 rounded-full border border-neutral-700 flex items-center justify-center">
                       {/* Center Album Art Label */}
                       <div
                         className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 flex flex-col items-center justify-center shadow-lg"
@@ -363,13 +363,13 @@ export default function VinylHeroPlayer() {
                           src={album.coverImage}
                           alt={album.title}
                           fill
-                          className="object-cover opacity-75"
+                          className="object-cover opacity-100"
                         />
-                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-1 text-center">
-                          <span className="text-[7px] font-black text-white uppercase tracking-tighter drop-shadow leading-none">
+                        <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center p-1 text-center">
+                          <span className="text-[7.5px] font-black text-white uppercase tracking-tighter drop-shadow-md leading-none">
                             {album.title}
                           </span>
-                          <span className="w-2 h-2 rounded-full bg-white/90 shadow border border-black/40 mt-0.5" />
+                          <span className="w-2 h-2 rounded-full bg-white shadow border border-black/50 mt-0.5" />
                         </div>
                       </div>
                     </div>
