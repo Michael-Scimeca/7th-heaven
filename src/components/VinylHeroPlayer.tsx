@@ -207,11 +207,23 @@ export default function VinylHeroPlayer() {
     startX.current = null;
   };
 
-  // Fixed slot distance for smooth sliding centering (190px per disc slot)
-  const SLOT_WIDTH = 190;
+  // Disc spacing unit (180px per slot)
+  const DISC_SPACING = 180;
+  const count = ALBUMS.length;
+
+  // Compute relative visual slots for infinite looping array around active album (-2, -1, 0, 1, 2)
+  const visibleSlots = [-2, -1, 0, 1, 2].map((relativeOffset) => {
+    const albumIndex = (activeAlbumIdx + relativeOffset + count * 10) % count;
+    return {
+      relativeOffset,
+      albumIndex,
+      album: ALBUMS[albumIndex],
+      isActive: relativeOffset === 0,
+    };
+  });
 
   return (
-    <div className="relative w-fit ml-auto flex items-center justify-end select-none py-2">
+    <div className="relative flex items-center justify-end select-none py-2 overflow-visible">
       
       {/* Hidden Audio Element */}
       <audio
@@ -221,36 +233,18 @@ export default function VinylHeroPlayer() {
         onError={() => setAudioError(true)}
       />
 
-      {/* ── MAIN TURNTABLE PLAYER + SLIDING ALBUM TRACK CONTAINER ── */}
-      <div className="relative flex items-center">
+      {/* ── MAIN TURNTABLE PLAYER & HORIZONTAL VISIBLE VINYL SLIDER ROW ── */}
+      <div className="relative flex items-center overflow-visible">
         
-        {/* Navigation Arrow Left */}
-        <button
-          onClick={handlePrevAlbum}
-          className="absolute -left-12 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-40 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
-          title="Previous Album"
-        >
-          ‹
-        </button>
-
-        {/* Navigation Arrow Right */}
-        <button
-          onClick={handleNextAlbum}
-          className="absolute -right-12 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-40 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
-          title="Next Album"
-        >
-          ›
-        </button>
-
-        {/* ── STATIONARY "PLAYABLE SECTION" (TURNTABLE BOX SLEEVE) ── */}
+        {/* ── STATIONARY TURNTABLE PLAYER SLEEVE BOX (PLAY SECTION) ── */}
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className="relative flex items-center"
+          className="relative flex items-center overflow-visible"
         >
           
           {/* PLAYABLE SECTION SLEEVE BOX */}
-          <div className="relative w-[245px] h-[245px] sm:w-[270px] sm:h-[270px] bg-[#220436]/95 border-2 border-purple-500/50 rounded-2xl p-4 shadow-[0_0_35px_rgba(133,29,239,0.35)] flex flex-col justify-between overflow-hidden z-20 group/box">
+          <div className="relative w-[245px] h-[245px] sm:w-[270px] sm:h-[270px] bg-[#220436]/95 border-2 border-purple-500/50 rounded-2xl p-4 shadow-[0_0_35px_rgba(133,29,239,0.35)] flex flex-col justify-between z-20 group/box">
             
             {/* Top Controls Header (STATIONARY PLAY SECTION) */}
             <div className="flex items-center justify-between z-30">
@@ -290,9 +284,9 @@ export default function VinylHeroPlayer() {
               </div>
             </div>
 
-            {/* ── SLIDING VINYL DISCS SLIDER TRACK (PASSES HORIZONTALLY THROUGH PLAYABLE SECTION) ── */}
+            {/* ── VISIBLE HORIZONTAL INFINITE VINYL DISCS SLIDER TRACK ── */}
             <div
-              className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10"
+              className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10 overflow-visible"
               onTouchStart={(e) => handleStart(e.touches[0].clientX)}
               onTouchMove={(e) => handleMove(e.touches[0].clientX)}
               onTouchEnd={handleEnd}
@@ -302,28 +296,30 @@ export default function VinylHeroPlayer() {
               onMouseLeave={handleEnd}
             >
               <div
-                className="flex items-center gap-10 transition-transform duration-500 ease-out absolute"
+                className="flex items-center transition-transform duration-500 ease-out absolute left-1/2 top-1/2 -translate-y-1/2"
                 style={{
-                  transform: `translateX(calc(${-activeAlbumIdx * SLOT_WIDTH}px + ${dragOffset}px))`,
+                  transform: `translate(calc(-50% + ${dragOffset}px), -50%)`,
                 }}
               >
-                {ALBUMS.map((album, idx) => {
-                  const isActive = idx === activeAlbumIdx;
-
+                {visibleSlots.map(({ relativeOffset, albumIndex, album, isActive }) => {
                   return (
                     <div
-                      key={album.id}
+                      key={`${album.id}-${relativeOffset}`}
                       onClick={(e) => {
                         if (!isActive) {
                           e.stopPropagation();
-                          selectAlbum(idx);
+                          selectAlbum(albumIndex);
                         }
                       }}
-                      className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 ${
+                      className={`absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center ${
                         isActive
-                          ? "w-40 h-40 sm:w-44 sm:h-44 bg-neutral-950 border-[6px] border-neutral-900 shadow-[0_0_25px_rgba(234,179,8,0.3)] opacity-100 scale-100"
-                          : "w-36 h-36 sm:w-40 sm:h-40 bg-neutral-950 border-4 border-neutral-900 shadow-xl opacity-30 hover:opacity-85 scale-85"
+                          ? "w-40 h-40 sm:w-44 sm:h-44 bg-neutral-950 border-[6px] border-neutral-900 shadow-[0_0_25px_rgba(234,179,8,0.35)] opacity-100 scale-100 z-20"
+                          : "w-36 h-36 sm:w-40 sm:h-40 bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-45 hover:opacity-100 scale-85 z-10"
                       } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
+                      style={{
+                        left: `calc(50% + ${relativeOffset * DISC_SPACING}px)`,
+                        transform: 'translate(-50%, -50%)',
+                      }}
                       title={`Slide ${album.title} into Playable Section`}
                     >
                       {/* Concentric Record Grooves */}
