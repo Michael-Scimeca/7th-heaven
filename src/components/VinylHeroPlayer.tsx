@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 
 interface Track {
@@ -98,6 +98,7 @@ export default function VinylHeroPlayer() {
   const [activeAlbumIdx, setActiveAlbumIdx] = useState(0);
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const [audioError, setAudioError] = useState(false);
   
   const [dragOffset, setDragOffset] = useState(0);
@@ -184,9 +185,9 @@ export default function VinylHeroPlayer() {
   const handleEnd = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
-    if (dragOffset < -50) {
+    if (dragOffset < -40) {
       handleNextAlbum();
-    } else if (dragOffset > 50) {
+    } else if (dragOffset > 40) {
       handlePrevAlbum();
     }
     setDragOffset(0);
@@ -194,7 +195,7 @@ export default function VinylHeroPlayer() {
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto flex flex-col items-center select-none overflow-hidden py-4">
+    <div className="relative w-full max-w-5xl mx-auto flex flex-col items-center select-none overflow-hidden py-2">
       
       {/* Hidden Audio Element */}
       <audio
@@ -204,10 +205,10 @@ export default function VinylHeroPlayer() {
         onError={() => setAudioError(true)}
       />
 
-      {/* Navigation Arrow Controls */}
+      {/* Side Arrow Navigation */}
       <button
         onClick={handlePrevAlbum}
-        className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-xl font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
+        className="absolute left-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
         title="Previous Album"
       >
         ‹
@@ -215,7 +216,7 @@ export default function VinylHeroPlayer() {
 
       <button
         onClick={handleNextAlbum}
-        className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-xl font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
+        className="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-lg font-bold flex items-center justify-center z-30 hover:bg-white hover:text-black transition-all cursor-pointer shadow-lg"
         title="Next Album"
       >
         ›
@@ -223,9 +224,9 @@ export default function VinylHeroPlayer() {
 
       {/* ── HORIZONTAL SLIDING VINYL ALBUM LIST TRACK ── */}
       <div
-        className="flex items-center gap-6 sm:gap-10 transition-transform duration-500 ease-out cursor-grab active:cursor-grabbing px-12"
+        className="flex items-center gap-6 sm:gap-10 transition-transform duration-500 ease-out cursor-grab active:cursor-grabbing px-10"
         style={{
-          transform: `translateX(calc(${-activeAlbumIdx * 200}px + ${dragOffset}px))`,
+          transform: `translateX(calc(${-activeAlbumIdx * 210}px + ${dragOffset}px))`,
         }}
         onTouchStart={(e) => handleStart(e.touches[0].clientX)}
         onTouchMove={(e) => handleMove(e.touches[0].clientX)}
@@ -240,13 +241,15 @@ export default function VinylHeroPlayer() {
 
           if (isActive) {
             return (
-              /* ── ACTIVE TURNTABLE PLAYER + TRACKLIST ITEM ── */
+              /* ── ACTIVE TURNTABLE PLAYER WITH HOVER-TO-REVEAL TRACKLIST ── */
               <div
                 key={album.id}
-                className="flex flex-col md:flex-row items-center gap-5 sm:gap-7 shrink-0 z-20 transition-all duration-500 scale-100"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                className="flex items-center shrink-0 z-20 transition-all duration-500"
               >
                 {/* Turntable Player Box */}
-                <div className="relative w-[240px] h-[240px] sm:w-[270px] sm:h-[270px] bg-[#220436]/95 border border-white/25 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden group">
+                <div className="relative w-[240px] h-[240px] sm:w-[265px] sm:h-[265px] bg-[#220436]/95 border border-white/25 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden group/box">
                   
                   {/* Top Controls Header */}
                   <div className="flex items-center justify-between z-20">
@@ -338,18 +341,30 @@ export default function VinylHeroPlayer() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-0.5 text-white/50 pb-0.5 font-mono text-xs">
-                      <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
-                      <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
-                      <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+                    {/* Hover Tracklist Prompt / Waveform */}
+                    <div className="flex items-center gap-1.5 text-white/60 text-[9px] font-bold">
+                      <span className="hidden group-hover/box:inline text-[8px] font-black uppercase tracking-widest text-purple-300 animate-pulse">
+                        Tracklist ›
+                      </span>
+                      <div className="flex items-center gap-0.5 text-white/50 font-mono text-xs">
+                        <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+                        <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
+                        <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+                      </div>
                     </div>
                   </div>
 
                 </div>
 
-                {/* Tracklist List Panel */}
-                <div className="flex flex-col text-left w-[200px] sm:w-[240px] shrink-0">
-                  <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10">
+                {/* ── HOVER-TO-REVEAL TRACKLIST PANEL ── */}
+                <div
+                  className={`flex flex-col text-left transition-all duration-500 ease-out origin-left ${
+                    isHovered
+                      ? "w-[210px] sm:w-[240px] opacity-100 translate-x-0 pointer-events-auto pl-4 border-l border-white/15"
+                      : "w-0 opacity-0 -translate-x-4 pointer-events-none overflow-hidden"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10 whitespace-nowrap">
                     <span className="text-[10px] font-black uppercase tracking-widest text-purple-300">
                       {album.title} TRACKLIST
                     </span>
@@ -358,14 +373,14 @@ export default function VinylHeroPlayer() {
                     </span>
                   </div>
 
-                  <ol className="space-y-1 font-sans text-[11px] sm:text-[12px] font-bold uppercase text-white/70 tracking-tight max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500/40">
+                  <ol className="space-y-1 font-sans text-[11px] sm:text-[12px] font-bold uppercase text-white/80 tracking-tight max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500/40 whitespace-nowrap">
                     {album.tracks.map((track, tIdx) => {
                       const isSelected = tIdx === activeTrackIdx;
 
                       return (
                         <li
                           key={track.id}
-                          onClick={() => playTrack(tIdx)}
+                          onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
                           className={`flex items-center gap-2 px-1.5 py-0.5 rounded cursor-pointer transition-all duration-200 ${
                             isSelected
                               ? "text-[#d946ef] font-black bg-purple-500/15 text-purple-200 shadow-sm"
@@ -396,7 +411,7 @@ export default function VinylHeroPlayer() {
             <div
               key={album.id}
               onClick={() => selectAlbum(idx)}
-              className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-35 hover:opacity-85 transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 scale-90 hover:scale-100 group"
+              className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-neutral-950 border-4 border-neutral-900 shadow-2xl opacity-30 hover:opacity-85 transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 scale-90 hover:scale-100 group"
               title={`Slide to ${album.title}`}
             >
               {/* Concentric Record Grooves */}
