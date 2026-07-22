@@ -227,8 +227,17 @@ export default function VinylHeroPlayer() {
         onError={() => setAudioError(true)}
       />
 
-      {/* ── MAIN TURNTABLE PLAYER AND VINYL DISCS ROW WRAPPER ── */}
-      <div className="relative flex items-center justify-center overflow-visible">
+      {/* ── MAIN TURNTABLE PLAYER AND VINYL DISCS ROW WRAPPER ── drag handlers here so entire row is interactive ── */}
+      <div
+        className="relative flex items-center justify-center overflow-visible cursor-grab active:cursor-grabbing"
+        onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+        onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+        onTouchEnd={handleEnd}
+        onMouseDown={(e) => handleStart(e.clientX)}
+        onMouseMove={(e) => handleMove(e.clientX)}
+        onMouseUp={handleEnd}
+        onMouseLeave={handleEnd}
+      >
         
         {/* ── 1. STATIONARY TURNTABLE PLAYER SLEEVE BOX (STATIONARY ON RIGHT) ── */}
         <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between z-10 group/box">
@@ -336,16 +345,7 @@ export default function VinylHeroPlayer() {
         </div>
 
         {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK (FLOATS ON TOP z-20) ── */}
-        <div
-          className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-20 overflow-visible"
-          onTouchStart={(e) => handleStart(e.touches[0].clientX)}
-          onTouchMove={(e) => handleMove(e.touches[0].clientX)}
-          onTouchEnd={handleEnd}
-          onMouseDown={(e) => handleStart(e.clientX)}
-          onMouseMove={(e) => handleMove(e.clientX)}
-          onMouseUp={handleEnd}
-          onMouseLeave={handleEnd}
-        >
+        <div className="absolute inset-0 flex items-center justify-center z-20 overflow-visible pointer-events-none">
           <div
             className={`flex items-center absolute ${
               isDraggingState ? "transition-none" : "transition-transform duration-500 ease-out"
@@ -370,7 +370,7 @@ export default function VinylHeroPlayer() {
                       selectAlbum(newIdx);
                     }
                   }}
-                  className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 ${
+                  className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 pointer-events-auto ${
                     isActive
                       ? "w-44 h-44 bg-[#0a0a0c] border-[5px] border-neutral-800 shadow-[0_0_35px_rgba(234,179,8,0.5)] opacity-100 scale-100 z-30"
                       : "w-40 h-40 bg-black/90 border-4 border-neutral-900 shadow-xl opacity-20 hover:opacity-60 z-10 hover:border-purple-500"
