@@ -189,7 +189,14 @@ export default function VinylHeroPlayer() {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
           <div className="w-[270px] h-[270px] bg-[#220436]/85 border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
         </div>
-
+        {/* LEFT FADE: 130px clearance from sleeve left edge (~215px), albums fade beyond that */}
+        <div
+          className="absolute top-0 bottom-0 left-0 pointer-events-none z-[25]"
+          style={{
+            width: '215px',
+            background: 'linear-gradient(to right, #180329 0%, #180329 39%, transparent 100%)',
+          }}
+        />
 
         {/* LAYER 2: Swiper disc track — z-20, centeredSlides so active disc is always centered in container */}
         <Swiper
