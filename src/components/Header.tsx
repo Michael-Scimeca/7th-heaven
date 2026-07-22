@@ -120,7 +120,7 @@ export function Header() {
     (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"));
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none transition-all duration-300">
+    <header className="absolute top-0 left-0 right-0 z-50 pointer-events-none">
       <div className="w-full pt-[clamp(16px,4.5vw,80px)] px-[clamp(16px,4.5vw,80px)]">
         <div
           className="w-full h-[84px] flex items-center justify-between relative px-[clamp(20px,4vw,60px)] pt-3 bg-transparent pointer-events-auto"
