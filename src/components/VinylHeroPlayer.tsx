@@ -372,8 +372,8 @@ export default function VinylHeroPlayer() {
                   }}
                   className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 ${
                     isActive
-                      ? "w-44 h-44 bg-black border-[5px] border-neutral-900 shadow-[0_0_40px_rgba(0,0,0,0.9)] opacity-100 scale-100 z-20"
-                      : "w-40 h-40 bg-black/90 border-4 border-neutral-900/90 shadow-xl opacity-30 hover:opacity-85 scale-85 z-10 hover:border-purple-500"
+                      ? "w-44 h-44 bg-[#0a0a0c] border-[5px] border-neutral-800 shadow-[0_0_35px_rgba(234,179,8,0.4)] opacity-100 scale-100 z-20"
+                      : "w-40 h-40 bg-black/90 border-4 border-neutral-900 shadow-xl opacity-40 hover:opacity-90 scale-85 z-10 hover:border-purple-500"
                   } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
                   style={{
                     position: 'absolute',
@@ -384,24 +384,24 @@ export default function VinylHeroPlayer() {
                   title={`Slide ${album.title} into Vinyl Stereo Player`}
                 >
                   {/* Concentric Record Grooves */}
-                  <div className="w-36 h-36 rounded-full border border-neutral-800 flex items-center justify-center">
-                    <div className="w-28 h-28 rounded-full border border-neutral-800 flex items-center justify-center">
+                  <div className="w-36 h-36 rounded-full border border-neutral-700/90 flex items-center justify-center">
+                    <div className="w-28 h-28 rounded-full border border-neutral-700/70 flex items-center justify-center">
                       {/* Center Album Art Label */}
                       <div
-                        className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 flex flex-col items-center justify-center shadow-lg"
+                        className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 flex flex-col items-center justify-center shadow-[0_0_12px_rgba(234,179,8,0.6)]"
                         style={{ backgroundColor: album.centerLabelColor }}
                       >
                         <Image
                           src={album.coverImage}
                           alt={album.title}
                           fill
-                          className="object-cover opacity-80"
+                          className="object-cover opacity-100 brightness-110 contrast-105"
                         />
-                        <div className="absolute inset-0 bg-black/35 flex flex-col items-center justify-center p-1 text-center">
-                          <span className="text-[7.5px] font-black text-white uppercase tracking-tighter drop-shadow-md leading-none">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
+                          <span className="text-[7.5px] font-black text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">
                             {album.title}
                           </span>
-                          <span className="w-2 h-2 rounded-full bg-white shadow border border-black/50 mt-0.5" />
+                          <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
                         </div>
                       </div>
                     </div>
