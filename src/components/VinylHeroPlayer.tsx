@@ -190,6 +190,18 @@ export default function VinylHeroPlayer() {
           <div className="w-[270px] h-[270px] bg-[#220436]/85 border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
         </div>
 
+        {/* Gradient fade — left end of slider, fades albums out as they slide left */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          width: '220px',
+          background: 'linear-gradient(to right, #180329 0%, transparent 100%)',
+          pointerEvents: 'none',
+          zIndex: 25,
+        }} />
+
         {/* LAYER 2: Swiper disc track — z-20, centeredSlides so active disc is always centered in container */}
         <Swiper
           slidesPerView="auto"
