@@ -2,6 +2,9 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
+import "swiper/css";
 
 interface Track {
   id: string;
@@ -107,21 +110,12 @@ const ALBUMS: Album[] = [
   },
 ];
 
-// Relative slot offset array: 3 discs to the left (-3, -2, -1), 1 disc in player (0), 1 disc to the right (+1)
-const SLOTS = [-3, -2, -1, 0, 1];
-
 export default function VinylHeroPlayer() {
-  const [activeAlbumIdx, setActiveAlbumIdx] = useState(1); // Default JUKEBOX
+  const [activeAlbumIdx, setActiveAlbumIdx] = useState(1);
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTracklist, setShowTracklist] = useState(false);
   const [audioError, setAudioError] = useState(false);
-  
-  const [dragOffset, setDragOffset] = useState(0);
-  const [isDraggingState, setIsDraggingState] = useState(false);
-  const isDragging = useRef(false);
-  const startX = useRef<number | null>(null);
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const currentAlbum = ALBUMS[activeAlbumIdx];
@@ -131,16 +125,11 @@ export default function VinylHeroPlayer() {
     setActiveTrackIdx(trackIdx);
     setIsPlaying(true);
     setAudioError(false);
-
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current
-        .play()
+      audioRef.current.play()
         .then(() => setIsPlaying(true))
-        .catch(() => {
-          setIsPlaying(false);
-          setAudioError(true);
-        });
+        .catch(() => { setIsPlaying(false); setAudioError(true); });
     }
   };
 
@@ -150,81 +139,37 @@ export default function VinylHeroPlayer() {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-          setAudioError(false);
-        })
+      audioRef.current.play()
+        .then(() => { setIsPlaying(true); setAudioError(false); })
         .catch(() => setIsPlaying(false));
     }
   };
 
   const prevTrack = () => {
-    const nextIdx = activeTrackIdx > 0 ? activeTrackIdx - 1 : currentAlbum.tracks.length - 1;
-    playTrack(nextIdx);
+    const idx = activeTrackIdx > 0 ? activeTrackIdx - 1 : currentAlbum.tracks.length - 1;
+    playTrack(idx);
   };
 
   const nextTrack = () => {
-    const nextIdx = activeTrackIdx < currentAlbum.tracks.length - 1 ? activeTrackIdx + 1 : 0;
-    playTrack(nextIdx);
+    const idx = activeTrackIdx < currentAlbum.tracks.length - 1 ? activeTrackIdx + 1 : 0;
+    playTrack(idx);
   };
 
-  const selectAlbum = (idx: number) => {
-    if (idx === activeAlbumIdx) return;
-    setActiveAlbumIdx(idx);
-    setActiveTrackIdx(0);
-    setIsPlaying(false);
-  };
-
-  const handleNextAlbum = () => {
-    const nextIdx = (activeAlbumIdx + 1) % ALBUMS.length;
-    selectAlbum(nextIdx);
-  };
-
-  const handlePrevAlbum = () => {
-    const prevIdx = (activeAlbumIdx - 1 + ALBUMS.length) % ALBUMS.length;
-    selectAlbum(prevIdx);
-  };
-
-  // ── Drag & Touch Handlers for Album Slider ──
-  const handleStart = (clientX: number) => {
-    isDragging.current = true;
-    setIsDraggingState(true);
-    startX.current = clientX;
-  };
-
-  const handleMove = (clientX: number) => {
-    if (!isDragging.current || startX.current === null) return;
-    const delta = clientX - startX.current;
-    setDragOffset(delta);
-  };
-
-  const handleEnd = () => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
-    setIsDraggingState(false);
-    if (dragOffset < -30) {
-      handleNextAlbum();
-    } else if (dragOffset > 30) {
-      handlePrevAlbum();
+  const handleSlideChange = (swiper: SwiperType) => {
+    const newIdx = swiper.realIndex;
+    if (newIdx !== activeAlbumIdx) {
+      setActiveAlbumIdx(newIdx);
+      setActiveTrackIdx(0);
+      setIsPlaying(false);
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
     }
-    setDragOffset(0);
-    startX.current = null;
   };
-
-  // Total slots: [-3, -2, -1, 0, 1] = 5 discs at 210px spacing
-  // Disc track total width: 5 * 210 = 1050px
-  // Active disc (slot 0) is at index 3 (0-based), center at 3 * 210 + 105 = 735px from left
-  const DISC_SPACING = 210;
-  const DISC_SIZE = 176;
-  const ACTIVE_DISC_SIZE = 192;
-
 
   return (
-    <div className="relative flex items-center justify-end select-none py-4 overflow-visible">
-      
-      {/* Hidden Audio Element */}
+    <div className="relative flex items-center gap-4 select-none py-4">
+      {/* Hidden Audio */}
       <audio
         ref={audioRef}
         src={currentTrack.audioUrl}
@@ -232,248 +177,187 @@ export default function VinylHeroPlayer() {
         onError={() => setAudioError(true)}
       />
 
-      {/* ── OUTER WRAPPER: positions the player component ── */}
-      <div className="relative flex items-end gap-0">
-
-        {/* ── DISC TRACK: real full-width flex row so all discs have real DOM space and receive events ── */}
+      {/* ── SWIPER VINYL DISC SLIDER ── */}
+      <div className="relative" style={{ width: '700px' }}>
+        {/* Player Sleeve Box — sits as overlay over the center active disc */}
         <div
-          className={`relative flex items-center overflow-visible ${isDraggingState ? "cursor-grabbing" : "cursor-grab"}`}
-          style={{ width: `${SLOTS.length * DISC_SPACING}px`, height: '220px' }}
-          onTouchStart={(e) => handleStart(e.touches[0].clientX)}
-          onTouchMove={(e) => { e.preventDefault(); handleMove(e.touches[0].clientX); }}
-          onTouchEnd={handleEnd}
-          onMouseDown={(e) => handleStart(e.clientX)}
-          onMouseMove={(e) => handleMove(e.clientX)}
-          onMouseUp={handleEnd}
-          onMouseLeave={handleEnd}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+          aria-hidden="true"
         >
-          {/* Sliding inner row */}
-          <div
-            className={`flex items-center h-full ${isDraggingState ? "" : "transition-transform duration-500 ease-out"}`}
-            style={{ transform: `translateX(${dragOffset}px)` }}
-          >
-            {SLOTS.map((slotOffset, i) => {
-              const albumIndex = (activeAlbumIdx + slotOffset + ALBUMS.length * 10) % ALBUMS.length;
-              const album = ALBUMS[albumIndex];
-              const isActive = slotOffset === 0;
-              const discSize = isActive ? ACTIVE_DISC_SIZE : DISC_SIZE;
+          {/* The 270×270 sleeve card, centered in the 700px swiper */}
+          <div className="relative w-[270px] h-[270px] bg-[#220436]/85 border border-white/20 rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col justify-between pointer-events-auto">
 
-              return (
+            {/* Top Controls */}
+            <div className="flex items-center justify-between z-10">
+              <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
+                VINYL STEREO
+              </span>
+              <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
+                <button
+                  onClick={(e) => { e.stopPropagation(); prevTrack(); }}
+                  className="text-white/70 hover:text-white transition-colors cursor-pointer"
+                  title="Previous Track"
+                >
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+                  className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md"
+                  title={isPlaying ? "Pause" : "Play"}
+                >
+                  {isPlaying ? (
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                  ) : (
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  )}
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); nextTrack(); }}
+                  className="text-white/70 hover:text-white transition-colors cursor-pointer"
+                  title="Next Track"
+                >
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+                </button>
+                <div className="w-[1px] h-3 bg-white/20 my-auto" />
+                <button
+                  onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+                  className={`p-1 rounded-full transition-all cursor-pointer ${showTracklist ? "text-[#d946ef] bg-purple-500/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+                  title="Toggle Playlist"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                    <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Stylus Needle */}
+            <div className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right z-10 ${isPlaying ? "rotate-[15deg]" : "rotate-0"}`}>
+              <svg width="60" height="70" viewBox="0 0 60 70" fill="none">
+                <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+                <circle cx="50" cy="5" r="4" fill="#eab308" />
+                <circle cx="20" cy="55" r="3" fill="white" />
+              </svg>
+            </div>
+
+            {/* Bottom: Album title + waveform */}
+            <div className="flex items-end justify-between z-10">
+              <div
+                onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+                className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[155px] cursor-pointer hover:bg-purple-100 transition-colors"
+                title="Toggle Playlist"
+              >
+                <div className="text-[11px] font-black uppercase leading-tight flex items-center gap-1">
+                  <span className="truncate">{currentAlbum.title}</span>
+                  <span className="text-[8px] font-bold text-purple-600 bg-purple-100 px-1 rounded shrink-0">PLAYLIST ☰</span>
+                </div>
+                <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                  {currentTrack.title}
+                </div>
+              </div>
+              <div className="flex items-center gap-0.5 pb-0.5">
+                <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+                <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
+                <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── SWIPER: centeredSlides + slidesPerView auto (centered-auto pattern) ── */}
+        <Swiper
+          slidesPerView="auto"
+          centeredSlides={true}
+          loop={true}
+          initialSlide={activeAlbumIdx}
+          spaceBetween={30}
+          grabCursor={true}
+          onSlideChange={handleSlideChange}
+          style={{ overflow: "visible" }}
+          className="vinyl-swiper"
+        >
+          {ALBUMS.map((album, idx) => (
+            <SwiperSlide
+              key={album.id}
+              style={{ width: "176px", height: "220px" }}
+            >
+              {({ isActive }) => (
                 <div
-                  key={`${album.id}-${slotOffset}`}
-                  onClick={(e) => {
-                    if (!isActive && !isDraggingState) {
-                      e.stopPropagation();
-                      const newIdx = (activeAlbumIdx + slotOffset + ALBUMS.length) % ALBUMS.length;
-                      selectAlbum(newIdx);
-                    }
-                  }}
-                  className={`relative rounded-full transition-all duration-500 flex items-center justify-center shrink-0 ${
+                  className={`relative rounded-full flex items-center justify-center transition-all duration-500 mx-auto ${
                     isActive
-                      ? "bg-[#0a0a0c] border-[5px] border-neutral-800 shadow-[0_0_40px_rgba(234,179,8,0.5)] opacity-100 z-20"
-                      : "bg-black/90 border-4 border-neutral-900 shadow-xl opacity-20 hover:opacity-50 z-10 hover:border-purple-500 cursor-pointer"
+                      ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
+                      : "opacity-20 scale-90 z-0"
                   } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
                   style={{
-                    width: `${DISC_SIZE}px`,
-                    height: `${DISC_SIZE}px`,
-                    margin: `0 ${(DISC_SPACING - DISC_SIZE) / 2}px`,
+                    width: "176px",
+                    height: "176px",
+                    background: "#0a0a0c",
+                    border: isActive ? "5px solid #3f3f46" : "4px solid #1a1a1a",
                   }}
-                  title={isActive ? album.title : `Switch to ${album.title}`}
                 >
-                  {/* Concentric Record Grooves */}
-                  <div className="w-36 h-36 rounded-full border border-neutral-700/90 flex items-center justify-center">
-                    <div className="w-28 h-28 rounded-full border border-neutral-700/70 flex items-center justify-center">
-                      {/* Center Album Art Label */}
+                  {/* Concentric grooves */}
+                  <div className="w-36 h-36 rounded-full border border-neutral-700/80 flex items-center justify-center">
+                    <div className="w-28 h-28 rounded-full border border-neutral-700/60 flex items-center justify-center">
+                      {/* Center label with album art */}
                       <div
-                        className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 flex flex-col items-center justify-center shadow-[0_0_12px_rgba(234,179,8,0.6)]"
+                        className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
                         style={{ backgroundColor: album.centerLabelColor }}
                       >
-                        <Image
-                          src={album.coverImage}
-                          alt={album.title}
-                          fill
-                          className="object-cover opacity-100 brightness-110 contrast-105"
-                        />
+                        <Image src={album.coverImage} alt={album.title} fill className="object-cover brightness-110 contrast-105" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
-                          <span className="text-[7.5px] font-black text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">
-                            {album.title}
-                          </span>
+                          <span className="text-[7px] font-black text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">{album.title}</span>
                           <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* ── PLAYER SLEEVE BOX: absolutely overlaid on top of the active (slot 0) disc ── */}
-          {/* Active disc is slot index 3 (0-based) out of 5, center at 3.5 * DISC_SPACING - DISC_SPACING/2 */}
-          <div
-            className="absolute pointer-events-none z-30"
-            style={{
-              // Center of active disc slot = slot index 3 * DISC_SPACING + DISC_SPACING/2 - 135px (half of 270px box)
-              left: `${3 * DISC_SPACING + DISC_SPACING / 2 - 135}px`,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '270px',
-              height: '270px',
-            }}
-          >
-            {/* Box background — no overflow:hidden so disc shows through */}
-            <div className="relative w-full h-full bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between">
-              
-              {/* Top Controls Header — re-enable pointer events for buttons */}
-              <div className="flex items-center justify-between z-10 pointer-events-auto">
-                <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
-                  VINYL STEREO
-                </span>
-
-                {/* Playback Controls + PLAYLIST TOGGLE */}
-                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); prevTrack(); }}
-                    className="text-white/70 hover:text-white transition-colors cursor-pointer"
-                    title="Previous Track"
-                  >
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
-                  </button>
-
-                  <button
-                    onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-                    className="w-5.5 h-5.5 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md"
-                    title={isPlaying ? "Pause" : "Play"}
-                  >
-                    {isPlaying ? (
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                    ) : (
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={(e) => { e.stopPropagation(); nextTrack(); }}
-                    className="text-white/70 hover:text-white transition-colors cursor-pointer"
-                    title="Next Track"
-                  >
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-                  </button>
-
-                  <div className="w-[1px] h-3 bg-white/20 my-auto" />
-
-                  {/* PLAYLIST TOGGLE BUTTON */}
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
-                    className={`p-1 rounded-full transition-all cursor-pointer ${
-                      showTracklist
-                        ? "text-[#d946ef] bg-purple-500/30 scale-110 shadow-sm"
-                        : "text-white/70 hover:text-white hover:bg-white/10"
-                    }`}
-                    title={showTracklist ? "Hide Playlist" : "Show Playlist"}
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
-                      <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              {/* Stylus Needle Arm */}
-              <div
-                className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right z-10 ${
-                  isPlaying ? "rotate-[15deg]" : "rotate-0"
-                }`}
-              >
-                <svg width="60" height="70" viewBox="0 0 60 70" fill="none">
-                  <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-                  <circle cx="50" cy="5" r="4" fill="#eab308" />
-                  <circle cx="20" cy="55" r="3" fill="white" />
-                </svg>
-              </div>
-
-              {/* Bottom Title Box + Waveform */}
-              <div className="flex items-end justify-between z-10 pointer-events-auto">
-                <div
-                  onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
-                  className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[150px] truncate cursor-pointer hover:bg-purple-100 transition-colors"
-                  title="Click to toggle Playlist"
-                >
-                  <div className="text-[11px] font-black uppercase leading-tight truncate flex items-center justify-between">
-                    <span>{currentAlbum.title}</span>
-                    <span className="text-[8px] font-bold text-purple-600 bg-purple-100 px-1 rounded ml-1">
-                      PLAYLIST ☰
-                    </span>
-                  </div>
-                  <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
-                    {currentTrack.title}
-                  </div>
-                </div>
-
-                {/* Soundwave Visualizer */}
-                <div className="flex items-center gap-0.5 pb-0.5">
-                  <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
-                  <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
-                  <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── TRACKLIST PANEL: expands to the right of the disc track ── */}
-        <div
-          className={`flex flex-col text-left transition-all duration-500 ease-out origin-left z-20 self-center ${
-            showTracklist
-              ? "w-[210px] sm:w-[240px] opacity-100 translate-x-0 pointer-events-auto pl-4 border-l border-white/15"
-              : "w-0 opacity-0 -translate-x-4 pointer-events-none overflow-hidden"
-          }`}
-        >
-          <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10 whitespace-nowrap">
-            <span className="text-[10px] font-black uppercase tracking-widest text-purple-300">
-              {currentAlbum.title} TRACKLIST
-            </span>
-            <div className="flex items-center gap-2">
-              <span className="text-[9px] font-bold text-white/40">
-                {currentAlbum.tracks.length} SONGS
-              </span>
-              <button
-                onClick={() => setShowTracklist(false)}
-                className="text-white/50 hover:text-white text-xs font-bold px-1 rounded transition-colors cursor-pointer"
-                title="Close Tracklist"
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-
-          <ol className="space-y-1 font-sans text-[11px] sm:text-[12px] font-bold uppercase text-white/80 tracking-tight max-h-[200px] overflow-y-auto pr-2 whitespace-nowrap">
-            {currentAlbum.tracks.map((track, tIdx) => {
-              const isSelected = tIdx === activeTrackIdx;
-              return (
-                <li
-                  key={track.id}
-                  onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                  className={`flex items-center gap-2 px-1.5 py-0.5 rounded cursor-pointer transition-all duration-200 ${
-                    isSelected
-                      ? "text-[#d946ef] font-black bg-purple-500/15 text-purple-200 shadow-sm"
-                      : "hover:text-white hover:bg-white/5"
-                  }`}
-                >
-                  <span className="text-[9px] font-mono opacity-50 w-4 text-right">{track.number}.</span>
-                  <span className="truncate flex-1">{track.title}</span>
-                  {isSelected && isPlaying && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-pulse" />
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-
+              )}
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
 
+      {/* ── TRACKLIST PANEL ── */}
+      <div
+        className={`flex flex-col text-left transition-all duration-500 ease-out origin-left z-20 self-center ${
+          showTracklist
+            ? "w-[220px] opacity-100 pointer-events-auto pl-4 border-l border-white/15"
+            : "w-0 opacity-0 pointer-events-none overflow-hidden"
+        }`}
+      >
+        <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10 whitespace-nowrap">
+          <span className="text-[10px] font-black uppercase tracking-widest text-purple-300">
+            {currentAlbum.title} TRACKLIST
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-[9px] font-bold text-white/40">{currentAlbum.tracks.length} SONGS</span>
+            <button
+              onClick={() => setShowTracklist(false)}
+              className="text-white/50 hover:text-white text-xs font-bold px-1 rounded transition-colors cursor-pointer"
+            >✕</button>
+          </div>
+        </div>
+        <ol className="space-y-1 font-sans text-[11px] font-bold uppercase text-white/80 tracking-tight max-h-[200px] overflow-y-auto pr-2 whitespace-nowrap">
+          {currentAlbum.tracks.map((track, tIdx) => {
+            const isSelected = tIdx === activeTrackIdx;
+            return (
+              <li
+                key={track.id}
+                onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
+                className={`flex items-center gap-2 px-1.5 py-0.5 rounded cursor-pointer transition-all duration-200 ${
+                  isSelected ? "text-purple-200 font-black bg-purple-500/15" : "hover:text-white hover:bg-white/5"
+                }`}
+              >
+                <span className="text-[9px] font-mono opacity-50 w-4 text-right">{track.number}.</span>
+                <span className="truncate flex-1">{track.title}</span>
+                {isSelected && isPlaying && <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-pulse" />}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </div>
   );
 }
