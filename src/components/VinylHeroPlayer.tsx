@@ -108,10 +108,10 @@ const ALBUMS: Album[] = [
 ];
 
 export default function VinylHeroPlayer() {
-  const [activeAlbumIdx, setActiveAlbumIdx] = useState(1);
+  const [activeAlbumIdx, setActiveAlbumIdx] = useState(0);
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [showTracklist, setShowTracklist] = useState(false);
   const [audioError, setAudioError] = useState(false);
   
   const [dragOffset, setDragOffset] = useState(0);
@@ -225,11 +225,7 @@ export default function VinylHeroPlayer() {
       />
 
       {/* ── MAIN TURNTABLE PLAYER AND VINYL DISCS ROW WRAPPER ── */}
-      <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="relative flex items-center justify-center overflow-visible"
-      >
+      <div className="relative flex items-center justify-center overflow-visible">
         
         {/* ── 1. STATIONARY TURNTABLE PLAYER SLEEVE BOX (CENTERED) ── */}
         <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box">
@@ -240,8 +236,8 @@ export default function VinylHeroPlayer() {
               VINYL STEREO
             </span>
 
-            {/* Playback Controls |<< ► >>| */}
-            <div className="flex items-center gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+            {/* Playback Controls |<< ► >>| + PLAYLIST TOGGLE BUTTON */}
+            <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
               <button
                 onClick={(e) => { e.stopPropagation(); prevTrack(); }}
                 className="text-white/70 hover:text-white transition-colors cursor-pointer"
@@ -269,6 +265,29 @@ export default function VinylHeroPlayer() {
               >
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
               </button>
+
+              {/* Vertical Divider */}
+              <div className="w-[1px] h-3 bg-white/20 my-auto" />
+
+              {/* PLAYLIST TOGGLE BUTTON */}
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+                className={`p-1 rounded-full transition-all cursor-pointer ${
+                  showTracklist
+                    ? "text-[#d946ef] bg-purple-500/30 scale-110 shadow-sm"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
+                }`}
+                title={showTracklist ? "Hide Playlist Tracklist" : "Click to view Playlist Tracklist"}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="8" y1="6" x2="21" y2="6"/>
+                  <line x1="8" y1="12" x2="21" y2="12"/>
+                  <line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/>
+                  <line x1="3" y1="12" x2="3.01" y2="12"/>
+                  <line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -285,13 +304,20 @@ export default function VinylHeroPlayer() {
             </svg>
           </div>
 
-          {/* Bottom Title Box + Waveform (STATIONARY BADGE) */}
+          {/* Bottom Title Box + Waveform (CLICK TO TOGGLE PLAYLIST) */}
           <div className="flex items-end justify-between z-30">
-            <div className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[140px] truncate">
-              <div className="text-[11px] font-black uppercase leading-tight truncate">
-                {currentAlbum.title}
+            <div
+              onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+              className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[150px] truncate cursor-pointer hover:bg-purple-100 transition-colors group/badge"
+              title="Click to toggle Playlist"
+            >
+              <div className="text-[11px] font-black uppercase leading-tight truncate flex items-center justify-between">
+                <span>{currentAlbum.title}</span>
+                <span className="text-[8px] font-bold text-purple-600 bg-purple-100 px-1 rounded ml-1">
+                  PLAYLIST ☰
+                </span>
               </div>
-              <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate">
+              <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
                 {currentTrack.title}
               </div>
             </div>
@@ -306,7 +332,7 @@ export default function VinylHeroPlayer() {
 
         </div>
 
-        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK (PURE CIRCLES, NO SQUARE BOXES) ── */}
+        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK ── */}
         <div
           className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10 overflow-visible"
           onTouchStart={(e) => handleStart(e.touches[0].clientX)}
@@ -380,10 +406,10 @@ export default function VinylHeroPlayer() {
           </div>
         </div>
 
-        {/* ── 3. HOVER-TO-REVEAL TRACKLIST PANEL (SLIDES OUT TO RIGHT) ── */}
+        {/* ── 3. CLICK-TO-REVEAL TRACKLIST PANEL (EXPANDS TO THE RIGHT ON BUTTON CLICK) ── */}
         <div
           className={`flex flex-col text-left transition-all duration-500 ease-out origin-left z-20 ${
-            isHovered
+            showTracklist
               ? "w-[210px] sm:w-[240px] opacity-100 translate-x-0 pointer-events-auto pl-4 border-l border-white/15"
               : "w-0 opacity-0 -translate-x-4 pointer-events-none overflow-hidden"
           }`}
@@ -392,9 +418,18 @@ export default function VinylHeroPlayer() {
             <span className="text-[10px] font-black uppercase tracking-widest text-purple-300">
               {currentAlbum.title} TRACKLIST
             </span>
-            <span className="text-[9px] font-bold text-white/40">
-              {currentAlbum.tracks.length} SONGS
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] font-bold text-white/40">
+                {currentAlbum.tracks.length} SONGS
+              </span>
+              <button
+                onClick={() => setShowTracklist(false)}
+                className="text-white/50 hover:text-white text-xs font-bold px-1 rounded transition-colors cursor-pointer"
+                title="Close Tracklist"
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
           <ol className="space-y-1 font-sans text-[11px] sm:text-[12px] font-bold uppercase text-white/80 tracking-tight max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500/40 whitespace-nowrap">
