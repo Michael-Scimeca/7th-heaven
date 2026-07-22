@@ -180,21 +180,22 @@ export default function VinylHeroPlayer() {
       {/* ── SWIPER VINYL DISC SLIDER ── */}
       <div className="relative" style={{ width: '700px' }}>
 
-        {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+        {/* LAYER 1: Sleeve card background — right-aligned, sits BEHIND the disc (z-10) */}
+        <div className="absolute inset-0 flex items-center justify-end pointer-events-none z-10">
           <div className="w-[270px] h-[270px] bg-[#220436]/85 border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
         </div>
 
 
-        {/* LAYER 2: Swiper disc track — z-20, sits ON TOP of the sleeve background so disc is visible */}
+        {/* LAYER 2: Swiper disc track — z-20, active disc right-aligned to match sleeve box */}
         <Swiper
           slidesPerView="auto"
-          centeredSlides={true}
+          centeredSlides={false}
           loop={false}
           initialSlide={activeAlbumIdx}
           spaceBetween={30}
           grabCursor={true}
           onSlideChange={handleSlideChange}
+          slidesOffsetAfter={47}
           style={{ overflow: "visible", position: "relative", zIndex: 20 }}
           className="vinyl-swiper"
         >
@@ -239,8 +240,8 @@ export default function VinylHeroPlayer() {
           ))}
         </Swiper>
 
-        {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+        {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc, right-aligned */}
+        <div className="absolute inset-0 flex items-center justify-end pointer-events-none z-30">
           <div className="relative w-[270px] h-[270px] flex flex-col justify-between p-4 pointer-events-none">
 
             {/* Top Controls */}
