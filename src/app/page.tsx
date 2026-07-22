@@ -136,36 +136,38 @@ export default async function Home() {
  <>
   <LiveStatusSign />
 
- {/* ====== HERO ====== */}
- <section className="relative min-h-screen flex flex-col justify-end overflow-hidden" id="hero">
-   {/* BG - Band Photo */}
-   <div className="absolute inset-0 z-0">
-     <Image
-       src="/images/hero-band-bg.png"
-       alt="7th Heaven performing live"
-       fill
-       priority
-       sizes="100vw"
-       className="object-cover object-top"
-     />
-     {/* Gradient overlays for readability */}
-     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
-     <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
-     {/* Subtle accent tint */}
-     <div className="absolute inset-0 bg-[var(--color-accent)]/[0.08] mix-blend-overlay" />
-   </div>
+  {/* ====== HERO ====== */}
+  <section className="relative w-full pt-[96px] px-[clamp(16px,4.5vw,80px)] pb-[clamp(16px,4.5vw,80px)] bg-[#0c0516]" id="hero">
+    {/* Purple Rounded Hero Card Container */}
+    <div className="relative w-full min-h-[75vh] rounded-[32px] md:rounded-[40px] overflow-hidden bg-gradient-to-b from-[#3a095c] via-[#2a0446] to-[#1a022d] border border-purple-500/30 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-end p-6 md:p-12">
+      
+      {/* BG - Band Photo with Deep Purple Overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/hero-band-bg.png"
+          alt="7th Heaven performing live"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-top opacity-50 mix-blend-luminosity"
+        />
+        {/* Gradient overlays for readability & vibrant purple vibe */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1a022d] via-[#2a0446]/85 to-[#3a095c]/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1a022d]/80 via-transparent to-transparent" />
+      </div>
 
-    {/* Hero Content */}
-    <div className="relative z-[3] site-container pt-[calc(72px+6rem)] pb-8 flex flex-col justify-end min-h-[60vh] gap-6">
-      {/* Latest Album Player with Spotify, Apple Music & Store Links */}
-      <HeroAlbumPlayer release={release} />
+      {/* Hero Content */}
+      <div className="relative z-[3] flex flex-col justify-end gap-6 pt-12">
+        {/* Latest Album Player with Spotify, Apple Music & Store Links */}
+        <HeroAlbumPlayer release={release} />
 
-      {/* Live Feed Thumbnails */}
-      <div className="mt-2">
-        <HeroLiveThumbs />
+        {/* Live Feed Thumbnails */}
+        <div className="mt-2">
+          <HeroLiveThumbs />
+        </div>
       </div>
     </div>
- </section>
+  </section>
 
   {/* Global Announcement Banner */}
   {settings?.announcement?.isActive && settings.announcement.text && (!settings.announcement.expiresAt || new Date(settings.announcement.expiresAt) > now) && (
