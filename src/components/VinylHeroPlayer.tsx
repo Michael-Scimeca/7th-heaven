@@ -107,8 +107,11 @@ const ALBUMS: Album[] = [
   },
 ];
 
+// Relative slot offset array: 3 discs to the left (-3, -2, -1), 1 disc in player (0), 1 disc to the right (+1)
+const SLOTS = [-3, -2, -1, 0, 1];
+
 export default function VinylHeroPlayer() {
-  const [activeAlbumIdx, setActiveAlbumIdx] = useState(0);
+  const [activeAlbumIdx, setActiveAlbumIdx] = useState(1); // Default JUKEBOX
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTracklist, setShowTracklist] = useState(false);
@@ -214,7 +217,7 @@ export default function VinylHeroPlayer() {
   const DISC_SPACING = 210;
 
   return (
-    <div className="relative flex items-center justify-end select-none py-4 overflow-visible w-[50vw] max-w-[950px]">
+    <div className="relative flex items-center justify-end select-none py-4 overflow-visible">
       
       {/* Hidden Audio Element */}
       <audio
@@ -225,10 +228,10 @@ export default function VinylHeroPlayer() {
       />
 
       {/* ── MAIN TURNTABLE PLAYER AND VINYL DISCS ROW WRAPPER ── */}
-      <div className="relative flex items-center justify-center overflow-visible w-full">
+      <div className="relative flex items-center justify-center overflow-visible">
         
-        {/* ── 1. STATIONARY TURNTABLE PLAYER SLEEVE BOX (CENTERED/RIGHT) ── */}
-        <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box shrink-0">
+        {/* ── 1. STATIONARY TURNTABLE PLAYER SLEEVE BOX (STATIONARY ON RIGHT) ── */}
+        <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box">
           
           {/* Top Controls Header */}
           <div className="flex items-center justify-between z-30">
@@ -332,7 +335,7 @@ export default function VinylHeroPlayer() {
 
         </div>
 
-        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK (SPANNING 50% OF WINDOW WIDTH) ── */}
+        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK (3 DISCS LEFT, 1 DISC RIGHT) ── */}
         <div
           className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10 overflow-visible"
           onTouchStart={(e) => handleStart(e.touches[0].clientX)}
@@ -348,30 +351,33 @@ export default function VinylHeroPlayer() {
               isDraggingState ? "transition-none" : "transition-transform duration-500 ease-out"
             }`}
             style={{
-              transform: `translateX(calc(${(0 - activeAlbumIdx) * DISC_SPACING}px + ${dragOffset}px))`,
               left: '47px',
+              transform: `translateX(${dragOffset}px)`,
             }}
           >
-            {ALBUMS.map((album, idx) => {
-              const isActive = idx === activeAlbumIdx;
+            {SLOTS.map((slotOffset) => {
+              const albumIndex = (activeAlbumIdx + slotOffset + ALBUMS.length * 10) % ALBUMS.length;
+              const album = ALBUMS[albumIndex];
+              const isActive = slotOffset === 0;
 
               return (
                 <div
-                  key={album.id}
+                  key={`${album.id}-${slotOffset}`}
                   onClick={(e) => {
                     if (!isActive) {
                       e.stopPropagation();
-                      selectAlbum(idx);
+                      const newIdx = (activeAlbumIdx + slotOffset + ALBUMS.length) % ALBUMS.length;
+                      selectAlbum(newIdx);
                     }
                   }}
                   className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 ${
                     isActive
                       ? "w-44 h-44 bg-black border-[5px] border-neutral-900 shadow-[0_0_40px_rgba(0,0,0,0.9)] opacity-100 scale-100 z-20"
-                      : "w-40 h-40 bg-black border-4 border-neutral-900 shadow-xl opacity-35 hover:opacity-85 scale-85 z-10 hover:border-purple-500"
+                      : "w-40 h-40 bg-black/90 border-4 border-neutral-900/90 shadow-xl opacity-30 hover:opacity-85 scale-85 z-10 hover:border-purple-500"
                   } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
                   style={{
                     position: 'absolute',
-                    left: `${idx * DISC_SPACING}px`,
+                    left: `${slotOffset * DISC_SPACING}px`,
                     width: '176px',
                     height: '176px',
                   }}
@@ -389,9 +395,9 @@ export default function VinylHeroPlayer() {
                           src={album.coverImage}
                           alt={album.title}
                           fill
-                          className="object-cover opacity-90"
+                          className="object-cover opacity-80"
                         />
-                        <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center p-1 text-center">
+                        <div className="absolute inset-0 bg-black/35 flex flex-col items-center justify-center p-1 text-center">
                           <span className="text-[7.5px] font-black text-white uppercase tracking-tighter drop-shadow-md leading-none">
                             {album.title}
                           </span>
