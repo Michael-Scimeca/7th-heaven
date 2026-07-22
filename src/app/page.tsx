@@ -162,7 +162,7 @@ export default async function Home() {
         <HeroLiveThumbs />
 
         {/* Vinyl MP3 Album Player centered at 50% */}
-        <div className="w-full xl:w-auto flex justify-center xl:justify-end xl:pr-[10%]">
+        <div className="w-full xl:w-auto flex justify-center xl:justify-end">
           <VinylHeroPlayer />
         </div>
       </div>
