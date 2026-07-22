@@ -156,7 +156,17 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#350a54]/90 via-[#270640]/90 to-[#180329]" />
       </div>
 
+      {/* LEFT FADE: at the very left edge of the hero card — fades overflowed album discs to transparent */}
+      <div
+        className="absolute left-0 top-0 bottom-0 pointer-events-none z-[4]"
+        style={{
+          width: '200px',
+          background: 'linear-gradient(to right, #180329 0%, transparent 100%)',
+        }}
+      />
+
       {/* Hero Content: Live Feed Cards at Bottom Left, Vinyl MP3 Album Player centered at 50% */}
+
       <div className="relative z-[3] flex flex-col xl:flex-row items-end justify-between gap-6 mt-auto">
         {/* Bottom Left Live Feed Cards */}
         <HeroLiveThumbs />
