@@ -228,35 +228,35 @@ export default function VinylHeroPlayer() {
         className="relative flex items-center overflow-visible"
       >
         
-        {/* Left Carousel Navigation Button */}
+        {/* Left Circular Navigation Button */}
         <button
           onClick={handlePrevAlbum}
-          className="absolute -left-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white text-white hover:text-black border border-white/30 backdrop-blur-md flex items-center justify-center z-40 cursor-pointer shadow-xl transition-all"
-          title="Slide Previous Album"
+          className="absolute -left-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#18032b]/90 border border-white/20 text-white flex items-center justify-center z-40 cursor-pointer shadow-2xl hover:bg-white hover:text-black transition-all"
+          title="Previous Album"
         >
-          ‹
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
 
-        {/* Right Carousel Navigation Button */}
+        {/* Right Circular Navigation Button */}
         <button
           onClick={handleNextAlbum}
-          className="absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white text-white hover:text-black border border-white/30 backdrop-blur-md flex items-center justify-center z-40 cursor-pointer shadow-xl transition-all"
-          title="Slide Next Album"
+          className="absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#18032b]/90 border border-white/20 text-white flex items-center justify-center z-40 cursor-pointer shadow-2xl hover:bg-white hover:text-black transition-all"
+          title="Next Album"
         >
-          ›
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
         {/* ── STATIONARY TURNTABLE SLEEVE BOX (VINYL STEREO PLAYER) ── */}
-        <div className="relative w-[270px] h-[270px] bg-[#220436]/95 border border-white/25 rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden z-20 group/box">
+        <div className="relative w-[270px] h-[270px] bg-[#220436]/95 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box">
           
           {/* Top Controls Header */}
           <div className="flex items-center justify-between z-30">
-            <span className="text-[9px] font-black uppercase tracking-widest text-white/50 font-mono">
+            <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
               VINYL STEREO
             </span>
 
             {/* Playback Controls |<< ► >>| */}
-            <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
+            <div className="flex items-center gap-2 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
               <button
                 onClick={(e) => { e.stopPropagation(); prevTrack(); }}
                 className="text-white/70 hover:text-white transition-colors cursor-pointer"
@@ -320,14 +320,14 @@ export default function VinylHeroPlayer() {
                     }}
                     className={`relative rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center shrink-0 w-44 h-44 ${
                       isActive
-                        ? "bg-neutral-950 border-[6px] border-neutral-900 shadow-[0_0_30px_rgba(234,179,8,0.4)] opacity-100 scale-100 z-20"
-                        : "bg-neutral-950 border-4 border-neutral-800 shadow-2xl opacity-75 hover:opacity-100 scale-90 z-10 hover:border-purple-400"
+                        ? "bg-neutral-950 border-[6px] border-neutral-900 shadow-2xl opacity-100 scale-100 z-20"
+                        : "bg-neutral-950 border-4 border-neutral-900 shadow-xl opacity-40 hover:opacity-90 scale-85 z-10"
                     } ${isActive && isPlaying ? "animate-[spin_4s_linear_infinite]" : ""}`}
                     title={`Slide ${album.title} into Vinyl Stereo Player`}
                   >
                     {/* Concentric Record Grooves */}
-                    <div className="w-36 h-36 rounded-full border border-neutral-700/80 flex items-center justify-center">
-                      <div className="w-28 h-28 rounded-full border border-neutral-700/60 flex items-center justify-center">
+                    <div className="w-36 h-36 rounded-full border border-neutral-800/80 flex items-center justify-center">
+                      <div className="w-28 h-28 rounded-full border border-neutral-800/60 flex items-center justify-center">
                         {/* Center Album Art Label */}
                         <div
                           className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 flex flex-col items-center justify-center shadow-lg"
@@ -361,7 +361,7 @@ export default function VinylHeroPlayer() {
             }`}
           >
             <svg width="60" height="70" viewBox="0 0 60 70" fill="none">
-              <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.9" />
+              <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
               <circle cx="50" cy="5" r="4" fill="#eab308" />
               <circle cx="20" cy="55" r="3" fill="white" />
             </svg>
