@@ -156,13 +156,15 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#350a54]/90 via-[#270640]/90 to-[#180329]" />
       </div>
 
-      {/* Hero Content: Live Feed Cards at Bottom Left, Vinyl MP3 Album Player at Bottom Right */}
+      {/* Hero Content: Live Feed Cards at Bottom Left, Vinyl MP3 Album Player centered at 50% */}
       <div className="relative z-[3] flex flex-col xl:flex-row items-end justify-between gap-6 mt-auto">
         {/* Bottom Left Live Feed Cards */}
         <HeroLiveThumbs />
 
-        {/* Bottom Right Vinyl MP3 Player & Album Tracklist Slider */}
-        <VinylHeroPlayer />
+        {/* Vinyl MP3 Album Player centered at 50% */}
+        <div className="w-full xl:w-auto flex justify-center xl:justify-end xl:pr-[10%]">
+          <VinylHeroPlayer />
+        </div>
       </div>
     </div>
   </section>

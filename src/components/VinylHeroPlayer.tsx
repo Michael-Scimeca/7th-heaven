@@ -214,7 +214,7 @@ export default function VinylHeroPlayer() {
   const DISC_SPACING = 210;
 
   return (
-    <div className="relative flex items-center justify-center select-none py-4 overflow-visible">
+    <div className="relative flex items-center justify-end select-none py-4 overflow-visible w-[50vw] max-w-[950px]">
       
       {/* Hidden Audio Element */}
       <audio
@@ -225,10 +225,10 @@ export default function VinylHeroPlayer() {
       />
 
       {/* ── MAIN TURNTABLE PLAYER AND VINYL DISCS ROW WRAPPER ── */}
-      <div className="relative flex items-center justify-center overflow-visible">
+      <div className="relative flex items-center justify-center overflow-visible w-full">
         
-        {/* ── 1. STATIONARY TURNTABLE PLAYER SLEEVE BOX (CENTERED) ── */}
-        <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box">
+        {/* ── 1. STATIONARY TURNTABLE PLAYER SLEEVE BOX (CENTERED/RIGHT) ── */}
+        <div className="relative w-[270px] h-[270px] bg-[#220436]/90 border border-white/20 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-hidden z-20 group/box shrink-0">
           
           {/* Top Controls Header */}
           <div className="flex items-center justify-between z-30">
@@ -263,7 +263,7 @@ export default function VinylHeroPlayer() {
                 className="text-white/70 hover:text-white transition-colors cursor-pointer"
                 title="Next Track"
               >
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
               </button>
 
               {/* Vertical Divider */}
@@ -332,7 +332,7 @@ export default function VinylHeroPlayer() {
 
         </div>
 
-        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK ── */}
+        {/* ── 2. VISIBLE HORIZONTAL SLIDING VINYL DISCS TRACK (SPANNING 50% OF WINDOW WIDTH) ── */}
         <div
           className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing z-10 overflow-visible"
           onTouchStart={(e) => handleStart(e.touches[0].clientX)}
