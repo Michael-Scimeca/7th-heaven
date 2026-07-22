@@ -269,7 +269,7 @@ export default function VinylHeroPlayer() {
         <Swiper
           slidesPerView="auto"
           centeredSlides={true}
-          loop={true}
+          loop={false}
           initialSlide={activeAlbumIdx}
           spaceBetween={30}
           grabCursor={true}
