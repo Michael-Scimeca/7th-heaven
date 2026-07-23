@@ -817,7 +817,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        </div>
      </div>
 
-     <div className={`sticky top-[72px] z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md border-y border-[var(--color-border)] mb-1 items-center`}>
+     <div className={`sticky top-0 z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md border-y border-[var(--color-border)] mb-1 items-center`}>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Day</span>
       <div className="relative">
        <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">

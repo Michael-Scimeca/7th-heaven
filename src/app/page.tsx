@@ -15,9 +15,11 @@ import FeaturedTrack from "@/components/FeaturedTrack";
 import HeroLiveThumbs from "@/components/HeroLiveThumbs";
 import HeroAlbumPlayer from "@/components/HeroAlbumPlayer";
 import VinylHeroPlayer from "@/components/VinylHeroPlayer";
+import HeroVideoPlayer from "@/components/HeroVideoPlayer";
 import { VENUE_LINKS } from "@/lib/venue-links";
 import { sanityClient, queries, SanityBandMember, SanityTourDate, SanitySiteSettings } from "@/lib/sanity";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
+import CanvasLightsWrapper from "@/components/CanvasLightsWrapper";
 
 const FALLBACK_STATS = [
  { number: "40+", label: "Years Performing" },
@@ -138,23 +140,24 @@ export default async function Home() {
   <LiveStatusSign />
 
   {/* ====== HERO ====== */}
-  <section className="relative w-full p-[25px] bg-[#0d0914]" id="hero">
-    {/* Purple Rounded Hero Card Container */}
-    <div className="relative w-full h-[calc(100vh-50px)] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[#38095c] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
-      
+  <section className="relative w-full px-[25px] pb-[25px] bg-[#0d0914]" id="hero">
+    {/* Hero Card — no top padding/rounding so video reaches the very top */}
+    <div id="hero-card" className="relative w-full h-[calc(100vh-25px)] rounded-b-[32px] md:rounded-b-[40px] overflow-hidden bg-[#0d0914] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
 
-      {/* Hero Content: Live Feed Cards at Bottom Left, Vinyl MP3 Album Player centered at 50% */}
 
-      <div className="relative z-[3] flex flex-col xl:flex-row items-end justify-between gap-6 mt-auto">
-        {/* Bottom Left Live Feed Cards */}
+
+
+
+
+
+
+      {/* ── Hero Video + Vinyl Player (client component, synced) ── */}
+      <HeroVideoPlayer>
         <HeroLiveThumbs />
+      </HeroVideoPlayer>
 
-        {/* Vinyl MP3 Album Player centered at 50% */}
-        <div className="w-full xl:w-auto flex justify-center xl:justify-end">
-          <VinylHeroPlayer />
-        </div>
-      </div>
     </div>
+
   </section>
 
   {/* Global Announcement Banner */}

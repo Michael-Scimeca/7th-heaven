@@ -124,11 +124,11 @@ export function Header() {
       <div className="w-full px-[40px] pt-[40px]">
 
         <div
-          className="w-full h-[84px] flex items-center justify-between relative px-[clamp(20px,4vw,60px)] pt-3 bg-transparent pointer-events-auto"
+          className="w-full h-[84px] flex items-center justify-between relative px-[12px] pt-3 bg-transparent pointer-events-auto"
         >
         
         {/* ── LEFT NAV GROUP ── */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-inter-tight)]">
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-barlow)]">
           {leftNavLinks.map((link) => (
             <Link
               key={link.href}
@@ -154,13 +154,13 @@ export function Header() {
             }
           }}
         >
-          <div className="w-[150px] md:w-[180px] h-[26px]">
+          <div className="w-[250px] md:w-[300px] h-[43px]">
             <Logo className="w-full h-full text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]" />
           </div>
         </Link>
 
         {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-        <div className="flex items-center gap-2.5 xl:gap-3.5 ml-auto lg:ml-0 font-[family-name:var(--font-inter-tight)] z-10">
+        <div className="flex items-center gap-2.5 xl:gap-3.5 ml-auto lg:ml-0 font-[family-name:var(--font-barlow)] z-10">
           
           {/* Live Stream link */}
           <Link

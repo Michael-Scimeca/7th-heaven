@@ -22,9 +22,12 @@ html.lenis, html.lenis body {
  /* Layout */
  --container-width: 1440px;
 
+ /* Custom breakpoints */
+ --breakpoint-desk: 2000px;
+
  /* Colors */
- --color-bg-primary: #000000;
- --color-bg-secondary: #000000;
+ --color-bg-primary: #0d0914;
+ --color-bg-secondary: #0d0914;
  --color-bg-card: rgba(255, 255, 255, 0.03);
  --color-bg-card-hover: rgba(255, 255, 255, 0.06);
  --color-bg-glass: rgba(17, 17, 24, 0.7);
@@ -45,7 +48,7 @@ html.lenis, html.lenis body {
 
  /* Fonts */
  --font-heading: var(--font-rockstar);
- --font-body: var(--font-inter);
+ --font-body: var(--font-barlow);
 
  /* Fluid Typography Sizing */
  --font-size-xs: clamp(0.7rem, 0.65rem + 0.2vw, 0.8rem);
@@ -112,6 +115,15 @@ html.lenis, html.lenis body {
 @keyframes shimmer {
  0% { background-position: -200% 0; }
  100% { background-position: 200% 0; }
+}
+
+@keyframes vinyl-spin {
+ from { transform: rotate(0deg); }
+ to   { transform: rotate(360deg); }
+}
+
+.vinyl-spinning {
+ animation: vinyl-spin 4s linear infinite;
 }
 
 @keyframes float-up {
@@ -196,7 +208,7 @@ html.lenis, html.lenis body {
   body {
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
-    font-family: var(--font-inter), "Inter", sans-serif;
+    font-family: var(--font-barlow), "Barlow", system-ui, sans-serif;
     font-weight: 400;
     line-height: 1.6;
     min-height: 100vh;
@@ -235,9 +247,9 @@ html.lenis, html.lenis body {
     mix-blend-mode: screen;
   }
 
-  /* Heading typography — Rockstar ExtraBold */
+  /* Heading typography — Barlow ExtraBold */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-rockstar), "Rockstar", sans-serif;
+    font-family: var(--font-barlow), "Barlow", sans-serif;
     font-weight: 800;
     line-height: 1.15;
   }
@@ -312,7 +324,7 @@ html.lenis, html.lenis body {
 }
 
 @utility text-body {
- font-family: var(--font-inter), "Inter", sans-serif;
+ font-family: var(--font-barlow), "Barlow", sans-serif;
  font-size: 1rem;
  font-weight: 400;
  line-height: 1.7;
@@ -320,7 +332,7 @@ html.lenis, html.lenis body {
 }
 
 @utility text-eyebrow {
- font-family: var(--font-inter), "Inter", sans-serif;
+ font-family: var(--font-barlow), "Barlow", sans-serif;
  font-size: 0.7rem;
  font-weight: 900;
  text-transform: uppercase;
@@ -516,15 +528,17 @@ html.lenis, html.lenis body {
   overflow: visible;
 }
 
-.vinyl-slider-wrap::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: -50px;
-  left: -600px;
-  bottom: -50px;
-  width: 700px;
-  background: linear-gradient(to right, rgba(56, 9, 92, 1) 0%, rgba(56, 9, 92, 1) 70%, transparent 100%);
-  pointer-events: none;
-  z-index: 25;
+
+
+
+/* Slides that are outside the center pass BEHIND the sleeve card (z-10).
+   Only the centered active slide sits above everything (z-20). */
+.vinyl-slider-wrap .swiper-slide {
+  z-index: 1 !important;
+  opacity: 0.4;
+  transition: opacity 0.35s ease;
+}
+.vinyl-slider-wrap .swiper-slide-active {
+  z-index: 20 !important;
+  opacity: 1;
 }

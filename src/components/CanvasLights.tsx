@@ -164,11 +164,12 @@ function createShader(gl: WebGLRenderingContext, type: number, source: string): 
   return shader;
 }
 
-export default function CanvasLights() {
+export default function CanvasLights({ contained = false }: { contained?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
   const scrollRef = useRef(0);
   const startTime = useRef(Date.now());
+
 
   const init = useCallback(() => {
     const canvas = canvasRef.current;
@@ -273,7 +274,7 @@ export default function CanvasLights() {
       ref={canvasRef}
       aria-hidden="true"
       style={{
-        position: "fixed",
+        position: contained ? "absolute" : "fixed",
         inset: 0,
         width: "100%",
         height: "100%",

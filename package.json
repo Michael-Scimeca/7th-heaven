@@ -42,6 +42,7 @@
     "react-quill-new": "^3.8.3",
     "resend": "^6.12.2",
     "sanity": "^5.20.0",
+    "smooothy": "^0.0.35",
     "stripe": "^22.2.0",
     "swiper": "^14.0.6",
     "twilio": "^5.13.1",

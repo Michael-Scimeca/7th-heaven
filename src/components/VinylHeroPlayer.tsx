@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
@@ -21,6 +22,7 @@ interface Album {
   year: string;
   coverImage: string;
   centerLabelColor: string;
+  storeUrl: string;
   tracks: Track[];
 }
 
@@ -29,104 +31,238 @@ const ALBUMS: Album[] = [
     id: "be-here",
     title: "BE HERE",
     subtitle: "POP MUSIC",
-    year: "2025",
-    coverImage: "/images/hero-banner.png",
-    centerLabelColor: "#eab308",
-    tracks: [
-      { id: "t1", number: 1, title: "ARE WE THERE YET", duration: "3:42", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t2", number: 2, title: "COME WHAT MAY", duration: "3:15", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t3", number: 3, title: "FOR NEVER AND EVER", duration: "4:01", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t4", number: 4, title: "SUNDRESSES", duration: "3:30", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t5", number: 5, title: "AIN'T THAT JUST BEAUTIFUL", duration: "3:54", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t6", number: 6, title: "MONSTER", duration: "3:22", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t7", number: 7, title: "COUNTRY IN THE CITY", duration: "3:48", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t8", number: 8, title: "I LOVE THESE DAYS", duration: "3:12", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t9", number: 9, title: "INFINITY AND A DAY", duration: "4:15", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t10", number: 10, title: "LEGENDS", duration: "3:35", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t11", number: 11, title: "GET BACK UP AGAIN", duration: "3:08", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t12", number: 12, title: "TAKE A RIDE OF LIFE", duration: "3:50", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t13", number: 13, title: "SATURDAY NIGHT", duration: "3:25", audioUrl: "/audio/demo-track.mp3" },
-      { id: "t14", number: 14, title: "I WANNA SEE YOU SHINE", duration: "4:05", audioUrl: "/audio/demo-track.mp3" },
-    ],
-  },
-  {
-    id: "jukebox",
-    title: "JUKEBOX",
-    subtitle: "7TH HEAVEN",
-    year: "2023",
-    coverImage: "/images/band-performance.png",
-    centerLabelColor: "#ec4899",
-    tracks: [
-      { id: "j1", number: 1, title: "SING ALONG", duration: "3:20", audioUrl: "/audio/demo-track.mp3" },
-      { id: "j2", number: 2, title: "BETTER DAYS", duration: "3:45", audioUrl: "/audio/demo-track.mp3" },
-      { id: "j3", number: 3, title: "CELL PHONE", duration: "3:10", audioUrl: "/audio/demo-track.mp3" },
-      { id: "j4", number: 4, title: "STOP TELLING ME", duration: "3:55", audioUrl: "/audio/demo-track.mp3" },
-      { id: "j5", number: 5, title: "BEAUTIFUL LIFE", duration: "4:12", audioUrl: "/audio/demo-track.mp3" },
-      { id: "j6", number: 6, title: "UNCONDITIONAL", duration: "3:38", audioUrl: "/audio/demo-track.mp3" },
-      { id: "j7", number: 7, title: "THIS IS OUR TIME", duration: "4:02", audioUrl: "/audio/demo-track.mp3" },
-    ],
-  },
-  {
-    id: "synergy",
-    title: "SYNERGY",
-    subtitle: "SPECTRUM",
     year: "2021",
-    coverImage: "/images/hero-band-bg.png",
-    centerLabelColor: "#3b82f6",
+    coverImage: "/images/album/Be-Here.png",
+    centerLabelColor: "#eab308",
+    storeUrl: "/store",
     tracks: [
-      { id: "s1", number: 1, title: "MIDLIFE CRISIS", duration: "3:40", audioUrl: "/audio/demo-track.mp3" },
-      { id: "s2", number: 2, title: "HIGH-OCTANE", duration: "3:15", audioUrl: "/audio/demo-track.mp3" },
-      { id: "s3", number: 3, title: "HEARTBEAT", duration: "4:05", audioUrl: "/audio/demo-track.mp3" },
-      { id: "s4", number: 4, title: "ROLLERCOASTER", duration: "3:50", audioUrl: "/audio/demo-track.mp3" },
-      { id: "s5", number: 5, title: "KEEP ROCKIN'", duration: "4:20", audioUrl: "/audio/demo-track.mp3" },
+      { id: "bh1",  number: 1,  title: "ARE WE THERE YET",          duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDElMjBBcmUlMjBXZSUyMFRoZXJlJTIwWWV0Lm1wMw==" },
+      { id: "bh2",  number: 2,  title: "COME WHAT MAY",              duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDIlMjBDb21lJTIwV2hhdCUyME1heS5tcDM=" },
+      { id: "bh3",  number: 3,  title: "FOR NEVER AND EVER",         duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDMlMjBGb3IlMjBOZXZlciUyMGFuZCUyMEV2ZXIubXAz" },
+      { id: "bh4",  number: 4,  title: "SUNDRESSES",                 duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDQlMjBTdW5kcmVzc2VzLm1wMw==" },
+      { id: "bh5",  number: 5,  title: "AIN'T THAT JUST BEAUTIFUL",  duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDUlMjBBaW50JTIwVGhhdCUyMEp1c3QlMjBCZWF1dGlmdWwubXAz" },
+      { id: "bh6",  number: 6,  title: "MONSTER",                    duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDYlMjBNb25zdGVyLm1wMw==" },
+      { id: "bh7",  number: 7,  title: "COUNTRY IN THE CITY",        duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDclMjBDb3VudHJ5JTIwSW4lMjBUaGUlMjBDaXR5Lm1wMw==" },
+      { id: "bh8",  number: 8,  title: "I LOVE THESE DAYS",          duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDglMjBJJTIwTG92ZSUyMFRoZXNlJTIwRGF5cy5tcDM=" },
+      { id: "bh9",  number: 9,  title: "INFINITY AND A DAY",         duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDklMjBJbmZpbml0eSUyMEFuZCUyMEElMjBEYXkubXAz" },
+      { id: "bh10", number: 10, title: "LEGENDS",                    duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMTAlMjBMZWdlbmRzLm1wMw==" },
+      { id: "bh11", number: 11, title: "GET BACK UP AGAIN",          duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMTElMjJHZXQlMjBCYWNrJTIwVXAlMjBBZ2Fpbi5tcDM=" },
+      { id: "bh12", number: 12, title: "TAKE A RIDE OF LIFE",        duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMTIlMjJUYWtlJTIwQSUyMFJpZGUlMjBPZiUyMExpZmUubXAz" },
+      { id: "bh13", number: 13, title: "SATURDAY NIGHT",             duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMTMlMjJTYXR1cmRheSUyME5pZ2h0Lm1wMw==" },
+      { id: "bh14", number: 14, title: "I WANNA SEE YOU SHINE",      duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMTQlMjJJJTIwV2FubmElMjBTZWUlMjBZb3UlMjBTaGluZS5tcDM=" },
     ],
   },
   {
-    id: "next-level",
-    title: "NEXT LEVEL",
+    id: "color-in-motion",
+    title: "COLOR IN MOTION",
     subtitle: "7TH HEAVEN",
-    year: "2019",
-    coverImage: "/images/hero-banner.png",
-    centerLabelColor: "#8b5cf6",
+    year: "2018",
+    coverImage: "/images/album/colot-in-motion.png",
+    centerLabelColor: "#ec4899",
+    storeUrl: "/store",
     tracks: [
-      { id: "n1", number: 1, title: "SHINE ON", duration: "3:30", audioUrl: "/audio/demo-track.mp3" },
-      { id: "n2", number: 2, title: "ALWAYS THERE", duration: "3:45", audioUrl: "/audio/demo-track.mp3" },
-      { id: "n3", number: 3, title: "DREAM BIG", duration: "4:10", audioUrl: "/audio/demo-track.mp3" },
-      { id: "n4", number: 4, title: "ELECTRIC NIGHT", duration: "3:55", audioUrl: "/audio/demo-track.mp3" },
+      { id: "cim1",  number: 1,  title: "THIS IS WHERE THE PARTY'S AT", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzAxJTIwVGhpcyUyMElzJTIwV2hlcmUlMjBUaGUlMjBQYXJ0eSUyN3MlMjBBdC5tcDM=" },
+      { id: "cim2",  number: 2,  title: "WONDERFUL WORLD",              duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzAyJTIwV29uZGVyZnVsJTIwV29ybGQubXAz" },
+      { id: "cim3",  number: 3,  title: "SAY IT ALREADY",               duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzAzJTIwU2F5JTIwSXQlMjBBbHJlYWR5Lm1wMw==" },
+      { id: "cim4",  number: 4,  title: "TIME AND AGAIN",               duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzA0JTIwVGltZSUyMEFuZCUyMEFnYWluLm1wMw==" },
+      { id: "cim5",  number: 5,  title: "BETTER LUCK NEXT TIME",        duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzA1JTIwQmV0dGVyJTIwTHVjayUyME5leHQlMjBUaW1lLm1wMw==" },
+      { id: "cim6",  number: 6,  title: "I SEE YOU SMILE",              duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzA2JTIwSSUyMFNlZSUyMFlvdSUyMFNtaWxlLm1wMw==" },
+      { id: "cim7",  number: 7,  title: "MAKE YOU LOVE ME",             duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzA3JTIwTWFrZSUyMFlvdSUyMExvdmUlMjBNZS5tcDM=" },
+      { id: "cim8",  number: 8,  title: "HAPPY NOW",                    duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzA4JTIwSGFwcHklMjJOb3cubXAz" },
+      { id: "cim9",  number: 9,  title: "PICKING UP THE PIECES",        duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzA5JTIwUGlja2luZyUyMFVwJTIwVGhlJTIwUGllY2VzLm1wMw==" },
+      { id: "cim10", number: 10, title: "CLOSEST THING",                duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzEwJTIwQ2xvc2VzdCUyMFRoaW5nLm1wMw==" },
     ],
   },
   {
-    id: "usa-uk",
-    title: "USA-UK",
+    id: "luminous",
+    title: "LUMINOUS",
     subtitle: "7TH HEAVEN",
     year: "2017",
-    coverImage: "/images/hero-banner.png",
-    centerLabelColor: "#10b981",
+    coverImage: "/images/album/luminous.png",
+    centerLabelColor: "#8b5cf6",
+    storeUrl: "/store",
     tracks: [
-      { id: "u1", number: 1, title: "ATLANTIC", duration: "3:35", audioUrl: "/audio/demo-track.mp3" },
-      { id: "u2", number: 2, title: "LONDON NIGHTS", duration: "3:50", audioUrl: "/audio/demo-track.mp3" },
-      { id: "u3", number: 3, title: "CHICAGO BOUND", duration: "4:02", audioUrl: "/audio/demo-track.mp3" },
+      { id: "lu1",  number: 1,  title: "HOME",                           duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wMSUyMEhvbWUubXAz" },
+      { id: "lu2",  number: 2,  title: "BEAUTIFUL LIFE",                 duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wMiUyMEJlYXV0aWZ1bCUyMExpZmUubXAz" },
+      { id: "lu3",  number: 3,  title: "MIDWEST GIRL IN THE SUMMERTIME", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wMyUyME1pZHdlc3QlMjBHaXJsJTIwaW4lMjB0aGUlMjJTdW1tZXJ0aW1lLm1wMw==" },
+      { id: "lu4",  number: 4,  title: "ALWAYS",                         duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wNCUyMEFsd2F5cy5tcDM=" },
+      { id: "lu5",  number: 5,  title: "IF YOU CHANGE YOUR MIND",        duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wNSUyMklmJTIwWW91JTIwQ2hhbmdlJTIwWW91ciUyME1pbmQubXAz" },
+      { id: "lu6",  number: 6,  title: "CONTACT",                        duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wNiUyMkNvbnRhY3QubXAz" },
+      { id: "lu7",  number: 7,  title: "FORGET ABOUT ME",                duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wNyUyMkZvcmdldCUyMkFib3V0JTIyTWUubXAz" },
+      { id: "lu8",  number: 8,  title: "EYES WIDE OPEN",                 duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wOCUyMkV5ZXMlMjJXaWRlJTIyT3Blbi5tcDM=" },
+      { id: "lu9",  number: 9,  title: "SO WONDERFUL",                   duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wOSUyMlNvJTIyV29uZGVyZnVsLm1wMw==" },
+      { id: "lu10", number: 10, title: "SOS",                            duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8xMCUyMlNPUy5tcDM=" },
+    ],
+  },
+  {
+    id: "next",
+    title: "NEXT",
+    subtitle: "7TH HEAVEN",
+    year: "2008",
+    coverImage: "/images/album/next.png",
+    centerLabelColor: "#10b981",
+    storeUrl: "/store",
+    tracks: [
+      { id: "uu1",  number: 1,  title: "BETTER THIS WAY",                 duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wMSUyMEJldHRlciUyMFRoaXMlMjBXYXkubXAz" },
+      { id: "uu2",  number: 2,  title: "CELLOPHANE",                      duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wMiUyMENlbGxvcGhhbmUubXAz" },
+      { id: "uu3",  number: 3,  title: "STILL BE HERE",                   duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wMyUyMFN0aWxsJTIwQmUlMjBIZXJlLm1wMw==" },
+      { id: "uu4",  number: 4,  title: "GRAVITY",                         duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wNCUyMEdyYXZpdHkubXAz" },
+      { id: "uu5",  number: 5,  title: "GAVE YOU MY WORD",                duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wNSUyMEdhdmUlMjBZb3UlMjJNeSUyMldvcmQubXAz" },
+      { id: "uu6",  number: 6,  title: "KILL THE CYCLE",                  duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wNiUyMEtpbGwlMjJUaGUlMjJDeWNsZS5tcDM=" },
+      { id: "uu7",  number: 7,  title: "THIS SUMMERS GONNA LAST FOREVER", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wNyUyMFRoaXMlMjJTdW1tZXJzJTIyR29ubmElMjJMYXN0JTIyRm9yZXZlci5tcDM=" },
+      { id: "uu8",  number: 8,  title: "GHOST OF ME",                     duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wOCUyMEdob3N0JTIyT2YlMjJNZS5tcDM=" },
+      { id: "uu9",  number: 9,  title: "SAVE YOUR LIFE",                  duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wOSUyMlNhdmUlMjJZb3VyJTIyTGlmZS5tcDM=" },
+      { id: "uu10", number: 10, title: "HAND ON MY HEART",                duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xMCUyMkhhbmQlMjJPbiUyMk15JTIySGVhcnQubXAz" },
+      { id: "uu11", number: 11, title: "WINNING IT ALL",                  duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xMSUyMldpbm5pbmclMjJJdCUyMkFsbC5tcDM=" },
+      { id: "uu12", number: 12, title: "OH SO REALLY OLD",                duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xMiUyMk9oJTIyU28lMjJSZWFsbHklMjJPbGQubXAz" },
+      { id: "uu13", number: 13, title: "TRAGEDY",                         duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xMyUyMlRyYWdlZHkubXAz" },
+      { id: "uu14", number: 14, title: "UNDONE",                          duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xNCUyMlVuZG9uZS5tcDM=" },
+      { id: "uu15", number: 15, title: "DREAM OF NEW DAY",                duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xNSUyMkRyZWFtJTIyT2YlMjJOZXclMjJEYXkubXAz" },
+      { id: "uu16", number: 16, title: "ELECTRONIC KARMA",                duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xNiUyMkVsZWN0cm9uaWMlMjJLYXJtYS5tcDM=" },
+      { id: "uu17", number: 17, title: "TAKE ME BACK",                    duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xNyUyMlRha2UlMjJNZSUyMkJhY2subXAz" },
+      { id: "uu18", number: 18, title: "WHILE YOU DREAM",                 duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xOCUyMldoaWxlJTIyWW91JTIyRHJlYW0ubXAz" },
+    ],
+  },
+  {
+    id: "spectrum",
+    title: "SPECTRUM",
+    subtitle: "7TH HEAVEN",
+    year: "2013",
+    coverImage: "/images/album/spectrum.png",
+    centerLabelColor: "#3b82f6",
+    storeUrl: "/store",
+    tracks: [
+      { id: "sy1",  number: 1,  title: "WE LIVE LIFE YOUNG",              duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzAxJTIwV2UlMjBMaXZlJTIwTGlmZSUyMFlvdW5nLm1wMw==" },
+      { id: "sy2",  number: 2,  title: "PAGES",                           duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzAyJTIwUGFnZXMubXAz" },
+      { id: "sy3",  number: 3,  title: "NEVER GONNA BRING ME DOWN",       duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzAzJTIwTmV2ZXIlMjBHb25uYSUyMEJyaW5nJTIwTWUlMjBEb3duLm1wMw==" },
+      { id: "sy4",  number: 4,  title: "COUNTING THE DAYS",               duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA0JTIwQ291bnRpbmclMjJUaGUlMjJEYXlzLm1wMw==" },
+      { id: "sy5",  number: 5,  title: "RHIANNA",                         duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA1JTIwUmhpYW5uYS5tcDM=" },
+      { id: "sy6",  number: 6,  title: "POWER OF LOVE",                   duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA2JTIwUG93ZXIlMjJPZiUyMkxvdmUubXAz" },
+      { id: "sy7",  number: 7,  title: "TAKE MY HEART (DO IT ALL AGAIN)", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA3JTIwVGFrZSUyME15JTIwSGVhcnQlMjAoRG8lMjBJdCUyMEFsbCUyMEFnYWluKS5tcDM=" },
+      { id: "sy8",  number: 8,  title: "LIVE ON",                         duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA4JTIwTGl2ZSUyMk9uLm1wMw==" },
+      { id: "sy9",  number: 9,  title: "LIGHT UP THE WORLD",              duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA5JTIwTGlnaHQlMjJVcCUyMlRoZSUyMldvcmxkLm1wMw==" },
+      { id: "sy10", number: 10, title: "I BEGIN AGAIN",                   duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzEwJTIwSSUyMkJlZ2luJTIyQWdhaW4ubXAz" },
+      { id: "sy11", number: 11, title: "I'LL BE WAITING",                 duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzExJTIwSSUyN2xsJTIwQmUlMjBXYWl0aW5nLm1wMw==" },
+      { id: "sy12", number: 12, title: "WHY YA GOTTA BE LIKE THAT",      duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzEyJTIwV2h5JTIwWWElMjJHb3R0YSUyMkJlJTIyTGlrZSUyMlRoYXQubXAz" },
     ],
   },
 ];
 
-export default function VinylHeroPlayer() {
-  const [activeAlbumIdx, setActiveAlbumIdx] = useState(1);
+/*--------------------
+SoundWaveCanvas
+--------------------*/
+const lerp = (v0: number, v1: number, t: number) => v0 * (1 - t) + v1 * t;
+
+function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const stateRef = useRef({ h: 0, amp: 0, rafId: 0 });
+
+  const draw = useCallback((time: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const st = stateRef.current;
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+
+    // settings: width:150, height:6, amplitude:-0.18, speed:5.7
+    const targetH   = isPlaying ? 6 : 0.8;
+    const targetAmp = isPlaying ? Math.abs(-0.18) * Math.PI * 2 : 0.05;
+    st.h   = lerp(st.h,   targetH,   0.055);
+    st.amp = lerp(st.amp, targetAmp, 0.055);
+
+    ctx.clearRect(0, 0, W, H);
+
+    const steps = 150;
+    const speed = 5.7;
+
+    ctx.beginPath();
+    for (let i = 0; i <= steps; i++) {
+      const x = (i / steps) * W;
+      const t = time * speed + (i / steps) * st.amp * Math.PI * 2;
+      const y = H / 2 - Math.sin(t) * st.h;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = "#d946ef";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    st.rafId = requestAnimationFrame((ts) => draw(ts / 1000));
+  }, [isPlaying]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext("2d");
+    if (ctx) ctx.scale(dpr, dpr);
+
+    const st = stateRef.current;
+    cancelAnimationFrame(st.rafId);
+    st.rafId = requestAnimationFrame((ts) => draw(ts / 1000));
+    return () => cancelAnimationFrame(st.rafId);
+  }, [draw]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{ width: "24px", height: "24px", display: "block" }}
+    />
+  );
+}
+
+
+export default function VinylHeroPlayer({
+  onAlbumChange,
+}: {
+  onAlbumChange?: (albumId: string) => void;
+}) {
+  const [activeAlbumIdx, setActiveAlbumIdx] = useState(0);
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTracklist, setShowTracklist] = useState(false);
   const [audioError, setAudioError] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState("0:00");
+  const [duration, setDuration] = useState("0:00");
+  const [isDragging, setIsDragging] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const audioRef  = useRef<HTMLAudioElement | null>(null);
+
+  // Whenever the active album or track changes, reload the audio source.
+  // React updating the src= prop on <audio> does NOT trigger a browser reload —
+  // we must set .src and call .load() imperatively.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const url = ALBUMS[activeAlbumIdx]?.tracks[activeTrackIdx]?.audioUrl;
+    if (!url) return;
+    audio.src = url;
+    audio.load();
+    setProgress(0);
+    setCurrentTime("0:00");
+    setDuration("0:00");
+  }, [activeAlbumIdx, activeTrackIdx]);
 
   const currentAlbum = ALBUMS[activeAlbumIdx];
   const currentTrack = currentAlbum.tracks[activeTrackIdx] || currentAlbum.tracks[0];
 
   const playTrack = (trackIdx: number) => {
+    const url = currentAlbum.tracks[trackIdx]?.audioUrl;
+    if (!url) return;
     setActiveTrackIdx(trackIdx);
     setIsPlaying(true);
     setAudioError(false);
+    setProgress(0);
+    setCurrentTime("0:00");
     if (audioRef.current) {
-      audioRef.current.currentTime = 0;
+      audioRef.current.src = url;
+      audioRef.current.load();
       audioRef.current.play()
         .then(() => setIsPlaying(true))
         .catch(() => { setIsPlaying(false); setAudioError(true); });
@@ -143,8 +279,9 @@ export default function VinylHeroPlayer() {
       setIsPlaying(true);
       setAudioError(false);
       audioRef.current.play()
-        .catch(() => {
-          setIsPlaying(false);
+        .catch((err) => {
+          // Keep spinning even if audio is unavailable (missing file etc.)
+          console.warn("Audio play failed:", err);
           setAudioError(true);
         });
     }
@@ -166,36 +303,92 @@ export default function VinylHeroPlayer() {
       setActiveAlbumIdx(newIdx);
       setActiveTrackIdx(0);
       setIsPlaying(false);
+      setProgress(0);
+      setCurrentTime("0:00");
+      setDuration("0:00");
+      onAlbumChange?.(ALBUMS[newIdx]?.id ?? "");
       if (audioRef.current) {
         audioRef.current.pause();
+        const url = ALBUMS[newIdx]?.tracks[0]?.audioUrl;
+        if (url) {
+          audioRef.current.src = url;
+          audioRef.current.load();
+        }
       }
     }
+    // Reactivate as soon as Swiper commits to the new slide
+    setIsDragging(false);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const cur = audioRef.current.currentTime;
+    const dur = audioRef.current.duration;
+    const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+    const durKnown = isFinite(dur) && !isNaN(dur) && dur > 0;
+    if (durKnown) setProgress((cur / dur) * 100);
+    setCurrentTime(fmt(cur));
+    setDuration(durKnown ? fmt(dur) : "0:00");
+  };
+
+  // Fire as soon as the browser knows the duration — before the user presses play
+  const handleLoadedMetadata = () => {
+    if (!audioRef.current) return;
+    const dur = audioRef.current.duration;
+    const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+    if (isFinite(dur) && !isNaN(dur) && dur > 0) setDuration(fmt(dur));
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!audioRef.current) return;
+    const pct = parseFloat(e.target.value);
+    const dur = audioRef.current.duration || 0;
+    audioRef.current.currentTime = (pct / 100) * dur;
+    setProgress(pct);
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const v = parseFloat(e.target.value);
+    setVolume(v);
+    if (audioRef.current) audioRef.current.volume = v;
   };
 
   return (
     <div className="relative flex items-center gap-4 select-none py-4">
-      {/* Hidden Audio */}
+      {/* Hidden Audio — src managed imperatively via useEffect/playTrack, NOT via React src= prop */}
       <audio
         ref={audioRef}
-        src={currentTrack.audioUrl}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
         onEnded={nextTrack}
         onError={() => setAudioError(true)}
       />
 
       {/* ── SWIPER VINYL DISC SLIDER ── */}
-      <div className="vinyl-slider-wrap" style={{ width: '700px', height: '220px' }}>
+      <div
+        className="vinyl-slider-wrap"
+        style={{
+          width: '700px',
+          height: '220px',
+          marginTop: '20px',
+          position: 'relative',
+        }}
+      >
+
 
       <div className="relative" style={{ width: '700px' }}>
 
 
         {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <div className="w-[270px] h-[270px] bg-[#220436]/85 border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
+          <div className="w-[270px] h-[270px] border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
         </div>
 
-        {/* LAYER 2: Swiper disc track — z-20, centeredSlides so active disc is always centered in container */}
-
-
+        {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
+        <div style={{
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)',
+        }}>
         <Swiper
           slidesPerView="auto"
           centeredSlides={true}
@@ -204,32 +397,42 @@ export default function VinylHeroPlayer() {
           spaceBetween={30}
           grabCursor={true}
           onSlideChange={handleSlideChange}
+          onSliderFirstMove={() => setIsDragging(true)}
+          onTouchEnd={() => setIsDragging(false)}
           style={{ overflow: "visible", position: "relative", zIndex: 20 }}
           className="vinyl-swiper"
         >
           {ALBUMS.map((album, idx) => (
             <SwiperSlide
               key={album.id}
-              style={{ width: "176px", height: "220px" }}
+              style={{ width: "176px", height: "220px", display: "flex", alignItems: "center" }}
             >
-              {({ isActive }) => (
+
+              {({ isActive }) => {
+                const vinylSrc = `/vin${(idx % 3) + 1}.png`;
+                return (
                 <div
-                  className={`relative rounded-full flex items-center justify-center mx-auto ${
-                    isActive
+                  className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden ${
+                    isActive && !isDragging
                       ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
-                      : "opacity-20 scale-90 z-0 transition-all duration-500"
-                  } ${isActive && isPlaying ? "[animation:spin_4s_linear_infinite]" : "transition-all duration-500"}`}
+                      : "opacity-60 scale-90 z-0"
+                  } ${isActive ? "vinyl-spinning" : ""}`}
                   style={{
                     width: "176px",
                     height: "176px",
-                    background: "#0a0a0c",
-                    border: isActive ? "5px solid #3f3f46" : "4px solid #1a1a1a",
+                    animationPlayState: isActive ? (isPlaying ? "running" : "paused") : undefined,
                   }}
                 >
-                  {/* Concentric grooves */}
-                  <div className="w-36 h-36 rounded-full border border-neutral-700/80 flex items-center justify-center">
-                    <div className="w-28 h-28 rounded-full border border-neutral-700/60 flex items-center justify-center">
-                      {/* Center label with album art */}
+                  {/* Real vinyl disc image */}
+                  <Image
+                    src={vinylSrc}
+                    alt={`${album.title} vinyl`}
+                    fill
+                    sizes="176px"
+                    className="object-cover rounded-full"
+                  />
+                  {/* Center label with album art — sits on top of the vinyl image */}
+                  <div className="relative z-10 flex items-center justify-center">
                       <div
                         className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
                         style={{ backgroundColor: album.centerLabelColor }}
@@ -240,23 +443,21 @@ export default function VinylHeroPlayer() {
                           <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
                         </div>
                       </div>
-                    </div>
                   </div>
                 </div>
-              )}
+                );
+              }}
             </SwiperSlide>
           ))}
         </Swiper>
+        </div>
 
         {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
           <div className="relative w-[270px] h-[270px] flex flex-col justify-between p-4 pointer-events-none">
 
             {/* Top Controls */}
-            <div className="flex items-center justify-between pointer-events-auto">
-              <span className="text-[9px] font-black uppercase tracking-widest text-white/40 font-mono">
-                VINYL STEREO
-              </span>
+            <div className="flex items-center justify-center pointer-events-auto">
               <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
                 <button onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
@@ -282,53 +483,83 @@ export default function VinylHeroPlayer() {
                     <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
                   </svg>
                 </button>
+                <div className="w-[1px] h-3 bg-white/20 my-auto" />
+                {/* Volume */}
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-white/60 shrink-0">
+                  {volume === 0
+                    ? <path d="M11 5L6 9H2v6h4l5 4V5z M23 9l-6 6M17 9l6 6"/>
+                    : volume < 0.5
+                    ? <><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none"/></>
+                    : <><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none"/></>}
+                </svg>
+                <input
+                  type="range" min="0" max="1" step="0.01"
+                  value={volume}
+                  onChange={handleVolumeChange}
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-14 h-[3px] rounded-full appearance-none cursor-pointer bg-white/20"
+                  style={{ accentColor: "#d946ef" }}
+                />
               </div>
-            </div>
-
-            {/* Stylus Needle */}
-            <div className={`absolute top-0 right-3 w-16 h-20 pointer-events-none transition-transform duration-500 origin-top-right ${isPlaying ? "rotate-[15deg]" : "rotate-0"}`}>
-              <svg width="60" height="70" viewBox="0 0 60 70" fill="none">
-                <path d="M50 5 L42 35 L20 55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-                <circle cx="50" cy="5" r="4" fill="#eab308" />
-                <circle cx="20" cy="55" r="3" fill="white" />
-              </svg>
             </div>
 
             {/* Bottom: Title + Waveform */}
-            <div className="flex items-end justify-between pointer-events-auto">
-              <div
-                onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
-                className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[155px] cursor-pointer hover:bg-purple-100 transition-colors"
-              >
-                <div className="text-[11px] font-black uppercase leading-tight flex items-center gap-1">
-                  <span className="truncate">{currentAlbum.title}</span>
-                  <span className="text-[8px] font-bold text-purple-600 bg-purple-100 px-1 rounded shrink-0">PLAYLIST ☰</span>
+            <div className="flex items-end justify-between pointer-events-auto mt-auto">
+              <div className="flex flex-col gap-1">
+                <div
+                  onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+                  className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[155px] cursor-pointer hover:bg-purple-100 transition-colors"
+                >
+                  <div className="text-[11px] font-black uppercase leading-tight flex items-center gap-1">
+                    <span className="truncate">{currentAlbum.title}</span>
+                    <span className="text-[8px] font-bold text-purple-600 bg-purple-100 px-1 rounded shrink-0">PLAYLIST ☰</span>
+                  </div>
+                  <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                    {currentTrack.title}
+                  </div>
                 </div>
-                <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
-                  {currentTrack.title}
-                </div>
+                {/* BUY CD button */}
+                <Link
+                  href={currentAlbum.storeUrl}
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center gap-1 bg-gradient-to-r from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 text-white text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-md transition-all hover:scale-105 w-fit"
+                >
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+                  Buy CD
+                </Link>
               </div>
-              <div className="flex items-center gap-0.5 pb-0.5">
-                <span className={`w-1 h-3 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
-                <span className={`w-1 h-4 rounded-full bg-purple-400 ${isPlaying ? "animate-[bounce_0.6s_ease-in-out_infinite]" : ""}`} />
-                <span className={`w-1 h-2 rounded-full bg-purple-400 ${isPlaying ? "animate-bounce" : ""}`} />
+              <SoundWaveCanvas isPlaying={isPlaying} />
+            </div>
+
+            {/* Progress Scrubber — pinned to very bottom */}
+            <div className="pointer-events-auto px-1 mt-2">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="0.1"
+                value={progress}
+                onChange={handleSeek}
+                className="w-full h-[3px] rounded-full appearance-none cursor-pointer bg-white/20"
+                style={{ accentColor: "#d946ef" }}
+              />
+              <div className="flex justify-between text-[10px] font-mono text-white/60 mt-0.5">
+                <span>{currentTime}</span>
+                <span>{duration}</span>
               </div>
             </div>
           </div>
         </div>
-
-      </div>
-      </div>{/* end vinyl-slider-wrap */}
-
-
-      {/* ── TRACKLIST PANEL ── */}
+      {/* ── TRACKLIST PANEL — anchored right of the 270px center card ── */}
       <div
-        className={`flex flex-col text-left transition-all duration-500 ease-out origin-left z-20 self-center ${
+        className={`absolute top-0 bottom-0 flex flex-col text-left transition-all duration-500 ease-out origin-left z-40 ${
           showTracklist
-            ? "w-[220px] opacity-100 pointer-events-auto pl-4 border-l border-white/15"
-            : "w-0 opacity-0 pointer-events-none overflow-hidden"
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
+        style={{ left: 'calc(50% + 151px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
       >
+        <div className="pl-4 border-l border-white/15 h-full flex flex-col justify-center">
         <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10 whitespace-nowrap">
           <span className="text-[10px] font-black uppercase tracking-widest text-purple-300">
             {currentAlbum.title} TRACKLIST
@@ -359,6 +590,10 @@ export default function VinylHeroPlayer() {
             );
           })}
         </ol>
+        </div>
+      </div>
+
+      </div>
       </div>
     </div>
   );
