@@ -824,19 +824,19 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
              />
              <div className="flex gap-3 items-center w-full">
                {upNext.mapUrl && (
-                  <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center btn-outline btn-outline-hover text-[0.75rem] py-3 px-2 border-[var(--color-accent)]/30" id="upnext-map">
+                  <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center text-xs font-black uppercase tracking-widest py-3 px-2 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg" id="upnext-map">
                     📍 Directions
                   </a>
                )}
                {upNext.websiteUrl && (
-                  <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center btn-primary btn-primary-hover text-[0.75rem] py-3 px-2" id="upnext-website">
+                  <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center text-xs font-black uppercase tracking-widest py-3 px-2 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg" id="upnext-website">
                     Website
                   </a>
                )}
                <div className="flex-1 relative calendar-dropdown-container">
                  <button
                    onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                   className="w-full text-center btn-outline btn-outline-hover text-[0.75rem] py-3 px-2 border-[var(--color-accent)]/30 flex items-center justify-center gap-2 cursor-pointer"
+                   className="w-full text-center text-xs font-black uppercase tracking-widest py-3 px-2 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg flex items-center justify-center gap-2 cursor-pointer"
                    id="upnext-calendar-btn"
                  >
                    📅 Add to Calendar
@@ -983,7 +983,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
          <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible">
            {/* Desktop Row Layout */}
            <div
-            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : "bg-[var(--color-bg-card)]"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
              <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
@@ -991,16 +991,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
              <span className="font-bold text-white">{show.venue}</span>
              <span className="text-white/90">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
              <span className="flex items-center gap-2 flex-wrap text-left">
-                 {show.playTime ? (
-                   <>
-                     <span className="text-rose-400 font-extrabold text-[11px] uppercase tracking-wide whitespace-nowrap">Plays: {show.playTime}</span>
-                     {show.time && (
-                       <span className="text-white/40 text-[10px] whitespace-nowrap">({show.isFestival ? "Fest" : "Event"}: {show.time})</span>
-                     )}
-                   </>
-                 ) : (
-                   <span className="text-white/95 font-medium whitespace-nowrap">{show.time}</span>
-                 )}
+                 <span className="text-white/95 font-medium whitespace-nowrap">{show.time}</span>
                  {isShowToday(show) && (
                    <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 ml-1.5 whitespace-nowrap animate-pulse">
                      {getCountdownString(show)}
@@ -1043,7 +1034,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                  </div>
               </div>
              <span className="flex items-center justify-center gap-2">
-               {show._id && isFan && (
+               {show._id && isFan && !show.isPrivate && (
                  <button
                    onClick={() => handleToggleNotification(show)}
                    disabled={subscribingId === show._id}
@@ -1077,7 +1068,8 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                  </a>
                 );
                })()}
-               <div className="relative calendar-dropdown-container">
+               {!show.isPrivate && (
+                  <div className="relative calendar-dropdown-container">
                  <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="w-6 h-6 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer">
                    <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                  </button>
@@ -1098,9 +1090,10 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                    </div>
                  )}
                </div>
-              </span>
-              <span className="flex justify-end">
-               {show.websiteUrl ? (
+                )}
+               </span>
+               <span className="flex justify-end">
+                {!show.isPrivate && (show.websiteUrl ? (
                  <a 
                   href={show.websiteUrl} 
                   target="_blank" 
@@ -1113,10 +1106,10 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 <span className="inline-flex items-center justify-center whitespace-nowrap text-[0.6rem] font-black uppercase tracking-widest px-3 py-1 border border-white/5 text-white/10 rounded-sm cursor-default h-6 min-w-[76px]">
                  Website
                 </span>
-               )}
-              </span>
+               ))}
+               </span>
 
-             {/* Admin Row Actions */}
+              {/* Admin Row Actions */}
              {member?.role === 'admin' && (
                <div className="flex items-center gap-1.5 justify-end w-full md:w-auto">
                  {show._id ? (
@@ -1143,7 +1136,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
 
            {/* Mobile/Tablet Card Layout */}
            <div
-            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : "bg-[var(--color-bg-card)]"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={`${rowId}-mobile`}
            >
              
@@ -1154,13 +1147,8 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                  <span className="text-white font-bold text-base">{show.date}</span>
                </div>
                <div className="flex flex-col items-end gap-1">
-                 <span className="text-white text-xs font-black px-2 py-0.5 bg-rose-600/10 border border-rose-500/20 rounded-md shadow-[0_0_8px_rgba(239,68,68,0.1)]">
-                   Band: {show.playTime || show.time || "TBA"}
-                 </span>
                  {show.time && (
-                   <span className="text-white/50 text-[10px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded">
-                     {show.isFestival ? "Fest" : "Event"}: {show.time}
-                   </span>
+                   <span className="text-white/85 text-xs font-semibold px-2 py-0.5 bg-white/5 border border-white/10 rounded">{show.time}</span>
                  )}
                  {isShowToday(show) && (
                    <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 animate-pulse">
@@ -1221,7 +1209,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                  );
                })()}
 
-               {show._id && isFan && (
+               {show._id && isFan && !show.isPrivate && (
                  <button
                    onClick={() => handleToggleNotification(show)}
                    disabled={subscribingId === show._id}
@@ -1247,7 +1235,8 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                )}
 
                {/* Calendar Add */}
-               <div className="relative calendar-dropdown-container shrink-0">
+                {!show.isPrivate && (
+                  <div className="relative calendar-dropdown-container shrink-0">
                  <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-all duration-300 cursor-pointer">
                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                  </button>
@@ -1267,10 +1256,11 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                      </button>
                    </div>
                  )}
-               </div>
+                </div>
+                )}
 
-               {/* Tickets / Website Link */}
-               {show.websiteUrl ? (
+                {/* Tickets / Website Link */}
+                {!show.isPrivate && (show.websiteUrl ? (
                  <a href={show.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all rounded-md text-center">
                    Website
                  </a>
@@ -1278,9 +1268,9 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                  <span className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 border border-white/5 text-white/10 rounded-md text-center">
                    Website
                  </span>
-               )}
+               ))}
 
-               {/* Admin Actions */}
+                {/* Admin Actions */}
                {member?.role === 'admin' && show._id && (
                  <div className="flex items-center gap-1.5 shrink-0">
                    <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Edit</button>
