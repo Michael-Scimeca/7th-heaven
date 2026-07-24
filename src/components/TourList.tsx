@@ -786,23 +786,27 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               )}
            </div>
 
-           <div className="flex flex-col items-start md:items-end justify-between gap-4 shrink-0">
-             <CountdownTimer targetDate={`${upNext.date}, ${new Date().getFullYear()}`} targetTime={upNext.playTime || upNext.time} />
-             <div className="flex gap-3 items-center">
+           <div className="flex flex-col items-stretch md:items-end justify-between gap-5 shrink-0 w-full md:w-[460px]">
+             <CountdownTimer 
+               targetDate={`${upNext.date}, ${new Date().getFullYear()}`} 
+               targetTime={upNext.playTime || upNext.time} 
+               className="justify-start md:justify-end gap-4 md:gap-5"
+             />
+             <div className="flex gap-3 items-center w-full">
                {upNext.mapUrl && (
-                  <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[0.75rem] py-3 px-6 border-[var(--color-accent)]/30" id="upnext-map">
+                  <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center btn-outline btn-outline-hover text-[0.75rem] py-3 px-2 border-[var(--color-accent)]/30" id="upnext-map">
                     📍 Directions
                   </a>
                )}
                {upNext.websiteUrl && (
-                  <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-primary btn-primary-hover text-[0.75rem] py-3 px-8 scale-105" id="upnext-website">
+                  <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center btn-primary btn-primary-hover text-[0.75rem] py-3 px-2" id="upnext-website">
                     Website
                   </a>
                )}
-               <div className="relative calendar-dropdown-container">
+               <div className="flex-1 relative calendar-dropdown-container">
                  <button
                    onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                   className="btn-outline btn-outline-hover text-[0.75rem] py-3 px-6 border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
+                   className="w-full text-center btn-outline btn-outline-hover text-[0.75rem] py-3 px-2 border-[var(--color-accent)]/30 flex items-center justify-center gap-2 cursor-pointer"
                    id="upnext-calendar-btn"
                  >
                    📅 Add to Calendar
@@ -866,10 +870,19 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[rgba(133,29,239,0.3)] hover:border-[rgba(133,29,239,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(133,29,239,0.08)]"
          >Clear</button>
         )}
+
+       {/* Sticky Font Settings Gear Trigger */}
+       <button
+         onClick={() => setIsFontCustomizerOpen(true)}
+         className="absolute right-0 top-1/2 -translate-y-1/2 text-[0.7rem] p-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-md transition-all cursor-pointer text-white/80 hover:text-white flex items-center justify-center z-40"
+         title="Font Settings"
+       >
+         ⚙️
+       </button>
        </div>
      </div>
 
-     <div className={`sticky top-0 z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md items-center`}>
+     <div className={`sticky top-0 z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md items-center relative`}>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Day</span>
       <div className="relative">
        <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
@@ -910,6 +923,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
            >
              + Add
            </button>
+           <button
+             onClick={() => setIsFontCustomizerOpen(true)}
+             className="absolute right-2 top-1/2 -translate-y-1/2 text-[0.7rem] p-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-md transition-all cursor-pointer text-white/80 hover:text-white flex items-center justify-center z-40"
+             title="Font Settings"
+           >
+             ⚙️
+           </button>
          </div>
        )}
      </div>
@@ -919,24 +939,23 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         let rows = filtered;
         if (maxShows && upNext) {
           const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue && s.time === upNext.time);
-          rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + maxShows);
+rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + maxShows);
         } else if (maxShows) {
           rows = filtered.slice(0, maxShows);
         }
         return rows;
-      })().map((show, i) => {
-       const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue && show.time === upNext.time) : false;
-       const rowId = `tour-${show.venue}-${show.date}-${show.time || ''}`.replace(/\s+/g, '-').toLowerCase();
+       })().map((show, i) => {
+        const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue && show.time === upNext.time) : false;
+        const rowId = `tour-${show.venue}-${show.date}-${show.time || ''}`.replace(/\s+/g, '-').toLowerCase();
        const isHighlighted = highlightedId === rowId;
        const isPast = parseShowDate(show.date, show.startDate).getTime() < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
        return (
          <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible">
            {/* Desktop Row Layout */}
            <div
-            className={`relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
-             {isUpNext && (<span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">Up Next</span>)}
              <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
              <span className="text-white/95 font-medium">{show.date}</span>
              <span className="font-bold text-white">{show.venue}</span>
@@ -1103,7 +1122,6 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             className={`relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={`${rowId}-mobile`}
            >
-             {isUpNext && (<span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">Up Next</span>)}
              
              {/* Header Row: Date & Time */}
              <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
@@ -1544,8 +1562,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
     {/* ── Font Customizer Modal/Panel ── */}
     {isFontCustomizerOpen && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-[fadeIn_0.2s_ease]">
-        <div className="w-full max-w-sm bg-[#0d0914]/95 border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative flex flex-col font-sans select-none" style={{ animation: "scaleIn 0.2s ease" }}>
+      <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
+        <div className="w-full max-w-sm bg-[#0d0914]/95 border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
           
           {/* Header */}
           <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">

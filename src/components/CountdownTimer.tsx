@@ -6,9 +6,10 @@ interface CountdownTimerProps {
  targetDate: string;
  targetTime?: string;
  compact?: boolean;
+ className?: string;
 }
 
-export default function CountdownTimer({ targetDate, targetTime, compact = false }: CountdownTimerProps) {
+export default function CountdownTimer({ targetDate, targetTime, compact = false, className = "" }: CountdownTimerProps) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 30 });
   const [isHappening, setIsHappening] = useState(false);
 
@@ -90,19 +91,19 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
   ];
 
   return (
-   <div className={`flex items-center shrink-0 ${compact ? 'gap-1' : 'gap-2'}`}>
+   <div className={`flex items-center shrink-0 ${className ? className : (compact ? 'gap-1' : 'gap-4 md:gap-5')}`}>
     {units.map((u, i) => (
-     <div key={u.label} className={`flex items-center ${compact ? 'gap-1' : 'gap-2'}`}>
-      <div className={`flex flex-col items-center ${compact ? 'px-1.5 py-1 min-w-[34px]' : 'px-3 py-2 min-w-[52px]'}`}>
+     <div key={u.label} className={`flex items-center ${compact ? 'gap-1' : 'gap-3 md:gap-4'}`}>
+      <div className={`flex flex-col items-center ${compact ? 'px-1.5 py-1 min-w-[34px]' : 'px-3 py-2 min-w-[64px]'}`}>
        <span
-        className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-xs' : 'text-3xl md:text-[2.2rem]'}`}
+        className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-xs' : 'text-5xl md:text-[3.6rem]'}`}
         style={{ color: numberColor }}
        >
         {String(u.value).padStart(2, "0")}
        </span>
-       <span className={`uppercase tracking-wider ${compact ? 'text-[5px] font-medium text-white/20 mt-0.5' : 'text-[8px] font-bold text-white/30 mt-1'}`}>{u.label}</span>
+       <span className={`uppercase tracking-wider ${compact ? 'text-[5px] font-medium text-white/20 mt-0.5' : 'text-[10px] font-extrabold text-white/35 mt-1.5 tracking-widest'}`}>{u.label}</span>
       </div>
-      {i < 3 && <span className={`text-white/20 font-light ${compact ? 'text-[10px]' : 'text-xl'}`}>:</span>}
+      {i < 3 && <span className={`text-white/20 font-light ${compact ? 'text-[10px]' : 'text-3xl'}`}>:</span>}
      </div>
     ))}
    </div>
