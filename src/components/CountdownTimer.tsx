@@ -93,7 +93,7 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
    <div className={`flex items-center shrink-0 ${compact ? 'gap-1' : 'gap-2'}`}>
     {units.map((u, i) => (
      <div key={u.label} className={`flex items-center ${compact ? 'gap-1' : 'gap-2'}`}>
-      <div className={`flex flex-col items-center border border-white/10 bg-white/[0.03] ${compact ? 'px-1.5 py-1 min-w-[34px]' : 'px-3 py-2 min-w-[52px]'}`}>
+      <div className={`flex flex-col items-center ${compact ? 'px-1.5 py-1 min-w-[34px]' : 'px-3 py-2 min-w-[52px]'}`}>
        <span
         className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-xs' : 'text-3xl md:text-[2.2rem]'}`}
         style={{ color: numberColor }}

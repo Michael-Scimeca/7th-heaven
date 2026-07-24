@@ -678,14 +678,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
      {upNext && (
       <div className="mb-0">
        <div className="relative overflow-hidden">
-         {/* Subtle purple gradient from right */}
-         <div className="absolute inset-0 bg-gradient-to-l from-[rgba(133,29,239,0.15)] via-transparent to-transparent pointer-events-none" />
 
          <div className="relative z-10 p-8 md:p-10 flex flex-col md:flex-row justify-between gap-6">
            {/* Left Column: Info */}
            <div className="relative flex flex-col justify-between min-h-[140px]">
-             {/* Background gradient glow */}
-             <div className="absolute -inset-8 bg-[radial-gradient(ellipse_at_center,rgba(133,29,239,0.2)_0%,transparent_70%)] pointer-events-none" />
              {/* UP NEXT label */}
              <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
                <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
