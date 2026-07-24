@@ -693,8 +693,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const daysLabel = getDaysUntil();
 
   const gridClass = member?.role === 'admin'
-    ? "grid-cols-1 lg:grid-cols-[60px_120px_2.5fr_1.8fr_90px_2.2fr_150px_120px_140px]"
-    : "grid-cols-1 lg:grid-cols-[60px_120px_2.5fr_1.8fr_90px_2.2fr_150px_120px]";
+    ? "grid-cols-1 lg:grid-cols-[60px_120px_2.1fr_1.4fr_3.2fr_1.2fr_150px_120px_140px]"
+    : "grid-cols-1 lg:grid-cols-[60px_120px_2.1fr_1.4fr_3.2fr_1.2fr_150px_120px]";
 
   return (
    <>
