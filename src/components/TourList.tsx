@@ -184,18 +184,27 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   // Notification popup state
   const [notifyPopupShow, setNotifyPopupShow] = useState<any>(null);
 
-  // ── Tour List Font Customizer states ──
+  // ── Tour List Font & Layout Customizer states ──
   const [tourFontSize, setTourFontSize] = useState("13px");
   const [tourFontFamily, setTourFontFamily] = useState("var(--font-body)");
+  const [tourRowPadding, setTourRowPadding] = useState("4px");
+  const [tourRowGap, setTourRowGap] = useState("0px");
+  const [tourRowHeight, setTourRowHeight] = useState("40px");
   const [isFontCustomizerOpen, setIsFontCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Load font settings from localStorage on mount
+  // Load font & layout settings from localStorage on mount
   useEffect(() => {
     const savedSize = localStorage.getItem("7h_tour_font_size");
     const savedFamily = localStorage.getItem("7h_tour_font_family");
+    const savedPadding = localStorage.getItem("7h_tour_row_padding");
+    const savedGap = localStorage.getItem("7h_tour_row_gap");
+    const savedHeight = localStorage.getItem("7h_tour_row_height");
     if (savedSize) setTourFontSize(savedSize);
     if (savedFamily) setTourFontFamily(savedFamily);
+    if (savedPadding) setTourRowPadding(savedPadding);
+    if (savedGap) setTourRowGap(savedGap);
+    if (savedHeight) setTourRowHeight(savedHeight);
   }, []);
 
   // Dynamically load Google Fonts when selected
@@ -689,7 +698,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   return (
    <>
-    {/* Style override tag for font tester */}
+    {/* Style override tag for font & layout customizer */}
     <style dangerouslySetInnerHTML={{ __html: `
       #tour-table-container,
       #tour-table-container span,
@@ -699,6 +708,14 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       #tour-table-container input {
         font-size: ${tourFontSize} !important;
         font-family: ${tourFontFamily} !important;
+      }
+      #tour-table-container .tour-row-item {
+        padding-top: ${tourRowPadding} !important;
+        padding-bottom: ${tourRowPadding} !important;
+        min-height: ${tourRowHeight} !important;
+      }
+      #tour-rows-container {
+        gap: ${tourRowGap} !important;
       }
     `}} />
 
@@ -934,7 +951,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        )}
      </div>
 
-     <div className="flex flex-col gap-0 overflow-visible pt-0">
+     <div className="flex flex-col gap-0 overflow-visible pt-0" id="tour-rows-container">
       {(() => {
         let rows = filtered;
         if (maxShows && upNext) {
@@ -953,7 +970,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
          <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible">
            {/* Desktop Row Layout */}
            <div
-            className={`relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
              <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
@@ -1119,7 +1136,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
 
            {/* Mobile/Tablet Card Layout */}
            <div
-            className={`relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={`${rowId}-mobile`}
            >
              
@@ -1596,36 +1613,99 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
           </div>
 
           {/* Font Size */}
-          <div className="mb-6">
-            <div className="flex justify-between items-center mb-2">
-              <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Font Size</label>
-              <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourFontSize}</span>
-            </div>
-            <input 
-              type="range" 
-              min="10" 
-              max="24" 
-              value={parseInt(tourFontSize) || 13}
-              onChange={(e) => setTourFontSize(`${e.target.value}px`)}
-              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-            />
-            <div className="flex justify-between text-[8px] text-white/30 font-mono mt-1">
-              <span>10px</span>
-              <span>17px</span>
-              <span>24px</span>
-            </div>
-          </div>
+          <div className="mb-4">
+             <div className="flex justify-between items-center mb-1.5">
+               <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Font Size</label>
+               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourFontSize}</span>
+             </div>
+             <input 
+               type="range" 
+               min="10" 
+               max="24" 
+               value={parseInt(tourFontSize) || 13}
+               onChange={(e) => setTourFontSize(`${e.target.value}px`)}
+               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+             />
+             <div className="flex justify-between text-[8px] text-white/30 font-mono mt-0.5">
+               <span>10px</span>
+               <span>17px</span>
+               <span>24px</span>
+             </div>
+           </div>
+
+           {/* Row Padding */}
+           <div className="mb-4">
+             <div className="flex justify-between items-center mb-1.5">
+               <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Row Padding</label>
+               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowPadding}</span>
+             </div>
+             <input 
+               type="range" 
+               min="0" 
+               max="40" 
+               value={parseInt(tourRowPadding) || 0}
+               onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
+               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+             />
+             <div className="flex justify-between text-[8px] text-white/30 font-mono mt-0.5">
+               <span>0px</span>
+               <span>20px</span>
+               <span>40px</span>
+             </div>
+           </div>
+
+           {/* Row Spacing */}
+           <div className="mb-4">
+             <div className="flex justify-between items-center mb-1.5">
+               <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
+               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowGap}</span>
+             </div>
+             <input 
+               type="range" 
+               min="0" 
+               max="30" 
+               value={parseInt(tourRowGap) || 0}
+               onChange={(e) => setTourRowGap(`${e.target.value}px`)}
+               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+             />
+             <div className="flex justify-between text-[8px] text-white/30 font-mono mt-0.5">
+               <span>0px</span>
+               <span>15px</span>
+               <span>30px</span>
+             </div>
+           </div>
+
+           {/* Row Height */}
+           <div className="mb-5">
+             <div className="flex justify-between items-center mb-1.5">
+               <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Row Height</label>
+               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowHeight}</span>
+             </div>
+             <input 
+               type="range" 
+               min="30" 
+               max="100" 
+               value={parseInt(tourRowHeight) || 40}
+               onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
+               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+             />
+             <div className="flex justify-between text-[8px] text-white/30 font-mono mt-0.5">
+               <span>30px</span>
+               <span>65px</span>
+               <span>100px</span>
+             </div>
+           </div>
 
           {/* Code telemetry */}
-          <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-6 font-mono text-[9px] text-white/60 select-all leading-relaxed whitespace-pre-wrap">
-            {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};`}
+          <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5 font-mono text-[9px] text-white/60 select-all leading-relaxed whitespace-pre-wrap">
+            {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
           </div>
 
           {/* Action buttons */}
           <div className="grid grid-cols-2 gap-3">
             <button 
               onClick={() => {
-                navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};`);
+                navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`);
                 setCopied(true);
                 setTimeout(() => setCopied(false), 2000);
               }}
@@ -1637,6 +1717,9 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
               onClick={() => {
                 localStorage.setItem("7h_tour_font_size", tourFontSize);
                 localStorage.setItem("7h_tour_font_family", tourFontFamily);
+                localStorage.setItem("7h_tour_row_padding", tourRowPadding);
+                localStorage.setItem("7h_tour_row_gap", tourRowGap);
+                localStorage.setItem("7h_tour_row_height", tourRowHeight);
                 setIsFontCustomizerOpen(false);
               }}
               className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(133,29,239,0.9)] rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors"
