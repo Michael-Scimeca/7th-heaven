@@ -823,24 +823,24 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                className="justify-start md:justify-end gap-4 md:gap-5"
              />
              <div className="flex gap-3 items-center w-full">
-               {upNext.mapUrl && (
-                  <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center text-xs font-black uppercase tracking-widest py-3 px-2 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg" id="upnext-map">
-                    📍 Directions
-                  </a>
-               )}
-               {upNext.websiteUrl && (
-                  <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center text-xs font-black uppercase tracking-widest py-3 px-2 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg" id="upnext-website">
-                    Website
-                  </a>
-               )}
-               <div className="flex-1 relative calendar-dropdown-container">
-                 <button
-                   onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                   className="w-full text-center text-xs font-black uppercase tracking-widest py-3 px-2 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg flex items-center justify-center gap-2 cursor-pointer"
-                   id="upnext-calendar-btn"
-                 >
-                   📅 Add to Calendar
-                 </button>
+                {upNext.mapUrl && (
+                   <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex flex-row items-center justify-center gap-1 whitespace-nowrap text-[0.62rem] font-bold uppercase tracking-normal py-3 px-1 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg" id="upnext-map">
+                     <span className="mr-0.5">📍</span><span>Directions</span>
+                   </a>
+                )}
+                {upNext.websiteUrl && (
+                   <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex flex-row items-center justify-center gap-1 whitespace-nowrap text-[0.62rem] font-bold uppercase tracking-normal py-3 px-1 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg" id="upnext-website">
+                     Website
+                   </a>
+                )}
+                <div className="flex-1 relative calendar-dropdown-container">
+                  <button
+                    onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
+                    className="w-full flex flex-row items-center justify-center gap-1 whitespace-nowrap text-[0.62rem] font-bold uppercase tracking-normal py-3 px-1 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer"
+                    id="upnext-calendar-btn"
+                  >
+                    <span className="mr-0.5">📅</span><span>Add to Calendar</span>
+                  </button>
                  {activeCalDropdownId === 'upnext' && (
                    <div className="absolute right-0 bottom-full mb-2 bg-[#080812] border border-[var(--color-accent)]/30 rounded-lg py-2 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[170px] backdrop-blur-md">
                      <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Calendar</a>
@@ -983,7 +983,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
          <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible">
            {/* Desktop Row Layout */}
            <div
-            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : "bg-[var(--color-bg-card)]"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
              <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
@@ -1136,7 +1136,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
 
            {/* Mobile/Tablet Card Layout */}
            <div
-            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : "bg-[var(--color-bg-card)]"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={`${rowId}-mobile`}
            >
              
