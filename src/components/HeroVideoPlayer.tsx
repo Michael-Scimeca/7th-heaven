@@ -36,7 +36,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
   // ── Tint Customizer states ──────────────────────────────────────────────────
   const [tintColor, setTintColor] = useState("#0d0914");
-  const [tintOpacity, setTintOpacity] = useState(0.4);
+  const [tintOpacity, setTintOpacity] = useState(0.52);
   const [mixBlendMode, setMixBlendMode] = useState<"normal" | "multiply" | "screen" | "overlay" | "color" | "darken">("normal");
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -170,8 +170,8 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         }}
       />
 
-      {/* ── Tint Customizer Floating Panel ── */}
-      {mounted && (
+      {/* ── Tint Customizer Floating Panel (Dev/Tester Only) ── */}
+      {mounted && localStorage.getItem("7h_tint_tester") === "true" && (
         <div className="absolute top-[104px] right-6 z-40 md:right-8 flex flex-col items-end">
           {!isCustomizerOpen ? (
             <button

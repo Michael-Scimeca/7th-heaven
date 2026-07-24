@@ -140,7 +140,7 @@ export default async function Home() {
   <LiveStatusSign />
 
   {/* ====== HERO ====== */}
-  <section className="relative w-full p-[25px] bg-[#0d0914]" id="hero">
+  <section className="relative w-full p-[25px]" id="hero">
     {/* Hero Card — no top padding/rounding so video reaches the very top */}
     <div id="hero-card" className="relative w-full h-[calc(100vh-50px)] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[#0d0914] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
 
@@ -184,7 +184,7 @@ export default async function Home() {
 
 
   {/* ====== PHOTOS FROM THE LAST SHOW ====== */}
-  <section className="py-24 relative overflow-hidden bg-[#050508] border-t border-white/5">
+  <section className="py-24 relative overflow-hidden border-t border-white/5">
     <div className="site-container relative z-10">
       <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
         <div>

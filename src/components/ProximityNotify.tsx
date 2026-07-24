@@ -154,7 +154,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
  };
 
  return (
-  <section className="relative py-24 sm:py-32 bg-[#050508] overflow-hidden" id="proximity-notify">
+  <section className="relative py-24 sm:py-32 bg-[#0d0914] overflow-hidden" id="proximity-notify">
 
    {/* ═══ Full Background — Dark Map ═══ */}
    <div className="absolute inset-0 pointer-events-none select-none">
@@ -166,12 +166,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
     {/* Radial gradient overlay — soft vignette, lets more map through */}
     <div className="absolute inset-0" style={{
-     background: 'radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, rgba(5,5,8,0.7) 60%, #050508 100%)'
+     background: 'radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, rgba(13,9,20,0.7) 60%, #0d0914 100%)'
     }} />
 
     {/* Top/bottom fade for seamless section blending */}
-    <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050508] to-transparent" />
-    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050508] to-transparent" />
+    <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0d0914] to-transparent" />
+    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0d0914] to-transparent" />
 
     {/* Accent glow behind content area */}
     <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[var(--color-accent)]/[0.05] rounded-full blur-[120px]" />
