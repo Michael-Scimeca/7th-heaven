@@ -11,6 +11,17 @@ const nextConfig: NextConfig = {
   experimental: {
     proxyClientMaxBodySize: "50mb",
   },
+  outputFileTracingExcludes: {
+    '*': [
+      'node_modules/@tensorflow/tfjs/**',
+      'node_modules/nsfwjs/**',
+      'node_modules/leaflet/**',
+      'node_modules/react-leaflet/**',
+      'node_modules/swiper/**',
+      'node_modules/gsap/**',
+      'node_modules/lottie-web/**',
+    ],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

@@ -679,7 +679,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       <div className="mb-0">
        <div className="relative overflow-hidden">
 
-         <div className="relative z-10 p-8 md:p-10 flex flex-col md:flex-row justify-between gap-6">
+         <div className="relative z-10 py-6 md:py-8 flex flex-col md:flex-row justify-between gap-6">
            {/* Left Column: Info */}
            <div className="relative flex flex-col justify-between min-h-[140px]">
              {/* UP NEXT label */}
