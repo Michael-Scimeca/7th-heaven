@@ -990,26 +990,26 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
              <span className="text-white/95 font-medium">{show.date}</span>
              <span className="font-bold text-white">{show.venue}</span>
              <span className="text-white/90">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
-             <span className="flex flex-col text-left">
-                {show.playTime ? (
-                  <>
-                    <span className="text-rose-400 font-extrabold text-[11px] uppercase tracking-wide">Plays: {show.playTime}</span>
-                    {show.time && (
-                      <span className="text-white/40 text-[9px] mt-0.5 leading-none">Event: {show.time}</span>
-                    )}
-                  </>
-                ) : (
-                  <span className="text-white/95 font-medium">{show.time}</span>
-                )}
-                {isShowToday(show) && (
-                  <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 mt-1 whitespace-nowrap animate-pulse">
-                    {getCountdownString(show)}
-                  </span>
-                )}
-             </span>
-             <div className="type-col text-[0.7rem] text-white/70 flex items-center gap-2">
+             <span className="flex items-center gap-2 flex-wrap text-left">
+                 {show.playTime ? (
+                   <>
+                     <span className="text-rose-400 font-extrabold text-[11px] uppercase tracking-wide whitespace-nowrap">Plays: {show.playTime}</span>
+                     {show.time && (
+                       <span className="text-white/40 text-[10px] whitespace-nowrap">({show.isFestival ? "Fest" : "Event"}: {show.time})</span>
+                     )}
+                   </>
+                 ) : (
+                   <span className="text-white/95 font-medium whitespace-nowrap">{show.time}</span>
+                 )}
+                 {isShowToday(show) && (
+                   <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 ml-1.5 whitespace-nowrap animate-pulse">
+                     {getCountdownString(show)}
+                   </span>
+                 )}
+              </span>
+              <div className="type-col text-[0.7rem] text-white/70 flex items-center gap-2">
                  <span className="icon-span text-sm shrink-0">{getShowIcon(show)}</span>
-                 <div className="flex flex-row flex-wrap items-center gap-1.5 max-w-full">
+                 <div className="flex flex-col items-start gap-1">
                   {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
                     <span className="tour-badge px-1 py-0 text-[0.55rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">All Ages</span>
                   )}
@@ -1150,17 +1150,13 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                  <span className="text-white font-bold text-base">{show.date}</span>
                </div>
                <div className="flex flex-col items-end gap-1">
-                 {show.playTime ? (
-                   <>
-                     <span className="text-white text-xs font-black px-2 py-0.5 bg-rose-600/10 border border-rose-500/20 rounded-md shadow-[0_0_8px_rgba(239,68,68,0.1)]">Plays: {show.playTime}</span>
-                     {show.time && (
-                       <span className="text-white/50 text-[10px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded">Event: {show.time}</span>
-                     )}
-                   </>
-                 ) : (
-                   show.time && (
-                     <span className="text-white/85 text-xs font-semibold px-2 py-0.5 bg-white/5 border border-white/10 rounded">{show.time}</span>
-                   )
+                 <span className="text-white text-xs font-black px-2 py-0.5 bg-rose-600/10 border border-rose-500/20 rounded-md shadow-[0_0_8px_rgba(239,68,68,0.1)]">
+                   Band: {show.playTime || show.time || "TBA"}
+                 </span>
+                 {show.time && (
+                   <span className="text-white/50 text-[10px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded">
+                     {show.isFestival ? "Fest" : "Event"}: {show.time}
+                   </span>
                  )}
                  {isShowToday(show) && (
                    <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 animate-pulse">
