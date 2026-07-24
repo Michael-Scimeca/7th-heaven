@@ -94,6 +94,7 @@ export default async function Home() {
       websiteUrl: s.ticketLink || fb?.websiteUrl || "",
       startDate: s.date,
       allAges: s.allAges,
+      isPrivate: s.isPrivate || false,
       lat: s.lat,
       lng: s.lng
     };
@@ -105,6 +106,7 @@ export default async function Home() {
     mapUrl: f.mapUrl || "",
     startDate: f.startDate || "2026-07-01",
     allAges: f.allAges ?? true,
+    isPrivate: false,
     lat: undefined,
     lng: undefined
   }));
