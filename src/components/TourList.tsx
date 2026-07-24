@@ -183,6 +183,34 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   // Notification popup state
   const [notifyPopupShow, setNotifyPopupShow] = useState<any>(null);
+
+  // ── Tour List Font Customizer states ──
+  const [tourFontSize, setTourFontSize] = useState("13px");
+  const [tourFontFamily, setTourFontFamily] = useState("var(--font-body)");
+  const [isFontCustomizerOpen, setIsFontCustomizerOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  // Load font settings from localStorage on mount
+  useEffect(() => {
+    const savedSize = localStorage.getItem("7h_tour_font_size");
+    const savedFamily = localStorage.getItem("7h_tour_font_family");
+    if (savedSize) setTourFontSize(savedSize);
+    if (savedFamily) setTourFontFamily(savedFamily);
+  }, []);
+
+  // Dynamically load Google Fonts when selected
+  useEffect(() => {
+    if (tourFontFamily && !tourFontFamily.startsWith("var")) {
+      const fontId = `google-font-${tourFontFamily.replace(/\s+/g, '-').toLowerCase()}`;
+      if (!document.getElementById(fontId)) {
+        const link = document.createElement("link");
+        link.id = fontId;
+        link.rel = "stylesheet";
+        link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(tourFontFamily)}:wght@400;500;700;800;900&display=swap`;
+        document.head.appendChild(link);
+      }
+    }
+  }, [tourFontFamily]);
   const [notifyPrefs, setNotifyPrefs] = useState({ proximity: true, thisShow: true, newsletter: false });
 
   // Live ticking time for countdowns
@@ -661,18 +689,37 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   return (
    <>
-   {/* Table */}
-   <section className="py-12 relative" ref={tableRef}>
-     {/* Gold-to-black gradient pinned to the top of this section */}
-     <div className="absolute inset-x-0 bottom-0 h-[600px] pointer-events-none z-0" style={{ background: "linear-gradient(to top, rgba(230,150,0,0.65) 0%, rgba(180,100,0,0.4) 25%, rgba(80,40,0,0.15) 55%, transparent 100%)" }} />
-     <div className="site-container relative z-10">
+    {/* Style override tag for font tester */}
+    <style dangerouslySetInnerHTML={{ __html: `
+      #tour-table-container,
+      #tour-table-container span,
+      #tour-table-container a,
+      #tour-table-container button,
+      #tour-table-container select,
+      #tour-table-container input {
+        font-size: ${tourFontSize} !important;
+        font-family: ${tourFontFamily} !important;
+      }
+    `}} />
 
-     {/* Section Heading */}
-     <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <h2 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight">
-       Upcoming <span className="gradient-text">Shows</span>
-      </h2>
-     </div>
+    {/* Table */}
+    <section className="py-12 relative" ref={tableRef} id="tour-table-container">
+      {/* Gold-to-black gradient pinned to the top of this section */}
+      <div className="absolute inset-x-0 bottom-0 h-[600px] pointer-events-none z-0" style={{ background: "linear-gradient(to top, rgba(230,150,0,0.65) 0%, rgba(180,100,0,0.4) 25%, rgba(80,40,0,0.15) 55%, transparent 100%)" }} />
+      <div className="site-container relative z-10">
+
+      {/* Section Heading */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+       <h2 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight">
+        Upcoming <span className="gradient-text">Shows</span>
+       </h2>
+       <button
+         onClick={() => setIsFontCustomizerOpen(true)}
+         className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-4 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-1.5 cursor-pointer text-white/80 hover:text-white w-fit"
+       >
+         ⚙️ Font Settings
+       </button>
+      </div>
 
      {/* Up Next — Neon Glow / Festival */}
      {upNext && (
@@ -822,7 +869,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        </div>
      </div>
 
-     <div className={`sticky top-0 z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md mb-1 items-center`}>
+     <div className={`sticky top-0 z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md items-center`}>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Day</span>
       <div className="relative">
        <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
@@ -867,7 +914,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        )}
      </div>
 
-     <div className="flex flex-col gap-0 overflow-visible pt-4">
+     <div className="flex flex-col gap-0 overflow-visible pt-0">
       {(() => {
         let rows = filtered;
         if (maxShows && upNext) {
@@ -1490,6 +1537,94 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 {subscribingId ? 'Saving...' : 'Enable Alerts 🔔'}
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* ── Font Customizer Modal/Panel ── */}
+    {isFontCustomizerOpen && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-[fadeIn_0.2s_ease]">
+        <div className="w-full max-w-sm bg-[#0d0914]/95 border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative flex flex-col font-sans select-none" style={{ animation: "scaleIn 0.2s ease" }}>
+          
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
+            <h3 className="text-white font-extrabold text-sm uppercase tracking-wider">Font Tester</h3>
+            <button 
+              onClick={() => setIsFontCustomizerOpen(false)}
+              className="text-white/40 hover:text-white text-xs cursor-pointer bg-white/5 hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Font Family */}
+          <div className="mb-5">
+            <label className="block text-white/50 text-[10px] uppercase font-bold tracking-wider mb-2">Font Style</label>
+            <select 
+              value={tourFontFamily} 
+              onChange={(e) => setTourFontFamily(e.target.value)}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
+            >
+              <option value="var(--font-body)" className="bg-[#0d0914] text-white">Barlow (Default)</option>
+              <option value="var(--font-heading)" className="bg-[#0d0914] text-white">Rockstar (Heading)</option>
+              <option value="Inter" className="bg-[#0d0914] text-white">Inter</option>
+              <option value="Montserrat" className="bg-[#0d0914] text-white">Montserrat</option>
+              <option value="Outfit" className="bg-[#0d0914] text-white">Outfit</option>
+              <option value="Syne" className="bg-[#0d0914] text-white">Syne</option>
+              <option value="Playfair Display" className="bg-[#0d0914] text-white">Playfair Display</option>
+              <option value="Courier New" className="bg-[#0d0914] text-white">Monospace</option>
+            </select>
+          </div>
+
+          {/* Font Size */}
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Font Size</label>
+              <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourFontSize}</span>
+            </div>
+            <input 
+              type="range" 
+              min="10" 
+              max="24" 
+              value={parseInt(tourFontSize) || 13}
+              onChange={(e) => setTourFontSize(`${e.target.value}px`)}
+              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+            />
+            <div className="flex justify-between text-[8px] text-white/30 font-mono mt-1">
+              <span>10px</span>
+              <span>17px</span>
+              <span>24px</span>
+            </div>
+          </div>
+
+          {/* Code telemetry */}
+          <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-6 font-mono text-[9px] text-white/60 select-all leading-relaxed whitespace-pre-wrap">
+            {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};`}
+          </div>
+
+          {/* Action buttons */}
+          <div className="grid grid-cols-2 gap-3">
+            <button 
+              onClick={() => {
+                navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};`);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+              }}
+              className="py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors animate-all"
+            >
+              {copied ? "Copied! ✓" : "Copy CSS"}
+            </button>
+            <button 
+              onClick={() => {
+                localStorage.setItem("7h_tour_font_size", tourFontSize);
+                localStorage.setItem("7h_tour_font_family", tourFontFamily);
+                setIsFontCustomizerOpen(false);
+              }}
+              className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(133,29,239,0.9)] rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors"
+            >
+              Apply & Save
+            </button>
           </div>
         </div>
       </div>
