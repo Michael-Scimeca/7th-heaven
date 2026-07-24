@@ -175,7 +175,7 @@ export default function MemberDashboard() {
   const isSignup = geoStatus === "idle" || geoStatus === "loading" || geoStatus === "denied" || geoStatus === "granted"; // Just a hack to force a state or we can use a local state
   // We need a proper local state for this form.
   return (
-   <section className="py-20 bg-[var(--color-bg-primary)] min-h-[calc(100vh-72px)] flex items-center justify-center">
+   <section className="py-20 min-h-[calc(100vh-72px)] flex items-center justify-center">
     <div className="site-container max-w-xl w-full">
      <div className="bg-[#0c0c18] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative">
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
@@ -224,7 +224,7 @@ export default function MemberDashboard() {
  const progress = nextTier ? ((member!.points - currentTierData.min) / (nextTier.min - currentTierData.min)) * 100 : 100;
 
  return (
-  <section className="py-12 bg-[var(--color-bg-primary)] min-h-screen">
+  <section className="py-12 min-h-screen">
    <div className="site-container">
 
     {/* Header */}

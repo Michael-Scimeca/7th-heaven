@@ -106,7 +106,7 @@ export default function AdminFeedPost() {
  const currentType = postTypes.find((t) => t.value === postType) || postTypes[0];
 
  return (
-  <div className="min-h-screen bg-[var(--color-bg-primary)] pt-[72px]">
+  <div className="min-h-screen pt-[72px]">
    <div className="max-w-[600px] mx-auto px-4 py-8">
     {/* Presence Header */}
     <div className="mb-6 flex items-center justify-between p-3 bg-white/[0.02] border border-white/5 rounded-sm">

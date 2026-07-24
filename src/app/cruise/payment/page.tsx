@@ -63,7 +63,7 @@ export default function CruisePaymentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] pt-32 pb-20">
+    <div className="min-h-screen pt-32 pb-20">
       <div className="site-container max-w-xl mx-auto px-6">
         {/* Banner Link Back */}
         <div className="mb-8 text-left">

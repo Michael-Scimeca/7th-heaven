@@ -64,7 +64,7 @@ export default async function NewsPage() {
 
 
  {/* Editorial News Layout */}
- <section className="py-20 bg-[var(--color-bg-primary)]">
+ <section className="py-20">
  <div className="site-container flex flex-col gap-12">
   
   {/* Featured Article (Top Item) */}

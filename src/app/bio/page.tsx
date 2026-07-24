@@ -179,7 +179,7 @@ export default async function BioPage() {
 
     {/* Fun fact */}
     {m.funFact && (
-      <div className="px-6 md:px-8 py-5 bg-[var(--color-bg-primary)] flex flex-col sm:flex-row sm:items-start gap-3">
+      <div className="px-6 md:px-8 py-5 flex flex-col sm:flex-row sm:items-start gap-3">
        <span className="text-xs uppercase tracking-[0.15em] text-white font-black shrink-0 mt-0.5 bg-[var(--color-accent)] px-2 py-1 rounded-sm">Fun Fact</span>
        <p className="text-base text-white/70 leading-relaxed">{m.funFact}</p>
       </div>
@@ -192,7 +192,7 @@ export default async function BioPage() {
  </section>
 
  {/* Accomplishments */}
- <section className="py-32 bg-[var(--color-bg-primary)]">
+ <section className="py-32">
  <div className="site-container">
  <div className="text-center mb-16">
  <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Accomplishments</span>
@@ -232,7 +232,7 @@ export default async function BioPage() {
  </section>
 
  {/* Download */}
- <section className="py-32 bg-[var(--color-bg-primary)] text-center">
+ <section className="py-32 text-center">
  <div className="site-container">
  <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight mb-4">
  Download the <span className="gradient-text">Official Bio</span>

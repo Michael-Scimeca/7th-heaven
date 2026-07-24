@@ -304,7 +304,7 @@ export default function AudioPlayerSection() {
   };
 
  return (
- <section ref={sectionRef} className="bg-[var(--color-bg-primary)]" id="music-player-section">
+ <section ref={sectionRef} className="" id="music-player-section">
  <div className="flex flex-col lg:flex-row lg:items-start border-y border-[var(--color-border)]">
  
  {/* --- SIDEBAR --- */}

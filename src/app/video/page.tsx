@@ -66,7 +66,7 @@ export default function VideoPage() {
     .filter(cat => cat.videos.length > 0);
 
   return (
-    <div className="pt-[72px] min-h-screen bg-[var(--color-bg-primary)]">
+    <div className="pt-[72px] min-h-screen">
 
       {/* ── FEATURED HERO (Netflix-style) ── */}
       {featuredVideo && (
@@ -143,7 +143,7 @@ export default function VideoPage() {
       )}
 
       {/* ── CATEGORY NAV + SEARCH (Underline tabs with count) ── */}
-      <div className="sticky top-[72px] z-40 bg-[var(--color-bg-primary)]/90 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="sticky top-[72px] z-40/90 backdrop-blur-xl border-b border-white/[0.06]">
         <div className="site-container flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex-1 min-w-0 flex flex-wrap gap-x-6 gap-y-1 py-2">
             {categories.map(cat => (

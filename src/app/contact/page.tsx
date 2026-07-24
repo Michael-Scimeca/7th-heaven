@@ -32,7 +32,7 @@ export default async function ContactPage() {
  </div>
  </section>
 
- <section className="py-32 bg-[var(--color-bg-primary)]">
+ <section className="py-32">
  <div className="site-container !max-w-[900px] grid grid-cols-1 md:grid-cols-2 gap-6">
  {contacts.map((contact, i) => (
  <div key={i} className="p-10 bg-[var(--color-bg-card)] border border-[var(--color-border)] transition-all duration-300 hover:border-[var(--color-border-hover)] hover:bg-[var(--color-bg-card-hover)] hover:-translate-y-1 hover:shadow-xl" id={`contact-card-${i}`}>

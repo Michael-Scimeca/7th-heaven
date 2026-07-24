@@ -151,7 +151,7 @@ export default function FansPage() {
   const approvedPhotos = isModerator ? photos.filter((p) => p.approved) : photos;
 
   return (
-    <section className="py-32 bg-[var(--color-bg-primary)] min-h-screen" id="fan-wall">
+    <section className="py-32 min-h-screen" id="fan-wall">
       <div className="site-container">
         {/* Header */}
         <div className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">

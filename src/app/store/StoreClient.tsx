@@ -140,7 +140,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
   };
 
   return (
-    <section className="py-32 bg-[var(--color-bg-primary)] min-h-screen" id="store">
+    <section className="py-32 min-h-screen" id="store">
       <div className="site-container">
 
         {/* Header */}

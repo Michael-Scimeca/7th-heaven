@@ -203,7 +203,7 @@ export default function CrewFeed() {
 
  if (isLoading) {
   return (
-   <section className="py-20 bg-[var(--color-bg-primary)]">
+   <section className="py-20">
     <div className="site-container !max-w-[800px]">
      <div className="flex flex-col gap-4">
       {[1, 2, 3].map((i) => (
@@ -216,7 +216,7 @@ export default function CrewFeed() {
  }
 
  return (
-  <section className="py-20 bg-[var(--color-bg-primary)]">
+  <section className="py-20">
    <div className="site-container !max-w-[800px]">
     {/* Section Header */}
     <div className="flex items-center justify-between mb-10">

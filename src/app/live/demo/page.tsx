@@ -1442,7 +1442,7 @@ export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   }
 
   return (
-    <section className="fixed inset-0 top-0 bg-[var(--color-bg-primary)] z-40 flex flex-col overflow-hidden">
+    <section className="fixed inset-0 top-0 z-40 flex flex-col overflow-hidden">
       {/* Hide site header/footer/nav on this page */}
       <style>{`
         header, footer, .page-nav, a[href="/studio"] { display: none !important; }

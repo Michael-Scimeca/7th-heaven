@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function ReturnsPage() {
   return (
-    <section className="py-32 bg-[var(--color-bg-primary)]">
+    <section className="py-32">
       <div className="site-container max-w-[800px]">
         <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-white">
           Return & Refund <span className="gradient-text text-[#8a1cfc] bg-clip-text">Policy</span>

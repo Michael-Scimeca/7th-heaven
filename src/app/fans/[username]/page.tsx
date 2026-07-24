@@ -335,7 +335,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
   if (!isLoggedIn && !devBypass && !isDemoMode) {
     return (
-      <section className="py-48 min-h-screen bg-[var(--color-bg-primary)] flex items-center justify-center">
+      <section className="py-48 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-black italic tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
           <p className="text-white/40 mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>

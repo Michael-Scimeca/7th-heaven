@@ -55,7 +55,7 @@ export default function HomeMerch() {
 
   if (loading) {
     return (
-      <section className="py-20 bg-[var(--color-bg-primary)] border-t border-white/5">
+      <section className="py-20 border-t border-white/5">
         <div className="site-container">
           <div className="flex items-center justify-between mb-10">
             <div>
@@ -128,7 +128,7 @@ export default function HomeMerch() {
   // ── END DEMO FALLBACK ──────────────────────────────────────────────────────
 
   return (
-    <section className="py-20 bg-[var(--color-bg-primary)] border-t border-white/5">
+    <section className="py-20 border-t border-white/5">
       <div className="site-container">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ─────────────────────── */}
         {isDemo && (

@@ -214,7 +214,7 @@ export default function CruisePreviewPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] pt-28 pb-20">
+    <div className="min-h-screen pt-28 pb-20">
       <div className="site-container">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-black uppercase italic tracking-tight text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>

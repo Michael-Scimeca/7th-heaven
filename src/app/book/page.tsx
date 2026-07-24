@@ -27,7 +27,7 @@ const budgetRanges = [
 
 export default function BookPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[var(--color-bg-primary)]" />}>
+    <Suspense fallback={<div className="min-h-screen" />}>
       <BookPageContent />
     </Suspense>
   );

@@ -662,7 +662,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   return (
    <>
    {/* Table */}
-   <section className="py-12 relative bg-[var(--color-bg-primary)]" ref={tableRef}>
+   <section className="py-12 relative" ref={tableRef}>
      {/* Gold-to-black gradient pinned to the top of this section */}
      <div className="absolute inset-x-0 bottom-0 h-[600px] pointer-events-none z-0" style={{ background: "linear-gradient(to top, rgba(230,150,0,0.65) 0%, rgba(180,100,0,0.4) 25%, rgba(80,40,0,0.15) 55%, transparent 100%)" }} />
      <div className="site-container relative z-10">

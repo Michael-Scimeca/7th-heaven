@@ -117,7 +117,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
 
       {/* BTS Grid — additional clips */}
       {btsVideos.length > 1 && (
-        <div className="px-8 md:px-16 py-16 bg-[var(--color-bg-primary)]">
+        <div className="px-8 md:px-16 py-16">
           <p className="text-sm font-bold uppercase tracking-[0.15em] text-white/40 mb-6">
             More Behind the Scenes
           </p>

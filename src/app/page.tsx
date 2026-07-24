@@ -244,7 +244,7 @@ export default async function Home() {
   </section>
 
  {/* ====== CRUISE PROMO ====== */}
- <section className="py-16 bg-[var(--color-bg-primary)] border-b border-white/5">
+ <section className="py-16 border-b border-white/5">
   <div className="site-container">
    <div className="relative overflow-hidden rounded-2xl border border-[var(--color-accent)]/20 bg-gradient-to-r from-[var(--color-accent)]/10 via-[#0d0d14] to-cyan-500/10">
     <div className="absolute inset-0 bg-[url('/images/cruise-hero.png')] bg-cover bg-center opacity-10" />

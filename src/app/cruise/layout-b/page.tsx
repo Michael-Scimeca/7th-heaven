@@ -26,7 +26,7 @@ export default function CruiseLayoutB() {
   ];
 
   return (
-    <div className="min-h-screen pt-[72px] bg-[var(--color-bg-primary)]">
+    <div className="min-h-screen pt-[72px]">
 
       {/* ── SPLIT-SCREEN HERO ── */}
       <section className="relative overflow-hidden">

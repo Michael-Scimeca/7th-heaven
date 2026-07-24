@@ -28,7 +28,7 @@ export default function CruiseLayoutA() {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)]">
+    <div className="min-h-screen">
 
       {/* ── FULL-VIEWPORT HERO ── */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">

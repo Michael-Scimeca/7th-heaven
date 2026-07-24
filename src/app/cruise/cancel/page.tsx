@@ -90,7 +90,7 @@ function CancelContent() {
 
 export default function CruiseCancelPage() {
   return (
-    <div className="min-h-screen pt-[72px] flex items-center justify-center bg-[var(--color-bg-primary)]">
+    <div className="min-h-screen pt-[72px] flex items-center justify-center">
       <Suspense fallback={
         <div className="text-center">
           <span className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin inline-block" />

@@ -35,7 +35,7 @@ export default function CruiseLayoutC() {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)]">
+    <div className="min-h-screen">
 
       {/* ── EDITORIAL HERO ── */}
       <section className="relative h-[85vh] min-h-[600px] overflow-hidden">

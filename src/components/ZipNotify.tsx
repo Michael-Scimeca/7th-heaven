@@ -31,7 +31,7 @@ export default function ZipNotify() {
   };
 
   return (
-    <section className="py-32 bg-[var(--color-bg-primary)] border-t border-white/10" id="zip-notify">
+    <section className="py-32 border-t border-white/10" id="zip-notify">
       <div className="site-container max-w-[800px] text-center">
 
         {/* Icon */}

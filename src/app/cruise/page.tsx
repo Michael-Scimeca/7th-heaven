@@ -496,7 +496,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   const progress = Math.min((totalGuests / GOAL) * 100, 100);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)]">
+    <div className="min-h-screen">
 
       {/* ── HERO + SIGNUP (unified) ── */}
       <section id="signup" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-52 pb-32">
@@ -1539,7 +1539,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* HIGH FIDELITY DIGITAL PDF FORM CONTAINER */}
                   <div className="booking-form-card bg-white/[0.02] border border-white/10 rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                     {/* Header Banner representing the PDF top section */}
-                    <div className="booking-header-banner bg-[var(--color-bg-primary)] border-b border-white/10 p-5 text-center">
+                    <div className="booking-header-banner border-b border-white/10 p-5 text-center">
                       <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
                       <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                       <p className="text-[10px] text-white/40 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
