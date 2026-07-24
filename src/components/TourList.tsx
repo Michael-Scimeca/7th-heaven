@@ -717,6 +717,19 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       #tour-rows-container {
         gap: ${tourRowGap} !important;
       }
+      #tour-table-container .type-col,
+      #tour-table-container .type-col span:not(.tour-badge) {
+        font-size: 11px !important;
+      }
+      #tour-table-container .type-col .icon-span {
+        font-size: 13px !important;
+      }
+      #tour-table-container .tour-badge {
+        font-size: 9px !important;
+        padding-top: 1px !important;
+        padding-bottom: 1px !important;
+        line-height: 1 !important;
+      }
     `}} />
 
     {/* Table */}
@@ -860,7 +873,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
      <div className="flex items-center justify-between mb-3">
       <p className="text-[0.7rem] text-[var(--color-text-muted)] tracking-wide">
-       Showing <span className="text-[var(--color-accent)] font-bold">{showCount}</span> {showCount === 1 ? "show" : "shows"} <span className="text-white/40">({hasActiveFilters ? filteredUpcomingCount : upcomingCount} upcoming)</span>
+       Showing <span className="text-[var(--color-accent)] font-bold">{showCount}</span> {showCount === 1 ? "show" : "shows"}
        {activeLabels.length > 0 && (
         <span className="ml-1">
          — {activeLabels.map((label, i) => (
@@ -994,46 +1007,36 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                   </span>
                 )}
              </span>
-             <div className="text-[0.7rem] text-white/70 flex items-center gap-1.5 whitespace-nowrap overflow-hidden max-w-full leading-none">
-                 <span className="text-sm shrink-0">{getShowIcon(show)}</span>
-                 {show.info ? (
-                   <div className="overflow-hidden relative flex-1 min-w-[50px]">
-                     <div className="inline-flex gap-4 animate-ticker hover:[animation-play-state:paused] whitespace-nowrap">
-                       <span className="font-medium text-white/90">{show.info}</span>
-                       <span className="text-white/30 shrink-0">•</span>
-                       <span className="font-medium text-white/90">{show.info}</span>
-                       <span className="text-white/30 shrink-0">•</span>
-                     </div>
-                   </div>
-                 ) : (
-                   <span className="flex-1" />
-                 )}
-                 {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                   <span className="px-1 py-0 text-[0.55rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">All Ages</span>
-                 )}
-                 {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                   <span className="px-1 py-0 text-[0.55rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">21+</span>
-                 )}
-                 {getShowTags(show).map(tag => {
-                   if (tag === "All Ages" || tag === "21+") return null;
-                   
-                   let tagColors = "bg-purple-500/10 text-purple-400 border-purple-500/20";
-                   if (tag === "Unplugged") {
-                     tagColors = "bg-amber-500/10 text-amber-400 border-amber-500/20";
-                   } else if (tag === "Outdoor") {
-                     tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
-                   } else if (tag === "Special Event") {
-                     tagColors = "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20";
-                   } else if (tag === "Casino") {
-                     tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
-                   }
-                   
-                   return (
-                     <span key={tag} className={`px-1 py-0 text-[0.55rem] font-bold border rounded animate-[fadeIn_0.3s_ease-out] shrink-0 ${tagColors}`}>
-                       {tag}
-                     </span>
-                   );
-                 })}
+             <div className="type-col text-[0.7rem] text-white/70 flex items-center gap-2">
+                 <span className="icon-span text-sm shrink-0">{getShowIcon(show)}</span>
+                 <div className="flex flex-col items-start gap-1">
+                  {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
+                    <span className="tour-badge px-1 py-0 text-[0.55rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">All Ages</span>
+                  )}
+                  {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
+                    <span className="tour-badge px-1 py-0 text-[0.55rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">21+</span>
+                  )}
+                  {getShowTags(show).map(tag => {
+                    if (tag === "All Ages" || tag === "21+") return null;
+                    
+                    let tagColors = "bg-purple-500/10 text-purple-400 border-purple-500/20";
+                    if (tag === "Unplugged") {
+                      tagColors = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+                    } else if (tag === "Outdoor") {
+                      tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
+                    } else if (tag === "Special Event") {
+                      tagColors = "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20";
+                    } else if (tag === "Casino") {
+                      tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
+                    }
+                    
+                    return (
+                      <span key={tag} className={`tour-badge px-1 py-0 text-[0.55rem] font-bold border rounded animate-[fadeIn_0.3s_ease-out] shrink-0 ${tagColors}`}>
+                        {tag}
+                      </span>
+                    );
+                  })}
+                 </div>
               </div>
              <span className="flex items-center justify-center gap-2">
                {show._id && isFan && (
