@@ -1009,7 +1009,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
              </span>
              <div className="type-col text-[0.7rem] text-white/70 flex items-center gap-2">
                  <span className="icon-span text-sm shrink-0">{getShowIcon(show)}</span>
-                 <div className="flex flex-col items-start gap-1">
+                 <div className="flex flex-row flex-wrap items-center gap-1.5 max-w-full">
                   {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
                     <span className="tour-badge px-1 py-0 text-[0.55rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">All Ages</span>
                   )}
