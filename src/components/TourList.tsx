@@ -677,7 +677,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
      {/* Up Next — Neon Glow / Festival */}
      {upNext && (
       <div className="mb-0">
-       <div className="relative border border-white/10 bg-[rgba(20,15,30,0.8)] overflow-hidden rounded-t-xl">
+       <div className="relative overflow-hidden">
          {/* Subtle purple gradient from right */}
          <div className="absolute inset-0 bg-gradient-to-l from-[rgba(133,29,239,0.15)] via-transparent to-transparent pointer-events-none" />
 
