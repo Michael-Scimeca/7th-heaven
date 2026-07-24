@@ -232,7 +232,24 @@ export default function VinylHeroPlayer({
   const [duration, setDuration] = useState("0:00");
   const [isDragging, setIsDragging] = useState(false);
   const [volume, setVolume] = useState(1);
+  const [scale, setScale]   = useState(1);
   const audioRef  = useRef<HTMLAudioElement | null>(null);
+  const swiperRef  = useRef<import("swiper").Swiper | null>(null);
+
+  useEffect(() => {
+    const update = () => {
+      if (typeof window !== "undefined") {
+        if (window.innerWidth < 700) {
+          setScale(Math.max(0.45, (window.innerWidth - 100) / 600));
+        } else {
+          setScale(1);
+        }
+      }
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   // Whenever the active album or track changes, reload the audio source.
   // React updating the src= prop on <audio> does NOT trigger a browser reload —
@@ -353,8 +370,26 @@ export default function VinylHeroPlayer({
     if (audioRef.current) audioRef.current.volume = v;
   };
 
+  const unscaledWidth = 600;
+  const unscaledHeight = 280; // Enough height to cover the 250px sleeve + margin
+
   return (
-    <div className="relative flex items-center gap-4 select-none py-4">
+    <div
+      className="relative flex justify-end items-end"
+      style={{
+        width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
+        height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
+      }}
+    >
+      <div
+        className="absolute right-0 bottom-0 select-none"
+        style={{
+          width: `${unscaledWidth}px`,
+          height: `${unscaledHeight}px`,
+          transform: scale < 1 ? `scale(${scale})` : undefined,
+          transformOrigin: "bottom right",
+        }}
+      >
       {/* Hidden Audio — src managed imperatively via useEffect/playTrack, NOT via React src= prop */}
       <audio
         ref={audioRef}
@@ -368,26 +403,26 @@ export default function VinylHeroPlayer({
       <div
         className="vinyl-slider-wrap"
         style={{
-          width: '700px',
-          height: '220px',
+          width: '600px',
+          height: '250px',
           marginTop: '20px',
           position: 'relative',
         }}
       >
 
 
-      <div className="relative" style={{ width: '700px' }}>
+      <div className="relative" style={{ width: '600px' }}>
 
 
         {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <div className="w-[270px] h-[270px] border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
+          <div className="w-[250px] h-[250px] border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
         </div>
 
         {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
         <div style={{
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)',
-          maskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
+          maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
         }}>
         <Swiper
           slidesPerView="auto"
@@ -396,6 +431,7 @@ export default function VinylHeroPlayer({
           initialSlide={activeAlbumIdx}
           spaceBetween={30}
           grabCursor={true}
+          onSwiper={(swiper) => { swiperRef.current = swiper; }}
           onSlideChange={handleSlideChange}
           onSliderFirstMove={() => setIsDragging(true)}
           onTouchEnd={() => setIsDragging(false)}
@@ -405,22 +441,34 @@ export default function VinylHeroPlayer({
           {ALBUMS.map((album, idx) => (
             <SwiperSlide
               key={album.id}
-              style={{ width: "176px", height: "220px", display: "flex", alignItems: "center" }}
+              style={{ width: "165px", height: "250px", display: "flex", alignItems: "center" }}
             >
 
               {({ isActive }) => {
                 const vinylSrc = `/vin${(idx % 3) + 1}.png`;
                 return (
                 <div
-                  className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden ${
+                  className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer ${
                     isActive && !isDragging
                       ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
-                      : "opacity-60 scale-90 z-0"
+                      : "opacity-90 scale-90 z-0"
                   } ${isActive ? "vinyl-spinning" : ""}`}
                   style={{
-                    width: "176px",
-                    height: "176px",
+                    width: "165px",
+                    height: "165px",
                     animationPlayState: isActive ? (isPlaying ? "running" : "paused") : undefined,
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (isActive) {
+                      togglePlay();
+                    } else {
+                      // Switch to this album and auto-play first track
+                      swiperRef.current?.slideTo(idx);
+                      setActiveAlbumIdx(idx);
+                      setActiveTrackIdx(0);
+                      playTrack(0);
+                    }
                   }}
                 >
                   {/* Real vinyl disc image */}
@@ -428,16 +476,16 @@ export default function VinylHeroPlayer({
                     src={vinylSrc}
                     alt={`${album.title} vinyl`}
                     fill
-                    sizes="176px"
+                    sizes="165px"
                     className="object-cover rounded-full"
                   />
                   {/* Center label with album art — sits on top of the vinyl image */}
                   <div className="relative z-10 flex items-center justify-center">
                       <div
-                        className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
+                        className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-amber-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
                         style={{ backgroundColor: album.centerLabelColor }}
                       >
-                        <Image src={album.coverImage} alt={album.title} fill className="object-cover brightness-110 contrast-105" />
+                        <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
                           <span className="text-[7px] font-black text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">{album.title}</span>
                           <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
@@ -454,7 +502,7 @@ export default function VinylHeroPlayer({
 
         {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-          <div className="relative w-[270px] h-[270px] flex flex-col justify-between p-4 pointer-events-none">
+          <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
 
             {/* Top Controls */}
             <div className="flex items-center justify-center pointer-events-auto">
@@ -504,11 +552,11 @@ export default function VinylHeroPlayer({
             </div>
 
             {/* Bottom: Title + Waveform */}
-            <div className="flex items-end justify-between pointer-events-auto mt-auto">
-              <div className="flex flex-col gap-1">
+            <div className="flex items-end justify-between pointer-events-none mt-auto">
+              <div className="flex flex-col gap-1 pointer-events-auto">
                 <div
                   onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
-                  className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[155px] cursor-pointer hover:bg-purple-100 transition-colors"
+                  className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[110px] cursor-pointer hover:bg-purple-100 transition-colors"
                 >
                   <div className="text-[11px] font-black uppercase leading-tight flex items-center gap-1">
                     <span className="truncate">{currentAlbum.title}</span>
@@ -557,7 +605,7 @@ export default function VinylHeroPlayer({
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
-        style={{ left: 'calc(50% + 151px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
+        style={{ left: 'calc(50% + 125px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
       >
         <div className="pl-4 border-l border-white/15 h-full flex flex-col justify-center">
         <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10 whitespace-nowrap">
@@ -593,6 +641,7 @@ export default function VinylHeroPlayer({
         </div>
       </div>
 
+      </div>
       </div>
       </div>
     </div>

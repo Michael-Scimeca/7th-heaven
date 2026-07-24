@@ -59,7 +59,7 @@ export async function GET(request: Request) {
 
     const shows = await sanityClient.fetch(
       `*[_type == "tourDate" && date >= $today && date <= $tomorrow && !isPrivate && !("private" in tags) && !("corporate" in tags)] | order(date asc, time asc) {
-        _id, venue, city, state, date, time, day,
+        _id, venue, city, state, date, time, playTime, day,
         doorsTime, allAges, cover, lat, lng
       }`,
       { today: todayStr, tomorrow: tomorrowStr }
@@ -136,6 +136,7 @@ export async function GET(request: Request) {
         date: d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }),
         time: show.time || "",
         doorsTime: show.doorsTime || "",
+        playTime: show.playTime || "",
         showId: show._id, // for show link + attendance count in SMS
       };
       if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;

@@ -49,6 +49,12 @@ const tourDate = {
    description: "e.g. '7:00pm'",
   },
   {
+   name: "playTime",
+   title: "Band Play Time",
+   type: "string",
+   description: "e.g. '8:30pm' (when 7th Heaven starts playing)",
+  },
+  {
    name: "allAges",
    title: "All Ages",
    type: "boolean",

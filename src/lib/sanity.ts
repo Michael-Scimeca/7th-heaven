@@ -57,6 +57,7 @@ export interface SanityTourDate {
  time: string;
  day: string;
  doorsTime?: string;
+ playTime?: string;
  allAges?: boolean;
  cover?: string;
  ticketLink?: string;
@@ -167,8 +168,8 @@ export const queries = {
  featuredNews: `*[_type == "newsPost" && featured == true] | order(publishedAt desc)[0...3] { _id, title, slug, content, date, category, image, featured, publishedAt }`,
 
  // Tour Dates
- allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
- upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
+ allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, playTime, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
+ upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, playTime, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
 
  // Band Members
  allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact, order }`,

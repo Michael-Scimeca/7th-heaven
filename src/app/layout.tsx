@@ -13,6 +13,9 @@ import DirectMessageChat from "@/components/DirectMessageChat";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
+import { GrainOverlay } from "@/components/GrainOverlay";
+import Preloader from "@/components/Preloader";
+import CursorFollower from "@/components/CursorFollower";
 
 import localFont from "next/font/local";
 
@@ -39,6 +42,7 @@ const barlowCondensed = Barlow_Condensed({
   weight: ["800"],
   style: ["italic"],
   variable: "--font-barlow-condensed",
+  display: "swap",
 });
 
 const barlow = Barlow({
@@ -163,6 +167,9 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
+        <GrainOverlay />
+        <Preloader />
+        <CursorFollower />
         <Providers>
           <ScrollToTop />
           <SmoothScroll>

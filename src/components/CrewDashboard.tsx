@@ -3924,7 +3924,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     </div>
                                     <div className="flex flex-col">
                                       <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
-                                      <span className="text-xs font-black text-amber-400 mt-0.5">{show.time || 'TBA'}</span>
+                                      {show.playTime ? (
+                                        <>
+                                          <span className="text-xs font-black text-rose-400 mt-0.5" title="Band Play Time">🎸 {show.playTime}</span>
+                                          {show.time && (
+                                            <span className="text-[9px] text-white/40 leading-none mt-0.5" title="Event Show Time">Event: {show.time}</span>
+                                          )}
+                                        </>
+                                      ) : (
+                                        <span className="text-xs font-black text-amber-400 mt-0.5">{show.time || 'TBA'}</span>
+                                      )}
                                     </div>
                                   </div>
 

@@ -207,6 +207,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [formDate, setFormDate] = useState("");
   const [formTime, setFormTime] = useState("");
   const [formDoorsTime, setFormDoorsTime] = useState("");
+  const [formPlayTime, setFormPlayTime] = useState("");
   const [formAllAges, setFormAllAges] = useState(true);
   const [formCover, setFormCover] = useState("");
   const [formTicketLink, setFormTicketLink] = useState("");
@@ -228,6 +229,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       setFormDate(editingShow.startDate || "");
       setFormTime(editingShow.time || "");
       setFormDoorsTime(editingShow.doorsTime || "");
+      setFormPlayTime(editingShow.playTime || "");
       setFormAllAges(editingShow.allAges ?? true);
       setFormCover(editingShow.cover || "");
       setFormTicketLink(editingShow.ticketLink || "");
@@ -260,6 +262,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       setFormDate("");
       setFormTime("");
       setFormDoorsTime("");
+      setFormPlayTime("");
       setFormAllAges(true);
       setFormCover("");
       setFormTicketLink("");
@@ -305,6 +308,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       date: formDate,
       time: formTime,
       doorsTime: formDoorsTime,
+      playTime: formPlayTime,
       allAges: formAllAges,
       cover: formCover,
       ticketLink: formTicketLink.trim(),
@@ -658,8 +662,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   return (
    <>
    {/* Table */}
-   <section className="py-12 bg-[var(--color-bg-primary)]" ref={tableRef}>
-    <div className="site-container">
+   <section className="py-12 relative bg-[var(--color-bg-primary)]" ref={tableRef}>
+     {/* Gold-to-black gradient pinned to the top of this section */}
+     <div className="absolute inset-x-0 bottom-0 h-[600px] pointer-events-none z-0" style={{ background: "linear-gradient(to top, rgba(230,150,0,0.65) 0%, rgba(180,100,0,0.4) 25%, rgba(80,40,0,0.15) 55%, transparent 100%)" }} />
+     <div className="site-container relative z-10">
 
      {/* Section Heading */}
      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -710,12 +716,25 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                      <span>📍 {upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
                    </>
                  )}
-                {upNext.time && (
-                  <>
-                    <span className="text-white/20">·</span>
-                    <span className="text-white/50">{upNext.time}</span>
-                  </>
-                )}
+                 {upNext.playTime ? (
+                   <>
+                     <span className="text-white/20">·</span>
+                     <span className="text-rose-400 font-extrabold">Plays: {upNext.playTime}</span>
+                     {upNext.time && (
+                       <>
+                         <span className="text-white/20">·</span>
+                         <span className="text-white/40">Event: {upNext.time}</span>
+                       </>
+                     )}
+                   </>
+                 ) : (
+                   upNext.time && (
+                     <>
+                       <span className="text-white/20">·</span>
+                       <span className="text-white/50">{upNext.time}</span>
+                     </>
+                   )
+                 )}
               </div>
               {upNext.info && (
                 <p className="mt-3 text-[0.7rem] font-bold uppercase tracking-[0.15em] text-[var(--color-accent)]/70">
@@ -725,7 +744,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
            </div>
 
            <div className="flex flex-col items-start md:items-end justify-between gap-4 shrink-0">
-             <CountdownTimer targetDate={`${upNext.date}, ${new Date().getFullYear()}`} targetTime={upNext.time} />
+             <CountdownTimer targetDate={`${upNext.date}, ${new Date().getFullYear()}`} targetTime={upNext.playTime || upNext.time} />
              <div className="flex gap-3 items-center">
                {upNext.mapUrl && (
                   <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[0.75rem] py-3 px-6 border-[var(--color-accent)]/30" id="upnext-map">
@@ -890,7 +909,16 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
              <span className="font-bold text-white">{show.venue}</span>
              <span className="text-white/90">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
              <span className="flex flex-col text-left">
-                <span className="text-white/95 font-medium">{show.time}</span>
+                {show.playTime ? (
+                  <>
+                    <span className="text-rose-400 font-extrabold text-[11px] uppercase tracking-wide">Plays: {show.playTime}</span>
+                    {show.time && (
+                      <span className="text-white/40 text-[9px] mt-0.5 leading-none">Event: {show.time}</span>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-white/95 font-medium">{show.time}</span>
+                )}
                 {isShowToday(show) && (
                   <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 mt-1 whitespace-nowrap animate-pulse">
                     {getCountdownString(show)}
@@ -1051,8 +1079,17 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                  <span className="text-white font-bold text-base">{show.date}</span>
                </div>
                <div className="flex flex-col items-end gap-1">
-                 {show.time && (
-                   <span className="text-white/85 text-xs font-semibold px-2 py-0.5 bg-white/5 border border-white/10 rounded">{show.time}</span>
+                 {show.playTime ? (
+                   <>
+                     <span className="text-white text-xs font-black px-2 py-0.5 bg-rose-600/10 border border-rose-500/20 rounded-md shadow-[0_0_8px_rgba(239,68,68,0.1)]">Plays: {show.playTime}</span>
+                     {show.time && (
+                       <span className="text-white/50 text-[10px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded">Event: {show.time}</span>
+                     )}
+                   </>
+                 ) : (
+                   show.time && (
+                     <span className="text-white/85 text-xs font-semibold px-2 py-0.5 bg-white/5 border border-white/10 rounded">{show.time}</span>
+                   )
                  )}
                  {isShowToday(show) && (
                    <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 animate-pulse">
@@ -1244,11 +1281,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
                   <input type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
-                    placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
@@ -1256,7 +1293,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
                 <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Admission / Cover</label>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
+                  <input type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
+                    placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
                   <input type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
                     placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>

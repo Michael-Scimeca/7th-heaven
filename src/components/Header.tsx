@@ -120,11 +120,14 @@ export function Header() {
     (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"));
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-50 pointer-events-none">
-      <div className="w-full px-[40px] pt-[40px]">
-
+    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+      <div className={`w-full px-[40px] transition-all duration-300 ${scrolled ? "pt-2" : "pt-[40px]"}`}>
         <div
-          className="w-full h-[84px] flex items-center justify-between relative px-[12px] pt-3 bg-transparent pointer-events-auto"
+          className={`w-full h-[80px] flex items-center justify-between relative px-6 rounded-2xl border transition-all duration-500 pointer-events-auto ${
+            scrolled 
+              ? "bg-black border-white/5 shadow-[0_10px_40px_rgba(0,0,0,0.6)]" 
+              : "bg-transparent border-transparent pt-3"
+          }`}
         >
         
         {/* ── LEFT NAV GROUP ── */}
@@ -142,10 +145,10 @@ export function Header() {
           ))}
         </nav>
 
-        {/* ── CENTER LOGO ── */}
+        {/* ── CENTER LOGO (Centered on desktop, Left-aligned on mobile) ── */}
         <Link
           href="/"
-          className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center z-10"
+          className="absolute left-[12px] lg:left-1/2 -translate-y-1/2 lg:-translate-x-1/2 top-1/2 flex items-center justify-center z-10"
           id="header-logo"
           onClick={(e) => {
             if (pathname === "/") {
@@ -154,7 +157,7 @@ export function Header() {
             }
           }}
         >
-          <div className="w-[250px] md:w-[300px] h-[43px]">
+          <div className="w-[180px] sm:w-[250px] md:w-[300px] h-[43px]">
             <Logo className="w-full h-full text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]" />
           </div>
         </Link>
@@ -167,12 +170,12 @@ export function Header() {
             href="/live"
             className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
           >
-            {/* Live / Offline badge */}
-            <span className="absolute -top-3.5 right-0 flex items-center gap-1 text-[7px] font-black uppercase tracking-widest text-white/90 bg-red-600/90 border border-red-400 px-1.5 py-[1px] rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)] whitespace-nowrap font-sans">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            {/* Live / Offline badge — absolute above the text */}
+            <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 text-[6px] font-black uppercase tracking-widest text-white/90 bg-red-600/90 border border-red-400 px-1.5 py-[0.5px] rounded-full shadow-[0_0_6px_rgba(239,68,68,0.5)] whitespace-nowrap font-sans">
+              <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
               {hasLiveStreams ? "LIVE" : "OFFLINE"}
             </span>
-            LIVE STREAM
+            LIVE
           </Link>
 
           {/* Cruise link */}
@@ -200,13 +203,15 @@ export function Header() {
               BOOK US
             </Link>
 
-            {/* Bottom dashes / | \ */}
-            <div className="flex items-center gap-1 text-white/40 text-[7px] leading-none mt-[2px] pointer-events-none tracking-widest font-mono">
-              <span>/</span>
-              <span>|</span>
-              <span>\</span>
-            </div>
           </div>
+
+          {/* Contact link */}
+          <Link
+            href="/contact"
+            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+          >
+            CONTACT
+          </Link>
 
           {/* Cart Icon */}
           <Link
@@ -306,9 +311,10 @@ export function Header() {
             <Link href="/store" className="text-2xl font-black text-white uppercase">STORE</Link>
             <Link href="/video" className="text-2xl font-black text-white uppercase">MEDIA</Link>
             <Link href="/fan-photo-wall" className="text-2xl font-black text-white uppercase">FAN WALL</Link>
-            <Link href="/live" className="text-2xl font-black text-white uppercase">LIVE STREAM</Link>
+            <Link href="/live" className="text-2xl font-black text-white uppercase">LIVE</Link>
             <Link href="/cruise" className="text-2xl font-black text-white uppercase">CRUISE</Link>
             <Link href="/book" className="px-6 py-2 border-2 border-white rounded-[20px] text-white text-lg font-black uppercase mt-4">BOOK US</Link>
+            <Link href="/contact" className="text-2xl font-black text-white uppercase">CONTACT</Link>
           </div>
         )}
 

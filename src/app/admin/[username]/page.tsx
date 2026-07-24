@@ -4130,13 +4130,11 @@ try {
                             `📍 ${show.venue} — ${location}`,
                           ];
                           if (dateStr) lines.push(`📅 ${dateStr}`);
-                          if (show.doorsTime && show.time) {
-                            lines.push(`🚪 Doors: ${show.doorsTime} | Show: ${show.time}`);
-                          } else if (show.time) {
-                            lines.push(`🕗 Show: ${show.time}`);
-                          } else if (show.doorsTime) {
-                            lines.push(`🚪 Doors: ${show.doorsTime}`);
-                          }
+                           let timeLine = "";
+                           if (show.doorsTime) timeLine += `🚪 Doors: ${show.doorsTime}`;
+                           if (show.time) timeLine += `${timeLine ? " | " : ""}Show: ${show.time}`;
+                           if (show.playTime) timeLine += `${timeLine ? " | " : ""}Plays: ${show.playTime}`;
+                           if (timeLine) lines.push(timeLine);
                           if (show.allAges === true) lines.push(`✅ All Ages`);
                           else if (show.allAges === false) lines.push(`🔞 21+`);
                           if (show.cover) {
@@ -4258,6 +4256,7 @@ try {
                             body.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
                             body.time = show.time || '';
                             body.doorsTime = show.doorsTime || '';
+                            body.playTime = show.playTime || '';
                             if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;
                             if (show.cover) body.cover = show.cover;
                           }

@@ -570,6 +570,7 @@ export async function PATCH(request: Request) {
         let cover = "";
         let ticketLink = "";
         let doorsTime = "";
+        let playTime = "";
         let isFestival = data.details?.toLowerCase().includes("festival") || data.details?.toLowerCase().includes("fest") || false;
         let ageRestrictionStr = "";
 
@@ -581,6 +582,7 @@ export async function PATCH(request: Request) {
             cover = parsed.cover || "";
             ticketLink = parsed.ticketLink || "";
             doorsTime = parsed.doorsTime || "";
+            playTime = parsed.playTime || "";
             isFestival = parsed.isFestival || false;
             ageRestrictionStr = parsed.ageRestriction || "";
           }
@@ -605,6 +607,7 @@ export async function PATCH(request: Request) {
           cover,
           ticketLink,
           doorsTime,
+          playTime,
           isSoldOut: false,
           isFestival,
           isPrivate,

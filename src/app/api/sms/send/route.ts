@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const {
       venue, city, state,
-      date, time, doorsTime,
+      date, time, doorsTime, playTime,
       allAges, cover,
       showId,
       message: customMessage,
@@ -66,13 +66,11 @@ export async function POST(request: Request) {
       ];
 
       if (date) lines.push(`📅 ${date}`);
-      if (doorsTime && time) {
-        lines.push(`🚪 Doors: ${doorsTime} | Show: ${time}`);
-      } else if (time) {
-        lines.push(`🕗 Show: ${time}`);
-      } else if (doorsTime) {
-        lines.push(`🚪 Doors: ${doorsTime}`);
-      }
+      let timeLine = "";
+      if (doorsTime) timeLine += `🚪 Doors: ${doorsTime}`;
+      if (time) timeLine += `${timeLine ? " | " : ""}Show: ${time}`;
+      if (playTime) timeLine += `${timeLine ? " | " : ""}Plays: ${playTime}`;
+      if (timeLine) lines.push(timeLine);
 
       if (allAges === true) {
         lines.push(`✅ All Ages`);

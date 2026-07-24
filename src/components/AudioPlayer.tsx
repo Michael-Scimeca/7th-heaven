@@ -1,17 +1,104 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import data from "../../public/data/albums.json";
 import beHereLyrics from "../../public/data/lyrics/be-here.json";
 import colorInMotionLyrics from "../../public/data/lyrics/color-in-motion.json";
 import luminousLyrics from "../../public/data/lyrics/luminous.json";
 
-const lyricsMap: Record<string, any> = {
-  "01-be-here": beHereLyrics,
-  "07-color-in-motion": colorInMotionLyrics,
-  "09-luminous": luminousLyrics,
+interface LyricSong {
+  title: string;
+  lyrics?: Record<string, string>;
+}
+interface LyricData {
+  songs: LyricSong[];
+}
+
+const lyricsMap: Record<string, LyricData> = {
+  "01-be-here": beHereLyrics as unknown as LyricData,
+  "07-color-in-motion": colorInMotionLyrics as unknown as LyricData,
+  "09-luminous": luminousLyrics as unknown as LyricData,
 };
+
+const lerp = (v0: number, v1: number, t: number) => v0 * (1 - t) + v1 * t;
+
+function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const stateRef = useRef({ h: 0, amp: 0, rafId: 0 });
+  const drawRef = useRef<(time: number) => void>(() => {});
+
+  const draw = useCallback((time: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const st = stateRef.current;
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+
+    const targetH   = isPlaying ? 16 : 1.5;
+    const targetAmp = isPlaying ? Math.abs(-0.18) * Math.PI * 2 : 0.05;
+    st.h   = lerp(st.h,   targetH,   0.055);
+    st.amp = lerp(st.amp, targetAmp, 0.055);
+
+    ctx.clearRect(0, 0, W, H);
+
+    const steps = 150;
+    const speed = 5.7;
+
+    ctx.beginPath();
+    for (let i = 0; i <= steps; i++) {
+      const x = (i / steps) * W;
+      const t = time * speed + (i / steps) * st.amp * Math.PI * 2;
+      const y = H / 2 - Math.sin(t) * st.h;
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+    
+    const gradient = ctx.createLinearGradient(0, 0, W, 0);
+    gradient.addColorStop(0, "rgba(133, 29, 239, 0.1)");
+    gradient.addColorStop(0.5, "#851DEF");
+    gradient.addColorStop(1, "rgba(133, 29, 239, 0.1)");
+    
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    st.rafId = requestAnimationFrame((ts) => drawRef.current(ts / 1000));
+  }, [isPlaying]);
+
+  useEffect(() => {
+    drawRef.current = draw;
+  }, [draw]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.clientWidth;
+    const H = canvas.clientHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext("2d");
+    if (ctx) ctx.scale(dpr, dpr);
+
+    const st = stateRef.current;
+    cancelAnimationFrame(st.rafId);
+    st.rafId = requestAnimationFrame((ts) => draw(ts / 1000));
+    return () => cancelAnimationFrame(st.rafId);
+  }, [draw]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="w-full h-full block"
+    />
+  );
+}
 
 export default function AudioPlayerSection() {
  const [albums, setAlbums] = useState(data);
@@ -24,9 +111,16 @@ export default function AudioPlayerSection() {
  const [volume, setVolume] = useState(0.8);
  const [prevVolume, setPrevVolume] = useState(0.8);
   const [showLyrics, setShowLyrics] = useState(false);
+  const [eqBarProps] = useState(() => 
+    [...Array(24)].map(() => ({
+      duration: `${0.8 + Math.random() * 0.8}s`,
+      height: `${15 + Math.random() * 50}px`,
+    }))
+  );
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const blobUrlRef = useRef<string | null>(null);
 
   const originalCds = albums.filter(a => {
     const isMedley = a.title.toLowerCase().includes('medley');
@@ -60,6 +154,11 @@ export default function AudioPlayerSection() {
            {album.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
            </span>
            </div>
+           {album.year && (
+             <span className={`text-[10px] font-bold font-mono tracking-widest shrink-0 ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-white/20 group-hover:text-white/40'} transition-colors`}>
+               {album.year}
+             </span>
+           )}
            
            </button>
           </li>
@@ -78,8 +177,25 @@ export default function AudioPlayerSection() {
    }
  };
 
- const activeAlbum = albums[activeAlbumIndex];
- const activeTrack = activeAlbum?.tracks[activeTrackIndex];
+  const activeAlbum = albums[activeAlbumIndex];
+  const activeTrack = activeAlbum?.tracks[activeTrackIndex];
+
+  const handleNext = useCallback(() => {
+    if (!activeAlbum) return;
+    if (activeTrackIndex < activeAlbum.tracks.length - 1) {
+      setActiveTrackIndex(activeTrackIndex + 1);
+    } else {
+      setActiveTrackIndex(0); // Loop back or stop
+    }
+  }, [activeAlbum, activeTrackIndex]);
+
+  const handlePrev = useCallback(() => {
+    if (currentTime > 3) {
+      if (audioRef.current) audioRef.current.currentTime = 0;
+    } else if (activeTrackIndex > 0) {
+      setActiveTrackIndex(activeTrackIndex - 1);
+    }
+  }, [currentTime, activeTrackIndex]);
 
  // Initialize audio element
  useEffect(() => {
@@ -106,8 +222,6 @@ export default function AudioPlayerSection() {
  }, []);
 
  // Update audio source when track changes — uses blob URL for protection
- const blobUrlRef = useRef<string | null>(null);
-
  useEffect(() => {
  if (!audioRef.current || !activeTrack) return;
 
@@ -164,23 +278,6 @@ export default function AudioPlayerSection() {
  setIsPlaying(!isPlaying);
  };
 
- const handleNext = () => {
- if (!activeAlbum) return;
- if (activeTrackIndex < activeAlbum.tracks.length - 1) {
- setActiveTrackIndex(activeTrackIndex + 1);
- } else {
- setActiveTrackIndex(0); // Loop back or stop
- }
- };
-
- const handlePrev = () => {
- if (currentTime > 3) {
- if (audioRef.current) audioRef.current.currentTime = 0;
- } else if (activeTrackIndex > 0) {
- setActiveTrackIndex(activeTrackIndex - 1);
- }
- };
-
  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
  const time = Number(e.target.value);
  if (audioRef.current) {
@@ -230,20 +327,36 @@ export default function AudioPlayerSection() {
    {/* Panel Header */}
    <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-[#0b0b10]">
    <div className="flex gap-8 max-sm:gap-4 overflow-x-auto">
-      <div className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] whitespace-nowrap flex items-center">
-        <span>AVAILABLE ON </span>
-        {activeAlbum?.spotifyUrl ? (
-          <a href={activeAlbum.spotifyUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ml-2">SPOTIFY</a>
-        ) : (
-          <span className="ml-2">SPOTIFY</span>
-        )}
-        <span className="mx-2">OR</span>
-        {activeAlbum?.appleMusicUrl ? (
-          <a href={activeAlbum.appleMusicUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">APPLE MUSIC</a>
-        ) : (
-          <span>APPLE MUSIC</span>
-        )}
-      </div>
+      {(activeAlbum?.spotifyUrl || activeAlbum?.appleMusicUrl) ? (
+        <div className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] whitespace-nowrap flex items-center">
+          <span>AVAILABLE ON </span>
+          {activeAlbum.spotifyUrl && (
+            <a 
+              href={activeAlbum.spotifyUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ml-2"
+            >
+              SPOTIFY
+            </a>
+          )}
+          {activeAlbum.spotifyUrl && activeAlbum.appleMusicUrl && (
+            <span className="mx-2">OR</span>
+          )}
+          {activeAlbum.appleMusicUrl && (
+            <a 
+              href={activeAlbum.appleMusicUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={`text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ${!activeAlbum.spotifyUrl ? 'ml-2' : ''}`}
+            >
+              APPLE MUSIC
+            </a>
+          )}
+        </div>
+      ) : (
+        <div className="h-4" />
+      )}
    </div>
  </div>
 
@@ -289,125 +402,138 @@ export default function AudioPlayerSection() {
     </div>
 
     {/* Credits Sidebar */}
-    {(activeAlbum?.lineup?.length > 0 || activeAlbum?.credits?.length > 0) ? (
-      <div className="w-full lg:w-[350px] bg-black p-8 shrink-0 overflow-y-auto scrollbar-hide border-l border-white/5 hidden lg:flex lg:flex-col">
-        <div>
-          {activeAlbum?.lineup?.length > 0 && (
-            <div className="mb-10">
-              <h3 className="text-xl font-bold text-white mb-3">Line-Up</h3>
-              <ul className="flex flex-col gap-1.5 text-base text-white/50">
-                {activeAlbum.lineup.map((line, i) => (
-                  <li key={i}>{line}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {activeAlbum?.credits?.length > 0 && (
-            <div className="mb-4">
-              <h3 className="text-xl font-bold text-white mb-3">Credits</h3>
-              <ul className="flex flex-col gap-1.5 text-base text-white/50">
-                {activeAlbum.credits.map((line, i) => (
-                  <li key={i}>{line}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Lyrics Button */}
-          {lyricsMap[activeAlbum?.id] && (
-            <button
-              onClick={() => setShowLyrics(true)}
-              className="text-[var(--color-accent)] hover:text-white text-base font-bold transition-colors cursor-pointer text-left mt-2"
-            >
-              Lyrics
-            </button>
-          )}
-
-        {/* Buy / Stream Buttons */}
-        <div className="pt-4 border-t border-white/10 mt-6 flex flex-col gap-2">
-          {(activeAlbum?.paypalButtonId || activeAlbum?.storeUrl) && (
-            <a
-              href={activeAlbum?.paypalButtonId 
-                ? `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${activeAlbum.paypalButtonId}` 
-                : activeAlbum?.storeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest py-2 px-4 rounded transition-all hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-              Buy CD
-            </a>
-          )}
-          <div className="flex gap-2">
-            {activeAlbum?.spotifyUrl && (
-              <a
-                href={activeAlbum.spotifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 bg-[#1DB954]/10 hover:bg-[#1DB954]/25 border border-[#1DB954]/20 text-[#1DB954] font-bold text-xs uppercase tracking-widest py-1.5 px-3 rounded transition-all"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-                Spotify
-              </a>
-            )}
-            {activeAlbum?.appleMusicUrl && (
-              <a
-                href={activeAlbum.appleMusicUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 bg-[#FC3C44]/10 hover:bg-[#FC3C44]/25 border border-[#FC3C44]/20 text-[#FC3C44] font-bold text-xs uppercase tracking-widest py-1.5 px-3 rounded transition-all"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.802.42.127.856.187 1.297.228.56.053 1.122.07 1.684.077.55.006 1.1.008 1.65.006h7.7c.51 0 1.02-.006 1.53-.022.62-.02 1.24-.05 1.85-.17.93-.18 1.77-.545 2.468-1.188.71-.654 1.18-1.454 1.434-2.38.167-.604.234-1.224.27-1.848.03-.503.04-1.008.047-1.512V6.124zm-6.772 8.89v3.63c0 .27-.04.533-.15.78a1.57 1.57 0 01-.967.876c-.383.14-.78.2-1.18.228-.5.03-1.003.003-1.48-.177a1.6 1.6 0 01-1.028-.975c-.167-.44-.103-.87.098-1.288.26-.545.718-.87 1.272-1.06.44-.15.9-.213 1.36-.287.31-.05.62-.098.92-.183.2-.06.32-.18.37-.39.01-.03.01-.06.01-.09V9.43c0-.09-.023-.16-.1-.21-.06-.04-.13-.03-.2-.02l-4.87 1.06c-.04.01-.07.02-.1.03-.1.04-.15.11-.16.22v6.24c.005.07.003.14 0 .21-.03.56-.07 1.12-.38 1.62-.29.48-.7.79-1.22.96-.37.12-.76.16-1.15.18-.47.02-.94-.02-1.39-.18-.61-.22-1.03-.62-1.19-1.26-.12-.47-.06-.93.16-1.37.27-.54.71-.87 1.27-1.06.44-.15.9-.21 1.36-.29.3-.05.6-.09.9-.18.19-.06.32-.18.37-.39.01-.03.01-.06.01-.09V7.54c0-.2.06-.36.22-.47.09-.06.18-.1.28-.12l6.2-1.35c.17-.04.34-.07.51-.08.26-.01.42.13.45.39.01.06.01.12.01.18v8.94z"/></svg>
-                Apple
-              </a>
-            )}
-          </div>
-        </div>
-        </div>
+    <div className="w-full lg:w-[350px] bg-black p-8 shrink-0 overflow-y-auto scrollbar-hide border-l border-white/5 hidden lg:flex lg:flex-col items-center relative overflow-hidden">
+      
+      {/* Animated gradient orb */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[300px] h-[300px] rounded-full opacity-20 blur-[80px] animate-[orbPulse_8s_ease-in-out_infinite]"
+          style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
+        />
       </div>
-    ) : (
-      <div className="w-full lg:w-[350px] bg-black shrink-0 border-l border-white/5 hidden lg:flex flex-col items-center justify-center relative overflow-hidden">
-        {/* Animated gradient orb */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-[300px] h-[300px] rounded-full opacity-20 blur-[80px] animate-[orbPulse_8s_ease-in-out_infinite]"
-            style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
+
+      {/* Sound Wave Animation */}
+      <div className="relative z-[2] w-[180px] h-[60px] mb-6 flex items-center justify-center">
+        <SoundWaveCanvas isPlaying={isPlaying} />
+      </div>
+
+      {/* Album cover thumbnail container */}
+      <div className="relative z-[2] w-[120px] h-[120px] border border-white/5 rounded-sm mb-6 flex items-center justify-center bg-white/[0.02] overflow-hidden shrink-0">
+        {activeAlbum?.image ? (
+          <Image 
+            src={activeAlbum.image} 
+            alt={activeAlbum.title} 
+            fill 
+            sizes="120px" 
+            style={{ objectFit: 'cover' }} 
           />
-        </div>
-
-        {/* Equalizer bars */}
-        <div className="relative z-[2] flex items-end gap-[3px] h-[80px] mb-8">
-          {[...Array(24)].map((_, i) => (
-            <div
-              key={i}
-              className="w-[4px] rounded-full bg-gradient-to-t from-[var(--color-accent)]/60 to-[var(--color-accent)]/20"
-              style={{
-                animationName: 'eqBar',
-                animationDuration: `${0.8 + Math.random() * 0.8}s`,
-                animationTimingFunction: 'ease-in-out',
-                animationIterationCount: 'infinite',
-                animationDirection: 'alternate',
-                animationDelay: `${i * 0.05}s`,
-                height: `${15 + Math.random() * 50}px`,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Album art silhouette */}
-        <div className="relative z-[2] w-[120px] h-[120px] border border-white/5 rounded-sm mb-6 flex items-center justify-center bg-white/[0.02]">
+        ) : (
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-white/10">
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="12" r="3" />
           </svg>
-        </div>
-
-        <span className="relative z-[2] text-xs uppercase tracking-[0.2em] text-white/20 text-center font-bold">
-          Select an album<br/>with credits
-        </span>
-
+        )}
       </div>
-    )}
+
+      {/* Album Title */}
+      <span className="relative z-[2] text-xs uppercase tracking-[0.2em] text-white/40 text-center font-bold px-4 max-w-full">
+        {activeAlbum ? (
+          <span className="block text-white truncate max-w-[220px] mb-1">
+            {activeAlbum.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
+          </span>
+        ) : (
+          <span>Select an album</span>
+        )}
+      </span>
+
+      {/* Dynamic Content: Credits/Lineup OR No Credits Available */}
+      {activeAlbum ? (
+        (activeAlbum?.lineup?.length > 0 || activeAlbum?.credits?.length > 0) ? (
+          <div className="relative z-[2] w-full text-left mt-8 pt-6 border-t border-white/5">
+            {activeAlbum?.lineup?.length > 0 && (
+              <div className="mb-8">
+                <h3 className="text-sm font-bold tracking-wider text-white/40 uppercase mb-3">Line-Up</h3>
+                <ul className="flex flex-col gap-1.5 text-sm text-white/50">
+                  {activeAlbum.lineup.map((line, i) => (
+                    <li key={i}>{line}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {activeAlbum?.credits?.length > 0 && (
+              <div className="mb-6">
+                <h3 className="text-sm font-bold tracking-wider text-white/40 uppercase mb-3">Credits</h3>
+                <ul className="flex flex-col gap-1.5 text-sm text-white/50">
+                  {activeAlbum.credits.map((line, i) => (
+                    <li key={i}>{line}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Lyrics Button */}
+            {lyricsMap[activeAlbum?.id] && (
+              <button
+                onClick={() => setShowLyrics(true)}
+                className="text-[var(--color-accent)] hover:text-white text-sm font-bold transition-colors cursor-pointer text-left mt-2 block"
+              >
+                Lyrics
+              </button>
+            )}
+
+            {/* Buy / Stream Buttons */}
+            <div className="pt-4 border-t border-white/5 mt-6 flex flex-col gap-2">
+              {(activeAlbum?.paypalButtonId || activeAlbum?.storeUrl) && (
+                <a
+                  href={activeAlbum?.paypalButtonId 
+                    ? `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${activeAlbum.paypalButtonId}` 
+                    : activeAlbum?.storeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs uppercase tracking-widest py-2.5 px-4 rounded transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                  Buy CD
+                </a>
+              )}
+              <div className="flex gap-2">
+                {activeAlbum?.spotifyUrl && (
+                  <a
+                    href={activeAlbum.spotifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#1DB954]/10 hover:bg-[#1DB954]/25 border border-[#1DB954]/20 text-[#1DB954] font-bold text-[10px] uppercase tracking-widest py-2 px-3 rounded transition-all"
+                  >
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                    Spotify
+                  </a>
+                )}
+                {activeAlbum?.appleMusicUrl && (
+                  <a
+                    href={activeAlbum.appleMusicUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#FC3C44]/10 hover:bg-[#FC3C44]/25 border border-[#FC3C44]/20 text-[#FC3C44] font-bold text-[10px] uppercase tracking-widest py-2 px-3 rounded transition-all"
+                  >
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.802.42.127.856.187 1.297.228.56.053 1.122.07 1.684.077.55.006 1.1.008 1.65.006h7.7c.51 0 1.02-.006 1.53-.022.62-.02 1.24-.05 1.85-.17.93-.18 1.77-.545 2.468-1.188.71-.654 1.18-1.454 1.434-2.38.167-.604.234-1.224.27-1.848.03-.503.04-1.008.047-1.512V6.124zm-6.772 8.89v3.63c0 .27-.04.533-.15.78a1.57 1.57 0 01-.967.876c-.383.14-.78.2-1.18.228-.5.03-1.003.003-1.48-.177a1.6 1.6 0 01-1.028-.975c-.167-.44-.103-.87.098-1.288.26-.545.718-.87 1.272-1.06.44-.15.9-.213 1.36-.287.31-.05.62-.098.92-.183.2-.06.32-.18.37-.39.01-.03.01-.06.01-.09V9.43c0-.09-.023-.16-.1-.21-.06-.04-.13-.03-.2-.02l-4.87 1.06c-.04.01-.07.02-.1.03-.1.04-.15.11-.16.22v6.24c.005.07.003.14 0 .21-.03.56-.07 1.12-.38 1.62-.29.48-.7.79-1.22.96-.37.12-.76.16-1.15.18-.47.02-.94-.02-1.39-.18-.61-.22-1.03-.62-1.19-1.26-.12-.47-.06-.93.16-1.37.27-.54.71-.87 1.27-1.06.44-.15.9-.21 1.36-.29.3-.05.6-.09.9-.18.19-.06.32-.18.37-.39.01-.03.01-.06.01-.09V7.54c0-.2.06-.36.22-.47.09-.06.18-.1.28-.12l6.2-1.35c.17-.04.34-.07.51-.08.26-.01.42.13.45.39.01.06.01.12.01.18v8.94z"/></svg>
+                    Apple
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <span className="relative z-[2] block text-[10px] text-white/20 uppercase tracking-widest font-normal text-center mt-3">
+            No Credits Available
+          </span>
+        )
+      ) : (
+        <span className="relative z-[2] block text-[10px] text-white/20 uppercase tracking-widest font-normal text-center mt-3">
+          Select an album
+        </span>
+      )}
+
+    </div>
   </div>
  </div>
 
@@ -416,7 +542,7 @@ export default function AudioPlayerSection() {
    const lyricsData = lyricsMap[activeAlbum?.id];
    const activeTrack = activeAlbum?.tracks?.[activeTrackIndex];
    const trackTitle = activeTrack?.title?.replace(/^\d+\s*/, '');
-   const songLyrics = lyricsData?.songs?.find((s: any) => {
+   const songLyrics = lyricsData?.songs?.find((s: LyricSong) => {
      const clean = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
      return clean(s.title) === clean(trackTitle || '');
    });
@@ -436,7 +562,7 @@ export default function AudioPlayerSection() {
          {/* Modal Body */}
          <div className="flex-1 overflow-y-auto custom-scrollbar px-8 py-6">
            {songLyrics?.lyrics && Object.keys(songLyrics.lyrics).length > 0 ? (
-             Object.entries(songLyrics.lyrics).map(([section, text]: [string, any]) => (
+             Object.entries(songLyrics.lyrics).map(([section, text]: [string, string]) => (
                <div key={section} className="mb-6">
                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]/60 mb-2 block">{section.replace(/_/g, ' ').replace(/\d+$/, '')}</span>
                  <p className="text-base text-white/70 leading-relaxed whitespace-pre-line">{text}</p>

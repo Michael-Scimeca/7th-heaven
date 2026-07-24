@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function MusicPage() {
   return (
-    <main className="min-h-screen bg-[var(--color-bg-primary)] pt-[72px]">
+    <main className="min-h-screen bg-[var(--color-bg-primary)] pt-[130px] px-[40px]">
       <AudioPlayerSection />
     </main>
   );

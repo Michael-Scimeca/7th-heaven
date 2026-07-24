@@ -43,6 +43,7 @@ export interface ShowData {
   state: string;
   date: string;
   time: string;
+  playTime?: string;
   info: string;
   mapUrl?: string;
   websiteUrl?: string;
@@ -227,6 +228,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       shows: {
         date: string;
         time: string;
+        playTime?: string;
         info: string;
         allAges?: boolean;
         mapUrl?: string;
@@ -255,12 +257,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             };
           }
           showGroups[key].shows.push({
-            date: s.date,
-            time: s.time || "",
-            info: s.info || "",
-            allAges: s.allAges,
-            mapUrl: s.mapUrl,
-            websiteUrl: s.websiteUrl
+             date: s.date,
+             time: s.time || "",
+             playTime: s.playTime || "",
+             info: s.info || "",
+             allAges: s.allAges,
+             mapUrl: s.mapUrl,
+             websiteUrl: s.websiteUrl
           });
         }
       });
@@ -369,10 +372,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           : sIs21Plus 
             ? `<span style="font-size:9px; font-weight:800; background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.2); padding:1px 4px; border-radius:3px; text-transform:uppercase; margin-left:6px; display:inline-block; vertical-align:middle; line-height:1;">21+</span>`
             : '';
+        const timeText = s.playTime
+          ? `Plays: ${s.playTime}${s.time ? ` (Event: ${s.time})` : ""}`
+          : (s.time ? s.time : "");
         return `
           <div style="margin-bottom:8px; padding-bottom:8px; border-bottom: ${idx === v.shows.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.08)'};">
             <div style="font-size:11px; font-weight:700; color:${cfg.color}; text-transform:uppercase; letter-spacing:0.5px; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">
-              <span>${s.date} ${s.time ? `· ${s.time}` : ""}</span>
+              <span>${s.date} ${timeText ? `· ${timeText}` : ""}</span>
               ${sAgeBadge}
             </div>
             ${s.info ? `<div style="font-size:10px; color:rgba(255,255,255,0.7); margin-top:2px;">${s.info}</div>` : ""}

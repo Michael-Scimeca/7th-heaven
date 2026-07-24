@@ -104,7 +104,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
 
   const getDaysUntilLabel = () => {
     if (!nextShow || !currentTime) return "";
-    const showDateTime = getShowDateTime(nextShow.startDate, nextShow.date, nextShow.time);
+    const showDateTime = getShowDateTime(nextShow.startDate, nextShow.date, nextShow.playTime || nextShow.time);
     const showEndTime = new Date(showDateTime.getTime() + 4 * 60 * 60 * 1000);
     
     if (currentTime >= showDateTime && currentTime < showEndTime) {
@@ -160,8 +160,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
               )}
             </div>
 
-            {/* Compact Countdown widget */}
-            <CountdownTimer targetDate={`${nextShow.date}, ${new Date().getFullYear()}`} targetTime={nextShow.time} compact />
+             {/* Compact Countdown widget */}
+            <CountdownTimer targetDate={`${nextShow.date}, ${new Date().getFullYear()}`} targetTime={nextShow.playTime || nextShow.time} compact />
           </div>
 
           {/* Middle block: Venue & details (clickable link to tour page) */}
@@ -177,11 +177,24 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
                   <span className="truncate">{nextShow.city}{nextShow.state ? `, ${nextShow.state}` : ""}</span>
                 </>
               )}
-              {nextShow.time && (
+              {nextShow.playTime ? (
                 <>
                   <span className="text-white/20">·</span>
-                  <span>{nextShow.time}</span>
+                  <span className="text-rose-400 font-extrabold">Plays: {nextShow.playTime}</span>
+                  {nextShow.time && (
+                    <>
+                      <span className="text-white/20">·</span>
+                      <span className="text-white/30">Event: {nextShow.time}</span>
+                    </>
+                  )}
                 </>
+              ) : (
+                nextShow.time && (
+                  <>
+                    <span className="text-white/20">·</span>
+                    <span>{nextShow.time}</span>
+                  </>
+                )
               )}
             </div>
             {nextShow.info && (

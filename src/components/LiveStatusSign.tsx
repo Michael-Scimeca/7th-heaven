@@ -23,8 +23,8 @@ export default function LiveStatusSign() {
           setIsLive(false);
           setLiveCount(0);
         }
-      } catch (err) {
-        console.error("Failed to check live status", err);
+      } catch {
+        // API unavailable — silently stay in "not live" state
         setIsLive(false);
       }
     };

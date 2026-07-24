@@ -67,7 +67,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const {
-      venue, city, state, date, time, doorsTime,
+      venue, city, state, date, time, doorsTime, playTime,
       allAges, cover, ticketLink, directionsLink,
       isSoldOut, isFestival, isPrivate, notes, tags
     } = body;
@@ -93,6 +93,7 @@ export async function POST(request: Request) {
       day,
       time: time || "",
       doorsTime: doorsTime || "",
+      playTime: playTime || "",
       allAges: allAges ?? true,
       cover: cover || "",
       ticketLink: ticketLink || "",
@@ -126,7 +127,7 @@ export async function PATCH(request: Request) {
 
     const body = await request.json();
     const {
-      _id, venue, city, state, date, time, doorsTime,
+      _id, venue, city, state, date, time, doorsTime, playTime,
       allAges, cover, ticketLink, directionsLink,
       isSoldOut, isFestival, isPrivate, notes, tags
     } = body;
@@ -146,6 +147,7 @@ export async function PATCH(request: Request) {
     }
     if (time !== undefined) updateFields.time = time;
     if (doorsTime !== undefined) updateFields.doorsTime = doorsTime;
+    if (playTime !== undefined) updateFields.playTime = playTime;
     if (allAges !== undefined) updateFields.allAges = allAges;
     if (cover !== undefined) updateFields.cover = cover;
     if (ticketLink !== undefined) updateFields.ticketLink = ticketLink;
