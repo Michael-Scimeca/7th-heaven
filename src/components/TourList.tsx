@@ -822,7 +822,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        </div>
      </div>
 
-     <div className={`sticky top-0 z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md border-y border-[var(--color-border)] mb-1 items-center`}>
+     <div className={`sticky top-0 z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md mb-1 items-center`}>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Day</span>
       <div className="relative">
        <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
@@ -867,7 +867,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        )}
      </div>
 
-     <div className="flex flex-col gap-5 overflow-visible pt-4">
+     <div className="flex flex-col gap-0 overflow-visible pt-4">
       {(() => {
         let rows = filtered;
         if (maxShows && upNext) {
@@ -886,7 +886,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
          <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible">
            {/* Desktop Row Layout */}
            <div
-            className={`relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 border items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
              {isUpNext && (<span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">Up Next</span>)}
@@ -1053,7 +1053,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
            {/* Mobile/Tablet Card Layout */}
            <div
-            className={`relative lg:hidden flex flex-col gap-3 py-3 px-4 border text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "border-[var(--color-accent)] bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `border-[var(--color-border)] ${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : `${i % 2 === 0 ? "bg-[var(--color-bg-card)]" : "bg-[rgba(255,255,255,0.07)]"}`} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={`${rowId}-mobile`}
            >
              {isUpNext && (<span className="absolute -top-3 left-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)] px-3 py-0.5">Up Next</span>)}
