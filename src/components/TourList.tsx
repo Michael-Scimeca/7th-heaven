@@ -1009,7 +1009,9 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
               </span>
               <div className="type-col text-[0.7rem] text-white/70 flex items-center gap-2">
                  <span className="icon-span text-sm shrink-0">{getShowIcon(show)}</span>
-                 <div className="flex flex-col items-start gap-1">
+                 <div className="flex flex-row flex-wrap items-center gap-1.5 max-w-full">
+                    {!show.isPrivate && (
+                      <>
                   {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
                     <span className="tour-badge px-1 py-0 text-[0.55rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">All Ages</span>
                   )}
@@ -1036,6 +1038,8 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                       </span>
                     );
                   })}
+                      </>
+                    )}
                  </div>
               </div>
              <span className="flex items-center justify-center gap-2">
@@ -1180,6 +1184,8 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
              <div className="flex items-center gap-1.5 flex-wrap">
                <span className="text-xs">{getShowIcon(show)}</span>
                {show.info && <span className="text-2xs text-white/40 italic">{show.info}</span>}
+                {!show.isPrivate && (
+                  <>
                {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
                  <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded">All Ages</span>
                )}
@@ -1197,6 +1203,8 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                    <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded ${tagColors}`}>{tag}</span>
                  );
                })}
+                  </>
+                )}
              </div>
 
              {/* Action Buttons Row */}
