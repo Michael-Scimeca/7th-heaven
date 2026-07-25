@@ -195,7 +195,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
   };
 
-  const fadeAudioIn = (audio: HTMLAudioElement, targetVolume = 0.5, durationMs = 800) => {
+  const fadeAudioIn = (audio: HTMLAudioElement, targetVolume = 0.25, durationMs = 800) => {
     audio.play().catch(() => {});
     const startTime = performance.now();
     const startVol = audio.volume;
@@ -239,12 +239,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     if (!portAudioRef.current) {
       portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
       portAudioRef.current.loop = true;
-      portAudioRef.current.volume = 0.5;
+      portAudioRef.current.volume = 0.25;
     }
     if (!seaAudioRef.current) {
       seaAudioRef.current = new Audio('/audio/ship-sea.mp3');
       seaAudioRef.current.loop = true;
-      seaAudioRef.current.volume = 0.5;
+      seaAudioRef.current.volume = 0.25;
     }
   }, []);
 
@@ -292,7 +292,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         seaAudioRef.current.loop = true;
         seaAudioRef.current.volume = 0;
       }
-      fadeAudioIn(seaAudioRef.current, 0.5);
+      fadeAudioIn(seaAudioRef.current, 0.25);
     } else {
       // Location is a "Port" -> crossfade to ship-at-port.mp3 and keep playing continuously
       fadeAudioOut(seaAudioRef.current);
@@ -301,7 +301,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         portAudioRef.current.loop = true;
         portAudioRef.current.volume = 0;
       }
-      fadeAudioIn(portAudioRef.current, 0.5);
+      fadeAudioIn(portAudioRef.current, 0.25);
     }
   }, [activeNodeIndex, itinerary, soundMuted, hasScrolledIntoRange]);
 
