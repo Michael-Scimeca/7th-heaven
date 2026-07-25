@@ -1182,11 +1182,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             ))}
           </div>
         </div>
-      </div> {tab.label}
-              </a>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* ── SECTION 1: ITINERARIES & DATES ── */}
