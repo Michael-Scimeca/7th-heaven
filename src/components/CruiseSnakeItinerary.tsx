@@ -182,6 +182,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const portAudioRef = useRef<HTMLAudioElement | null>(null);
+  const seaAudioRef = useRef<HTMLAudioElement | null>(null);
   const [soundMuted, setSoundMuted] = useState(false);
 
   const isAtSeaDay = (day?: ItineraryDay) => {
@@ -192,23 +193,36 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
   };
 
-  // Play ship-at-port.mp3 audio ONLY while ship is inside proximity of a port stop
+  // Play ship-at-port.mp3 (Port stops) vs ship-sea.mp3 (At Sea days) when ship is in proximity
   useEffect(() => {
     if (!itinerary || itinerary.length === 0) return;
     const currentDay = itinerary[activeNodeIndex];
     const isSea = isAtSeaDay(currentDay);
 
-    if (!isSea && !soundMuted && isShipInNodeProximity) {
+    if (soundMuted || !isShipInNodeProximity) {
+      if (portAudioRef.current) portAudioRef.current.pause();
+      if (seaAudioRef.current) seaAudioRef.current.pause();
+      return;
+    }
+
+    if (isSea) {
+      // Ship is at an "At Sea" section -> play ship-sea.mp3, pause port audio
+      if (portAudioRef.current) portAudioRef.current.pause();
+      if (!seaAudioRef.current) {
+        seaAudioRef.current = new Audio('/audio/ship-sea.mp3');
+        seaAudioRef.current.loop = true;
+        seaAudioRef.current.volume = 0.5;
+      }
+      seaAudioRef.current.play().catch(() => {});
+    } else {
+      // Ship is at a "Port" section -> play ship-at-port.mp3, pause sea audio
+      if (seaAudioRef.current) seaAudioRef.current.pause();
       if (!portAudioRef.current) {
         portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
         portAudioRef.current.loop = true;
         portAudioRef.current.volume = 0.5;
       }
       portAudioRef.current.play().catch(() => {});
-    } else {
-      if (portAudioRef.current) {
-        portAudioRef.current.pause();
-      }
     }
   }, [activeNodeIndex, isShipInNodeProximity, itinerary, soundMuted]);
 
@@ -217,6 +231,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       if (portAudioRef.current) {
         portAudioRef.current.pause();
         portAudioRef.current = null;
+      }
+      if (seaAudioRef.current) {
+        seaAudioRef.current.pause();
+        seaAudioRef.current = null;
       }
     };
   }, []);
@@ -515,8 +533,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             onClick={() => {
               const nextMuted = !soundMuted;
               setSoundMuted(nextMuted);
-              if (!nextMuted && portAudioRef.current && !isAtSeaDay(itinerary[activeNodeIndex])) {
-                portAudioRef.current.play().catch(() => {});
+              if (!nextMuted && isShipInNodeProximity) {
+                const currentDay = itinerary[activeNodeIndex];
+                if (isAtSeaDay(currentDay) && seaAudioRef.current) {
+                  seaAudioRef.current.play().catch(() => {});
+                } else if (portAudioRef.current) {
+                  portAudioRef.current.play().catch(() => {});
+                }
               }
             }}
             className={`py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
@@ -525,7 +548,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 : 'bg-white/5 border border-white/10 text-white/40 hover:bg-white/10'
             }`}
           >
-            <span>{!soundMuted ? '🔊' : '🔇'}</span> {!soundMuted ? 'Port Sound ON' : 'Port Sound OFF'}
+            <span>{!soundMuted ? '🔊' : '🔇'}</span> {!soundMuted ? 'Ship Audio ON' : 'Ship Audio OFF'}
           </button>
         </div>
 
