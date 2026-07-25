@@ -569,12 +569,12 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className={`rounded-2xl rounded-tl-none px-3.5 py-2 text-sm text-white/95 inline-block w-fit max-w-[98%] leading-normal border break-words ${
+                  <div className={`rounded-xl rounded-tl-xs px-3 py-1.5 text-xs text-white/95 inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm ${
                     isSelf 
-                      ? 'bg-gradient-to-r from-purple-600/35 via-fuchsia-600/35 to-pink-600/35 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
+                      ? 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 border-purple-400/50 text-white shadow-[0_2px_10px_rgba(168,85,247,0.35)]'
                       : hasAdminTag
-                      ? 'bg-gradient-to-r from-amber-950/40 via-yellow-950/30 to-black/60 border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
-                      : 'bg-gradient-to-r from-white/[0.08] to-white/[0.04] border-white/10 hover:border-white/20'
+                      ? 'bg-gradient-to-r from-amber-950/50 via-yellow-950/40 to-black/80 border-amber-500/50 text-amber-100 shadow-[0_2px_10px_rgba(245,158,11,0.2)]'
+                      : 'bg-[#151326] border-white/10 text-white/90 hover:border-purple-500/30 transition-all'
                   }`}>
                     {formatMessageContent(msg.content)}
                   </div>
