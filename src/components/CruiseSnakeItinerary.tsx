@@ -65,6 +65,7 @@ type ItineraryDay = {
   theme: string;
   events: ItineraryEvent[];
   colorTheme: string;
+  photo?: string;
 };
 type Props = { itinerary: ItineraryDay[] };
 
