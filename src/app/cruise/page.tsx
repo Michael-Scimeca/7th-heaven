@@ -1008,6 +1008,91 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
             </div>
           </div>
+        </section>
+
+      {/* ── SECTION: BOOK NOW FORM AT TOP ── */}
+      <section id="book-now" className="py-12 site-container relative z-10">
+        <div id="signup" className="relative z-10">
+          {/* VIP Community Count Progress Bar */}
+          <div className="bg-white/[0.03] border border-white/5 rounded-3xl p-6 md:p-8 mb-10 text-left">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+              <div>
+                <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-2xs font-bold uppercase tracking-widest mb-3">Community Hub Goal</span>
+                <h3 className="text-xl md:text-2xl font-black uppercase text-white leading-tight">Fan Cruise Registry</h3>
+                <p className="text-white/40 text-xs md:text-sm mt-1">Join other fans inside the passenger lounge to plan deck events and coordinate table seating.</p>
+              </div>
+              <div className="flex items-baseline gap-2 bg-[#0c0c14] border border-white/5 p-4 rounded-2xl shrink-0">
+                <span className="text-3xl font-black text-white">{totalGuests}</span>
+                <span className="text-white/40 text-2xs uppercase font-bold tracking-wider">Registered Attendees</span>
+              </div>
+            </div>
+            <div className="h-2.5 w-full bg-white/5 border border-white/5 rounded-full overflow-hidden mb-3">
+              <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-1000 shadow-[0_0_8px_rgba(6,182,212,0.8)]" style={{ width: `${progress}%` }} />
+            </div>
+            <div className="flex justify-between text-2xs font-bold uppercase tracking-wider text-white/30">
+              <span>0 Registered</span>
+              <span className="text-cyan-400 font-extrabold">{progress.toFixed(0)}% of goal ({GOAL} cap)</span>
+            </div>
+          </div>
+
+          <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 md:p-10 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            {/* Form Column */}
+            <div className="lg:col-span-2 text-left">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                <div>
+                  <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                    Official <span className="accent-gradient-text">Booking Form</span>
+                  </h2>
+                  <p className="text-white/40 text-sm">
+                    Secure your cabin reservation directly under the 7th Heaven group rate. <strong className="text-cyan-400">Group ID: 3325680</strong>
+                  </p>
+                </div>
+                {!isLoggedIn && (
+                  <button 
+                    onClick={() => openModal("login")}
+                    className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] hover:text-white transition-all flex items-center gap-2 group cursor-pointer"
+                  >
+                    <span className="w-6 h-6 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center group-hover:border-[var(--color-accent)] transition-all">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </span>
+                    Sign In to Autofill
+                  </button>
+                )}
+                {isLoggedIn && (
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-widest">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Verified User: {member?.name}
+                  </div>
+                )}
+              </div>
+
+              {signupStatus === "success" ? (
+                <div className="p-8 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center">
+                  <span className="text-4xl block mb-4">🚢</span>
+                  <h3 className="text-white font-black text-xl uppercase italic">Your Booking Request Submitted!</h3>
+                  <p className="text-emerald-400 text-sm mt-3 leading-relaxed">
+                    Thank you, {formData.name ? formData.name.split(' ')[0] : 'Captain'}! We have registered your reservation interest. Check <strong className="text-white">{formData.email}</strong> for your confirmation email details. Our travel managers at NTD Vacations will reach out to verify room assignments.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSignup} className="space-y-6">
+                  {/* HIGH FIDELITY DIGITAL PDF FORM CONTAINER */}
+                  <div className="booking-form-card bg-white/[0.02] border border-white/10 rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    {/* Header Banner representing the PDF top section */}
+                    <div className="booking-header-banner border-b border-white/10 p-5 text-center">
+                      <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                      <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                      <p className="text-[10px] text-white/40 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
+                    </div>
+
+                    {/* GUEST 1 (Primary Booker) */}
+                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
+                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10 flex items-center justify-between">
+                        <span className="text-xs font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Primary</span>
+                      </div>
+                      <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                         {/* Name */}
                         <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
                           <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Full Legal Name (as spelled on passport) *</label>
