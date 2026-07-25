@@ -202,9 +202,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     } catch {}
   };
 
-  // Canvas height: last node Y + card height room
+  // Canvas height: last node Y + card height (560px) to prevent cutoff
   const lastNodeY = (itinerary.length - 1) * STEP_H + 50;
-  const totalH = lastNodeY + 220;
+  const totalH = lastNodeY + 560;
 
   /* ── Node positions dynamically computed based on layoutMode ── */
   const nodes = itinerary.map((_, i) => {
@@ -1000,11 +1000,11 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 height: isMobile ? (isActive ? 64 : 48) : (isActive ? 84 : 68),
                 borderRadius: '50%',
                 backgroundColor: '#0a0a12',
-                border: isActive ? '3px solid #06b6d4' : '2px solid #06b6d4',
-                boxShadow: isActive ? '0 0 35px rgba(6,182,212,0.95), 0 0 70px rgba(6,182,212,0.6)' : '0 0 15px rgba(6,182,212,0.35)',
+                border: '2px solid #06b6d4',
+                boxShadow: 'none',
                 zIndex: isActive ? 12 : 9,
                 overflow: 'hidden',
-                transition: 'width 0.3s ease, height 0.3s ease, box-shadow 0.3s ease, border 0.3s ease',
+                transition: 'width 0.3s ease, height 0.3s ease',
                 pointerEvents: 'none',
                 display: 'flex',
                 alignItems: 'center',
