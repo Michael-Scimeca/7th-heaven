@@ -2730,9 +2730,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               )}
             </div>
           </div>
-        </div>
-      </div>
-      </section>
+        </section>
     </div>
   );
 }
