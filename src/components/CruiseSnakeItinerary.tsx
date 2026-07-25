@@ -8,7 +8,7 @@ import type * as THREE from 'three';
 import styles from './CruiseSnakeItinerary.module.css';
 
 function ShipModel({
-  scale = 1.8,
+  scale = 1.0,
   offsetY = -0.2,
   shipRotYRef,
   shipScaleFactorRef,
@@ -114,7 +114,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollStartMul: 0.48,
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
-  shipScale: 1.8,
+  shipScale: 1.0,
   shipOffsetY: -0.2,
   anchorOffsetX: 0,
   anchorOffsetY: 0,
@@ -156,9 +156,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   // Load saved tuning from localStorage on mount
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('7h_cruise_tuning');
-      if (saved) {
-        setTuning({ ...DEFAULT_TUNING, ...JSON.parse(saved) });
+      const savedStr = localStorage.getItem('7h_cruise_tuning');
+      if (savedStr) {
+        const saved = JSON.parse(savedStr);
+        if (saved.shipScale && saved.shipScale > 1.5) {
+          saved.shipScale = 1.0;
+        }
+        setTuning({ ...DEFAULT_TUNING, ...saved });
       }
     } catch {}
   }, []);
@@ -931,15 +935,15 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           ref={shipContainerRef}
           style={{
             position: 'absolute',
-            width: isMobile ? 220 : 360,
-            height: isMobile ? 220 : 360,
+            width: isMobile ? 120 : 180,
+            height: isMobile ? 120 : 180,
             pointerEvents: 'none',
             zIndex: 2,
             transition: 'none',
             filter: 'none',
           }}
         >
-          <Canvas orthographic camera={{ zoom: isMobile ? 34 : 55, position: [0, 0, 100] }}>
+          <Canvas orthographic camera={{ zoom: isMobile ? 28 : 42, position: [0, 0, 100] }}>
             <ambientLight intensity={1.5} />
             <directionalLight position={[5, 10, 5]} intensity={2} />
             <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
