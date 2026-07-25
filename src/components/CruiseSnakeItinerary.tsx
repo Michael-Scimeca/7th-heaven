@@ -79,12 +79,14 @@ const NODE_R  = 32;
 const DAY_ICONS = ['📍', '🎸', '🏝️', '🥂', '⚓', '🌊', '🌴'];
 
 const DAY_IMAGES: Record<number, string> = {
-  0: '/images/cruise/miami.png',
-  1: '/images/cruise/at-sea.png',
-  2: '/images/cruise/cozumel.png',
-  3: '/images/cruise/concert.png',
-  4: '/images/cruise/grand-cayman.png',
-  5: '/images/cruise/roatan.png',
+  0: '/images/cruise/port-canaveral-docked.png',
+  1: '/images/cruise/cococay-beach-party.png',
+  2: '/images/cruise/at-sea.png',
+  3: '/images/cruise/st-thomas-island.png',
+  4: '/images/cruise/roatan.png',
+  5: '/images/cruise/at-sea.png',
+  6: '/images/cruise/at-sea.png',
+  7: '/images/cruise/port-canaveral-docked.png',
 };
 
 export type CruiseTuningConfig = {
@@ -140,8 +142,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const shipScaleFactorRef = useRef(1.0);
   const activeNodeRef = useRef(0);
   const [activeNodeIndex, setActiveNodeIndex] = useState(0);
-  const visitedNodesRef = useRef<Record<number, boolean>>({ 0: true });
-  const [visitedNodes, setVisitedNodes] = useState<Record<number, boolean>>({ 0: true });
+  const visitedNodesRef = useRef<Record<number, boolean>>({});
+  const [visitedNodes, setVisitedNodes] = useState<Record<number, boolean>>({});
   const isShipInNodeProximityRef = useRef(false);
   const [isShipInNodeProximity, setIsShipInNodeProximity] = useState(false);
   const [mounted, setMounted] = useState(false);

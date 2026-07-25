@@ -22,6 +22,7 @@ function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
     dayLabel: `Day ${day.day} · ${day.label}`,
     location: day.port,
     theme: day.label,
+    photo: day.photo,
     colorTheme: COLOR_THEMES[i % COLOR_THEMES.length],
     events: day.schedule.map((item, idx) => ({
       id: `event-${day.day}-${idx}`,
