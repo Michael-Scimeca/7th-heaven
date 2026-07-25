@@ -231,20 +231,20 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     requestAnimationFrame(fade);
   };
 
-  // Play ship-at-port.mp3 (Port stops) vs ship-sea.mp3 (At Sea days) with smooth fade in / fade out
+  // Keep playing sound of current location continuously until next location sound is triggered
   useEffect(() => {
     if (!itinerary || itinerary.length === 0) return;
     const currentDay = itinerary[activeNodeIndex];
     const isSea = isAtSeaDay(currentDay);
 
-    if (soundMuted || !isShipInNodeProximity) {
+    if (soundMuted) {
       fadeAudioOut(portAudioRef.current);
       fadeAudioOut(seaAudioRef.current);
       return;
     }
 
     if (isSea) {
-      // Ship is at an "At Sea" section -> fade out port audio, fade in sea audio
+      // Location is "At Sea" -> crossfade to ship-sea.mp3 and keep playing continuously
       fadeAudioOut(portAudioRef.current);
       if (!seaAudioRef.current) {
         seaAudioRef.current = new Audio('/audio/ship-sea.mp3');
@@ -253,7 +253,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       }
       fadeAudioIn(seaAudioRef.current, 0.5);
     } else {
-      // Ship is at a "Port" section -> fade out sea audio, fade in port audio
+      // Location is a "Port" -> crossfade to ship-at-port.mp3 and keep playing continuously
       fadeAudioOut(seaAudioRef.current);
       if (!portAudioRef.current) {
         portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
@@ -262,7 +262,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       }
       fadeAudioIn(portAudioRef.current, 0.5);
     }
-  }, [activeNodeIndex, isShipInNodeProximity, itinerary, soundMuted]);
+  }, [activeNodeIndex, itinerary, soundMuted]);
 
   useEffect(() => {
     return () => {
@@ -571,7 +571,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             onClick={() => {
               const nextMuted = !soundMuted;
               setSoundMuted(nextMuted);
-              if (!nextMuted && isShipInNodeProximity) {
+              if (!nextMuted) {
                 const currentDay = itinerary[activeNodeIndex];
                 if (isAtSeaDay(currentDay) && seaAudioRef.current) {
                   seaAudioRef.current.play().catch(() => {});
