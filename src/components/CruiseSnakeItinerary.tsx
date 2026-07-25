@@ -69,6 +69,41 @@ type ItineraryDay = {
 };
 type Props = { itinerary: ItineraryDay[] };
 
+function CircleVideoNode({
+  src,
+  poster,
+  shouldPlay,
+}: {
+  src: string;
+  poster: string;
+  shouldPlay: boolean;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (shouldPlay) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [shouldPlay]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      poster={poster}
+      loop
+      muted
+      playsInline
+      className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
+    />
+  );
+}
+
 /* ── Layout constants (SVG coordinate space) ── */
 const SVG_W   = 1400;
 const STEP_H  = 680;
@@ -1042,12 +1077,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           </Canvas>
         </div>
 
-        {/* Node circle ring HTML overlays — crisp 1:1 circle with video ONLY when ship is in proximity */}
+        {/* Node circle ring HTML overlays — video element always present, paused until ship reaches/passes node */}
         {nodes.map((node, i) => {
           const day = itinerary[i];
           const isSea = isAtSeaDay(day);
           const isActive = activeNodeIndex === i;
-          const isPlayingVideo = isActive && isShipInNodeProximity;
+          const isVisited = visitedNodes[i];
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
           const dayImg = isSea ? '/images/cruise/at-sea.png' : (day?.photo || DAY_IMAGES[i % 6]);
 
@@ -1059,8 +1094,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 left: `${(node.x / SVG_W) * 100}%`,
                 top: `${(node.y / totalH) * 100}%`,
                 transform: 'translate(-50%, -50%)',
-                width: isMobile ? (isActive ? 64 : 48) : (isActive ? 84 : 68),
-                height: isMobile ? (isActive ? 64 : 48) : (isActive ? 84 : 68),
+                width: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
+                height: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
                 borderRadius: '50%',
                 backgroundColor: '#0a0a12',
                 border: '2px solid #06b6d4',
@@ -1074,22 +1109,11 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 justifyContent: 'center',
               }}
             >
-              {isPlayingVideo ? (
-                <video
-                  src={videoSrc}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
-                />
-              ) : (
-                <img
-                  src={dayImg}
-                  alt={day?.theme || "Port"}
-                  className="w-full h-full object-cover rounded-full pointer-events-none scale-110"
-                />
-              )}
+              <CircleVideoNode
+                src={videoSrc}
+                poster={dayImg}
+                shouldPlay={isVisited}
+              />
             </div>
           );
         })}
