@@ -30,15 +30,16 @@ export async function GET(request: Request) {
         const email = user.email || '';
         
         // Auto-role assignment by email
-        const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
+        const adminEmails = ["mikeyscimeca@gmail.com", "mikeyscimeca.dev@gmail.com", "marygrivas65@icloud.com"];
+        const crewEmails = ["mike@test.com"];
         const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
         const plannerEmails = ["planner@example.com", "chicago_manager@example.com", "planner@test.com"];
         
         let role = 'fan';
-        if (crewEmails.includes(email.toLowerCase())) role = 'crew';
+        if (adminEmails.includes(email.toLowerCase())) role = 'admin';
+        else if (crewEmails.includes(email.toLowerCase())) role = 'crew';
         else if (merchEmails.includes(email.toLowerCase())) role = 'merch';
         else if (plannerEmails.includes(email.toLowerCase())) role = 'event_planner';
-        else if (email.toLowerCase() === 'mikeyscimeca@gmail.com') role = 'admin';
 
         // Base username suggestions
         const baseUsername = user.user_metadata?.username || fullName.trim().toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 20);

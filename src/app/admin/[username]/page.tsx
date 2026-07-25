@@ -122,6 +122,7 @@ const STATIC_CREW = [
   { id: 'emma', name: 'Emma Smid', role: 'LINE COOK', maxHours: 40, avatar: '/images/crew/emma.png', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
   { id: 'erin', name: 'Erin Eagan', role: 'POSITION', maxHours: 40, avatar: '/images/crew/erin.png', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
   { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
+  { id: 'mary', name: 'Mary Grivas', role: 'ADMIN', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Mary+Grivas&background=f59e0b&color=fff', email: 'Marygrivas65@icloud.com', phone: '(630) 688-1725' },
   { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff', email: 'michael@7thheavenband.com', phone: '(555) 456-6543' },
   { id: 'sammy', name: 'Sammy D', role: 'SERVER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', email: 'sammy@7thheavenband.com', phone: '(555) 567-5432' },
   { id: 'ryan', name: 'Ryan K', role: 'BUSSER', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff', email: 'ryan@7thheavenband.com', phone: '(555) 678-4321' },
