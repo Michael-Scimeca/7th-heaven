@@ -545,6 +545,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
             7th Heaven <span className="accent-gradient-text">Cruise</span>
           </h1>
+        </div>
+      </section>
+
       {/* ── SECTION 3: CABINS & PRICING (AT TOP) ── */}
       <section id="pricing" className="py-16 site-container border-t border-white/5 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-12">
