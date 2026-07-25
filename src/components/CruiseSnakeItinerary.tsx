@@ -177,6 +177,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const [activeNodeIndex, setActiveNodeIndex] = useState(0);
   const visitedNodesRef = useRef<Record<number, boolean>>({});
   const [visitedNodes, setVisitedNodes] = useState<Record<number, boolean>>({});
+  const hasScrolledIntoRangeRef = useRef(false);
+  const [hasScrolledIntoRange, setHasScrolledIntoRange] = useState(false);
   const isShipInNodeProximityRef = useRef(false);
   const [isShipInNodeProximity, setIsShipInNodeProximity] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -251,7 +253,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     if (soundMuted || typeof window === 'undefined') return;
 
     const unlockAudio = () => {
-      if (soundMuted) return;
+      if (soundMuted || !hasScrolledIntoRangeRef.current) return;
       const currentDay = itinerary[activeNodeIndex];
       const isSea = isAtSeaDay(currentDay);
       if (isSea && seaAudioRef.current) {
@@ -269,17 +271,18 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     };
   }, [activeNodeIndex, itinerary, soundMuted]);
 
-  // Keep playing sound of current location continuously until next location sound is triggered
+  // Keep playing sound of current location continuously when in section range
   useEffect(() => {
     if (!itinerary || itinerary.length === 0) return;
-    const currentDay = itinerary[activeNodeIndex];
-    const isSea = isAtSeaDay(currentDay);
 
-    if (soundMuted) {
+    if (soundMuted || !hasScrolledIntoRange) {
       fadeAudioOut(portAudioRef.current);
       fadeAudioOut(seaAudioRef.current);
       return;
     }
+
+    const currentDay = itinerary[activeNodeIndex];
+    const isSea = isAtSeaDay(currentDay);
 
     if (isSea) {
       // Location is "At Sea" -> crossfade to ship-sea.mp3 and keep playing continuously
@@ -300,7 +303,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       }
       fadeAudioIn(portAudioRef.current, 0.5);
     }
-  }, [activeNodeIndex, itinerary, soundMuted]);
+  }, [activeNodeIndex, itinerary, soundMuted, hasScrolledIntoRange]);
 
   useEffect(() => {
     return () => {
@@ -458,6 +461,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
         const targetOffset = totalLen * (1 - progress);
 
+        // Section is in range when the scroll focus position reaches the canvas top and bottom hasn't completely scrolled out
+        const isSectionInRange = relativeScrollY > 0 && rect.bottom > 100;
+        if (hasScrolledIntoRangeRef.current !== isSectionInRange) {
+          hasScrolledIntoRangeRef.current = isSectionInRange;
+          setHasScrolledIntoRange(isSectionInRange);
+        }
+
         currentFillOffset += (targetOffset - currentFillOffset) * t.lerpSpeed;
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
@@ -479,9 +489,11 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             closestIdx = i;
           }
 
-          // Node i is active/passed if ship is at or past node i (supports reverse scroll!)
-          if (dist < 90 || pt.y >= node.y - 30) {
-            nextVisited[i] = true;
+          // Node i is active/passed if section is in range AND (ship is within 90px OR progress reaches node i)
+          if (isSectionInRange) {
+            if (dist < 90 || (i === 0 ? progress > 0.005 : pt.y >= node.y - 30)) {
+              nextVisited[i] = true;
+            }
           }
         });
 
