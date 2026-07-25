@@ -231,6 +231,44 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     requestAnimationFrame(fade);
   };
 
+  // Preload audio elements on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!portAudioRef.current) {
+      portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
+      portAudioRef.current.loop = true;
+      portAudioRef.current.volume = 0.5;
+    }
+    if (!seaAudioRef.current) {
+      seaAudioRef.current = new Audio('/audio/ship-sea.mp3');
+      seaAudioRef.current.loop = true;
+      seaAudioRef.current.volume = 0.5;
+    }
+  }, []);
+
+  // Unlock browser autoplay policy on first user interaction anywhere on page
+  useEffect(() => {
+    if (soundMuted || typeof window === 'undefined') return;
+
+    const unlockAudio = () => {
+      if (soundMuted) return;
+      const currentDay = itinerary[activeNodeIndex];
+      const isSea = isAtSeaDay(currentDay);
+      if (isSea && seaAudioRef.current) {
+        seaAudioRef.current.play().catch(() => {});
+      } else if (portAudioRef.current) {
+        portAudioRef.current.play().catch(() => {});
+      }
+    };
+
+    window.addEventListener('pointerdown', unlockAudio, { once: true });
+    window.addEventListener('keydown', unlockAudio, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
+    };
+  }, [activeNodeIndex, itinerary, soundMuted]);
+
   // Keep playing sound of current location continuously until next location sound is triggered
   useEffect(() => {
     if (!itinerary || itinerary.length === 0) return;
