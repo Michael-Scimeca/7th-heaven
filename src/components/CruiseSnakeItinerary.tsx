@@ -142,6 +142,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const [activeNodeIndex, setActiveNodeIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const portAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [soundMuted, setSoundMuted] = useState(false);
 
   const isAtSeaDay = (day?: ItineraryDay) => {
     if (!day) return false;
@@ -150,6 +152,35 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     const label = (day.dayLabel || '').toLowerCase();
     return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
   };
+
+  // Play ship-at-port.mp3 audio when ship arrives at a port stop
+  useEffect(() => {
+    if (!itinerary || itinerary.length === 0) return;
+    const currentDay = itinerary[activeNodeIndex];
+    const isSea = isAtSeaDay(currentDay);
+
+    if (!isSea && !soundMuted) {
+      if (!portAudioRef.current) {
+        portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
+        portAudioRef.current.loop = true;
+        portAudioRef.current.volume = 0.5;
+      }
+      portAudioRef.current.play().catch(() => {});
+    } else {
+      if (portAudioRef.current) {
+        portAudioRef.current.pause();
+      }
+    }
+  }, [activeNodeIndex, itinerary, soundMuted]);
+
+  useEffect(() => {
+    return () => {
+      if (portAudioRef.current) {
+        portAudioRef.current.pause();
+        portAudioRef.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -408,7 +439,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>
         <h2 id="itinerary" className={styles.title}>Official Itinerary</h2>
         
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center items-center gap-3 mt-6">
           <button
             onClick={() => setShowSettings(!showSettings)}
             className={`py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
@@ -418,6 +449,23 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             }`}
           >
             <span>⚙️</span> SVG & Speed Settings
+          </button>
+
+          <button
+            onClick={() => {
+              const nextMuted = !soundMuted;
+              setSoundMuted(nextMuted);
+              if (!nextMuted && portAudioRef.current && !isAtSeaDay(itinerary[activeNodeIndex])) {
+                portAudioRef.current.play().catch(() => {});
+              }
+            }}
+            className={`py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
+              !soundMuted
+                ? 'bg-cyan-500/20 border border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
+                : 'bg-white/5 border border-white/10 text-white/40 hover:bg-white/10'
+            }`}
+          >
+            <span>{!soundMuted ? '🔊' : '🔇'}</span> {!soundMuted ? 'Port Sound ON' : 'Port Sound OFF'}
           </button>
         </div>
 
