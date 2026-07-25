@@ -115,7 +115,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollStartMul: 0.48,
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
-  shipScale: 1.0,
+  shipScale: 1.33,
   shipOffsetY: 0.3,
   anchorOffsetX: 0,
   anchorOffsetY: -26,
@@ -958,15 +958,15 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           ref={shipContainerRef}
           style={{
             position: 'absolute',
-            width: isMobile ? 120 : 180,
-            height: isMobile ? 120 : 180,
+            width: isMobile ? 160 : 240,
+            height: isMobile ? 160 : 240,
             pointerEvents: 'none',
             zIndex: 2,
             transition: 'none',
             filter: 'none',
           }}
         >
-          <Canvas orthographic camera={{ zoom: isMobile ? 28 : 42, position: [0, 0, 100] }}>
+          <Canvas orthographic camera={{ zoom: isMobile ? 37 : 56, position: [0, 0, 100] }}>
             <ambientLight intensity={1.5} />
             <directionalLight position={[5, 10, 5]} intensity={2} />
             <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
