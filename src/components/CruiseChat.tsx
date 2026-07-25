@@ -415,7 +415,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
       )}
 
       {/* Messages Area */}
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-4 space-y-4 scrollbar-hide relative bg-transparent">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-5 space-y-6 scrollbar-hide relative bg-transparent">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
@@ -434,7 +434,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 ? "bg-red-500/10 border-red-500/20 text-red-200" 
                 : "bg-purple-500/10 border-purple-500/20 text-purple-200";
               return (
-                <div key={msg.id} className={`flex items-center gap-2 p-3 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
+                <div key={msg.id} className={`flex items-center gap-3 p-3.5 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
                   <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
                   <div className="flex-1 leading-relaxed">
                     {msg.content}
@@ -449,23 +449,23 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
             const isSelf = member?.name && msg.sender_name === member.name;
 
             return (
-              <div key={msg.id} className="flex gap-3 animate-[slideIn_0.3s_ease-out] group relative">
-                <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black ${getAvatarGradient(msg.sender_name)}`}>
+              <div key={msg.id} className="flex gap-4 items-start py-1 animate-[slideIn_0.3s_ease-out] group relative">
+                <div className={`w-9 h-9 rounded-full shrink-0 flex items-center justify-center text-xs font-black mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
                   {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                 </div>
                 <div className="flex flex-col flex-1 min-w-0">
-                  <div className="flex items-baseline gap-2 mb-1">
+                  <div className="flex items-center gap-2.5 mb-2">
                     <span className={`text-xs font-bold ${getSenderNameColor(msg.sender_name, msg.sender_role)}`}>
                       {msg.sender_name}
                     </span>
-                    <span className={`text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
+                    <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
                       {msg.sender_role}
                     </span>
                     <span className="text-[10px] text-white/40 ml-auto font-mono">
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className={`rounded-2xl rounded-tl-none px-4 py-2 text-sm text-white/95 inline-block w-fit max-w-[90%] leading-relaxed border break-words ${
+                  <div className={`rounded-2xl rounded-tl-none px-5 py-3 text-sm text-white/95 inline-block w-fit max-w-[92%] leading-relaxed border break-words ${
                     isSelf 
                       ? 'bg-gradient-to-r from-purple-600/35 via-fuchsia-600/35 to-pink-600/35 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
                       : 'bg-gradient-to-r from-white/[0.08] to-white/[0.04] border-white/10 hover:border-white/20'
