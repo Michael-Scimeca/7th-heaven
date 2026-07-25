@@ -744,8 +744,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Cancellation Guidelines */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-16 text-left">
-            <div className="bg-gradient-to-br from-[#0c051a] to-[#140b28] border border-[var(--color-accent)]/20 rounded-3xl p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-[var(--color-accent)]/10 rounded-full blur-[80px]" />
+            <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">⚠️</span>
                 <h3 className="text-lg font-black uppercase text-white tracking-wide">Crucial Booking Policy</h3>
@@ -756,7 +755,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <p className="text-white/60 text-xs md:text-sm leading-relaxed mb-6">
                 To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
               </p>
-              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-3">
+              <div className="py-2 space-y-3">
                 <p className="text-xs text-white/50">
                   📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
                 </p>
@@ -769,8 +768,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-[#050c1a] to-[#0b1428] border border-cyan-500/20 rounded-3xl p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/10 rounded-full blur-[80px]" />
+            <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">⚙️</span>
                 <h3 className="text-lg font-black uppercase text-white tracking-wide">How To Book</h3>
@@ -794,8 +792,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </ul>
             </div>
 
-            <div className="bg-gradient-to-br from-[#100318] to-[#1d0d2b] border border-purple-500/20 rounded-3xl p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-[80px]" />
+            <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">📅</span>
                 <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
