@@ -599,8 +599,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* Pricing Grid */}
           <div className="space-y-16">
             {/* GROUP RATES */}
-            <div className="bg-[#0b0b12] border border-cyan-500/20 rounded-3xl p-6 md:p-8 relative overflow-hidden text-left">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+            <div className="bg-transparent p-0 relative text-left">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/5">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Exclusive Group Deal</span>
@@ -636,31 +635,27 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div
                     key={idx}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className={`bg-black/30 border rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(6,182,212,0.25)] ${
-                      room.status === "soldout" ? "border-white/5 opacity-75 hover:border-cyan-500/40" :
-                      room.status === "warning" ? "border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.05)] hover:border-amber-500/60" :
-                      "border-white/10 hover:border-cyan-500/60"
-                    }`}
+                    className="bg-transparent border-0 p-2 flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02]"
                   >
                     <div>
                       {room.image && (
-                        <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 border border-white/5 bg-black/45 text-center">
+                        <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 text-center">
                           <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
                       <div className="flex justify-between items-start gap-2 mb-3 text-left">
                         <span className="text-2xl">{room.icon}</span>
                         <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
-                          room.status === "soldout" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
-                          room.status === "warning" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
-                          "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                          room.status === "soldout" ? "bg-red-500/10 text-red-400" :
+                          room.status === "warning" ? "bg-amber-500/10 text-amber-400" :
+                          "bg-cyan-500/10 text-cyan-400"
                         }`}>{room.badge}</span>
                       </div>
                       <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
                       <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                     </div>
 
-                    <div className="mt-6 border-t border-white/5 pt-4 text-left">
+                    <div className="mt-4 pt-2 text-left">
                       {room.price === "Prevailing" ? (
                         <p className="text-xs text-white/40 italic font-medium">Prevailing Rates Only</p>
                       ) : (
@@ -687,8 +682,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
             {/* PREVAILING RATES */}
             {activePriceYear === 2027 && (
-              <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 rounded-3xl p-6 md:p-8 relative overflow-hidden text-left">
-                <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--color-accent)]/5 rounded-full blur-[100px] pointer-events-none" />
+              <div className="bg-transparent p-0 relative text-left">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/5">
                   <div>
                     <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Variable Market Pricing</span>
@@ -711,23 +705,23 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <div
                       key={idx}
                       onClick={() => handleSelectCabin(room.selectValue)}
-                      className="bg-black/30 border border-white/10 hover:border-[var(--color-accent)]/60 rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(133,29,239,0.25)]"
+                      className="bg-transparent border-0 p-2 flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02]"
                     >
                       <div>
                         {room.image && (
-                          <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 border border-white/5 bg-black/45 text-center">
+                          <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 text-center">
                             <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           </div>
                         )}
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           <span className="text-2xl">{room.icon}</span>
-                          <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider bg-white/5 text-white/40 border border-white/10">{room.label}</span>
+                          <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider text-white/40">{room.label}</span>
                         </div>
                         <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
                         <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                       </div>
 
-                      <div className="mt-6 border-t border-white/5 pt-4 text-left">
+                      <div className="mt-4 pt-2 text-left">
                         <div className="flex items-baseline gap-1.5">
                           <span className="text-xl font-black text-white">{room.price}</span>
                           <span className="text-2xs text-white/40">USD pp</span>
