@@ -193,36 +193,74 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
   };
 
-  // Play ship-at-port.mp3 (Port stops) vs ship-sea.mp3 (At Sea days) when ship is in proximity
+  const fadeAudioIn = (audio: HTMLAudioElement, targetVolume = 0.5, durationMs = 800) => {
+    audio.play().catch(() => {});
+    const startTime = performance.now();
+    const startVol = audio.volume;
+
+    const fade = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / durationMs);
+      audio.volume = startVol + (targetVolume - startVol) * progress;
+      if (progress < 1) {
+        requestAnimationFrame(fade);
+      }
+    };
+    requestAnimationFrame(fade);
+  };
+
+  const fadeAudioOut = (audio: HTMLAudioElement | null, durationMs = 800) => {
+    if (!audio || audio.paused) return;
+    const startTime = performance.now();
+    const startVol = audio.volume;
+    if (startVol <= 0.01) {
+      audio.pause();
+      return;
+    }
+
+    const fade = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / durationMs);
+      audio.volume = Math.max(0, startVol * (1 - progress));
+      if (progress < 1) {
+        requestAnimationFrame(fade);
+      } else {
+        audio.pause();
+      }
+    };
+    requestAnimationFrame(fade);
+  };
+
+  // Play ship-at-port.mp3 (Port stops) vs ship-sea.mp3 (At Sea days) with smooth fade in / fade out
   useEffect(() => {
     if (!itinerary || itinerary.length === 0) return;
     const currentDay = itinerary[activeNodeIndex];
     const isSea = isAtSeaDay(currentDay);
 
     if (soundMuted || !isShipInNodeProximity) {
-      if (portAudioRef.current) portAudioRef.current.pause();
-      if (seaAudioRef.current) seaAudioRef.current.pause();
+      fadeAudioOut(portAudioRef.current);
+      fadeAudioOut(seaAudioRef.current);
       return;
     }
 
     if (isSea) {
-      // Ship is at an "At Sea" section -> play ship-sea.mp3, pause port audio
-      if (portAudioRef.current) portAudioRef.current.pause();
+      // Ship is at an "At Sea" section -> fade out port audio, fade in sea audio
+      fadeAudioOut(portAudioRef.current);
       if (!seaAudioRef.current) {
         seaAudioRef.current = new Audio('/audio/ship-sea.mp3');
         seaAudioRef.current.loop = true;
-        seaAudioRef.current.volume = 0.5;
+        seaAudioRef.current.volume = 0;
       }
-      seaAudioRef.current.play().catch(() => {});
+      fadeAudioIn(seaAudioRef.current, 0.5);
     } else {
-      // Ship is at a "Port" section -> play ship-at-port.mp3, pause sea audio
-      if (seaAudioRef.current) seaAudioRef.current.pause();
+      // Ship is at a "Port" section -> fade out sea audio, fade in port audio
+      fadeAudioOut(seaAudioRef.current);
       if (!portAudioRef.current) {
         portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
         portAudioRef.current.loop = true;
-        portAudioRef.current.volume = 0.5;
+        portAudioRef.current.volume = 0;
       }
-      portAudioRef.current.play().catch(() => {});
+      fadeAudioIn(portAudioRef.current, 0.5);
     }
   }, [activeNodeIndex, isShipInNodeProximity, itinerary, soundMuted]);
 
