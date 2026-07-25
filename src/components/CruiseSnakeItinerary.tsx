@@ -1077,7 +1077,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const cardContent = (
             <div className="group">
               {dayImage && (
-                <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden mb-6 border border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.5)] group-hover:border-cyan-500/40 transition-all duration-500">
+                <div className="relative aspect-[21/9] -mx-10 -mt-9 w-[calc(100%+80px)] rounded-t-[24px] overflow-hidden mb-6 border-b border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.5)] group-hover:border-cyan-500/40 transition-all duration-500">
                   <img 
                     src={dayImage} 
                     alt={day.theme} 
