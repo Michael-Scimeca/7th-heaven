@@ -203,7 +203,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     const fade = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(1, elapsed / durationMs);
-      audio.volume = startVol + (targetVolume - startVol) * progress;
+      const nextVol = startVol + (targetVolume - startVol) * progress;
+      audio.volume = Math.max(0, Math.min(1, nextVol));
       if (progress < 1) {
         requestAnimationFrame(fade);
       }
@@ -216,6 +217,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     const startTime = performance.now();
     const startVol = audio.volume;
     if (startVol <= 0.01) {
+      audio.volume = 0;
       audio.pause();
       return;
     }
@@ -223,7 +225,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     const fade = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(1, elapsed / durationMs);
-      audio.volume = Math.max(0, startVol * (1 - progress));
+      const nextVol = startVol * (1 - progress);
+      audio.volume = Math.max(0, Math.min(1, nextVol));
       if (progress < 1) {
         requestAnimationFrame(fade);
       } else {
