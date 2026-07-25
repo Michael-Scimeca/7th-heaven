@@ -350,28 +350,28 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   }
 
   return (
-    <div className="border border-white/10 rounded-2xl p-4 flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden">
+    <div className="border border-white/10 rounded-2xl p-3 flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden">
       {/* Header */}
-      <div className="py-3 border-b border-white/10 flex items-center justify-between z-10 relative">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-sm shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+      <div className="py-2 px-1 border-b border-white/10 flex items-center justify-between z-10 relative">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-xs shadow-[0_0_12px_rgba(168,85,247,0.5)]">
             💬
           </div>
           <div>
-            <h3 className="font-black text-white text-sm tracking-wide flex items-center gap-2">
+            <h3 className="font-black text-white text-xs tracking-wide flex items-center gap-1.5">
               Passenger Lounge
               <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 px-1.5 py-0.5 rounded">
                 LIVE
               </span>
             </h3>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]" />
-              <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Cruisers Online</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]" />
+              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Cruisers Online</span>
             </div>
           </div>
         </div>
         {messages.length > 0 && (
-          <span className="min-w-[28px] h-[28px] flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-black px-2 shadow-[0_0_12px_rgba(217,70,239,0.5)] border border-purple-400/40">
+          <span className="min-w-[26px] h-[26px] flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-[11px] font-black px-2 shadow-[0_0_12px_rgba(217,70,239,0.5)] border border-purple-400/40">
             {messages.length > 99 ? '99+' : messages.length}
           </span>
         )}
@@ -379,10 +379,10 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
       {/* Pinned Message */}
       {pinnedMessage && (
-        <div className="bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border-b border-amber-500/30 px-4 py-3 flex items-start gap-3 relative z-10 animate-[slideDown_0.3s_ease-out]">
-          <span className="text-amber-400 text-sm shrink-0">📌</span>
+        <div className="bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border-b border-amber-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
+          <span className="text-amber-400 text-xs shrink-0">📌</span>
           <div className="flex-1">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-300 mb-0.5">Crew Announcement</h4>
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-amber-300 mb-0.5">Crew Announcement</h4>
             <p className="text-amber-100/90 text-xs font-medium leading-relaxed">{pinnedMessage}</p>
           </div>
         </div>
@@ -390,10 +390,10 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
       {/* User Warning Alert */}
       {member?.is_warned && (
-        <div className="bg-amber-500/15 border-b border-amber-500/30 px-4 py-3 flex items-start gap-3 relative z-10 animate-[slideDown_0.3s_ease-out]">
-          <span className="text-amber-400 text-sm shrink-0">⚠️</span>
+        <div className="bg-amber-500/15 border-b border-amber-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
+          <span className="text-amber-400 text-xs shrink-0">⚠️</span>
           <div className="flex-1">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Warning Alert</h4>
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Warning Alert</h4>
             <p className="text-amber-100/90 text-xs font-medium leading-relaxed">
               You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
             </p>
@@ -403,10 +403,10 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
       {/* User Banned Alert */}
       {member?.is_banned && (
-        <div className="bg-red-500/15 border-b border-red-500/30 px-4 py-3 flex items-start gap-3 relative z-10 animate-[slideDown_0.3s_ease-out]">
-          <span className="text-red-400 text-sm shrink-0">🚫</span>
+        <div className="bg-red-500/15 border-b border-red-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
+          <span className="text-red-400 text-xs shrink-0">🚫</span>
           <div className="flex-1">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
             <p className="text-red-100/90 text-xs font-medium leading-relaxed">
               You have been permanently banned from sending messages in this chat.
             </p>
@@ -414,8 +414,8 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         </div>
       )}
 
-      {/* Messages Area */}
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-5 space-y-6 scrollbar-hide relative bg-transparent">
+      {/* Messages Area — Compact container margins for maximum message room */}
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-3 px-0.5 space-y-3 scrollbar-hide relative bg-transparent">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
@@ -434,7 +434,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 ? "bg-red-500/10 border-red-500/20 text-red-200" 
                 : "bg-purple-500/10 border-purple-500/20 text-purple-200";
               return (
-                <div key={msg.id} className={`flex items-center gap-3 p-3.5 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
+                <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
                   <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
                   <div className="flex-1 leading-relaxed">
                     {msg.content}
@@ -449,23 +449,23 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
             const isSelf = member?.name && msg.sender_name === member.name;
 
             return (
-              <div key={msg.id} className="flex gap-4 items-start py-1 animate-[slideIn_0.3s_ease-out] group relative">
-                <div className={`w-9 h-9 rounded-full shrink-0 flex items-center justify-center text-xs font-black mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
+              <div key={msg.id} className="flex gap-2.5 items-start py-0.5 animate-[slideIn_0.3s_ease-out] group relative">
+                <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
                   {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                 </div>
                 <div className="flex flex-col flex-1 min-w-0">
-                  <div className="flex items-center gap-2.5 mb-2">
+                  <div className="flex items-center gap-2 mb-1">
                     <span className={`text-xs font-bold ${getSenderNameColor(msg.sender_name, msg.sender_role)}`}>
                       {msg.sender_name}
                     </span>
-                    <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
+                    <span className={`text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
                       {msg.sender_role}
                     </span>
                     <span className="text-[10px] text-white/40 ml-auto font-mono">
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className={`rounded-2xl rounded-tl-none px-5 py-3 text-sm text-white/95 inline-block w-fit max-w-[92%] leading-relaxed border break-words ${
+                  <div className={`rounded-2xl rounded-tl-none px-3.5 py-2 text-sm text-white/95 inline-block w-fit max-w-[98%] leading-normal border break-words ${
                     isSelf 
                       ? 'bg-gradient-to-r from-purple-600/35 via-fuchsia-600/35 to-pink-600/35 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
                       : 'bg-gradient-to-r from-white/[0.08] to-white/[0.04] border-white/10 hover:border-white/20'
