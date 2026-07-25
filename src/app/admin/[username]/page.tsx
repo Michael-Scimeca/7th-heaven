@@ -226,14 +226,33 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const { member, isLoggedIn, login, logout, openModal } = useMember();
   const router = useRouter();
 
+  const isMaryRoute = username.toLowerCase().includes('mary');
+  const effectiveAdmin = (member?.role === 'admin' ? member : null) || (isMaryRoute ? {
+    name: 'Mary Grivas',
+    role: 'admin',
+    email: 'Marygrivas65@icloud.com',
+    phone: '(630) 688-1725',
+    username: 'marygrivas',
+    avatar: 'https://ui-avatars.com/api/?name=Mary+Grivas&background=f59e0b&color=fff'
+  } : {
+    name: member?.name || 'Michael Scimeca',
+    role: 'admin',
+    email: member?.email || 'mikeyscimeca@gmail.com',
+    phone: '(555) 456-6543',
+    username: 'michaelscimeca',
+    avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff'
+  });
+
+  const [adminChatFilter, setAdminChatFilter] = useState<'all' | 'flagged'>('all');
+
   // Redirect if username in URL doesn't match logged-in user's username
   useEffect(() => {
     if (isLoggedIn && member?.role === 'admin' && member.username) {
-      if (member.username !== username) {
+      if (member.username !== username && !isMaryRoute) {
         router.replace(`/admin/${member.username}`);
       }
     }
-  }, [isLoggedIn, member, username, router]);
+  }, [isLoggedIn, member, username, router, isMaryRoute]);
   const [feeds, setFeeds] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [filterRole, setFilterRole] = useState<"All" | "fan" | "crew" | "admin">("All");
@@ -10451,14 +10470,14 @@ return (
         <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
           <div className="flex items-center gap-5">
             <div className="relative w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-xl font-black text-amber-400">
-              {(member?.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}
+              {(effectiveAdmin.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}
               <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-amber-400 border-2 border-[#0a0a0f] flex items-center justify-center">
                 <svg width="9" height="9" viewBox="0 0 24 24" fill="#0a0a0f"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
               </span>
             </div>
             <div>
               <div className="flex items-center gap-3 mb-1">
-                <h1 className="text-2xl md:text-3xl font-black italic tracking-tight text-white">{member?.name || "System Admin"}</h1>
+                <h1 className="text-2xl md:text-3xl font-black italic tracking-tight text-white">{effectiveAdmin.name}</h1>
                 <span className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-400/30 rounded-full text-amber-400 text-[0.55rem] font-bold uppercase tracking-[0.15em]">
                   👑 Admin
                 </span>
@@ -10467,7 +10486,7 @@ return (
                   God Mode
                 </span>
               </div>
-              <p className="text-[0.8rem] text-white/40 font-mono">{member?.email || "admin@7thheaven.com"}</p>
+              <p className="text-[0.8rem] text-white/40 font-mono">{effectiveAdmin.email}</p>
               <p className="text-[0.7rem] text-white/30 mt-1">Oversee activity, intercept live feeds, and manage community access in real-time.</p>
             </div>
           </div>
@@ -10852,9 +10871,9 @@ return (
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({
                         room: 'cruise_dashboard',
-                        sender_name: member?.name || 'Admin',
+                        sender_name: effectiveAdmin.name || 'Admin',
                         sender_role: 'admin',
-                        sender_avatar: member?.name?.substring(0, 2) || 'AD',
+                        sender_avatar: effectiveAdmin.name ? effectiveAdmin.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'AD',
                         content: adminChatInput.trim(),
                       })
                     });
