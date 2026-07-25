@@ -137,8 +137,18 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const [tuning, setTuning] = useState<CruiseTuningConfig>(DEFAULT_TUNING);
   const shipRotYRef = useRef(0);
   const shipScaleFactorRef = useRef(1.0);
+  const activeNodeRef = useRef(0);
+  const [activeNodeIndex, setActiveNodeIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  const isAtSeaDay = (day?: ItineraryDay) => {
+    if (!day) return false;
+    const loc = (day.location || '').toLowerCase();
+    const theme = (day.theme || '').toLowerCase();
+    const label = (day.dayLabel || '').toLowerCase();
+    return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -292,12 +302,21 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
         let minNodeDist = 999;
-        nodes.forEach(node => {
+        let closestIdx = 0;
+        nodes.forEach((node, i) => {
           const ndx = pt.x - node.x;
           const ndy = pt.y - node.y;
           const dist = Math.sqrt(ndx * ndx + ndy * ndy);
-          if (dist < minNodeDist) minNodeDist = dist;
+          if (dist < minNodeDist) {
+            minNodeDist = dist;
+            closestIdx = i;
+          }
         });
+
+        if (activeNodeRef.current !== closestIdx) {
+          activeNodeRef.current = closestIdx;
+          setActiveNodeIndex(closestIdx);
+        }
 
         const dipRadius = t.nodeDipRadius ?? 65;
         const minScale = t.nodeMinScale ?? 0.0;
@@ -959,41 +978,47 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           </Canvas>
         </div>
 
-        {/* Node circle ring HTML overlays — crisp 1:1 circle with no blur glow */}
-        {nodes.map((node, i) => (
-          <div
-            key={`node-ring-${i}`}
-            style={{
-              position: 'absolute',
-              left: `${(node.x / SVG_W) * 100}%`,
-              top: `${(node.y / totalH) * 100}%`,
-              transform: 'translate(-50%, -50%)',
-              width: isMobile ? 48 : 68,
-              height: isMobile ? 48 : 68,
-              borderRadius: '50%',
-              backgroundColor: '#0a0a12',
-              border: '2px solid #06b6d4',
-              boxShadow: 'none',
-              zIndex: 9,
-              pointerEvents: 'none',
-            }}
-          />
-        ))}
+        {/* Node circle ring HTML overlays — crisp 1:1 circle with video at sea / port */}
+        {nodes.map((node, i) => {
+          const day = itinerary[i];
+          const isSea = isAtSeaDay(day);
+          const isActive = activeNodeIndex === i;
+          const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
 
-        {/* Emoji icon overlays — absolutely positioned at each SVG node's exact coordinates */}
-        {nodes.map((node, i) => (
-          <div
-            key={`icon-${i}`}
-            className={styles.nodeIcon}
-            style={{
-              left: `${(node.x / SVG_W) * 100}%`,
-              top: `${(node.y / totalH) * 100}%`,
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            {DAY_ICONS[i % DAY_ICONS.length]}
-          </div>
-        ))}
+          return (
+            <div
+              key={`node-ring-${i}`}
+              style={{
+                position: 'absolute',
+                left: `${(node.x / SVG_W) * 100}%`,
+                top: `${(node.y / totalH) * 100}%`,
+                transform: 'translate(-50%, -50%)',
+                width: isMobile ? (isActive ? 64 : 48) : (isActive ? 84 : 68),
+                height: isMobile ? (isActive ? 64 : 48) : (isActive ? 84 : 68),
+                borderRadius: '50%',
+                backgroundColor: '#0a0a12',
+                border: isActive ? '3px solid #06b6d4' : '2px solid #06b6d4',
+                boxShadow: isActive ? '0 0 35px rgba(6,182,212,0.95), 0 0 70px rgba(6,182,212,0.6)' : '0 0 15px rgba(6,182,212,0.35)',
+                zIndex: isActive ? 12 : 9,
+                overflow: 'hidden',
+                transition: 'width 0.3s ease, height 0.3s ease, box-shadow 0.3s ease, border 0.3s ease',
+                pointerEvents: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <video
+                src={videoSrc}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
+              />
+            </div>
+          );
+        })}
       </div>
     </section>
   );
