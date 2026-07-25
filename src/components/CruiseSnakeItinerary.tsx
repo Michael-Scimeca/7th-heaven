@@ -351,14 +351,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           }
         });
 
-        const inProximity = minNodeDist < 50;
-        const isOverNode = minNodeDist < 45;
-
-        // Video triggers ONLY when 3D ship actually arrives directly over that section circle (dist < 45px)
-        if (isOverNode && !visitedNodesRef.current[closestIdx]) {
-          visitedNodesRef.current[closestIdx] = true;
-          setVisitedNodes(prev => ({ ...prev, [closestIdx]: true }));
-        }
+        const inProximity = minNodeDist < 90;
 
         if (activeNodeRef.current !== closestIdx) {
           activeNodeRef.current = closestIdx;
@@ -1049,12 +1042,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           </Canvas>
         </div>
 
-        {/* Node circle ring HTML overlays — crisp 1:1 circle with video at sea / port */}
+        {/* Node circle ring HTML overlays — crisp 1:1 circle with video ONLY when ship is in proximity */}
         {nodes.map((node, i) => {
           const day = itinerary[i];
           const isSea = isAtSeaDay(day);
           const isActive = activeNodeIndex === i;
-          const isVisited = visitedNodes[i];
+          const isPlayingVideo = isActive && isShipInNodeProximity;
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
           const dayImg = isSea ? '/images/cruise/at-sea.png' : (day?.photo || DAY_IMAGES[i % 6]);
 
@@ -1081,7 +1074,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 justifyContent: 'center',
               }}
             >
-              {isVisited ? (
+              {isPlayingVideo ? (
                 <video
                   src={videoSrc}
                   autoPlay
