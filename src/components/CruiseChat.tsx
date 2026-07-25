@@ -350,7 +350,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   }
 
   return (
-    <div className="border border-white/10 rounded-2xl p-4 flex flex-col h-[calc(100vh-12rem+300px)] min-h-[1000px] overflow-hidden">
+    <div className="border border-white/10 rounded-2xl p-4 flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden">
       {/* Header */}
       <div className="py-3 border-b border-white/10 flex items-center justify-between z-10 relative">
         <div className="flex items-center gap-3">
