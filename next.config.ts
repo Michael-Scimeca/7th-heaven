@@ -16,9 +16,7 @@ const nextConfig: NextConfig = {
   },
   outputFileTracingExcludes: {
     '*': [
-      'node_modules/@swc/**',
-      'node_modules/esbuild/**',
-      'node_modules/webpack/**',
+      'node_modules/@tensorflow/tfjs/**',
       'node_modules/@tensorflow/**',
       'node_modules/nsfwjs/**',
       'node_modules/leaflet/**',
@@ -26,9 +24,7 @@ const nextConfig: NextConfig = {
       'node_modules/swiper/**',
       'node_modules/gsap/**',
       'node_modules/lottie-web/**',
-      'node_modules/@shopify/**',
       'public/movie/**',
-      'public/images/**',
     ],
   },
   images: {
