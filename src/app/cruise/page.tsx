@@ -148,6 +148,16 @@ export default function CruisePage() {
   const [activeSpotlightPort, setActiveSpotlightPort] = useState<number>(0);
   const portCarouselRef = useRef<HTMLDivElement>(null);
 
+  const handleSelectCabin = (selectVal?: string) => {
+    if (selectVal) {
+      setFormData(f => ({ ...f, cabinPreference: selectVal }));
+    }
+    const target = document.getElementById("signup") || document.getElementById("book-now");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["book-now", "itinerary", "bands-ports", "pricing", "ship-explorer", "faqs"];
@@ -603,34 +613,38 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {(activePriceYear === 2027
                   ? [
-                      { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪" },
-                      { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included" },
-                      { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included" },
-                      { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
-                      { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
-                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included" },
-                      { code: "IG", title: "Infinite Grand Suite", price: "Prevailing", status: "soldout", badge: "Sold Out - Prevailing Only", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑" },
+                      { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", selectValue: "group_n5" },
+                      { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                      { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included", selectValue: "group_if" },
+                      { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d4" },
+                      { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d2" },
+                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included", selectValue: "group_i1" },
+                      { code: "IG", title: "Infinite Grand Suite", price: "Prevailing", status: "soldout", badge: "Sold Out - Prevailing Only", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", selectValue: "prev_jy" },
                     ]
                   : [
-                      { code: "Q2", title: "Interior Plus", price: "$1,832.98", status: "info", badge: "Available", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", inclusions: "Gratuities Included" },
-                      { code: "IF", title: "Infinite Central Park", price: "$2,032.98", status: "info", badge: "Available", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included" },
-                      { code: "N5", title: "Ocean View", price: "$2,162.98", status: "info", badge: "Available", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included" },
-                      { code: "D4", title: "Ocean View Balcony", price: "$2,472.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
-                      { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included" },
-                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included" },
-                      { code: "JY", title: "Sky Junior Suite", price: "$8,122.98", status: "warning", badge: "1 Available!", image: "/images/cruise/jy.png", icon: "👑", inclusions: "Gratuities Included" },
-                      { code: "IG", title: "Infinite Grand Suite", price: "$7,195.98", status: "warning", badge: "1 Available!", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", inclusions: "Gratuities Included" },
+                      { code: "Q2", title: "Interior Plus", price: "$1,832.98", status: "info", badge: "Available", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                      { code: "IF", title: "Infinite Central Park", price: "$2,032.98", status: "info", badge: "Available", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included", selectValue: "group_if" },
+                      { code: "N5", title: "Ocean View", price: "$2,162.98", status: "info", badge: "Available", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                      { code: "D4", title: "Ocean View Balcony", price: "$2,472.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d4" },
+                      { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d2" },
+                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included", selectValue: "group_i1" },
+                      { code: "JY", title: "Sky Junior Suite", price: "$8,122.98", status: "warning", badge: "1 Available!", image: "/images/cruise/jy.png", icon: "👑", inclusions: "Gratuities Included", selectValue: "prev_jy" },
+                      { code: "IG", title: "Infinite Grand Suite", price: "$7,195.98", status: "warning", badge: "1 Available!", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", inclusions: "Gratuities Included", selectValue: "prev_jy" },
                     ]
                 ).map((room, idx) => (
-                  <div key={idx} className={`bg-black/30 border rounded-2xl p-5 flex flex-col justify-between transition-all ${
-                    room.status === "soldout" ? "border-white/5 opacity-55" :
-                    room.status === "warning" ? "border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.05)] hover:border-amber-500/50" :
-                    "border-white/10 hover:border-cyan-500/40"
-                  }`}>
+                  <div
+                    key={idx}
+                    onClick={() => handleSelectCabin(room.selectValue)}
+                    className={`bg-black/30 border rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(6,182,212,0.25)] ${
+                      room.status === "soldout" ? "border-white/5 opacity-75 hover:border-cyan-500/40" :
+                      room.status === "warning" ? "border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.05)] hover:border-amber-500/60" :
+                      "border-white/10 hover:border-cyan-500/60"
+                    }`}
+                  >
                     <div>
                       {room.image && (
                         <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 border border-white/5 bg-black/45 text-center">
-                          <img src={room.image} alt={room.title} className="w-full h-full object-cover" />
+                          <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
                       <div className="flex justify-between items-start gap-2 mb-3 text-left">
@@ -657,6 +671,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {room.inclusions && (
                         <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                       )}
+                      <button 
+                        type="button"
+                        className="mt-4 w-full py-2.5 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 group-hover:text-white font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.15)]"
+                      >
+                        <span>Select & Book Cabin</span>
+                        <span className="group-hover:translate-x-1 transition-transform">→</span>
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -679,27 +700,27 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
-                    { code: "ZI", title: "Inside GTY", price: "$1,430.77", label: "Guaranteed Cabin", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪" },
-                    { code: "YO", title: "Ocean View GTY", price: "$1,691.27", label: "Guaranteed Cabin", image: "/images/cruise/n5.jpg", icon: "🌊" },
-                    { code: "IF", title: "Infinite Central Park", price: "$1,907.27", label: "Central Park View", image: "/images/cruise/if.jpg", icon: "🌳" },
-                    { code: "XB", title: "Oceanview Balcony GTY", price: "$1,903.77", label: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅" },
-                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,237.77", label: "Balcony Access", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢" },
-                    { code: "JY", title: "Sky Junior Suite", price: "$5,157.77", label: "Suite Class Luxury", image: "/images/cruise/jy.png", icon: "👑" },
-                  ].map((room: { code: string; title: string; price: string; label: string; image: string; icon: string; warning?: boolean; }, idx) => (
-                    <div key={idx} className={`bg-black/30 border rounded-2xl p-5 flex flex-col justify-between transition-all ${
-                      room.warning ? "border-amber-500/30 hover:border-amber-500/50" : "border-white/10 hover:border-[var(--color-accent)]/30"
-                    }`}>
+                    { code: "ZI", title: "Inside GTY", price: "$1,430.77", label: "Guaranteed Cabin", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", selectValue: "prev_zi" },
+                    { code: "YO", title: "Ocean View GTY", price: "$1,691.27", label: "Guaranteed Cabin", image: "/images/cruise/n5.jpg", icon: "🌊", selectValue: "prev_yo" },
+                    { code: "IF", title: "Infinite Central Park", price: "$1,907.27", label: "Central Park View", image: "/images/cruise/if.jpg", icon: "🌳", selectValue: "prev_if" },
+                    { code: "XB", title: "Oceanview Balcony GTY", price: "$1,903.77", label: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", selectValue: "prev_xb" },
+                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,237.77", label: "Balcony Access", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", selectValue: "prev_i1" },
+                    { code: "JY", title: "Sky Junior Suite", price: "$5,157.77", label: "Suite Class Luxury", image: "/images/cruise/jy.png", icon: "👑", selectValue: "prev_jy" },
+                  ].map((room, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => handleSelectCabin(room.selectValue)}
+                      className="bg-black/30 border border-white/10 hover:border-[var(--color-accent)]/60 rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(133,29,239,0.25)]"
+                    >
                       <div>
                         {room.image && (
                           <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 border border-white/5 bg-black/45 text-center">
-                            <img src={room.image} alt={room.title} className="w-full h-full object-cover" />
+                            <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           </div>
                         )}
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           <span className="text-2xl">{room.icon}</span>
-                          <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
-                            room.warning ? "bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse" : "bg-white/5 text-white/40 border border-white/10"
-                          }`}>{room.label}</span>
+                          <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider bg-white/5 text-white/40 border border-white/10">{room.label}</span>
                         </div>
                         <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
                         <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
@@ -711,6 +732,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <span className="text-2xs text-white/40">USD pp</span>
                         </div>
                         <span className="text-[9px] text-white/20 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
+                        <button 
+                          type="button"
+                          className="mt-4 w-full py-2.5 px-4 rounded-xl bg-[var(--color-accent)]/15 hover:bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/30 text-purple-300 group-hover:text-white font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(133,29,239,0.15)]"
+                        >
+                          <span>Select Prevailing Rate</span>
+                          <span className="group-hover:translate-x-1 transition-transform">→</span>
+                        </button>
                       </div>
                     </div>
                   ))}
