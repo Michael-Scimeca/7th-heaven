@@ -115,9 +115,9 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
   shipScale: 1.0,
-  shipOffsetY: -0.2,
+  shipOffsetY: 0.3,
   anchorOffsetX: 0,
-  anchorOffsetY: 0,
+  anchorOffsetY: -26,
   minShipDist: 50,
   maxShipDistPad: 40,
   lineWidth: 6,
@@ -153,17 +153,16 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const shipContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs   = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Load saved tuning from localStorage on mount (with auto-sanitization for dead-center alignment)
+  // Load saved tuning from localStorage on mount (position boat ABOVE the path line)
   useEffect(() => {
     try {
       const savedStr = localStorage.getItem('7h_cruise_tuning');
       if (savedStr) {
         const saved = JSON.parse(savedStr);
-        // Guarantee ship is locked dead-center on the path line across all domains
         saved.shipScale = 1.0;
         saved.anchorOffsetX = 0;
-        saved.anchorOffsetY = 0;
-        saved.shipOffsetY = -0.2;
+        saved.anchorOffsetY = -26;
+        saved.shipOffsetY = 0.3;
         setTuning({ ...DEFAULT_TUNING, ...saved });
       }
     } catch {}
