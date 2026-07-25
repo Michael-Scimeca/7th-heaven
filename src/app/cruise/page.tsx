@@ -1602,7 +1602,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </section>
 
       {/* ── SECTION 2: BANDS & PORTS ── */}
-      <section id="bands-ports" className="py-20 site-container border-t border-white/5">
+      <section id="bands-ports" className="pt-10 pb-20 site-container border-t border-white/5">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Featured Artists <span className="accent-gradient-text">& Ports</span>

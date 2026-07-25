@@ -202,9 +202,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     } catch {}
   };
 
-  // Canvas height: last node Y + full card height room below it
+  // Canvas height: last node Y + card height room
   const lastNodeY = (itinerary.length - 1) * STEP_H + 50;
-  const totalH = lastNodeY + 700;
+  const totalH = lastNodeY + 220;
 
   /* ── Node positions dynamically computed based on layoutMode ── */
   const nodes = itinerary.map((_, i) => {
