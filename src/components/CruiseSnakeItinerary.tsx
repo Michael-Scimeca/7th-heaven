@@ -71,8 +71,8 @@ type Props = { itinerary: ItineraryDay[] };
 /* ── Layout constants (SVG coordinate space) ── */
 const SVG_W   = 1400;
 const STEP_H  = 680;
-const LEFT_X  = 36;   // Flush left edge (2.5% of 1400)
-const RIGHT_X = 1364; // Flush right edge (97.5% of 1400)
+const LEFT_X  = 68;   // Safe left margin (prevents circle border clipping)
+const RIGHT_X = 1332; // Safe right margin (prevents circle border clipping)
 const NODE_R  = 32;
 
 const DAY_ICONS = ['📍', '🎸', '🏝️', '🥂', '⚓', '🌊', '🌴'];
