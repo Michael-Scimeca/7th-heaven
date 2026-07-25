@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const getImageStyle = (idx: number) => {
   switch (idx) {
@@ -104,10 +105,14 @@ interface PreloaderProps {
 }
 
 export default function Preloader({ forceShow = false, onComplete }: PreloaderProps = {}) {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
   const [percent, setPercent] = useState(0);
   const [visible, setVisible] = useState(() => {
     if (typeof window === "undefined") return true;
     if (forceShow) return true;
+    if (window.location.pathname !== "/") return false;
     return !sessionStorage.getItem("7h_preloaded");
   });
   const [fadeOut, setFadeOut] = useState(false);
@@ -135,16 +140,29 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
   useEffect(() => { isLoadedRef.current = isLoaded; }, [isLoaded]);
 
   useEffect(() => {
+    if (!isHomePage && !forceShow) return;
+
     const handleLoad = () => setIsLoaded(true);
     if (document.readyState === "complete") {
       setIsLoaded(true);
     } else {
       window.addEventListener("load", handleLoad);
     }
-    return () => window.removeEventListener("load", handleLoad);
-  }, []);
+
+    // Failsafe timer: Guarantee isLoaded = true after 1200ms so preloader NEVER freezes
+    const failsafeTimer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 1200);
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+      clearTimeout(failsafeTimer);
+    };
+  }, [isHomePage, forceShow]);
 
   useEffect(() => {
+    if (!isHomePage && !forceShow) return;
+
     // Lock scroll on both html and body (covers iOS safari, desktop, touch)
     const html = document.documentElement;
     const body = document.body;
@@ -198,8 +216,9 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       clearTimeout(timer);
       unlock();
     };
-  }, []);
+  }, [isHomePage, forceShow]);
 
+  if (!isHomePage && !forceShow) return null;
   if (!visible) return null;
 
   return (

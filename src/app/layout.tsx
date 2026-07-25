@@ -22,6 +22,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import Preloader from "@/components/Preloader";
+import PageTransition from "@/components/PageTransition";
 import CursorFollower from "@/components/CursorFollower";
 
 import localFont from "next/font/local";
@@ -173,7 +174,7 @@ export default async function RootLayout({
           <SmoothScroll>
             <div className="flex flex-col min-h-screen">
               <Header />
-              <main className="flex-grow min-h-[70vh]">{children}</main>
+              <PageTransition>{children}</PageTransition>
               <Footer />
               <SanityLive />
               {isDraftMode && <VisualEditing />}
