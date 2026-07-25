@@ -50,17 +50,17 @@ html.lenis, html.lenis body {
  --font-heading: var(--font-rockstar);
  --font-body: var(--font-barlow);
 
- /* Fluid Typography Sizing */
- --font-size-xs: clamp(0.7rem, 0.65rem + 0.2vw, 0.8rem);
- --font-size-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.95rem);
- --font-size-base: clamp(0.9rem, 0.85rem + 0.3vw, 1.1rem);
- --font-size-lg: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
- --font-size-xl: clamp(1.3rem, 1.2rem + 0.5vw, 1.6rem);
- --font-size-2xl: clamp(1.5rem, 1.35rem + 0.7vw, 2rem);
- --font-size-3xl: clamp(1.8rem, 1.6rem + 0.9vw, 2.5rem);
- --font-size-4xl: clamp(2.2rem, 1.95rem + 1.2vw, 3.2rem);
- --font-size-5xl: clamp(2.8rem, 2.45rem + 1.6vw, 4.2rem);
- --font-size-6xl: clamp(3.5rem, 3rem + 2vw, 5.5rem);
+  /* Fluid Typography Sizing — Proportionate & Sleek */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+  --font-size-xl: clamp(1.15rem, 1.1rem + 0.35vw, 1.35rem);
+  --font-size-2xl: clamp(1.35rem, 1.25rem + 0.5vw, 1.65rem);
+  --font-size-3xl: clamp(1.65rem, 1.5rem + 0.75vw, 2.1rem);
+  --font-size-4xl: clamp(2rem, 1.8rem + 1vw, 2.6rem);
+  --font-size-5xl: clamp(2.4rem, 2.1rem + 1.25vw, 3.2rem);
+  --font-size-6xl: clamp(2.8rem, 2.4rem + 1.5vw, 4rem);
 
  /* Animation */
  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

@@ -521,18 +521,18 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white pt-44 md:pt-48 pb-20 px-6 overflow-x-hidden w-full max-w-full">
+    <div className="min-h-screen bg-[#050508] text-white pt-28 md:pt-32 pb-16 px-4 md:px-8 overflow-x-hidden w-full max-w-full">
       <div className="site-container overflow-x-hidden">
         <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <div className="flex items-center gap-4 mb-4">
-              <span className="text-4xl">🚢</span>
+              <span className="text-3xl md:text-4xl">🚢</span>
               <div>
-                <h1 className="text-3xl font-black uppercase tracking-widest text-white">Cruise Hub</h1>
-                <p className="text-[var(--color-accent)] font-bold text-sm tracking-widest uppercase mt-1">Passenger Area</p>
+                <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white">Cruise Hub</h1>
+                <p className="text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1">Passenger Area</p>
               </div>
             </div>
-            <p className="text-white/60 text-lg max-w-xl">Welcome aboard, <strong className="text-white">{effectiveMember?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
+            <p className="text-white/60 text-base md:text-lg max-w-xl">Welcome aboard, <strong className="text-white">{effectiveMember?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
           </div>
 
           <div className="shrink-0">
@@ -597,11 +597,11 @@ export default function CruiseDashboard() {
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
                   <span className="text-3xl">📋</span>
                   <div>
-                    <h2 className="text-xl font-black uppercase tracking-wider text-white">Cruise Information & Guidelines</h2>
+                    <h2 className="text-lg md:text-xl font-black uppercase tracking-wider text-white">Cruise Information & Guidelines</h2>
                     <p className="text-xs text-cyan-400 font-bold uppercase tracking-widest mt-0.5">Cruiser Welcome Pack</p>
                   </div>
                 </div>
-                <div className="space-y-6 text-white/95 text-lg md:text-xl lg:text-[1.25rem] leading-[1.85] font-medium tracking-wide">
+                <div className="space-y-4 text-white/90 text-sm md:text-base leading-relaxed tracking-wide">
                   <p>
                     Welcome to the official 7th Heaven Cruise Passenger Portal! We are absolutely thrilled to have you join us for this one-of-a-kind rock-and-roll voyage. This portal is your exclusive gateway to everything happening during our journey, designed to keep you connected with the band, the crew, and your fellow passengers from the moment you book until we return to port.
                   </p>
