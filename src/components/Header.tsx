@@ -150,7 +150,7 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none" suppressHydrationWarning>
-      <div className={`w-full px-[40px] transition-all duration-300 ${scrolled ? "pt-2" : "pt-[40px]"}`}>
+      <div className={`w-full px-6 md:px-10 lg:px-12 transition-all duration-300 ${scrolled ? "pt-2" : "pt-[40px]"}`}>
         <div
           id="nav-inner-card"
           suppressHydrationWarning
