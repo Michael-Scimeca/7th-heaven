@@ -13,6 +13,24 @@ import {
   ITINERARY_2027,
   ITINERARY_2028,
 } from "./cruiseData";
+import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
+
+function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
+  const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#f59e0b", "#ec4899", "#8b5cf6", "#64748b"];
+  return itinData.map((day, i) => ({
+    id: `day-${day.day}`,
+    dayLabel: `Day ${day.day} · ${day.label}`,
+    location: day.port,
+    theme: day.label,
+    colorTheme: COLOR_THEMES[i % COLOR_THEMES.length],
+    events: day.schedule.map((item, idx) => ({
+      id: `event-${day.day}-${idx}`,
+      time: item.time,
+      title: item.event,
+      subtitle: item.cat === "band" ? "Exclusive Fan Performance" : item.cat === "food" ? "Dining & Social Event" : "Ship & Port Activity",
+    })),
+  }));
+}
 
 const ITINERARY = [
   {
@@ -1221,48 +1239,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
           </div>
 
-          <div className="bg-black/30 border border-white/5 rounded-3xl overflow-hidden mb-12 text-left">
-            {(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028).map((day, i) => (
-              <div key={day.day} className={`flex flex-col lg:flex-row ${i % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} min-h-[380px] border-b border-white/5 last:border-b-0`}>
-                <div className="relative lg:w-[40%] h-56 lg:h-auto overflow-hidden bg-black">
-                  <div className="absolute inset-0 bg-cyan-950/20 z-10" />
-                  <div className="absolute top-5 left-5 bg-black/75 backdrop-blur-md rounded-xl px-4 py-2.5 border border-white/10 z-20">
-                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${ITIN_TYPE_ACCENT[day.type]} block`}>Day {day.day}</span>
-                    <span className="text-xl leading-none">{day.icon}</span>
-                  </div>
-                  <div className="p-8 absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black via-black/40 to-transparent text-left">
-                    <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${ITIN_TYPE_ACCENT[day.type]}`}>{day.label}</span>
-                    <h3 className="text-xl md:text-2xl font-black italic uppercase text-white leading-tight mt-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{day.port}</h3>
-                  </div>
-                </div>
-
-                <div className="flex-1 flex items-center px-8 lg:px-12 py-8 bg-[#07070b]/40">
-                  <div className="w-full max-w-xl">
-                    <div className="relative space-y-0 text-left">
-                      <div className={`absolute left-[7px] top-2 bottom-2 w-[2px] bg-gradient-to-b ${ITIN_TYPE_BAR[day.type]} opacity-20`} />
-                      {day.schedule.map((item, si) => (
-                        <div key={si} className="relative flex items-start gap-4 pb-4 last:pb-0">
-                          <div className={`shrink-0 w-4 h-4 rounded-full border-2 border-[var(--color-bg-primary)] mt-0.5 z-10 ${ITIN_CAT_DOT[item.cat]}`} />
-                          <span className="shrink-0 text-[10px] font-black text-white/20 w-16 pt-1 tabular-nums">{item.time}</span>
-                          <span className={`text-xs leading-snug pt-0.5 ${ITIN_CAT_TEXT[item.cat]}`}>{item.event}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center py-6">
-            <button 
-              type="button"
-              onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-lg shadow-cyan-500/20 cursor-pointer border-none"
-            >
-              Secure Stateroom & Join Us
-            </button>
-          </div>
+          {/* 3D Snake Itinerary Timeline Component */}
+          <CruiseSnakeItinerary itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
         </section>
 
       {/* ── SECTION 2: BANDS & PORTS ── */}
