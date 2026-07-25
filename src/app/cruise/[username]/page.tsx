@@ -257,6 +257,16 @@ export default function CruiseDashboard() {
     }
   }, [showAuth]);
 
+  const [sanitizedAnnouncement, setSanitizedAnnouncement] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (announcement && typeof window !== 'undefined') {
+      setSanitizedAnnouncement(DOMPurify.sanitize(announcement));
+    } else {
+      setSanitizedAnnouncement(null);
+    }
+  }, [announcement]);
+
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -563,10 +573,10 @@ export default function CruiseDashboard() {
                     </button>
                   </div>
                 </div>
-              ) : announcement ? (
+              ) : sanitizedAnnouncement ? (
                 <div 
                   className="text-white/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
-                  dangerouslySetInnerHTML={{ __html: typeof window !== 'undefined' ? DOMPurify.sanitize(announcement) : announcement }}
+                  dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
                 />
               ) : (
                 <p className="text-white/30 text-sm italic">No priority news announcements posted yet.</p>
