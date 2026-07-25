@@ -425,8 +425,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         {showSettings && mounted && createPortal(
           <div 
             data-settings-panel
-            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[#080812]/98 border-2 border-cyan-400 rounded-3xl backdrop-blur-2xl shadow-[0_0_90px_rgba(0,0,0,0.95)] text-left animate-in slide-in-from-right duration-300 opacity-60 hover:opacity-100 transition-opacity duration-300"
-            style={{ zIndex: 999999, pointerEvents: 'auto', opacity: 0.6 }}
+            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[#080812] border-2 border-cyan-400 rounded-3xl backdrop-blur-2xl shadow-[0_0_90px_rgba(0,0,0,0.95)] text-left animate-in slide-in-from-right duration-300 opacity-100"
+            style={{ zIndex: 999999, pointerEvents: 'auto' }}
           >
             <style>{`
               [data-settings-panel], [data-settings-panel] * {
