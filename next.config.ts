@@ -8,18 +8,27 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
-  experimental: {
-    proxyClientMaxBodySize: "50mb",
+  turbopack: {},
+  serverExternalPackages: ["nsfwjs", "@tensorflow/tfjs"],
+  webpack: (config, { isServer }) => {
+    config.externals = [...(config.externals || []), "nsfwjs", "@tensorflow/tfjs"];
+    return config;
   },
   outputFileTracingExcludes: {
     '*': [
-      'node_modules/@tensorflow/tfjs/**',
+      'node_modules/@swc/**',
+      'node_modules/esbuild/**',
+      'node_modules/webpack/**',
+      'node_modules/@tensorflow/**',
       'node_modules/nsfwjs/**',
       'node_modules/leaflet/**',
       'node_modules/react-leaflet/**',
       'node_modules/swiper/**',
       'node_modules/gsap/**',
       'node_modules/lottie-web/**',
+      'node_modules/@shopify/**',
+      'public/movie/**',
+      'public/images/**',
     ],
   },
   images: {

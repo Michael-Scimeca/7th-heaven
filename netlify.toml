@@ -2,11 +2,10 @@
   command = "npm run build"
   publish = ".next"
 
-[build.environment]
-  NEXT_PUBLIC_SUPABASE_URL = "https://placeholder-project.supabase.co"
-  SUPABASE_SERVICE_ROLE_KEY = "placeholder-service-role-key"
-  NEXT_PUBLIC_SUPABASE_ANON_KEY = "placeholder-anon-key"
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["@tensorflow/tfjs", "nsfwjs"]
+  included_files = ["!node_modules/@tensorflow/**", "!node_modules/nsfwjs/**", "!public/movie/**"]
+  external_node_modules = ["@tensorflow/tfjs", "nsfwjs", "@tensorflow/tfjs-core", "@tensorflow/tfjs-backend-cpu"]

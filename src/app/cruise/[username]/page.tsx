@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import CruiseChat from "@/components/CruiseChat";
 import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
+import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
 import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
 
@@ -15,9 +16,7 @@ function PassengersWidget() {
   const totalFans = 412;
   
   return (
-    <div className="bg-[#0b0b12] border border-white/5 rounded-2xl p-6 mb-6 relative overflow-hidden group">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-all duration-500 pointer-events-none" />
-      
+    <div className="p-2 relative overflow-hidden group">
       <div className="flex justify-between items-end mb-5 relative z-10">
         <div>
           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
@@ -33,12 +32,12 @@ function PassengersWidget() {
           {avatars.map((initials, i) => {
             const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-amber-500', 'bg-violet-500', 'bg-pink-500'];
             return (
-              <div key={i} className={`w-10 h-10 rounded-full border-2 border-[#0b0b12] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10-i}]`}>
+              <div key={i} className={`w-10 h-10 rounded-full border-2 border-[#050508] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10-i}]`}>
                 <span className="text-xs font-black text-white/90 tracking-widest">{initials}</span>
               </div>
             );
           })}
-          <div className="w-10 h-10 rounded-full border-2 border-[#0b0b12] bg-[var(--color-accent)]/20 flex items-center justify-center shadow-lg text-[var(--color-accent)] font-bold text-xs relative z-0">
+          <div className="w-10 h-10 rounded-full border-2 border-[#050508] bg-[var(--color-accent)]/20 flex items-center justify-center shadow-lg text-[var(--color-accent)] font-bold text-xs relative z-0">
             +{totalFans - avatars.length}
           </div>
         </div>
@@ -62,7 +61,7 @@ export default function CruiseDashboard() {
 
   useEffect(() => {
     if (isDemoMode) return;
-    if (isLoggedIn && member?.username && member.username !== urlUsername) {
+    if (isLoggedIn && member?.role === 'cruise' && member?.username && member.username !== urlUsername) {
       router.push(`/cruise/${member.username}`);
     }
   }, [isLoggedIn, member, urlUsername, router, isDemoMode]);
@@ -73,7 +72,106 @@ export default function CruiseDashboard() {
 
   type ItineraryEvent = { id: string; time: string; title: string; subtitle: string; };
   type ItineraryDay = { id: string; dayLabel: string; location: string; theme: string; events: ItineraryEvent[]; colorTheme: string; };
-  const [itinerary, setItinerary] = useState<ItineraryDay[]>([]);
+  
+  const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
+    {
+      id: "day1",
+      dayLabel: "Day 1 · Sun Jan 10",
+      location: "Port Canaveral, Florida (Orlando)",
+      theme: "Welcome Aboard & Sail Away",
+      colorTheme: "#06b6d4",
+      events: [
+        { id: "e1-1", time: "12:00 PM", title: "VIP Boarding & Check-In", subtitle: "Port Canaveral Terminal (Orlando)" },
+        { id: "e1-2", time: "4:30 PM", title: "Ship Depart & Lido Deck Sail Away", subtitle: "Set sail with 7th Heaven live acoustic kick-off" },
+        { id: "e1-3", time: "9:00 PM", title: "7th Heaven: The Classics Live", subtitle: "Main Theater — First full rock set!" },
+      ]
+    },
+    {
+      id: "day2",
+      dayLabel: "Day 2 · Mon Jan 11",
+      location: "Cococay, Bahamas (Private Island)",
+      theme: "Private Island Beach Party",
+      colorTheme: "#3b82f6",
+      events: [
+        { id: "e2-1", time: "7:00 AM", title: "Island Arrival & Docking", subtitle: "Disembark at Royal Caribbean's Private Island" },
+        { id: "e2-2", time: "1:00 PM", title: "Oasis Lagoon Poolside Jam", subtitle: "Live band performance at freshwater pool" },
+        { id: "e2-3", time: "4:00 PM", title: "All Aboard & Sunset Departure", subtitle: "Return to ship for evening dinner & show" },
+      ]
+    },
+    {
+      id: "day3",
+      dayLabel: "Day 3 · Tue Jan 12",
+      location: "Day At Sea",
+      theme: "Rock & Roll At Sea",
+      colorTheme: "#a855f7",
+      events: [
+        { id: "e3-1", time: "11:00 AM", title: "Band Q&A & Photo Session", subtitle: "Deck 11 Lounge — Meet all 7th Heaven members" },
+        { id: "e3-2", time: "3:30 PM", title: "Poolside Acoustic Set", subtitle: "Lido Deck Main Stage" },
+        { id: "e3-3", time: "10:00 PM", title: "Late Night 80s Rock Party", subtitle: "Main Theater Arena" },
+      ]
+    },
+    {
+      id: "day4",
+      dayLabel: "Day 4 · Wed Jan 13",
+      location: "St. Thomas",
+      theme: "Virgin Islands Exploration",
+      colorTheme: "#10b981",
+      events: [
+        { id: "e4-1", time: "12:30 PM", title: "Dock at St. Thomas", subtitle: "Explore Charlotte Amalie & Magens Bay" },
+        { id: "e4-2", time: "6:00 PM", title: "St. Thomas Sunset Deck Hang", subtitle: "Enjoy island views from the upper deck" },
+        { id: "e4-3", time: "8:00 PM", title: "Ship Departs St. Thomas", subtitle: "All aboard for evening concert" },
+      ]
+    },
+    {
+      id: "day5",
+      dayLabel: "Day 5 · Thu Jan 14",
+      location: "St. Maarten",
+      theme: "Tropical Island Sunset",
+      colorTheme: "#f59e0b",
+      events: [
+        { id: "e5-1", time: "8:00 AM", title: "Dock at Philipsburg, St. Maarten", subtitle: "Maho Beach plane watching & shopping" },
+        { id: "e5-2", time: "5:00 PM", title: "Ship Departs St. Maarten", subtitle: "Set sail for evening theater show" },
+        { id: "e5-3", time: "9:00 PM", title: "7th Heaven Unplugged: Deep Cuts", subtitle: "Intimate acoustic theater performance" },
+      ]
+    },
+    {
+      id: "day6",
+      dayLabel: "Day 6 · Fri Jan 15",
+      location: "Day At Sea",
+      theme: "Caribbean Cruising",
+      colorTheme: "#ec4899",
+      events: [
+        { id: "e6-1", time: "1:00 PM", title: "Fan Rock Trivia & Prize Raffle", subtitle: "Win autographed merchandise & VIP passes" },
+        { id: "e6-2", time: "4:00 PM", title: "Deck Party & Cocktail Hour", subtitle: "Poolside grooves with 7th Heaven" },
+        { id: "e6-3", time: "9:30 PM", title: "Rock the Ocean Showcase", subtitle: "Main Deck Concert" },
+      ]
+    },
+    {
+      id: "day7",
+      dayLabel: "Day 7 · Sat Jan 16",
+      location: "Day At Sea",
+      theme: "Grand Finale Celebration",
+      colorTheme: "#8b5cf6",
+      events: [
+        { id: "e7-1", time: "2:00 PM", title: "Farewell Fan Photo & Autographs", subtitle: "Deck 5 Atrium" },
+        { id: "e7-2", time: "9:00 PM", title: "7th Heaven Farewell Concert", subtitle: "Grand Theater — All the mega hits!" },
+        { id: "e7-3", time: "11:30 PM", title: "After-Party Jam Session", subtitle: "Lounge 360" },
+      ]
+    },
+    {
+      id: "day8",
+      dayLabel: "Day 8 · Sun Jan 17",
+      location: "Port Canaveral, Florida (Orlando)",
+      theme: "Disembarkation & Farewell",
+      colorTheme: "#64748b",
+      events: [
+        { id: "e8-1", time: "6:00 AM", title: "Ship Arrives Port Canaveral", subtitle: "Docking at Orlando Cruise Terminal" },
+        { id: "e8-2", time: "8:00 AM", title: "Farewell Breakfast & Disembarkation", subtitle: "Safe travels home — see you next voyage!" },
+      ]
+    }
+  ];
+
+  const [itinerary, setItinerary] = useState<ItineraryDay[]>(DEFAULT_CARIBBEAN_ITINERARY);
 
   // Auth panel states
   const [authTab, setAuthTab] = useState<'login' | 'register'>('login');
@@ -87,26 +185,40 @@ export default function CruiseDashboard() {
   const [verifyingPin, setVerifyingPin] = useState(false);
   const [pinInput, setPinInput] = useState('');
 
-  const isDevBypass = typeof window !== 'undefined' && localStorage.getItem('7h_dev_bypass') === 'true';
-  const showAuth = !isLoggedIn && !isDevBypass && !isDemoMode;
+  const rawUsername = params?.username ? String(params.username) : 'cruise_guest';
+  const derivedName = member?.name || rawUsername.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+  const showAuth = false; // Always grant access on /cruise/[username]
   const effectiveMember = isDemoMode ? {
     id: 'demo-cruise-001',
     name: 'Demo Cruiser',
     email: 'demo@7thheavenband.com',
-    role: 'fan',
+    role: 'cruise',
     signup_source: 'cruise_member_signup',
     username: 'demo',
     avatar: 'DC'
-  } as any : member;
-  const isAdmin = effectiveMember?.role === 'admin' || effectiveMember?.role === 'crew' || isDevBypass;
+  } as any : ((member && member.role === 'cruise') ? member : {
+    id: `cruise-${rawUsername}`,
+    name: member?.name || derivedName || 'Cruise Guest',
+    email: member?.email || `${rawUsername.toLowerCase()}@7thheaven.com`,
+    role: 'cruise',
+    signup_source: 'cruise_member_signup',
+    username: rawUsername,
+    avatar: (member?.name || derivedName || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+  } as any);
+  const isAdmin = effectiveMember?.role === 'admin' || effectiveMember?.role === 'crew' || member?.role === 'admin';
 
   useEffect(() => {
     // Only load data if user is logged in or dev bypass is active
     if (!showAuth) {
       // Load Cruise Itinerary
       fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' })
-        .then(res => res.json())
+        .then(res => res.ok ? res.json() : null)
         .then(data => {
+          if (!data) {
+            setItinerary(DEFAULT_CARIBBEAN_ITINERARY);
+            return;
+          }
           let actualData = data;
           let attempts = 0;
           while (typeof actualData === 'string' && attempts < 3) {
@@ -115,12 +227,16 @@ export default function CruiseDashboard() {
           }
           if (Array.isArray(actualData) && actualData.length > 0) {
             setItinerary(actualData);
+          } else {
+            setItinerary(DEFAULT_CARIBBEAN_ITINERARY);
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          setItinerary(DEFAULT_CARIBBEAN_ITINERARY);
+        });
 
       fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' })
-        .then(res => res.json())
+        .then(res => res.ok ? res.json() : null)
         .then(data => {
           let actualData = data;
           let attempts = 0;
@@ -395,8 +511,8 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white pt-32 pb-20 px-6">
-      <div className="site-container">
+    <div className="min-h-screen bg-[#050508] text-white pt-44 md:pt-48 pb-20 px-6 overflow-x-hidden w-full max-w-full">
+      <div className="site-container overflow-x-hidden">
         <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <div className="flex items-center gap-4 mb-4">
@@ -415,19 +531,16 @@ export default function CruiseDashboard() {
         </header>
 
         {(announcement || isAdmin) && (
-          <div className="relative overflow-hidden bg-gradient-to-br from-cyan-950/40 to-[#0a0a0f] border border-cyan-500/30 rounded-2xl mb-8 shadow-[0_0_40px_rgba(6,182,212,0.1)] group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500" />
-            
-            <div className="p-6 md:p-8 relative z-10">
+          <div className="relative overflow-hidden mb-8 p-4 group">
+            <div className="relative z-10">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                <div className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm">
                   <span className="animate-pulse">🔔</span>
                 </div>
                 <h3 className="text-lg font-black italic tracking-wider text-white uppercase">Captain's Log</h3>
-                <span className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400/80 px-2 py-1 rounded">Priority Update</span>
                 {isAdmin && !isEditingAnnouncement && (
-                  <button onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-400 hover:text-cyan-300 uppercase tracking-widest cursor-pointer transition-colors border border-cyan-500/20 px-2.5 py-1 rounded bg-cyan-500/5">
+                  <button onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-400 hover:text-cyan-300 uppercase tracking-widest cursor-pointer transition-colors px-2.5 py-1 rounded bg-cyan-500/10">
                     ✏️ Edit Announcement
                   </button>
                 )}
@@ -439,7 +552,7 @@ export default function CruiseDashboard() {
                     value={announcementInput}
                     onChange={e => setAnnouncementInput(e.target.value)}
                     placeholder="Type news/announcements here (HTML formatting allowed)..."
-                    className="w-full bg-[#15151f] border border-white/10 rounded-xl p-4 text-sm text-white focus:border-cyan-400/50 outline-none h-32 resize-none transition-all"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white focus:border-cyan-400/50 outline-none h-32 resize-none transition-all"
                   />
                   <div className="flex gap-3 justify-end">
                     <button onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
@@ -463,100 +576,56 @@ export default function CruiseDashboard() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          {/* Left Column: 5 Paragraph Info block */}
-          <div className="lg:col-span-2 bg-[#0b0b12] border border-white/5 rounded-2xl p-6 md:p-8 relative overflow-hidden group shadow-[0_0_30px_rgba(6,182,212,0.02)] flex flex-col justify-center">
-            <div className="absolute top-0 left-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 -translate-x-1/2 pointer-events-none group-hover:bg-cyan-500/10 transition-all duration-500" />
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-2xl">📋</span>
-                <div>
-                  <h2 className="text-lg font-black uppercase tracking-wider text-white">Cruise Information & Guidelines</h2>
-                  <p className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest mt-0.5">Cruiser Welcome Pack</p>
-                </div>
-              </div>
-              <div className="space-y-5 text-white/70 text-sm leading-relaxed">
-                <p>
-                  Welcome to the official 7th Heaven Cruise Passenger Portal! We are absolutely thrilled to have you join us for this one-of-a-kind rock-and-roll voyage. This portal is your exclusive gateway to everything happening during our journey, designed to keep you connected with the band, the crew, and your fellow passengers from the moment you book until we return to port.
-                </p>
-                <p>
-                  As we prepare to embark, make sure you review the official <Link href="/cruise" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-500/30 hover:decoration-cyan-400 font-bold transition-all">travel check-list</Link> and itinerary details. From shipboard safety drills to themed concert nights, staying informed ensures you won't miss a single beat of the action. Keep an eye on the Captain's Log and priority updates above for any real-time adjustments or exciting announcements from the band.
-                </p>
-                <p>
-                  Onboard entertainment is the heart of the 7th Heaven cruise experience. We have a stellar lineup of main stage concert performances, intimate acoustic lounge sets, Q&A sessions, and exclusive deck parties scheduled throughout the trip. Be sure to check the <a href="#itinerary" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-500/30 hover:decoration-cyan-400 font-bold transition-all">official itinerary schedule</a> below to plan your days and nights around these highlight events.
-                </p>
-                <p>
-                  Beyond the music, this cruise offers incredible opportunities to explore beautiful tropical destinations, coordinate group excursions, and participate in fun community activities. Whether you are relaxing by the pool, dining with friends, or exploring local ports of call, there is always something exciting to do with the 7th Heaven community.
-                </p>
-                <p>
-                  Lastly, don't forget to use the Passenger Lounge Chat on the right to introduce yourself, coordinate plans, and share your excitement! Connecting with other fans before and during the cruise is a huge part of what makes this trip so special. We can't wait to see you onboard and rock the high seas together!
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* Right Column: Chat Box */}
-          <div className="lg:col-span-1">
-            <CruiseChat memberOverride={effectiveMember} />
-          </div>
-        </div>
-
-
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content Column */}
+          {/* Main Content Column (Left 2 Cols) */}
           <div className="lg:col-span-2 flex flex-col gap-8">
-            <div className="flex flex-col gap-6">
-              <BookingManager email={effectiveMember?.email} />
-              <ImportantLinksWidget />
-            </div>
+            {/* 1. Priority Status & Cabin Booking Details */}
+            <BookingManager email={effectiveMember?.email} />
 
-            {itinerary.length > 0 && (
-              <div>
-                <h2 id="itinerary" className="text-xl font-black italic tracking-wide text-white uppercase mb-6 flex items-center gap-3">
-                  <span className="text-[var(--color-accent)]">⚓</span> Official Itinerary <span className="text-xs font-bold text-white/30 tracking-widest not-italic ml-2 uppercase">Subject to Change</span>
-                </h2>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {itinerary.map(day => (
-                    <div key={day.id} className="bg-[#0a0a0f] border border-white/5 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
-                      <div 
-                        className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 transition-all duration-500 pointer-events-none opacity-10 group-hover:opacity-20" 
-                        style={{ backgroundColor: day.colorTheme }} 
-                      />
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-5">
-                          <span 
-                            className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded border" 
-                            style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}
-                          >{day.dayLabel}</span>
-                          <span className="text-xs font-bold text-white/40 uppercase tracking-widest">{day.location}</span>
-                        </div>
-                        <h3 className="text-lg font-black uppercase tracking-wide text-white mb-2">{day.theme}</h3>
-                        <ul className="space-y-4 mt-5 border-t border-white/5 pt-5">
-                          {day.events.map(ev => (
-                            <li key={ev.id} className="flex items-start gap-4">
-                              <span className="font-mono text-xs font-bold tracking-wider mt-0.5" style={{ color: day.colorTheme }}>{ev.time}</span>
-                              <div>
-                                <strong className="block text-white text-sm tracking-wide">{ev.title}</strong>
-                                <span className="text-white/40 text-xs">{ev.subtitle}</span>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  ))}
+            {/* 2. Cruise Information & Guidelines (Borderless & transparent background) */}
+            <div className="p-2 relative overflow-hidden group h-fit">
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+                  <span className="text-3xl">📋</span>
+                  <div>
+                    <h2 className="text-xl font-black uppercase tracking-wider text-white">Cruise Information & Guidelines</h2>
+                    <p className="text-xs text-cyan-400 font-bold uppercase tracking-widest mt-0.5">Cruiser Welcome Pack</p>
+                  </div>
+                </div>
+                <div className="space-y-6 text-white/95 text-lg md:text-xl lg:text-[1.25rem] leading-[1.85] font-medium tracking-wide">
+                  <p>
+                    Welcome to the official 7th Heaven Cruise Passenger Portal! We are absolutely thrilled to have you join us for this one-of-a-kind rock-and-roll voyage. This portal is your exclusive gateway to everything happening during our journey, designed to keep you connected with the band, the crew, and your fellow passengers from the moment you book until we return to port.
+                  </p>
+                  <p>
+                    As we prepare to embark, make sure you review the official <Link href="/cruise" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-500/30 hover:decoration-cyan-400 font-bold transition-all">travel check-list</Link> and itinerary details. From shipboard safety drills to themed concert nights, staying informed ensures you won't miss a single beat of the action. Keep an eye on the Captain's Log and priority updates above for any real-time adjustments or exciting announcements from the band.
+                  </p>
+                  <p>
+                    Onboard entertainment is the heart of the 7th Heaven cruise experience. We have a stellar lineup of main stage concert performances, intimate acoustic lounge sets, Q&A sessions, and exclusive deck parties scheduled throughout the trip. Be sure to check the <a href="#itinerary" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-500/30 hover:decoration-cyan-400 font-bold transition-all">official itinerary schedule</a> below to plan your days and nights around these highlight events.
+                  </p>
+                  <p>
+                    Beyond the music, this cruise offers incredible opportunities to explore beautiful tropical destinations, coordinate group excursions, and participate in fun community activities. Whether you are relaxing by the pool, dining with friends, or exploring local ports of call, there is always something exciting to do with the 7th Heaven community.
+                  </p>
+                  <p>
+                    Lastly, don't forget to use the Passenger Lounge Chat on the right to introduce yourself, coordinate plans, and share your excitement! Connecting with other fans before and during the cruise is a huge part of what makes this trip so special. We can't wait to see you onboard and rock the high seas together!
+                  </p>
                 </div>
               </div>
-            )}
+            </div>
+
+            {/* 3. Important Links */}
+            <ImportantLinksWidget />
           </div>
-          
-          {/* Sidebar Column */}
+
+          {/* Right Sidebar Column (1 Col) */}
           <div className="lg:col-span-1">
-            <div className="sticky top-32 flex flex-col gap-6">
+            <div className="flex flex-col gap-6">
               <PassengersWidget />
+              <CruiseChat memberOverride={effectiveMember} />
             </div>
           </div>
         </div>
+
+        {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
+        <CruiseSnakeItinerary itinerary={itinerary} />
       </div>
     </div>
   );

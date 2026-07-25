@@ -2,8 +2,6 @@
 
 import { useState, useRef } from "react";
 import { useMember } from "@/context/MemberContext";
-import * as tf from "@tensorflow/tfjs";
-import * as nsfwjs from "nsfwjs";
 
 export default function FanUploadForm() {
   const { member, isLoggedIn, openModal } = useMember();
@@ -82,6 +80,7 @@ export default function FanUploadForm() {
       
       if (!nsfwModelRef.current) {
         try {
+          const nsfwjs = await import("nsfwjs");
           nsfwModelRef.current = await nsfwjs.load();
         } catch (err) {
           console.error("Failed to load NSFW model:", err);

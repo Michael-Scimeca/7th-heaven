@@ -436,6 +436,23 @@ html.lenis, html.lenis body {
  padding-right: 0;
 }
 
+/* ── Tour sort bar docked: connect nav bottom corners to sort bar top ── */
+html.tour-sort-stuck #nav-inner-card {
+ border-bottom-left-radius: 0 !important;
+ border-bottom-right-radius: 0 !important;
+ transition: border-radius 0.2s ease;
+}
+
+html:not(.tour-sort-stuck) #nav-inner-card {
+ transition: border-radius 0.2s ease;
+}
+
+html.tour-sort-stuck #tour-sort-bar {
+ border-top-left-radius: 0 !important;
+ border-top-right-radius: 0 !important;
+}
+
+
 /* ReactQuill WYSIWYG editor min height */
 .ql-editor {
  min-height: 200px;

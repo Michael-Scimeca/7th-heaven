@@ -19,6 +19,7 @@ const FALLBACK_SHOWS = [
     city: "Arlington Hts", 
     state: "IL", 
     time: "8:00pm", 
+    playTime: "9:00pm",
     info: "Outdoor All-Age Festival",
     mapUrl: "https://maps.apple.com/?address=Arlington+Heights,+IL",
     websiteUrl: "",
@@ -51,6 +52,8 @@ export default async function ShowsPage() {
       city: s.city || "",
       state: s.state || "",
       time: s.time || "",
+      playTime: s.playTime || "",
+      doorsTime: s.doorsTime || "",
       info: s.notes || "",
       mapUrl: s.directionsLink || fb?.mapUrl || "",
       websiteUrl: s.ticketLink || fb?.websiteUrl || "",
@@ -70,7 +73,9 @@ export default async function ShowsPage() {
     allAges: f.allAges ?? true,
     isPrivate: false,
     lat: undefined,
-    lng: undefined
+    lng: undefined,
+    playTime: "",
+    doorsTime: ""
   }));
 
   const combinedShows = [...allMappedShows];
@@ -88,19 +93,8 @@ export default async function ShowsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#08080d] pt-24 pb-12" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <p className="text-xs text-pink-500 font-black uppercase tracking-[0.3em] mb-2">7th Heaven</p>
-          <h1 className="text-white font-black text-4xl sm:text-5xl uppercase tracking-widest italic">
-            Tour Dates
-          </h1>
-          <p className="text-white/40 text-sm mt-3 max-w-xl mx-auto">
-            Catch 7th Heaven live! See upcoming show locations, venue directions, and RSVP.
-          </p>
-        </div>
-        <TourList initialShows={combinedShows} hideMap={true} />
-      </div>
+    <div className="min-h-screen bg-[#08080d] pt-24 pb-12">
+      <TourList initialShows={combinedShows} />
     </div>
   );
 }

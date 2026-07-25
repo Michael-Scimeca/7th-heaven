@@ -27,213 +27,218 @@ export default function LoginModal() {
  const [error, setError] = useState("");
  const [isAgeConfirmed, setIsAgeConfirmed] = useState(false);
  const [loading, setLoading] = useState(false);
- const [loginRole, setLoginRole] = useState<'fan' | 'crew'>('fan');
- const [confirmationRequired, setConfirmationRequired] = useState(false);
- const [website, setWebsite] = useState(""); // Honeypot
- const [usernameField, setUsernameField] = useState("");
+  const [loginRole, setLoginRole] = useState<'fan' | 'crew' | 'planner' | 'cruise'>('fan');
+  const [confirmationRequired, setConfirmationRequired] = useState(false);
+  const [website, setWebsite] = useState(""); // Honeypot
+  const [usernameField, setUsernameField] = useState("");
 
- // PIN Verification States
- const [pinSent, setPinSent] = useState(false);
- const [pinCode, setPinCode] = useState("");
-  const [signUpPayload, setSignUpPayload] = useState<any>(null);
+  // PIN Verification States
+  const [pinSent, setPinSent] = useState(false);
+  const [pinCode, setPinCode] = useState("");
+   const [signUpPayload, setSignUpPayload] = useState<any>(null);
 
-  // Forgot Password States
-  const [forgotPinSent, setForgotPinSent] = useState(false);
-  const [forgotPinCode, setForgotPinCode] = useState("");
+   // Forgot Password States
+   const [forgotPinSent, setForgotPinSent] = useState(false);
+   const [forgotPinCode, setForgotPinCode] = useState("");
 
- // Track if this is an invitation flow
- const [isInviteFlow, setIsInviteFlow] = useState(false);
+  // Track if this is an invitation flow
+  const [isInviteFlow, setIsInviteFlow] = useState(false);
 
- // Admin login mode — shows red panel in-modal instead of navigating away
- const [adminMode, setAdminMode] = useState(false);
- const [adminEmail, setAdminEmail] = useState('');
- const [adminPassword, setAdminPassword] = useState('');
- const [adminError, setAdminError] = useState('');
- const [adminLoading, setAdminLoading] = useState(false);
+  // Admin login mode — shows red panel in-modal instead of navigating away
+  const [adminMode, setAdminMode] = useState(false);
+  const [adminEmail, setAdminEmail] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [adminError, setAdminError] = useState('');
+  const [adminLoading, setAdminLoading] = useState(false);
 
- useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const inviteEmail = params.get("inviteEmail");
-      const invitePin = params.get("invitePin");
-      const inviteName = params.get("inviteName");
-      if (inviteEmail) {
-        setEmail(inviteEmail);
-        setIsInviteFlow(true);
-        if (inviteName) {
-          setName(inviteName);
-          // Auto-generate username from name
-          setUsernameField(nameToUsername(inviteName));
-        }
-        setModalMode("signup");
-        openModal("signup");
-        if (invitePin) {
-          setPinCode(invitePin);
-        }
-      } else if (params.get("showLogin") === "true") {
-        setModalMode("login");
-        openModal("login");
-      } else if (params.get("showSignup") === "true") {
-        setModalMode("signup");
-        openModal("signup");
-      }
-      // Pre-select role tab if ?role=crew is present
-      if (params.get("role") === "crew") {
-        setLoginRole("crew");
-      }
-    }
-  }, [setModalMode, openModal]);
+  useEffect(() => {
+     if (typeof window !== "undefined") {
+       const params = new URLSearchParams(window.location.search);
+       const inviteEmail = params.get("inviteEmail");
+       const invitePin = params.get("invitePin");
+       const inviteName = params.get("inviteName");
+       if (inviteEmail) {
+         setEmail(inviteEmail);
+         setIsInviteFlow(true);
+         if (inviteName) {
+           setName(inviteName);
+           // Auto-generate username from name
+           setUsernameField(nameToUsername(inviteName));
+         }
+         setModalMode("signup");
+         openModal("signup");
+         if (invitePin) {
+           setPinCode(invitePin);
+         }
+       } else if (params.get("showLogin") === "true") {
+         setModalMode("login");
+         openModal("login");
+       } else if (params.get("showSignup") === "true") {
+         setModalMode("signup");
+         openModal("signup");
+       }
+       // Pre-select role tab if ?role= is present
+       const r = params.get("role");
+       if (r === "crew" || r === "planner" || r === "cruise") {
+         setLoginRole(r as any);
+       }
+     }
+   }, [setModalMode, openModal]);
 
- // Sync loginRole whenever modal opens (or modalLoginRole changes)
- useEffect(() => {
-   setLoginRole(modalLoginRole);
- }, [modalLoginRole, isModalOpen]);
+  // Sync loginRole whenever modal opens (or modalLoginRole changes)
+  useEffect(() => {
+    setLoginRole(modalLoginRole as any);
+  }, [modalLoginRole, isModalOpen]);
 
- if (!isModalOpen) return null;
+  if (!isModalOpen) return null;
 
- const handleVerifyPin = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-  setLoading(true);
-
-  if (!pinCode || pinCode.length !== 6) {
-   setError("Please enter a valid 6-digit verification code.");
-   setLoading(false);
-   return;
-  }
-
-  try {
-   const res = await fetch("/api/auth/verify-pin", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-     pin: pinCode,
-     ...signUpPayload
-    }),
-   });
-   const data = await res.json();
-   if (!res.ok || data.error) {
-    setError(data.error || "Verification failed.");
-   } else {
-    // Verification succeeded! Now log the user in to establish the session
-    const loginOk = await login(signUpPayload.email, signUpPayload.password);
-    if (loginOk) {
-     window.location.href = `/fans/${signUpPayload.username || 'me'}`;
-    } else {
-     setError("Account created, but automatic login failed. Please sign in manually.");
-    }
-   }
-  } catch (err) {
-   setError("Failed to verify code. Please try again.");
-  }
-  setLoading(false);
- };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleVerifyPin = async (e: React.FormEvent) => {
    e.preventDefault();
    setError("");
    setLoading(true);
 
-   if (modalMode === "forgot") {
-    if (!isValidEmail(email)) {
-      setError("Please enter a valid email address.");
-      setLoading(false);
-      return;
-    }
-
-    if (!forgotPinSent) {
-      try {
-        const res = await fetch("/api/auth/send-pin", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        });
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          setError(data.error || "Failed to send reset code.");
-        } else {
-          setForgotPinSent(true);
-          setError("");
-        }
-      } catch (err) {
-        setError("Failed to request reset PIN. Try again.");
-      }
-      setLoading(false);
-      return;
-    } else {
-      if (!forgotPinCode || forgotPinCode.length !== 6) {
-        setError("Please enter a valid 6-digit code.");
-        setLoading(false);
-        return;
-      }
-      if (password.length < 4) {
-        setError("Password must be 4+ characters.");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const res = await fetch("/api/auth/reset-password", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, pin: forgotPinCode, password }),
-        });
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          setError(data.error || "Failed to reset password.");
-        } else {
-          if (typeof window !== 'undefined' && (data.devBypass || process.env.NODE_ENV !== 'production')) {
-            localStorage.setItem(`7h_dev_password_${email.toLowerCase()}`, password);
-          }
-          const loginOk = await login(email, password);
-          if (loginOk) {
-            setForgotPinSent(false);
-            setForgotPinCode("");
-            setPassword("");
-            const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
-            const acctRole = stored.role;
-            const acctUsername = stored.username || 'me';
-            if (acctRole === 'crew') {
-              window.location.href = '/crew';
-            } else if (acctRole === 'event_planner') {
-              window.location.href = '/planner';
-            } else if (acctRole === 'admin') {
-              window.location.href = '/admin';
-            } else {
-              window.location.href = `/fans/${acctUsername}`;
-            }
-          } else {
-            setError("Password updated, but automatic login failed. Please sign in manually.");
-          }
-        }
-      } catch (err) {
-        setError("Error resetting password. Please try again.");
-      }
-      setLoading(false);
-      return;
-    }
+   if (!pinCode || pinCode.length !== 6) {
+    setError("Please enter a valid 6-digit verification code.");
+    setLoading(false);
+    return;
    }
 
-   if (modalMode === "login") {
-     try {
-       const ok = await login(email, password);
-       if (!ok) {
-        setError("Invalid email or password. Try again or sign up.");
-       } else {
-        // Redirect based on logged-in user's role
-        const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
-        const acctRole = stored.role;
-        const acctUsername = stored.username || 'me';
-        if (acctRole === 'crew') {
-         window.location.href = '/crew';
-        } else if (acctRole === 'event_planner') {
-         window.location.href = '/planner';
-        } else if (acctRole === 'admin') {
-         window.location.href = '/admin';
-        } else {
-         window.location.href = `/fans/${acctUsername}`;
-        }
+   try {
+    const res = await fetch("/api/auth/verify-pin", {
+     method: "POST",
+     headers: { "Content-Type": "application/json" },
+     body: JSON.stringify({
+      pin: pinCode,
+      ...signUpPayload
+     }),
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+     setError(data.error || "Verification failed.");
+    } else {
+     // Verification succeeded! Now log the user in to establish the session
+     const loginOk = await login(signUpPayload.email, signUpPayload.password);
+     if (loginOk) {
+      window.location.href = `/fans/${signUpPayload.username || 'me'}`;
+     } else {
+      setError("Account created, but automatic login failed. Please sign in manually.");
+     }
+    }
+   } catch (err) {
+    setError("Failed to verify code. Please try again.");
+   }
+   setLoading(false);
+  };
+
+   const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    if (modalMode === "forgot") {
+     if (!isValidEmail(email)) {
+       setError("Please enter a valid email address.");
+       setLoading(false);
+       return;
+     }
+
+     if (!forgotPinSent) {
+       try {
+         const res = await fetch("/api/auth/send-pin", {
+           method: "POST",
+           headers: { "Content-Type": "application/json" },
+           body: JSON.stringify({ email }),
+         });
+         const data = await res.json();
+         if (!res.ok || data.error) {
+           setError(data.error || "Failed to send reset code.");
+         } else {
+           setForgotPinSent(true);
+           setError("");
+         }
+       } catch (err) {
+         setError("Failed to request reset PIN. Try again.");
        }
+       setLoading(false);
+       return;
+     } else {
+       if (!forgotPinCode || forgotPinCode.length !== 6) {
+         setError("Please enter a valid 6-digit code.");
+         setLoading(false);
+         return;
+       }
+       if (password.length < 4) {
+         setError("Password must be 4+ characters.");
+         setLoading(false);
+         return;
+       }
+
+       try {
+         const res = await fetch("/api/auth/reset-password", {
+           method: "POST",
+           headers: { "Content-Type": "application/json" },
+           body: JSON.stringify({ email, pin: forgotPinCode, password }),
+         });
+         const data = await res.json();
+         if (!res.ok || data.error) {
+           setError(data.error || "Failed to reset password.");
+         } else {
+           if (typeof window !== 'undefined' && (data.devBypass || process.env.NODE_ENV !== 'production')) {
+             localStorage.setItem(`7h_dev_password_${email.toLowerCase()}`, password);
+           }
+           const loginOk = await login(email, password);
+           if (loginOk) {
+             setForgotPinSent(false);
+             setForgotPinCode("");
+             setPassword("");
+             const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
+             const acctRole = stored.role;
+             const acctUsername = stored.username || 'me';
+             if (loginRole === 'planner' || acctRole === 'event_planner') {
+               window.location.href = '/planner';
+             } else if (loginRole === 'cruise' || acctRole === 'cruise') {
+               window.location.href = `/cruise/${acctUsername || 'dashboard'}`;
+             } else if (loginRole === 'crew' || acctRole === 'crew') {
+               window.location.href = '/crew';
+             } else if (acctRole === 'admin') {
+               window.location.href = '/admin';
+             } else {
+               window.location.href = `/fans/${acctUsername}`;
+             }
+           } else {
+             setError("Password updated, but automatic login failed. Please sign in manually.");
+           }
+         }
+       } catch (err) {
+         setError("Error resetting password. Please try again.");
+       }
+       setLoading(false);
+       return;
+     }
+    }
+
+    if (modalMode === "login") {
+      try {
+        const ok = await login(email, password);
+        if (!ok) {
+         setError("Invalid email or password. Try again or sign up.");
+        } else {
+         // Redirect based on selected login role or user's account role
+         const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
+         const acctRole = stored.role;
+         const acctUsername = stored.username || 'me';
+         if (loginRole === 'planner' || acctRole === 'event_planner') {
+          window.location.href = '/planner';
+         } else if (loginRole === 'cruise' || acctRole === 'cruise') {
+          window.location.href = `/cruise/${acctUsername || 'dashboard'}`;
+         } else if (loginRole === 'crew' || acctRole === 'crew') {
+          window.location.href = '/crew';
+         } else if (acctRole === 'admin') {
+          window.location.href = '/admin';
+         } else {
+          window.location.href = `/fans/${acctUsername}`;
+         }
+        }
      } catch (err: any) {
        setError(err.message || "Failed to log in.");
      }
@@ -418,45 +423,85 @@ export default function LoginModal() {
     </button>
 
     <div className="p-6 max-h-[85vh] overflow-y-auto">
-     {/* Logo */}
-     <div className="text-center mb-4">
-      <h2 className="text-xl font-bold tracking-tight">
-       <span className="text-[var(--color-accent)]">7</span>th <em className="text-[var(--color-accent)]">heaven</em>
-      </h2>
-       <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 mt-1">
-        {modalMode === "forgot" ? "Reset Your Password" : modalMode === "login" ? "Login as Fan or Crew" : isInviteFlow ? "Complete Your Profile" : "Join the Family"}
-       </p>
-     </div>
+      {/* Logo */}
+      <div className="text-center mb-5">
+       <h2 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase italic">
+        <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
+       </h2>
+       <div className="text-xs sm:text-sm uppercase tracking-[0.18em] font-black text-purple-300 mt-2 flex items-center justify-center flex-wrap gap-1">
+        {modalMode === "forgot" ? (
+         "Reset Your Password"
+        ) : modalMode === "login" ? (
+         "Sign In to Your Account"
+        ) : isInviteFlow ? (
+         "Complete Your Profile"
+        ) : (
+         <span>
+          SIGN UP FOR FREE{" "}
+          <span className="inline-block text-base sm:text-lg font-black text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 px-2.5 py-0.5 rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.6)] mx-1 tracking-widest border border-purple-400/40">
+           FAN
+          </span>{" "}
+          MEMBERSHIP
+         </span>
+        )}
+       </div>
+      </div>
 
-     {/* Tabs */}
+     {/* Prominent High-Contrast Tabs */}
      {modalMode !== "forgot" && (
-      <div className="flex mb-6 border-b border-white/10">
+      <div className="grid grid-cols-2 gap-2 p-1.5 bg-white/[0.06] border border-white/15 rounded-xl mb-5 shadow-inner">
        <button
+        type="button"
         onClick={() => { setModalMode("login"); setError(""); setAdminMode(false); }}
-        className={`flex-1 pb-3 text-xs font-bold uppercase tracking-[0.15em] transition-colors cursor-pointer ${modalMode === "login" ? "text-[var(--color-accent)] border-b-2 border-[var(--color-accent)]" : "text-white/30 hover:text-white/50"}`}
+        className={`py-3 text-sm sm:text-base font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
+         modalMode === "login"
+          ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_20px_rgba(124,0,255,0.4)] scale-[1.02]"
+          : "text-white/50 hover:text-white hover:bg-white/5"
+        }`}
        >
-        Login
+        🔑 LOGIN
        </button>
        <button
+        type="button"
         onClick={() => { setModalMode("signup"); setError(""); setAdminMode(false); }}
-        className={`flex-1 pb-3 text-xs font-bold uppercase tracking-[0.15em] transition-colors cursor-pointer ${modalMode === "signup" ? "text-[var(--color-accent)] border-b-2 border-[var(--color-accent)]" : "text-white/30 hover:text-white/50"}`}
+        className={`py-3 text-sm sm:text-base font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
+         modalMode === "signup"
+          ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_20px_rgba(124,0,255,0.4)] scale-[1.02]"
+          : "text-white/50 hover:text-white hover:bg-white/5"
+        }`}
        >
-        Sign Up
+        ✨ FAN SIGN UP
        </button>
+      </div>
+     )}
+
+     {/* Fan Membership Badge Header */}
+     {modalMode === "signup" && (
+      <div className="bg-purple-600/20 border border-purple-500/40 rounded-2xl p-4 mb-5 text-center shadow-[0_0_25px_rgba(147,51,234,0.25)]">
+       <p className="text-sm sm:text-base font-black uppercase tracking-[0.15em] text-white flex items-center justify-center flex-wrap gap-1.5">
+        <span>🎸</span> SIGN UP FOR FREE{" "}
+        <span className="text-lg sm:text-xl font-black text-purple-300 bg-purple-950/80 border border-purple-400/50 px-3 py-0.5 rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+         FAN
+        </span>{" "}
+        MEMBERSHIP
+       </p>
+       <p className="text-xs text-white/60 mt-1.5 font-medium leading-relaxed">
+        Get local show text alerts, VIP fan perks, song requests & live streams
+       </p>
       </div>
      )}
 
      {/* Role selector — Login only */}
      {modalMode === 'login' && !adminMode && (
-      <div className="mb-4">
-       <div className="flex items-center justify-center gap-1 bg-white/[0.03] border border-white/10 rounded-lg p-1 flex-wrap">
+      <div className="mb-5">
+       <div className="flex items-center justify-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-xl p-1.5 flex-wrap">
         <button
          type="button"
          onClick={() => setLoginRole('fan')}
-         className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-[0.12em] rounded-md transition-all cursor-pointer ${
+         className={`flex-1 py-2 px-3 text-xs sm:text-sm font-black uppercase tracking-[0.12em] rounded-lg transition-all cursor-pointer ${
           loginRole === 'fan'
-           ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]'
-           : 'text-white/30 hover:text-white/50'
+           ? 'bg-[var(--color-accent)] text-white shadow-[0_0_14px_rgba(133,29,239,0.4)]'
+           : 'text-white/40 hover:text-white/70'
          }`}
         >
          🎸 Fan
@@ -464,35 +509,43 @@ export default function LoginModal() {
         <button
          type="button"
          onClick={() => setLoginRole('crew')}
-         className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-[0.12em] rounded-md transition-all cursor-pointer ${
+         className={`flex-1 py-2 px-3 text-xs sm:text-sm font-black uppercase tracking-[0.12em] rounded-lg transition-all cursor-pointer ${
           loginRole === 'crew'
-           ? 'bg-emerald-500 text-white shadow-[0_0_12px_rgba(16,185,129,0.3)]'
-           : 'text-white/30 hover:text-white/50'
+           ? 'bg-emerald-500 text-white shadow-[0_0_14px_rgba(16,185,129,0.4)]'
+           : 'text-white/40 hover:text-white/70'
          }`}
         >
          🛡️ Crew
         </button>
-        <a
-         href="/planner?login=true"
-         onClick={closeModal}
-         className="flex-1 py-1.5 text-xs font-bold uppercase tracking-[0.12em] rounded-md transition-all cursor-pointer text-center text-white/30 hover:bg-purple-500/20 hover:text-purple-300"
+        <button
+         type="button"
+         onClick={() => setLoginRole('planner')}
+         className={`flex-1 py-2 px-3 text-xs sm:text-sm font-black uppercase tracking-[0.12em] rounded-lg transition-all cursor-pointer ${
+          loginRole === 'planner'
+           ? 'bg-purple-600 text-white shadow-[0_0_14px_rgba(147,51,234,0.4)]'
+           : 'text-white/40 hover:text-white/70'
+         }`}
         >
          📅 Planner
-        </a>
-        <a
-         href="/cruise/dashboard"
-         onClick={closeModal}
-         className="flex-1 py-1.5 text-xs font-bold uppercase tracking-[0.12em] rounded-md transition-all cursor-pointer text-center text-white/30 hover:bg-sky-500/20 hover:text-sky-300"
+        </button>
+        <button
+         type="button"
+         onClick={() => setLoginRole('cruise')}
+         className={`flex-1 py-2 px-3 text-xs sm:text-sm font-black uppercase tracking-[0.12em] rounded-lg transition-all cursor-pointer ${
+          loginRole === 'cruise'
+           ? 'bg-sky-500 text-white shadow-[0_0_14px_rgba(56,189,248,0.4)]'
+           : 'text-white/40 hover:text-white/70'
+         }`}
         >
          🛳️ Cruise
-        </a>
+        </button>
        </div>
        {/* Admin — switches modal to red admin panel */}
-       <div className="text-center mt-2">
+       <div className="text-center mt-2.5">
         <button
          type="button"
          onClick={() => { setAdminMode(true); setAdminError(''); setError(''); }}
-         className="text-[10px] uppercase tracking-widest font-black text-white/25 hover:text-red-400 transition-colors cursor-pointer border-none bg-transparent"
+         className="text-xs uppercase tracking-widest font-black text-white/35 hover:text-red-400 transition-colors cursor-pointer border-none bg-transparent"
         >
          🔐 Admin Login
         </button>
@@ -701,27 +754,27 @@ export default function LoginModal() {
       {modalMode === "signup" && (
        <>
          {/* Name + Username — side by side */}
-         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
            <div>
-            <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Full Name {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
+            <label className="text-xs uppercase tracking-[0.15em] font-bold text-white/50 mb-1.5 block">Full Name {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
             <input
              type="text"
              value={name}
              onChange={(e) => setName(e.target.value)}
              placeholder="Your name"
              readOnly={isInviteFlow && !!name}
-             className={`w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+             className={`w-full px-3.5 py-2.5 bg-white/[0.04] border border-white/15 text-base text-white placeholder:text-white/25 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
            </div>
            <div>
-            <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Username <span className="text-white/20 normal-case tracking-normal">(optional)</span></label>
+            <label className="text-xs uppercase tracking-[0.15em] font-bold text-white/50 mb-1.5 block">Username <span className="text-white/30 normal-case tracking-normal">(optional)</span></label>
             <input
              type="text"
              value={usernameField}
              onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
              placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
              maxLength={24}
-             className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+             className="w-full px-3.5 py-2.5 bg-white/[0.04] border border-white/15 text-base text-white placeholder:text-white/25 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
             />
            </div>
           </div>
@@ -840,23 +893,23 @@ export default function LoginModal() {
 
       {/* Email + Password — side by side on signup, stacked on login */}
       {modalMode !== "forgot" && (
-        <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-3' : 'flex flex-col gap-2.5'}>
+        <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-3.5' : 'flex flex-col gap-3'}>
           <div>
-           <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
+           <label className="text-xs uppercase tracking-[0.15em] font-bold text-white/50 mb-1.5 block">Email {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
            <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
+            placeholder={loginRole === 'planner' ? 'planner@company.com' : loginRole === 'crew' ? 'crew@7thheaven.com' : loginRole === 'cruise' ? 'cruiser@7thheaven.com' : 'your@email.com'}
             autoComplete="off"
             readOnly={isInviteFlow}
             data-lpignore="true"
             data-form-type="other"
-            className={`w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
+            className={`w-full px-3.5 py-2.5 bg-white/[0.04] border border-white/15 text-base text-white placeholder:text-white/25 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
            />
           </div>
           <div>
-           <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Password</label>
+           <label className="text-xs uppercase tracking-[0.15em] font-bold text-white/50 mb-1.5 block">Password</label>
            <input
             type="password"
             value={password}
@@ -865,13 +918,13 @@ export default function LoginModal() {
             autoComplete="new-password"
             data-lpignore="true"
             data-form-type="other"
-            className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+            className="w-full px-3.5 py-2.5 bg-white/[0.04] border border-white/15 text-base text-white placeholder:text-white/25 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
            />
            {modalMode === "login" && (
             <button
              type="button"
              onClick={() => { setModalMode("forgot"); setError(""); setForgotPinSent(false); }}
-             className="text-[10px] text-[var(--color-accent)] hover:text-white transition-colors block text-right w-full mt-1.5"
+             className="text-xs font-bold text-[var(--color-accent)] hover:text-white transition-colors block text-right w-full mt-2"
             >
              Forgot Password?
             </button>
@@ -904,13 +957,13 @@ export default function LoginModal() {
       <button
        type="submit"
        disabled={loading}
-       className="w-full py-2.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(133,29,239,0.3)]"
+       className="w-full py-3.5 bg-[var(--color-accent)] text-white font-black text-base sm:text-lg uppercase tracking-[0.18em] hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer rounded-xl shadow-[0_0_25px_rgba(133,29,239,0.4)]"
       >
-       {loading ? "..." : modalMode === "forgot" ? (forgotPinSent ? "Reset Password" : "Send Reset PIN") : modalMode === "login" ? "Sign In" : "Create Account"}
+       {loading ? "..." : modalMode === "forgot" ? (forgotPinSent ? "Reset Password" : "Send Reset PIN") : modalMode === "login" ? "SIGN IN" : "JOIN AS FAN MEMBER"}
       </button>
       {modalMode === "signup" && (
-       <p className="text-[10px] text-white/25 text-center leading-relaxed">
-        By creating an account you confirm you are 13+ and agree to our <a href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-white/40 transition-colors">Terms</a>.
+       <p className="text-xs text-white/35 text-center leading-relaxed">
+        By creating an account you confirm you are 18+ and agree to our <a href="/privacy" className="underline hover:text-white/60 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-white/60 transition-colors">Terms</a>.
        </p>
       )}
      </form>
@@ -952,58 +1005,99 @@ export default function LoginModal() {
      )}
 
      {modalMode === "forgot" && (
-      <p className="text-center text-xs text-white/30 mt-3 font-medium">
-       <button type="button" onClick={() => { setModalMode("login"); setError(""); }} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer">
+      <p className="text-center text-sm text-white/50 mt-4 font-medium">
+       <button type="button" onClick={() => { setModalMode("login"); setError(""); }} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer underline">
         ← Back to Sign In
        </button>
       </p>
      )}
 
-     {modalMode === "login" && (
-      <p className="text-center text-xs text-white/30 mt-3 font-medium">
-       Don&apos;t have an account?{" "}
-       <button onClick={() => setModalMode("signup")} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer">
-        Sign up free to become a fan member
-       </button>
-      </p>
-     )}
-
-      {/* Dev Quick Logins — shown on both login & signup tabs */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="mt-3 pt-3 border-t border-white/5 space-y-1.5">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-extrabold text-center">🛠️ Dev Quick Fill &middot; PIN: 777777</p>
-          <div className="grid grid-cols-4 gap-2">
-            <button
-              type="button"
-              onClick={() => { setEmail("admin@7thheaven.com"); setPassword("password123"); if (modalMode === 'signup') { setName('Admin User'); setUsernameField('admin_7h'); setPinCode('777777'); } }}
-              className="py-2 px-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-purple-300 hover:text-white transition-all text-center cursor-pointer"
-            >
-              🔑 Admin
-            </button>
-            <button
-              type="button"
-              onClick={() => { setEmail("crew@7thheaven.com"); setPassword("password123"); if (modalMode === 'signup') { setName('Crew Member'); setUsernameField('crew_member'); setPinCode('777777'); } }}
-              className="py-2 px-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-emerald-300 hover:text-white transition-all text-center cursor-pointer"
-            >
-              🔑 Crew
-            </button>
-            <button
-              type="button"
-              onClick={() => { setEmail("planner@7thheaven.com"); setPassword("password123"); if (modalMode === 'signup') { setName('Event Planner'); setUsernameField('planner_7h'); setPinCode('777777'); } }}
-              className="py-2 px-2 bg-fuchsia-500/10 hover:bg-fuchsia-500/20 border border-fuchsia-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-fuchsia-300 hover:text-white transition-all text-center cursor-pointer"
-            >
-              🔑 Planner
-            </button>
-            <button
-              type="button"
-              onClick={() => { setEmail("fan@7thheaven.com"); setPassword("password123"); if (modalMode === 'signup') { setName('Super Fan'); setUsernameField('super_fan'); setPinCode('777777'); } }}
-              className="py-2 px-2 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-blue-300 hover:text-white transition-all text-center cursor-pointer"
-            >
-              🔑 Fan
-            </button>
-          </div>
-        </div>
+      {modalMode === "login" && (
+       <p className="text-center text-sm text-white/50 mt-4 font-medium">
+        Don&apos;t have an account?{" "}
+        <button onClick={() => setModalMode("signup")} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer underline">
+         Sign up free to become a fan member
+        </button>
+       </p>
       )}
+
+      {/* Quick Fill & Demo Instant Access — Always visible on live Netlify for instant testing */}
+      <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
+        <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400 font-black text-center">⚡ 1-Click Quick Demo Login (Instant Live Access)</p>
+        <div className="grid grid-cols-5 gap-1.5">
+          <button
+            type="button"
+            onClick={async () => {
+              setAdminMode(true);
+              setAdminEmail("admin@7thheaven.com");
+              setAdminPassword("password123");
+              setEmail("admin@7thheaven.com");
+              setPassword("password123");
+              await login("admin@7thheaven.com", "password123");
+              window.location.href = "/admin";
+            }}
+            className="py-2.5 px-1 bg-purple-500/20 hover:bg-purple-500/40 border border-purple-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-purple-200 hover:text-white transition-all text-center cursor-pointer shadow-lg"
+          >
+            🔑 Admin
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              setAdminMode(false);
+              setLoginRole('crew');
+              setEmail("crew@7thheaven.com");
+              setPassword("password123");
+              await login("crew@7thheaven.com", "password123");
+              window.location.href = "/crew";
+            }}
+            className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-emerald-200 hover:text-white transition-all text-center cursor-pointer shadow-lg"
+          >
+            🔑 Crew
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              setAdminMode(false);
+              setLoginRole('planner');
+              setEmail("planner@7thheaven.com");
+              setPassword("password123");
+              await login("planner@7thheaven.com", "password123");
+              window.location.href = "/planner";
+            }}
+            className="py-2.5 px-1 bg-fuchsia-500/20 hover:bg-fuchsia-500/40 border border-fuchsia-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-fuchsia-200 hover:text-white transition-all text-center cursor-pointer shadow-lg"
+          >
+            🔑 Planner
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              setAdminMode(false);
+              setLoginRole('cruise');
+              setEmail("cruise@7thheaven.com");
+              setPassword("password123");
+              await login("cruise@7thheaven.com", "password123");
+              window.location.href = "/cruise/cruise_guest";
+            }}
+            className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-sky-200 hover:text-white transition-all text-center cursor-pointer shadow-lg"
+          >
+            🔑 Cruise
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              setAdminMode(false);
+              setLoginRole('fan');
+              setEmail("fan@7thheaven.com");
+              setPassword("password123");
+              await login("fan@7thheaven.com", "password123");
+              window.location.href = "/fans/super_fan";
+            }}
+            className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-blue-200 hover:text-white transition-all text-center cursor-pointer shadow-lg"
+          >
+            🔑 Fan
+          </button>
+        </div>
+      </div>
     </div>
    </div>
 

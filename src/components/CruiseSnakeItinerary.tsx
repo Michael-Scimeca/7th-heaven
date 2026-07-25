@@ -1,0 +1,995 @@
+'use client';
+
+import { useEffect, useRef, useState, Suspense } from 'react';
+import { createPortal } from 'react-dom';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
+import type * as THREE from 'three';
+import styles from './CruiseSnakeItinerary.module.css';
+
+function ShipModel({
+  scale = 1.8,
+  offsetY = -0.2,
+  shipRotYRef,
+  shipScaleFactorRef,
+}: {
+  scale?: number;
+  offsetY?: number;
+  shipRotYRef: React.RefObject<number>;
+  shipScaleFactorRef: React.RefObject<number>;
+}) {
+  const { scene } = useGLTF('/objects/ship.glb');
+  const groupRef = useRef<THREE.Group>(null);
+  const scaleVelRef = useRef(0);
+  const currentScaleFactorRef = useRef(1.0);
+
+  useFrame(() => {
+    if (groupRef.current) {
+      // 1. Smooth Y-rotation flip turn as ship passes each day node
+      if (shipRotYRef.current !== undefined) {
+        const targetRot = shipRotYRef.current;
+        let diff = targetRot - groupRef.current.rotation.y;
+        while (diff < -Math.PI) diff += Math.PI * 2;
+        while (diff > Math.PI) diff -= Math.PI * 2;
+        groupRef.current.rotation.y += diff * 0.12;
+      }
+
+      // 2. Elastic spring scale animation over day circle nodes
+      const targetScale = shipScaleFactorRef.current ?? 1.0;
+      const stiffness = 0.22;
+      const damping = 0.58;
+      const force = (targetScale - currentScaleFactorRef.current) * stiffness;
+      scaleVelRef.current = (scaleVelRef.current + force) * damping;
+      currentScaleFactorRef.current += scaleVelRef.current;
+
+      const finalS = scale * currentScaleFactorRef.current;
+      groupRef.current.scale.set(finalS, finalS, finalS);
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      <primitive
+        object={scene}
+        position={[0, offsetY, 0]}
+      />
+    </group>
+  );
+}
+
+type ItineraryEvent = { id: string; time: string; title: string; subtitle: string };
+type ItineraryDay = {
+  id: string;
+  dayLabel: string;
+  location: string;
+  theme: string;
+  events: ItineraryEvent[];
+  colorTheme: string;
+};
+type Props = { itinerary: ItineraryDay[] };
+
+/* ── Layout constants (SVG coordinate space) ── */
+const SVG_W   = 1400;
+const STEP_H  = 680;
+const LEFT_X  = 36;   // Flush left edge (2.5% of 1400)
+const RIGHT_X = 1364; // Flush right edge (97.5% of 1400)
+const NODE_R  = 32;
+
+const DAY_ICONS = ['📍', '🎸', '🏝️', '🥂', '⚓', '🌊', '🌴'];
+
+const DAY_IMAGES: Record<number, string> = {
+  0: '/images/cruise/miami.png',
+  1: '/images/cruise/at-sea.png',
+  2: '/images/cruise/cozumel.png',
+  3: '/images/cruise/concert.png',
+  4: '/images/cruise/grand-cayman.png',
+  5: '/images/cruise/roatan.png',
+};
+
+export type CruiseTuningConfig = {
+  rippleAmp: number;       // Wave ripple height amplitude (0 to 40px)
+  waveSpeed: number;       // Wave ripple animation speed (0.0001 to 0.0050)
+  lerpSpeed: number;       // Boat tracking lerp speed (0.05 to 1.0)
+  scrollStartMul: number;  // Scroll start threshold (0.0 to 1.0)
+  scrollEndMul: number;    // Scroll end threshold (0.0 to 1.0)
+  speedMultiplier: number; // Cruise boat & line travel speed multiplier (0.2 to 4.0x)
+  shipScale: number;       // 3D Ship scale (0.5 to 4.0)
+  shipOffsetY: number;     // 3D Hull Y position offset (0.0 to 3.0)
+  anchorOffsetX: number;   // Anchor X position offset (-100 to +100px)
+  anchorOffsetY: number;   // Anchor Y position offset (-100 to +100px)
+  minShipDist: number;     // Start node padding (0 to 400px)
+  maxShipDistPad: number;  // End node padding (0 to 400px)
+  lineWidth: number;       // SVG path stroke width (2 to 20px)
+  glowBlur: number;        // SVG path glow blur radius (0 to 25px)
+  nodeDipRadius: number;   // Distance from port circle center to trigger scale down (20 to 250px)
+  nodeMinScale: number;    // Minimum scale factor over port circle center (0.0 to 1.0)
+  nodeAction: string;      // Action mode: 'hide' | 'bounce' | 'spin'
+  nodePopDist: number;     // Distance past port circle to pop back up (20 to 200px)
+};
+
+const DEFAULT_TUNING: CruiseTuningConfig = {
+  rippleAmp: 7,
+  waveSpeed: 0.0011,
+  lerpSpeed: 0.75,
+  scrollStartMul: 0.48,
+  scrollEndMul: 0.50,
+  speedMultiplier: 1.0,
+  shipScale: 1.8,
+  shipOffsetY: -0.2,
+  anchorOffsetX: 0,
+  anchorOffsetY: 0,
+  minShipDist: 50,
+  maxShipDistPad: 40,
+  lineWidth: 6,
+  glowBlur: 0,
+  nodeDipRadius: 65,
+  nodeMinScale: 0.0,
+  nodeAction: 'hide',
+  nodePopDist: 60,
+};
+
+type LayoutMode = 'alternating' | 'harbor' | 'center' | 'zigzag';
+
+export default function CruiseSnakeItinerary({ itinerary }: Props) {
+  const [layoutMode, setLayoutMode] = useState<LayoutMode>('alternating');
+  const [showSettings, setShowSettings] = useState(false);
+  const [saveToast, setSaveToast] = useState(false);
+  const [tuning, setTuning] = useState<CruiseTuningConfig>(DEFAULT_TUNING);
+  const shipRotYRef = useRef(0);
+  const shipScaleFactorRef = useRef(1.0);
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef  = useRef<HTMLDivElement>(null);
+  const shipContainerRef = useRef<HTMLDivElement>(null);
+  const cardRefs   = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Load saved tuning from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('7h_cruise_tuning');
+      if (saved) {
+        setTuning({ ...DEFAULT_TUNING, ...JSON.parse(saved) });
+      }
+    } catch {}
+  }, []);
+
+  // ── Sync tuning state to ref for requestAnimationFrame loop ──
+  const tuneRef = useRef<CruiseTuningConfig>(tuning);
+  useEffect(() => {
+    tuneRef.current = tuning;
+  }, [tuning]);
+
+  const handleSaveTuning = () => {
+    try {
+      localStorage.setItem('7h_cruise_tuning', JSON.stringify(tuning));
+      setSaveToast(true);
+      setTimeout(() => setSaveToast(false), 2500);
+    } catch {}
+  };
+
+  const handleResetTuning = () => {
+    setTuning(DEFAULT_TUNING);
+    try {
+      localStorage.removeItem('7h_cruise_tuning');
+      setSaveToast(true);
+      setTimeout(() => setSaveToast(false), 2500);
+    } catch {}
+  };
+
+  // Canvas height: last node Y + full card height room below it
+  const lastNodeY = (itinerary.length - 1) * STEP_H + 50;
+  const totalH = lastNodeY + 700;
+
+  /* ── Node positions dynamically computed based on layoutMode ── */
+  const nodes = itinerary.map((_, i) => {
+    let x = i % 2 === 0 ? LEFT_X : RIGHT_X;
+    if (layoutMode === 'harbor') {
+      x = 120 + (i % 2 === 0 ? 0 : 40); // Left harbor channel
+    } else if (layoutMode === 'center') {
+      x = 700 + (i % 2 === 0 ? -30 : 30); // Center passage
+    } else if (layoutMode === 'zigzag') {
+      x = i % 2 === 0 ? 300 : 1100; // Compact zig-zag
+    }
+    return {
+      x,
+      y: i * STEP_H + 50,
+      isLeft: layoutMode === 'harbor' ? false : layoutMode === 'center' ? i % 2 === 0 : i % 2 === 0,
+    };
+  });
+
+  /* ── Animated water-wave serpentine path ── */
+  const trackRef     = useRef<SVGPathElement>(null);
+  const fillRef      = useRef<SVGPathElement>(null);
+  const currentRef   = useRef<SVGPathElement>(null);
+  const highlightRef = useRef<SVGPathElement>(null);
+
+  const buildWavyPath = (phase: number, amp?: number) => {
+    if (nodes.length === 0) return '';
+    const STEPS = 24;
+    const RIPPLE = amp ?? tuneRef.current.rippleAmp;
+    const FREQ = 3;
+
+    let d = `M ${nodes[0].x} ${nodes[0].y}`;
+
+    for (let i = 1; i < nodes.length; i++) {
+      const prev = nodes[i - 1];
+      const curr = nodes[i];
+
+      for (let s = 1; s <= STEPS; s++) {
+        const t = s / STEPS;
+        const ease = t * t * (3 - 2 * t);
+        const baseX = prev.x + (curr.x - prev.x) * ease;
+        const baseY = prev.y + (curr.y - prev.y) * t;
+
+        const angle = Math.atan2(curr.y - prev.y, curr.x - prev.x);
+        // Phase shifts over time → organic flowing motion
+        const envelope = 1 - Math.abs(t - 0.5) * 1.2;
+        const ripple = Math.sin(t * Math.PI * 2 * FREQ + phase + i * 1.5) * RIPPLE * Math.max(0, envelope);
+        const rx = baseX + Math.cos(angle + Math.PI / 2) * ripple;
+        const ry = baseY + Math.sin(angle + Math.PI / 2) * ripple;
+
+        d += ` L ${rx.toFixed(1)} ${ry.toFixed(1)}`;
+      }
+    }
+    return d;
+  };
+
+  // Initial static path for SSR
+  const initialPathD = buildWavyPath(0);
+
+  // Animate the path ripples over time + scroll-driven fill
+  useEffect(() => {
+    let running = true;
+    const allPaths = [trackRef, fillRef, currentRef, highlightRef];
+    let currentFillOffset = 99999;
+
+    const tick = (time: number) => {
+      if (!running) return;
+
+      const t = tuneRef.current;
+
+      // 1. Static deterministic path geometry (no wobbly vertex distortion over time)
+      const canvas = canvasRef.current;
+      const fill = fillRef.current;
+      if (canvas && fill) {
+        const totalLen = fill.getTotalLength();
+        if (currentFillOffset > totalLen) currentFillOffset = totalLen;
+
+        fill.style.strokeDasharray = `${totalLen}`;
+
+        const rect = canvas.getBoundingClientRect();
+        const viewH = window.innerHeight;
+
+        // Lock boat 1:1 with viewport scroll position
+        const viewportFocusY = viewH * (t.scrollStartMul ?? 0.5);
+        const relativeScrollY = viewportFocusY - rect.top;
+        const totalScrollDistance = Math.max(1, rect.height);
+        const rawProgress = Math.max(0, Math.min(1, relativeScrollY / totalScrollDistance));
+        const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
+        const targetOffset = totalLen * (1 - progress);
+
+        currentFillOffset += (targetOffset - currentFillOffset) * t.lerpSpeed;
+        fill.style.strokeDashoffset = `${currentFillOffset}`;
+
+        // Compute current tip point on SVG path (distance along path from start)
+        const shipDist = Math.max(0, Math.min(totalLen, totalLen - currentFillOffset));
+        const pt = fill.getPointAtLength(shipDist);
+
+        // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
+        let minNodeDist = 999;
+        nodes.forEach(node => {
+          const ndx = pt.x - node.x;
+          const ndy = pt.y - node.y;
+          const dist = Math.sqrt(ndx * ndx + ndy * ndy);
+          if (dist < minNodeDist) minNodeDist = dist;
+        });
+
+        const dipRadius = t.nodeDipRadius ?? 65;
+        const minScale = t.nodeMinScale ?? 0.0;
+        const action = t.nodeAction ?? 'hide';
+        let opacityVal = 1.0;
+
+        if (minNodeDist < dipRadius) {
+          const dipRatio = minNodeDist / dipRadius; // 1.0 at outer edge, 0.0 right over center
+          if (action === 'hide') {
+            shipScaleFactorRef.current = minScale + (1.0 - minScale) * Math.pow(dipRatio, 1.4);
+            // Proportional opacity fade from 1 (100% visible at edge) to 0 (completely invisible at center)
+            opacityVal = Math.max(0, Math.min(1, Math.pow(dipRatio, 1.2)));
+          } else if (action === 'bounce') {
+            shipScaleFactorRef.current = minScale + (1.0 - minScale) * Math.sin((dipRatio * Math.PI) / 2);
+            opacityVal = 0.4 + 0.6 * dipRatio;
+          } else if (action === 'spin') {
+            shipScaleFactorRef.current = minScale + (1.0 - minScale) * dipRatio;
+            opacityVal = 0.5 + 0.5 * dipRatio;
+          } else {
+            shipScaleFactorRef.current = 1.0;
+            opacityVal = 1.0;
+          }
+        } else {
+          shipScaleFactorRef.current = 1.0;
+          opacityVal = 1.0;
+        }
+        
+        // Compute direction tangent for ship heading angle (sample 12px behind & ahead for smooth angle)
+        const pPrev = fill.getPointAtLength(Math.max(0, shipDist - 12));
+        const pNext = fill.getPointAtLength(Math.min(totalLen, shipDist + 12));
+        const dx = pNext.x - pPrev.x;
+        const dy = pNext.y - pPrev.y;
+        const headingLeft = dx < 0;
+
+        // Container angle is ALWAYS kept within [-90°, +90°] so top of container ALWAYS points UP!
+        const containerAngle = headingLeft ? Math.atan2(-dy, -dx) : Math.atan2(dy, dx);
+        shipRotYRef.current = headingLeft ? Math.PI : 0;
+
+        if (shipContainerRef.current) {
+          const xPct = (pt.x / SVG_W) * 100;
+          const yPct = (pt.y / totalH) * 100;
+          const offX = t.anchorOffsetX ?? 0;
+          const offY = t.anchorOffsetY ?? 0;
+
+          shipContainerRef.current.style.left = `calc(${xPct}% + ${offX}px)`;
+          shipContainerRef.current.style.top = `calc(${yPct}% + ${offY}px)`;
+          shipContainerRef.current.style.transform = `translate(-50%, -50%) rotate(${containerAngle}rad)`;
+          shipContainerRef.current.style.opacity = opacityVal.toFixed(3);
+        }
+      }
+
+      requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+    return () => { running = false; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itinerary.length, layoutMode]);
+
+  /* ── Scroll-driven card reveal ── */
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    cardRefs.current.forEach((card) => {
+      if (!card) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            card.classList.add(styles.cardVisible);
+            obs.disconnect();
+          }
+        },
+        { threshold: 0.15 }
+      );
+      obs.observe(card);
+      observers.push(obs);
+    });
+
+    return () => observers.forEach(obs => obs.disconnect());
+  }, [itinerary.length, layoutMode]);
+
+  if (!itinerary || itinerary.length === 0) return null;
+
+  return (
+    <section className={styles.root} ref={sectionRef}>
+      {/* ── Header ── */}
+      <div className={styles.header}>
+        <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>
+        <h2 id="itinerary" className={styles.title}>Official Itinerary</h2>
+        
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            className={`py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
+              showSettings
+                ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                : 'bg-white/5 border border-white/10 text-cyan-400 hover:bg-white/10'
+            }`}
+          >
+            <span>⚙️</span> SVG & Speed Settings
+          </button>
+        </div>
+
+        {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
+        {showSettings && mounted && createPortal(
+          <div 
+            data-settings-panel
+            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[#080812]/98 border-2 border-cyan-400 rounded-3xl backdrop-blur-2xl shadow-[0_0_90px_rgba(0,0,0,0.95)] text-left animate-in slide-in-from-right duration-300 opacity-60 hover:opacity-100 transition-opacity duration-300"
+            style={{ zIndex: 999999, pointerEvents: 'auto', opacity: 0.6 }}
+          >
+            <style>{`
+              [data-settings-panel], [data-settings-panel] * {
+                cursor: default !important;
+              }
+              [data-settings-panel] input[type="range"],
+              [data-settings-panel] button,
+              [data-settings-panel] a {
+                cursor: pointer !important;
+              }
+            `}</style>
+
+            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 bg-[#080812] backdrop-blur-md pt-1 z-10">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">⚙️</span>
+                <div>
+                  <h3 className="text-white font-black text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
+                  <p className="text-white/40 text-xs">All real-time physics tuning parameters</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setShowSettings(false)}
+                className="text-white/60 hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-xl cursor-pointer transition-all"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            {/* Controls Sliders Grid — 2-Column organized sections */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              
+              {/* SECTION 1: Velocity & Viewport Triggers */}
+              <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 rounded-2xl space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                <div className="flex justify-between items-center text-cyan-300 font-black text-sm">
+                  <span>⚡ Cruise Boat & Line Travel Speed</span>
+                  <span className="text-cyan-400 font-mono text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
+                </div>
+                <input
+                  type="range" min="0.2" max="4.0" step="0.1"
+                  value={tuning.speedMultiplier ?? 1.0}
+                  onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+                <div className="flex justify-between text-[10px] text-white/50 font-bold uppercase tracking-wider">
+                  <span>0.2x (Slow Motion)</span>
+                  <span>1.0x (1:1 Viewport Lock)</span>
+                  <span>4.0x (Hyper Speed)</span>
+                </div>
+              </div>
+
+              {/* Start Trigger Location */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>📍 Start Trigger Location</span>
+                  <span className="text-cyan-400 font-mono">{((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen</span>
+                </div>
+                <input
+                  type="range" min="0.0" max="1.0" step="0.01"
+                  value={tuning.scrollStartMul ?? 0.48}
+                  onChange={e => setTuning({ ...tuning, scrollStartMul: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* End Trigger Location */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>📍 End Trigger Location</span>
+                  <span className="text-cyan-400 font-mono">{((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen</span>
+                </div>
+                <input
+                  type="range" min="0.0" max="1.0" step="0.01"
+                  value={tuning.scrollEndMul ?? 0.5}
+                  onChange={e => setTuning({ ...tuning, scrollEndMul: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Start Node Padding */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>🛑 Start Path Padding</span>
+                  <span className="text-cyan-400 font-mono">{tuning.minShipDist ?? 0}px</span>
+                </div>
+                <input
+                  type="range" min="0" max="400" step="10"
+                  value={tuning.minShipDist ?? 0}
+                  onChange={e => setTuning({ ...tuning, minShipDist: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* End Node Padding */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>🏁 End Path Finish Padding</span>
+                  <span className="text-cyan-400 font-mono">{tuning.maxShipDistPad ?? 0}px</span>
+                </div>
+                <input
+                  type="range" min="0" max="400" step="10"
+                  value={tuning.maxShipDistPad ?? 0}
+                  onChange={e => setTuning({ ...tuning, maxShipDistPad: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Anchor X Offset */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>⚓ Anchor X Offset</span>
+                  <span className="text-cyan-400 font-mono">{tuning.anchorOffsetX ?? 0}px</span>
+                </div>
+                <input
+                  type="range" min="-100" max="100" step="1"
+                  value={tuning.anchorOffsetX ?? 0}
+                  onChange={e => setTuning({ ...tuning, anchorOffsetX: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Anchor Y Offset */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>⚓ Anchor Y Offset</span>
+                  <span className="text-cyan-400 font-mono">{tuning.anchorOffsetY ?? 0}px</span>
+                </div>
+                <input
+                  type="range" min="-100" max="100" step="1"
+                  value={tuning.anchorOffsetY ?? 0}
+                  onChange={e => setTuning({ ...tuning, anchorOffsetY: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* 3D Ship Model Scale */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>🔎 3D Ship Scale</span>
+                  <span className="text-cyan-400 font-mono">{(tuning.shipScale ?? 1.8).toFixed(1)}x</span>
+                </div>
+                <input
+                  type="range" min="0.5" max="4.0" step="0.1"
+                  value={tuning.shipScale ?? 1.8}
+                  onChange={e => setTuning({ ...tuning, shipScale: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* 3D Hull Y Offset */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>⚓ Hull Y Path Offset</span>
+                  <span className="text-cyan-400 font-mono">{(tuning.shipOffsetY ?? 0.9).toFixed(1)}</span>
+                </div>
+                <input
+                  type="range" min="0.0" max="3.0" step="0.1"
+                  value={tuning.shipOffsetY ?? 0.9}
+                  onChange={e => setTuning({ ...tuning, shipOffsetY: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
+              <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-cyan-500/30 p-4 rounded-2xl space-y-3 mt-2">
+                <div className="flex items-center gap-2 border-b border-cyan-500/20 pb-2">
+                  <span className="text-lg">📍</span>
+                  <h3 className="text-white font-black uppercase text-xs tracking-wider">Port Circle & Corner Arrival Controls</h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Action Mode Toggle */}
+                  <div className="bg-black/60 border border-white/10 p-3 rounded-xl space-y-1.5">
+                    <label className="block text-xs font-bold text-white/90">🎭 Port Circle Action</label>
+                    <div className="flex gap-1.5 pt-1">
+                      {[
+                        { id: 'hide', label: '🙈 Hide & Flip' },
+                        { id: 'bounce', label: '🏀 Elastic Bounce' },
+                        { id: 'spin', label: '🌀 Spin & Dock' },
+                      ].map(act => (
+                        <button
+                          key={act.id}
+                          onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
+                          className={`flex-1 py-1.5 px-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${
+                            (tuning.nodeAction ?? 'hide') === act.id
+                              ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
+                              : 'bg-white/5 text-white/60 hover:bg-white/10'
+                          }`}
+                        >
+                          {act.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Min Scale Over Circle */}
+                  <div className="bg-black/60 border border-white/10 p-3 rounded-xl space-y-1.5">
+                    <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                      <span>🔎 Min Scale Over Circle</span>
+                      <span className="text-cyan-400 font-mono">{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
+                    </div>
+                    <input
+                      type="range" min="0.0" max="1.0" step="0.05"
+                      value={tuning.nodeMinScale ?? 0.0}
+                      onChange={e => setTuning({ ...tuning, nodeMinScale: Number(e.target.value) })}
+                      className="w-full accent-cyan-400 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Scale Down Distance */}
+                  <div className="bg-black/60 border border-white/10 p-3 rounded-xl space-y-1.5">
+                    <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                      <span>📏 Scale Down Trigger Radius</span>
+                      <span className="text-cyan-400 font-mono">{tuning.nodeDipRadius ?? 65}px</span>
+                    </div>
+                    <input
+                      type="range" min="20" max="250" step="5"
+                      value={tuning.nodeDipRadius ?? 65}
+                      onChange={e => setTuning({ ...tuning, nodeDipRadius: Number(e.target.value) })}
+                      className="w-full accent-cyan-400 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Re-appear Pop Distance */}
+                  <div className="bg-black/60 border border-white/10 p-3 rounded-xl space-y-1.5">
+                    <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                      <span>🚀 Re-appear Pop Distance</span>
+                      <span className="text-cyan-400 font-mono">{tuning.nodePopDist ?? 60}px</span>
+                    </div>
+                    <input
+                      type="range" min="20" max="200" step="5"
+                      value={tuning.nodePopDist ?? 60}
+                      onChange={e => setTuning({ ...tuning, nodePopDist: Number(e.target.value) })}
+                      className="w-full accent-cyan-400 cursor-pointer"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Boat Smoothness Lerp */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>🚢 Tracking Smoothness Lerp</span>
+                  <span className="text-cyan-400 font-mono">{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
+                </div>
+                <input
+                  type="range" min="0.05" max="1.0" step="0.05"
+                  value={tuning.lerpSpeed ?? 0.85}
+                  onChange={e => setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Wave Ripple Height */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>🌊 Wave Ripple Height</span>
+                  <span className="text-cyan-400 font-mono">{tuning.rippleAmp ?? 7}px</span>
+                </div>
+                <input
+                  type="range" min="0" max="40" step="1"
+                  value={tuning.rippleAmp ?? 7}
+                  onChange={e => setTuning({ ...tuning, rippleAmp: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Wave Animation Speed */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>⏱️ Wave Motion Speed</span>
+                  <span className="text-cyan-400 font-mono">{((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}</span>
+                </div>
+                <input
+                  type="range" min="0.0001" max="0.0050" step="0.0001"
+                  value={tuning.waveSpeed ?? 0.0011}
+                  onChange={e => setTuning({ ...tuning, waveSpeed: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* SVG Line Thickness */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>📏 SVG Line Thickness</span>
+                  <span className="text-cyan-400 font-mono">{tuning.lineWidth ?? 6}px</span>
+                </div>
+                <input
+                  type="range" min="2" max="20" step="1"
+                  value={tuning.lineWidth ?? 6}
+                  onChange={e => setTuning({ ...tuning, lineWidth: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* SVG Glow Radius */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>✨ Neon Glow Blur</span>
+                  <span className="text-cyan-400 font-mono">{tuning.glowBlur ?? 6}px</span>
+                </div>
+                <input
+                  type="range" min="0" max="25" step="1"
+                  value={tuning.glowBlur ?? 6}
+                  onChange={e => setTuning({ ...tuning, glowBlur: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+            </div>
+
+            {/* Actions Bar */}
+            <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 bg-[#080812] pb-1 z-10">
+              <button
+                onClick={handleResetTuning}
+                className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-white/10 cursor-pointer"
+              >
+                🔄 Reset to Defaults
+              </button>
+
+              <div className="flex items-center gap-3">
+                {saveToast && (
+                  <span className="text-xs font-bold text-emerald-400 animate-in fade-in duration-300">
+                    ✓ Settings Saved!
+                  </span>
+                )}
+                <button
+                  onClick={handleSaveTuning}
+                  className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                >
+                  💾 Save Settings
+                </button>
+              </div>
+            </div>
+
+          </div>,
+          document.body
+        )}
+
+      </div>
+
+      {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
+      <div ref={canvasRef} className={styles.canvas} style={{ height: totalH, maxWidth: SVG_W }}>
+        {/* Ambient glows */}
+        <div className={styles.glowCyan} />
+        <div className={styles.glowPurple} />
+
+        {/* SVG — path + nodes */}
+        <svg
+          className={styles.svg}
+          viewBox={`0 0 ${SVG_W} ${totalH}`}
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="cruiseGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stopColor="#06b6d4" />
+              <stop offset="50%"  stopColor="#06b6d4" />
+              <stop offset="100%" stopColor="#06b6d4" />
+            </linearGradient>
+            <filter id="cruiseGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation={tuning.glowBlur ?? 6} result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {/* FULL ROUTE GUIDE TRACK — Hidden transparent guide path (used for boat path calculations) */}
+          <path
+            ref={trackRef}
+            d={initialPathD}
+            fill="none"
+            stroke="transparent"
+            strokeWidth="0"
+            opacity="0"
+          />
+
+          {/* BRIGHT FILL — scroll-driven, fills as you travel */}
+          <path
+            ref={fillRef}
+            d={initialPathD}
+            fill="none"
+            stroke="#06b6d4"
+            strokeWidth={tuning.lineWidth ?? 6}
+            strokeLinecap="round"
+            filter="url(#cruiseGlow)"
+          />
+
+          {/* Flowing current dashes on the fill */}
+          <path
+            ref={currentRef}
+            d={initialPathD}
+            fill="none"
+            stroke="rgba(6,182,212,0.9)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeDasharray="12 24 6 18"
+            className={styles.waterCurrent}
+          />
+
+          {/* Bright flowing highlights */}
+          <path
+            ref={highlightRef}
+            d={initialPathD}
+            fill="none"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeDasharray="4 40 2 50"
+            className={styles.waterHighlight}
+          />
+
+        </svg>
+
+        {/* HTML cards — absolutely positioned at each node's coordinates according to layoutMode */}
+        {nodes.map((node, i) => {
+          const topPct  = (node.y / totalH) * 100;
+          const leftPct = (node.x / SVG_W) * 100;
+          const day = itinerary[i];
+          const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#a855f7');
+          const dayImage = DAY_IMAGES[i % 6];
+
+          const cardContent = (
+            <div className="group">
+              {dayImage && (
+                <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden mb-6 border border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.5)] group-hover:border-cyan-500/40 transition-all duration-500">
+                  <img 
+                    src={dayImage} 
+                    alt={day.theme} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-black/30 to-transparent flex items-end p-4">
+                    <span className="text-xs font-black uppercase tracking-widest text-cyan-300 backdrop-blur-md bg-black/60 px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-1.5 shadow-lg">
+                      📍 {day.location}
+                    </span>
+                  </div>
+                </div>
+              )}
+              <div className={styles.cardHeader}>
+                <span
+                  className={styles.dayBadge}
+                  style={{
+                    color: themeColor,
+                    backgroundColor: `color-mix(in srgb, ${themeColor} 12%, transparent)`,
+                    borderColor: `color-mix(in srgb, ${themeColor} 30%, transparent)`,
+                  }}
+                >
+                  {day.dayLabel}
+                </span>
+                <span className={styles.location}>📍 {day.location}</span>
+              </div>
+              <h3 className={styles.cardTitle}>{day.theme}</h3>
+              <ul className={styles.eventsList}>
+                {day.events.map(ev => (
+                  <li key={ev.id} className={styles.eventItem}>
+                    <span className={styles.eventTime} style={{ color: themeColor }}>{ev.time}</span>
+                    <div>
+                      <div className={styles.eventTitle}>{ev.title}</div>
+                      {ev.subtitle && <div className={styles.eventSubtitle}>{ev.subtitle}</div>}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+
+          // Card layout positioning logic per layoutMode
+          let cardStyle: React.CSSProperties = {
+            position: 'absolute',
+            top: `${topPct}%`,
+            zIndex: 10,
+          };
+
+          if (layoutMode === 'harbor') {
+            // All cards aligned cleanly to the right of the harbor channel
+            cardStyle = {
+              ...cardStyle,
+              left: '220px',
+              width: '740px',
+            };
+          } else if (layoutMode === 'center') {
+            // Cards centered directly along the central channel
+            cardStyle = {
+              ...cardStyle,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '760px',
+              maxWidth: '760px',
+            };
+          } else if (layoutMode === 'zigzag') {
+            // Compact zig-zag cards
+            cardStyle = {
+              ...cardStyle,
+              ...(node.isLeft
+                ? { left: `${leftPct}%` }
+                : { right: `${100 - leftPct}%` }
+              ),
+              width: '640px',
+            };
+          } else {
+            // Wide Screen Sweep (default)
+            cardStyle = {
+              ...cardStyle,
+              ...(node.isLeft
+                ? { left: '0.5%' }
+                : { right: '0.5%' }
+              ),
+              width: 'min(620px, 44vw)',
+            };
+          }
+
+          return (
+            <div
+              key={i}
+              ref={el => { cardRefs.current[i] = el; }}
+              className={`${styles.card} ${node.isLeft ? styles.cardLeft : styles.cardRight}`}
+              style={cardStyle}
+            >
+              {cardContent}
+            </div>
+          );
+        })}
+
+        {/* 3D Cruise Ship follower riding the leading edge of the SVG fill */}
+        <div
+          ref={shipContainerRef}
+          style={{
+            position: 'absolute',
+            width: isMobile ? 220 : 360,
+            height: isMobile ? 220 : 360,
+            pointerEvents: 'none',
+            zIndex: 2,
+            transition: 'none',
+            filter: 'none',
+          }}
+        >
+          <Canvas orthographic camera={{ zoom: isMobile ? 34 : 55, position: [0, 0, 100] }}>
+            <ambientLight intensity={1.5} />
+            <directionalLight position={[5, 10, 5]} intensity={2} />
+            <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
+            <Suspense fallback={null}>
+              <ShipModel
+                scale={tuning.shipScale}
+                offsetY={tuning.shipOffsetY}
+                shipRotYRef={shipRotYRef}
+                shipScaleFactorRef={shipScaleFactorRef}
+              />
+            </Suspense>
+          </Canvas>
+        </div>
+
+        {/* Node circle ring HTML overlays — crisp 1:1 circle with no blur glow */}
+        {nodes.map((node, i) => (
+          <div
+            key={`node-ring-${i}`}
+            style={{
+              position: 'absolute',
+              left: `${(node.x / SVG_W) * 100}%`,
+              top: `${(node.y / totalH) * 100}%`,
+              transform: 'translate(-50%, -50%)',
+              width: isMobile ? 48 : 68,
+              height: isMobile ? 48 : 68,
+              borderRadius: '50%',
+              backgroundColor: '#0a0a12',
+              border: '2px solid #06b6d4',
+              boxShadow: 'none',
+              zIndex: 9,
+              pointerEvents: 'none',
+            }}
+          />
+        ))}
+
+        {/* Emoji icon overlays — absolutely positioned at each SVG node's exact coordinates */}
+        {nodes.map((node, i) => (
+          <div
+            key={`icon-${i}`}
+            className={styles.nodeIcon}
+            style={{
+              left: `${(node.x / SVG_W) * 100}%`,
+              top: `${(node.y / totalH) * 100}%`,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            {DAY_ICONS[i % DAY_ICONS.length]}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

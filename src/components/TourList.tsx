@@ -7,6 +7,108 @@ import TourMap, { isShowOver, typeConfig, getShowType, getShowDateTime } from ".
 import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";
 
+// ─── Wavy canvas divider ─────────────────────────────────────────────────────
+function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: number; hovered?: boolean; active?: boolean }) {
+ const canvasRef = useRef<HTMLCanvasElement>(null);
+ const phaseRef = useRef(0);
+ const rafRef  = useRef<number | null>(null);
+
+ const draw = useCallback((phase: number, isHovered: boolean, isActive: boolean) => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  let s = seed + 1;
+  const rand = () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
+
+  const grad = ctx.createLinearGradient(0, 0, W, 0);
+  if (isActive) {
+    // Site purple — always-on up-next show
+    grad.addColorStop(0,   'rgba(133,29,239,0)');
+    grad.addColorStop(0.1, 'rgba(160,40,255,0.85)');
+    grad.addColorStop(0.5, 'rgba(180,50,255,1)');
+    grad.addColorStop(0.9, 'rgba(160,40,255,0.85)');
+    grad.addColorStop(1,   'rgba(133,29,239,0)');
+  } else if (isHovered) {
+   grad.addColorStop(0,   'rgba(80,50,140,0)');
+   grad.addColorStop(0.1, 'rgba(120,60,200,0.75)');
+   grad.addColorStop(0.5, 'rgba(150,70,230,0.95)');
+   grad.addColorStop(0.9, 'rgba(120,60,200,0.75)');
+   grad.addColorStop(1,   'rgba(80,50,140,0)');
+  } else {
+   grad.addColorStop(0,   'rgba(60,40,100,0)');
+   grad.addColorStop(0.1, 'rgba(80,50,130,0.55)');
+   grad.addColorStop(0.5, 'rgba(100,60,160,0.7)');
+   grad.addColorStop(0.9, 'rgba(80,50,130,0.55)');
+   grad.addColorStop(1,   'rgba(60,40,100,0)');
+  }
+
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = (isActive || isHovered) ? 1.6 : 1.1;
+  ctx.lineJoin = 'round';
+  ctx.lineCap  = 'round';
+
+  const midY    = H / 2;
+  const segments = 18;
+  const segW    = W / segments;
+  const amp     = isActive ? 5 : isHovered ? 4.5 : 2.5;
+
+  ctx.beginPath();
+  ctx.moveTo(0, midY + Math.sin(phase) * amp * 0.4 * (rand() - 0.5) * 2);
+  for (let i = 0; i < segments; i++) {
+   const x0   = i * segW;
+   const x1   = (i + 1) * segW;
+   const wave = Math.sin(phase + i * 0.45) * amp;
+   const cp1x = x0 + segW * 0.35;
+   const cp1y = midY + (rand() - 0.5) * 5 + wave;
+   const cp2x = x0 + segW * 0.65;
+   const cp2y = midY + (rand() - 0.5) * 5 + Math.sin(phase + i * 0.45 + 1.1) * amp;
+   const ex   = x1;
+   const ey   = midY + (rand() - 0.5) * 3 + Math.sin(phase + (i + 1) * 0.45) * amp * 0.6;
+   ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, ex, ey);
+  }
+  ctx.stroke();
+ }, [seed]);
+
+ // Static draw on mount
+ useEffect(() => { draw(0, false, false); }, [draw]);
+
+ // Animate when active (up-next) or hovered
+ useEffect(() => {
+  const shouldAnimate = hovered || active;
+  if (shouldAnimate) {
+   const loop = () => {
+    phaseRef.current += active ? 0.05 : 0.07;
+    draw(phaseRef.current, hovered, active);
+    rafRef.current = requestAnimationFrame(loop);
+   };
+   rafRef.current = requestAnimationFrame(loop);
+  } else {
+   if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
+   // wind back to static
+   draw(phaseRef.current, false, false);
+  }
+  return () => { if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; } };
+ }, [hovered, active, draw]);
+
+ return (
+  <canvas
+   ref={canvasRef}
+   width={1200}
+   height={14}
+   className="w-full block transition-opacity duration-300"
+   style={{ height: 14, opacity: (active || hovered) ? 1 : 0.85 }}
+   aria-hidden="true"
+  />
+ );
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+
 export const shows = [
  { day: "Fri", date: "January 2", venue: "Station 34", city: "Mt. Prospect", state: "IL", time: "8:30pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=34%20S%20Main%20St,%20Mount%20Prospect,%20IL%2060056,%20United%20States&coordinate=42.064738,-87.936988&name=34%20S%20Main%20St&map=explore", websiteUrl: "https://stationthirtyfour.com/events/" },
  { day: "Sat", date: "January 3", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
@@ -104,7 +206,7 @@ function getShowIcon(show: any): string {
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none bg-[rgba(255,255,255,0.05)] border border-[var(--color-border)] rounded-lg pl-3 pr-7 py-1.5 text-[0.65rem] font-semibold uppercase tracking-wider text-white/70 cursor-pointer transition-all duration-200 focus:outline-none focus:border-[var(--color-accent)] hover:border-[rgba(255,255,255,0.15)] hover:text-white/90";
+const selectClass = "appearance-none bg-[rgba(255,255,255,0.05)] border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-semibold uppercase tracking-wider text-white/70 cursor-pointer transition-all duration-200 focus:outline-none hover:text-white/90";
 const activeSelect = "!border-[var(--color-accent)] !text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -176,6 +278,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
+  const [hoveredRowIdx, setHoveredRowIdx] = useState<number | null>(null);
 
   // Subscribed show IDs for custom specific notifications
   const [subscribedShowIds, setSubscribedShowIds] = useState<string[]>([]);
@@ -565,17 +668,45 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   }, [showPastShows, activeShowsByTime, upcomingShowsList]);
 
   const locationOptions = useMemo(() => {
-    // Only show cities that are currently on the upcoming tour list
-    const upcomingCities = new Set<string>();
+    // Count shows per city from upcoming shows
+    const cityCount = new Map<string, number>();
     upcomingShowsList.forEach((s: any) => {
       if (s.city && s.city.trim()) {
-        upcomingCities.add(s.city.trim());
+        const city = s.city.trim();
+        cityCount.set(city, (cityCount.get(city) ?? 0) + 1);
       }
     });
-    return Array.from(upcomingCities).sort((a, b) => a.localeCompare(b));
+    return Array.from(cityCount.entries())
+      .map(([city, count]) => ({ city, count }))
+      .sort((a, b) => a.city.localeCompare(b.city));
   }, [upcomingShowsList]);
 
  const tableRef = useRef<HTMLDivElement>(null);
+ const sentinelRef = useRef<HTMLDivElement>(null);
+
+ // Detect when sticky sort bar locks in — toggle class on <html> for connected corner effect
+ useEffect(() => {
+  const sentinel = sentinelRef.current;
+  if (!sentinel) return;
+  const observer = new IntersectionObserver(
+   ([entry]) => {
+    // Only "stuck" if the sentinel has scrolled ABOVE the nav (top < nav height)
+    // If sentinel is below the viewport (not yet reached), top will be positive/large — don't add class
+    const isAboveNav = !entry.isIntersecting && entry.boundingClientRect.top < 89;
+    if (isAboveNav) {
+     document.documentElement.classList.add('tour-sort-stuck');
+    } else {
+     document.documentElement.classList.remove('tour-sort-stuck');
+    }
+   },
+   { rootMargin: '-89px 0px 0px 0px', threshold: 0 }
+  );
+  observer.observe(sentinel);
+  return () => {
+   observer.disconnect();
+   document.documentElement.classList.remove('tour-sort-stuck');
+  };
+ }, []);
 
   const scrollToShow = useCallback((venue: string, date: string) => {
    // Clear any filters first so the row is visible
@@ -693,8 +824,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const daysLabel = getDaysUntil();
 
   const gridClass = member?.role === 'admin'
-    ? "grid-cols-1 lg:grid-cols-[60px_120px_2.1fr_1.4fr_3.2fr_1.2fr_150px_120px_140px]"
-    : "grid-cols-1 lg:grid-cols-[60px_120px_2.1fr_1.4fr_3.2fr_1.2fr_150px_120px]";
+    ? "grid-cols-1 lg:grid-cols-[60px_120px_2.5fr_1.4fr_1fr_140px_120px_140px]"
+    : "grid-cols-1 lg:grid-cols-[60px_120px_2.5fr_1.4fr_1fr_140px_120px]";
 
   return (
    <>
@@ -717,13 +848,6 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       #tour-rows-container {
         gap: ${tourRowGap} !important;
       }
-      #tour-table-container .type-col,
-      #tour-table-container .type-col span:not(.tour-badge) {
-        font-size: 11px !important;
-      }
-      #tour-table-container .type-col .icon-span {
-        font-size: 13px !important;
-      }
       #tour-table-container .tour-badge {
         font-size: 9px !important;
         padding-top: 1px !important;
@@ -734,15 +858,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
     {/* Table */}
     <section className="py-12 relative" ref={tableRef} id="tour-table-container">
-      {/* Gold-to-black gradient pinned to the top of this section */}
-      <div className="absolute inset-x-0 bottom-0 h-[600px] pointer-events-none z-0" style={{ background: "linear-gradient(to top, rgba(230,150,0,0.65) 0%, rgba(180,100,0,0.4) 25%, rgba(80,40,0,0.15) 55%, transparent 100%)" }} />
+      {/* Purple gradient pinned to the top of this section */}
+      <div className="absolute inset-x-0 bottom-0 h-[600px] pointer-events-none z-0" style={{ background: "linear-gradient(to top, rgb(65 40 163 / 65%) 0%, rgb(134 46 234 / 40%) 25%, rgba(80, 40, 0, 0.15) 55%, transparent 100%)" }} />
       <div className="site-container relative z-10">
 
       {/* Section Heading */}
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-       <h2 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight">
-        Upcoming <span className="gradient-text">Shows</span>
-       </h2>
        <button
          onClick={() => setIsFontCustomizerOpen(true)}
          className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-4 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-1.5 cursor-pointer text-white/80 hover:text-white w-fit"
@@ -751,12 +872,23 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
        </button>
       </div>
 
+     {!hideMap && (
+      <div className="mb-8 relative" style={{
+        maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
+        maskComposite: 'intersect',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
+        WebkitMaskComposite: 'source-in',
+      }}>
+       <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
+      </div>
+     )}
+
      {/* Up Next — Neon Glow / Festival */}
      {upNext && (
-      <div className="mb-0">
+      <div className="mb-0" style={{ marginTop: '-80px', position: 'relative', zIndex: 10 }}>
        <div className="relative overflow-hidden">
 
-         <div className="relative z-10 py-6 md:py-8 flex flex-col md:flex-row justify-between gap-6">
+         <div className="relative z-10 py-6 md:py-8 flex flex-col md:flex-row justify-between items-end gap-6">
            {/* Left Column: Info */}
            <div className="relative flex flex-col justify-between min-h-[140px]">
              {/* UP NEXT label */}
@@ -816,7 +948,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               )}
            </div>
 
-           <div className="flex flex-col items-stretch md:items-end justify-between gap-5 shrink-0 w-full md:w-[460px]">
+           <div className="flex flex-col items-stretch md:items-end justify-end gap-5 shrink-0 w-full md:w-[460px]">
              <CountdownTimer 
                targetDate={`${upNext.date}, ${new Date().getFullYear()}`} 
                targetTime={upNext.playTime || upNext.time} 
@@ -865,12 +997,6 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       </div>
      )}
 
-     {!hideMap && (
-      <div className="mb-12">
-       <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
-      </div>
-     )}
-
      <div className="flex items-center justify-between mb-3">
       <p className="text-[0.7rem] text-[var(--color-text-muted)] tracking-wide">
        Showing <span className="text-[var(--color-accent)] font-bold">{showCount}</span> {showCount === 1 ? "show" : "shows"}
@@ -901,66 +1027,40 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
          >Clear</button>
         )}
 
-       {/* Sticky Font Settings Gear Trigger */}
-       <button
-         onClick={() => setIsFontCustomizerOpen(true)}
-         className="absolute right-0 top-1/2 -translate-y-1/2 text-[0.7rem] p-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-md transition-all cursor-pointer text-white/80 hover:text-white flex items-center justify-center z-40"
-         title="Font Settings"
-       >
-         ⚙️
-       </button>
+       
        </div>
      </div>
 
-     <div className={`sticky top-0 z-30 hidden lg:grid ${gridClass} gap-6 px-8 py-4 bg-[rgba(17,17,24,0.95)] backdrop-blur-md items-center relative`}>
+     {/* Sentinel — detects when sticky sort bar locks in */}
+     <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
+
+     <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-4 -mx-6 px-6 bg-[rgba(17,17,24,0.95)] backdrop-blur-md items-center relative rounded-2xl`}>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Day</span>
       <div className="relative">
        <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
         <option value="All">Month</option>
         {months.map((m) => <option key={m} value={m}>{m}</option>)}
        </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
       <div className="relative">
        <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-       <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[rgba(255,255,255,0.05)] border border-[var(--color-border)] rounded-lg pl-8 pr-7 py-1.5 text-[0.65rem] text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-accent)] transition-colors" id="tour-search" />
+       <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[rgba(255,255,255,0.05)] border-0 rounded-lg pl-8 pr-7 py-1.5 text-[0.65rem] text-white placeholder-white/30 focus:outline-none transition-colors" id="tour-search" />
        {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-[0.6rem] cursor-pointer">✕</button>)}
       </div>
       <div className="relative">
        <select value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
         <option value="All">City</option>
-        {locationOptions.map((c) => <option key={c} value={c}>{c}</option>)}
+        {locationOptions.map(({ city, count }) => <option key={city} value={city}>{city} ({count})</option>)}
        </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Time</span>
-      <div className="relative">
-       <select value={activeType} onChange={(e) => setActiveType(e.target.value)} className={`${selectClass} w-full ${activeType !== "All" ? activeSelect : ""}`} id="tour-filter-type">
-        <option value="All">Type</option>
-        {typeOptions.map((t) => <option key={t} value={t}>{t}</option>)}
-       </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-      </div>
+
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)] text-center">Map/Cal</span>
       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)] text-right">Website</span>
       {member?.role === 'admin' && (
-         <div className="flex items-center justify-end gap-2 text-right">
-           <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Actions</span>
-           <button
-             onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
-             className="px-2 py-0.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[0.55rem] font-extrabold uppercase rounded transition-colors cursor-pointer border border-emerald-500/20 shadow-sm"
-             title="Add New Show"
-           >
-             + Add
-           </button>
-           <button
-             onClick={() => setIsFontCustomizerOpen(true)}
-             className="absolute right-2 top-1/2 -translate-y-1/2 text-[0.7rem] p-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-md transition-all cursor-pointer text-white/80 hover:text-white flex items-center justify-center z-40"
-             title="Font Settings"
-           >
-             ⚙️
-           </button>
-         </div>
+         <div className="text-right" />
        )}
      </div>
 
@@ -979,11 +1079,15 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
         const rowId = `tour-${show.venue}-${show.date}-${show.time || ''}`.replace(/\s+/g, '-').toLowerCase();
        const isHighlighted = highlightedId === rowId;
        const isPast = parseShowDate(show.date, show.startDate).getTime() < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
+        const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
        return (
-         <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible">
+         <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible"
+           onMouseEnter={() => setHoveredRowIdx(i)}
+           onMouseLeave={() => setHoveredRowIdx(null)}
+         >
            {/* Desktop Row Layout */}
            <div
-            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-6 px-8 py-1 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
              <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
@@ -991,122 +1095,92 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
              <span className="font-bold text-white">{show.venue}</span>
              <span className="text-white/90">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
              <span className="flex items-center gap-2 flex-wrap text-left">
-                 <span className="text-white/95 font-medium whitespace-nowrap">{show.time}</span>
-                 {isShowToday(show) && (
-                   <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 ml-1.5 whitespace-nowrap animate-pulse">
-                     {getCountdownString(show)}
-                   </span>
-                 )}
-              </span>
-              <div className="type-col text-[0.7rem] text-white/70 flex items-center gap-2">
-                 <span className="icon-span text-sm shrink-0">{getShowIcon(show)}</span>
-                 <div className="flex flex-row flex-wrap items-center gap-1.5 max-w-full">
-                    {!show.isPrivate && (
-                      <>
-                  {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                    <span className="tour-badge px-1 py-0 text-[0.55rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">All Ages</span>
+                  {show.playTime ? (
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-rose-400 font-extrabold text-[0.8rem] whitespace-nowrap">Plays: {show.playTime}</span>
+                      {show.time && <span className="text-white/50 text-[10px] whitespace-nowrap">Starts: {show.time}</span>}
+                    </div>
+                  ) : (
+                    <span className="text-white/95 font-medium whitespace-nowrap">{show.time}</span>
                   )}
-                  {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                    <span className="tour-badge px-1 py-0 text-[0.55rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded animate-[fadeIn_0.3s_ease-out] shrink-0">21+</span>
+                  {isShowToday(show) && (
+                    <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 ml-1.5 whitespace-nowrap animate-pulse">
+                      {getCountdownString(show)}
+                    </span>
                   )}
-                  {getShowTags(show).map(tag => {
-                    if (tag === "All Ages" || tag === "21+") return null;
-                    
-                    let tagColors = "bg-purple-500/10 text-purple-400 border-purple-500/20";
-                    if (tag === "Unplugged") {
-                      tagColors = "bg-amber-500/10 text-amber-400 border-amber-500/20";
-                    } else if (tag === "Outdoor") {
-                      tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
-                    } else if (tag === "Special Event") {
-                      tagColors = "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20";
-                    } else if (tag === "Casino") {
-                      tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
-                    }
-                    
-                    return (
-                      <span key={tag} className={`tour-badge px-1 py-0 text-[0.55rem] font-bold border rounded animate-[fadeIn_0.3s_ease-out] shrink-0 ${tagColors}`}>
-                        {tag}
-                      </span>
-                    );
-                  })}
-                      </>
-                    )}
-                 </div>
-              </div>
-             <span className="flex items-center justify-center gap-2">
-               {show._id && isFan && !show.isPrivate && (
-                 <button
-                   onClick={() => handleToggleNotification(show)}
-                   disabled={subscribingId === show._id}
-                   title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                   className={`w-6 h-6 flex items-center justify-center rounded-md transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer border shrink-0 ${
-                     subscribedShowIds.includes(show._id)
-                       ? "bg-purple-600/20 border-purple-500/40 text-purple-400 hover:bg-purple-600/30"
-                       : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
-                   }`}
-                 >
-                   {subscribingId === show._id ? (
-                     <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                   ) : subscribedShowIds.includes(show._id) ? (
-                     <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
-                       <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                     </svg>
-                   ) : (
-                     <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                     </svg>
-                   )}
-                 </button>
-               )}
-               {show.mapUrl && (() => {
-                const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
-                const showType = getShowType(show.info || '');
-                const cfg = typeConfig[showType] || typeConfig.full;
-                return (
-                 <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-6 h-6 flex items-center justify-center rounded-md text-black hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.3)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                 </a>
-                );
-               })()}
-               {!show.isPrivate && (
-                  <div className="relative calendar-dropdown-container">
-                 <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="w-6 h-6 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer">
-                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                 </button>
-                 {activeCalDropdownId === rowId && (
-                   <div className="absolute right-0 mt-2 bg-[#080812] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md">
-                     <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">Google Cal</a>
-                     <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">iCal / Apple</a>
-                     <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">Outlook</a>
-                     <button
-                       onClick={() => {
-                         setActiveCalDropdownId(null);
-                         document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
-                       }}
-                       className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
-                     >
-                       💬 SMS / Text Alerts
-                     </button>
-                   </div>
-                 )}
-               </div>
-                )}
                </span>
+              <span className="flex items-center justify-center gap-2">
+                {!isPrivate && (
+                  <>
+                    {show._id && isFan && (
+                      <button
+                        onClick={() => handleToggleNotification(show)}
+                        disabled={subscribingId === show._id}
+                        title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
+                        className={`w-6 h-6 flex items-center justify-center rounded-md transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer border shrink-0 ${
+                          subscribedShowIds.includes(show._id)
+                            ? "bg-purple-600/20 border-purple-500/40 text-purple-400 hover:bg-purple-600/30"
+                            : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
+                        }`}
+                      >
+                        {subscribingId === show._id ? (
+                          <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        ) : subscribedShowIds.includes(show._id) ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                          </svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                          </svg>
+                        )}
+                      </button>
+                    )}
+                    {show.mapUrl && (() => {
+                     const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
+                     const showType = getShowType(show.info || '');
+                     const cfg = typeConfig[showType] || typeConfig.full;
+                     return (
+                      <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-6 h-6 flex items-center justify-center rounded-md text-black hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.3)]">
+                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                      </a>
+                     );
+                    })()}
+                    <div className="relative calendar-dropdown-container">
+                      <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="w-6 h-6 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      </button>
+                      {activeCalDropdownId === rowId && (
+                        <div className="absolute right-0 mt-2 bg-[#080812] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md">
+                          <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">Google Cal</a>
+                          <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">iCal / Apple</a>
+                          <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">Outlook</a>
+                          <button
+                            onClick={() => {
+                              setActiveCalDropdownId(null);
+                              document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
+                            }}
+                            className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
+                          >
+                            💬 SMS / Text Alerts
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </span>
                <span className="flex justify-end">
-                {!show.isPrivate && (show.websiteUrl ? (
-                 <a 
-                  href={show.websiteUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="inline-flex items-center justify-center whitespace-nowrap text-[0.65rem] font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all duration-300 rounded-sm h-6 min-w-[76px]"
-                 >
-                  Website
-                 </a>
-               ) : (
-                <span className="inline-flex items-center justify-center whitespace-nowrap text-[0.6rem] font-black uppercase tracking-widest px-3 py-1 border border-white/5 text-white/10 rounded-sm cursor-default h-6 min-w-[76px]">
-                 Website
-                </span>
-               ))}
+                {!isPrivate && show.websiteUrl && (
+                  <a 
+                   href={show.websiteUrl} 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   className="inline-flex items-center justify-center whitespace-nowrap text-[0.65rem] font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all duration-300 rounded-sm h-6 min-w-[76px]"
+                  >
+                   Website
+                  </a>
+                )}
                </span>
 
               {/* Admin Row Actions */}
@@ -1127,16 +1201,14 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                        Del
                      </button>
                    </>
-                 ) : (
-                   <span className="text-[0.6rem] text-white/20 uppercase font-mono" title="Fallback shows cannot be edited directly">Fallback</span>
-                 )}
+                  ) : null}
                </div>
              )}
            </div>
 
            {/* Mobile/Tablet Card Layout */}
            <div
-            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[inset_4px_0_0_var(--color-accent),0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)] shadow-[inset_4px_0_0_var(--color-accent)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={`${rowId}-mobile`}
            >
              
@@ -1148,7 +1220,9 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                </div>
                <div className="flex flex-col items-end gap-1">
                  {show.time && (
-                   <span className="text-white/85 text-xs font-semibold px-2 py-0.5 bg-white/5 border border-white/10 rounded">{show.time}</span>
+                   <span className="text-white/85 text-xs font-semibold px-2 py-0.5 bg-white/5 border border-white/10 rounded">
+                     {show.playTime ? `Plays: ${show.playTime} (Starts: ${show.time})` : show.time}
+                   </span>
                  )}
                  {isShowToday(show) && (
                    <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 animate-pulse">
@@ -1168,36 +1242,35 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                )}
              </div>
 
-             {/* Tags Row */}
-             <div className="flex items-center gap-1.5 flex-wrap">
-               <span className="text-xs">{getShowIcon(show)}</span>
-               {show.info && <span className="text-2xs text-white/40 italic">{show.info}</span>}
-                {!show.isPrivate && (
-                  <>
-               {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                 <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded">All Ages</span>
-               )}
-               {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                 <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded">21+</span>
-               )}
-               {getShowTags(show).map(tag => {
-                 if (tag === "All Ages" || tag === "21+") return null;
-                 let tagColors = "bg-purple-500/10 text-purple-400 border-purple-500/20";
-                 if (tag === "Unplugged") tagColors = "bg-amber-500/10 text-amber-400 border-amber-500/20";
-                 else if (tag === "Outdoor") tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
-                 else if (tag === "Special Event") tagColors = "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20";
-                 else if (tag === "Casino") tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
-                 return (
-                   <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded ${tagColors}`}>{tag}</span>
-                 );
-               })}
-                  </>
-                )}
-             </div>
+                          {/* Tags Row */}
+             {!isPrivate && (
+               <div className="flex items-center gap-1.5 flex-wrap">
+                 <span className="text-xs">{getShowIcon(show)}</span>
+                 {show.info && <span className="text-2xs text-white/40 italic">{show.info}</span>}
+                 {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
+                   <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded">All Ages</span>
+                 )}
+                 {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
+                   <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded">21+</span>
+                 )}
+                 {getShowTags(show).map(tag => {
+                   if (tag === "All Ages" || tag === "21+") return null;
+                   let tagColors = "bg-purple-500/10 text-purple-400 border-purple-500/20";
+                   if (tag === "Unplugged") tagColors = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+                   else if (tag === "Outdoor") tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
+                   else if (tag === "Special Event") tagColors = "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20";
+                   else if (tag === "Casino") tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
+                   return (
+                     <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded ${tagColors}`}>{tag}</span>
+                   );
+                 })}
+               </div>
+             )}
 
-             {/* Action Buttons Row */}
-             <div className="flex items-center gap-3 mt-1.5">
-               {/* Maps Directions */}
+                          {/* Action Buttons Row */}
+             {!isPrivate && (
+               <div className="flex items-center gap-3 mt-1.5">
+                 {/* Maps Directions */}
                {show.mapUrl && (() => {
                  const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
                  const showType = getShowType(show.info || '');
@@ -1209,7 +1282,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                  );
                })()}
 
-               {show._id && isFan && !show.isPrivate && (
+               {show._id && isFan && !isPrivate && (
                  <button
                    onClick={() => handleToggleNotification(show)}
                    disabled={subscribingId === show._id}
@@ -1235,7 +1308,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                )}
 
                {/* Calendar Add */}
-                {!show.isPrivate && (
+                {!isPrivate && (
                   <div className="relative calendar-dropdown-container shrink-0">
                  <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-all duration-300 cursor-pointer">
                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
@@ -1260,7 +1333,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 )}
 
                 {/* Tickets / Website Link */}
-                {!show.isPrivate && (show.websiteUrl ? (
+                {!isPrivate && (show.websiteUrl ? (
                  <a href={show.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all rounded-md text-center">
                    Website
                  </a>
@@ -1269,16 +1342,18 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                    Website
                  </span>
                ))}
-
-                {/* Admin Actions */}
+               </div>
+             )}
+             
+             {/* Admin Actions */}
                {member?.role === 'admin' && show._id && (
                  <div className="flex items-center gap-1.5 shrink-0">
                    <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Edit</button>
                    <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Del</button>
                  </div>
                )}
-             </div>
            </div>
+           <WavyDivider seed={i} hovered={hoveredRowIdx === i} active={isUpNext} />
          </div>
        );
       })}

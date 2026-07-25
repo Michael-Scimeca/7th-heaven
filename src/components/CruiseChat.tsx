@@ -263,10 +263,41 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
     }
   };
 
+  const getAvatarGradient = (name: string) => {
+    const gradients = [
+      'bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-500 text-white shadow-[0_0_12px_rgba(217,70,239,0.4)]',
+      'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-[0_0_12px_rgba(6,182,212,0.4)]',
+      'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white shadow-[0_0_12px_rgba(16,185,129,0.4)]',
+      'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black font-black shadow-[0_0_12px_rgba(245,158,11,0.4)]',
+      'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500 text-white shadow-[0_0_12px_rgba(236,72,153,0.4)]',
+      'bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.4)]',
+    ];
+    let hash = 0;
+    const str = name || 'user';
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return gradients[Math.abs(hash) % gradients.length];
+  };
+
+  const getSenderNameColor = (name: string, role: string) => {
+    if (role === 'admin') return 'text-amber-300 font-extrabold';
+    if (role === 'crew') return 'text-emerald-400 font-extrabold';
+    if (role === 'planner') return 'text-fuchsia-400 font-extrabold';
+    if (role === 'cruise') return 'text-cyan-300 font-extrabold';
+    const colors = ['text-purple-300', 'text-cyan-300', 'text-pink-300', 'text-emerald-300', 'text-amber-300', 'text-indigo-300'];
+    let hash = 0;
+    const str = name || 'user';
+    for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    return colors[Math.abs(hash) % colors.length];
+  };
+
   const getRoleColor = (role: string) => {
-    if (role === "admin") return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
-    if (role === "crew") return "text-[var(--color-accent)] bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20";
-    return "text-white/60 bg-white/5 border-white/5";
+    if (role === "admin") return "text-amber-300 bg-amber-500/20 border-amber-500/40 shadow-[0_0_10px_rgba(245,158,11,0.2)] font-extrabold";
+    if (role === "crew") return "text-emerald-300 bg-emerald-500/20 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)] font-extrabold";
+    if (role === "planner") return "text-fuchsia-300 bg-fuchsia-500/20 border-fuchsia-500/40 shadow-[0_0_10px_rgba(217,70,239,0.2)] font-extrabold";
+    if (role === "cruise") return "text-cyan-300 bg-cyan-500/20 border-cyan-500/40 shadow-[0_0_10px_rgba(6,182,212,0.2)] font-extrabold";
+    return "text-purple-300 bg-purple-500/20 border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.2)] font-extrabold";
   };
 
   // Loading state
@@ -319,23 +350,28 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   }
 
   return (
-    <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 rounded-2xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] overflow-hidden shadow-[0_0_30px_rgba(133,29,239,0.05)]">
+    <div className="border border-white/10 rounded-2xl p-4 flex flex-col h-[calc(100vh-12rem)] min-h-[500px] overflow-hidden">
       {/* Header */}
-      <div className="bg-black/40 px-5 py-4 border-b border-white/5 flex items-center justify-between z-10 relative">
+      <div className="py-3 border-b border-white/10 flex items-center justify-between z-10 relative">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-lg">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-sm shadow-[0_0_12px_rgba(168,85,247,0.5)]">
             💬
           </div>
           <div>
-            <h3 className="font-bold text-white text-sm tracking-wide">Passenger Lounge</h3>
+            <h3 className="font-black text-white text-sm tracking-wide flex items-center gap-2">
+              Passenger Lounge
+              <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 px-1.5 py-0.5 rounded">
+                LIVE
+              </span>
+            </h3>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
-              <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Live Chat</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]" />
+              <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Cruisers Online</span>
             </div>
           </div>
         </div>
         {messages.length > 0 && (
-          <span className="min-w-[28px] h-[28px] flex items-center justify-center rounded-full bg-[var(--color-accent)] text-white text-xs font-black px-2 shadow-[0_0_12px_rgba(133,29,239,0.5)] border border-[var(--color-accent)]/50">
+          <span className="min-w-[28px] h-[28px] flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-black px-2 shadow-[0_0_12px_rgba(217,70,239,0.5)] border border-purple-400/40">
             {messages.length > 99 ? '99+' : messages.length}
           </span>
         )}
@@ -343,10 +379,10 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
       {/* Pinned Message */}
       {pinnedMessage && (
-        <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-3 flex items-start gap-3 relative z-10 animate-[slideDown_0.3s_ease-out]">
+        <div className="bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border-b border-amber-500/30 px-4 py-3 flex items-start gap-3 relative z-10 animate-[slideDown_0.3s_ease-out]">
           <span className="text-amber-400 text-sm shrink-0">📌</span>
           <div className="flex-1">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Crew Announcement</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-300 mb-0.5">Crew Announcement</h4>
             <p className="text-amber-100/90 text-xs font-medium leading-relaxed">{pinnedMessage}</p>
           </div>
         </div>
@@ -379,7 +415,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
       )}
 
       {/* Messages Area */}
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-hide relative">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-4 space-y-4 scrollbar-hide relative bg-transparent">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
@@ -410,22 +446,30 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
               );
             }
 
+            const isSelf = member?.name && msg.sender_name === member.name;
+
             return (
               <div key={msg.id} className="flex gap-3 animate-[slideIn_0.3s_ease-out] group relative">
-                <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black border border-white/10 bg-[#15151f]">
-                  {msg.sender_avatar.substring(0, 2).toUpperCase()}
+                <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black ${getAvatarGradient(msg.sender_name)}`}>
+                  {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                 </div>
                 <div className="flex flex-col flex-1 min-w-0">
                   <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-xs font-bold text-white/80">{msg.sender_name}</span>
-                    <span className={`text-2xs font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
+                    <span className={`text-xs font-bold ${getSenderNameColor(msg.sender_name, msg.sender_role)}`}>
+                      {msg.sender_name}
+                    </span>
+                    <span className={`text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
                       {msg.sender_role}
                     </span>
-                    <span className="text-xs text-white/30 ml-auto font-mono">
+                    <span className="text-[10px] text-white/40 ml-auto font-mono">
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className="bg-white/5 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-white/70 inline-block w-fit max-w-[90%] leading-relaxed border border-white/[0.02] break-words">
+                  <div className={`rounded-2xl rounded-tl-none px-4 py-2 text-sm text-white/95 inline-block w-fit max-w-[90%] leading-relaxed border break-words ${
+                    isSelf 
+                      ? 'bg-gradient-to-r from-purple-600/35 via-fuchsia-600/35 to-pink-600/35 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
+                      : 'bg-gradient-to-r from-white/[0.08] to-white/[0.04] border-white/10 hover:border-white/20'
+                  }`}>
                     {msg.content}
                   </div>
                 </div>
@@ -470,7 +514,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-black/40 border-t border-white/5">
+      <div className="py-3 border-t border-white/10">
         {isArchived ? (
           <div className="w-full bg-[#15151f] border border-white/10 rounded-xl px-4 py-3 text-sm text-white/40 text-center flex items-center justify-center gap-2">
             <span>🔒</span> This cruise chat has been archived.
@@ -484,18 +528,18 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 onChange={(e) => setNewMessage(e.target.value)}
                 disabled={!member || isSending || member.is_banned}
                 placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message...") : "Log in to chat"}
-                className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white outline-none focus:border-[var(--color-accent)]/50 focus:bg-white/5 transition-all disabled:opacity-50"
+                className="w-full bg-[#141224] border border-purple-500/30 rounded-xl pl-4 pr-12 py-3 text-sm text-white outline-none focus:border-purple-400 focus:bg-[#1a1730] transition-all disabled:opacity-50 placeholder:text-white/30"
                 maxLength={500}
               />
               <button
                 type="submit"
                 disabled={!newMessage.trim() || !member || isSending || member.is_banned}
-                className="absolute right-2 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 text-[var(--color-accent)] flex items-center justify-center hover:bg-[var(--color-accent)] hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-[var(--color-accent)]/20 disabled:hover:text-[var(--color-accent)]"
+                className="absolute right-2 w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 via-fuchsia-600 to-cyan-500 text-white flex items-center justify-center hover:brightness-125 transition-all shadow-[0_0_12px_rgba(168,85,247,0.5)] disabled:opacity-30 disabled:hover:brightness-100 cursor-pointer"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
               </button>
             </form>
-            <div className="text-center text-[9px] font-black text-white/20 uppercase tracking-[0.15em] mt-2.5">
+            <div className="text-center text-[9px] font-black text-cyan-400/60 uppercase tracking-[0.15em] mt-2.5">
               KEEP IT RATED PG-13 • NO POLITICAL STATEMENTS
             </div>
           </div>

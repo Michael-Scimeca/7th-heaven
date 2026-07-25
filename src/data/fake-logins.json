@@ -30,5 +30,13 @@
     "username": "planner_7h",
     "role": "event_planner",
     "pin": "777777"
+  },
+  {
+    "email": "cruise@7thheaven.com",
+    "password": "password123",
+    "name": "Cruise Guest",
+    "username": "cruise_guest",
+    "role": "cruise",
+    "pin": "777777"
   }
 ]

@@ -132,7 +132,7 @@ interface FloatingEmoji {
 /* ─────────────────────────────────────────────
    MAIN COMPONENT
    ───────────────────────────────────────────── */
-export function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
+function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const crewConfig = CREW_CONFIG[memberId] || CREW_CONFIG.mike;
   const otherRooms = ALL_ROOMS.filter(r => r.key !== memberId);
   const thisRoom = ALL_ROOMS.find(r => r.key === memberId);

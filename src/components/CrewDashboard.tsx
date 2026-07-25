@@ -4217,13 +4217,20 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <div className="md:col-span-2 flex gap-3 items-end">
                         <div className="flex-1">
                           <label className="text-[10px] uppercase tracking-wider text-white/40 font-bold block mb-1.5">Comment / Note (Optional)</label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Out of town, family event"
+                          <select
                             value={availNote}
                             onChange={e => setAvailNote(e.target.value)}
-                            className="w-full px-3 py-2 bg-[#0c0d12] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-medium"
-                          />
+                            className="w-full px-3 py-2 bg-[#0c0d12] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-medium cursor-pointer"
+                          >
+                            <option value="" className="bg-[#111116] text-white/50">Select note / reason...</option>
+                            <option value="Out of town" className="bg-[#111116] text-white">Out of town</option>
+                            <option value="Family event" className="bg-[#111116] text-white">Family event</option>
+                            <option value="Vacation / Time off" className="bg-[#111116] text-white">Vacation / Time off</option>
+                            <option value="Medical appointment" className="bg-[#111116] text-white">Medical appointment</option>
+                            <option value="Personal day" className="bg-[#111116] text-white">Personal day</option>
+                            <option value="Work / Business conflict" className="bg-[#111116] text-white">Work / Business conflict</option>
+                            <option value="Other" className="bg-[#111116] text-white">Other</option>
+                          </select>
                         </div>
                         <button
                           type="submit"
@@ -4306,14 +4313,20 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <div className="md:col-span-2 flex gap-3 items-end">
                         <div className="flex-1">
                           <label className="text-[10px] uppercase tracking-wider text-white/40 font-bold block mb-1.5">Reason for Time-off</label>
-                          <input
-                            type="text"
+                          <select
                             required
-                            placeholder="e.g. Family vacation, medical appointment"
                             value={timeOffReason}
                             onChange={e => setTimeOffReason(e.target.value)}
-                            className="w-full px-3 py-2 bg-[#0c0d12] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-rose-500/50 transition-colors font-medium"
-                          />
+                            className="w-full px-3 py-2 bg-[#0c0d12] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-rose-500/50 transition-colors font-medium cursor-pointer"
+                          >
+                            <option value="" className="bg-[#111116] text-white/50">Select reason for time-off...</option>
+                            <option value="Family vacation" className="bg-[#111116] text-white">Family vacation</option>
+                            <option value="Medical appointment" className="bg-[#111116] text-white">Medical appointment</option>
+                            <option value="Personal / Family event" className="bg-[#111116] text-white">Personal / Family event</option>
+                            <option value="Work / Business conflict" className="bg-[#111116] text-white">Work / Business conflict</option>
+                            <option value="Emergency / Family matter" className="bg-[#111116] text-white">Emergency / Family matter</option>
+                            <option value="Other" className="bg-[#111116] text-white">Other</option>
+                          </select>
                         </div>
                         <button
                           type="submit"

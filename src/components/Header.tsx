@@ -35,6 +35,7 @@ export function Header() {
       if (document.visibilityState !== "visible") return;
       try {
         const res = await fetch("/api/live-rooms");
+        if (!res.ok) return;
         const data = await res.json();
         const allRooms = data.rooms || [];
         const validRooms = allRooms.filter((r: any) => r.name?.startsWith("live_"));
@@ -107,22 +108,52 @@ export function Header() {
     ? "/fans/demo"
     : isDemoCruisePage
     ? "/cruise/demo"
-    : displayRole === "event_planner"
-    ? "/planner"
-    : displayRole === "crew"
-    ? "/crew"
     : displayRole === "admin"
     ? "/admin"
+    : displayRole === "crew"
+    ? "/crew"
+    : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
+    ? "/planner"
+    : displayRole === "cruise"
+    ? `/cruise/${member?.username || "dashboard"}`
     : `/fans/${member?.username || "me"}`;
 
   const isAvatarUrl =
     member?.avatar &&
     (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"));
 
+  const badgeText =
+    displayRole === "admin"
+      ? "ADM"
+      : displayRole === "crew"
+      ? "CRW"
+      : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
+      ? "PLN"
+      : displayRole === "cruise"
+      ? "CRS"
+      : displayRole === "merch"
+      ? "MRC"
+      : "FAN";
+
+  const badgeBg =
+    displayRole === "admin"
+      ? "bg-amber-500"
+      : displayRole === "crew"
+      ? "bg-emerald-600"
+      : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
+      ? "bg-fuchsia-600"
+      : displayRole === "cruise"
+      ? "bg-sky-500"
+      : displayRole === "merch"
+      ? "bg-blue-600"
+      : "bg-[#7c00ff]";
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none" suppressHydrationWarning>
       <div className={`w-full px-[40px] transition-all duration-300 ${scrolled ? "pt-2" : "pt-[40px]"}`}>
         <div
+          id="nav-inner-card"
+          suppressHydrationWarning
           className={`w-full h-[80px] flex items-center justify-between relative px-6 rounded-2xl border transition-all duration-500 pointer-events-auto ${
             scrolled 
               ? "bg-black border-white/5 shadow-[0_10px_40px_rgba(0,0,0,0.6)]" 
@@ -226,39 +257,41 @@ export function Header() {
             </svg>
           </Link>
 
-          {/* User Profile Avatar with FAN Badge */}
-          <div className="flex items-center gap-1.5">
-            <Link
-              href={isLoggedIn || isDemoPage ? dashboardHref : "#"}
-              onClick={(e) => {
-                if (!isLoggedIn && !isDemoPage) {
-                  e.preventDefault();
-                  openModal("login");
-                }
-              }}
-              className="relative w-11 h-11 rounded-full bg-[#38bdf8] border-2 border-[#38bdf8] flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
-              title={isLoggedIn ? displayName : "Sign In to Fan Account"}
-            >
-              {isAvatarUrl ? (
-                <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" />
-              ) : (
-                <div className="w-full h-full rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm">
-                  {initials || "7H"}
-                </div>
-              )}
-              
-              {/* Overlapping Purple FAN Badge */}
-              <span className="absolute -bottom-1 -right-2 w-6 h-6 bg-[#7c00ff] text-[9px] font-black uppercase text-white rounded-full border-2 border-[#100320] flex items-center justify-center shadow-lg leading-none">
-                FAN
-              </span>
-            </Link>
+          {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
+          {isLoggedIn || isDemoPage ? (
+            <div className="flex items-center gap-1.5">
+              <Link
+                href={dashboardHref}
+                className="relative w-11 h-11 rounded-full bg-[#38bdf8] border-2 border-[#38bdf8] flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
+                title={displayName}
+              >
+                {isAvatarUrl ? (
+                  <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" />
+                ) : (
+                  <div className="w-full h-full rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm">
+                    {initials}
+                  </div>
+                )}
+                
+                {/* Overlapping Role Badge */}
+                <span className={`absolute -bottom-1 -right-2 w-6 h-6 text-[9px] font-black uppercase text-white rounded-full border-2 border-[#100320] flex items-center justify-center shadow-lg leading-none ${badgeBg}`}>
+                  {badgeText}
+                </span>
+              </Link>
 
-            {/* Sign Out / Sign In Action Icon */}
-            {isLoggedIn || isDemoPage ? (
+              {/* Exit button */}
               <button
-                onClick={() => {
-                  logout();
-                  window.location.href = "/";
+                onClick={async () => {
+                  await logout();
+                  const isRestricted =
+                    pathname.startsWith("/admin") ||
+                    pathname.startsWith("/crew") ||
+                    pathname.startsWith("/fans") ||
+                    pathname.startsWith("/planner") ||
+                    pathname.startsWith("/cruise/dashboard");
+                  if (isRestricted) {
+                    router.push("/");
+                  }
                 }}
                 className="text-white/60 hover:text-white transition-colors cursor-pointer p-1"
                 title="Sign Out"
@@ -270,21 +303,16 @@ export function Header() {
                   <line x1="21" y1="12" x2="9" y2="12" />
                 </svg>
               </button>
-            ) : (
-              <button
-                onClick={() => openModal("login")}
-                className="text-white/60 hover:text-white transition-colors cursor-pointer p-1"
-                title="Sign In"
-                id="header-sign-in"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                  <polyline points="10 17 15 12 10 7" />
-                  <line x1="15" y1="12" x2="3" y2="12" />
-                </svg>
-              </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => openModal("login")}
+              className="px-3.5 py-1.5 bg-[#7c00ff] hover:bg-[#851de7] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-all shadow-md cursor-pointer shrink-0"
+              id="header-sign-in"
+            >
+              SIGN IN
+            </button>
+          )}
 
           {/* Mobile Menu Toggle Button */}
           <button
@@ -315,6 +343,36 @@ export function Header() {
             <Link href="/cruise" className="text-2xl font-black text-white uppercase">CRUISE</Link>
             <Link href="/book" className="px-6 py-2 border-2 border-white rounded-[20px] text-white text-lg font-black uppercase mt-4">BOOK US</Link>
             <Link href="/contact" className="text-2xl font-black text-white uppercase">CONTACT</Link>
+            {isLoggedIn ? (
+              <button
+                onClick={async () => {
+                  await logout();
+                  setMobileOpen(false);
+                  const isRestricted =
+                    pathname.startsWith("/admin") ||
+                    pathname.startsWith("/crew") ||
+                    pathname.startsWith("/fans") ||
+                    pathname.startsWith("/planner") ||
+                    pathname.startsWith("/cruise/dashboard");
+                  if (isRestricted) {
+                    router.push("/");
+                  }
+                }}
+                className="text-xl font-black text-rose-400 uppercase mt-2"
+              >
+                SIGN OUT
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setMobileOpen(false);
+                  openModal("login");
+                }}
+                className="text-xl font-black text-[#7c00ff] uppercase mt-2"
+              >
+                SIGN IN
+              </button>
+            )}
           </div>
         )}
 

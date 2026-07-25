@@ -104,18 +104,78 @@ export default function PlannerClient() {
       <div className="min-h-screen bg-[#050508] text-white pt-24 pb-16">
         <div className="max-w-2xl mx-auto px-6">
 
-          {/* Sign In / Create Account */}
-          <div className="bg-[#0c0c18] border border-white/10 rounded-2xl overflow-hidden mb-10">
+          {/* Sign In / Create Account Card */}
+          <div className="bg-[#0c0c18] border border-white/15 rounded-2xl overflow-hidden mb-10 shadow-2xl">
             <div className="h-1 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-500" />
-            <div className="p-8">
+            <div className="p-8 md:p-10">
               <div className="text-center mb-6">
-                <h2 className="text-xl font-black">Planner <span className="text-purple-400">Portal</span></h2>
-                <p className="text-sm text-white/30 mt-1">Sign in to manage your bookings, or book a show below</p>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Planner <span className="text-purple-400">Portal</span></h2>
+                <p className="text-sm text-white/50 mt-1.5 font-medium">Sign in to manage your event bookings, contracts, and show logistics</p>
               </div>
-              <form onSubmit={handleLogin} className="flex flex-col gap-3 max-w-sm mx-auto">
-                {mode === 'signup' && <div><label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Full Name</label><input type="text" value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>}
-                <div><label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="planner@company.com" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>
-                <div><label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-sm text-white placeholder:text-white/20 outline-none focus:border-purple-500/50" required /></div>
+
+              {/* Prominent Tabs */}
+              <div className="grid grid-cols-2 gap-2 p-1.5 bg-white/[0.06] border border-white/15 rounded-xl mb-6 shadow-inner max-w-sm mx-auto">
+                <button
+                  type="button"
+                  onClick={() => { setMode('login'); setLoginErr(''); }}
+                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                    mode === 'login'
+                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)] scale-[1.02]"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  🔑 LOGIN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setMode('signup'); setLoginErr(''); }}
+                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                    mode === 'signup'
+                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)] scale-[1.02]"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  ✨ CREATE ACCOUNT
+                </button>
+              </div>
+
+              <form onSubmit={handleLogin} className="flex flex-col gap-4 max-w-sm mx-auto">
+                {mode === 'signup' && (
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/60 mb-1.5 block font-bold">Full Name</label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={e => setName(e.target.value)}
+                      placeholder="e.g. Sarah Mitchell"
+                      className="w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-xl text-base text-white placeholder:text-white/25 outline-none focus:border-purple-500 transition-colors"
+                      required
+                    />
+                  </div>
+                )}
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/60 mb-1.5 block font-bold">Email</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="planner@company.com"
+                    className="w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-xl text-base text-white placeholder:text-white/25 outline-none focus:border-purple-500 transition-colors"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/60 mb-1.5 block font-bold">Password</label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-xl text-base text-white placeholder:text-white/25 outline-none focus:border-purple-500 transition-colors"
+                    required
+                  />
+                </div>
+
                 {loginErr === 'CONFIRMATION_REQUIRED' ? (
                   <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-center">
                     <span className="text-xl block mb-2">📧</span>
@@ -124,9 +184,14 @@ export default function PlannerClient() {
                   </div>
                 ) : (
                   <>
-                  {loginErr && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 rounded-lg border border-rose-400/20">{loginErr}</p>}
-                  <button type="submit" disabled={loginLoading} className="w-full py-3 bg-purple-600 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 disabled:opacity-50 cursor-pointer">{loginLoading ? 'Authenticating...' : mode === 'signup' ? 'Create Account' : 'Sign In'}</button>
-                  <button type="button" onClick={()=>{setMode(m=>m==='login'?'signup':'login');setLoginErr('');}} className="text-xs text-purple-400/60 hover:text-purple-400 uppercase tracking-[0.15em] font-bold cursor-pointer text-center">{mode==='login'?'Need an account? Create one':'Already have one? Sign in'}</button>
+                    {loginErr && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 rounded-lg border border-rose-400/20 text-center font-bold">{loginErr}</p>}
+                    <button
+                      type="submit"
+                      disabled={loginLoading}
+                      className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-base uppercase tracking-[0.18em] rounded-xl transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_25px_rgba(147,51,234,0.4)]"
+                    >
+                      {loginLoading ? 'Authenticating...' : mode === 'signup' ? 'CREATE ACCOUNT' : 'SIGN IN'}
+                    </button>
                   </>
                 )}
               </form>

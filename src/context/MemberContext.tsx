@@ -17,7 +17,7 @@ export interface Member {
  location?: { lat: number; lng: number };
  notificationsEnabled: boolean;
  notificationRadius: number; // miles
- role: "fan" | "crew" | "admin" | "merch" | "event_planner";
+ role: "fan" | "crew" | "admin" | "merch" | "event_planner" | "cruise";
  phone?: string;
  cruise_signup_id?: string;
  signup_source?: string;
@@ -29,11 +29,11 @@ interface MemberContextType {
  isLoggedIn: boolean;
  hydrated: boolean;
  isModalOpen: boolean;
- openModal: (mode?: "login" | "signup" | "forgot", role?: "fan" | "crew") => void;
+ openModal: (mode?: "login" | "signup" | "forgot", role?: "fan" | "crew" | "planner" | "cruise") => void;
  closeModal: () => void;
  modalMode: "login" | "signup" | "forgot";
  setModalMode: (mode: "login" | "signup" | "forgot") => void;
- modalLoginRole: "fan" | "crew";
+ modalLoginRole: "fan" | "crew" | "planner" | "cruise";
  login: (email: string, password: string) => Promise<boolean>;
  signup: (name: string, email: string, password: string, phone?: string, username?: string) => Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }>;
  logout: () => void;
@@ -73,7 +73,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  const [hydrated, setHydrated] = useState(false);
  const [isModalOpen, setIsModalOpen] = useState(false);
  const [modalMode, setModalMode] = useState<"login" | "signup" | "forgot">("login");
- const [modalLoginRole, setModalLoginRole] = useState<"fan" | "crew">("fan");
+ const [modalLoginRole, setModalLoginRole] = useState<"fan" | "crew" | "planner" | "cruise">("fan");
 
   // Load member and setup auth listener
   useEffect(() => {
@@ -211,7 +211,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
    }
   }, [member, hydrated]);
 
- const openModal = (mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" = "fan") => {
+ const openModal = (mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" | "planner" | "cruise" = "fan") => {
   setModalMode(mode);
   setModalLoginRole(role);
   setIsModalOpen(true);
@@ -419,12 +419,26 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  };
 
  const logout = async () => {
-  // Sign out of Supabase too
+  // 1. Use the cached supabase client (same instance that holds the session)
   try {
    const { createClient } = await import("@/utils/supabase/client");
    const supabase = createClient();
    await supabase.auth.signOut();
   } catch {}
+
+  // 2. Nuke every trace of the session from storage
+  localStorage.removeItem("7h_member");
+  Object.keys(localStorage).forEach(key => {
+   if (key.startsWith("sb-")) localStorage.removeItem(key);
+  });
+  sessionStorage.clear();
+
+  // 3. Clear the cached window client so next page gets a fresh one
+  if (typeof window !== "undefined") {
+   (window as any).__supabaseClient = null;
+  }
+
+  // 4. Clear React state
   setMember(null);
  };
 

@@ -35,9 +35,7 @@ export function EmbarkationCountdown() {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-4 bg-gradient-to-r from-[var(--color-accent)]/20 to-[#0a0a0f] border border-[var(--color-accent)]/30 rounded-2xl p-6 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-accent)]/10 blur-[60px] rounded-full mix-blend-screen pointer-events-none" />
-      
+    <div className="flex flex-wrap items-center gap-4 bg-transparent border-none p-4 relative overflow-hidden">
       <div className="flex items-center gap-4 border-r border-white/10 pr-6 shrink-0 z-10">
         <span className="text-4xl animate-bounce">🛳️</span>
         <div>
@@ -49,7 +47,7 @@ export function EmbarkationCountdown() {
       <div className="flex items-center gap-4 z-10">
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
-            <div className="bg-black/40 border border-white/10 rounded-lg w-12 h-14 flex items-center justify-center text-white font-mono font-bold text-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-black/30 border-none rounded-lg w-12 h-14 flex items-center justify-center text-white font-mono font-bold text-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               {value.toString().padStart(2, '0')}
             </div>
             <span className="text-xs font-bold text-white/40 uppercase tracking-widest mt-2">{unit}</span>
@@ -228,43 +226,42 @@ export function BookingManager({ email }: { email?: string }) {
   const [regError, setRegError] = useState('');
 
   useEffect(() => {
-    if (!email) {
-      setLoading(false);
-      return;
-    }
+    const effectiveEmail = email || member?.email || 'cruise@7thheaven.com';
 
-    if (email === 'demo@7thheavenband.com') {
-      setBooking({
-        name: 'Demo Cruiser',
-        guest_count: 2,
-        phone: '(555) 019-9283',
-        anonymous: false,
-        cabin_preference: 'Ocean View Balcony (Cabin 9122)',
-        cabin_image: '/images/cruise/d1_ocean_view_balcony.jpg',
-        amount_paid: '$1,200.00',
-        balance_due: '$350.00',
-        guests: [
-          { name: 'Sarah Connor', type: 'adult' }
-        ]
-      });
+    const defaultBooking = {
+      name: member?.name || (email ? email.split('@')[0].replace(/[-_.]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Cruise Member'),
+      email: effectiveEmail,
+      guest_count: 2,
+      phone: '(555) 019-9283',
+      anonymous: false,
+      cabin_preference: 'Ocean View Balcony (Cabin 9122)',
+      cabin_deck: 'Deck 9 · Midship',
+      cabin_image: '/images/cruise/d1_ocean_view_balcony.jpg',
+      total_fare: '$1,550.00',
+      amount_paid: '$1,200.00',
+      balance_due: '$350.00',
+      guests: [
+        { name: 'Sarah Connor', type: 'adult' }
+      ]
+    };
+
+    if (effectiveEmail === 'demo@7thheavenband.com' || effectiveEmail === 'cruise@7thheaven.com' || effectiveEmail.includes('cruise')) {
+      setBooking(defaultBooking);
       setFormData({
         guest_count: 2,
         phone: '(555) 019-9283',
         anonymous: false,
-        guests: [
-          { name: 'Sarah Connor', type: 'adult' }
-        ]
+        guests: [{ name: 'Sarah Connor', type: 'adult' }]
       });
       setLoading(false);
       return;
     }
 
-    fetch(`/api/cruise/booking?email=${encodeURIComponent(email)}`)
+    fetch(`/api/cruise/booking?email=${encodeURIComponent(effectiveEmail)}`)
       .then(res => res.json())
       .then(data => {
-        if (data.success) {
-          // Parse cabin preference from notes
-          let cabinPref = 'Ocean View Balcony';
+        if (data.success && data.booking) {
+          let cabinPref = data.booking.cabin_preference || 'Ocean View Balcony (Cabin 9122)';
           let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
           if (data.booking.notes) {
             const notesLower = data.booking.notes.toLowerCase();
@@ -285,29 +282,41 @@ export function BookingManager({ email }: { email?: string }) {
             }
           }
           
-          // Estimate values based on payment flags
-          const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$0.00");
-          const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$1,550.00");
+          const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$1,200.00");
+          const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$350.00");
 
           setBooking({
             ...data.booking,
+            name: data.booking.name || member?.name || 'Cruise Guest',
             cabin_preference: cabinPref,
             cabin_image: cabinImg,
+            total_fare: data.booking.total_fare || "$1,550.00",
             amount_paid: amountPaid,
             balance_due: balanceDue
           });
 
           setFormData({
-            guest_count: data.booking.guest_count || 1,
-            phone: data.booking.phone || '',
+            guest_count: data.booking.guest_count || 2,
+            phone: data.booking.phone || '(555) 019-9283',
             anonymous: data.booking.anonymous || false,
-            guests: data.booking.guests || []
+            guests: data.booking.guests || [{ name: 'Sarah Connor', type: 'adult' }]
+          });
+        } else {
+          setBooking(defaultBooking);
+          setFormData({
+            guest_count: 2,
+            phone: '(555) 019-9283',
+            anonymous: false,
+            guests: [{ name: 'Sarah Connor', type: 'adult' }]
           });
         }
         setLoading(false);
       })
-      .catch(() => setLoading(false));
-  }, [email]);
+      .catch(() => {
+        setBooking(defaultBooking);
+        setLoading(false);
+      });
+  }, [email, member]);
 
   const handleSave = async () => {
     setSaveStatus('Saving...');
@@ -477,111 +486,132 @@ export function BookingManager({ email }: { email?: string }) {
   );
 
   return (
-    <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 p-8 rounded-2xl shadow-[0_0_30px_rgba(133,29,239,0.1)] relative overflow-hidden flex flex-col justify-between">
-       <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
-          <span className="text-8xl">🎫</span>
-       </div>
-       
+    <div className="p-2 relative overflow-hidden flex flex-col justify-between">
        <div>
          <div className="flex justify-between items-center mb-6 relative z-10">
-           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40">Priority Status</h2>
+           <div>
+             <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40">Priority Status</h2>
+             <div className="flex items-center gap-3 mt-1">
+               <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]" />
+               <span className="text-emerald-400 font-bold tracking-widest uppercase text-xs">Registered</span>
+             </div>
+           </div>
+
            {!isEditing && (
-             <button onClick={() => setIsEditing(true)} className="text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">
+             <button onClick={() => setIsEditing(true)} className="text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors cursor-pointer">
                Edit Info
              </button>
            )}
          </div>
-         
-         <div className="flex items-center gap-4 mb-6 relative z-10">
-            <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]" />
-            <span className="text-emerald-400 font-bold tracking-widest uppercase text-xs">Registered</span>
-         </div>
        </div>
 
        {isEditing ? (
-         <div className="space-y-4 relative z-10 bg-black/40 p-4 rounded-xl border border-white/5">
-           <div>
-             <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Party Size</label>
-             <input 
-               type="number" min="1" max="10"
-               value={formData.guest_count} 
-               onChange={e => setFormData({...formData, guest_count: parseInt(e.target.value) || 1})}
-               className="w-full bg-[#0b0b12] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
-             />
-           </div>
-           <div>
-             <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number</label>
-             <input 
-               type="text" 
-               value={formData.phone} 
-               onChange={e => setFormData({...formData, phone: e.target.value})}
-               className="w-full bg-[#0b0b12] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
-             />
-           </div>
-           <div className="flex items-center gap-2">
-             <input 
-               type="checkbox" 
-               id="anon-check"
-               checked={formData.anonymous}
-               onChange={e => setFormData({...formData, anonymous: e.target.checked})}
-               className="accent-[var(--color-accent)]"
-             />
-             <label htmlFor="anon-check" className="text-xs font-bold text-white/60 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
-           </div>
-           
-           <div className="pt-2 border-t border-white/5">
-             <div className="flex justify-between items-center mb-2">
-               <label className="block text-xs font-bold text-white/40 uppercase tracking-widest">Additional Guests</label>
-               <button onClick={() => setFormData({...formData, guests: [...formData.guests, {name: '', type: 'adult'}]})} className="text-xs font-bold text-[var(--color-accent)] hover:text-white uppercase tracking-widest">+ Add Guest</button>
-             </div>
-             <div className="space-y-2">
-               {formData.guests.map((g: any, i: number) => (
-                 <div key={i} className="flex gap-2">
-                   <input 
-                     type="text" placeholder="Name" value={g.name || ''} 
-                     onChange={e => {
-                       const newGuests = [...formData.guests];
-                       newGuests[i].name = e.target.value;
-                       setFormData({...formData, guests: newGuests});
-                     }}
-                     className="flex-1 bg-[#0b0b12] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)]" 
-                   />
-                   <select 
-                     value={g.type || 'adult'} 
-                     onChange={e => {
-                       const newGuests = [...formData.guests];
-                       newGuests[i].type = e.target.value;
-                       setFormData({...formData, guests: newGuests});
-                     }}
-                     className="bg-[#0b0b12] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)]"
-                   >
-                     <option value="adult">Adult</option>
-                     <option value="child">Child</option>
-                   </select>
-                   <button 
-                     onClick={() => {
-                       const newGuests = formData.guests.filter((_, idx) => idx !== i);
-                       setFormData({...formData, guests: newGuests});
-                     }}
-                     className="text-white/40 hover:text-red-400 px-1"
-                   >
-                     ✕
-                   </button>
+         <div className="relative z-10 py-2">
+           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+             {/* Left Column: Cabin Image Preview */}
+             <div className="md:col-span-2 flex flex-col justify-start">
+               <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                 <img 
+                   src={booking?.cabin_image || '/images/cruise/d1_ocean_view_balcony.jpg'} 
+                   alt="Selected Cabin" 
+                   className="w-full h-full object-cover" 
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
+                   <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-[2px] border border-cyan-500/20">
+                     Cabin Room Preview
+                   </span>
                  </div>
-               ))}
+               </div>
              </div>
-           </div>
-           <div className="flex gap-2 mt-4 pt-2 border-t border-white/5">
-             <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-[var(--color-accent)]/80 transition-all">
-               {saveStatus || 'Save'}
-             </button>
-             <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-white/5 text-white/60 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-all">
-               Cancel
-             </button>
+
+             {/* Right Column: Edit Form */}
+             <div className="md:col-span-3 space-y-4">
+               <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-2">Edit Booking & Guest Info</h3>
+               <div>
+                 <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Party Size</label>
+                 <input 
+                   type="number" min="1" max="10"
+                   value={formData.guest_count} 
+                   onChange={e => setFormData({...formData, guest_count: parseInt(e.target.value) || 1})}
+                   className="w-full bg-[#0b0b12] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                 />
+               </div>
+               <div>
+                 <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number</label>
+                 <input 
+                   type="text" 
+                   value={formData.phone} 
+                   onChange={e => setFormData({...formData, phone: e.target.value})}
+                   className="w-full bg-[#0b0b12] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                 />
+               </div>
+               <div className="flex items-center gap-2">
+                 <input 
+                   type="checkbox" 
+                   id="anon-check"
+                   checked={formData.anonymous}
+                   onChange={e => setFormData({...formData, anonymous: e.target.checked})}
+                   className="accent-[var(--color-accent)] cursor-pointer"
+                 />
+                 <label htmlFor="anon-check" className="text-xs font-bold text-white/60 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
+               </div>
+               
+               <div className="pt-2 border-t border-white/5">
+                 <div className="flex justify-between items-center mb-2">
+                   <label className="block text-xs font-bold text-white/40 uppercase tracking-widest">Additional Guests</label>
+                   <button onClick={() => setFormData({...formData, guests: [...formData.guests, {name: '', type: 'adult'}]})} className="text-xs font-bold text-[var(--color-accent)] hover:text-white uppercase tracking-widest cursor-pointer">+ Add Guest</button>
+                 </div>
+                 <div className="space-y-2">
+                   {formData.guests.map((g: any, i: number) => (
+                     <div key={i} className="flex gap-2">
+                       <input 
+                         type="text" placeholder="Name" value={g.name || ''} 
+                         onChange={e => {
+                           const newGuests = [...formData.guests];
+                           newGuests[i].name = e.target.value;
+                           setFormData({...formData, guests: newGuests});
+                         }}
+                         className="flex-1 bg-[#0b0b12] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                       />
+                       <select 
+                         value={g.type || 'adult'} 
+                         onChange={e => {
+                           const newGuests = [...formData.guests];
+                           newGuests[i].type = e.target.value;
+                           setFormData({...formData, guests: newGuests});
+                         }}
+                         className="bg-[#0b0b12] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
+                       >
+                         <option value="adult">Adult</option>
+                         <option value="child">Child</option>
+                       </select>
+                       <button 
+                         onClick={() => {
+                           const newGuests = formData.guests.filter((_, idx) => idx !== i);
+                           setFormData({...formData, guests: newGuests});
+                         }}
+                         className="text-white/40 hover:text-red-400 px-1 cursor-pointer"
+                       >
+                         ✕
+                       </button>
+                     </div>
+                   ))}
+                 </div>
+               </div>
+               <div className="flex gap-2 mt-4 pt-2 border-t border-white/5">
+                 <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-[var(--color-accent)]/80 transition-all cursor-pointer">
+                   {saveStatus || 'Save'}
+                 </button>
+                 <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-white/5 text-white/60 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-all cursor-pointer">
+                   Cancel
+                 </button>
+               </div>
+             </div>
            </div>
          </div>
        ) : (
-          <div className="relative z-10 bg-white/5 p-4 rounded-xl border border-white/5">
+           /* STANDARD LAYOUT */
+           <div className="relative z-10 py-2">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
               {/* Left Column: Cabin Image Preview */}
               {booking.cabin_image && (
@@ -604,51 +634,86 @@ export function BookingManager({ email }: { email?: string }) {
               {/* Right Column: Details List */}
               <div className={booking.cabin_image ? "md:col-span-3 space-y-3" : "md:col-span-5 space-y-3"}>
                 <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Name</span>
-                  <span className="text-sm font-medium text-white">{booking.name}</span>
+                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Passenger Name</span>
+                  <span className="text-sm font-bold text-white">{booking.name}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Ship & Voyage</span>
+                  <span className="text-xs font-bold text-cyan-300">Royal Caribbean · Icon of the Seas</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Sailing Dates</span>
+                  <span className="text-xs font-bold text-white">Jan 18 – Jan 25, 2026 (7 Nights)</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Departure Port</span>
+                  <span className="text-xs font-medium text-white/80">Port of Miami, FL (Terminal A)</span>
                 </div>
                 <div className="flex justify-between items-center border-b border-white/5 pb-2">
                   <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Party Size</span>
                   <span className="text-sm font-black text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-white/40 ml-1">Guests</span></span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Phone</span>
-                  <span className="text-sm font-medium text-white">{booking.phone || '—'}</span>
-                </div>
                 
                 {booking.cabin_preference && (
                   <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                    <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Cabin Selected</span>
-                    <span className="text-sm font-medium text-white">{booking.cabin_preference}</span>
+                    <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Selected Cabin</span>
+                    <span className="text-sm font-bold text-cyan-300">{booking.cabin_preference}</span>
                   </div>
                 )}
-                {booking.amount_paid && (
-                  <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                    <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Amount Paid</span>
-                    <span className="text-emerald-400 font-bold text-sm">{booking.amount_paid}</span>
+
+                {/* Travel Readiness Checklist Badges */}
+                <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3 my-3">
+                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
+                  <div className="grid grid-cols-2 gap-2 text-[11px]">
+                    <div className="flex items-center gap-1.5 text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
+                      <span>✓</span> Passport Verified
+                    </div>
+                    <div className="flex items-center gap-1.5 text-purple-300 font-bold bg-purple-500/10 border border-purple-500/20 px-2 py-1 rounded">
+                      <span>🎸</span> Band VIP Pass Included
+                    </div>
+                    <div className="flex items-center gap-1.5 text-cyan-300 font-medium bg-cyan-500/10 border border-cyan-500/20 px-2 py-1 rounded">
+                      <span>📅</span> Check-in: 45 Days Prior
+                    </div>
+                    <div className="flex items-center gap-1.5 text-amber-300 font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
+                      <span>🏷️</span> Luggage Tags: Dec 1st
+                    </div>
                   </div>
-                )}
-                {booking.balance_due && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Balance Due</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-rose-400 font-black text-sm">{booking.balance_due}</span>
-                      {parseFloat(booking.balance_due.replace(/[^0-9.]/g, '')) > 0 && (
+                </div>
+
+                {/* Payment Breakdown: Total Fare, Paid & Owed */}
+                <div className="bg-black/40 border border-white/10 rounded-xl p-4 space-y-2.5 my-3 shadow-inner">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-bold text-white/50 uppercase tracking-wider">Total Cruise Fare</span>
+                    <span className="font-bold text-white">{booking.total_fare || "$1,550.00"}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs border-t border-white/5 pt-2">
+                    <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
+                      <span>✓</span> Amount Paid
+                    </span>
+                    <span className="text-emerald-400 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs border-t border-white/5 pt-2">
+                    <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
+                      <span>⏳</span> Balance Owed
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-rose-400 font-black text-sm">{booking.balance_due || "$350.00"}</span>
+                      {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
                         <button 
                           onClick={() => setIsPayModalOpen(true)}
-                          className="text-[10px] font-black uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors border border-cyan-500/20 px-2 py-1 rounded bg-cyan-500/5 cursor-pointer hover:bg-cyan-500/10"
+                          className="text-[10px] font-black uppercase tracking-wider text-black bg-rose-400 hover:bg-rose-300 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
                         >
-                          💳 Pay Now
+                          💳 Pay Balance
                         </button>
                       )}
                     </div>
                   </div>
-                )}
+                </div>
                 
                 {booking.guests && booking.guests.length > 0 && (
-                  <div className="mt-4 border-t border-white/5 pt-4">
-                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Guest List</h3>
-                    <div className="space-y-2">
+                  <div className="mt-3 border-t border-white/5 pt-3">
+                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Guest List</h3>
+                    <div className="space-y-1.5">
                       {booking.guests.map((g: any, i: number) => (
                         <div key={i} className="flex justify-between items-center text-xs">
                           <span className="text-white font-medium">{g.name || `Guest ${i+2}`}</span>
@@ -658,13 +723,49 @@ export function BookingManager({ email }: { email?: string }) {
                     </div>
                   </div>
                 )}
+
+                {/* Two Clickable Cruise Agent Email Buttons */}
+                <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
+                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {/* Button 1: Cruise Admin Agent */}
+                    <a
+                      href={`mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
+                        `7th Heaven Cruise Inquiry - ${booking.cabin_preference || 'Cabin 9122'} (${booking.name || 'Passenger'})`
+                      )}&body=${encodeURIComponent(
+                        `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
+                      )}`}
+                      className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
+                    >
+                      <div className="flex items-center gap-1.5 font-black">
+                        <span>✉️</span> Cruise Admin
+                      </div>
+                      <span className="text-[9px] font-mono font-normal text-cyan-200 lowercase tracking-normal">cruise@7thheavenband.com</span>
+                    </a>
+
+                    {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
+                    <a
+                      href={`mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
+                        `7th Heaven Cruise Support - ${booking.name || 'Passenger'} (${booking.cabin_preference || 'Cabin 9122'})`
+                      )}&body=${encodeURIComponent(
+                        `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
+                      )}`}
+                      className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer text-center"
+                    >
+                      <div className="flex items-center gap-1.5 font-black">
+                        <span>✉️</span> Support Agent (Mary)
+                      </div>
+                      <span className="text-[9px] font-mono font-normal text-purple-200 lowercase tracking-normal">mary@ntdvacations.com</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
        )}
 
         {/* Cruising Power Travel Agent Portal Hook */}
-        <div className="mt-4 p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/20 text-[10.5px] leading-relaxed relative z-10 text-cyan-200/90 text-left">
+        <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white/60 text-left">
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-sm">🚢</span>
             <span className="font-extrabold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>

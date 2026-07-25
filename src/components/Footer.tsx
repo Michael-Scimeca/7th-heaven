@@ -90,7 +90,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="relative bg-black pt-24 pb-12 overflow-hidden border-t border-white/5" id="footer">
+    <footer className="relative bg-black pt-24 pb-12 overflow-hidden border-t border-white/5" id="footer" suppressHydrationWarning>
       <div className="site-container relative z-10">
 
         {/* Book The Band — Bold CTA (Planner only) */}
@@ -155,7 +155,7 @@ export function Footer() {
 
       {/* SMS Text Alerts */}
       <div className="site-container py-12 border-t border-white/5">
-        <div className="max-w-lg">
+        <div className="max-w-lg" suppressHydrationWarning>
           <div className="flex items-center gap-3 mb-1">
             <span className="text-lg">📱</span>
             <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-white">Text Alerts</h3>
@@ -183,7 +183,7 @@ export function Footer() {
                   else setSmsStatus('error');
                 } catch { setSmsStatus('error'); }
               }}
-              className="flex flex-wrap gap-2"
+              className="flex items-center gap-2"
             >
               <input
                 type="tel"

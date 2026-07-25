@@ -112,6 +112,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   const [nearMeResult, setNearMeResult] = useState<string | null>(null);
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
   const [markerCount, setMarkerCount] = useState(0);
+  const [legendOpen, setLegendOpen] = useState(false);
   const [L, setL] = useState<any>(null);
   const [map, setMap] = useState<any>(null);
 
@@ -535,60 +536,59 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       )}
 
       {/* Legend */}
-      <div className="absolute bottom-4 left-4 z-[4] px-5 py-4 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 rounded-lg">
-        <div className="flex items-center justify-between mb-3 gap-4">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/50">Show Types</p>
-          {selectedTypes.size > 0 && (
-            <button
-              onClick={() => setSelectedTypes(new Set())}
-              className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer"
-            >
-              Clear
-            </button>
-          )}
-        </div>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-2.5">
-          {Object.entries(typeConfig).map(([key, cfg]) => {
-            const isSelected = selectedTypes.has(key);
-            const isAnySelected = selectedTypes.size > 0;
-            const isActive = !isAnySelected || isSelected;
-
-            const isLightColor = cfg.color === '#f59e0b' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
-            const textColor = isLightColor ? '#000000' : '#ffffff';
-            const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
-
-            return (
-              <button
-                key={key}
-                onClick={() => {
-                  setSelectedTypes(prev => {
-                    const next = new Set(prev);
-                    if (next.has(key)) {
-                      next.delete(key);
-                    } else {
-                      next.add(key);
-                    }
-                    return next;
-                  });
-                }}
-                className={`flex items-center gap-2.5 transition-all duration-200 hover:scale-[1.02] cursor-pointer text-left ${
-                  isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
-                }`}
-              >
-                <div className="w-5 h-5 rounded-full shrink-0 shadow-[0_0_6px_var(--dot-glow)] flex items-center justify-center font-extrabold text-[10px]" style={{ backgroundColor: cfg.color, color: textColor, '--dot-glow': cfg.color } as any}>
-                  {showLetter}
-                </div>
-                <span className="text-sm font-semibold text-white">{cfg.label}</span>
-              </button>
-            );
-          })}
-        </div>
-        <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-4">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-white/40">Active Markers</span>
-          <span className="text-xs font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">
-            {markerCount}
-          </span>
-        </div>
+      <div className="absolute bottom-4 left-4 z-[4] bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 rounded-lg overflow-hidden transition-all duration-300">
+        {/* Header - always visible, click to toggle */}
+        <button
+          onClick={() => setLegendOpen(o => !o)}
+          className="flex items-center justify-between gap-3 px-3 py-2 w-full cursor-pointer hover:bg-white/5 transition-colors"
+        >
+          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/40">Show Types</p>
+          <svg className={`w-2.5 h-2.5 text-white/30 transition-transform duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        {/* Expandable content */}
+        {legendOpen && (
+          <div className="px-3 pb-2.5">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mb-2">
+              {Object.entries(typeConfig).map(([key, cfg]) => {
+                const isSelected = selectedTypes.has(key);
+                const isAnySelected = selectedTypes.size > 0;
+                const isActive = !isAnySelected || isSelected;
+                const isLightColor = cfg.color === '#f59e0b' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
+                const textColor = isLightColor ? '#000000' : '#ffffff';
+                const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
+                return (
+                  <button
+                    key={key}
+                    onClick={() => {
+                      setSelectedTypes(prev => {
+                        const next = new Set(prev);
+                        if (next.has(key)) { next.delete(key); } else { next.add(key); }
+                        return next;
+                      });
+                    }}
+                    className={`flex items-center gap-1.5 transition-all duration-200 cursor-pointer text-left ${
+                      isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
+                    }`}
+                  >
+                    <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[8px]" style={{ backgroundColor: cfg.color, color: textColor }}>
+                      {showLetter}
+                    </div>
+                    <span className="text-[10px] font-semibold text-white/80">{cfg.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-3">
+              <span className="text-[8px] font-bold uppercase tracking-wider text-white/40">Active</span>
+              <div className="flex items-center gap-2">
+                {selectedTypes.size > 0 && (
+                  <button onClick={() => setSelectedTypes(new Set())} className="text-[8px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
+                )}
+                <span className="text-[9px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {!isLoaded && (

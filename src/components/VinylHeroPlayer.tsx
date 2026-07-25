@@ -269,6 +269,19 @@ export default function VinylHeroPlayer({
   const currentAlbum = ALBUMS[activeAlbumIdx];
   const currentTrack = currentAlbum.tracks[activeTrackIdx] || currentAlbum.tracks[0];
 
+  const loadTrack = (trackIdx: number) => {
+    const url = currentAlbum.tracks[trackIdx]?.audioUrl;
+    if (!url) return;
+    setActiveTrackIdx(trackIdx);
+    setAudioError(false);
+    setProgress(0);
+    setCurrentTime("0:00");
+    if (audioRef.current) {
+      audioRef.current.src = url;
+      audioRef.current.load();
+    }
+  };
+
   const playTrack = (trackIdx: number) => {
     const url = currentAlbum.tracks[trackIdx]?.audioUrl;
     if (!url) return;
@@ -292,12 +305,10 @@ export default function VinylHeroPlayer({
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      // Set spinning immediately — don't wait for audio promise
       setIsPlaying(true);
       setAudioError(false);
       audioRef.current.play()
         .catch((err) => {
-          // Keep spinning even if audio is unavailable (missing file etc.)
           console.warn("Audio play failed:", err);
           setAudioError(true);
         });
@@ -306,12 +317,20 @@ export default function VinylHeroPlayer({
 
   const prevTrack = () => {
     const idx = activeTrackIdx > 0 ? activeTrackIdx - 1 : currentAlbum.tracks.length - 1;
-    playTrack(idx);
+    if (isPlaying) {
+      playTrack(idx);
+    } else {
+      loadTrack(idx);
+    }
   };
 
   const nextTrack = () => {
     const idx = activeTrackIdx < currentAlbum.tracks.length - 1 ? activeTrackIdx + 1 : 0;
-    playTrack(idx);
+    if (isPlaying) {
+      playTrack(idx);
+    } else {
+      loadTrack(idx);
+    }
   };
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -502,7 +521,12 @@ export default function VinylHeroPlayer({
 
         {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-          <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
+          <div
+            className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none"
+            onMouseEnter={() => setShowTracklist(true)}
+            onMouseLeave={() => setShowTracklist(false)}
+            style={{ pointerEvents: 'auto' }}
+          >
 
             {/* Top Controls */}
             <div className="flex items-center justify-center pointer-events-auto">
@@ -522,7 +546,7 @@ export default function VinylHeroPlayer({
                 </button>
                 <div className="w-[1px] h-3 bg-white/20 my-auto" />
                 <button
-                  onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+                  onClick={(e) => { e.stopPropagation(); }}
                   className={`p-1 rounded-full transition-all cursor-pointer ${showTracklist ? "text-[#d946ef] bg-purple-500/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
                   title="Toggle Playlist"
                 >
@@ -555,7 +579,7 @@ export default function VinylHeroPlayer({
             <div className="flex items-end justify-between pointer-events-none mt-auto">
               <div className="flex flex-col gap-1 pointer-events-auto">
                 <div
-                  onClick={(e) => { e.stopPropagation(); setShowTracklist(!showTracklist); }}
+                  onClick={(e) => { e.stopPropagation(); }}
                   className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[110px] cursor-pointer hover:bg-purple-100 transition-colors"
                 >
                   <div className="text-[11px] font-black uppercase leading-tight flex items-center gap-1">
@@ -606,6 +630,8 @@ export default function VinylHeroPlayer({
             : "opacity-0 pointer-events-none"
         }`}
         style={{ left: 'calc(50% + 125px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
+        onMouseEnter={() => setShowTracklist(true)}
+        onMouseLeave={() => setShowTracklist(false)}
       >
         <div className="pl-4 border-l border-white/15 h-full flex flex-col justify-center">
         <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10 whitespace-nowrap">

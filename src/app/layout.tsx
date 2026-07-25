@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Inter_Tight, Barlow_Condensed, Barlow } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
@@ -149,24 +150,15 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(bandLd) }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if (typeof window !== 'undefined' && window.location.search.includes('bypass=true')) {
-                const style = document.createElement('style');
-                style.innerHTML = \`
-                   * { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; }
-                   #curtain-primary, #curtain-accent { display: none !important; }
-                   #page-content-wrapper { opacity: 1 !important; transform: none !important; }
-
-                \`;
-                document.head.appendChild(style);
-              }
-            `
-          }}
-        />
       </head>
       <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
+        <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
+          if (window.location.search.includes('bypass=true')) {
+            var style = document.createElement('style');
+            style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
+            document.head.appendChild(style);
+          }
+        ` }} />
         <GrainOverlay />
         <Preloader />
         <CursorFollower />
