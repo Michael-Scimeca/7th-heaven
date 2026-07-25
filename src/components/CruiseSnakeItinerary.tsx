@@ -71,11 +71,9 @@ type Props = { itinerary: ItineraryDay[] };
 
 function CircleVideoNode({
   src,
-  poster,
   shouldPlay,
 }: {
   src: string;
-  poster: string;
   shouldPlay: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -94,11 +92,11 @@ function CircleVideoNode({
   return (
     <video
       ref={videoRef}
-      src={src}
-      poster={poster}
+      src={`${src}#t=0.001`}
       loop
       muted
       playsInline
+      preload="auto"
       className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
     />
   );
@@ -376,6 +374,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
         let minNodeDist = 999;
         let closestIdx = 0;
+        const nextVisited: Record<number, boolean> = {};
+
         nodes.forEach((node, i) => {
           const ndx = pt.x - node.x;
           const ndy = pt.y - node.y;
@@ -385,14 +385,18 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             closestIdx = i;
           }
 
-          // Mark node i as reached/passed when ship approaches or passes it
-          if (dist < 120 || pt.y >= node.y - 40) {
-            if (!visitedNodesRef.current[i]) {
-              visitedNodesRef.current[i] = true;
-              setVisitedNodes(prev => ({ ...prev, [i]: true }));
-            }
+          // Node i is active/passed if ship is at or past node i (supports reverse scroll!)
+          if (dist < 90 || pt.y >= node.y - 30) {
+            nextVisited[i] = true;
           }
         });
+
+        // Update visited nodes state if changed during forward or reverse scrolling
+        const visitedChanged = nodes.some((_, i) => !!visitedNodesRef.current[i] !== !!nextVisited[i]);
+        if (visitedChanged) {
+          visitedNodesRef.current = nextVisited;
+          setVisitedNodes(nextVisited);
+        }
 
         const inProximity = minNodeDist < 90;
 
@@ -1085,14 +1089,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           </Canvas>
         </div>
 
-        {/* Node circle ring HTML overlays — static photo until ship reaches/passes node, then looping video */}
+        {/* Node circle ring HTML overlays — video element always rendered, paused until ship reaches/passes node */}
         {nodes.map((node, i) => {
           const day = itinerary[i];
           const isSea = isAtSeaDay(day);
           const isActive = activeNodeIndex === i;
           const isPassed = visitedNodes[i];
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
-          const dayImg = isSea ? '/images/cruise/at-sea.png' : (day?.photo || DAY_IMAGES[i % 6]);
 
           return (
             <div
@@ -1117,22 +1120,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 justifyContent: 'center',
               }}
             >
-              {isPassed ? (
-                <video
-                  src={videoSrc}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
-                />
-              ) : (
-                <img
-                  src={dayImg}
-                  alt={day?.theme || "Port"}
-                  className="w-full h-full object-cover rounded-full pointer-events-none scale-110"
-                />
-              )}
+              <CircleVideoNode
+                src={videoSrc}
+                shouldPlay={isPassed}
+              />
             </div>
           );
         })}
