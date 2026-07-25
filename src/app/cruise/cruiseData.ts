@@ -53,7 +53,7 @@ export const CRUISE_HISTORY = [
 export const ITINERARY_2027 = [
   {
     day: 1, port: "Port Canaveral, Florida (Orlando)", label: "Depart 4:30pm", icon: "🚢", type: "depart",
-    photo: "/images/cruise/miami.png",
+    photo: "/images/cruise/port-canaveral-docked.png",
     schedule: [
       { time: "12:00 PM", event: "VIP Boarding & Check-In at Port Canaveral", cat: "ship" },
       { time: "4:30 PM",  event: "🎸 Sail-Away Concert — AquaDome / Pool Deck", cat: "band" },
@@ -62,7 +62,7 @@ export const ITINERARY_2027 = [
   },
   {
     day: 2, port: "Cococay, Bahamas (Private Island)", label: "7:00am - 4:00pm", icon: "🏝️", type: "island",
-    photo: "/images/cruise/cozumel.png",
+    photo: "/images/cruise/cococay-beach-party.png",
     schedule: [
       { time: "7:00 AM",  event: "Dock at Royal Caribbean's Private Island (7:00am - 4:00pm)", cat: "ship" },
       { time: "1:00 PM",  event: "🎸 Oasis Lagoon Poolside Jam", cat: "band" },
@@ -80,7 +80,7 @@ export const ITINERARY_2027 = [
   },
   {
     day: 4, port: "St. Thomas", label: "12:30pm - 8:00pm", icon: "🏝️", type: "island",
-    photo: "/images/cruise/grand-cayman.png",
+    photo: "/images/cruise/st-thomas-island.png",
     schedule: [
       { time: "12:30 PM", event: "Dock in St. Thomas (12:30pm - 8:00pm)", cat: "ship" },
       { time: "6:00 PM",  event: "Sunset Deck Hang overlooking Magens Bay", cat: "explore" },
@@ -99,7 +99,7 @@ export const ITINERARY_2027 = [
   },
   {
     day: 6, port: "Day At Sea", label: "Caribbean Cruising", icon: "🌊", type: "sea",
-    photo: "/images/cruise/concert.png",
+    photo: "/images/cruise/at-sea.png",
     schedule: [
       { time: "1:00 PM",  event: "Fan Rock Trivia & Prize Raffle", cat: "food" },
       { time: "4:00 PM",  event: "Deck Party & Cocktail Hour", cat: "food" },
@@ -117,7 +117,7 @@ export const ITINERARY_2027 = [
   },
   {
     day: 8, port: "Port Canaveral, Florida (Orlando)", label: "Arrive 6:00am", icon: "⚓", type: "depart",
-    photo: "/images/cruise/miami.png",
+    photo: "/images/cruise/port-canaveral-docked.png",
     schedule: [
       { time: "6:00 AM",  event: "Arrive back in Port Canaveral (Orlando)", cat: "ship" },
       { time: "8:00 AM",  event: "Farewell Breakfast & Disembarkation", cat: "ship" },

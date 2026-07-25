@@ -140,6 +140,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const shipScaleFactorRef = useRef(1.0);
   const activeNodeRef = useRef(0);
   const [activeNodeIndex, setActiveNodeIndex] = useState(0);
+  const visitedNodesRef = useRef<Record<number, boolean>>({ 0: true });
+  const [visitedNodes, setVisitedNodes] = useState<Record<number, boolean>>({ 0: true });
+  const isShipInNodeProximityRef = useRef(false);
+  const [isShipInNodeProximity, setIsShipInNodeProximity] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const portAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -153,13 +157,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
   };
 
-  // Play ship-at-port.mp3 audio when ship arrives at a port stop
+  // Play ship-at-port.mp3 audio ONLY while ship is inside proximity of a port stop
   useEffect(() => {
     if (!itinerary || itinerary.length === 0) return;
     const currentDay = itinerary[activeNodeIndex];
     const isSea = isAtSeaDay(currentDay);
 
-    if (!isSea && !soundMuted) {
+    if (!isSea && !soundMuted && isShipInNodeProximity) {
       if (!portAudioRef.current) {
         portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
         portAudioRef.current.loop = true;
@@ -171,7 +175,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         portAudioRef.current.pause();
       }
     }
-  }, [activeNodeIndex, itinerary, soundMuted]);
+  }, [activeNodeIndex, isShipInNodeProximity, itinerary, soundMuted]);
 
   useEffect(() => {
     return () => {
@@ -345,9 +349,22 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           }
         });
 
+        const inProximity = minNodeDist < 160;
+
+        // If ship enters proximity of closestIdx, trigger video playback permanently for node closestIdx
+        if (inProximity && !visitedNodesRef.current[closestIdx]) {
+          visitedNodesRef.current[closestIdx] = true;
+          setVisitedNodes(prev => ({ ...prev, [closestIdx]: true }));
+        }
+
         if (activeNodeRef.current !== closestIdx) {
           activeNodeRef.current = closestIdx;
           setActiveNodeIndex(closestIdx);
+        }
+
+        if (isShipInNodeProximityRef.current !== inProximity) {
+          isShipInNodeProximityRef.current = inProximity;
+          setIsShipInNodeProximity(inProximity);
         }
 
         const dipRadius = t.nodeDipRadius ?? 65;
@@ -1034,7 +1051,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const day = itinerary[i];
           const isSea = isAtSeaDay(day);
           const isActive = activeNodeIndex === i;
+          const isVisited = visitedNodes[i];
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
+          const dayImg = isSea ? '/images/cruise/at-sea.png' : (day?.photo || DAY_IMAGES[i % 6]);
 
           return (
             <div
@@ -1059,14 +1078,22 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 justifyContent: 'center',
               }}
             >
-              <video
-                src={videoSrc}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
-              />
+              {isVisited ? (
+                <video
+                  src={videoSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
+                />
+              ) : (
+                <img
+                  src={dayImg}
+                  alt={day?.theme || "Port"}
+                  className="w-full h-full object-cover rounded-full pointer-events-none scale-110"
+                />
+              )}
             </div>
           );
         })}
