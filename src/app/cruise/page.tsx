@@ -125,11 +125,9 @@ export default function CruisePage() {
     insurance: "no", prepaidGratuities: "yes", howHeard: "7th Heaven"
   });
 
-  const [activeAnchor, setActiveAnchor] = useState("itinerary");
-
-  useEffect(() => {
+  con  useEffect(() => {
     const handleScroll = () => {
-      const sections = ["itinerary", "bands-ports", "pricing", "ship-explorer", "faqs", "book-now"];
+      const sections = ["book-now", "itinerary", "bands-ports", "pricing", "ship-explorer", "faqs"];
       const scrollPosition = window.scrollY + 350; // Offset for highlights
 
       for (const section of sections) {
@@ -148,6 +146,7 @@ export default function CruisePage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   const [activeItinYear, setActiveItinYear] = useState<2027 | 2028>(2027);
   const [activePriceYear, setActivePriceYear] = useState<2027 | 2028>(2027);
   const [foodTypeTab, setFoodTypeTab] = useState<"included" | "paid">("included");
@@ -498,8 +497,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   return (
     <div className="min-h-screen">
 
-      {/* ── HERO + SIGNUP (unified) ── */}
-      <section id="signup" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-52 pb-32">
+      {/* ── HERO ── */}
+      <section className="relative flex flex-col justify-center overflow-hidden pt-44 pb-16">
         <div className="absolute inset-0">
           <video
             autoPlay
@@ -515,7 +514,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </div>
 
         {/* Hero Text */}
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto mb-20">
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-xs font-bold uppercase tracking-widest mb-6">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             Cruise Booking Center
@@ -527,7 +526,628 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             7 nights on Royal Caribbean&apos;s brand new Star of the Seas. Port Canaveral • CocoCay • St. Thomas • St. Maarten. The ultimate fan rock show.
           </p>
         </div>
+      </section>
 
+      {/* ── SECTION: BOOK NOW FORM AT TOP ── */}
+      <section id="book-now" className="py-12 site-container relative z-10">
+        <div id="signup" className="relative z-10">
+          {/* VIP Community Count Progress Bar */}
+          <div className="bg-white/[0.03] border border-white/5 rounded-3xl p-6 md:p-8 mb-10 text-left">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+              <div>
+                <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-2xs font-bold uppercase tracking-widest mb-3">Community Hub Goal</span>
+                <h3 className="text-xl md:text-2xl font-black uppercase text-white leading-tight">Fan Cruise Registry</h3>
+                <p className="text-white/40 text-xs md:text-sm mt-1">Join other fans inside the passenger lounge to plan deck events and coordinate table seating.</p>
+              </div>
+              <div className="flex items-baseline gap-2 bg-[#0c0c14] border border-white/5 p-4 rounded-2xl shrink-0">
+                <span className="text-3xl font-black text-white">{totalGuests}</span>
+                <span className="text-white/40 text-2xs uppercase font-bold tracking-wider">Registered Attendees</span>
+              </div>
+            </div>
+            <div className="h-2.5 w-full bg-white/5 border border-white/5 rounded-full overflow-hidden mb-3">
+              <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-1000 shadow-[0_0_8px_rgba(6,182,212,0.8)]" style={{ width: `${progress}%` }} />
+            </div>
+            <div className="flex justify-between text-2xs font-bold uppercase tracking-wider text-white/30">
+              <span>0 Registered</span>
+              <span className="text-cyan-400 font-extrabold">{progress.toFixed(0)}% of goal ({GOAL} cap)</span>
+            </div>
+          </div>
+
+          <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 md:p-10 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            {/* Form Column */}
+            <div className="lg:col-span-2 text-left">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                <div>
+                  <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                    Official <span className="accent-gradient-text">Booking Form</span>
+                  </h2>
+                  <p className="text-white/40 text-sm">
+                    Secure your cabin reservation directly under the 7th Heaven group rate. <strong className="text-cyan-400">Group ID: 3325680</strong>
+                  </p>
+                </div>
+                {!isLoggedIn && (
+                  <button 
+                    onClick={() => openModal("login")}
+                    className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] hover:text-white transition-all flex items-center gap-2 group cursor-pointer"
+                  >
+                    <span className="w-6 h-6 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center group-hover:border-[var(--color-accent)] transition-all">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </span>
+                    Sign In to Autofill
+                  </button>
+                )}
+                {isLoggedIn && (
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-widest">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Verified User: {member?.name}
+                  </div>
+                )}
+              </div>
+
+              {signupStatus === "success" ? (
+                <div className="p-8 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center">
+                  <span className="text-4xl block mb-4">🚢</span>
+                  <h3 className="text-white font-black text-xl uppercase italic">Your Booking Request Submitted!</h3>
+                  <p className="text-emerald-400 text-sm mt-3 leading-relaxed">
+                    Thank you, {formData.name ? formData.name.split(' ')[0] : 'Captain'}! We have registered your reservation interest. Check <strong className="text-white">{formData.email}</strong> for your confirmation email details. Our travel managers at NTD Vacations will reach out to verify room assignments.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSignup} className="space-y-6">
+                  {/* PRINT OVERRIDES & CURSIVE SIGNATURE FONT */}
+                  <style dangerouslySetInnerHTML={{ __html: `
+                    .signature-font {
+                      font-family: 'Brush Script MT', 'Dancing Script', 'Reenie Beanie', cursive, sans-serif;
+                    }
+                    @media print {
+                      header, footer, nav, video, .no-print, button, .interest-tracker, .timeline-section, .whats-included-section, .faq-section, .cta-section, .announcement-banner, #signup > div:not(.site-container) {
+                        display: none !important;
+                      }
+                      body, html, main, #signup {
+                        background: white !important;
+                        color: black !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        min-height: auto !important;
+                      }
+                      .site-container {
+                        width: 100% !important;
+                        max-width: 100% !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                      }
+                      .booking-form-card {
+                        background: white !important;
+                        color: black !important;
+                        border: 2px solid black !important;
+                        border-radius: 0 !important;
+                        box-shadow: none !important;
+                        padding: 20px !important;
+                        width: 100% !important;
+                      }
+                      .booking-header-banner {
+                        background: black !important;
+                        color: white !important;
+                        border-bottom: 2px solid black !important;
+                        padding: 12px !important;
+                        text-align: center !important;
+                      }
+                      .booking-header-banner h2, .booking-header-banner p {
+                        color: white !important;
+                      }
+                      .booking-section-container {
+                        border: 1px solid black !important;
+                        background: white !important;
+                        margin-bottom: 16px !important;
+                        border-radius: 0 !important;
+                      }
+                      .booking-section-header {
+                        background: #f0f0f0 !important;
+                        color: black !important;
+                        border-bottom: 1px solid black !important;
+                        padding: 6px 12px !important;
+                        font-weight: bold !important;
+                      }
+                      .booking-grid {
+                        display: grid !important;
+                        grid-template-columns: repeat(2, 1fr) !important;
+                        border-collapse: collapse !important;
+                      }
+                      .booking-cell {
+                        border-top: 1px solid black !important;
+                        border-left: 1px solid black !important;
+                        background: transparent !important;
+                        padding: 6px 10px !important;
+                      }
+                      .booking-grid > .booking-cell:nth-child(2n+1) {
+                        border-left: none !important;
+                      }
+                      .booking-grid > .booking-cell:nth-child(1),
+                      .booking-grid > .booking-cell:nth-child(2) {
+                        border-top: none !important;
+                      }
+                      .booking-label {
+                        color: #222 !important;
+                        font-size: 8px !important;
+                        font-weight: bold !important;
+                        text-transform: uppercase !important;
+                      }
+                      .booking-input {
+                        color: black !important;
+                        background: transparent !important;
+                        border: none !important;
+                        border-bottom: 1px dotted black !important;
+                        padding: 2px 0 !important;
+                        font-size: 11px !important;
+                        width: 100% !important;
+                      }
+                      select.booking-input {
+                        -webkit-appearance: none !important;
+                        -moz-appearance: none !important;
+                        appearance: none !important;
+                      }
+                      .booking-signature-input {
+                        font-family: 'Brush Script MT', 'Dancing Script', 'Reenie Beanie', cursive, sans-serif !important;
+                        font-size: 20px !important;
+                        color: black !important;
+                        border: none !important;
+                        border-bottom: 1px solid black !important;
+                      }
+                      .booking-inactive {
+                        display: none !important;
+                      }
+                    }
+                  ` }} />
+
+                  {/* HIGH FIDELITY DIGITAL PDF FORM CONTAINER */}
+                  <div className="booking-form-card bg-white/[0.02] border border-white/10 rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    {/* Header Banner representing the PDF top section */}
+                    <div className="booking-header-banner border-b border-white/10 p-5 text-center">
+                      <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                      <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                      <p className="text-[10px] text-white/40 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
+                    </div>
+
+                    {/* GUEST 1 (Primary Booker) */}
+                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
+                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10 flex items-center justify-between">
+                        <span className="text-xs font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Primary</span>
+                      </div>
+                      <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                        {/* Name */}
+                        <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Full Legal Name (as spelled on passport) *</label>
+                          <input type="text" required placeholder="Guest 1 Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        </div>
+                        {/* DOB */}
+                        <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Date of Birth *</label>
+                          <input type="text" required placeholder="MM/DD/YYYY" value={formData.dob1} onChange={e => setFormData({...formData, dob1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        </div>
+                        {/* Phone */}
+                        <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
+                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({...formData, phone: formatPhoneDisplay(e.target.value)})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        </div>
+                        {/* Email */}
+                        <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address *</label>
+                          <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        </div>
+                        {/* T-Shirt Size */}
+                        <div className="booking-cell md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all relative">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">T-Shirt Size</label>
+                          <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none cursor-pointer appearance-none">
+                            {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0b0b12] text-white">{sz}</option>)}
+                          </select>
+                        </div>
+                        {/* Crown & Anchor */}
+                        <div className="booking-cell p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Crown & Anchor Number (if applicable)</label>
+                          <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({...formData, crownAnchor1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        </div>
+                      </div>
+
+                      {/* Customization toggles mirroring the Guest 1 page elements */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 border-t border-white/10">
+                        <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 p-3 flex flex-col justify-between">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-2">Do you want travel protection insurance? *</label>
+                          <div className="flex gap-2">
+                            {["yes", "no"].map(opt => (
+                              <button key={opt} type="button" onClick={() => setFormData(f => ({...f, insurance: opt}))}
+                                className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border transition-all cursor-pointer ${formData.insurance === opt ? "bg-cyan-500/15 border-cyan-500/30 text-cyan-400" : "bg-white/5 border-white/5 text-white/40"}`}>
+                                {opt === "yes" ? "Yes, Protect" : "No, Decline"}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="booking-cell p-3 flex flex-col justify-between">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-2">Do you want pre-paid gratuities? *</label>
+                          <div className="flex gap-2">
+                            {["yes", "no"].map(opt => (
+                              <button key={opt} type="button" onClick={() => setFormData(f => ({...f, prepaidGratuities: opt}))}
+                                className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border transition-all cursor-pointer ${formData.prepaidGratuities === opt ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/30 text-[var(--color-accent)]" : "bg-white/5 border-white/5 text-white/40"}`}>
+                                {opt === "yes" ? "Yes, Include" : "No, Exclude"}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* ADDITIONAL GUESTS (Guest 2, Guest 3, Guest 4) */}
+                    {guests.map((g, i) => {
+                      const guestNum = i + 2;
+                      return (
+                        <div key={i} className={`booking-section-container border-b border-white/10 transition-all duration-300 ${g.active ? "bg-white/[0.01] opacity-100" : "bg-black/10 opacity-50 print:booking-inactive"}`}>
+                          {/* Section Header with checkbox activator */}
+                          <div className="booking-section-header bg-white/[0.02] px-4 py-2.5 border-b border-white/10 flex items-center gap-3">
+                            <input 
+                              type="checkbox" 
+                              id={`guest-active-${guestNum}`} 
+                              checked={g.active} 
+                              onChange={e => toggleGuestActive(i, e.target.checked)} 
+                              className="no-print w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" 
+                            />
+                            <label htmlFor={`guest-active-${guestNum}`} className="text-xs font-black uppercase tracking-wider text-white cursor-pointer select-none">
+                              Include Guest {guestNum} in Cabin Reservation
+                            </label>
+                          </div>
+
+                          {g.active ? (
+                            <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                              {/* Name */}
+                              <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Full Legal Name (as spelled on passport) *</label>
+                                <input type="text" required placeholder={`Guest ${guestNum} Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              </div>
+                              {/* DOB */}
+                              <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Date of Birth *</label>
+                                <input type="text" required placeholder="MM/DD/YYYY" value={g.dob} onChange={e => updateGuest(i, "dob", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              </div>
+                              {/* Phone */}
+                              <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number (Optional)</label>
+                                <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              </div>
+                              {/* Email */}
+                              <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address (Optional)</label>
+                                <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              </div>
+                              {/* T-Shirt Size */}
+                              <div className="booking-cell md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all relative">
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">T-Shirt Size</label>
+                                <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none cursor-pointer appearance-none">
+                                  {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0b0b12] text-white">{sz}</option>)}
+                                </select>
+                              </div>
+                              {/* Crown & Anchor */}
+                              <div className="booking-cell p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Crown & Anchor Number (if applicable)</label>
+                                <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="py-6 text-center text-white/25 text-2xs font-bold uppercase tracking-widest no-print select-none">
+                              No Passenger Registered in Slot {guestNum}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+
+                    {/* CABIN CATEGORY SELECTION */}
+                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
+                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10">
+                        <span className="text-xs font-black uppercase tracking-wider text-white">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
+                      </div>
+                      <div className="p-3.5 focus-within:bg-cyan-500/5 transition-all">
+                        <select value={formData.cabinPreference} onChange={e => setFormData(f => ({...f, cabinPreference: e.target.value}))} required
+                          className="booking-input w-full bg-transparent text-sm text-white focus:outline-none cursor-pointer appearance-none py-1">
+                          <option value="" disabled className="bg-[#0b0b12]">-- Select Cabin Category --</option>
+                          <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-[#0b0b12]">
+                            <option value="group_n5" className="bg-[#0b0b12]">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
+                            <option value="group_if" className="bg-[#0b0b12]">IF - Infinite Central Park ($2,033.27 pp) - 2 Left</option>
+                            <option value="group_d4" className="bg-[#0b0b12]">D4 - Ocean View Balcony ($2,433.27 pp) - 10 Left</option>
+                            <option value="group_d2" className="bg-[#0b0b12]">D2 - Ocean View Balcony ($2,483.27 pp) - 11 Left</option>
+                            <option value="group_i1" className="bg-[#0b0b12]">I1 - Infinite Ocean View Balcony ($2,583.27 pp) - 5 Left</option>
+                          </optgroup>
+                          <optgroup label="Prevailing Rates (Gratuities NOT Included, Taxes & Fees Included)" className="bg-[#0b0b12]">
+                            <option value="prev_zi" className="bg-[#0b0b12]">ZI - Inside GTY ($1,430.77 pp)</option>
+                            <option value="prev_yo" className="bg-[#0b0b12]">YO - Ocean View GTY ($1,691.27 pp)</option>
+                            <option value="prev_if" className="bg-[#0b0b12]">IF - Infinite Central Park ($1,907.27 pp)</option>
+                            <option value="prev_xb" className="bg-[#0b0b12]">XB - Oceanview Balcony GTY ($1,903.77 pp) - 8 Left</option>
+                            <option value="prev_i1" className="bg-[#0b0b12]">I1 - Infinite Ocean View Balcony ($2,237.77 pp)</option>
+                            <option value="prev_jy" className="bg-[#0b0b12]">JY - Sky Junior Suite ($5,157.77 pp)</option>
+                          </optgroup>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* PAYMENT DETAILS */}
+                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
+                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10 flex items-center justify-between">
+                        <span className="text-xs font-black uppercase tracking-wider text-white">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
+                        <span className="no-print text-[9px] font-black uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
+                      </div>
+                      <div className="p-4 text-2xs text-white/45 leading-relaxed border-b border-white/5">
+                        A $250.00 per-person deposit is required to secure your cabin under our group code. Payments are mock-processed for staging.
+                      </div>
+
+                      {/* Card 1 */}
+                      <div className="p-4 border-b border-white/10">
+                        <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
+                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                          <div className="booking-cell border-b md:border-r border-white/10 p-3">
+                            <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+                            <input type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({...formData, cardName1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                          </div>
+                          <div className="booking-cell border-b border-white/10 p-3">
+                            <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Credit Card Number *</label>
+                            <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({...formData, cardNumber1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                          </div>
+                          <div className="booking-cell md:border-r border-white/10 p-3">
+                            <div className="grid grid-cols-3 gap-2">
+                              <div>
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Exp. Date *</label>
+                                <input type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({...formData, cardExpiry1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                              </div>
+                              <div>
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">3 Digit *</label>
+                                <input type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({...formData, cardCvv1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                              </div>
+                              <div>
+                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Billing Zip *</label>
+                                <input type="text" required placeholder="Billing Zip" value={formData.cardZip1} onChange={e => setFormData({...formData, cardZip1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="booking-cell p-3 flex flex-col justify-end">
+                            <div className="flex justify-between items-center bg-black/40 p-2 rounded-xl border border-white/5">
+                              <span className="booking-label text-[9px] font-bold text-white/40 uppercase tracking-widest">Amount to Charge</span>
+                              <input type="text" required value={formData.cardAmount1} onChange={e => setFormData({...formData, cardAmount1: e.target.value})} className="booking-input w-24 bg-transparent border-none text-right text-sm font-black text-white outline-none" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Card 2 Split Option */}
+                      {guests.filter(g => g.active).length > 0 && (
+                        <div className="p-4 border-b border-white/10 no-print">
+                          <label className="flex items-center gap-3 cursor-pointer group">
+                            <input 
+                              type="checkbox" 
+                              checked={formData.splitPayment} 
+                              onChange={e => setFormData({...formData, splitPayment: e.target.checked})} 
+                              className="w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" 
+                            />
+                            <span className="text-2xs font-bold uppercase tracking-widest text-cyan-400 group-hover:text-cyan-300">Split deposit payment between Card 1 and Card 2</span>
+                          </label>
+                        </div>
+                      )}
+
+                      {/* Card 2 Details */}
+                      {formData.splitPayment && guests.filter(g => g.active).length > 0 && (
+                        <div className="p-4 bg-white/[0.01]">
+                          <span className="text-[10px] font-black text-purple-400 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
+                          <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                            <div className="booking-cell border-b md:border-r border-white/10 p-3">
+                              <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+                              <input type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({...formData, cardName2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                            </div>
+                            <div className="booking-cell border-b border-white/10 p-3">
+                              <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Credit Card Number *</label>
+                              <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({...formData, cardNumber2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                            </div>
+                            <div className="booking-cell md:border-r border-white/10 p-3">
+                              <div className="grid grid-cols-3 gap-2">
+                                <div>
+                                  <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Exp. Date *</label>
+                                  <input type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({...formData, cardExpiry2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                </div>
+                                <div>
+                                  <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">3 Digit *</label>
+                                  <input type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({...formData, cardCvv2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                </div>
+                                <div>
+                                  <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Billing Zip *</label>
+                                  <input type="text" required placeholder="Billing Zip" value={formData.cardZip2} onChange={e => setFormData({...formData, cardZip2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="booking-cell p-3 flex flex-col justify-end">
+                              <div className="flex justify-between items-center bg-black/40 p-2 rounded-xl border border-white/5">
+                                <span className="booking-label text-[9px] font-bold text-white/40 uppercase tracking-widest">Amount to Charge</span>
+                                <input type="text" required value={formData.cardAmount2} onChange={e => setFormData({...formData, cardAmount2: e.target.value})} className="booking-input w-24 bg-transparent border-none text-right text-sm font-black text-white outline-none" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* NOTES & CONSENT */}
+                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
+                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10">
+                        <span className="text-xs font-black uppercase tracking-wider text-white">ADDITIONAL NOTES & DIGITIAL SIGNATURE</span>
+                      </div>
+                      
+                      <div className="p-4 border-b border-white/10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
+                            <input type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({...f, howHeard: e.target.value}))} className="booking-input w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
+                          </div>
+                          <div>
+                            <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
+                            <textarea placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2} className="booking-input w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:border-[var(--color-accent)] focus:outline-none resize-none" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* SIGNATURE FIELDS */}
+                      <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                        {/* E-Signature */}
+                        <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
+                          <input 
+                            type="text" 
+                            required 
+                            placeholder="Type legal name to sign" 
+                            value={signature} 
+                            onChange={e => setSignature(e.target.value)} 
+                            className="booking-signature-input signature-font w-full bg-transparent text-lg text-cyan-400 placeholder:text-white/10 focus:outline-none py-0.5" 
+                          />
+                        </div>
+                        {/* Signature Date */}
+                        <div className="booking-cell p-3 bg-white/[0.005]">
+                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Date Signed</label>
+                          <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-transparent text-sm text-white/50 focus:outline-none cursor-not-allowed" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Submit & Print buttons */}
+                  <div className="space-y-4 no-print mt-4">
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <input type="checkbox" checked={formData.anonymous} onChange={e => setFormData(f => ({...f, anonymous: e.target.checked}))}
+                        className="w-4 h-4 rounded border-white/20 bg-white/5 accent-[var(--color-accent)] cursor-pointer" />
+                      <span className="text-xs text-white/40 group-hover:text-white/60 transition-colors">Keep my name anonymous on the public roster list</span>
+                    </label>
+
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <input type="checkbox" checked={formData.joinCommunity} onChange={e => setFormData(f => ({...f, joinCommunity: e.target.checked}))}
+                        className="w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" />
+                      <div className="flex-1">
+                        <p className="text-xs text-white/65 group-hover:text-white transition-colors font-bold">Join the 7th Heaven Cruise Community</p>
+                        <p className="text-[10px] text-white/30">Get early access to deck plans, song request polls, and pre-cruise passenger chat rooms.</p>
+                      </div>
+                    </label>
+
+                    {/* Honeypot */}
+                    <div className="hidden" aria-hidden="true">
+                      <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                      <button type="submit" disabled={signupStatus === "submitting"}
+                        className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-xs py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] disabled:opacity-70 cursor-pointer">
+                        {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
+                      </button>
+                      
+                      <button type="button" onClick={() => window.print()}
+                        className="w-full border border-cyan-500/30 hover:border-cyan-500/60 bg-cyan-500/10 text-cyan-400 font-bold uppercase tracking-widest text-xs py-4 rounded-xl transition-all hover:bg-cyan-500/25 cursor-pointer text-center">
+                        🖨️ Print / Save Booking Form
+                      </button>
+                    </div>
+
+                    <p className="text-[10px] text-white/25 text-center leading-relaxed">
+                      By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="text-white/40 underline hover:text-white/60 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-white/40 underline hover:text-white/60 transition-colors">Terms of Service</a>. You'll receive a confirmation email.
+                    </p>
+                    {signupStatus === "error" && <p className="text-rose-400 text-xs text-center">{formError || 'Something went wrong. Try again.'}</p>}
+                  </div>
+                </form>
+              )}
+            </div>
+
+            {/* Sidebar Column: NTD Vacations Contacts & Payment Portal */}
+            <div className="lg:col-span-1 text-left space-y-8">
+              {/* Online Payment Portal Link */}
+              <div className="bg-[#0b0b12] border border-purple-500/20 p-6 rounded-2xl text-left relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-[60px]" />
+                <span className="text-3xl block mb-2">💳</span>
+                <h4 className="text-sm font-black text-white uppercase tracking-wider">Already Booked?</h4>
+                <p className="text-2xs text-white/40 mt-1 leading-normal">
+                  Submit additional payments, modify balances, or authorize custom charges directly with the Royal Caribbean processor.
+                </p>
+                <a 
+                  href="https://www.chicagomusiccruise.com/payment.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-block mt-4 px-4 py-2 bg-purple-500 hover:bg-purple-400 text-white font-black uppercase tracking-wider text-2xs rounded-lg transition-all"
+                >
+                  Go to Payment Portal
+                </a>
+              </div>
+
+              {/* Travel coordinators list */}
+              <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-6">
+                <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Travel Coordinators</h3>
+                <div className="space-y-4">
+                  {[
+                    { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
+                    { name: "Mary Grivas", role: "Excursions / Hotels & Air", phone: "(877) 683-9753 ext 5", email: "Mary@NTDVacations.com" },
+                    { name: "Alan McRae", role: "Schedules & Logistics", phone: "(877) 683-9753 ext 5", email: "alan@NTDVacations.com" },
+                  ].map((coord, idx) => (
+                    <div key={idx} className="text-2xs leading-normal">
+                      <h4 className="font-extrabold text-white">{coord.name}</h4>
+                      <p className="text-white/35 font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
+                      <p className="text-white/50 font-mono mt-1">{coord.phone}</p>
+                      <a href={`mailto:${coord.email}`} className="text-cyan-400 font-bold hover:underline">{coord.email}</a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Voyage Interest Tracker */}
+              <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-4">
+                <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Voyage Tracker</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-center">
+                    <p className="text-3xl font-black text-white">{signupCount}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Cabins</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-center">
+                    <p className="text-3xl font-black text-white">{totalGuests}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Passengers</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Who's Booked */}
+              {joinedFans.length > 0 && (
+                <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Who&apos;s Booked</h3>
+                  <div className="flex items-center mb-4">
+                    <div className="flex -space-x-2">
+                      {joinedFans.slice(0, 8).map((fan, i) => (
+                        <div
+                          key={i}
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-[#0d0d14] shrink-0 relative z-[1] hover:z-10 hover:scale-110 transition-transform cursor-default"
+                          style={{ backgroundColor: fan.anonymous ? '#374151' : AVATAR_COLORS[i % AVATAR_COLORS.length], zIndex: 8 - i }}
+                          title={fan.anonymous ? 'Anonymous Fan' : fan.name}
+                        >
+                          {fan.anonymous ? '?' : fan.name.charAt(0).toUpperCase()}
+                        </div>
+                      ))}
+                      {joinedFans.length > 8 && (
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white/60 bg-white/10 border-2 border-[#0d0d14] shrink-0">
+                          +{joinedFans.length - 8}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-x-1 gap-y-0.5">
+                    {joinedFans.map((fan, i) => (
+                      <span key={i} className="text-2xs text-white/40">
+                        {fan.anonymous ? 'Anonymous' : fan.name.split(' ')[0]}
+                        {fan.guest_count > 1 && <span className="text-white/20"> +{fan.guest_count - 1}</span>}
+                        {i < joinedFans.length - 1 && <span className="text-white/15 mx-0.5">·</span>}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
       </section>
 
       {/* Sticky quick-jump anchor link bar */}
@@ -535,12 +1155,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         <div className="site-container">
           <div className="flex flex-wrap items-center justify-center gap-2 max-w-5xl mx-auto">
             {[
+              { id: "book-now", label: "✍️ Book Now" },
               { id: "itinerary", label: "⛵ Itinerary" },
               { id: "bands-ports", label: "🎸 Bands & Ports" },
               { id: "pricing", label: "💰 Pricing & Cabins" },
               { id: "ship-explorer", label: "🚢 Ship Explorer" },
               { id: "faqs", label: "❓ FAQs & History" },
-              { id: "book-now", label: "✍️ Book Now" },
             ].map(tab => (
               <a
                 key={tab.id}
@@ -556,6 +1176,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 }`}
               >
                 {tab.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div> {tab.label}
               </a>
             ))}
           </div>
