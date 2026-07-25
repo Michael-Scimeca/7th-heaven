@@ -600,12 +600,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           <div className="space-y-16">
             {/* GROUP RATES */}
             <div className="bg-transparent p-0 relative text-left">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/5">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-2">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Exclusive Group Deal</span>
                   <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
                 </div>
-                <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-xl px-4 py-2.5 max-w-md text-2xs leading-relaxed text-cyan-200/90 font-medium">
+                <div className="max-w-md text-2xs leading-relaxed text-cyan-200/90 font-medium">
                   💡 <strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).
                 </div>
               </div>
@@ -683,12 +683,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* PREVAILING RATES */}
             {activePriceYear === 2027 && (
               <div className="bg-transparent p-0 relative text-left">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-white/5">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-2">
                   <div>
                     <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Variable Market Pricing</span>
                     <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Prevailing Rate Cabins (2027)</h3>
                   </div>
-                  <div className="bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/25 rounded-xl px-4 py-2.5 max-w-md text-2xs leading-relaxed text-purple-200/90 font-medium">
+                  <div className="max-w-md text-2xs leading-relaxed text-purple-200/90 font-medium">
                     ⚠️ <strong>NOTICE:</strong> Gratuities are <strong>NOT included</strong> in rates below (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.
                   </div>
                 </div>
