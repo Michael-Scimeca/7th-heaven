@@ -25,6 +25,12 @@ const nextConfig: NextConfig = {
       'node_modules/gsap/**',
       'node_modules/lottie-web/**',
       'public/movie/**',
+      'public/demos/**',
+      'public/images/**',
+      'public/sitemap-screenshots/**',
+      'public/uploads/**',
+      'public/audio/**',
+      'public/assets/**',
     ],
   },
   images: {
