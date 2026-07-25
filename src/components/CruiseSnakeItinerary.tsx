@@ -153,15 +153,17 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const shipContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs   = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Load saved tuning from localStorage on mount
+  // Load saved tuning from localStorage on mount (with auto-sanitization for dead-center alignment)
   useEffect(() => {
     try {
       const savedStr = localStorage.getItem('7h_cruise_tuning');
       if (savedStr) {
         const saved = JSON.parse(savedStr);
-        if (saved.shipScale && saved.shipScale > 1.5) {
-          saved.shipScale = 1.0;
-        }
+        // Guarantee ship is locked dead-center on the path line across all domains
+        saved.shipScale = 1.0;
+        saved.anchorOffsetX = 0;
+        saved.anchorOffsetY = 0;
+        saved.shipOffsetY = -0.2;
         setTuning({ ...DEFAULT_TUNING, ...saved });
       }
     } catch {}
