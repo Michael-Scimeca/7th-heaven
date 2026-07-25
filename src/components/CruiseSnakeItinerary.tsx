@@ -351,10 +351,11 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           }
         });
 
-        const inProximity = minNodeDist < 160;
+        const inProximity = minNodeDist < 50;
+        const isOverNode = minNodeDist < 45;
 
-        // If ship enters proximity of closestIdx, trigger video playback permanently for node closestIdx
-        if (inProximity && !visitedNodesRef.current[closestIdx]) {
+        // Video triggers ONLY when 3D ship actually arrives directly over that section circle (dist < 45px)
+        if (isOverNode && !visitedNodesRef.current[closestIdx]) {
           visitedNodesRef.current[closestIdx] = true;
           setVisitedNodes(prev => ({ ...prev, [closestIdx]: true }));
         }
