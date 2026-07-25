@@ -847,7 +847,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const leftPct = (node.x / SVG_W) * 100;
           const day = itinerary[i];
           const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#a855f7');
-          const dayImage = DAY_IMAGES[i % 6];
+          const dayImage = isAtSeaDay(day)
+            ? '/images/cruise/at-sea.png'
+            : (day?.photo || DAY_IMAGES[i % 6]);
 
           const cardContent = (
             <div className="group">
