@@ -162,7 +162,7 @@ export function Header() {
         >
         
         {/* ── LEFT NAV GROUP ── */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-barlow)]">
+        <nav className="hidden min-[1401px]:flex items-center gap-6 xl:gap-8 font-[family-name:var(--font-barlow)]">
           {leftNavLinks.map((link) => (
             <Link
               key={link.href}
@@ -176,10 +176,10 @@ export function Header() {
           ))}
         </nav>
 
-        {/* ── CENTER LOGO (Centered on desktop, Left-aligned on mobile) ── */}
+        {/* ── CENTER LOGO (Centered on desktop > 1400px, Left-aligned on mobile <= 1400px) ── */}
         <Link
           href="/"
-          className="absolute left-[12px] lg:left-1/2 -translate-y-1/2 lg:-translate-x-1/2 top-1/2 flex items-center justify-center z-10"
+          className="absolute left-[12px] min-[1401px]:left-1/2 -translate-y-1/2 min-[1401px]:-translate-x-1/2 top-1/2 flex items-center justify-center z-10"
           id="header-logo"
           onClick={(e) => {
             if (pathname === "/") {
@@ -194,12 +194,12 @@ export function Header() {
         </Link>
 
         {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-        <div className="flex items-center gap-2.5 xl:gap-3.5 ml-auto lg:ml-0 font-[family-name:var(--font-barlow)] z-10">
+        <div className="flex items-center gap-2.5 xl:gap-3.5 ml-auto min-[1401px]:ml-0 font-[family-name:var(--font-barlow)] z-10">
           
           {/* Live Stream link */}
           <Link
             href="/live"
-            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+            className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
           >
             {/* Live / Offline badge — absolute above the text */}
             <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 text-[6px] font-black uppercase tracking-widest text-white/90 bg-red-600/90 border border-red-400 px-1.5 py-[0.5px] rounded-full shadow-[0_0_6px_rgba(239,68,68,0.5)] whitespace-nowrap font-sans">
@@ -212,14 +212,14 @@ export function Header() {
           {/* Cruise link */}
           <Link
             href="/cruise"
-            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+            className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
           >
             CRUISE
             <CruiseWaveAnimation />
           </Link>
 
           {/* Book Us pill button with spark accents */}
-          <div className="hidden lg:flex flex-col items-center justify-center relative">
+          <div className="hidden min-[1401px]:flex flex-col items-center justify-center relative">
             {/* Top dashes \ | / */}
             <div className="flex items-center gap-1 text-white/40 text-[7px] leading-none mb-[2px] pointer-events-none tracking-widest font-mono">
               <span>\</span>
@@ -239,7 +239,7 @@ export function Header() {
           {/* Contact link */}
           <Link
             href="/contact"
-            className="hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+            className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(14px,1.4vw,22px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
           >
             CONTACT
           </Link>
@@ -314,9 +314,9 @@ export function Header() {
             </button>
           )}
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Mobile Menu Toggle Button (Visible when width <= 1400px) */}
           <button
-            className="flex lg:hidden w-8 h-8 items-center justify-center z-50 relative ml-1"
+            className="flex min-[1401px]:hidden w-8 h-8 items-center justify-center z-50 relative ml-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle navigation"
             id="mobile-menu-toggle"
