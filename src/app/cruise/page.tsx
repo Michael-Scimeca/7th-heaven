@@ -125,7 +125,9 @@ export default function CruisePage() {
     insurance: "no", prepaidGratuities: "yes", howHeard: "7th Heaven"
   });
 
-  con  useEffect(() => {
+  const [activeAnchor, setActiveAnchor] = useState("book-now");
+
+  useEffect(() => {
     const handleScroll = () => {
       const sections = ["book-now", "itinerary", "bands-ports", "pricing", "ship-explorer", "faqs"];
       const scrollPosition = window.scrollY + 350; // Offset for highlights
