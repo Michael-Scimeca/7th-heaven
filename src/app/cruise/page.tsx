@@ -846,8 +846,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* Stateroom Categories Tab Column */}
               <div className="lg:col-span-1 bg-white/[0.02] border border-white/5 p-6 rounded-3xl flex flex-col justify-between">
                 <div>
-                  <h3 className="text-sm font-black uppercase text-white tracking-widest mb-6 border-b border-white/5 pb-3">Stateroom Categories</h3>
-                  <div className="flex flex-col gap-2">
+                  <h3 className="text-base font-black uppercase text-white tracking-widest mb-6 border-b border-white/5 pb-3">Stateroom Categories</h3>
+                  <div className="flex flex-col gap-2.5">
                     {[
                       { id: "suites", label: "👑 Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
                       { id: "balcony", label: "🌅 Balconies & Infinite", desc: "Private sliding glass doors opening to ocean breeze." },
@@ -864,17 +864,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             : "bg-black/20 border-white/5 hover:border-white/10"
                         }`}
                       >
-                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">{tab.label}</h4>
-                        <p className="text-[10px] text-white/40 mt-1 leading-normal">{tab.desc}</p>
+                        <h4 className="text-sm font-extrabold text-white uppercase tracking-wider">{tab.label}</h4>
+                        <p className="text-xs text-white/60 mt-1 leading-relaxed">{tab.desc}</p>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-8 bg-black/40 border border-white/5 p-4 rounded-2xl">
-                  <h4 className="text-2xs font-black uppercase text-white tracking-widest mb-2">Available layouts:</h4>
+                <div className="mt-8 bg-black/40 border border-white/5 p-5 rounded-2xl">
+                  <h4 className="text-xs font-black uppercase text-white tracking-widest mb-3">Available layouts:</h4>
                   {stateroomTab === "suites" && (
-                    <div className="space-y-2 text-xs text-white/70">
+                    <div className="space-y-2 text-sm text-white/80 font-medium">
                       <p>• Ultimate Family Townhouse</p>
                       <p>• Royal Loft Suite</p>
                       <p>• Owner&apos;s Suite</p>
@@ -884,7 +884,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
                   )}
                   {stateroomTab === "balcony" && (
-                    <div className="space-y-2 text-xs text-white/70">
+                    <div className="space-y-2 text-sm text-white/80 font-medium">
                       <p>• Infinite Ocean View Balcony</p>
                       <p>• Infinite Central Park Balcony</p>
                       <p>• Ocean View Balcony</p>
@@ -893,13 +893,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
                   )}
                   {stateroomTab === "ocean" && (
-                    <div className="space-y-2 text-xs text-white/70">
+                    <div className="space-y-2 text-sm text-white/80 font-medium">
                       <p>• Panoramic Ocean View</p>
                       <p>• Ocean View</p>
                     </div>
                   )}
                   {stateroomTab === "interior" && (
-                    <div className="space-y-2 text-xs text-white/70">
+                    <div className="space-y-2 text-sm text-white/80 font-medium">
                       <p>• Interior</p>
                       <p>• Spacious Interior</p>
                       <p>• Central Park View Interior</p>
@@ -914,18 +914,18 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/5">
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">VIP Experiences</span>
-                      <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Suite Class Perks</h3>
+                      <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">VIP Experiences</span>
+                      <h3 className="text-2xl md:text-3xl font-black uppercase text-white mt-1">Suite Class Perks</h3>
                     </div>
-                    <div className="flex gap-1.5 bg-black/40 p-1 rounded-xl border border-white/5">
+                    <div className="flex gap-1.5 bg-black/40 p-1.5 rounded-xl border border-white/5">
                       {(["sea", "sky", "star"] as const).map(perk => (
                         <button
                           key={perk}
                           type="button"
                           onClick={() => setSuiteTab(perk)}
-                          className={`px-3.5 py-1.5 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                          className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                             suiteTab === perk
-                              ? "bg-[var(--color-accent)] text-white"
+                              ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(133,29,239,0.4)]"
                               : "bg-transparent text-white/40 hover:text-white"
                           }`}
                         >
@@ -936,7 +936,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
 
                   {/* Benefits List */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 text-xs text-white/60">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 text-sm md:text-base text-white/90 font-medium leading-relaxed">
                     {suiteTab === "sea" && [
                       "Dedicated check-in line",
                       "Priority boarding",
@@ -947,8 +947,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       "Luxury bathroom amenities",
                       "Lavazza Espresso coffee machine"
                     ].map((perk, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <span className="text-purple-400 font-extrabold shrink-0">✓</span>
+                      <div key={idx} className="flex items-center gap-2.5">
+                        <span className="text-purple-400 font-black text-base shrink-0">✓</span>
                         <span>{perk}</span>
                       </div>
                     ))}
@@ -969,8 +969,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       "Luxury bathroom amenities",
                       "Lavazza Espresso coffee machine"
                     ].map((perk, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <span className="text-cyan-400 font-extrabold shrink-0">✓</span>
+                      <div key={idx} className="flex items-center gap-2.5">
+                        <span className="text-cyan-400 font-black text-base shrink-0">✓</span>
                         <span>{perk}</span>
                       </div>
                     ))}
@@ -996,8 +996,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       "Luxury bathrobes for use onboard",
                       "In-suite coffee machine"
                     ].map((perk, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <span className="text-amber-400 font-extrabold shrink-0">✓</span>
+                      <div key={idx} className="flex items-center gap-2.5">
+                        <span className="text-amber-400 font-black text-base shrink-0">✓</span>
                         <span>{perk}</span>
                       </div>
                     ))}
@@ -1005,7 +1005,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
 
                 {/* Disclaimers & Notes */}
-                <div className="mt-8 border-t border-white/5 pt-4 text-[10px] text-white/30 space-y-1">
+                <div className="mt-8 border-t border-white/10 pt-4 text-xs text-white/50 space-y-1.5 leading-relaxed">
                   {suiteTab === "sea" && (
                     <>
                       <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
@@ -1478,18 +1478,18 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
               {/* Travel coordinators list */}
               <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-6">
-                <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Travel Coordinators</h3>
-                <div className="space-y-4">
+                <h3 className="text-sm font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Travel Coordinators</h3>
+                <div className="space-y-6">
                   {[
                     { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
                     { name: "Mary Grivas", role: "Excursions / Hotels & Air", phone: "(877) 683-9753 ext 5", email: "Mary@NTDVacations.com" },
                     { name: "Alan McRae", role: "Schedules & Logistics", phone: "(877) 683-9753 ext 5", email: "alan@NTDVacations.com" },
                   ].map((coord, idx) => (
-                    <div key={idx} className="text-2xs leading-normal">
-                      <h4 className="font-extrabold text-white">{coord.name}</h4>
-                      <p className="text-white/35 font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
-                      <p className="text-white/50 font-mono mt-1">{coord.phone}</p>
-                      <a href={`mailto:${coord.email}`} className="text-cyan-400 font-bold hover:underline">{coord.email}</a>
+                    <div key={idx} className="leading-normal pb-4 border-b border-white/5 last:border-0 last:pb-0">
+                      <h4 className="text-lg font-black text-white">{coord.name}</h4>
+                      <p className="text-xs text-white/50 font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
+                      <p className="text-sm text-white/70 font-mono mt-1">{coord.phone}</p>
+                      <a href={`mailto:${coord.email}`} className="text-base md:text-lg text-cyan-400 font-black hover:underline block mt-1 tracking-wide">{coord.email}</a>
                     </div>
                   ))}
                 </div>

@@ -243,7 +243,65 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff'
   });
 
-  const [adminChatFilter, setAdminChatFilter] = useState<'all' | 'flagged'>('all');
+  const isMasterAdmin = effectiveAdmin.email.toLowerCase() === 'mikeyscimeca@gmail.com' || username.toLowerCase() === 'michaelscimeca';
+
+  const [adminPermissions, setAdminPermissions] = useState<Record<string, Record<string, boolean>>>({
+    'marygrivas65@icloud.com': {
+      cruise_admin: true,
+      cruise_chat: true,
+      schedule: false,
+      crew_roster: false,
+      email_blasts: false,
+      site_settings: false,
+    }
+  });
+
+  const [savingPermissions, setSavingPermissions] = useState(false);
+  const [savePermStatus, setSavePermStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+
+  useEffect(() => {
+    fetch('/api/admin/permissions')
+      .then(res => res.json())
+      .then(d => {
+        if (d?.permissions) setAdminPermissions(d.permissions);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
+  const savePermissionsToBackend = async (updated: Record<string, Record<string, boolean>>) => {
+    setAdminPermissions(updated);
+    setSavingPermissions(true);
+    setSavePermStatus('saving');
+    try {
+      const res = await fetch('/api/admin/permissions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ permissions: updated })
+      });
+      if (res.ok) {
+        setSavePermStatus('saved');
+        setTimeout(() => setSavePermStatus('idle'), 3000);
+      }
+    } catch (e) {
+      console.error(e);
+      setSavePermStatus('idle');
+    } finally {
+      setSavingPermissions(false);
+    }
+  };
+
+  const hasPermission = (permKey: string) => {
+    if (isMasterAdmin) return true;
+    const userPerms = adminPermissions[effectiveAdmin.email.toLowerCase()] || adminPermissions['marygrivas65@icloud.com'];
+    return userPerms ? !!userPerms[permKey] : false;
+  };
+
+  useEffect(() => {
+    if (!isMasterAdmin && hasPermission('cruise_admin') && !hasPermission('schedule') && !hasPermission('crew_roster')) {
+      setAdminTab('cruise');
+      adminTabRef.current = 'cruise';
+    }
+  }, [isMasterAdmin, adminPermissions]);
 
   // Redirect if username in URL doesn't match logged-in user's username
   useEffect(() => {
@@ -6441,6 +6499,70 @@ try {
               <button onClick={() => setAdminCreateError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
             </div>
           )}
+
+          {/* Sub-Admin Permissions Manager */}
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  🛡️ Sub-Admin Role Permissions
+                  {savePermStatus === 'saving' && <span className="text-[0.65rem] text-amber-400 font-mono animate-pulse">Saving changes...</span>}
+                  {savePermStatus === 'saved' && <span className="text-[0.65rem] text-emerald-400 font-mono">✓ Saved to database</span>}
+                </h4>
+                <p className="text-[0.65rem] text-white/40 mt-0.5">Control feature access for specific sub-admin accounts.</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {Object.entries(adminPermissions).map(([email, perms]) => (
+                <div key={email} className="p-4 bg-white/[0.03] border border-white/10 rounded-xl">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-bold text-amber-400 font-mono">{email}</span>
+                    <span className="text-[0.6rem] uppercase tracking-wider text-white/30 font-bold">Sub-Admin</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {[
+                      { key: 'cruise_admin', label: '🚢 Cruise Admin' },
+                      { key: 'cruise_chat', label: '💬 Cruise Chat' },
+                      { key: 'schedule', label: '📅 Schedule' },
+                      { key: 'crew_roster', label: '👥 Crew Roster' },
+                      { key: 'email_blasts', label: '📧 Email Blasts' },
+                      { key: 'site_settings', label: '⚙️ Site Settings' },
+                    ].map(({ key, label }) => {
+                      const enabled = !!perms[key];
+                      return (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => {
+                            const updated = {
+                              ...adminPermissions,
+                              [email]: {
+                                ...adminPermissions[email],
+                                [key]: !enabled,
+                              }
+                            };
+                            savePermissionsToBackend(updated);
+                          }}
+                          className={`flex items-center justify-between p-2.5 rounded-lg border text-left text-xs font-medium transition-all cursor-pointer ${
+                            enabled
+                              ? 'bg-amber-500/10 border-amber-500/40 text-amber-300'
+                              : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20'
+                          }`}
+                        >
+                          <span>{label}</span>
+                          <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold ${enabled ? 'bg-amber-400 text-black' : 'bg-white/10 text-white/30'}`}>
+                            {enabled ? '✓' : '✕'}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

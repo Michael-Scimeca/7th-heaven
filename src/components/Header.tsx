@@ -150,11 +150,11 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none" suppressHydrationWarning>
-      <div className={`w-full px-6 md:px-10 lg:px-12 transition-all duration-300 ${scrolled ? "pt-2" : "pt-[40px]"}`}>
+      <div className={`w-full px-[32px] md:px-10 lg:px-12 transition-all duration-300 ${scrolled ? "pt-2" : "pt-[40px]"}`}>
         <div
           id="nav-inner-card"
           suppressHydrationWarning
-          className={`w-full h-[80px] flex items-center justify-between relative px-6 rounded-2xl border transition-all duration-500 pointer-events-auto ${
+          className={`w-full h-[80px] flex items-center justify-between relative px-5 sm:px-6 md:px-8 rounded-2xl border transition-all duration-500 pointer-events-auto ${
             scrolled 
               ? "bg-black border-white/5 shadow-[0_10px_40px_rgba(0,0,0,0.6)]" 
               : "bg-transparent border-transparent pt-3"
@@ -179,7 +179,6 @@ export function Header() {
         {/* ── CENTER LOGO (Centered on desktop > 1400px, Left-aligned on mobile <= 1400px) ── */}
         <Link
           href="/"
-          className="absolute left-[12px] min-[1401px]:left-1/2 -translate-y-1/2 min-[1401px]:-translate-x-1/2 top-1/2 flex items-center justify-center z-10"
           id="header-logo"
           onClick={(e) => {
             if (pathname === "/") {
@@ -188,7 +187,7 @@ export function Header() {
             }
           }}
         >
-          <div className="w-[180px] sm:w-[250px] md:w-[300px] h-[43px]">
+          <div className="w-[150px] sm:w-[220px] md:w-[260px] lg:w-[280px] h-[36px] sm:h-[43px]">
             <Logo className="w-full h-full text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]" />
           </div>
         </Link>
