@@ -1150,7 +1150,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             width: isMobile ? 220 : 380,
             height: isMobile ? 220 : 380,
             pointerEvents: 'none',
-            zIndex: 2,
+            zIndex: 35,
             overflow: 'visible',
             transition: 'none',
             filter: 'none',
@@ -1167,7 +1167,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
             <Suspense fallback={null}>
               <ShipModel
-                scale={tuning.shipScale}
+                scale={tuning.shipScale || 1.0}
                 offsetY={tuning.shipOffsetY}
                 shipRotYRef={shipRotYRef}
                 shipScaleFactorRef={shipScaleFactorRef}
