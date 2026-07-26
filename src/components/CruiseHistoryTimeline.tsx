@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function CruiseHistoryTimeline({ history }: Props) {
-  // Chunk history items into 3 items per row, matching the CodePen 3-column serpentine layout
+  // Chunk history items into 3 items per row, matching CodePen 3-column serpentine layout
   const rows: HistoryItem[][] = [];
   const chunkSize = 3;
   for (let i = 0; i < history.length; i += chunkSize) {
@@ -44,18 +44,26 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         {/* START POINT HEADER (Top-Left Corner Entry) */}
         <div className="relative pl-4 mb-16">
           <div className="flex items-center gap-3">
-            <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] shadow-[0_0_15px_rgba(6,182,212,0.9)] animate-pulse z-10" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.6)] font-mono z-10">
+            <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] drop-shadow-[0_0_10px_rgba(6,182,212,0.9)] animate-pulse z-10" />
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full drop-shadow-[0_0_10px_rgba(6,182,212,0.6)] font-mono z-10">
               START · LATEST VOYAGES
             </span>
           </div>
 
-          {/* Vertical Stem from START button turning RIGHT into Row 0 */}
-          <div className="absolute top-2 left-6 w-[76px] h-[76px] border-l-2 border-b-2 border-cyan-400 rounded-bl-[76px] shadow-[0_0_10px_rgba(6,182,212,0.5)] pointer-events-none z-0" />
+          {/* SVG Smooth Curve connecting START badge down into Row 0 Horizontal Line */}
+          <svg className="absolute left-[13px] top-[10px] bottom-[-2rem] w-[80px] h-[calc(100%+2rem)] pointer-events-none z-0 overflow-visible">
+            <path
+              d="M 0 0 V calc(100% - 24px) A 24 24 0 0 0 24 100% H 80"
+              fill="none"
+              stroke="#06b6d4"
+              strokeWidth="2.5"
+              className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+            />
+          </svg>
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
-        <div className="space-y-36">
+        <div className="flex flex-col">
           {rows.map((rowItems, rowIndex) => {
             const isEvenRow = rowIndex % 2 === 0; // Row 0 (L->R), Row 1 (R->L), Row 2 (L->R)...
             const isLastRow = rowIndex === rows.length - 1;
@@ -63,36 +71,38 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             return (
               <div
                 key={rowIndex}
-                className={`relative flex justify-between items-start px-12 ${
+                className={`relative flex justify-between items-start px-12 pb-28 ${
                   isEvenRow ? 'flex-row' : 'flex-row-reverse'
                 }`}
               >
                 {/* 1. Horizontal Pipeline Line Across Row Top */}
-                <div className="absolute top-0 left-[76px] right-[76px] h-[2px] bg-cyan-500/80 shadow-[0_0_10px_rgba(6,182,212,0.6)] pointer-events-none z-0" />
+                <div className="absolute top-0 left-[68px] right-[68px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
 
-                {/* 2. Connecting S-Curve Bends (If not last row) */}
+                {/* 2. 100% Mathematically Perfect SVG S-Curve Bends (Spanning top-0 to bottom-0 of Row) */}
                 {!isLastRow && (
                   <>
                     {isEvenRow ? (
                       /* RIGHT SIDE BEND (Connects Row Top-Right -> Next Row Top-Right) */
-                      <>
-                        {/* Top-Right Curve Arc */}
-                        <div className="absolute top-0 right-0 w-[76px] h-[76px] border-t-2 border-r-2 border-cyan-400 rounded-tr-[76px] shadow-[0_0_12px_rgba(6,182,212,0.5)] pointer-events-none z-0" />
-                        {/* Right Vertical Drop Line */}
-                        <div className="absolute top-[76px] bottom-[-144px] right-0 w-[2px] bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.6)] pointer-events-none z-0" />
-                        {/* Bottom-Right Curve Arc */}
-                        <div className="absolute bottom-[-144px] right-0 w-[76px] h-[76px] border-b-2 border-r-2 border-cyan-400 rounded-br-[76px] shadow-[0_0_12px_rgba(6,182,212,0.5)] pointer-events-none z-0" />
-                      </>
+                      <svg className="absolute -right-[4px] top-0 bottom-0 w-[72px] h-full pointer-events-none z-0 overflow-visible">
+                        <path
+                          d="M 0 0 H 36 A 36 36 0 0 1 72 36 V calc(100% - 36px) A 36 36 0 0 1 36 100% H 0"
+                          fill="none"
+                          stroke="#06b6d4"
+                          strokeWidth="2.5"
+                          className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+                        />
+                      </svg>
                     ) : (
                       /* LEFT SIDE BEND (Connects Row Top-Left -> Next Row Top-Left) */
-                      <>
-                        {/* Top-Left Curve Arc */}
-                        <div className="absolute top-0 left-0 w-[76px] h-[76px] border-t-2 border-l-2 border-cyan-400 rounded-tl-[76px] shadow-[0_0_12px_rgba(6,182,212,0.5)] pointer-events-none z-0" />
-                        {/* Left Vertical Drop Line */}
-                        <div className="absolute top-[76px] bottom-[-144px] left-0 w-[2px] bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.6)] pointer-events-none z-0" />
-                        {/* Bottom-Left Curve Arc */}
-                        <div className="absolute bottom-[-144px] left-0 w-[76px] h-[76px] border-b-2 border-l-2 border-cyan-400 rounded-bl-[76px] shadow-[0_0_12px_rgba(6,182,212,0.5)] pointer-events-none z-0" />
-                      </>
+                      <svg className="absolute -left-[4px] top-0 bottom-0 w-[72px] h-full pointer-events-none z-0 overflow-visible">
+                        <path
+                          d="M 72 0 H 36 A 36 36 0 0 0 0 36 V calc(100% - 36px) A 36 36 0 0 0 36 100% H 72"
+                          fill="none"
+                          stroke="#06b6d4"
+                          strokeWidth="2.5"
+                          className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+                        />
+                      </svg>
                     )}
                   </>
                 )}
@@ -109,7 +119,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     >
                       {/* GIANT YEAR HEADER - Breaks Line Directly In Center */}
                       <div className="relative inline-block -translate-y-1/2 bg-[#06060c] px-4 py-0.5 rounded-2xl z-20">
-                        <h6 className="text-4xl md:text-5xl font-black text-cyan-400 font-mono tracking-tight group-hover:text-white transition-colors drop-shadow-[0_0_12px_rgba(6,182,212,0.6)]">
+                        <h6 className="text-4xl md:text-5xl font-black text-cyan-400 font-mono tracking-tight group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(6,182,212,0.7)]">
                           {hist.year}
                         </h6>
                       </div>
@@ -139,9 +149,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </div>
 
         {/* END POINT FOOTER */}
-        <div className="relative flex items-center gap-3 mt-20 pl-4">
-          <div className="w-5 h-5 rounded-full bg-purple-500 border-4 border-[#06060c] shadow-[0_0_15px_rgba(168,85,247,0.9)] z-10" />
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-white bg-purple-600 px-4 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.6)] font-mono z-10">
+        <div className="relative flex items-center gap-3 mt-12 pl-4">
+          <div className="w-5 h-5 rounded-full bg-purple-500 border-4 border-[#06060c] drop-shadow-[0_0_10px_rgba(168,85,247,0.9)] z-10" />
+          <span className="text-xs font-black uppercase tracking-[0.2em] text-white bg-purple-600 px-4 py-1.5 rounded-full drop-shadow-[0_0_10px_rgba(168,85,247,0.6)] font-mono z-10">
             CONTINUE · INAUGURAL 1998 VOYAGE 🏆
           </span>
         </div>
@@ -149,13 +159,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       {/* ── MOBILE VERTICAL SNAKE TIMELINE (MD & BELOW) ── */}
       <div className="block lg:hidden relative max-w-lg mx-auto py-6 px-4">
-        {/* Central Vertical Line */}
-        <div className="absolute left-6 top-4 bottom-4 w-[2px] bg-gradient-to-b from-cyan-400 via-blue-500/40 to-purple-500 shadow-[0_0_10px_rgba(6,182,212,0.5)] pointer-events-none" />
+        <div className="absolute left-6 top-4 bottom-4 w-[2.5px] bg-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.7)] pointer-events-none" />
 
         <div className="space-y-6 pl-10">
           {history.map((hist, idx) => (
             <div key={idx} className="relative group">
-              <div className="absolute left-[-26px] top-4 w-4 h-4 rounded-full bg-cyan-400 border-2 border-[#06060c] shadow-[0_0_10px_rgba(6,182,212,0.8)] group-hover:scale-125 transition-transform" />
+              <div className="absolute left-[-26px] top-4 w-4 h-4 rounded-full bg-cyan-400 border-2 border-[#06060c] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] group-hover:scale-125 transition-transform" />
 
               <div className="bg-[#0c0c16]/90 backdrop-blur-xl border border-white/10 hover:border-cyan-400/60 p-5 rounded-2xl shadow-xl transition-all duration-300">
                 <div className="flex items-center justify-between gap-3 mb-2">
