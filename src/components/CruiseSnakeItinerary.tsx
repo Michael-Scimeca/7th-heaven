@@ -7,6 +7,11 @@ import { useGLTF } from '@react-three/drei';
 import type * as THREE from 'three';
 import styles from './CruiseSnakeItinerary.module.css';
 
+// Preload 3D ship asset immediately so it renders without network delay on production
+if (typeof window !== 'undefined') {
+  useGLTF.preload('/objects/ship.glb');
+}
+
 function ShipModel({
   scale = 1.0,
   offsetY = 1.05,
@@ -1134,6 +1139,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         >
           <Canvas
             orthographic
+            gl={{ powerPreference: 'high-performance', antialias: true, alpha: true }}
             camera={{ left: -250, right: 250, top: 250, bottom: -250, zoom: isMobile ? 42 : 55, position: [0, 0, 100] }}
             style={{ width: '100%', height: '100%', overflow: 'visible' }}
           >
