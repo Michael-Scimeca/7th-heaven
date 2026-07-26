@@ -24,7 +24,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
+        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 block mb-1">
           25+ Years Legacy Pathway
         </span>
         <h3
@@ -76,15 +76,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
-                  {/* Horizontal Pipeline Line (Ends exactly at left-[60px] and right-[60px]) */}
+                  {/* Horizontal Pipeline Line (Spans exactly from left-[60px] to right-[60px]) */}
                   <div className="absolute top-1/2 -translate-y-1/2 left-[60px] right-[60px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
 
-                  {/* 100% Perfect SVG Side Bends (No stubs sticking out!) */}
+                  {/* 100% Perfect SVG Side Bends (Positioned directly at the line ends with zero overhang) */}
                   {!isLastRow && (
                     <>
                       {isEvenRow ? (
-                        /* RIGHT SIDE BEND: Starts at right-[60px], curves down-right, drops, and curves down-left into Row 1 right-[60px] */
-                        <svg className="absolute right-[60px] top-1/2 bottom-[-8rem] w-[50px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
+                        /* RIGHT SIDE BEND: Starts exactly at right-[60px] (left-[calc(100%-60px)]), curves right 36px, drops down, and curves back to right-[60px] */
+                        <svg className="absolute left-[calc(100%-60px)] top-1/2 bottom-[-8rem] w-[60px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
                           <path
                             d="M 0 0 A 36 36 0 0 1 36 36 V calc(100% - 36px) A 36 36 0 0 1 0 100%"
                             fill="none"
@@ -94,10 +94,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           />
                         </svg>
                       ) : (
-                        /* LEFT SIDE BEND: Starts at left-[60px], curves down-left, drops, and curves down-right into Row 2 left-[60px] */
-                        <svg className="absolute left-[60px] top-1/2 bottom-[-8rem] w-[50px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
+                        /* LEFT SIDE BEND: Starts exactly at left-[60px] (right-[calc(100%-60px)]), curves left 36px, drops down, and curves back to left-[60px] */
+                        <svg className="absolute right-[calc(100%-60px)] top-1/2 bottom-[-8rem] w-[60px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
                           <path
-                            d="M 0 0 A 36 36 0 0 0 -36 36 V calc(100% - 36px) A 36 36 0 0 0 0 100%"
+                            d="M 60 0 A 36 36 0 0 0 24 36 V calc(100% - 36px) A 36 36 0 0 0 60 100%"
                             fill="none"
                             stroke="#06b6d4"
                             strokeWidth="2.5"
