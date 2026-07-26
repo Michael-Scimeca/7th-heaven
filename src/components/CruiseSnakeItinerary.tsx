@@ -160,7 +160,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 0,
-  maxShipDistPad: 40,
+  maxShipDistPad: 100,
   lineWidth: 6,
   glowBlur: 0,
   nodeDipRadius: 65,
@@ -350,9 +350,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
         saved.shipOffsetY = 0.50;
-        saved.lerpSpeed = 1.0;
-        saved.speedMultiplier = 1.0;
-        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0 });
+        saved.maxShipDistPad = 100;
+        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 100 });
       }
     } catch {}
   }, []);
@@ -487,9 +486,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
-        // Compute current tip point on SVG path (distance along path from start 1:1 with line fill)
+        // Compute current tip point on SVG path (set back 100px from leading line fill so ship stops before circle node)
+        const pad = t.maxShipDistPad ?? 100;
         const lineFillDist = totalLen - currentFillOffset;
-        const shipDist = Math.max(0, Math.min(totalLen, lineFillDist));
+        const shipDist = Math.max(0, Math.min(totalLen - pad, lineFillDist - pad));
         const pt = fill.getPointAtLength(shipDist);
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
