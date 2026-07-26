@@ -191,10 +191,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   }
                   const angle = lastAngleRef.current;
 
-                  // Progressive ship scale: grows by +0.1 in scale for each year passed along history timeline
+                  // Progressive ship scale: grows from 0.85x (1998) to 2.06x (2028 Voyage #23) by +0.055 per passed year
                   const totalHistoryYears = chronologicalHistory.length || 23;
                   const yearsPassed = self.progress * (totalHistoryYears - 1);
-                  shipScaleRef.current = 1.0 + yearsPassed * 0.1;
+                  shipScaleRef.current = 0.85 + yearsPassed * 0.055;
 
                   shipDivRef.current.style.left = `${pt.x}px`;
                   shipDivRef.current.style.top = `${pt.y}px`;
@@ -264,10 +264,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           ref={shipDivRef}
           style={{
             position: 'absolute',
-            left: -100,
-            top: -100,
-            width: 600,
-            height: 600,
+            left: -300,
+            top: -300,
+            width: 1200,
+            height: 1200,
             pointerEvents: 'none',
             zIndex: 30,
             overflow: 'visible',
@@ -278,7 +278,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           <Canvas
             orthographic
             gl={{ powerPreference: 'high-performance', antialias: true, alpha: true }}
-            camera={{ left: -500, right: 500, top: 500, bottom: -500, zoom: 36, position: [0, 250, 0], up: [0, 0, -1] }}
+            camera={{ left: -1000, right: 1000, top: 1000, bottom: -1000, zoom: 22, position: [0, 350, 0], up: [0, 0, -1] }}
             style={{ width: '100%', height: '100%', overflow: 'visible' }}
           >
             <ambientLight intensity={1.8} />
