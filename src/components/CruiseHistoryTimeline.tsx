@@ -30,20 +30,24 @@ function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<nu
 
 export type HistoryTuningConfig = {
   startScale: number;
-  growthPerYear: number;
+  endScale: number;
+  shipOffsetX: number;
+  shipOffsetY: number;
+  bowOffsetPx: number;
   scrollStartMul: number;
   scrollEndMul: number;
-  bowOffsetPx: number;
   lineWidth: number;
   lineColor: string;
 };
 
 export const DEFAULT_HISTORY_TUNING: HistoryTuningConfig = {
   startScale: 0.70,
-  growthPerYear: 0.115,
+  endScale: 3.20,
+  shipOffsetX: 0,
+  shipOffsetY: 0,
+  bowOffsetPx: 70,
   scrollStartMul: 0.70,
   scrollEndMul: 0.80,
-  bowOffsetPx: 70,
   lineWidth: 6,
   lineColor: '#06b6d4',
 };
@@ -220,9 +224,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 setDesktopProgress(self.progress);
                 if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
                   const progress = Math.min(1.0, Math.max(0, self.progress));
-                  const totalHistoryYears = chronologicalHistory.length || 23;
-                  const yearsPassed = progress * (totalHistoryYears - 1);
-                  const currentScale = (tuning.startScale ?? 0.70) + yearsPassed * (tuning.growthPerYear ?? 0.115);
+                  const startS = tuning.startScale ?? 0.70;
+                  const endS = tuning.endScale ?? 3.20;
+                  const currentScale = startS + progress * (endS - startS);
                   shipScaleRef.current = currentScale;
 
                   // Offset travel length by front bow half-length so the front bow tip stops exactly at the end of the line
@@ -241,8 +245,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   }
                   const angle = lastAngleRef.current;
 
-                  shipDivRef.current.style.left = `${pt.x}px`;
-                  shipDivRef.current.style.top = `${pt.y}px`;
+                  const offX = tuning.shipOffsetX ?? 0;
+                  const offY = tuning.shipOffsetY ?? 0;
+
+                  shipDivRef.current.style.left = `${pt.x + offX}px`;
+                  shipDivRef.current.style.top = `${pt.y + offY}px`;
                   shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
                   shipDivRef.current.style.opacity = self.progress > 0.005 ? '1' : '0';
                 }
@@ -569,10 +576,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       {/* ── Persistent Floating History Settings Button & Modal Drawer ── */}
       {showSettings && mounted && createPortal(
-        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-black/20 pointer-events-none animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-transparent pointer-events-none animate-in fade-in duration-200">
           <div 
             data-settings-panel
-            className="fixed bottom-16 left-6 w-[440px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#060614]/40 border-2 border-cyan-400/50 rounded-3xl backdrop-blur-2xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto"
+            className="fixed bottom-16 left-6 w-[450px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#04040e]/25 border border-cyan-400/40 rounded-3xl backdrop-blur-md shadow-[0_0_60px_rgba(6,182,212,0.25)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto"
           >
             <style>{`
               [data-settings-panel], [data-settings-panel] * {
@@ -604,39 +611,75 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-white/90">⚓ 1998 Start Ship Size (Scale)</span>
-                  <span className="text-cyan-400 font-mono font-bold">{tuning.startScale.toFixed(2)}x</span>
+                  <span className="text-cyan-400 font-mono font-bold">{(tuning.startScale ?? 0.70).toFixed(2)}x</span>
                 </div>
                 <input
                   type="range"
                   min="0.05"
                   max="5.00"
                   step="0.05"
-                  value={tuning.startScale}
+                  value={tuning.startScale ?? 0.70}
                   onChange={e => setTuning({ ...tuning, startScale: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[10px] text-white/40 mt-1">Starting size of the 3D ship at 1998 Inaugural Voyage (0.05x to 5.00x).</p>
+                <p className="text-[10px] text-white/40 mt-1">Size at 1998 Inaugural Voyage (0.05x to 5.00x).</p>
               </div>
 
-              {/* 2. Growth Per Year */}
+              {/* 2. End Ship Scale */}
               <div>
                 <div className="flex justify-between items-center mb-1.5">
-                  <span className="font-bold text-white/90">📈 Growth Rate Per Year (+Scale/Yr)</span>
-                  <span className="text-cyan-400 font-mono font-bold">{tuning.growthPerYear >= 0 ? '+' : ''}{tuning.growthPerYear.toFixed(3)}</span>
+                  <span className="font-bold text-white/90">🚀 2028 End Ship Size (Scale)</span>
+                  <span className="text-cyan-400 font-mono font-bold">{(tuning.endScale ?? 3.20).toFixed(2)}x</span>
                 </div>
                 <input
                   type="range"
-                  min="-0.200"
-                  max="1.000"
-                  step="0.005"
-                  value={tuning.growthPerYear}
-                  onChange={e => setTuning({ ...tuning, growthPerYear: parseFloat(e.target.value) })}
+                  min="0.05"
+                  max="8.00"
+                  step="0.05"
+                  value={tuning.endScale ?? 3.20}
+                  onChange={e => setTuning({ ...tuning, endScale: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[10px] text-white/40 mt-1">How much larger (or smaller) the ship gets for every passed year.</p>
+                <p className="text-[10px] text-white/40 mt-1">Size at 2028 Voyage #23 finish (0.05x to 8.00x).</p>
               </div>
 
-              {/* 3. Bow Offset */}
+              {/* 3. Ship Y Path Offset */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-bold text-white/90">↕️ Ship Y Path Offset (Height Position)</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.shipOffsetY ?? 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-150"
+                  max="150"
+                  step="1"
+                  value={tuning.shipOffsetY ?? 0}
+                  onChange={e => setTuning({ ...tuning, shipOffsetY: parseInt(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+                <p className="text-[10px] text-white/40 mt-1">Vertical alignment offset of the 3D ship on the line (-150px to +150px).</p>
+              </div>
+
+              {/* 4. Ship X Path Offset */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-bold text-white/90">↔️ Ship X Path Offset (Lateral Position)</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.shipOffsetX ?? 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-150"
+                  max="150"
+                  step="1"
+                  value={tuning.shipOffsetX ?? 0}
+                  onChange={e => setTuning({ ...tuning, shipOffsetX: parseInt(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+                <p className="text-[10px] text-white/40 mt-1">Horizontal alignment offset of the 3D ship on the line (-150px to +150px).</p>
+              </div>
+
+              {/* 5. Bow Offset */}
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-white/90">🎯 Bow Tip End Stop Offset</span>
