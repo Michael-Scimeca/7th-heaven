@@ -679,7 +679,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </p>
               <div className="space-y-4 text-base text-white/80 leading-relaxed">
                 <p>
-                  A physical passport book valid for 6 months post-cruise is <strong className="text-amber-300 font-extrabold animate-pulse inline-block">highly recommended</strong> for all travelers.
+                  A physical passport book valid for 6 months post-cruise is <strong className="text-white font-extrabold animate-pulse inline-block">highly recommended</strong> for all travelers.
                 </p>
                 <p>
                   For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
