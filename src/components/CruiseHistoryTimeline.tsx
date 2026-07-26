@@ -1,9 +1,30 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
+import type * as THREE from 'three';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+
+function TopDownHistoryShip({ scale = 1.4 }: { scale?: number }) {
+  const { scene } = useGLTF('/objects/ship.glb');
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame(() => {
+    if (groupRef.current) {
+      groupRef.current.rotation.set(0, Math.PI / 2, 0);
+      groupRef.current.scale.set(scale, scale, scale);
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      <primitive object={scene} position={[0, 0, 0]} />
+    </group>
+  );
+}
 
 export type HistoryItem = {
   year: string;
@@ -18,6 +39,7 @@ type Props = {
 export default function CruiseHistoryTimeline({ history }: Props) {
   const desktopContainerRef = useRef<HTMLDivElement>(null);
   const desktopPathRef = useRef<SVGPathElement>(null);
+  const shipDivRef = useRef<HTMLDivElement>(null);
   const startDotRef = useRef<HTMLDivElement>(null);
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -153,6 +175,19 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               scrub: 0.5,
               onUpdate: (self) => {
                 setDesktopProgress(self.progress);
+                if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
+                  const len = self.progress * desktopPathLength;
+                  const pt = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, Math.max(0, len)));
+                  const ptNext = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, len + 15));
+                  const dx = ptNext.x - pt.x;
+                  const dy = ptNext.y - pt.y;
+                  const angle = Math.atan2(dy, dx);
+
+                  shipDivRef.current.style.left = `${pt.x}px`;
+                  shipDivRef.current.style.top = `${pt.y}px`;
+                  shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
+                  shipDivRef.current.style.opacity = self.progress > 0.005 ? '1' : '0';
+                }
               },
             },
           }
@@ -211,6 +246,36 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={desktopContainerRef}
         className="hidden lg:block w-full max-w-[1400px] mx-auto py-8 px-8 lg:px-12 relative"
       >
+        {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
+        <div
+          ref={shipDivRef}
+          style={{
+            position: 'absolute',
+            left: -100,
+            top: -100,
+            width: 240,
+            height: 240,
+            pointerEvents: 'none',
+            zIndex: 30,
+            overflow: 'visible',
+            transition: 'none',
+            opacity: 0,
+          }}
+        >
+          <Canvas
+            orthographic
+            gl={{ powerPreference: 'high-performance', antialias: true, alpha: true }}
+            camera={{ left: -160, right: 160, top: 160, bottom: -160, zoom: 45, position: [0, 250, 0], up: [0, 0, -1] }}
+            style={{ width: '100%', height: '100%', overflow: 'visible' }}
+          >
+            <ambientLight intensity={1.8} />
+            <directionalLight position={[5, 12, 5]} intensity={2.5} />
+            <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
+            <React.Suspense fallback={null}>
+              <TopDownHistoryShip scale={1.4} />
+            </React.Suspense>
+          </Canvas>
+        </div>
         {/* ONE SINGLE CONTINUOUS DYNAMIC SVG PATHWAY WITH WATER WAVE MOTION */}
         {pathD && (
           <svg
