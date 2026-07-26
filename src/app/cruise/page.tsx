@@ -1555,6 +1555,36 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
 
 
+      {/* ── FEATURED HEADLINE ARTISTS ── */}
+      <section id="artists" className="pt-16 pb-12 site-container">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Headline Musical Acts</span>
+          <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            Featured <span className="accent-gradient-text">Artists</span>
+          </h2>
+          <p className="text-white/45 mt-3 text-xs md:text-sm leading-relaxed">
+            Meet the headlining bands performing live concert sets, acoustic pool jams, and theater shows throughout the voyage.
+          </p>
+        </div>
+
+        {/* Bands/Artists Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          {BANDS_DATA.map((band, idx) => (
+            <div key={idx} className="bg-transparent border-0 p-4 text-left flex flex-col justify-between relative overflow-hidden">
+              <div>
+                <span className="text-4xl block mb-4">{band.logo}</span>
+                <h3 className="text-xl font-black uppercase text-white tracking-wide">{band.name}</h3>
+                <p className="text-white/50 text-xs md:text-sm mt-3 leading-relaxed">{band.desc}</p>
+              </div>
+              <div className="mt-8 pt-4 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between">
+                <a href={band.website} target="_blank" rel="noopener noreferrer" className="text-xs text-cyan-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline">Visit Band Site →</a>
+                <a href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request" className="text-[10px] text-white/30 uppercase tracking-widest hover:text-white transition-all">Booking Inquiries</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── SECTION 1: ITINERARIES & DATES ── */}
       <section id="itinerary" className="py-20 site-container">
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -1596,36 +1626,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           <CruiseSnakeItinerary itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
         </section>
 
-      {/* ── SECTION 2: BANDS & PORTS ── */}
-      <section id="bands-ports" className="pt-10 pb-20 site-container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-              Featured Artists <span className="accent-gradient-text">& Ports</span>
-            </h2>
-            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
-              Meet the band members performing live on the ship and preview your exotic Caribbean destinations.
-            </p>
-          </div>
-
-          {/* Bands/Artists Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            {BANDS_DATA.map((band, idx) => (
-              <div key={idx} className="bg-transparent border-0 p-4 text-left flex flex-col justify-between relative overflow-hidden">
-                <div>
-                  <span className="text-4xl block mb-4">{band.logo}</span>
-                  <h3 className="text-xl font-black uppercase text-white tracking-wide">{band.name}</h3>
-                  <p className="text-white/50 text-xs md:text-sm mt-3 leading-relaxed">{band.desc}</p>
-                </div>
-                <div className="mt-8 pt-4 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between">
-                  <a href={band.website} target="_blank" rel="noopener noreferrer" className="text-xs text-cyan-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline">Visit Band Site →</a>
-                  <a href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request" className="text-[10px] text-white/30 uppercase tracking-widest hover:text-white transition-all">Booking Inquiries</a>
-                </div>
-              </div>
-            ))}
-          </div>
-
+      {/* ── SECTION 2: PORTS OF CALL ── */}
+      <section id="ports" className="pt-10 pb-20 site-container">
           {/* Ports of Call Section */}
-          <div className="pt-16">
+          <div>
             <div className="text-center md:text-left mb-10">
               <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Destination Explorer</span>
               <h3 className="text-2xl md:text-3xl font-black uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
