@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function CruiseHistoryTimeline({ history }: Props) {
-  // Chunk history items into 3 items per row, matching CodePen 3-column serpentine layout
+  // Chunk history items into 3 items per row, matching the CodePen 3-column serpentine layout
   const rows: HistoryItem[][] = [];
   const chunkSize = 3;
   for (let i = 0; i < history.length; i += chunkSize) {
@@ -50,10 +50,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             </span>
           </div>
 
-          {/* SVG Smooth Curve connecting START badge down into Row 0 Horizontal Line */}
-          <svg className="absolute left-[10px] top-[10px] bottom-[-2.5rem] w-[80px] h-[calc(100%+2.5rem)] pointer-events-none z-0 overflow-visible">
+          {/* SVG Smooth Curve from START button directly into 2028 on the left */}
+          <svg className="absolute left-[10px] top-[10px] bottom-[-2.25rem] w-[100px] h-[calc(100%+2.25rem)] pointer-events-none z-0 overflow-visible">
             <path
-              d="M 0 0 V 16 A 24 24 0 0 0 24 40 H 80"
+              d="M 0 0 V calc(100% - 20px) A 20 20 0 0 0 20 100% H 80"
               fill="none"
               stroke="#06b6d4"
               strokeWidth="2.5"
@@ -69,80 +69,96 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             const isLastRow = rowIndex === rows.length - 1;
 
             return (
-              <div
-                key={rowIndex}
-                className={`relative flex justify-between items-start px-8 pb-28 ${
-                  isEvenRow ? 'flex-row' : 'flex-row-reverse'
-                }`}
-              >
-                {/* 1. Horizontal Pipeline Line Across Row Top (y = 16px) */}
-                <div className="absolute top-[16px] left-[68px] right-[68px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
+              <div key={rowIndex} className="relative mb-24 last:mb-0">
+                {/* YEAR HEADERS & HORIZONTAL LINE ROW */}
+                <div
+                  className={`relative flex justify-between items-center px-8 h-12 ${
+                    isEvenRow ? 'flex-row' : 'flex-row-reverse'
+                  }`}
+                >
+                  {/* Horizontal Pipeline Line Passing Directly Through Center of Year Headers */}
+                  <div className="absolute top-1/2 -translate-y-1/2 left-[60px] right-[60px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
 
-                {/* 2. 100% Mathematically Perfect SVG S-Curve Bends */}
-                {!isLastRow && (
-                  <>
-                    {isEvenRow ? (
-                      /* RIGHT SIDE BEND: Starts at (x: right-68px, y: 16px), drops down to (x: right-68px, y: 100% + 16px) */
-                      <svg className="absolute right-[68px] top-[16px] bottom-[-16px] w-[68px] h-full pointer-events-none z-0 overflow-visible">
-                        <path
-                          d="M 0 0 H 28 A 40 40 0 0 1 68 40 V calc(100% - 40px) A 40 40 0 0 1 28 100% H 0"
-                          fill="none"
-                          stroke="#06b6d4"
-                          strokeWidth="2.5"
-                          className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-                        />
-                      </svg>
-                    ) : (
-                      /* LEFT SIDE BEND: Starts at (x: left-68px, y: 16px), drops down to (x: left-68px, y: 100% + 16px) */
-                      <svg className="absolute left-[68px] top-[16px] bottom-[-16px] w-[68px] h-full pointer-events-none z-0 overflow-visible">
-                        <path
-                          d="M 68 0 H 40 A 40 40 0 0 0 0 40 V calc(100% - 40px) A 40 40 0 0 0 40 100% H 68"
-                          fill="none"
-                          stroke="#06b6d4"
-                          strokeWidth="2.5"
-                          className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-                        />
-                      </svg>
-                    )}
-                  </>
-                )}
+                  {/* 100% Perfect SVG Side Curve Bends connecting line across rows */}
+                  {!isLastRow && (
+                    <>
+                      {isEvenRow ? (
+                        /* RIGHT SIDE BEND: Exits 2026 right, curves down and left into 2025 right */
+                        <svg className="absolute right-[60px] top-1/2 bottom-[-8rem] w-[60px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
+                          <path
+                            d="M 0 0 H 24 A 36 36 0 0 1 60 36 V calc(100% - 36px) A 36 36 0 0 1 24 100% H 0"
+                            fill="none"
+                            stroke="#06b6d4"
+                            strokeWidth="2.5"
+                            className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+                          />
+                        </svg>
+                      ) : (
+                        /* LEFT SIDE BEND: Exits 2023 left, curves down and right into 2022 left */
+                        <svg className="absolute left-[60px] top-1/2 bottom-[-8rem] w-[60px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
+                          <path
+                            d="M 60 0 H 36 A 36 36 0 0 0 0 36 V calc(100% - 36px) A 36 36 0 0 0 36 100% H 60"
+                            fill="none"
+                            stroke="#06b6d4"
+                            strokeWidth="2.5"
+                            className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+                          />
+                        </svg>
+                      )}
+                    </>
+                  )}
 
-                {/* 3. Milestone Items (3 Per Row) */}
-                {rowItems.map((hist, itemIndex) => {
-                  const globalIdx = rowIndex * chunkSize + itemIndex;
-                  const voyageNum = history.length - globalIdx;
-
-                  return (
-                    <div
-                      key={itemIndex}
-                      className="w-[280px] relative text-center shrink-0 z-10 group"
-                    >
-                      {/* GIANT YEAR HEADER - Centered Perfectly at y = 16px */}
-                      <div className="absolute top-[16px] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#06060c] px-4 py-0.5 rounded-2xl z-20">
-                        <h6 className="text-4xl md:text-5xl font-black text-cyan-400 font-mono tracking-tight group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(6,182,212,0.7)] leading-none">
-                          {hist.year}
-                        </h6>
-                      </div>
-
-                      {/* Content Box Below Year Header */}
-                      <div className="bg-[#0c0c16]/90 backdrop-blur-xl border border-white/10 hover:border-cyan-400/60 p-5 rounded-3xl shadow-2xl transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(6,182,212,0.2)] text-left mt-12">
-                        <div className="flex items-center justify-between gap-2 mb-2">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400/80 font-mono bg-cyan-500/10 px-2.5 py-0.5 rounded border border-cyan-500/20">
-                            VOYAGE #{voyageNum}
-                          </span>
-                          <span className="text-xs">🚢</span>
+                  {/* Year Headers (3 per row) */}
+                  {rowItems.map((hist, itemIndex) => {
+                    return (
+                      <div
+                        key={itemIndex}
+                        className="w-[280px] text-center shrink-0 z-10 group"
+                      >
+                        <div className="inline-block bg-[#06060c] px-5 py-1 rounded-2xl z-20 shadow-[0_0_15px_rgba(0,0,0,0.8)]">
+                          <h6 className="text-4xl md:text-5xl font-black text-cyan-400 font-mono tracking-tight group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(6,182,212,0.7)] leading-none">
+                            {hist.year}
+                          </h6>
                         </div>
-
-                        <h4 className="text-sm font-black text-white uppercase leading-snug group-hover:text-cyan-300 transition-colors">
-                          {hist.ship}
-                        </h4>
-                        <p className="text-xs text-white/50 mt-2 leading-relaxed font-sans">
-                          {hist.details}
-                        </p>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
+
+                {/* CARDS ROW (Positioned Directly Below Year Headers) */}
+                <div
+                  className={`flex justify-between items-start px-8 mt-4 ${
+                    isEvenRow ? 'flex-row' : 'flex-row-reverse'
+                  }`}
+                >
+                  {rowItems.map((hist, itemIndex) => {
+                    const globalIdx = rowIndex * chunkSize + itemIndex;
+                    const voyageNum = history.length - globalIdx;
+
+                    return (
+                      <div
+                        key={itemIndex}
+                        className="w-[280px] shrink-0 group text-left"
+                      >
+                        <div className="bg-[#0c0c16]/90 backdrop-blur-xl border border-white/10 hover:border-cyan-400/60 p-5 rounded-3xl shadow-2xl transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(6,182,212,0.2)]">
+                          <div className="flex items-center justify-between gap-2 mb-2">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400/80 font-mono bg-cyan-500/10 px-2.5 py-0.5 rounded border border-cyan-500/20">
+                              VOYAGE #{voyageNum}
+                            </span>
+                            <span className="text-xs">🚢</span>
+                          </div>
+
+                          <h4 className="text-sm font-black text-white uppercase leading-snug group-hover:text-cyan-300 transition-colors">
+                            {hist.ship}
+                          </h4>
+                          <p className="text-xs text-white/50 mt-2 leading-relaxed font-sans">
+                            {hist.details}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             );
           })}
