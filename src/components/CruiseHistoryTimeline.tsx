@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import type * as THREE from 'three';
@@ -26,6 +27,26 @@ function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<nu
     </group>
   );
 }
+
+export type HistoryTuningConfig = {
+  startScale: number;
+  growthPerYear: number;
+  scrollStartMul: number;
+  scrollEndMul: number;
+  bowOffsetPx: number;
+  lineWidth: number;
+  lineColor: string;
+};
+
+export const DEFAULT_HISTORY_TUNING: HistoryTuningConfig = {
+  startScale: 0.70,
+  growthPerYear: 0.115,
+  scrollStartMul: 0.70,
+  scrollEndMul: 0.80,
+  bowOffsetPx: 70,
+  lineWidth: 6,
+  lineColor: '#06b6d4',
+};
 
 export type HistoryItem = {
   year: string;
@@ -57,6 +78,38 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
   const [pathD, setPathD] = useState('');
   const [svgSize, setSvgSize] = useState({ w: 1400, h: 2000 });
+
+  const [tuning, setTuning] = useState<HistoryTuningConfig>(DEFAULT_HISTORY_TUNING);
+  const [showSettings, setShowSettings] = useState(false);
+  const [saveToast, setSaveToast] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      const savedStr = localStorage.getItem('7h_history_tuning');
+      if (savedStr) {
+        setTuning({ ...DEFAULT_HISTORY_TUNING, ...JSON.parse(savedStr) });
+      }
+    } catch {}
+  }, []);
+
+  const handleSaveTuning = () => {
+    try {
+      localStorage.setItem('7h_history_tuning', JSON.stringify(tuning));
+      setSaveToast(true);
+      setTimeout(() => setSaveToast(false), 2500);
+    } catch {}
+  };
+
+  const handleResetTuning = () => {
+    setTuning(DEFAULT_HISTORY_TUNING);
+    try {
+      localStorage.removeItem('7h_history_tuning');
+      setSaveToast(true);
+      setTimeout(() => setSaveToast(false), 2500);
+    } catch {}
+  };
 
   // Reverse history so timeline starts at 1998 (Inaugural Voyage) and proceeds chronologically to 2028
   const chronologicalHistory = [...history].reverse();
@@ -146,6 +199,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
     gsap.registerPlugin(ScrollTrigger);
 
+    const startPct = (tuning.scrollStartMul * 100).toFixed(0);
+    const endPct = (tuning.scrollEndMul * 100).toFixed(0);
+
     const ctx = gsap.context(() => {
       // Desktop Lenis + GSAP ScrollTrigger Scrub
       if (desktopPathRef.current && desktopPathLength > 0) {
@@ -157,8 +213,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             ease: 'none',
             scrollTrigger: {
               trigger: desktopContainerRef.current,
-              start: 'top 70%',
-              end: 'bottom 80%',
+              start: `top ${startPct}%`,
+              end: `bottom ${endPct}%`,
               scrub: 0.5,
               onUpdate: (self) => {
                 setDesktopProgress(self.progress);
@@ -166,11 +222,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   const progress = Math.min(1.0, Math.max(0, self.progress));
                   const totalHistoryYears = chronologicalHistory.length || 23;
                   const yearsPassed = progress * (totalHistoryYears - 1);
-                  const currentScale = 0.70 + yearsPassed * 0.115;
+                  const currentScale = (tuning.startScale ?? 0.70) + yearsPassed * (tuning.growthPerYear ?? 0.115);
                   shipScaleRef.current = currentScale;
 
                   // Offset travel length by front bow half-length so the front bow tip stops exactly at the end of the line
-                  const halfBowOffset = 70 * currentScale;
+                  const halfBowOffset = (tuning.bowOffsetPx ?? 70) * currentScale;
                   const maxTravelLength = Math.max(0, desktopPathLength - halfBowOffset);
                   const len = Math.min(maxTravelLength, Math.max(0, progress * maxTravelLength));
 
@@ -206,8 +262,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             ease: 'none',
             scrollTrigger: {
               trigger: mobileContainerRef.current,
-              start: 'top 70%',
-              end: 'bottom 80%',
+              start: `top ${startPct}%`,
+              end: `bottom ${endPct}%`,
               scrub: 0.5,
               onUpdate: (self) => {
                 setMobileProgress(self.progress);
@@ -221,7 +277,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     return () => {
       ctx.revert();
     };
-  }, [desktopPathLength, mobilePathLength]);
+  }, [desktopPathLength, mobilePathLength, tuning]);
 
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
@@ -319,8 +375,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               ref={desktopPathRef}
               d={pathD}
               fill="none"
-              stroke="url(#ocean-water-gradient)"
-              strokeWidth="4"
+              stroke={tuning.lineColor || '#06b6d4'}
+              strokeWidth={tuning.lineWidth || 6}
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
@@ -510,6 +566,187 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           })}
         </div>
       </div>
+
+      {/* ── Persistent Floating History Settings Button & Modal Drawer ── */}
+      {showSettings && mounted && createPortal(
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="fixed bottom-16 left-6 w-[440px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#080814] border-2 border-cyan-400 rounded-3xl backdrop-blur-2xl shadow-[0_0_90px_rgba(6,182,212,0.5)] text-left animate-in slide-in-from-bottom duration-300">
+            <div className="flex items-center justify-between border-b border-cyan-500/30 pb-3 mb-5">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">⚙️</span>
+                <h3 className="text-sm font-black uppercase tracking-widest text-cyan-300">
+                  History Timeline & 3D Ship Controls
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowSettings(false)}
+                className="text-white/60 hover:text-white text-lg font-bold px-2 py-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-5 text-xs">
+              {/* 1. Start Ship Scale */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-bold text-white/90">⚓ 1998 Start Ship Size (Scale)</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.startScale.toFixed(2)}x</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.20"
+                  max="2.00"
+                  step="0.05"
+                  value={tuning.startScale}
+                  onChange={e => setTuning({ ...tuning, startScale: parseFloat(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+                <p className="text-[10px] text-white/40 mt-1">Starting size of the 3D ship at 1998 Inaugural Voyage.</p>
+              </div>
+
+              {/* 2. Growth Per Year */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-bold text-white/90">📈 Growth Rate Per Year (+Scale/Yr)</span>
+                  <span className="text-cyan-400 font-mono font-bold">+{tuning.growthPerYear.toFixed(3)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.000"
+                  max="0.300"
+                  step="0.005"
+                  value={tuning.growthPerYear}
+                  onChange={e => setTuning({ ...tuning, growthPerYear: parseFloat(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+                <p className="text-[10px] text-white/40 mt-1">How much larger the ship gets for every passed year.</p>
+              </div>
+
+              {/* 3. Bow Offset */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-bold text-white/90">🎯 Bow Tip End Stop Offset</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.bowOffsetPx}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="150"
+                  step="5"
+                  value={tuning.bowOffsetPx}
+                  onChange={e => setTuning({ ...tuning, bowOffsetPx: parseInt(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+                <p className="text-[10px] text-white/40 mt-1">Ensures the front bow tip lands exactly at the end of the line.</p>
+              </div>
+
+              {/* 4. Scroll Start Target */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-bold text-white/90">🚀 Scroll Start Position (% Viewport)</span>
+                  <span className="text-cyan-400 font-mono font-bold">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.10"
+                  max="0.90"
+                  step="0.05"
+                  value={tuning.scrollStartMul}
+                  onChange={e => setTuning({ ...tuning, scrollStartMul: parseFloat(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* 5. Scroll End Target */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-bold text-white/90">🏁 Scroll End Position (% Viewport)</span>
+                  <span className="text-cyan-400 font-mono font-bold">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.10"
+                  max="0.90"
+                  step="0.05"
+                  value={tuning.scrollEndMul}
+                  onChange={e => setTuning({ ...tuning, scrollEndMul: parseFloat(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* 6. Line Width */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-bold text-white/90">🖊️ Line Thickness</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.lineWidth}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="2"
+                  max="16"
+                  step="1"
+                  value={tuning.lineWidth}
+                  onChange={e => setTuning({ ...tuning, lineWidth: parseInt(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* 7. Line Color */}
+              <div>
+                <span className="font-bold text-white/90 block mb-2">🎨 Line Glow Color</span>
+                <div className="flex items-center gap-2">
+                  {['#06b6d4', '#a855f7', '#3b82f6', '#10b981', '#f59e0b', '#ec4899'].map(col => (
+                    <button
+                      key={col}
+                      onClick={() => setTuning({ ...tuning, lineColor: col })}
+                      className={`w-7 h-7 rounded-full transition-transform cursor-pointer border-2 ${
+                        tuning.lineColor === col ? 'scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]' : 'border-transparent opacity-70 hover:opacity-100'
+                      }`}
+                      style={{ backgroundColor: col }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-6">
+              <button
+                onClick={handleResetTuning}
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-extrabold text-xs uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+              >
+                🔄 Reset Defaults
+              </button>
+              <div className="flex items-center gap-2">
+                {saveToast && (
+                  <span className="text-xs font-bold text-emerald-400 animate-in fade-in duration-300">
+                    ✓ Saved!
+                  </span>
+                )}
+                <button
+                  onClick={handleSaveTuning}
+                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                >
+                  💾 Save Settings
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* ── Persistent Floating Trigger Button ── */}
+      {mounted && createPortal(
+        <button
+          onClick={() => setShowSettings(prev => !prev)}
+          className="fixed bottom-6 left-6 z-[999999] bg-[#060614] hover:bg-cyan-950 border-2 border-cyan-400 text-cyan-300 px-5 py-3 rounded-full font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(6,182,212,0.6)] backdrop-blur-md flex items-center gap-2 hover:scale-105 transition-all cursor-pointer"
+        >
+          <span>⚙️</span> {showSettings ? 'Close History Controls' : 'Tune History Controls'}
+        </button>,
+        document.body
+      )}
     </div>
   );
 }
