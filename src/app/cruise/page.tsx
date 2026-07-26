@@ -1640,11 +1640,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "grid" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
                 {PORTS_DATA.map((port, idx) => (
-                  <div key={idx} className="bg-[#0b0b12] border border-white/10 hover:border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 shadow-lg hover:shadow-cyan-500/10">
+                  <div key={idx} className="bg-[#0b0b12] border-none rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 shadow-lg">
                     <div className="h-48 w-full relative overflow-hidden bg-black/60">
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
                       {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                      <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border border-white/20 rounded-full text-[9px] font-black uppercase tracking-widest text-cyan-400">
+                      <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border-none rounded-full text-[9px] font-black uppercase tracking-widest text-cyan-400">
                         Port Call #{idx + 1}
                       </span>
                     </div>
@@ -1661,7 +1661,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "spotlight" && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left animate-fadeIn">
                 {/* Main Featured Hero Card */}
-                <div className="lg:col-span-2 bg-[#0c0c14] border border-cyan-500/30 rounded-3xl overflow-hidden relative shadow-[0_0_40px_rgba(6,182,212,0.15)]">
+                <div className="lg:col-span-2 bg-[#0c0c14] border-none rounded-3xl overflow-hidden relative shadow-lg">
                   <div className="h-72 md:h-96 w-full relative overflow-hidden bg-black">
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/40 to-transparent z-10" />
                     {PORTS_DATA[activeSpotlightPort].image && (
@@ -1698,10 +1698,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       key={idx}
                       type="button"
                       onClick={() => setActiveSpotlightPort(idx)}
-                      className={`w-full p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-4 ${
+                      className={`w-full p-4 rounded-2xl border-none text-left transition-all cursor-pointer flex items-center gap-4 ${
                         activeSpotlightPort === idx
-                          ? "bg-cyan-500/10 border-cyan-500/50 shadow-md shadow-cyan-500/10"
-                          : "bg-[#08080d] border-white/5 hover:border-white/20 hover:bg-white/5"
+                          ? "bg-cyan-500/10 shadow-md"
+                          : "bg-[#08080d] hover:bg-white/5"
                       }`}
                     >
                       <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-black">
