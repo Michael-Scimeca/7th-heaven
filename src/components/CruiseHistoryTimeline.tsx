@@ -31,7 +31,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [mobilePathLength, setMobilePathLength] = useState(0);
 
   const [pathD, setPathD] = useState('');
-  const [svgSize, setSvgSize] = useState({ w: 1000, h: 2000 });
+  const [svgSize, setSvgSize] = useState({ w: 1400, h: 2000 });
 
   // Reverse history so timeline starts at 1998 (Inaugural Voyage) and proceeds chronologically to 2028
   const chronologicalHistory = [...history].reverse();
@@ -43,7 +43,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     rows.push(chronologicalHistory.slice(i, i + chunkSize));
   }
 
-  // Calculate single continuous SVG path string dynamically from real DOM positions
+  // Calculate single continuous SVG path string dynamically from real DOM positions (Matching Nav Width: max-w-[1400px])
   useEffect(() => {
     const updatePathGeometry = () => {
       if (!desktopContainerRef.current) return;
@@ -68,7 +68,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       if (rowCenters.length === 0) return;
 
       // Measure START dot position (Top Left)
-      let startX = 18;
+      let startX = 24;
       let startY = 20;
       if (startDotRef.current) {
         const dotRect = startDotRef.current.getBoundingClientRect();
@@ -76,9 +76,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         startY = dotRect.top - containerRect.top + dotRect.height / 2;
       }
 
-      const outerRight = w - 12;
-      const outerLeft = 12;
-      const r = 40; // Corner radius matching tangent offset perfectly
+      const outerRight = w - 16;
+      const outerLeft = 16;
+      const r = 44; // Corner radius matching expanded layout perfectly
 
       // Build single continuous SVG path string starting from top-left corner
       let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${rowCenters[0]} H ${outerRight - r}`;
@@ -188,11 +188,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     };
   }, [desktopPathLength, mobilePathLength]);
 
+  const activeVoyageIndex = Math.min(
+    Math.floor(desktopProgress * chronologicalHistory.length) + 1,
+    chronologicalHistory.length
+  );
+  const progressPercent = Math.round(desktopProgress * 100);
+
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
       {/* Section Header */}
-      <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 block mb-1">
+      <div className="text-center max-w-4xl mx-auto mb-12 px-4">
+        <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
           25+ Years Legacy Pathway
         </span>
         <h3
@@ -204,12 +210,33 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         <p className="text-white/40 text-xs md:text-sm mt-2 leading-relaxed">
           Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our serpentine timeline.
         </p>
+
+        {/* ── REAL-TIME PROGRESS TRACKER BAR & PILL ── */}
+        <div className="mt-8 max-w-xl mx-auto bg-black/60 backdrop-blur-xl border border-white/15 p-4 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center justify-between gap-4 mb-2 text-xs font-mono font-black uppercase">
+            <span className="text-cyan-400 tracking-wider flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+              TIMELINE PROGRESS: {progressPercent}%
+            </span>
+            <span className="text-white/70 bg-white/10 px-3 py-0.5 rounded-full border border-white/15">
+              VOYAGE #{activeVoyageIndex} OF {chronologicalHistory.length}
+            </span>
+          </div>
+
+          {/* Progress Bar Container */}
+          <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10">
+            <div
+              className="h-full bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 rounded-full transition-all duration-150 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+              style={{ width: `${Math.max(progressPercent, 2)}%` }}
+            />
+          </div>
+        </div>
       </div>
 
-      {/* ── DESKTOP CODEPEN SERPENTINE SNAKE TIMELINE (LG & UP) ── */}
+      {/* ── DESKTOP CODEPEN SERPENTINE SNAKE TIMELINE (MATCHING NAVBAR WIDTH: max-w-[1400px]) ── */}
       <div
         ref={desktopContainerRef}
-        className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
+        className="hidden lg:block w-full max-w-[1400px] mx-auto py-8 px-8 lg:px-12 relative"
       >
         {/* ONE SINGLE CONTINUOUS DYNAMIC SVG PATHWAY WITH WATER WAVE MOTION */}
         {pathD && (
@@ -244,7 +271,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               d={pathD}
               fill="none"
               stroke="rgba(6, 182, 212, 0.15)"
-              strokeWidth="3.5"
+              strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -255,7 +282,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               d={pathD}
               fill="none"
               stroke="url(#ocean-water-gradient)"
-              strokeWidth="3.5"
+              strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
@@ -272,9 +299,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           <div className="flex items-center gap-3">
             <div
               ref={startDotRef}
-              className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10"
+              className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10 shadow-[0_0_15px_rgba(6,182,212,0.8)]"
             />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>
@@ -294,7 +321,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* YEAR HEADERS ROW */}
                 <div
                   data-year-header-row
-                  className={`relative flex justify-between items-center px-8 h-12 ${
+                  className={`relative flex justify-between items-center px-6 h-12 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
@@ -306,18 +333,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     return (
                       <div
                         key={itemIndex}
-                        className="w-[280px] text-center shrink-0 z-10 group"
+                        className="w-[340px] xl:w-[380px] text-center shrink-0 z-10 group"
                       >
                         <div
-                          className={`inline-block px-5 py-1 rounded-2xl z-20 shadow-[0_0_15px_rgba(0,0,0,0.8)] transition-all duration-300 ${
+                          className={`inline-block px-6 py-1.5 rounded-2xl z-20 transition-all duration-300 ${
                             isReached
-                              ? 'bg-[#06060c] border border-cyan-400/80 scale-105'
-                              : 'bg-[#06060c] border border-white/10'
+                              ? 'bg-[#06060c] border border-cyan-400/90 scale-110 shadow-[0_0_25px_rgba(6,182,212,0.6)]'
+                              : 'bg-[#06060c] border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]'
                           }`}
                         >
                           <h6
                             className={`text-4xl md:text-5xl font-black font-mono tracking-tight transition-colors leading-none ${
-                              isReached ? 'text-cyan-300' : 'text-white/40'
+                              isReached ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)]' : 'text-white/40'
                             }`}
                           >
                             {hist.year}
@@ -330,7 +357,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* CARDS ROW */}
                 <div
-                  className={`flex justify-between items-start px-8 mt-4 ${
+                  className={`flex justify-between items-start px-6 mt-4 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
@@ -343,30 +370,30 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     return (
                       <div
                         key={itemIndex}
-                        className="w-[280px] shrink-0 group text-left"
+                        className="w-[340px] xl:w-[380px] shrink-0 group text-left"
                       >
                         <div
-                          className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-3xl shadow-2xl transition-all duration-300 ${
+                          className={`bg-[#0c0c16]/90 backdrop-blur-xl p-6 rounded-3xl shadow-2xl transition-all duration-300 ${
                             isReached
-                              ? 'border border-cyan-400/60 -translate-y-1'
-                              : 'border border-white/10 opacity-70'
+                              ? 'border border-cyan-400/70 -translate-y-1 shadow-[0_10px_30px_rgba(6,182,212,0.25)]'
+                              : 'border border-white/10 opacity-60'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-2 mb-2">
                             <span
-                              className={`text-[10px] font-black uppercase tracking-widest font-mono px-2.5 py-0.5 rounded transition-colors ${
+                              className={`text-[10px] font-black uppercase tracking-widest font-mono px-3 py-0.5 rounded transition-colors ${
                                 isReached
-                                  ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/40'
+                                  ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
                                   : 'text-white/40 bg-white/5 border border-white/10'
                               }`}
                             >
                               VOYAGE #{voyageNum}
                             </span>
-                            <span className="text-xs">🚢</span>
+                            <span className="text-sm">🚢</span>
                           </div>
 
                           <h4
-                            className={`text-sm font-black uppercase leading-snug transition-colors ${
+                            className={`text-base font-black uppercase leading-snug transition-colors ${
                               isReached ? 'text-white' : 'text-white/60'
                             }`}
                           >
@@ -420,13 +447,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div key={idx} className="relative group">
                 <div
                   className={`absolute left-[-26px] top-4 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
-                    isReached ? 'bg-cyan-300 scale-125' : 'bg-cyan-500/30'
+                    isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
                   }`}
                 />
 
                 <div
                   className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-2xl shadow-xl transition-all duration-300 ${
-                    isReached ? 'border border-cyan-400/60' : 'border border-white/10 opacity-70'
+                    isReached ? 'border border-cyan-400/60 shadow-[0_5px_20px_rgba(6,182,212,0.2)]' : 'border border-white/10 opacity-70'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2">
