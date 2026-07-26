@@ -569,8 +569,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       {/* ── Persistent Floating History Settings Button & Modal Drawer ── */}
       {showSettings && mounted && createPortal(
-        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="fixed bottom-16 left-6 w-[440px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#080814] border-2 border-cyan-400 rounded-3xl backdrop-blur-2xl shadow-[0_0_90px_rgba(6,182,212,0.5)] text-left animate-in slide-in-from-bottom duration-300">
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-black/20 pointer-events-none animate-in fade-in duration-200">
+          <div className="fixed bottom-16 left-6 w-[440px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#060614]/40 border-2 border-cyan-400/50 rounded-3xl backdrop-blur-2xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto">
             <div className="flex items-center justify-between border-b border-cyan-500/30 pb-3 mb-5">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚙️</span>

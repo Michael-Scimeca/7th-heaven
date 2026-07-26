@@ -615,7 +615,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         {showSettings && mounted && createPortal(
           <div 
             data-settings-panel
-            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[#080812] border-2 border-cyan-400 rounded-3xl backdrop-blur-2xl shadow-[0_0_90px_rgba(0,0,0,0.95)] text-left animate-in slide-in-from-right duration-300 opacity-100"
+            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[#060614]/40 border-2 border-cyan-400/50 rounded-3xl backdrop-blur-2xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-right duration-300 opacity-100"
             style={{ zIndex: 999999, pointerEvents: 'auto' }}
           >
             <style>{`
@@ -629,7 +629,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               }
             `}</style>
 
-            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 bg-[#080812] backdrop-blur-md pt-1 z-10">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 bg-[#060614]/40 backdrop-blur-md pt-1 z-10">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚙️</span>
                 <div>
@@ -956,7 +956,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             </div>
 
             {/* Actions Bar */}
-            <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 bg-[#080812] pb-1 z-10">
+            <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 bg-[#060614]/40 backdrop-blur-md pb-1 z-10">
               <button
                 onClick={handleResetTuning}
                 className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-white/10 cursor-pointer"
