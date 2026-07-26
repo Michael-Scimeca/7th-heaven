@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
@@ -118,6 +118,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [showSettings, setShowSettings] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const latestProgressRef = useRef(0);
 
   useEffect(() => {
     setMounted(true);
@@ -166,166 +167,237 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [currentShipLength, setCurrentShipLength] = useState<number>(0);
   const [shipMaxTravelLength, setShipMaxTravelLength] = useState<number>(0);
 
-  // Calculate single continuous SVG path string dynamically from real DOM positions (Matching Nav Width: max-w-[1400px])
-  useEffect(() => {
-    const updatePathGeometry = () => {
-      if (!desktopContainerRef.current) return;
-      const containerRect = desktopContainerRef.current.getBoundingClientRect();
-      const w = containerRect.width;
-      const h = containerRect.height;
-      setSvgSize({ w, h });
+  // Position ship dynamically using SVG path and relative container percentages
+  const updateShipPosition = useCallback((scrollProgress: number) => {
+    if (!desktopPathRef.current || !shipDivRef.current || !desktopContainerRef.current) return;
+    const pathLength = desktopPathRef.current.getTotalLength();
+    if (pathLength <= 0) return;
 
-      // Measure exact Y-center for each row's year badge pill
-      const rowCenters: number[] = [];
-      rowRefs.current.forEach((rowEl) => {
-        if (rowEl) {
-          const badgeEl = rowEl.querySelector('[data-year-badge]') || rowEl.querySelector('[data-year-header-row]');
-          if (badgeEl) {
-            const rect = badgeEl.getBoundingClientRect();
-            const yCenter = rect.top - containerRect.top + rect.height / 2;
-            rowCenters.push(yCenter);
+    const scrollProgressClamped = Math.min(1.0, Math.max(0, scrollProgress));
+    const maxTravelLen = Math.max(0, pathLength - (tuning.bowOffsetPx ?? 145));
+    setShipMaxTravelLength(maxTravelLen);
+
+    const xProgress = Math.min(1.0, scrollProgressClamped * 1.35);
+    const pathDistance = Math.min(maxTravelLen, Math.max(0, xProgress * maxTravelLen));
+    setCurrentShipLength(pathDistance);
+
+    const containerRect = desktopContainerRef.current.getBoundingClientRect();
+    const containerW = containerRect.width || 1400;
+    const containerH = containerRect.height || 1;
+    const widthScale = Math.max(0.5, containerW / 1400);
+
+    const startPx = 150 * widthScale;
+    const endPx = 220 * widthScale;
+    const targetLengthPx = startPx + xProgress * (endPx - startPx);
+    shipScaleRef.current = targetLengthPx;
+
+    const strokeOffset = Math.max(0, pathLength - pathDistance);
+    desktopPathRef.current.style.strokeDashoffset = `${strokeOffset}px`;
+
+    const pt = desktopPathRef.current.getPointAtLength(pathDistance);
+    const pPrev = desktopPathRef.current.getPointAtLength(Math.max(0, pathDistance - 15));
+    const pNext = desktopPathRef.current.getPointAtLength(Math.min(pathLength, pathDistance + 15));
+    const dx = pNext.x - pPrev.x;
+    const dy = pNext.y - pPrev.y;
+
+    if (Math.abs(dx) > 0.001 || Math.abs(dy) > 0.001) {
+      lastAngleRef.current = Math.atan2(dy, dx);
+    }
+    const angle = lastAngleRef.current;
+
+    const offX = tuning.shipOffsetX ?? 0;
+    const offY = tuning.shipOffsetY ?? 0;
+
+    const leftPct = ((pt.x + offX) / containerW) * 100;
+    const topPct = ((pt.y + offY) / containerH) * 100;
+
+    shipDivRef.current.style.position = 'absolute';
+    shipDivRef.current.style.left = `${leftPct}%`;
+    shipDivRef.current.style.top = `${topPct}%`;
+    shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
+    shipDivRef.current.style.zIndex = '10';
+    shipDivRef.current.style.opacity = scrollProgressClamped > 0.005 ? '1' : '0';
+  }, [tuning]);
+
+  // Calculate single continuous SVG path string dynamically from real DOM positions
+  const updatePathGeometry = useCallback(() => {
+    if (!desktopContainerRef.current) return;
+    const containerRect = desktopContainerRef.current.getBoundingClientRect();
+    const w = containerRect.width;
+    const h = containerRect.height;
+    if (w === 0 || h === 0) return;
+    setSvgSize({ w, h });
+
+    // Measure exact Y-center for each row's year badge pill
+    const rowCenters: number[] = [];
+    rowRefs.current.forEach((rowEl) => {
+      if (rowEl) {
+        const badgeEl = rowEl.querySelector('[data-year-badge]') || rowEl.querySelector('[data-year-header-row]');
+        if (badgeEl) {
+          const rect = badgeEl.getBoundingClientRect();
+          const yCenter = rect.top - containerRect.top + rect.height / 2;
+          rowCenters.push(yCenter);
+        }
+      }
+    });
+
+    if (rowCenters.length === 0) return;
+    rowCentersRef.current = rowCenters;
+
+    // Measure START dot position (Top Left)
+    let startX = 24;
+    let startY = 20;
+    if (startDotRef.current) {
+      const dotRect = startDotRef.current.getBoundingClientRect();
+      startX = dotRect.left - containerRect.left + dotRect.width / 2;
+      startY = dotRect.top - containerRect.top + dotRect.height / 2;
+    }
+
+    const outerRight = w - 60;
+    const outerLeft = 60;
+    const r = 44; // Corner radius matching expanded layout perfectly
+
+    // Measure exact X-center for 2026 badge node for path termination
+    const allYearBadges = Array.from(desktopContainerRef.current.querySelectorAll('[data-year-badge]'));
+    const badge2026El = allYearBadges.find(el => el.textContent?.includes('2026'));
+    let endX2026 = outerRight - 80;
+    if (badge2026El) {
+      const bRect = badge2026El.getBoundingClientRect();
+      endX2026 = bRect.left - containerRect.left + bRect.width / 2;
+    }
+
+    // Active timeline rows from Row 0 (1998) through Row 6 (2024-2026)
+    const activeRowCenters = rowCenters.slice(0, 7);
+
+    // Build single continuous SVG path string terminating PRECISELY at 2026 node
+    let d = `M ${startX} ${startY} V ${activeRowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${activeRowCenters[0]} H ${outerRight - r}`;
+
+    for (let i = 0; i < activeRowCenters.length - 1; i++) {
+      const yCurr = activeRowCenters[i];
+      const yNext = activeRowCenters[i + 1];
+      const isEven = i % 2 === 0;
+
+      if (i === activeRowCenters.length - 2) {
+        // Final row turn into Row 6: draw horizontal line straight to the 2026 badge node!
+        d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${endX2026}`;
+      } else if (isEven) {
+        // Right bend from Row i to Row i+1
+        d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yNext} H ${outerLeft + r}`;
+      } else {
+        // Left bend from Row i to Row i+1
+        d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${outerRight - r}`;
+      }
+    }
+
+    setPathD(d);
+
+    // Measure exact X-center for 2028 badge node for path termination
+    const badge2028El = allYearBadges.find(el => el.textContent?.includes('2028'));
+    let endX2028 = w / 2;
+    if (badge2028El) {
+      const bRect = badge2028El.getBoundingClientRect();
+      endX2028 = bRect.left - containerRect.left + bRect.width / 2;
+    }
+
+    // Build dim/unfilled connector line for 2026 -> 2027 (right) -> 2028 (middle)
+    if (rowCenters.length >= 8) {
+      const yRow6 = rowCenters[6];
+      const yRow7 = rowCenters[7];
+      const futureD = `M ${endX2026} ${yRow6} H ${outerRight - r} A ${r} ${r} 0 0 1 ${outerRight} ${yRow6 + r} V ${yRow7 - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yRow7} H ${endX2028}`;
+      setStaticFuturePathD(futureD);
+    } else {
+      setStaticFuturePathD('');
+    }
+
+    // Measure exact distance along path to each row center for 1:1 scroll progress mapping
+    if (desktopPathRef.current && rowCenters.length > 0) {
+      const totalLen = desktopPathRef.current.getTotalLength();
+      const rLengths: number[] = [];
+
+      rowCenters.forEach((yCenter) => {
+        let closestLen = 0;
+        let minDistance = Infinity;
+        for (let l = 0; l <= totalLen; l += 15) {
+          const pt = desktopPathRef.current!.getPointAtLength(l);
+          const dist = Math.abs(pt.y - yCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestLen = l;
           }
         }
+        rLengths.push(closestLen);
       });
 
-      if (rowCenters.length === 0) return;
-      rowCentersRef.current = rowCenters;
+      rowPathLengthsRef.current = rLengths;
 
-      // Measure START dot position (Top Left)
-      let startX = 24;
-      let startY = 20;
-      if (startDotRef.current) {
-        const dotRect = startDotRef.current.getBoundingClientRect();
-        startX = dotRect.left - containerRect.left + dotRect.width / 2;
-        startY = dotRect.top - containerRect.top + dotRect.height / 2;
-      }
+      const lengths: number[] = [];
+      allYearBadges.forEach((badgeEl) => {
+        const targetRect = badgeEl.getBoundingClientRect();
+        const targetX = targetRect.left - containerRect.left;
+        const targetY = targetRect.top - containerRect.top + targetRect.height / 2;
 
-      const outerRight = w - 60;
-      const outerLeft = 60;
-      const r = 44; // Corner radius matching expanded layout perfectly
-
-      // Measure exact X-center for 2026 badge node for path termination
-      const allYearBadges = Array.from(desktopContainerRef.current.querySelectorAll('[data-year-badge]'));
-      const badge2026El = allYearBadges.find(el => el.textContent?.includes('2026'));
-      let endX2026 = outerRight - 80;
-      if (badge2026El) {
-        const bRect = badge2026El.getBoundingClientRect();
-        endX2026 = bRect.left - containerRect.left + bRect.width / 2;
-      }
-
-      // Active timeline rows from Row 0 (1998) through Row 6 (2024-2026)
-      const activeRowCenters = rowCenters.slice(0, 7);
-
-      // Build single continuous SVG path string terminating PRECISELY at 2026 node
-      let d = `M ${startX} ${startY} V ${activeRowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${activeRowCenters[0]} H ${outerRight - r}`;
-
-      for (let i = 0; i < activeRowCenters.length - 1; i++) {
-        const yCurr = activeRowCenters[i];
-        const yNext = activeRowCenters[i + 1];
-        const isEven = i % 2 === 0;
-
-        if (i === activeRowCenters.length - 2) {
-          // Final row turn into Row 6: draw horizontal line straight to the 2026 badge node!
-          d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${endX2026}`;
-        } else if (isEven) {
-          // Right bend from Row i to Row i+1
-          d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yNext} H ${outerLeft + r}`;
-        } else {
-          // Left bend from Row i to Row i+1
-          d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${outerRight - r}`;
-        }
-      }
-
-      setPathD(d);
-
-      // Measure exact X-center for 2028 badge node for path termination
-      const badge2028El = allYearBadges.find(el => el.textContent?.includes('2028'));
-      let endX2028 = w / 2;
-      if (badge2028El) {
-        const bRect = badge2028El.getBoundingClientRect();
-        endX2028 = bRect.left - containerRect.left + bRect.width / 2;
-      }
-
-      // Build dim/unfilled connector line for 2026 -> 2027 (right) -> 2028 (middle)
-      if (rowCenters.length >= 8) {
-        const yRow6 = rowCenters[6];
-        const yRow7 = rowCenters[7];
-        const futureD = `M ${endX2026} ${yRow6} H ${outerRight - r} A ${r} ${r} 0 0 1 ${outerRight} ${yRow6 + r} V ${yRow7 - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yRow7} H ${endX2028}`;
-        setStaticFuturePathD(futureD);
-      } else {
-        setStaticFuturePathD('');
-      }
-
-      // Measure exact distance along path to each row center for 1:1 scroll progress mapping
-      if (desktopPathRef.current && rowCenters.length > 0) {
-        const totalLen = desktopPathRef.current.getTotalLength();
-        const rLengths: number[] = [];
-
-        rowCenters.forEach((yCenter) => {
-          let closestLen = 0;
-          let minDistance = Infinity;
-          for (let l = 0; l <= totalLen; l += 15) {
-            const pt = desktopPathRef.current!.getPointAtLength(l);
-            const dist = Math.abs(pt.y - yCenter);
-            if (dist < minDistance) {
-              minDistance = dist;
-              closestLen = l;
-            }
+        let closestLen = 0;
+        let minDistance = Infinity;
+        for (let l = 0; l <= totalLen; l += 15) {
+          const pt = desktopPathRef.current!.getPointAtLength(l);
+          const dist = Math.hypot(pt.x - targetX, pt.y - targetY);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestLen = l;
           }
-          rLengths.push(closestLen);
-        });
-
-        rowPathLengthsRef.current = rLengths;
-
-        const allYearBadges = Array.from(desktopContainerRef.current.querySelectorAll('[data-year-badge]'));
-        const lengths: number[] = [];
-        allYearBadges.forEach((badgeEl) => {
-          const targetRect = badgeEl.getBoundingClientRect();
-          const targetX = targetRect.left - containerRect.left;
-          const targetY = targetRect.top - containerRect.top + targetRect.height / 2;
-
-          let closestLen = 0;
-          let minDistance = Infinity;
-          for (let l = 0; l <= totalLen; l += 15) {
-            const pt = desktopPathRef.current!.getPointAtLength(l);
-            const dist = Math.hypot(pt.x - targetX, pt.y - targetY);
-            if (dist < minDistance) {
-              minDistance = dist;
-              closestLen = l;
-            }
-          }
-          lengths.push(closestLen);
-        });
-
-        setBadgePathLengths(lengths);
-
-        const targetBadgeIdx = allYearBadges.findIndex((el) => el.textContent?.includes('2026'));
-        if (targetBadgeIdx !== -1 && lengths[targetBadgeIdx] !== undefined) {
-          pathLengthTo2026Ref.current = lengths[targetBadgeIdx];
-          setPathLengthTo2026(lengths[targetBadgeIdx]);
         }
+        lengths.push(closestLen);
+      });
+
+      setBadgePathLengths(lengths);
+
+      const targetBadgeIdx = allYearBadges.findIndex((el) => el.textContent?.includes('2026'));
+      if (targetBadgeIdx !== -1 && lengths[targetBadgeIdx] !== undefined) {
+        pathLengthTo2026Ref.current = lengths[targetBadgeIdx];
+        setPathLengthTo2026(lengths[targetBadgeIdx]);
       }
+    }
+  }, []);
+
+  // Update geometry & ship position on mount, window resize, and container ResizeObserver
+  useEffect(() => {
+    const handleResize = () => {
+      updatePathGeometry();
+      requestAnimationFrame(() => {
+        updateShipPosition(latestProgressRef.current);
+      });
     };
 
-    updatePathGeometry();
-    const t = setTimeout(updatePathGeometry, 200);
-    window.addEventListener('resize', updatePathGeometry);
+    handleResize();
+    const t = setTimeout(handleResize, 200);
+
+    let resizeObserver: ResizeObserver | null = null;
+    if (desktopContainerRef.current && typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => {
+        handleResize();
+      });
+      resizeObserver.observe(desktopContainerRef.current);
+    }
+
+    window.addEventListener('resize', handleResize);
     return () => {
       clearTimeout(t);
-      window.removeEventListener('resize', updatePathGeometry);
+      if (resizeObserver) resizeObserver.disconnect();
+      window.removeEventListener('resize', handleResize);
     };
-  }, [rows.length]);
+  }, [rows.length, updatePathGeometry, updateShipPosition]);
 
   // Measure path length whenever pathD updates
   useEffect(() => {
     if (desktopPathRef.current && pathD) {
       setDesktopPathLength(desktopPathRef.current.getTotalLength());
+      updateShipPosition(latestProgressRef.current);
       setTimeout(() => ScrollTrigger.refresh(), 100);
     }
     if (mobilePathRef.current) {
       setMobilePathLength(mobilePathRef.current.getTotalLength());
     }
-  }, [pathD]);
+  }, [pathD, updateShipPosition]);
 
   // Hook up GSAP ScrollTrigger scrub
   useEffect(() => {
@@ -350,49 +422,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           scrub: tuning.scrubDamping ?? 0.5,
           onUpdate: (self) => {
             setDesktopProgress(self.progress);
-            if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
-              const scrollProgress = Math.min(1.0, Math.max(0, self.progress));
-              const maxTravelLen = Math.max(0, desktopPathLength - 225);
-              setShipMaxTravelLength(maxTravelLen);
-
-              // Accelerated linear path movement along X, backed off 300px from end
-              const xProgress = Math.min(1.0, scrollProgress * 1.35);
-              const pathDistance = Math.min(maxTravelLen, Math.max(0, xProgress * maxTravelLen));
-              setCurrentShipLength(pathDistance);
-
-              // Interpolate length from 150px (1998) to 220px (2026) clamped in 1:1 sync with position (xProgress)
-              const startPx = 150;
-              const endPx = 220;
-              const targetLengthPx = startPx + xProgress * (endPx - startPx);
-              shipScaleRef.current = targetLengthPx;
-
-              // Solid cyan ocean fill line fills 100% to 2026 at scrollProgress = 1.0
-              const strokeOffset = Math.max(0, desktopPathLength - pathDistance);
-              desktopPathRef.current.style.strokeDashoffset = `${strokeOffset}px`;
-
-              // Sample exact SVG path point & tangent rotation angle at pathDistance
-              const pt = desktopPathRef.current.getPointAtLength(pathDistance);
-              const pPrev = desktopPathRef.current.getPointAtLength(Math.max(0, pathDistance - 15));
-              const pNext = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, pathDistance + 15));
-              const dx = pNext.x - pPrev.x;
-              const dy = pNext.y - pPrev.y;
-
-              if (Math.abs(dx) > 0.001 || Math.abs(dy) > 0.001) {
-                lastAngleRef.current = Math.atan2(dy, dx);
-              }
-              const angle = lastAngleRef.current;
-
-              const offX = tuning.shipOffsetX ?? 0;
-              const offY = tuning.shipOffsetY ?? 0;
-
-              // Absolute container position derived directly from SVG path geometry
-              shipDivRef.current.style.position = 'absolute';
-              shipDivRef.current.style.left = `${pt.x + offX}px`;
-              shipDivRef.current.style.top = `${pt.y + offY}px`;
-              shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
-              shipDivRef.current.style.zIndex = '10';
-              shipDivRef.current.style.opacity = self.progress > 0.005 ? '1' : '0';
-            }
+            latestProgressRef.current = self.progress;
+            updateShipPosition(self.progress);
           },
         });
       }
@@ -423,7 +454,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     return () => {
       ctx.revert();
     };
-  }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning]);
+  }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning, updateShipPosition]);
 
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
@@ -483,6 +514,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         {pathD && (
           <svg
             viewBox={`0 0 ${svgSize.w} ${svgSize.h}`}
+            preserveAspectRatio="none"
             className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
           >
             <defs>

@@ -53,8 +53,8 @@ export function Header() {
           .limit(1);
 
         setHasLiveStreams(!!(dbStreams && dbStreams.length > 0));
-      } catch (err) {
-        console.error("Failed to check live status", err);
+      } catch {
+        // Silent catch for background live check to prevent dev overlay popups when offline/restarting
       }
     };
 
