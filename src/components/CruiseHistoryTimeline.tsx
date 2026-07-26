@@ -33,14 +33,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [pathD, setPathD] = useState('');
   const [svgSize, setSvgSize] = useState({ w: 1000, h: 2000 });
 
+  // Reverse history so timeline starts at 1998 (Inaugural Voyage) and proceeds chronologically to 2028
+  const chronologicalHistory = [...history].reverse();
+
   // Chunk history items into 3 items per row for desktop
   const rows: HistoryItem[][] = [];
   const chunkSize = 3;
-  for (let i = 0; i < history.length; i += chunkSize) {
-    rows.push(history.slice(i, i + chunkSize));
+  for (let i = 0; i < chronologicalHistory.length; i += chunkSize) {
+    rows.push(chronologicalHistory.slice(i, i + chunkSize));
   }
 
-  // Calculate single continuous SVG path string dynamically from real DOM positions (Starting on Top-Right in reverse)
+  // Calculate single continuous SVG path string dynamically from real DOM positions
   useEffect(() => {
     const updatePathGeometry = () => {
       if (!desktopContainerRef.current) return;
@@ -64,8 +67,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       if (rowCenters.length === 0) return;
 
-      // Measure START dot position (Top Right)
-      let startX = w - 18;
+      // Measure START dot position (Top Left)
+      let startX = 18;
       let startY = 20;
       if (startDotRef.current) {
         const dotRect = startDotRef.current.getBoundingClientRect();
@@ -77,20 +80,20 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const outerLeft = 12;
       const r = 40; // Corner radius matching tangent offset perfectly
 
-      // Build single continuous SVG path string starting from top-right corner
-      let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 1 ${startX - r} ${rowCenters[0]} H ${outerLeft + r}`;
+      // Build single continuous SVG path string starting from top-left corner
+      let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${rowCenters[0]} H ${outerRight - r}`;
 
       for (let i = 0; i < rowCenters.length - 1; i++) {
         const yCurr = rowCenters[i];
         const yNext = rowCenters[i + 1];
-        const isRightToLeft = i % 2 === 0;
+        const isEven = i % 2 === 0;
 
-        if (isRightToLeft) {
-          // Left bend from Row i (R->L) to Row i+1 (L->R)
-          d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${outerRight - r}`;
-        } else {
-          // Right bend from Row i (L->R) to Row i+1 (R->L)
+        if (isEven) {
+          // Right bend from Row i to Row i+1
           d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yNext} H ${outerLeft + r}`;
+        } else {
+          // Left bend from Row i to Row i+1
+          d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${outerRight - r}`;
         }
       }
 
@@ -264,23 +267,23 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           </svg>
         )}
         
-        {/* START POINT HEADER (Top Right Corner) */}
-        <div className="relative pr-2 mb-12 flex justify-end">
+        {/* START POINT HEADER (Top-Left Corner) */}
+        <div className="relative pl-2 mb-12">
           <div className="flex items-center gap-3">
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
-              START · LATEST VOYAGES
-            </span>
             <div
               ref={startDotRef}
               className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10"
             />
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
+              START · INAUGURAL 1998 VOYAGE
+            </span>
           </div>
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
         <div className="flex flex-col">
           {rows.map((rowItems, rowIndex) => {
-            const isRightToLeft = rowIndex % 2 === 0;
+            const isEvenRow = rowIndex % 2 === 0;
 
             return (
               <div
@@ -292,12 +295,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <div
                   data-year-header-row
                   className={`relative flex justify-between items-center px-8 h-12 ${
-                    isRightToLeft ? 'flex-row-reverse' : 'flex-row'
+                    isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
                   {rowItems.map((hist, itemIndex) => {
                     const globalIdx = rowIndex * chunkSize + itemIndex;
-                    const itemProgressTrigger = (globalIdx + 0.5) / history.length;
+                    const itemProgressTrigger = (globalIdx + 0.5) / chronologicalHistory.length;
                     const isReached = desktopProgress >= itemProgressTrigger;
 
                     return (
@@ -328,13 +331,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* CARDS ROW */}
                 <div
                   className={`flex justify-between items-start px-8 mt-4 ${
-                    isRightToLeft ? 'flex-row-reverse' : 'flex-row'
+                    isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
                   {rowItems.map((hist, itemIndex) => {
                     const globalIdx = rowIndex * chunkSize + itemIndex;
-                    const voyageNum = history.length - globalIdx;
-                    const itemProgressTrigger = (globalIdx + 0.5) / history.length;
+                    const voyageNum = globalIdx + 1;
+                    const itemProgressTrigger = (globalIdx + 0.5) / chronologicalHistory.length;
                     const isReached = desktopProgress >= itemProgressTrigger;
 
                     return (
@@ -410,8 +413,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </svg>
 
         <div className="space-y-6 pl-10">
-          {history.map((hist, idx) => {
-            const isReached = mobileProgress >= (idx + 0.5) / history.length;
+          {chronologicalHistory.map((hist, idx) => {
+            const isReached = mobileProgress >= (idx + 0.5) / chronologicalHistory.length;
 
             return (
               <div key={idx} className="relative group">
@@ -431,7 +434,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       {hist.year}
                     </span>
                     <span className="text-[9px] font-extrabold uppercase tracking-widest text-white/30 font-mono">
-                      VOYAGE #{history.length - idx}
+                      VOYAGE #{idx + 1}
                     </span>
                   </div>
                   <h4 className="text-sm font-black text-white uppercase">{hist.ship}</h4>
