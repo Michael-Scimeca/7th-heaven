@@ -21,7 +21,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   }
 
   return (
-    <div className="border-t border-white/10 pt-16 mt-16 text-left overflow-x-hidden">
+    <div className="border-t border-white/10 pt-16 mt-16 text-left">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-16">
         <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
@@ -39,10 +39,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       </div>
 
       {/* ── DESKTOP CODEPEN SERPENTINE SNAKE TIMELINE (LG & UP) ── */}
-      <div className="hidden lg:block max-w-6xl mx-auto py-8 px-8 relative">
+      <div className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative">
         
         {/* START POINT HEADER (Top-Left Corner Entry) */}
-        <div className="relative pl-4 mb-16">
+        <div className="relative pl-2 mb-12">
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] drop-shadow-[0_0_10px_rgba(6,182,212,0.9)] animate-pulse z-10" />
             <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full drop-shadow-[0_0_10px_rgba(6,182,212,0.6)] font-mono z-10">
@@ -51,9 +51,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           </div>
 
           {/* SVG Smooth Curve connecting START badge down into Row 0 Horizontal Line */}
-          <svg className="absolute left-[13px] top-[10px] bottom-[-2rem] w-[80px] h-[calc(100%+2rem)] pointer-events-none z-0 overflow-visible">
+          <svg className="absolute left-[11px] top-[10px] bottom-[-2.5rem] w-[100px] h-[calc(100%+2.5rem)] pointer-events-none z-0 overflow-visible">
             <path
-              d="M 0 0 V calc(100% - 24px) A 24 24 0 0 0 24 100% H 80"
+              d="M 0 0 V calc(100% - 24px) A 24 24 0 0 0 24 100% H 95"
               fill="none"
               stroke="#06b6d4"
               strokeWidth="2.5"
@@ -71,7 +71,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             return (
               <div
                 key={rowIndex}
-                className={`relative flex justify-between items-start px-12 pb-28 ${
+                className={`relative flex justify-between items-start px-8 pb-28 ${
                   isEvenRow ? 'flex-row' : 'flex-row-reverse'
                 }`}
               >
@@ -83,9 +83,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <>
                     {isEvenRow ? (
                       /* RIGHT SIDE BEND (Connects Row Top-Right -> Next Row Top-Right) */
-                      <svg className="absolute -right-[4px] top-0 bottom-0 w-[72px] h-full pointer-events-none z-0 overflow-visible">
+                      <svg className="absolute right-[68px] top-0 bottom-0 w-[68px] h-full pointer-events-none z-0 overflow-visible">
                         <path
-                          d="M 0 0 H 36 A 36 36 0 0 1 72 36 V calc(100% - 36px) A 36 36 0 0 1 36 100% H 0"
+                          d="M 0 0 H 28 A 40 40 0 0 1 68 40 V calc(100% - 40px) A 40 40 0 0 1 28 100% H 0"
                           fill="none"
                           stroke="#06b6d4"
                           strokeWidth="2.5"
@@ -94,9 +94,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       </svg>
                     ) : (
                       /* LEFT SIDE BEND (Connects Row Top-Left -> Next Row Top-Left) */
-                      <svg className="absolute -left-[4px] top-0 bottom-0 w-[72px] h-full pointer-events-none z-0 overflow-visible">
+                      <svg className="absolute left-[68px] top-0 bottom-0 w-[68px] h-full pointer-events-none z-0 overflow-visible">
                         <path
-                          d="M 72 0 H 36 A 36 36 0 0 0 0 36 V calc(100% - 36px) A 36 36 0 0 0 36 100% H 72"
+                          d="M 68 0 H 40 A 40 40 0 0 0 0 40 V calc(100% - 40px) A 40 40 0 0 0 40 100% H 68"
                           fill="none"
                           stroke="#06b6d4"
                           strokeWidth="2.5"
@@ -115,7 +115,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   return (
                     <div
                       key={itemIndex}
-                      className="w-[300px] relative text-center shrink-0 z-10 group"
+                      className="w-[280px] relative text-center shrink-0 z-10 group"
                     >
                       {/* GIANT YEAR HEADER - Breaks Line Directly In Center */}
                       <div className="relative inline-block -translate-y-1/2 bg-[#06060c] px-4 py-0.5 rounded-2xl z-20">
@@ -149,7 +149,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </div>
 
         {/* END POINT FOOTER */}
-        <div className="relative flex items-center gap-3 mt-12 pl-4">
+        <div className="relative flex items-center gap-3 mt-12 pl-2">
           <div className="w-5 h-5 rounded-full bg-purple-500 border-4 border-[#06060c] drop-shadow-[0_0_10px_rgba(168,85,247,0.9)] z-10" />
           <span className="text-xs font-black uppercase tracking-[0.2em] text-white bg-purple-600 px-4 py-1.5 rounded-full drop-shadow-[0_0_10px_rgba(168,85,247,0.6)] font-mono z-10">
             CONTINUE · INAUGURAL 1998 VOYAGE 🏆
