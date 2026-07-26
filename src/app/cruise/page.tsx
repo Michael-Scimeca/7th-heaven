@@ -1888,7 +1888,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Crucial Passport Warning Callout */}
-          <div className="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-left mb-12 flex items-start gap-4">
+          <div className="py-4 text-left mb-12 flex items-start gap-4">
             <span className="text-3xl shrink-0">🛂</span>
             <div>
               <h4 className="text-sm font-black text-white uppercase tracking-wider">Crucial Passport Requirements</h4>
