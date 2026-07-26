@@ -191,8 +191,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   }
                   const angle = lastAngleRef.current;
 
-                  // Progressive ship scale: grows from 1.0x (1998 Inaugural) to 2.35x (2028 Modern Mega-Ship)
-                  shipScaleRef.current = 1.0 + self.progress * 1.35;
+                  // Progressive ship scale: grows by +0.1 in scale for each year passed along history timeline
+                  const totalHistoryYears = chronologicalHistory.length || 23;
+                  const yearsPassed = self.progress * (totalHistoryYears - 1);
+                  shipScaleRef.current = 1.0 + yearsPassed * 0.1;
 
                   shipDivRef.current.style.left = `${pt.x}px`;
                   shipDivRef.current.style.top = `${pt.y}px`;
