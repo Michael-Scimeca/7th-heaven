@@ -443,10 +443,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </p>
       </div>
 
-      {/* ── DESKTOP CODEPEN SERPENTINE SNAKE TIMELINE (MATCHING NAVBAR WIDTH: max-w-[1400px]) ── */}
+      {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (MATCHING NAVBAR WIDTH: max-w-[1400px]) ── */}
       <div
         ref={desktopContainerRef}
-        className="hidden lg:block w-full max-w-[1400px] mx-auto py-8 px-8 lg:px-12 relative"
+        className="hidden md:block w-full max-w-[1400px] mx-auto py-8 px-4 md:px-8 lg:px-12 relative"
         style={{ overflow: 'visible' }}
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
@@ -499,8 +499,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <feTurbulence type="fractalNoise" baseFrequency="0.02 0.05" numOctaves="2" result="noise">
                   <animate
                     attributeName="baseFrequency"
-                    values="0.02 0.05; 0.03 0.08; 0.02 0.05"
-                    dur="6s"
+                    dur="16s"
+                    values="0.02 0.05; 0.04 0.08; 0.02 0.05"
                     repeatCount="indefinite"
                   />
                 </feTurbulence>
@@ -555,7 +555,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               ref={startDotRef}
               className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10"
             />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
+            <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-full font-mono z-10">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>
@@ -570,12 +570,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div
                 key={rowIndex}
                 ref={(el) => { rowRefs.current[rowIndex] = el; }}
-                className="relative mb-24 last:mb-0"
+                className="relative mb-16 md:mb-20 lg:mb-24 last:mb-0"
               >
                 {/* YEAR HEADERS ROW */}
                 <div
                   data-year-header-row
-                  className={`relative flex justify-between items-center px-6 h-12 z-30 ${
+                  className={`relative flex justify-between items-center px-2 md:px-4 lg:px-6 h-12 z-30 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
@@ -587,7 +587,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     return paddedItems.map((hist, itemIndex) => {
                       if (!hist) {
                         return (
-                          <div key={`dummy-${itemIndex}`} className="w-[340px] xl:w-[380px] shrink-0 opacity-0 pointer-events-none" />
+                          <div
+                            key={`dummy-${itemIndex}`}
+                            className="shrink-0 opacity-0 pointer-events-none"
+                            style={{ width: 'clamp(200px, 24vw, 380px)' }}
+                          />
                         );
                       }
 
@@ -608,20 +612,23 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       return (
                         <div
                           key={itemIndex}
-                          className={`w-[340px] xl:w-[380px] shrink-0 z-30 group ${flexAlignClass}`}
+                          className={`shrink-0 z-30 group ${flexAlignClass}`}
+                          style={{ width: 'clamp(200px, 24vw, 380px)' }}
                         >
                           <div
                             data-year-badge
-                            className={`inline-block px-6 py-1.5 rounded-2xl z-40 transition-all duration-300 ${
+                            className={`inline-block rounded-2xl z-40 transition-all duration-300 ${
                               isReached
                                 ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
                                 : 'bg-[#06060c] border border-white/10'
                             }`}
+                            style={{ padding: 'clamp(0.25rem, 0.6vw, 0.5rem) clamp(0.75rem, 1.5vw, 1.5rem)' }}
                           >
                             <h6
-                              className={`text-4xl md:text-5xl font-black font-mono tracking-tight transition-colors leading-none ${
+                              className={`font-black font-mono tracking-tight transition-colors leading-none ${
                                 isReached ? 'text-cyan-300' : 'text-white/40'
                               }`}
+                              style={{ fontSize: 'clamp(1.5rem, 3.2vw, 3rem)' }}
                             >
                               {hist.year}
                             </h6>
@@ -634,7 +641,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* CARDS ROW */}
                 <div
-                  className={`flex justify-between items-start px-6 mt-4 ${
+                  className={`flex justify-between items-start px-2 md:px-4 lg:px-6 mt-4 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
@@ -646,7 +653,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     return paddedItems.map((hist, itemIndex) => {
                       if (!hist) {
                         return (
-                          <div key={`dummy-card-${itemIndex}`} className="w-[340px] xl:w-[380px] shrink-0 opacity-0 pointer-events-none" />
+                          <div
+                            key={`dummy-card-${itemIndex}`}
+                            className="shrink-0 opacity-0 pointer-events-none"
+                            style={{ width: 'clamp(200px, 24vw, 380px)' }}
+                          />
                         );
                       }
 
@@ -664,36 +675,43 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       return (
                         <div
                           key={itemIndex}
-                          className="w-[340px] xl:w-[380px] shrink-0 group text-left"
+                          className="shrink-0 group text-left"
+                          style={{ width: 'clamp(200px, 24vw, 380px)' }}
                         >
                           <div
-                            className={`bg-[#0c0c16]/90 backdrop-blur-xl p-6 rounded-3xl transition-all duration-300 ${
+                            className={`bg-[#0c0c16]/90 backdrop-blur-xl rounded-2xl md:rounded-3xl transition-all duration-300 ${
                               isReached
                                 ? 'border border-cyan-400/70 -translate-y-1'
                                 : 'border border-white/10 opacity-60'
                             }`}
+                            style={{ padding: 'clamp(0.75rem, 1.5vw, 1.5rem)' }}
                           >
                             <div className="flex items-center justify-between gap-2 mb-2">
                               <span
-                                className={`text-[10px] font-black uppercase tracking-widest font-mono px-3 py-0.5 rounded transition-colors ${
+                                className={`font-black uppercase tracking-widest font-mono rounded transition-colors ${
                                   isReached
                                     ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
                                     : 'text-white/40 bg-white/5 border border-white/10'
                                 }`}
+                                style={{ fontSize: 'clamp(0.55rem, 0.75vw, 0.65rem)', padding: '0.125rem 0.5rem' }}
                               >
                                 VOYAGE #{voyageNum}
                               </span>
-                              <span className="text-sm">🚢</span>
+                              <span style={{ fontSize: 'clamp(0.75rem, 1vw, 0.875rem)' }}>🚢</span>
                             </div>
 
                             <h4
-                              className={`text-base font-black uppercase leading-snug transition-colors ${
+                              className={`font-black uppercase leading-snug transition-colors ${
                                 isReached ? 'text-white' : 'text-white/60'
                               }`}
+                              style={{ fontSize: 'clamp(0.75rem, 1.1vw, 1rem)' }}
                             >
                               {hist.ship}
                             </h4>
-                            <p className="text-xs text-white/50 mt-2 leading-relaxed font-sans">
+                            <p
+                              className="text-white/50 mt-2 leading-relaxed font-sans"
+                              style={{ fontSize: 'clamp(0.65rem, 0.85vw, 0.75rem)' }}
+                            >
                               {hist.details}
                             </p>
                           </div>
@@ -708,10 +726,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </div>
       </div>
 
-      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MD & BELOW) ── */}
+      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD) ── */}
       <div
         ref={mobileContainerRef}
-        className="block lg:hidden relative max-w-lg mx-auto py-6 px-4"
+        className="block md:hidden relative max-w-lg mx-auto py-6 px-4 sm:px-6"
       >
         <svg className="absolute left-6 top-4 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
           <path
