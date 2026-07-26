@@ -637,17 +637,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <p className="text-sm font-black text-amber-400 uppercase tracking-widest mb-4">
                 Book through us to participate
               </p>
-              <p className="text-white/60 text-xs leading-relaxed mb-6">
+              <p className="text-base text-white/80 leading-relaxed mb-6">
                 To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
               </p>
               <div className="py-2 space-y-3">
-                <p className="text-xs text-white/50">
+                <p className="text-base text-white/80">
                   📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
                 </p>
-                <p className="text-xs text-white/50">
+                <p className="text-base text-white/80">
                   💳 <strong>Deposit:</strong> $250 per person to secure cabin.
                 </p>
-                <p className="text-xs text-white/50">
+                <p className="text-base text-white/80">
                   📅 <strong>Final Payment:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
                 </p>
               </div>
@@ -661,7 +661,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4">
                 Flexible rates & price drop matching
               </p>
-              <ul className="space-y-3 text-xs text-white/60 leading-normal">
+              <ul className="space-y-4 text-base text-white/80 leading-relaxed">
                 <li className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold shrink-0">✓</span>
                   <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions.</span>
@@ -685,11 +685,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
                 Refund terms before booking
               </p>
-              <div className="space-y-4 text-xs text-white/60 leading-relaxed">
+              <div className="space-y-4 text-base text-white/80 leading-relaxed">
                 <div>
-                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-1">Group Rate Rooms:</h4>
+                  <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Group Rate Rooms:</h4>
                   {activePriceYear === 2027 ? (
-                    <ul className="list-disc pl-4 space-y-0.5">
+                    <ul className="list-disc pl-5 space-y-1 text-base text-white/80">
                       <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
                       <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
                       <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
@@ -698,7 +698,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <li>After Dec 10, 2026: <strong>No refund</strong></li>
                     </ul>
                   ) : (
-                    <ul className="list-disc pl-4 space-y-0.5">
+                    <ul className="list-disc pl-5 space-y-1 text-base text-white/80">
                       <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
                       <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
                       <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
@@ -709,8 +709,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   )}
                 </div>
                 <div>
-                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-0.5">Prevailing Rate:</h4>
-                  <p>Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
+                  <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Prevailing Rate:</h4>
+                  <p className="text-base text-white/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
                 </div>
               </div>
             </div>
@@ -724,7 +724,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <p className="text-sm font-black text-amber-300 uppercase tracking-widest mb-4">
                 Essential travel document guidelines
               </p>
-              <div className="space-y-3 text-xs text-white/70 leading-relaxed">
+              <div className="space-y-4 text-base text-white/80 leading-relaxed">
                 <p>
                   A physical passport book valid for 6 months post-cruise is <strong>highly recommended</strong> for all travelers.
                 </p>
