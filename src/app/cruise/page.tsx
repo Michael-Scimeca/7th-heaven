@@ -1845,25 +1845,68 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
 
             {/* Food Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs text-white/80">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs text-white/80">
               {(foodTypeTab === "included"
                 ? [
-                    "Windjammer Buffet", "Main Dining Room", "Park Cafe", "Pearl Cafe",
-                    "Sorrento's Pizza", "Basecamp", "Surfside Bites", "Surfside Eatery",
-                    "El Loco Fresh", "Creme De La Crepe", "Pig Out BBQ", "Toast & Garden",
-                    "Mai Thai", "Feta Mediterranean", "La Cocinita", "Sprinkles Ice Cream",
-                    "Coastal Kitchen (Suites)", "The Grove (Suites)", "Vitality Cafe", "Room Service (Breakfast)"
+                    { name: "Windjammer Buffet", img: "/images/venues/dining_buffet.png", tag: "Buffet" },
+                    { name: "Main Dining Room", img: "/images/venues/dining_steakhouse.png", tag: "Main Dining" },
+                    { name: "Park Cafe", img: "/images/venues/trellis.png", tag: "Deli & Bites" },
+                    { name: "Pearl Cafe", img: "/images/venues/trellis.png", tag: "24/7 Snacks" },
+                    { name: "Sorrento's Pizza", img: "/images/venues/lime_coconut.png", tag: "Fresh Pizza" },
+                    { name: "Basecamp", img: "/images/venues/hideaway.png", tag: "Casual Eats" },
+                    { name: "Surfside Bites", img: "/images/venues/surf.png", tag: "Quick Service" },
+                    { name: "Surfside Eatery", img: "/images/venues/dining_buffet.png", tag: "Family Buffet" },
+                    { name: "El Loco Fresh", img: "/images/venues/lime_coconut.png", tag: "Mexican" },
+                    { name: "Creme De La Crepe", img: "/images/venues/trellis.png", tag: "Creperie" },
+                    { name: "Pig Out BBQ", img: "/images/venues/lime_coconut.png", tag: "BBQ Grill" },
+                    { name: "Toast & Garden", img: "/images/venues/trellis.png", tag: "Breakfast" },
+                    { name: "Mai Thai", img: "/images/venues/hideaway.png", tag: "Asian Fusion" },
+                    { name: "Feta Mediterranean", img: "/images/venues/trellis.png", tag: "Greek & Med" },
+                    { name: "La Cocinita", img: "/images/venues/lime_coconut.png", tag: "Street Food" },
+                    { name: "Sprinkles Ice Cream", img: "/images/venues/surf.png", tag: "Soft Serve" },
+                    { name: "Coastal Kitchen (Suites)", img: "/images/venues/dining_steakhouse.png", tag: "Suite Dining" },
+                    { name: "The Grove (Suites)", img: "/images/venues/hideaway.png", tag: "Suite Buffet" },
+                    { name: "Vitality Cafe", img: "/images/venues/trellis.png", tag: "Healthy Eats" },
+                    { name: "Room Service (Breakfast)", img: "/images/venues/dining_buffet.png", tag: "In-Stateroom" },
                   ]
                 : [
-                    "Chops Grille", "Izumi Hibachi", "Izumi Sushi", "Izumi in the Park",
-                    "Hooked Seafood", "Giovanni's Italian Kitchen", "Playmakers Sports Bar", "Lincoln Park Supper Club",
-                    "Desserted Milkshake Bar", "Pier 7", "Celebration Table", "Starbucks Coffee",
-                    "Sugar Beach", "Room Service (Lunch/Dinner)", "Trellis Bar Dining"
+                    { name: "Chops Grille", img: "/images/venues/dining_steakhouse.png", tag: "Steakhouse" },
+                    { name: "Izumi Hibachi", img: "/images/venues/dining_steakhouse.png", tag: "Teppanyaki" },
+                    { name: "Izumi Sushi", img: "/images/venues/hideaway.png", tag: "Sushi Bar" },
+                    { name: "Izumi in the Park", img: "/images/venues/trellis.png", tag: "Walk-Up Asian" },
+                    { name: "Hooked Seafood", img: "/images/venues/dining_buffet.png", tag: "Seafood" },
+                    { name: "Giovanni's Italian Kitchen", img: "/images/venues/trellis.png", tag: "Trattoria" },
+                    { name: "Playmakers Sports Bar", img: "/images/venues/lime_coconut.png", tag: "Pub & Arcade" },
+                    { name: "Lincoln Park Supper Club", img: "/images/venues/dining_steakhouse.png", tag: "Fine Dining" },
+                    { name: "Desserted Milkshake Bar", img: "/images/venues/surf.png", tag: "Over-the-Top Shakes" },
+                    { name: "Pier 7", img: "/images/venues/lime_coconut.png", tag: "Beach Club" },
+                    { name: "Celebration Table", img: "/images/venues/dining_steakhouse.png", tag: "VIP Dining" },
+                    { name: "Starbucks Coffee", img: "/images/venues/trellis.png", tag: "Espresso Bar" },
+                    { name: "Sugar Beach", img: "/images/venues/surf.png", tag: "Candy & Treats" },
+                    { name: "Room Service (Lunch/Dinner)", img: "/images/venues/dining_steakhouse.png", tag: "24/7 In-Room" },
+                    { name: "Trellis Bar Dining", img: "/images/venues/trellis.png", tag: "Outdoor Dining" },
                   ]
               ).map((food, idx) => (
-                <div key={idx} className="bg-transparent p-2.5 flex items-center gap-2.5 hover:bg-white/[0.04] rounded-xl transition-all">
-                  <span className="text-cyan-400 font-extrabold shrink-0">✓</span>
-                  <span className="font-semibold text-white">{food}</span>
+                <div
+                  key={idx}
+                  className="flex items-center gap-4 bg-transparent hover:bg-white/[0.04] p-2.5 rounded-2xl transition-all duration-300 group cursor-pointer"
+                >
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden shrink-0 border border-white/10 shadow-lg">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={food.img}
+                      alt={food.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-extrabold text-white text-sm md:text-base leading-snug group-hover:text-cyan-300 transition-colors">
+                      {food.name}
+                    </p>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/15 border border-cyan-500/30 px-2.5 py-0.5 rounded-full inline-block mt-1.5 font-bold">
+                      {food.tag}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -1987,7 +2030,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
       {/* ── SECTION 5: FAQS & HISTORY ── */}
       <section id="faqs" className="py-20 site-container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Cruise FAQs <span className="accent-gradient-text">& Travel History</span>
             </h2>
@@ -1997,11 +2040,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Crucial Passport Warning Callout */}
-          <div className="py-4 text-left mb-12 flex items-start gap-4">
+          <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 md:p-6 mb-12 text-left flex items-start gap-4 shadow-xl">
             <span className="text-3xl shrink-0">🛂</span>
             <div>
-              <h4 className="text-sm font-black text-white uppercase tracking-wider">Crucial Passport Requirements</h4>
-              <p className="text-xs text-white/50 leading-relaxed mt-1">
+              <h4 className="text-sm md:text-base font-black text-amber-300 uppercase tracking-wider flex items-center gap-2">
+                <span>Crucial Passport Requirements</span>
+              </h4>
+              <p className="text-xs md:text-sm text-white/90 font-medium leading-relaxed mt-1.5">
                 A physical passport book valid for 6 months post-cruise is highly recommended for all travelers. For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method. Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-bold underline hover:text-white">travel.state.gov</a> to ensure compliance.
               </p>
             </div>
