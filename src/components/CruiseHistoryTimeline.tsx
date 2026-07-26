@@ -50,8 +50,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             </span>
           </div>
 
-          {/* Smooth Curve connecting START badge down into left-[60px] of 2028 */}
-          <div className="absolute left-[10px] top-[10px] bottom-[-4.55rem] w-[50px] border-l-[2.5px] border-b-[2.5px] border-cyan-400 rounded-bl-[20px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
+          {/* Smooth Curve centered directly under the START dot (left-[17.5px] centers the 2.5px stroke with 20px dot) */}
+          <div className="absolute left-[17.5px] top-[10px] bottom-[-4.55rem] w-[42.5px] border-l-[2.5px] border-b-[2.5px] border-cyan-400 rounded-bl-[20px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
