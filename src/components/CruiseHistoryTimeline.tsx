@@ -179,7 +179,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               onUpdate: (self) => {
                 setDesktopProgress(self.progress);
                 if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
-                  const len = Math.min(desktopPathLength, Math.max(0, self.progress * desktopPathLength));
+                  const progress = Math.min(1.0, Math.max(0, self.progress));
+                  const currentScale = 0.3 + progress * 0.55;
+                  shipScaleRef.current = currentScale;
+
+                  // Offset travel length by front bow half-length so the front bow tip stops exactly at the end of the line
+                  const halfBowOffset = 70 * currentScale;
+                  const maxTravelLength = Math.max(0, desktopPathLength - halfBowOffset);
+                  const len = Math.min(maxTravelLength, Math.max(0, progress * maxTravelLength));
+
                   const pt = desktopPathRef.current.getPointAtLength(len);
                   const pPrev = desktopPathRef.current.getPointAtLength(Math.max(0, len - 15));
                   const pNext = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, len + 15));
@@ -190,9 +198,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     lastAngleRef.current = Math.atan2(dy, dx);
                   }
                   const angle = lastAngleRef.current;
-
-                  // Progressive ship scale: starts compact (0.3x ~55px) at 1998 and scales to (0.85x ~160px) at 2028 end
-                  shipScaleRef.current = 0.3 + self.progress * 0.55;
 
                   shipDivRef.current.style.left = `${pt.x}px`;
                   shipDivRef.current.style.top = `${pt.y}px`;
