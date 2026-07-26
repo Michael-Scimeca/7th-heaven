@@ -334,7 +334,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const shipContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs   = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Load saved tuning from localStorage on mount (position boat ABOVE the path line)
+  // Load saved tuning from localStorage on mount (position boat cleanly on the path line)
   useEffect(() => {
     try {
       const savedStr = localStorage.getItem('7h_cruise_tuning');
@@ -343,8 +343,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.shipScale = 1.5;
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
-        saved.shipOffsetY = 1.05;
-        setTuning({ ...DEFAULT_TUNING, ...saved });
+        saved.shipOffsetY = 0.20;
+        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.20 });
       }
     } catch {}
   }, []);

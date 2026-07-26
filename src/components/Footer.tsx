@@ -168,6 +168,7 @@ export function Footer() {
             </div>
           ) : (
             <form
+              suppressHydrationWarning
               onSubmit={async (e) => {
                 e.preventDefault();
                 const digits = smsPhone.replace(/\D/g, '');
