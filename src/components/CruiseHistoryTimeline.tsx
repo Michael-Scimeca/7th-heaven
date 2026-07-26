@@ -50,8 +50,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             </span>
           </div>
 
-          {/* Smooth Curve connecting START badge down and extending right directly into 2028 */}
-          <div className="absolute left-[10px] top-[10px] bottom-[-2.25rem] w-[110px] border-l-[2.5px] border-b-[2.5px] border-cyan-400 rounded-bl-[20px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
+          {/* Smooth Curve connecting START badge down into left-[60px] of 2028 */}
+          <div className="absolute left-[10px] top-[10px] bottom-[-4.42rem] w-[50px] border-l-[2.5px] border-b-[2.5px] border-cyan-400 rounded-bl-[20px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
@@ -62,15 +62,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
             return (
               <div key={rowIndex} className="relative mb-24 last:mb-0">
-                {/* 100% Perfect Continuous Side Bends connecting Row N line down to Row N+1 line */}
+                {/* 100% Perfect Continuous Side Bends with 24px spacing from card boxes */}
                 {!isLastRow && (
                   <>
                     {isEvenRow ? (
-                      /* RIGHT SIDE BEND: Exits 2026 right, drops down full height to 2025 right */
-                      <div className="absolute right-[24px] top-[22.75px] bottom-[-7.5rem] w-[36px] border-r-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tr-[36px] rounded-br-[36px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
+                      /* RIGHT SIDE BEND: Exits 2026 right, curves 52px out to right-[8px] (spacious gap from card box), drops, and curves back to 2025 right */
+                      <div className="absolute right-[8px] top-[22.75px] bottom-[-7.65rem] w-[52px] border-r-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tr-[44px] rounded-br-[44px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
                     ) : (
-                      /* LEFT SIDE BEND: Exits 2023 left, drops down full height to 2022 left */
-                      <div className="absolute left-[24px] top-[22.75px] bottom-[-7.5rem] w-[36px] border-l-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tl-[36px] rounded-bl-[36px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
+                      /* LEFT SIDE BEND: Exits 2023 left, curves 52px out to left-[8px] (spacious gap from card box), drops, and curves back to 2022 left */
+                      <div className="absolute left-[8px] top-[22.75px] bottom-[-7.65rem] w-[52px] border-l-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tl-[44px] rounded-bl-[44px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
                     )}
                   </>
                 )}
