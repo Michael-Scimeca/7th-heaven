@@ -780,13 +780,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               </div>
 
               {/* 3D Ship Model Scale */}
-              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+              <div className="bg-black/30 border border-white/10 p-3 rounded-2xl space-y-1.5 backdrop-blur-sm">
                 <div className="flex justify-between items-center text-white/90 font-bold">
                   <span>🔎 3D Ship Scale</span>
-                  <span className="text-cyan-400 font-mono">{(tuning.shipScale ?? 1.8).toFixed(1)}x</span>
+                  <span className="text-cyan-400 font-mono">{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
                 </div>
                 <input
-                  type="range" min="0.5" max="4.0" step="0.1"
+                  type="range" min="0.05" max="8.0" step="0.05"
                   value={tuning.shipScale ?? 1.8}
                   onChange={e => setTuning({ ...tuning, shipScale: Number(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"

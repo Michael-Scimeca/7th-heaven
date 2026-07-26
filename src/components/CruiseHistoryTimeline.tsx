@@ -570,7 +570,20 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── Persistent Floating History Settings Button & Modal Drawer ── */}
       {showSettings && mounted && createPortal(
         <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-black/20 pointer-events-none animate-in fade-in duration-200">
-          <div className="fixed bottom-16 left-6 w-[440px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#060614]/40 border-2 border-cyan-400/50 rounded-3xl backdrop-blur-2xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto">
+          <div 
+            data-settings-panel
+            className="fixed bottom-16 left-6 w-[440px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#060614]/40 border-2 border-cyan-400/50 rounded-3xl backdrop-blur-2xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto"
+          >
+            <style>{`
+              [data-settings-panel], [data-settings-panel] * {
+                cursor: default !important;
+              }
+              [data-settings-panel] input[type="range"],
+              [data-settings-panel] button,
+              [data-settings-panel] a {
+                cursor: pointer !important;
+              }
+            `}</style>
             <div className="flex items-center justify-between border-b border-cyan-500/30 pb-3 mb-5">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚙️</span>
@@ -595,32 +608,32 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 </div>
                 <input
                   type="range"
-                  min="0.20"
-                  max="2.00"
+                  min="0.05"
+                  max="5.00"
                   step="0.05"
                   value={tuning.startScale}
                   onChange={e => setTuning({ ...tuning, startScale: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[10px] text-white/40 mt-1">Starting size of the 3D ship at 1998 Inaugural Voyage.</p>
+                <p className="text-[10px] text-white/40 mt-1">Starting size of the 3D ship at 1998 Inaugural Voyage (0.05x to 5.00x).</p>
               </div>
 
               {/* 2. Growth Per Year */}
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-white/90">📈 Growth Rate Per Year (+Scale/Yr)</span>
-                  <span className="text-cyan-400 font-mono font-bold">+{tuning.growthPerYear.toFixed(3)}</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.growthPerYear >= 0 ? '+' : ''}{tuning.growthPerYear.toFixed(3)}</span>
                 </div>
                 <input
                   type="range"
-                  min="0.000"
-                  max="0.300"
+                  min="-0.200"
+                  max="1.000"
                   step="0.005"
                   value={tuning.growthPerYear}
                   onChange={e => setTuning({ ...tuning, growthPerYear: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[10px] text-white/40 mt-1">How much larger the ship gets for every passed year.</p>
+                <p className="text-[10px] text-white/40 mt-1">How much larger (or smaller) the ship gets for every passed year.</p>
               </div>
 
               {/* 3. Bow Offset */}
@@ -631,14 +644,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 </div>
                 <input
                   type="range"
-                  min="0"
-                  max="150"
+                  min="-100"
+                  max="400"
                   step="5"
                   value={tuning.bowOffsetPx}
                   onChange={e => setTuning({ ...tuning, bowOffsetPx: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[10px] text-white/40 mt-1">Ensures the front bow tip lands exactly at the end of the line.</p>
+                <p className="text-[10px] text-white/40 mt-1">Ensures the front bow tip lands exactly at the end of the line (-100px to 400px).</p>
               </div>
 
               {/* 4. Scroll Start Target */}
