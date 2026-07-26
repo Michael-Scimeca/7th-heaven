@@ -352,7 +352,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             setDesktopProgress(self.progress);
             if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
               const scrollProgress = Math.min(1.0, Math.max(0, self.progress));
-              const maxTravelLen = Math.max(0, desktopPathLength - 250);
+              const maxTravelLen = Math.max(0, desktopPathLength - 225);
               setShipMaxTravelLength(maxTravelLen);
 
               // Accelerated linear path movement along X, backed off 300px from end
