@@ -40,6 +40,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const desktopContainerRef = useRef<HTMLDivElement>(null);
   const desktopPathRef = useRef<SVGPathElement>(null);
   const shipDivRef = useRef<HTMLDivElement>(null);
+  const lastAngleRef = useRef(0);
   const startDotRef = useRef<HTMLDivElement>(null);
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -176,12 +177,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               onUpdate: (self) => {
                 setDesktopProgress(self.progress);
                 if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
-                  const len = self.progress * desktopPathLength;
-                  const pt = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, Math.max(0, len)));
-                  const ptNext = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, len + 15));
-                  const dx = ptNext.x - pt.x;
-                  const dy = ptNext.y - pt.y;
-                  const angle = Math.atan2(dy, dx);
+                  const len = Math.min(desktopPathLength, Math.max(0, self.progress * desktopPathLength));
+                  const pt = desktopPathRef.current.getPointAtLength(len);
+                  const pPrev = desktopPathRef.current.getPointAtLength(Math.max(0, len - 15));
+                  const pNext = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, len + 15));
+                  const dx = pNext.x - pPrev.x;
+                  const dy = pNext.y - pPrev.y;
+
+                  if (Math.abs(dx) > 0.001 || Math.abs(dy) > 0.001) {
+                    lastAngleRef.current = Math.atan2(dy, dx);
+                  }
+                  const angle = lastAngleRef.current;
 
                   shipDivRef.current.style.left = `${pt.x}px`;
                   shipDivRef.current.style.top = `${pt.y}px`;
