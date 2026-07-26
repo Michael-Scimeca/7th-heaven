@@ -15,6 +15,19 @@ type Props = {
   history: HistoryItem[];
 };
 
+// Custom Vector SVG Water Drop Icon for Mini-Map Track
+const WaterDropIcon = ({ className = '', fill = 'currentColor' }: { className?: string; fill?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={`transition-all duration-300 ${className}`}
+  >
+    <path
+      d="M 12 2.5 C 12 2.5 4.5 11 4.5 15.5 C 4.5 19.64 7.86 23 12 23 C 16.14 23 19.5 19.64 19.5 15.5 C 19.5 11 12 2.5 12 2.5 Z"
+      fill={fill}
+    />
+  </svg>
+);
+
 export default function CruiseHistoryTimeline({ history }: Props) {
   const desktopContainerRef = useRef<HTMLDivElement>(null);
   const desktopPathRef = useRef<SVGPathElement>(null);
@@ -241,7 +254,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </p>
       </div>
 
-      {/* ── FIXED BOTTOM-RIGHT SCROLL MINI-MAP & YEAR NAVIGATION CAROUSEL (UNTIL END OF SECTION) ── */}
+      {/* ── FIXED BOTTOM-RIGHT SCROLL MINI-MAP & YEAR NAVIGATION CAROUSEL (SVG WATER DROPS) ── */}
       <div
         className={`fixed bottom-6 right-6 z-50 transition-all duration-500 max-w-sm sm:max-w-md w-auto ${
           isMiniMapVisible
@@ -264,8 +277,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-white" />
           </div>
 
-          {/* 23 Milestone Dots Track */}
-          <div className="flex items-center gap-1.5 sm:gap-2 px-1">
+          {/* 23 SVG Water Drops Track */}
+          <div className="flex items-center gap-1 sm:gap-1.5 px-1">
             {chronologicalHistory.map((item, idx) => {
               const isPast = idx < activeYearIndex;
               const isActive = idx === activeYearIndex;
@@ -285,14 +298,22 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     </div>
                   </div>
 
-                  <div
-                    className={`rounded-full transition-all duration-300 ${
+                  {/* SVG Water Drop Teardrop Icon */}
+                  <WaterDropIcon
+                    fill={
                       isActive
-                        ? 'w-3.5 h-3.5 bg-cyan-300 scale-125'
+                        ? '#00f2fe'
                         : isPast
-                        ? 'w-2 h-2 bg-cyan-400/80 hover:scale-125'
-                        : 'w-2 h-2 bg-white/20 hover:bg-white/50 hover:scale-125'
-                    }`}
+                        ? '#06b6d4'
+                        : 'rgba(255, 255, 255, 0.25)'
+                    }
+                    className={
+                      isActive
+                        ? 'w-4 h-4 sm:w-4.5 sm:h-4.5 scale-125'
+                        : isPast
+                        ? 'w-3 h-3 sm:w-3.5 sm:h-3.5 hover:scale-125'
+                        : 'w-3 h-3 sm:w-3.5 sm:h-3.5 hover:scale-125'
+                    }
                   />
                 </button>
               );
