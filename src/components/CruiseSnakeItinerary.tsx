@@ -146,6 +146,8 @@ export type CruiseTuningConfig = {
   nodeMinScale: number;    // Minimum scale factor over port circle center (0.0 to 1.0)
   nodeAction: string;      // Action mode: 'hide' | 'bounce' | 'spin'
   nodePopDist: number;     // Distance past port circle to pop back up (20 to 200px)
+  shipAdvancePx: number;   // Advance ship front bow along path (-200 to +300px)
+  lineFillLeadPx: number;  // Blue line lead/lag offset relative to ship (-200 to +200px)
 };
 
 const DEFAULT_TUNING: CruiseTuningConfig = {
@@ -167,6 +169,8 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   nodeMinScale: 0.0,
   nodeAction: 'hide',
   nodePopDist: 60,
+  shipAdvancePx: 80,
+  lineFillLeadPx: 0,
 };
 
 type LayoutMode = 'alternating' | 'harbor' | 'center' | 'zigzag';
@@ -469,11 +473,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const viewportFocusY = viewH * (t.scrollStartMul ?? 0.45);
         const relativeScrollY = viewportFocusY - rect.top;
         const rawProgress = (relativeScrollY - startY) / Math.max(1, endY - startY);
-        const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
-        // Calculate target ship position along path (advancing front bow to land at circle node ring)
-        const rawShipDist = Math.max(0, Math.min(totalLen - 20, progress * (totalLen - 20) + 80));
-        // Sync solid blue line fill length 1:1 with ship position so blue line flows directly into ship hull
-        const targetOffset = totalLen - rawShipDist;
+        const shipAdvance = t.shipAdvancePx ?? 80;
+        const lineLead = t.lineFillLeadPx ?? 0;
+        // Calculate target ship position along path
+        const rawShipDist = Math.max(0, Math.min(totalLen - 20, progress * (totalLen - 20) + shipAdvance));
+        // Sync solid blue line fill length with ship position + line lead offset
+        const targetOffset = totalLen - (rawShipDist + lineLead);
 
         // Section is in range when the scroll focus position reaches the canvas top and bottom hasn't completely scrolled out
         const isSectionInRange = relativeScrollY > 0 && rect.bottom > 100;
@@ -948,10 +953,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
       <div ref={canvasRef} className={styles.canvas} style={{ height: totalH, maxWidth: SVG_W }}>
-        {/* Ambient glows */}
-        <div className={styles.glowCyan} />
-        <div className={styles.glowPurple} />
-
         {/* SVG — path + nodes */}
         <svg
           className={styles.svg}
@@ -959,22 +960,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           preserveAspectRatio="none"
           aria-hidden="true"
         >
-          <defs>
-            <linearGradient id="cruiseGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"   stopColor="#06b6d4" />
-              <stop offset="50%"  stopColor="#06b6d4" />
-              <stop offset="100%" stopColor="#06b6d4" />
-            </linearGradient>
-            <filter id="cruiseGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation={tuning.glowBlur ?? 6} result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          {/* FULL ROUTE GUIDE TRACK — Hidden transparent guide path (used for boat path calculations) */}
+          {/* FULL ROUTE GUIDE TRACK — Hidden transparent guide path */}
           <path
             ref={trackRef}
             d={initialPathD}
@@ -992,7 +978,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             stroke="#06b6d4"
             strokeWidth={tuning.lineWidth ?? 6}
             strokeLinecap="round"
-            filter="url(#cruiseGlow)"
           />
 
           {/* Flowing current dashes on the fill */}
@@ -1186,10 +1171,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   pointerEvents: 'none',
                   color: themeColor,
                   backgroundColor: '#060614',
-                  borderColor: `color-mix(in srgb, ${themeColor} 50%, transparent)`,
-                  boxShadow: isActive 
-                    ? `0 0 20px color-mix(in srgb, ${themeColor} 60%, transparent)` 
-                    : '0 0 10px rgba(0,0,0,0.5)',
+                  borderColor: `color-mix(in srgb, ${themeColor} 40%, transparent)`,
+                  boxShadow: 'none',
                 }}
                 className={`whitespace-nowrap border text-[11px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
                   isActive ? 'scale-105 opacity-100' : 'opacity-85'
@@ -1209,7 +1192,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   borderRadius: '50%',
                   backgroundColor: '#0a0a12',
                   border: isActive ? '3px solid #06b6d4' : '2px solid rgba(6,182,212,0.4)',
-                  boxShadow: isActive ? '0 0 25px rgba(6,182,212,0.7)' : 'none',
+                  boxShadow: 'none',
                   zIndex: isActive ? 30 : 25,
                   overflow: 'hidden',
                   transition: 'all 0.3s ease',
