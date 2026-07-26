@@ -4,39 +4,43 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
-import type * as THREE from 'three';
+import * as THREE from 'three';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
 function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<number> }) {
   const { scene } = useGLTF('/objects/ship.glb');
-  const clonedScene = React.useMemo(() => {
+  const { clonedScene, maxDim } = React.useMemo(() => {
     const c = scene.clone();
     c.traverse((child) => {
       child.matrixAutoUpdate = true;
     });
-    return c;
+
+    const box = new THREE.Box3().setFromObject(c);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    c.position.sub(center);
+
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const maxDim = Math.max(size.x, size.y, size.z) || 1;
+
+    return { clonedScene: c, maxDim };
   }, [scene]);
 
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame(({ camera }) => {
-    const s = shipScaleRef.current ?? 1.0;
+    const targetLengthPx = shipScaleRef.current ?? 150;
     if (groupRef.current) {
       groupRef.current.rotation.set(0, 0, 0);
-      groupRef.current.scale.set(s, s, s);
+      const scale = targetLengthPx / maxDim;
+      groupRef.current.scale.set(scale, scale, scale);
       groupRef.current.updateMatrixWorld(true);
-    }
-    if (clonedScene) {
-      clonedScene.scale.set(s, s, s);
-      clonedScene.traverse((child) => {
-        child.matrixAutoUpdate = true;
-      });
-      clonedScene.updateMatrixWorld(true);
     }
     if (camera && 'zoom' in camera) {
       const orthCamera = camera as THREE.OrthographicCamera;
-      orthCamera.zoom = 22 * s;
+      orthCamera.zoom = 1;
       orthCamera.updateProjectionMatrix();
     }
   });
@@ -92,7 +96,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const desktopContainerRef = useRef<HTMLDivElement>(null);
   const desktopPathRef = useRef<SVGPathElement>(null);
   const shipDivRef = useRef<HTMLDivElement>(null);
-  const shipScaleRef = useRef(1.0);
+  const shipScaleRef = useRef(150);
   const lastAngleRef = useRef(0);
   const startDotRef = useRef<HTMLDivElement>(null);
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -348,7 +352,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             setDesktopProgress(self.progress);
             if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
               const scrollProgress = Math.min(1.0, Math.max(0, self.progress));
-              const maxTravelLen = Math.max(0, desktopPathLength - 300);
+              const maxTravelLen = Math.max(0, desktopPathLength - 250);
               setShipMaxTravelLength(maxTravelLen);
 
               // Accelerated linear path movement along X, backed off 300px from end
@@ -356,11 +360,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               const pathDistance = Math.min(maxTravelLen, Math.max(0, xProgress * maxTravelLen));
               setCurrentShipLength(pathDistance);
 
-              // Linear scale interpolation with X progress
-              const startS = tuning.startScale ?? 0.85;
-              const endS = tuning.endScale ?? 2.40;
-              const currentScale = startS + xProgress * (endS - startS);
-              shipScaleRef.current = currentScale;
+              // Interpolate length from 150px (1998, scrollProgress=0) to 280px (2026, scrollProgress=1) linearly
+              const startPx = 150;
+              const endPx = 280;
+              const targetLengthPx = startPx + scrollProgress * (endPx - startPx);
+              shipScaleRef.current = targetLengthPx;
 
               // Solid cyan ocean fill line fills 100% to 2026 at scrollProgress = 1.0
               const strokeOffset = Math.max(0, desktopPathLength - pathDistance);
@@ -450,21 +454,22 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           ref={shipDivRef}
           style={{
             position: 'absolute',
-            left: -300,
-            top: -300,
+            left: 24,
+            top: 20,
             width: 1200,
             height: 1200,
             pointerEvents: 'none',
-            zIndex: 10,
+            zIndex: 9999,
             overflow: 'visible',
             transition: 'none',
-            opacity: 0,
+            opacity: 1,
+            transform: 'translate(-50%, -50%)',
           }}
         >
           <Canvas
             orthographic
             gl={{ powerPreference: 'high-performance', antialias: true, alpha: true }}
-            camera={{ left: -1000, right: 1000, top: 1000, bottom: -1000, zoom: 22, position: [0, 350, 0], up: [0, 0, -1] }}
+            camera={{ left: -600, right: 600, top: 600, bottom: -600, zoom: 1, position: [0, 350, 0], up: [0, 0, -1] }}
             style={{ width: '100%', height: '100%', overflow: 'visible' }}
           >
             <ambientLight intensity={1.8} />
