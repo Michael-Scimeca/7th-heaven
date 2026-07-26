@@ -17,16 +17,10 @@ type Props = {
 
 export default function CruiseHistoryTimeline({ history }: Props) {
   const desktopContainerRef = useRef<HTMLDivElement>(null);
-  const desktopPathRef = useRef<SVGPathElement>(null);
-  
   const mobileContainerRef = useRef<HTMLDivElement>(null);
-  const mobilePathRef = useRef<SVGPathElement>(null);
 
   const [desktopProgress, setDesktopProgress] = useState(0);
-  const [desktopPathLength, setDesktopPathLength] = useState(0);
-
   const [mobileProgress, setMobileProgress] = useState(0);
-  const [mobilePathLength, setMobilePathLength] = useState(0);
 
   // Chunk history items into 3 items per row for desktop
   const rows: HistoryItem[][] = [];
@@ -34,16 +28,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   for (let i = 0; i < history.length; i += chunkSize) {
     rows.push(history.slice(i, i + chunkSize));
   }
-
-  // Measure path length on mount
-  useEffect(() => {
-    if (desktopPathRef.current) {
-      setDesktopPathLength(desktopPathRef.current.getTotalLength());
-    }
-    if (mobilePathRef.current) {
-      setMobilePathLength(mobilePathRef.current.getTotalLength());
-    }
-  }, []);
 
   // Hook up Lenis Smooth Scroll & GSAP ScrollTrigger scrub
   useEffect(() => {
@@ -68,46 +52,30 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     gsap.ticker.lagSmoothing(0);
 
     const ctx = gsap.context(() => {
-      // Desktop Lenis + GSAP ScrollTrigger Scrub
-      if (desktopPathRef.current && desktopPathLength > 0) {
-        gsap.fromTo(
-          desktopPathRef.current,
-          { strokeDashoffset: desktopPathLength },
-          {
-            strokeDashoffset: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: desktopContainerRef.current,
-              start: 'top 70%',
-              end: 'bottom 80%',
-              scrub: 0.5,
-              onUpdate: (self) => {
-                setDesktopProgress(self.progress);
-              },
-            },
-          }
-        );
+      // Desktop Lenis + GSAP ScrollTrigger
+      if (desktopContainerRef.current) {
+        ScrollTrigger.create({
+          trigger: desktopContainerRef.current,
+          start: 'top 70%',
+          end: 'bottom 80%',
+          scrub: 0.5,
+          onUpdate: (self) => {
+            setDesktopProgress(self.progress);
+          },
+        });
       }
 
-      // Mobile Lenis + GSAP ScrollTrigger Scrub
-      if (mobilePathRef.current && mobilePathLength > 0) {
-        gsap.fromTo(
-          mobilePathRef.current,
-          { strokeDashoffset: mobilePathLength },
-          {
-            strokeDashoffset: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: mobileContainerRef.current,
-              start: 'top 70%',
-              end: 'bottom 80%',
-              scrub: 0.5,
-              onUpdate: (self) => {
-                setMobileProgress(self.progress);
-              },
-            },
-          }
-        );
+      // Mobile Lenis + GSAP ScrollTrigger
+      if (mobileContainerRef.current) {
+        ScrollTrigger.create({
+          trigger: mobileContainerRef.current,
+          start: 'top 70%',
+          end: 'bottom 80%',
+          scrub: 0.5,
+          onUpdate: (self) => {
+            setMobileProgress(self.progress);
+          },
+        });
       }
     });
 
@@ -116,45 +84,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       gsap.ticker.remove(tickerFn);
       lenis.destroy();
     };
-  }, [desktopPathLength, mobilePathLength]);
-
-  // Single Continuous Desktop Serpentine SVG Path passing 100% DEAD-CENTER BEHIND THE YEAR TEXT IN EVERY ROW
-  // viewBox: 0 0 1000 2700 (Step = 340px per row)
-  // Row 0 Y = 117, Row 1 Y = 457, Row 2 Y = 797, Row 3 Y = 1137, Row 4 Y = 1477, Row 5 Y = 1817, Row 6 Y = 2157, Row 7 Y = 2497
-  const serpentinePathD = `
-    M 20 10
-    V 72
-    A 45 45 0 0 0 65 117
-    H 935
-    A 45 45 0 0 1 980 162
-    V 412
-    A 45 45 0 0 1 935 457
-    H 65
-    A 45 45 0 0 0 20 502
-    V 752
-    A 45 45 0 0 0 65 797
-    H 935
-    A 45 45 0 0 1 980 842
-    V 1092
-    A 45 45 0 0 1 935 1137
-    H 65
-    A 45 45 0 0 0 20 1182
-    V 1432
-    A 45 45 0 0 0 65 1477
-    H 935
-    A 45 45 0 0 1 980 1522
-    V 1772
-    A 45 45 0 0 1 935 1817
-    H 65
-    A 45 45 0 0 0 20 1862
-    V 2112
-    A 45 45 0 0 0 65 2157
-    H 935
-    A 45 45 0 0 1 980 2202
-    V 2452
-    A 45 45 0 0 1 935 2497
-    H 65
-  `.replace(/\s+/g, ' ').trim();
+  }, []);
 
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
@@ -179,48 +109,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={desktopContainerRef}
         className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
       >
-        {/* SINGLE CONTINUOUS SOLID CLEAN SVG PATHWAY */}
-        <svg
-          viewBox="0 0 1000 2700"
-          preserveAspectRatio="none"
-          className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
-        >
-          <defs>
-            {/* Crisp Solid Ocean Cyan Gradient */}
-            <linearGradient id="ocean-water-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00f2fe" />
-              <stop offset="50%" stopColor="#06b6d4" />
-              <stop offset="100%" stopColor="#3b82f6" />
-            </linearGradient>
-          </defs>
-
-          {/* 1. Muted Background Track Path */}
-          <path
-            d={serpentinePathD}
-            fill="none"
-            stroke="rgba(6, 182, 212, 0.15)"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-
-          {/* 2. Solid Crisp Clean Main Cyan Line Filler */}
-          <path
-            ref={desktopPathRef}
-            d={serpentinePathD}
-            fill="none"
-            stroke="url(#ocean-water-gradient)"
-            strokeWidth="3.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{
-              strokeDasharray: desktopPathLength || 10000,
-              strokeDashoffset: desktopPathLength || 10000,
-            }}
-          />
-        </svg>
-        
-        {/* START POINT HEADER */}
+        {/* START POINT HEADER (Top-Left Corner Entry) */}
         <div className="relative pl-2 mb-12">
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10" />
@@ -228,21 +117,42 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               START · LATEST VOYAGES
             </span>
           </div>
+
+          {/* Smooth Curve connecting START badge down into left-[60px] of 2028 (100% flush!) */}
+          <div className="absolute left-[17.5px] top-[10px] bottom-[-4.55rem] w-[42.5px] border-l-[3px] border-b-[3px] border-cyan-400 rounded-bl-[20px] pointer-events-none z-0" />
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
         <div className="flex flex-col">
           {rows.map((rowItems, rowIndex) => {
             const isEvenRow = rowIndex % 2 === 0;
+            const isLastRow = rowIndex === rows.length - 1;
 
             return (
               <div key={rowIndex} className="relative mb-24 last:mb-0">
-                {/* YEAR HEADERS ROW */}
+                {/* 100% Perfect Continuous Side Bends with zero step/jump */}
+                {!isLastRow && (
+                  <>
+                    {isEvenRow ? (
+                      /* RIGHT SIDE BEND: Exits 2026 right, curves 52px out to right-[8px], drops, and curves back to 2025 right */
+                      <div className="absolute right-[8px] top-[24px] bottom-[-7.55rem] w-[52px] border-r-[3px] border-t-[3px] border-b-[3px] border-cyan-400 rounded-tr-[44px] rounded-br-[44px] pointer-events-none z-0" />
+                    ) : (
+                      /* LEFT SIDE BEND: Exits 2023 left, curves 52px out to left-[8px], drops, and curves back to 2022 left */
+                      <div className="absolute left-[8px] top-[24px] bottom-[-7.55rem] w-[52px] border-l-[3px] border-t-[3px] border-b-[3px] border-cyan-400 rounded-tl-[44px] rounded-bl-[44px] pointer-events-none z-0" />
+                    )}
+                  </>
+                )}
+
+                {/* YEAR HEADERS & HORIZONTAL LINE ROW (100% Dead-Center through Year Badges) */}
                 <div
                   className={`relative flex justify-between items-center px-8 h-12 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
+                  {/* Horizontal Pipeline Line (100% Dead-Center behind every year badge) */}
+                  <div className="absolute top-1/2 -translate-y-1/2 left-[60px] right-[60px] h-[3px] bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 pointer-events-none z-0" />
+
+                  {/* Year Headers (3 per row) */}
                   {rowItems.map((hist, itemIndex) => {
                     const globalIdx = rowIndex * chunkSize + itemIndex;
                     const itemProgressTrigger = (globalIdx + 0.5) / history.length;
@@ -262,9 +172,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         >
                           <h6
                             className={`text-4xl md:text-5xl font-black font-mono tracking-tight transition-colors leading-none ${
-                              isReached
-                                ? 'text-cyan-300'
-                                : 'text-white/40'
+                              isReached ? 'text-cyan-300' : 'text-white/40'
                             }`}
                           >
                             {hist.year}
@@ -338,25 +246,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={mobileContainerRef}
         className="block lg:hidden relative max-w-lg mx-auto py-6 px-4"
       >
-        <svg className="absolute left-6 top-4 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
-          <path
-            d="M 2 0 V 1000"
-            fill="none"
-            stroke="rgba(6, 182, 212, 0.15)"
-            strokeWidth="3"
-          />
-          <path
-            ref={mobilePathRef}
-            d="M 2 0 V 1000"
-            fill="none"
-            stroke="url(#ocean-water-gradient)"
-            strokeWidth="3.5"
-            style={{
-              strokeDasharray: mobilePathLength || 1000,
-              strokeDashoffset: mobilePathLength || 1000,
-            }}
-          />
-        </svg>
+        <div className="absolute left-6 top-4 bottom-4 w-[3px] bg-cyan-400 pointer-events-none z-0" />
 
         <div className="space-y-6 pl-10">
           {history.map((hist, idx) => {
@@ -366,17 +256,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div key={idx} className="relative group">
                 <div
                   className={`absolute left-[-26px] top-4 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
-                    isReached
-                      ? 'bg-cyan-300 scale-125'
-                      : 'bg-cyan-500/30'
+                    isReached ? 'bg-cyan-300 scale-125' : 'bg-cyan-500/30'
                   }`}
                 />
 
                 <div
                   className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-2xl shadow-xl transition-all duration-300 ${
-                    isReached
-                      ? 'border border-cyan-400/60'
-                      : 'border border-white/10 opacity-70'
+                    isReached ? 'border border-cyan-400/60' : 'border border-white/10 opacity-70'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2">
