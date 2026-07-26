@@ -50,10 +50,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             </span>
           </div>
 
-          {/* SVG Smooth Curve from START button directly into 2028 on the left */}
-          <svg className="absolute left-[10px] top-[10px] bottom-[-2.25rem] w-[100px] h-[calc(100%+2.25rem)] pointer-events-none z-0 overflow-visible">
+          {/* SVG Smooth Curve connecting START badge down into left-[60px] of Row 0 */}
+          <svg className="absolute left-[10px] top-[10px] bottom-[-2.25rem] w-[60px] h-[calc(100%+2.25rem)] pointer-events-none z-0 overflow-visible">
             <path
-              d="M 0 0 V calc(100% - 20px) A 20 20 0 0 0 20 100% H 80"
+              d="M 0 0 V calc(100% - 20px) A 20 20 0 0 0 20 100% H 50"
               fill="none"
               stroke="#06b6d4"
               strokeWidth="2.5"
@@ -76,17 +76,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
-                  {/* Horizontal Pipeline Line Passing Directly Through Center of Year Headers */}
+                  {/* Horizontal Pipeline Line (Ends exactly at left-[60px] and right-[60px]) */}
                   <div className="absolute top-1/2 -translate-y-1/2 left-[60px] right-[60px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
 
-                  {/* 100% Perfect SVG Side Curve Bends connecting line across rows */}
+                  {/* 100% Perfect SVG Side Bends (No stubs sticking out!) */}
                   {!isLastRow && (
                     <>
                       {isEvenRow ? (
-                        /* RIGHT SIDE BEND: Exits 2026 right, curves down and left into 2025 right */
-                        <svg className="absolute right-[60px] top-1/2 bottom-[-8rem] w-[60px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
+                        /* RIGHT SIDE BEND: Starts at right-[60px], curves down-right, drops, and curves down-left into Row 1 right-[60px] */
+                        <svg className="absolute right-[60px] top-1/2 bottom-[-8rem] w-[50px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
                           <path
-                            d="M 0 0 H 24 A 36 36 0 0 1 60 36 V calc(100% - 36px) A 36 36 0 0 1 24 100% H 0"
+                            d="M 0 0 A 36 36 0 0 1 36 36 V calc(100% - 36px) A 36 36 0 0 1 0 100%"
                             fill="none"
                             stroke="#06b6d4"
                             strokeWidth="2.5"
@@ -94,10 +94,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           />
                         </svg>
                       ) : (
-                        /* LEFT SIDE BEND: Exits 2023 left, curves down and right into 2022 left */
-                        <svg className="absolute left-[60px] top-1/2 bottom-[-8rem] w-[60px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
+                        /* LEFT SIDE BEND: Starts at left-[60px], curves down-left, drops, and curves down-right into Row 2 left-[60px] */
+                        <svg className="absolute left-[60px] top-1/2 bottom-[-8rem] w-[50px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
                           <path
-                            d="M 60 0 H 36 A 36 36 0 0 0 0 36 V calc(100% - 36px) A 36 36 0 0 0 36 100% H 60"
+                            d="M 0 0 A 36 36 0 0 0 -36 36 V calc(100% - 36px) A 36 36 0 0 0 0 100%"
                             fill="none"
                             stroke="#06b6d4"
                             strokeWidth="2.5"
