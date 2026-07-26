@@ -585,41 +585,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       <div className={styles.header}>
         <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>
         <h2 id="itinerary" className={styles.title}>Official Itinerary</h2>
-        
-        <div className="flex justify-center items-center gap-3 mt-6">
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className={`py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
-              showSettings
-                ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                : 'bg-white/5 border border-white/10 text-cyan-400 hover:bg-white/10'
-            }`}
-          >
-            <span>⚙️</span> SVG & Speed Settings
-          </button>
-
-          <button
-            onClick={() => {
-              const nextMuted = !soundMuted;
-              setSoundMuted(nextMuted);
-              if (!nextMuted) {
-                const currentDay = itinerary[activeNodeIndex];
-                if (isAtSeaDay(currentDay) && seaAudioRef.current) {
-                  seaAudioRef.current.play().catch(() => {});
-                } else if (portAudioRef.current) {
-                  portAudioRef.current.play().catch(() => {});
-                }
-              }
-            }}
-            className={`py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
-              !soundMuted
-                ? 'bg-cyan-500/20 border border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
-                : 'bg-white/5 border border-white/10 text-white/40 hover:bg-white/10'
-            }`}
-          >
-            <span>{!soundMuted ? '🔊' : '🔇'}</span> {!soundMuted ? 'Ship Audio ON' : 'Ship Audio OFF'}
-          </button>
-        </div>
 
         {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
         {showSettings && mounted && createPortal(
