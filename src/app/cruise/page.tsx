@@ -627,17 +627,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
           </div>
 
-          {/* Cancellation Guidelines — Placed at Top of Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 text-left border-b border-white/10 pb-12">
+          {/* Cancellation & Policy Guidelines — 4-Column Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 text-left border-b border-white/10 pb-12">
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">⚠️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Crucial Booking Policy</h3>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy</h3>
               </div>
               <p className="text-sm font-black text-amber-400 uppercase tracking-widest mb-4">
-                You must be booked through us to participate
+                Book through us to participate
               </p>
-              <p className="text-white/60 text-xs md:text-sm leading-relaxed mb-6">
+              <p className="text-white/60 text-xs leading-relaxed mb-6">
                 To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
               </p>
               <div className="py-2 space-y-3">
@@ -645,10 +645,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
                 </p>
                 <p className="text-xs text-white/50">
-                  💳 <strong>Deposit:</strong> $250 per person to secure your cabin and rate.
+                  💳 <strong>Deposit:</strong> $250 per person to secure cabin.
                 </p>
                 <p className="text-xs text-white/50">
-                  📅 <strong>Final Payment Deadline:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
+                  📅 <strong>Final Payment:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
                 </p>
               </div>
             </div>
@@ -659,20 +659,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <h3 className="text-lg font-black uppercase text-white tracking-wide">How To Book</h3>
               </div>
               <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4">
-                Flexible rates, rate matching & price drops
+                Flexible rates & price drop matching
               </p>
               <ul className="space-y-3 text-xs text-white/60 leading-normal">
                 <li className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions. We can book any room category available.</span>
+                  <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span>We match and often beat rates you find elsewhere. We also automatically re-roll your room if prices drop before the final payment deadline!</span>
+                  <span>We match rates & automatically re-roll your room if prices drop before final payment!</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span><strong>Group Rate Inclusions:</strong> If you book under our group rate cabins, gratuities are fully included.</span>
+                  <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                 </li>
               </ul>
             </div>
@@ -683,7 +683,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
               </div>
               <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
-                Understand your refund terms before booking
+                Refund terms before booking
               </p>
               <div className="space-y-4 text-xs text-white/60 leading-relaxed">
                 <div>
@@ -694,7 +694,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
                       <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
                       <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
-                      <li>After Nov 10, 2026: <strong>50% of cabin cost</strong></li>
+                      <li>After Nov 10, 2026: <strong>50% cost</strong></li>
                       <li>After Dec 10, 2026: <strong>No refund</strong></li>
                     </ul>
                   ) : (
@@ -703,15 +703,37 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
                       <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
                       <li>Sept 11, 2027 – Nov 8, 2027: <strong>$200 pp fee</strong></li>
-                      <li>After Nov 8, 2027: <strong>50% of cabin cost</strong></li>
+                      <li>After Nov 8, 2027: <strong>50% cost</strong></li>
                       <li>After Dec 9, 2027: <strong>No refund</strong></li>
                     </ul>
                   )}
                 </div>
                 <div>
-                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-0.5">Prevailing Rate (Refundable):</h4>
-                  <p>Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty. After that: standard cruise lines fee percentages apply (25%, 50%, 100%).</p>
+                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-0.5">Prevailing Rate:</h4>
+                  <p>Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
                 </div>
+              </div>
+            </div>
+
+            {/* Column 4: Passport Requirements */}
+            <div className="bg-transparent border-0 p-4 relative text-left">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">🛂</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Requirements</h3>
+              </div>
+              <p className="text-sm font-black text-amber-300 uppercase tracking-widest mb-4">
+                Essential travel document guidelines
+              </p>
+              <div className="space-y-3 text-xs text-white/70 leading-relaxed">
+                <p>
+                  A physical passport book valid for 6 months post-cruise is <strong>highly recommended</strong> for all travelers.
+                </p>
+                <p>
+                  For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
+                </p>
+                <p>
+                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-bold underline hover:text-white">travel.state.gov</a> to ensure compliance.
+                </p>
               </div>
             </div>
           </div>
