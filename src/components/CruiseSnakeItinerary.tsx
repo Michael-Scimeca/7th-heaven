@@ -1034,13 +1034,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const cardContent = (
             <div className="group">
               {dayImage && (
-                <div className="relative aspect-[21/9] -mx-10 -mt-9 w-[calc(100%+80px)] rounded-t-[24px] overflow-hidden mb-6 border-b border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.5)] group-hover:border-cyan-500/40 transition-all duration-500">
+                <div className="relative aspect-[21/9] -mx-10 -mt-9 w-[calc(100%+80px)] rounded-t-[24px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
                   <img 
                     src={dayImage} 
                     alt={day.theme} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-black/30 to-transparent flex items-end p-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#05050f] via-[#05050f]/60 to-transparent flex items-end p-4">
                     <span className="text-xs font-black uppercase tracking-widest text-cyan-300 backdrop-blur-md bg-black/60 px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-1.5 shadow-lg">
                       📍 {day.location}
                     </span>
