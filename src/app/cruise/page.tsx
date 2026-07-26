@@ -644,32 +644,32 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       )}
                       <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                        <span className="text-2xl">{room.icon}</span>
-                        <span className={`text-[11px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider ${
+                        <span className="text-xl">{room.icon}</span>
+                        <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
                           room.status === "soldout" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
                           room.status === "warning" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
                           "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
                         }`}>{room.badge}</span>
                       </div>
-                      <span className="text-xs font-bold text-white/40 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
-                      <h4 className="text-lg font-black text-white uppercase tracking-tight text-left">{room.title}</h4>
+                      <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
+                      <h4 className="text-base font-extrabold text-white uppercase tracking-tight text-left">{room.title}</h4>
                     </div>
 
-                    <div className="mt-4 pt-2 text-left">
+                    <div className="mt-3 pt-1 text-left">
                       {room.price === "Prevailing" ? (
-                        <p className="text-xs text-white/40 italic font-medium">Prevailing Rates Only</p>
+                        <p className="text-2xs text-white/40 italic font-medium">Prevailing Rates Only</p>
                       ) : (
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-2xl font-black text-white">{room.price}</span>
-                          <span className="text-xs text-white/40 uppercase font-semibold">USD pp</span>
+                          <span className="text-xl font-black text-white">{room.price}</span>
+                          <span className="text-[10px] text-white/40 uppercase font-semibold">USD pp</span>
                         </div>
                       )}
                       {room.inclusions && (
-                        <span className="text-xs text-cyan-400 font-bold uppercase tracking-wider block mt-1.5">✓ {room.inclusions}</span>
+                        <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                       )}
                       <button 
                         type="button"
-                        className="mt-4 w-full py-3 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 group-hover:text-white font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.15)]"
+                        className="mt-3 w-full py-2.5 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 group-hover:text-white font-black text-2xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.15)]"
                       >
                         <span>Select & Book Cabin</span>
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
