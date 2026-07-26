@@ -25,8 +25,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [mobileProgress, setMobileProgress] = useState(0);
   const [mobilePathLength, setMobilePathLength] = useState(0);
 
-  const [liquidPoint, setLiquidPoint] = useState<{ x: number; y: number } | null>(null);
-
   // Chunk history items into 3 items per row for desktop
   const rows: HistoryItem[][] = [];
   const chunkSize = 3;
@@ -37,8 +35,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   // Calculate SVG path lengths & update scroll progress dynamically
   useEffect(() => {
     if (desktopPathRef.current) {
-      const len = desktopPathRef.current.getTotalLength();
-      setDesktopPathLength(len);
+      setDesktopPathLength(desktopPathRef.current.getTotalLength());
     }
     if (mobilePathRef.current) {
       setMobilePathLength(mobilePathRef.current.getTotalLength());
@@ -75,19 +72,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Update leading liquid water surface point position along the path
-  useEffect(() => {
-    if (desktopPathRef.current && desktopPathLength > 0) {
-      const currentLen = desktopPathLength * desktopProgress;
-      try {
-        const pt = desktopPathRef.current.getPointAtLength(currentLen);
-        setLiquidPoint({ x: pt.x, y: pt.y });
-      } catch (err) {
-        // Fallback for non-supported browsers
-      }
-    }
-  }, [desktopProgress, desktopPathLength]);
 
   // Single Continuous Desktop Serpentine SVG Path (viewBox 0 0 1000 1800)
   const serpentinePathD = `
@@ -175,15 +159,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </feTurbulence>
               <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G" />
             </filter>
-
-            {/* Soft Ambient Glow Filter */}
-            <filter id="cyan-glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
 
           {/* 1. Muted Background Track Path */}
@@ -232,56 +207,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               transition: 'stroke-dashoffset 0.1s linear',
             }}
           />
-
-          {/* 4. Flying Water Splash Droplets & Bubbles at Leading Water Edge */}
-          {liquidPoint && desktopProgress > 0 && desktopProgress < 0.99 && (
-            <g className="pointer-events-none">
-              {/* Splash Droplet 1 */}
-              <circle
-                cx={liquidPoint.x - 8}
-                cy={liquidPoint.y - 12}
-                r="2"
-                fill="#00f2fe"
-                opacity="0.8"
-                className="animate-bounce"
-              />
-              {/* Splash Droplet 2 */}
-              <circle
-                cx={liquidPoint.x + 10}
-                cy={liquidPoint.y - 8}
-                r="3"
-                fill="#38bdf8"
-                opacity="0.7"
-                className="animate-pulse"
-              />
-              {/* Splash Droplet 3 */}
-              <circle
-                cx={liquidPoint.x - 14}
-                cy={liquidPoint.y + 6}
-                r="1.5"
-                fill="#7dd3fc"
-                opacity="0.9"
-                className="animate-ping"
-              />
-              {/* Splash Droplet 4 */}
-              <circle
-                cx={liquidPoint.x + 12}
-                cy={liquidPoint.y + 10}
-                r="2.5"
-                fill="#00f2fe"
-                opacity="0.6"
-              />
-              {/* Splash Droplet 5 */}
-              <circle
-                cx={liquidPoint.x}
-                cy={liquidPoint.y - 16}
-                r="1.8"
-                fill="#ffffff"
-                opacity="0.9"
-                className="animate-bounce"
-              />
-            </g>
-          )}
         </svg>
         
         {/* START POINT HEADER */}
