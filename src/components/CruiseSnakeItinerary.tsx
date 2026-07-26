@@ -9,15 +9,13 @@ import styles from './CruiseSnakeItinerary.module.css';
 
 function ShipModel({
   scale = 1.0,
-  offsetY = 0.35,
+  offsetY = 0.4,
   shipRotYRef,
-  shipRotZRef,
   shipScaleFactorRef,
 }: {
   scale?: number;
   offsetY?: number;
   shipRotYRef: React.RefObject<number>;
-  shipRotZRef?: React.RefObject<number>;
   shipScaleFactorRef: React.RefObject<number>;
 }) {
   const { scene } = useGLTF('/objects/ship.glb');
@@ -35,15 +33,7 @@ function ShipModel({
         groupRef.current.rotation.y += diff * 0.12;
       }
 
-      // 2. Smooth Z-rotation along path line curve
-      if (shipRotZRef?.current !== undefined) {
-        let diff = shipRotZRef.current - groupRef.current.rotation.z;
-        while (diff < -Math.PI) diff += Math.PI * 2;
-        while (diff > Math.PI) diff -= Math.PI * 2;
-        groupRef.current.rotation.z += diff * 0.12;
-      }
-
-      // 3. Elastic spring scale animation over day circle nodes
+      // 2. Elastic spring scale animation over day circle nodes
       const targetScale = shipScaleFactorRef.current ?? 1.0;
       const stiffness = 0.22;
       const damping = 0.58;
@@ -160,7 +150,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
   shipScale: 1.5,
-  shipOffsetY: 0.05,
+  shipOffsetY: 0.4,
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 50,
@@ -353,7 +343,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.shipScale = 1.5;
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
-        saved.shipOffsetY = 0.05;
+        saved.shipOffsetY = 0.4;
         setTuning({ ...DEFAULT_TUNING, ...saved });
       }
     } catch {}
@@ -564,10 +554,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const ux = dx / len;
         const uy = dy / len;
         const headingLeft = dx < 0;
-        const angle = Math.atan2(dy, dx);
+        const angle = headingLeft ? Math.atan2(-dy, -dx) : Math.atan2(dy, dx);
 
         shipRotYRef.current = headingLeft ? Math.PI : 0;
-        shipRotZRef.current = headingLeft ? Math.PI - angle : -angle;
 
         if (shipContainerRef.current) {
           const xPct = (pt.x / SVG_W) * 100;
@@ -575,7 +564,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
           shipContainerRef.current.style.left = `${xPct}%`;
           shipContainerRef.current.style.top = `${yPct}%`;
-          shipContainerRef.current.style.transform = `translate(-50%, -50%)`;
+          shipContainerRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
           shipContainerRef.current.style.opacity = opacityVal.toFixed(3);
         }
       }
