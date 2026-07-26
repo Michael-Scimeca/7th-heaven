@@ -118,41 +118,41 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     };
   }, [desktopPathLength, mobilePathLength]);
 
-  // Single Continuous Desktop Serpentine SVG Path passing 100% VERTICALLY CENTERED WITH THE YEAR TEXT
-  // viewBox: 0 0 1000 2300 (Step = 284px per row)
-  // Row 0 Y = 117, Row 1 Y = 401, Row 2 Y = 685, Row 3 Y = 969, Row 4 Y = 1253, Row 5 Y = 1537, Row 6 Y = 1821, Row 7 Y = 2105
+  // Single Continuous Desktop Serpentine SVG Path passing 100% DEAD-CENTER BEHIND THE YEAR TEXT IN EVERY ROW
+  // viewBox: 0 0 1000 2700 (Step = 340px per row)
+  // Row 0 Y = 117, Row 1 Y = 457, Row 2 Y = 797, Row 3 Y = 1137, Row 4 Y = 1477, Row 5 Y = 1817, Row 6 Y = 2157, Row 7 Y = 2497
   const serpentinePathD = `
     M 20 10
     V 72
     A 45 45 0 0 0 65 117
     H 935
     A 45 45 0 0 1 980 162
-    V 356
-    A 45 45 0 0 1 935 401
+    V 412
+    A 45 45 0 0 1 935 457
     H 65
-    A 45 45 0 0 0 20 446
-    V 640
-    A 45 45 0 0 0 65 685
+    A 45 45 0 0 0 20 502
+    V 752
+    A 45 45 0 0 0 65 797
     H 935
-    A 45 45 0 0 1 980 730
-    V 924
-    A 45 45 0 0 1 935 969
+    A 45 45 0 0 1 980 842
+    V 1092
+    A 45 45 0 0 1 935 1137
     H 65
-    A 45 45 0 0 0 20 1014
-    V 1208
-    A 45 45 0 0 0 65 1253
+    A 45 45 0 0 0 20 1182
+    V 1432
+    A 45 45 0 0 0 65 1477
     H 935
-    A 45 45 0 0 1 980 1298
-    V 1492
-    A 45 45 0 0 1 935 1537
+    A 45 45 0 0 1 980 1522
+    V 1772
+    A 45 45 0 0 1 935 1817
     H 65
-    A 45 45 0 0 0 20 1582
-    V 1776
-    A 45 45 0 0 0 65 1821
+    A 45 45 0 0 0 20 1862
+    V 2112
+    A 45 45 0 0 0 65 2157
     H 935
-    A 45 45 0 0 1 980 1866
-    V 2060
-    A 45 45 0 0 1 935 2105
+    A 45 45 0 0 1 980 2202
+    V 2452
+    A 45 45 0 0 1 935 2497
     H 65
   `.replace(/\s+/g, ' ').trim();
 
@@ -181,7 +181,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       >
         {/* SINGLE CONTINUOUS SOLID CLEAN SVG PATHWAY */}
         <svg
-          viewBox="0 0 1000 2300"
+          viewBox="0 0 1000 2700"
           preserveAspectRatio="none"
           className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
         >
@@ -204,7 +204,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             strokeLinejoin="round"
           />
 
-          {/* 2. Solid Crisp Clean Main Cyan Line Filler (No Outer Glow Blur) */}
+          {/* 2. Solid Crisp Clean Main Cyan Line Filler */}
           <path
             ref={desktopPathRef}
             d={serpentinePathD}
