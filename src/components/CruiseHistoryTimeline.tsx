@@ -107,6 +107,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [mobilePathLength, setMobilePathLength] = useState(0);
 
   const [pathD, setPathD] = useState('');
+  const [staticFuturePathD, setStaticFuturePathD] = useState('');
   const [svgSize, setSvgSize] = useState({ w: 1400, h: 2000 });
 
   const [tuning, setTuning] = useState<HistoryTuningConfig>(DEFAULT_HISTORY_TUNING);
@@ -232,6 +233,24 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       }
 
       setPathD(d);
+
+      // Measure exact X-center for 2028 badge node for path termination
+      const badge2028El = allYearBadges.find(el => el.textContent?.includes('2028'));
+      let endX2028 = w / 2;
+      if (badge2028El) {
+        const bRect = badge2028El.getBoundingClientRect();
+        endX2028 = bRect.left - containerRect.left + bRect.width / 2;
+      }
+
+      // Build dim/unfilled connector line for 2026 -> 2027 (right) -> 2028 (middle)
+      if (rowCenters.length >= 8) {
+        const yRow6 = rowCenters[6];
+        const yRow7 = rowCenters[7];
+        const futureD = `M ${endX2026} ${yRow6} H ${outerRight - r} A ${r} ${r} 0 0 1 ${outerRight} ${yRow6 + r} V ${yRow7 - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yRow7} H ${endX2028}`;
+        setStaticFuturePathD(futureD);
+      } else {
+        setStaticFuturePathD('');
+      }
 
       // Measure exact distance along path to each row center for 1:1 scroll progress mapping
       if (desktopPathRef.current && rowCenters.length > 0) {
@@ -494,6 +513,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               strokeLinejoin="round"
             />
 
+            {/* Dim/Unfilled Track Line Extension from 2026 -> 2027 -> 2028 */}
+            {staticFuturePathD && (
+              <path
+                d={staticFuturePathD}
+                fill="none"
+                stroke="rgba(6, 182, 212, 0.15)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            )}
+
             {/* 2. Lenis + GSAP ScrollTrigger Scrub Main Liquid Ocean Water Line Filler */}
             <path
               ref={desktopPathRef}
@@ -543,45 +574,57 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
-                  {rowItems.map((hist, itemIndex) => {
-                    const globalIdx = rowIndex * chunkSize + itemIndex;
-                    const badgePathLen = badgePathLengths[globalIdx] ?? Infinity;
-                    const is2026 = hist.year === '2026';
-                    const isReached = is2026
-                      ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
-                      : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
+                  {(() => {
+                    const paddedItems = rowItems.length < chunkSize 
+                      ? [...rowItems, ...Array(chunkSize - rowItems.length).fill(null)]
+                      : rowItems;
 
-                    const is2028 = hist.year === '2028';
-                    const flexAlignClass = is2028
-                      ? 'flex justify-center text-center'
-                      : isEvenRow
-                      ? (itemIndex === 0 ? 'flex justify-start text-left' : itemIndex === rowItems.length - 1 ? 'flex justify-end text-right' : 'flex justify-center text-center')
-                      : (itemIndex === 0 ? 'flex justify-end text-right' : itemIndex === rowItems.length - 1 ? 'flex justify-start text-left' : 'flex justify-center text-center');
+                    return paddedItems.map((hist, itemIndex) => {
+                      if (!hist) {
+                        return (
+                          <div key={`dummy-${itemIndex}`} className="w-[340px] xl:w-[380px] shrink-0 opacity-0 pointer-events-none" />
+                        );
+                      }
 
-                    return (
-                      <div
-                        key={itemIndex}
-                        className={`w-[340px] xl:w-[380px] shrink-0 z-30 group ${flexAlignClass}`}
-                      >
+                      const globalIdx = rowIndex * chunkSize + itemIndex;
+                      const badgePathLen = badgePathLengths[globalIdx] ?? Infinity;
+                      const is2026 = hist.year === '2026';
+                      const isFutureNode = hist.year === '2027' || hist.year === '2028';
+                      const isReached = isFutureNode
+                        ? false
+                        : is2026
+                        ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
+                        : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
+
+                      const flexAlignClass = isEvenRow
+                        ? (itemIndex === 0 ? 'flex justify-start text-left' : itemIndex === chunkSize - 1 ? 'flex justify-end text-right' : 'flex justify-center text-center')
+                        : (itemIndex === 0 ? 'flex justify-end text-right' : itemIndex === chunkSize - 1 ? 'flex justify-start text-left' : 'flex justify-center text-center');
+
+                      return (
                         <div
-                          data-year-badge
-                          className={`inline-block px-6 py-1.5 rounded-2xl z-40 transition-all duration-300 ${
-                            isReached
-                              ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
-                              : 'bg-[#06060c] border border-white/10'
-                          }`}
+                          key={itemIndex}
+                          className={`w-[340px] xl:w-[380px] shrink-0 z-30 group ${flexAlignClass}`}
                         >
-                          <h6
-                            className={`text-4xl md:text-5xl font-black font-mono tracking-tight transition-colors leading-none ${
-                              isReached ? 'text-cyan-300' : 'text-white/40'
+                          <div
+                            data-year-badge
+                            className={`inline-block px-6 py-1.5 rounded-2xl z-40 transition-all duration-300 ${
+                              isReached
+                                ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
+                                : 'bg-[#06060c] border border-white/10'
                             }`}
                           >
-                            {hist.year}
-                          </h6>
+                            <h6
+                              className={`text-4xl md:text-5xl font-black font-mono tracking-tight transition-colors leading-none ${
+                                isReached ? 'text-cyan-300' : 'text-white/40'
+                              }`}
+                            >
+                              {hist.year}
+                            </h6>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    });
+                  })()}
                 </div>
 
                 {/* CARDS ROW */}
@@ -590,56 +633,69 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
-                  {rowItems.map((hist, itemIndex) => {
-                    const globalIdx = rowIndex * chunkSize + itemIndex;
-                    const voyageNum = globalIdx + 1;
-                    const badgePathLen = badgePathLengths[globalIdx] ?? Infinity;
-                    const is2026 = hist.year === '2026';
-                    const isReached = is2026
-                      ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
-                      : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
+                  {(() => {
+                    const paddedItems = rowItems.length < chunkSize 
+                      ? [...rowItems, ...Array(chunkSize - rowItems.length).fill(null)]
+                      : rowItems;
 
-                    const cardAlignClass = hist.year === '2028' ? 'mx-auto' : '';
+                    return paddedItems.map((hist, itemIndex) => {
+                      if (!hist) {
+                        return (
+                          <div key={`dummy-card-${itemIndex}`} className="w-[340px] xl:w-[380px] shrink-0 opacity-0 pointer-events-none" />
+                        );
+                      }
 
-                    return (
-                      <div
-                        key={itemIndex}
-                        className={`w-[340px] xl:w-[380px] shrink-0 group text-left ${cardAlignClass}`}
-                      >
+                      const globalIdx = rowIndex * chunkSize + itemIndex;
+                      const voyageNum = globalIdx + 1;
+                      const badgePathLen = badgePathLengths[globalIdx] ?? Infinity;
+                      const is2026 = hist.year === '2026';
+                      const isFutureNode = hist.year === '2027' || hist.year === '2028';
+                      const isReached = isFutureNode
+                        ? false
+                        : is2026
+                        ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
+                        : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
+
+                      return (
                         <div
-                          className={`bg-[#0c0c16]/90 backdrop-blur-xl p-6 rounded-3xl transition-all duration-300 ${
-                            isReached
-                              ? 'border border-cyan-400/70 -translate-y-1'
-                              : 'border border-white/10 opacity-60'
-                          }`}
+                          key={itemIndex}
+                          className="w-[340px] xl:w-[380px] shrink-0 group text-left"
                         >
-                          <div className="flex items-center justify-between gap-2 mb-2">
-                            <span
-                              className={`text-[10px] font-black uppercase tracking-widest font-mono px-3 py-0.5 rounded transition-colors ${
-                                isReached
-                                  ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
-                                  : 'text-white/40 bg-white/5 border border-white/10'
-                              }`}
-                            >
-                              VOYAGE #{voyageNum}
-                            </span>
-                            <span className="text-sm">🚢</span>
-                          </div>
-
-                          <h4
-                            className={`text-base font-black uppercase leading-snug transition-colors ${
-                              isReached ? 'text-white' : 'text-white/60'
+                          <div
+                            className={`bg-[#0c0c16]/90 backdrop-blur-xl p-6 rounded-3xl transition-all duration-300 ${
+                              isReached
+                                ? 'border border-cyan-400/70 -translate-y-1'
+                                : 'border border-white/10 opacity-60'
                             }`}
                           >
-                            {hist.ship}
-                          </h4>
-                          <p className="text-xs text-white/50 mt-2 leading-relaxed font-sans">
-                            {hist.details}
-                          </p>
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                              <span
+                                className={`text-[10px] font-black uppercase tracking-widest font-mono px-3 py-0.5 rounded transition-colors ${
+                                  isReached
+                                    ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
+                                    : 'text-white/40 bg-white/5 border border-white/10'
+                                }`}
+                              >
+                                VOYAGE #{voyageNum}
+                              </span>
+                              <span className="text-sm">🚢</span>
+                            </div>
+
+                            <h4
+                              className={`text-base font-black uppercase leading-snug transition-colors ${
+                                isReached ? 'text-white' : 'text-white/60'
+                              }`}
+                            >
+                              {hist.ship}
+                            </h4>
+                            <p className="text-xs text-white/50 mt-2 leading-relaxed font-sans">
+                              {hist.details}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    });
+                  })()}
                 </div>
               </div>
             );

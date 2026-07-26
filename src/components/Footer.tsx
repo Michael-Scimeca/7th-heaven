@@ -154,9 +154,9 @@ export function Footer() {
       </div>
 
       {/* SMS Text Alerts */}
-      <div className="site-container py-12 border-t border-white/5">
+      <div className="site-container py-12 border-t border-white/5" suppressHydrationWarning>
         <div className="max-w-lg" suppressHydrationWarning>
-          <div className="flex items-center gap-3 mb-1">
+          <div className="flex items-center gap-3 mb-1" suppressHydrationWarning>
             <span className="text-lg">📱</span>
             <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-white">Text Alerts</h3>
           </div>
@@ -202,6 +202,7 @@ export function Footer() {
                 placeholder="Zip code"
                 required
                 maxLength={5}
+                suppressHydrationWarning
                 className="w-24 px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
               />
               <select
