@@ -1040,11 +1040,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                     alt={day.theme} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#05050f] via-[#05050f]/60 to-transparent flex items-end p-4">
-                    <span className="text-xs font-black uppercase tracking-widest text-cyan-300 backdrop-blur-md bg-black/60 px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-1.5 shadow-lg">
-                      {isAtSeaDay(day) ? '🌊 DAY AT SEA' : `📍 ${day.location}`}
-                    </span>
-                  </div>
                 </div>
               )}
               <div className={styles.cardHeader}>
@@ -1058,7 +1053,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 >
                   {day.dayLabel}
                 </span>
-                <span className={styles.location}>📍 {day.location}</span>
               </div>
               <h3 className={styles.cardTitle}>{day.theme}</h3>
               <ul className={styles.eventsList}>
