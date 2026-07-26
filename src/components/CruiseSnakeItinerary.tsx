@@ -440,25 +440,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   // Animate the path ripples over time + scroll-driven fill
   useEffect(() => {
-    let lenis: Lenis | null = null;
-    if (typeof window !== 'undefined') {
-      try {
-        lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          orientation: 'vertical',
-          smoothWheel: true,
-        });
-      } catch {}
-    }
-
     let running = true;
     const allPaths = [trackRef, fillRef, currentRef, highlightRef];
     let currentFillOffset = 99999;
 
     const tick = (time: number) => {
       if (!running) return;
-      if (lenis) lenis.raf(time);
 
       const t = tuneRef.current;
 
@@ -570,10 +557,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     };
 
     requestAnimationFrame(tick);
-    return () => {
-      running = false;
-      if (lenis) lenis.destroy();
-    };
+    return () => { running = false; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itinerary.length, layoutMode]);
 
