@@ -627,41 +627,21 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
           </div>
 
-          {/* Cancellation & Policy Guidelines — 4-Column Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 text-left border-b border-white/10 pb-12">
+          {/* Cancellation & Policy Guidelines — 3-Column Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-left border-b border-white/10 pb-12">
+            {/* Merged Column 1: Booking Policy & Best Rate Guarantee */}
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">⚠️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy</h3>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
               </div>
               <p className="text-sm font-black text-amber-400 uppercase tracking-widest mb-4">
-                Book through us to participate
+                Book through us to participate & lock in best rates
               </p>
-              <p className="text-base text-white/80 leading-relaxed mb-6">
+              <p className="text-base text-white/80 leading-relaxed mb-4">
                 To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
               </p>
-              <div className="py-2 space-y-3">
-                <p className="text-base text-white/80">
-                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
-                </p>
-                <p className="text-base text-white/80">
-                  💳 <strong>Deposit:</strong> $250 per person to secure cabin.
-                </p>
-                <p className="text-base text-white/80">
-                  📅 <strong>Final Payment:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-transparent border-0 p-4 relative text-left">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">🏷️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Best Rate Guarantee</h3>
-              </div>
-              <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4">
-                Flexible rates & price drop matching
-              </p>
-              <ul className="space-y-4 text-base text-white/80 leading-relaxed">
+              <ul className="space-y-3 text-base text-white/80 leading-relaxed mb-6">
                 <li className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold shrink-0">✓</span>
                   <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions.</span>
@@ -675,8 +655,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                 </li>
               </ul>
+              <div className="pt-3 border-t border-white/10 space-y-2">
+                <p className="text-base text-white/80">
+                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
+                </p>
+                <p className="text-base text-white/80">
+                  💳 <strong>Deposit:</strong> $250 per person to secure cabin.
+                </p>
+                <p className="text-base text-white/80">
+                  📅 <strong>Final Payment:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
+                </p>
+              </div>
             </div>
 
+            {/* Column 2: Cancellation Policy */}
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">📅</span>
@@ -715,7 +707,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
             </div>
 
-            {/* Column 4: Passport Requirements */}
+            {/* Column 3: Passport Requirements */}
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🛂</span>
