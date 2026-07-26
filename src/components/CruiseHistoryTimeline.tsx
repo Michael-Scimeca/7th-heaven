@@ -73,15 +73,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         startY = dotRect.top - containerRect.top + dotRect.height / 2;
       }
 
-      const marginX = 60;
       const outerRight = w - 12;
       const outerLeft = 12;
-      const innerRight = w - marginX;
-      const innerLeft = marginX;
-      const r = 36; // Smooth corner radius
+      const r = 40; // Corner radius matching tangent offset perfectly
 
-      // Build single continuous SVG path string
-      let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${rowCenters[0]} H ${innerRight}`;
+      // Build single continuous SVG path string with 100% geometric circular turns (zero kinks!)
+      let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${rowCenters[0]} H ${outerRight - r}`;
 
       for (let i = 0; i < rowCenters.length - 1; i++) {
         const yCurr = rowCenters[i];
@@ -89,11 +86,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         const isEven = i % 2 === 0;
 
         if (isEven) {
-          // Right bend from Row i to Row i+1
-          d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${innerRight} ${yNext} H ${innerLeft}`;
+          // Right bend (Row i -> Row i+1): Tangent points at (outerRight - r)
+          d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yNext} H ${outerLeft + r}`;
         } else {
-          // Left bend from Row i to Row i+1
-          d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${innerLeft} ${yNext} H ${innerRight}`;
+          // Left bend (Row i -> Row i+1): Tangent points at (outerLeft + r)
+          d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${outerRight - r}`;
         }
       }
 
@@ -211,7 +208,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={desktopContainerRef}
         className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
       >
-        {/* ONE SINGLE CONTINUOUS DYNAMIC SVG PATHWAY (100% PERFECT REGISTRATION WITH ALL DOM ROWS) */}
+        {/* ONE SINGLE CONTINUOUS DYNAMIC SVG PATHWAY WITH WATER WAVE MOTION */}
         {pathD && (
           <svg
             viewBox={`0 0 ${svgSize.w} ${svgSize.h}`}
@@ -224,6 +221,19 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <stop offset="50%" stopColor="#06b6d4" />
                 <stop offset="100%" stopColor="#3b82f6" />
               </linearGradient>
+
+              {/* SVG Animated Fluid Water Wave Turbulence Filter */}
+              <filter id="water-wave-motion" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.02 0.05" numOctaves="2" result="noise">
+                  <animate
+                    attributeName="baseFrequency"
+                    values="0.02 0.05; 0.03 0.08; 0.02 0.05"
+                    dur="6s"
+                    repeatCount="indefinite"
+                  />
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+              </filter>
             </defs>
 
             {/* 1. Muted Background Track Path */}
@@ -236,7 +246,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               strokeLinejoin="round"
             />
 
-            {/* 2. Lenis + GSAP ScrollTrigger Scrub Main Liquid Cyan Line Filler */}
+            {/* 2. Lenis + GSAP ScrollTrigger Scrub Main Liquid Ocean Water Line Filler */}
             <path
               ref={desktopPathRef}
               d={pathD}
@@ -248,6 +258,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               style={{
                 strokeDasharray: desktopPathLength || 10000,
                 strokeDashoffset: desktopPathLength || 10000,
+                filter: 'url(#water-wave-motion)',
               }}
             />
           </svg>
@@ -393,6 +404,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             style={{
               strokeDasharray: mobilePathLength || 1000,
               strokeDashoffset: mobilePathLength || 1000,
+              filter: 'url(#water-wave-motion)',
             }}
           />
         </svg>
