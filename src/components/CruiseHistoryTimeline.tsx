@@ -40,7 +40,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     rows.push(history.slice(i, i + chunkSize));
   }
 
-  // Calculate single continuous SVG path string dynamically from real DOM positions
+  // Calculate single continuous SVG path string dynamically from real DOM positions (Starting on Top-Right in reverse)
   useEffect(() => {
     const updatePathGeometry = () => {
       if (!desktopContainerRef.current) return;
@@ -64,8 +64,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       if (rowCenters.length === 0) return;
 
-      // Measure START dot position
-      let startX = 18;
+      // Measure START dot position (Top Right)
+      let startX = w - 18;
       let startY = 20;
       if (startDotRef.current) {
         const dotRect = startDotRef.current.getBoundingClientRect();
@@ -77,20 +77,20 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const outerLeft = 12;
       const r = 40; // Corner radius matching tangent offset perfectly
 
-      // Build single continuous SVG path string with 100% geometric circular turns (zero kinks!)
-      let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${rowCenters[0]} H ${outerRight - r}`;
+      // Build single continuous SVG path string starting from top-right corner
+      let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 1 ${startX - r} ${rowCenters[0]} H ${outerLeft + r}`;
 
       for (let i = 0; i < rowCenters.length - 1; i++) {
         const yCurr = rowCenters[i];
         const yNext = rowCenters[i + 1];
-        const isEven = i % 2 === 0;
+        const isRightToLeft = i % 2 === 0;
 
-        if (isEven) {
-          // Right bend (Row i -> Row i+1): Tangent points at (outerRight - r)
-          d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yNext} H ${outerLeft + r}`;
-        } else {
-          // Left bend (Row i -> Row i+1): Tangent points at (outerLeft + r)
+        if (isRightToLeft) {
+          // Left bend from Row i (R->L) to Row i+1 (L->R)
           d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${outerRight - r}`;
+        } else {
+          // Right bend from Row i (L->R) to Row i+1 (R->L)
+          d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yNext} H ${outerLeft + r}`;
         }
       }
 
@@ -264,23 +264,23 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           </svg>
         )}
         
-        {/* START POINT HEADER */}
-        <div className="relative pl-2 mb-12">
+        {/* START POINT HEADER (Top Right Corner) */}
+        <div className="relative pr-2 mb-12 flex justify-end">
           <div className="flex items-center gap-3">
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
+              START · LATEST VOYAGES
+            </span>
             <div
               ref={startDotRef}
               className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10"
             />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
-              START · LATEST VOYAGES
-            </span>
           </div>
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
         <div className="flex flex-col">
           {rows.map((rowItems, rowIndex) => {
-            const isEvenRow = rowIndex % 2 === 0;
+            const isRightToLeft = rowIndex % 2 === 0;
 
             return (
               <div
@@ -292,7 +292,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <div
                   data-year-header-row
                   className={`relative flex justify-between items-center px-8 h-12 ${
-                    isEvenRow ? 'flex-row' : 'flex-row-reverse'
+                    isRightToLeft ? 'flex-row-reverse' : 'flex-row'
                   }`}
                 >
                   {rowItems.map((hist, itemIndex) => {
@@ -328,7 +328,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* CARDS ROW */}
                 <div
                   className={`flex justify-between items-start px-8 mt-4 ${
-                    isEvenRow ? 'flex-row' : 'flex-row-reverse'
+                    isRightToLeft ? 'flex-row-reverse' : 'flex-row'
                   }`}
                 >
                   {rowItems.map((hist, itemIndex) => {
