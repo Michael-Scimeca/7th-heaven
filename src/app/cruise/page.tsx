@@ -732,7 +732,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
                 </p>
                 <p>
-                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-bold underline hover:text-white">travel.state.gov</a> to ensure compliance.
+                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-extrabold underline hover:text-white animate-pulse inline-block">travel.state.gov</a> to ensure compliance.
                 </p>
               </div>
             </div>
