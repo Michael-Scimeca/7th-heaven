@@ -151,8 +151,8 @@ export type CruiseTuningConfig = {
 const DEFAULT_TUNING: CruiseTuningConfig = {
   rippleAmp: 7,
   waveSpeed: 0.0011,
-  lerpSpeed: 0.75,
-  scrollStartMul: 0.35,
+  lerpSpeed: 1.0,
+  scrollStartMul: 0.45,
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
   shipScale: 1.5,
@@ -350,7 +350,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
         saved.shipOffsetY = 0.50;
-        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50 });
+        saved.lerpSpeed = 1.0;
+        saved.speedMultiplier = 1.0;
+        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0 });
       }
     } catch {}
   }, []);
@@ -461,11 +463,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const rect = canvas.getBoundingClientRect();
         const viewH = window.innerHeight;
 
-        // Lock boat 1:1 with viewport scroll position
-        const viewportFocusY = viewH * (t.scrollStartMul ?? 0.5);
+        // Lock boat 1:1 with viewport scroll position matching first node to last node
+        const startY = nodes[0]?.y ?? 50;
+        const endY = nodes[nodes.length - 1]?.y ?? (totalH - 300);
+
+        const viewportFocusY = viewH * (t.scrollStartMul ?? 0.45);
         const relativeScrollY = viewportFocusY - rect.top;
-        const totalScrollDistance = Math.max(1, rect.height + 450);
-        const rawProgress = Math.max(0, Math.min(1, relativeScrollY / totalScrollDistance));
+        const rawProgress = (relativeScrollY - startY) / Math.max(1, endY - startY);
         const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
         const targetOffset = totalLen * (1 - progress);
 
@@ -476,12 +480,16 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           setHasScrolledIntoRange(isSectionInRange);
         }
 
-        currentFillOffset += (targetOffset - currentFillOffset) * t.lerpSpeed;
+        if (t.lerpSpeed >= 0.95) {
+          currentFillOffset = targetOffset;
+        } else {
+          currentFillOffset += (targetOffset - currentFillOffset) * t.lerpSpeed;
+        }
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
-        // Compute current tip point on SVG path (distance along path from start)
-        const lineFillDist = Math.min(totalLen - 120, totalLen - currentFillOffset);
-        const shipDist = Math.max(0, Math.min(totalLen - 190, lineFillDist - 60));
+        // Compute current tip point on SVG path (distance along path from start 1:1 with line fill)
+        const lineFillDist = totalLen - currentFillOffset;
+        const shipDist = Math.max(0, Math.min(totalLen, lineFillDist));
         const pt = fill.getPointAtLength(shipDist);
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
