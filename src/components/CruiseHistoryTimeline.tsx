@@ -24,7 +24,7 @@ const LAYOUT_OPTIONS: { id: LayoutMode; label: string; icon: string }[] = [
 ];
 
 export default function CruiseHistoryTimeline({ history }: Props) {
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>('vertical-line');
+  const [layoutMode, setLayoutMode] = useState<LayoutMode>('zigzag');
   const [activeStepIdx, setActiveStepIdx] = useState(0);
 
   return (
@@ -85,9 +85,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       {/* ── LAYOUT 2: ALTERNATING ZIG-ZAG ── */}
       {layoutMode === 'zigzag' && (
-        <div className="relative max-w-5xl mx-auto py-4 animate-in fade-in duration-300">
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-gradient-to-b from-cyan-500 via-purple-500/30 to-transparent" />
-          <div className="space-y-8">
+        <div className="relative max-w-5xl mx-auto py-6 animate-in fade-in duration-300">
+          {/* Vertical axis line */}
+          <div className="hidden md:block absolute left-1/2 top-4 bottom-4 w-[2px] -translate-x-1/2 bg-gradient-to-b from-cyan-400 via-purple-500/40 to-cyan-500/20 shadow-[0_0_12px_rgba(6,182,212,0.5)] pointer-events-none" />
+          
+          <div className="space-y-8 md:space-y-12">
             {history.map((hist, idx) => {
               const isEven = idx % 2 === 0;
               return (
@@ -95,21 +97,38 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   key={idx}
                   className={`flex flex-col md:flex-row items-center ${
                     isEven ? 'md:flex-row-reverse' : ''
-                  } gap-6`}
+                  } gap-4 md:gap-8 group`}
                 >
-                  <div className="w-full md:w-1/2 px-4">
-                    <div className="bg-[#0c0c16] border border-white/10 hover:border-cyan-400/50 p-6 rounded-2xl shadow-xl transition-all duration-300 hover:-translate-y-1">
-                      <span className="text-xs font-black text-cyan-400 font-mono bg-cyan-500/10 px-2.5 py-0.5 rounded border border-cyan-500/20 inline-block mb-2">
-                        {hist.year}
-                      </span>
-                      <h4 className="text-base font-black text-white uppercase">{hist.ship}</h4>
-                      <p className="text-xs text-white/50 mt-2 leading-relaxed">{hist.details}</p>
+                  {/* Card Content */}
+                  <div className="w-full md:w-1/2 px-2">
+                    <div className="bg-[#0b0b14]/90 backdrop-blur-xl border border-white/10 hover:border-cyan-400/60 p-6 md:p-7 rounded-3xl shadow-2xl transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(6,182,212,0.15)] relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-cyan-500/10 transition-colors" />
+                      
+                      <div className="flex items-center justify-between gap-4 mb-3">
+                        <span className="text-sm font-black text-cyan-400 font-mono bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/30 inline-block shadow-[0_0_10px_rgba(6,182,212,0.2)]">
+                          {hist.year}
+                        </span>
+                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-white/30 font-mono">
+                          Voyage #{history.length - idx}
+                        </span>
+                      </div>
+
+                      <h4 className="text-base md:text-lg font-black text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
+                        {hist.ship}
+                      </h4>
+                      <p className="text-xs md:text-sm text-white/60 mt-2 leading-relaxed font-sans">
+                        {hist.details}
+                      </p>
                     </div>
                   </div>
-                  <div className="hidden md:flex shrink-0 w-8 h-8 rounded-full bg-cyan-500 text-black font-black text-xs items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.6)] z-10">
-                    ⚓
+
+                  {/* Center Node Anchor Badge */}
+                  <div className="shrink-0 w-10 h-10 rounded-full bg-cyan-500 text-black font-black text-sm flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.8)] z-10 border-2 border-[#050508] group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">
+                    ⚡
                   </div>
-                  <div className="w-full md:w-1/2" />
+
+                  {/* Empty Spacer Column for Desktop Grid Balancing */}
+                  <div className="w-full md:w-1/2 hidden md:block" />
                 </div>
               );
             })}
