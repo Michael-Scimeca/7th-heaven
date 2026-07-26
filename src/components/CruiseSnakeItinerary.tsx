@@ -1042,7 +1042,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#05050f] via-[#05050f]/60 to-transparent flex items-end p-4">
                     <span className="text-xs font-black uppercase tracking-widest text-cyan-300 backdrop-blur-md bg-black/60 px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-1.5 shadow-lg">
-                      📍 {day.location}
+                      {isAtSeaDay(day) ? '🌊 DAY AT SEA' : `📍 ${day.location}`}
                     </span>
                   </div>
                 </div>
@@ -1175,33 +1175,50 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
 
           return (
-            <div
-              key={`node-ring-${i}`}
-              style={{
-                position: 'absolute',
-                left: `${(node.x / SVG_W) * 100}%`,
-                top: `${(node.y / totalH) * 100}%`,
-                transform: 'translate(-50%, -50%)',
-                width: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
-                height: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
-                borderRadius: '50%',
-                backgroundColor: '#0a0a12',
-                border: isActive ? '3px solid #06b6d4' : '2px solid rgba(6,182,212,0.4)',
-                boxShadow: isActive ? '0 0 25px rgba(6,182,212,0.7)' : 'none',
-                zIndex: isActive ? 30 : 25,
-                overflow: 'hidden',
-                transition: 'all 0.3s ease',
-                pointerEvents: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <CircleVideoNode
-                src={videoSrc}
-                shouldPlay={hasScrolledIntoRange && (isActive || isPassed)}
-              />
-            </div>
+            <React.Fragment key={`node-group-${i}`}>
+              {isSea && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: `${(node.x / SVG_W) * 100}%`,
+                    top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
+                    transform: 'translateX(-50%)',
+                    zIndex: 35,
+                    pointerEvents: 'none',
+                  }}
+                  className="whitespace-nowrap bg-[#060612]/95 border border-cyan-400/60 text-cyan-300 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-[0_0_16px_rgba(6,182,212,0.5)] backdrop-blur-md flex items-center gap-1.5 animate-in fade-in zoom-in-95 duration-300"
+                >
+                  <span>🌊</span> DAY AT SEA
+                </div>
+              )}
+              <div
+                key={`node-ring-${i}`}
+                style={{
+                  position: 'absolute',
+                  left: `${(node.x / SVG_W) * 100}%`,
+                  top: `${(node.y / totalH) * 100}%`,
+                  transform: 'translate(-50%, -50%)',
+                  width: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
+                  height: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
+                  borderRadius: '50%',
+                  backgroundColor: '#0a0a12',
+                  border: isActive ? '3px solid #06b6d4' : '2px solid rgba(6,182,212,0.4)',
+                  boxShadow: isActive ? '0 0 25px rgba(6,182,212,0.7)' : 'none',
+                  zIndex: isActive ? 30 : 25,
+                  overflow: 'hidden',
+                  transition: 'all 0.3s ease',
+                  pointerEvents: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <CircleVideoNode
+                  src={videoSrc}
+                  shouldPlay={hasScrolledIntoRange && (isActive || isPassed)}
+                />
+              </div>
+            </React.Fragment>
           );
         })}
       </div>
