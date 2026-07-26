@@ -983,16 +983,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           document.body
         )}
 
-        {/* ── Persistent Floating Settings Button ── */}
-        {mounted && createPortal(
-          <button
-            onClick={() => setShowSettings(prev => !prev)}
-            className="fixed bottom-6 right-6 z-[999999] bg-[#060614] hover:bg-cyan-950 border-2 border-cyan-400 text-cyan-300 px-5 py-3 rounded-full font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(6,182,212,0.6)] backdrop-blur-md flex items-center gap-2 hover:scale-105 transition-all cursor-pointer"
-          >
-            <span>⚙️</span> {showSettings ? 'Close Tuning' : 'Tune Cruise Controls'}
-          </button>,
-          document.body
-        )}
+
 
       </div>
 

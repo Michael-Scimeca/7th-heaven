@@ -390,7 +390,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               shipDivRef.current.style.left = `${pt.x + offX}px`;
               shipDivRef.current.style.top = `${pt.y + offY}px`;
               shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
-              shipDivRef.current.style.zIndex = '9999';
+              shipDivRef.current.style.zIndex = '10';
               shipDivRef.current.style.opacity = self.progress > 0.005 ? '1' : '0';
             }
           },
@@ -459,7 +459,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             width: 1200,
             height: 1200,
             pointerEvents: 'none',
-            zIndex: 9999,
+            zIndex: 10,
             overflow: 'visible',
             transition: 'none',
             opacity: 1,
@@ -1054,16 +1054,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         document.body
       )}
 
-      {/* ── Persistent Floating Trigger Button ── */}
-      {mounted && createPortal(
-        <button
-          onClick={() => setShowSettings(prev => !prev)}
-          className="fixed bottom-6 left-6 z-[999999] bg-[#060614] hover:bg-cyan-950 border-2 border-cyan-400 text-cyan-300 px-5 py-3 rounded-full font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(6,182,212,0.6)] backdrop-blur-md flex items-center gap-2 hover:scale-105 transition-all cursor-pointer"
-        >
-          <span>⚙️</span> {showSettings ? 'Close History Controls' : 'Tune History Controls'}
-        </button>,
-        document.body
-      )}
+
     </div>
   );
 }
