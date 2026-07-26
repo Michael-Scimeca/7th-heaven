@@ -51,9 +51,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           </div>
 
           {/* SVG Smooth Curve connecting START badge down and extending right directly into 2028 */}
-          <svg className="absolute left-[10px] top-[10px] bottom-[-2.25rem] w-[180px] h-[calc(100%+2.25rem)] pointer-events-none z-0 overflow-visible">
+          <svg className="absolute left-[10px] top-[10px] bottom-[-2.25rem] w-[140px] h-[calc(100%+2.25rem)] pointer-events-none z-0 overflow-visible">
             <path
-              d="M 0 0 V calc(100% - 20px) A 20 20 0 0 0 20 100% H 160"
+              d="M 0 0 V calc(100% - 20px) A 20 20 0 0 0 20 100% H 120"
               fill="none"
               stroke="#06b6d4"
               strokeWidth="2.5"
@@ -70,6 +70,35 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
             return (
               <div key={rowIndex} className="relative mb-24 last:mb-0">
+                {/* 100% Perfect Full-Height SVG Side Bends (Spans from Row N line down to Row N+1 line) */}
+                {!isLastRow && (
+                  <>
+                    {isEvenRow ? (
+                      /* RIGHT SIDE BEND: Exits 2026 right, drops down full row height, curves left into 2025 right */
+                      <svg className="absolute left-[calc(100%-60px)] top-6 h-full w-[60px] pointer-events-none z-0 overflow-visible">
+                        <path
+                          d="M 0 0 A 36 36 0 0 1 36 36 V calc(100% - 36px) A 36 36 0 0 1 0 100%"
+                          fill="none"
+                          stroke="#06b6d4"
+                          strokeWidth="2.5"
+                          className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+                        />
+                      </svg>
+                    ) : (
+                      /* LEFT SIDE BEND: Exits 2023 left, drops down full row height, curves right into 2022 left */
+                      <svg className="absolute right-[calc(100%-60px)] top-6 h-full w-[60px] pointer-events-none z-0 overflow-visible">
+                        <path
+                          d="M 60 0 A 36 36 0 0 0 24 36 V calc(100% - 36px) A 36 36 0 0 0 60 100%"
+                          fill="none"
+                          stroke="#06b6d4"
+                          strokeWidth="2.5"
+                          className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+                        />
+                      </svg>
+                    )}
+                  </>
+                )}
+
                 {/* YEAR HEADERS & HORIZONTAL LINE ROW */}
                 <div
                   className={`relative flex justify-between items-center px-8 h-12 ${
@@ -78,35 +107,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 >
                   {/* Horizontal Pipeline Line (Spans cleanly across the row items) */}
                   <div className="absolute top-1/2 -translate-y-1/2 left-[60px] right-[60px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
-
-                  {/* 100% Perfect SVG Side Bends (Positioned directly at the line ends with zero overhang) */}
-                  {!isLastRow && (
-                    <>
-                      {isEvenRow ? (
-                        /* RIGHT SIDE BEND: Starts at right-[60px], curves right 36px, drops down, and curves back to right-[60px] */
-                        <svg className="absolute left-[calc(100%-60px)] top-1/2 bottom-[-8rem] w-[60px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
-                          <path
-                            d="M 0 0 A 36 36 0 0 1 36 36 V calc(100% - 36px) A 36 36 0 0 1 0 100%"
-                            fill="none"
-                            stroke="#06b6d4"
-                            strokeWidth="2.5"
-                            className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-                          />
-                        </svg>
-                      ) : (
-                        /* LEFT SIDE BEND: Starts at left-[60px], curves left 36px, drops down, and curves back to left-[60px] */
-                        <svg className="absolute right-[calc(100%-60px)] top-1/2 bottom-[-8rem] w-[60px] h-[calc(100%+8rem)] pointer-events-none z-0 overflow-visible">
-                          <path
-                            d="M 60 0 A 36 36 0 0 0 24 36 V calc(100% - 36px) A 36 36 0 0 0 60 100%"
-                            fill="none"
-                            stroke="#06b6d4"
-                            strokeWidth="2.5"
-                            className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-                          />
-                        </svg>
-                      )}
-                    </>
-                  )}
 
                   {/* Year Headers (3 per row) */}
                   {rowItems.map((hist, itemIndex) => {
