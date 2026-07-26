@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export type HistoryItem = {
   year: string;
@@ -13,12 +13,101 @@ type Props = {
 };
 
 export default function CruiseHistoryTimeline({ history }: Props) {
-  // Chunk history items into 3 items per row, matching the CodePen 3-column serpentine layout
+  const desktopContainerRef = useRef<HTMLDivElement>(null);
+  const desktopPathRef = useRef<SVGPathElement>(null);
+  
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const mobilePathRef = useRef<SVGPathElement>(null);
+
+  const [desktopProgress, setDesktopProgress] = useState(0);
+  const [desktopPathLength, setDesktopPathLength] = useState(0);
+
+  const [mobileProgress, setMobileProgress] = useState(0);
+  const [mobilePathLength, setMobilePathLength] = useState(0);
+
+  // Chunk history items into 3 items per row for desktop
   const rows: HistoryItem[][] = [];
   const chunkSize = 3;
   for (let i = 0; i < history.length; i += chunkSize) {
     rows.push(history.slice(i, i + chunkSize));
   }
+
+  // Calculate SVG path lengths & update scroll progress dynamically
+  useEffect(() => {
+    if (desktopPathRef.current) {
+      setDesktopPathLength(desktopPathRef.current.getTotalLength());
+    }
+    if (mobilePathRef.current) {
+      setMobilePathLength(mobilePathRef.current.getTotalLength());
+    }
+
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+
+      // Desktop Scroll Calculation
+      if (desktopContainerRef.current) {
+        const rect = desktopContainerRef.current.getBoundingClientRect();
+        const startY = rect.top;
+        const totalHeight = rect.height - windowHeight * 0.3;
+        if (totalHeight > 0) {
+          const current = windowHeight * 0.7 - startY;
+          setDesktopProgress(Math.max(0, Math.min(1, current / totalHeight)));
+        }
+      }
+
+      // Mobile Scroll Calculation
+      if (mobileContainerRef.current) {
+        const rect = mobileContainerRef.current.getBoundingClientRect();
+        const startY = rect.top;
+        const totalHeight = rect.height - windowHeight * 0.3;
+        if (totalHeight > 0) {
+          const current = windowHeight * 0.7 - startY;
+          setMobileProgress(Math.max(0, Math.min(1, current / totalHeight)));
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Single Continuous Desktop Serpentine SVG Path (viewBox 0 0 1000 1800)
+  const serpentinePathD = `
+    M 20 10
+    V 40
+    A 20 20 0 0 0 40 60
+    H 940
+    A 40 40 0 0 1 980 100
+    V 260
+    A 40 40 0 0 1 940 300
+    H 60
+    A 40 40 0 0 0 20 340
+    V 500
+    A 40 40 0 0 0 60 540
+    H 940
+    A 40 40 0 0 1 980 580
+    V 740
+    A 40 40 0 0 1 940 780
+    H 60
+    A 40 40 0 0 0 20 820
+    V 980
+    A 40 40 0 0 0 60 1020
+    H 940
+    A 40 40 0 0 1 980 1060
+    V 1220
+    A 40 40 0 0 1 940 1260
+    H 60
+    A 40 40 0 0 0 20 1300
+    V 1460
+    A 40 40 0 0 0 60 1500
+    H 940
+    A 40 40 0 0 1 980 1540
+    V 1700
+    A 40 40 0 0 1 940 1740
+    H 60
+  `.replace(/\s+/g, ' ').trim();
 
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
@@ -39,9 +128,47 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       </div>
 
       {/* ── DESKTOP CODEPEN SERPENTINE SNAKE TIMELINE (LG & UP) ── */}
-      <div className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative">
+      <div
+        ref={desktopContainerRef}
+        className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
+      >
+        {/* SINGLE CONTINUOUS ANIMATED SVG SERPENTINE PATHWAY */}
+        <svg
+          viewBox="0 0 1000 1800"
+          preserveAspectRatio="none"
+          className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
+        >
+          {/* 1. Subtle Muted Track Path (Always Visible Outline) */}
+          <path
+            d={serpentinePathD}
+            fill="none"
+            stroke="rgba(6, 182, 212, 0.15)"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+
+          {/* 2. Interactive Scroll-Animated Glowing Cyan Line */}
+          <path
+            ref={desktopPathRef}
+            d={serpentinePathD}
+            fill="none"
+            stroke="#06b6d4"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{
+              strokeDasharray: desktopPathLength || 10000,
+              strokeDashoffset: desktopPathLength
+                ? desktopPathLength * (1 - desktopProgress)
+                : 10000,
+              filter: 'drop-shadow(0 0 10px rgba(6, 182, 212, 0.9))',
+              transition: 'stroke-dashoffset 0.1s linear',
+            }}
+          />
+        </svg>
         
-        {/* START POINT HEADER (Top-Left Corner Entry) */}
+        {/* START POINT HEADER */}
         <div className="relative pl-2 mb-12">
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] drop-shadow-[0_0_10px_rgba(6,182,212,0.9)] animate-pulse z-10" />
@@ -49,42 +176,21 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               START · LATEST VOYAGES
             </span>
           </div>
-
-          {/* Smooth Curve centered directly under the START dot (left-[17.5px] centers the 2.5px stroke with 20px dot) */}
-          <div className="absolute left-[17.5px] top-[10px] bottom-[-4.55rem] w-[42.5px] border-l-[2.5px] border-b-[2.5px] border-cyan-400 rounded-bl-[20px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
         <div className="flex flex-col">
           {rows.map((rowItems, rowIndex) => {
-            const isEvenRow = rowIndex % 2 === 0; // Row 0 (L->R), Row 1 (R->L), Row 2 (L->R)...
-            const isLastRow = rowIndex === rows.length - 1;
+            const isEvenRow = rowIndex % 2 === 0;
 
             return (
               <div key={rowIndex} className="relative mb-24 last:mb-0">
-                {/* 100% Perfect Continuous Side Bends with 24px spacing from card boxes */}
-                {!isLastRow && (
-                  <>
-                    {isEvenRow ? (
-                      /* RIGHT SIDE BEND: Exits 2026 right, curves 52px out to right-[8px] (spacious gap from card box), drops, and curves back to 2025 right */
-                      <div className="absolute right-[8px] top-[22.75px] bottom-[-7.55rem] w-[52px] border-r-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tr-[44px] rounded-br-[44px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
-                    ) : (
-                      /* LEFT SIDE BEND: Exits 2023 left, curves 52px out to left-[8px] (spacious gap from card box), drops, and curves back to 2022 left */
-                      <div className="absolute left-[8px] top-[22.75px] bottom-[-7.55rem] w-[52px] border-l-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tl-[44px] rounded-bl-[44px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
-                    )}
-                  </>
-                )}
-
-                {/* YEAR HEADERS & HORIZONTAL LINE ROW */}
+                {/* YEAR HEADERS ROW */}
                 <div
                   className={`relative flex justify-between items-center px-8 h-12 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
-                  {/* Horizontal Pipeline Line (Spans cleanly across the row items) */}
-                  <div className="absolute top-1/2 -translate-y-1/2 left-[60px] right-[60px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
-
-                  {/* Year Headers (3 per row) */}
                   {rowItems.map((hist, itemIndex) => {
                     return (
                       <div
@@ -101,7 +207,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   })}
                 </div>
 
-                {/* CARDS ROW (Positioned Directly Below Year Headers) */}
+                {/* CARDS ROW */}
                 <div
                   className={`flex justify-between items-start px-8 mt-4 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
@@ -150,8 +256,33 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       </div>
 
       {/* ── MOBILE VERTICAL SNAKE TIMELINE (MD & BELOW) ── */}
-      <div className="block lg:hidden relative max-w-lg mx-auto py-6 px-4">
-        <div className="absolute left-6 top-4 bottom-4 w-[2.5px] bg-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.7)] pointer-events-none" />
+      <div
+        ref={mobileContainerRef}
+        className="block lg:hidden relative max-w-lg mx-auto py-6 px-4"
+      >
+        <svg className="absolute left-6 top-4 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
+          <path
+            d="M 2 0 V 1000"
+            fill="none"
+            stroke="rgba(6, 182, 212, 0.15)"
+            strokeWidth="3"
+          />
+          <path
+            ref={mobilePathRef}
+            d="M 2 0 V 1000"
+            fill="none"
+            stroke="#06b6d4"
+            strokeWidth="3.5"
+            style={{
+              strokeDasharray: mobilePathLength || 1000,
+              strokeDashoffset: mobilePathLength
+                ? mobilePathLength * (1 - mobileProgress)
+                : 1000,
+              filter: 'drop-shadow(0 0 8px rgba(6,182,212,0.9))',
+              transition: 'stroke-dashoffset 0.1s linear',
+            }}
+          />
+        </svg>
 
         <div className="space-y-6 pl-10">
           {history.map((hist, idx) => (
