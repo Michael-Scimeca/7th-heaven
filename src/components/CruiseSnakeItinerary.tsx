@@ -1179,7 +1179,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               <div
                 style={{
                   position: 'absolute',
-                  left: `${(node.x / SVG_W) * 100}%`,
+                  left: `clamp(140px, ${(node.x / SVG_W) * 100}%, calc(100% - 140px))`,
                   top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
                   transform: 'translateX(-50%)',
                   zIndex: 35,
