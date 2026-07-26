@@ -1174,23 +1174,42 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const isPassed = visitedNodes[i];
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
 
+          const formatShortLocation = (loc: string) => {
+            if (!loc) return 'PORT';
+            const l = loc.toLowerCase();
+            if (l.includes('sea') || l.includes('cruising')) return 'DAY AT SEA';
+            if (l.includes('maarten')) return 'ST. MAARTEN';
+            if (l.includes('thomas')) return 'ST. THOMAS';
+            if (l.includes('cococay')) return 'COCOCAY';
+            if (l.includes('canaveral')) return 'PORT CANAVERAL';
+            if (l.includes('roatan')) return 'ROATAN';
+            if (l.includes('cozumel')) return 'COZUMEL';
+            if (l.includes('nassau')) return 'NASSAU';
+            if (l.includes('key west')) return 'KEY WEST';
+            return loc.split(',')[0].trim().toUpperCase();
+          };
+
+          const shortLoc = formatShortLocation(day.location);
+
           return (
             <React.Fragment key={`node-group-${i}`}>
-              {isSea && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: `${(node.x / SVG_W) * 100}%`,
-                    top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
-                    transform: 'translateX(-50%)',
-                    zIndex: 35,
-                    pointerEvents: 'none',
-                  }}
-                  className="whitespace-nowrap bg-[#060612]/95 border border-cyan-400/60 text-cyan-300 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-[0_0_16px_rgba(6,182,212,0.5)] backdrop-blur-md flex items-center gap-1.5 animate-in fade-in zoom-in-95 duration-300"
-                >
-                  <span>🌊</span> DAY AT SEA
-                </div>
-              )}
+              <div
+                style={{
+                  position: 'absolute',
+                  left: `${(node.x / SVG_W) * 100}%`,
+                  top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
+                  transform: 'translateX(-50%)',
+                  zIndex: 35,
+                  pointerEvents: 'none',
+                }}
+                className={`whitespace-nowrap bg-[#060612]/95 border text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
+                  isActive 
+                    ? 'border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.6)] scale-105' 
+                    : 'border-white/20 text-white/80 shadow-[0_0_10px_rgba(0,0,0,0.5)]'
+                }`}
+              >
+                <span>{isSea ? '🌊' : '📍'}</span> {shortLoc}
+              </div>
               <div
                 key={`node-ring-${i}`}
                 style={{
