@@ -51,9 +51,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           </div>
 
           {/* SVG Smooth Curve connecting START badge down into Row 0 Horizontal Line */}
-          <svg className="absolute left-[11px] top-[10px] bottom-[-2.5rem] w-[100px] h-[calc(100%+2.5rem)] pointer-events-none z-0 overflow-visible">
+          <svg className="absolute left-[10px] top-[10px] bottom-[-2.5rem] w-[80px] h-[calc(100%+2.5rem)] pointer-events-none z-0 overflow-visible">
             <path
-              d="M 0 0 V calc(100% - 24px) A 24 24 0 0 0 24 100% H 95"
+              d="M 0 0 V 16 A 24 24 0 0 0 24 40 H 80"
               fill="none"
               stroke="#06b6d4"
               strokeWidth="2.5"
@@ -75,15 +75,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   isEvenRow ? 'flex-row' : 'flex-row-reverse'
                 }`}
               >
-                {/* 1. Horizontal Pipeline Line Across Row Top */}
-                <div className="absolute top-0 left-[68px] right-[68px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
+                {/* 1. Horizontal Pipeline Line Across Row Top (y = 16px) */}
+                <div className="absolute top-[16px] left-[68px] right-[68px] h-[2.5px] bg-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
 
-                {/* 2. 100% Mathematically Perfect SVG S-Curve Bends (Spanning top-0 to bottom-0 of Row) */}
+                {/* 2. 100% Mathematically Perfect SVG S-Curve Bends */}
                 {!isLastRow && (
                   <>
                     {isEvenRow ? (
-                      /* RIGHT SIDE BEND (Connects Row Top-Right -> Next Row Top-Right) */
-                      <svg className="absolute right-[68px] top-0 bottom-0 w-[68px] h-full pointer-events-none z-0 overflow-visible">
+                      /* RIGHT SIDE BEND: Starts at (x: right-68px, y: 16px), drops down to (x: right-68px, y: 100% + 16px) */
+                      <svg className="absolute right-[68px] top-[16px] bottom-[-16px] w-[68px] h-full pointer-events-none z-0 overflow-visible">
                         <path
                           d="M 0 0 H 28 A 40 40 0 0 1 68 40 V calc(100% - 40px) A 40 40 0 0 1 28 100% H 0"
                           fill="none"
@@ -93,8 +93,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         />
                       </svg>
                     ) : (
-                      /* LEFT SIDE BEND (Connects Row Top-Left -> Next Row Top-Left) */
-                      <svg className="absolute left-[68px] top-0 bottom-0 w-[68px] h-full pointer-events-none z-0 overflow-visible">
+                      /* LEFT SIDE BEND: Starts at (x: left-68px, y: 16px), drops down to (x: left-68px, y: 100% + 16px) */
+                      <svg className="absolute left-[68px] top-[16px] bottom-[-16px] w-[68px] h-full pointer-events-none z-0 overflow-visible">
                         <path
                           d="M 68 0 H 40 A 40 40 0 0 0 0 40 V calc(100% - 40px) A 40 40 0 0 0 40 100% H 68"
                           fill="none"
@@ -117,15 +117,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       key={itemIndex}
                       className="w-[280px] relative text-center shrink-0 z-10 group"
                     >
-                      {/* GIANT YEAR HEADER - Breaks Line Directly In Center */}
-                      <div className="relative inline-block -translate-y-1/2 bg-[#06060c] px-4 py-0.5 rounded-2xl z-20">
-                        <h6 className="text-4xl md:text-5xl font-black text-cyan-400 font-mono tracking-tight group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(6,182,212,0.7)]">
+                      {/* GIANT YEAR HEADER - Centered Perfectly at y = 16px */}
+                      <div className="absolute top-[16px] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#06060c] px-4 py-0.5 rounded-2xl z-20">
+                        <h6 className="text-4xl md:text-5xl font-black text-cyan-400 font-mono tracking-tight group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(6,182,212,0.7)] leading-none">
                           {hist.year}
                         </h6>
                       </div>
 
                       {/* Content Box Below Year Header */}
-                      <div className="bg-[#0c0c16]/90 backdrop-blur-xl border border-white/10 hover:border-cyan-400/60 p-5 rounded-3xl shadow-2xl transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(6,182,212,0.2)] text-left mt-2">
+                      <div className="bg-[#0c0c16]/90 backdrop-blur-xl border border-white/10 hover:border-cyan-400/60 p-5 rounded-3xl shadow-2xl transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(6,182,212,0.2)] text-left mt-12">
                         <div className="flex items-center justify-between gap-2 mb-2">
                           <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400/80 font-mono bg-cyan-500/10 px-2.5 py-0.5 rounded border border-cyan-500/20">
                             VOYAGE #{voyageNum}
