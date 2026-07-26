@@ -10,6 +10,7 @@ import Lenis from 'lenis';
 
 function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<number> }) {
   const { scene } = useGLTF('/objects/ship.glb');
+  const clonedScene = React.useMemo(() => scene.clone(), [scene]);
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame(() => {
@@ -22,7 +23,7 @@ function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<nu
 
   return (
     <group ref={groupRef}>
-      <primitive object={scene} position={[0, 0, 0]} />
+      <primitive object={clonedScene} position={[0, 0, 0]} />
     </group>
   );
 }

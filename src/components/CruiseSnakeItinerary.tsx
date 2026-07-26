@@ -25,6 +25,7 @@ function ShipModel({
   shipScaleFactorRef: React.RefObject<number>;
 }) {
   const { scene } = useGLTF('/objects/ship.glb');
+  const clonedScene = React.useMemo(() => scene.clone(), [scene]);
   const groupRef = useRef<THREE.Group>(null);
   const scaleVelRef = useRef(0);
   const currentScaleFactorRef = useRef(1.0);
@@ -55,7 +56,7 @@ function ShipModel({
   return (
     <group ref={groupRef}>
       <primitive
-        object={scene}
+        object={clonedScene}
         position={[0, offsetY, 0]}
       />
     </group>
