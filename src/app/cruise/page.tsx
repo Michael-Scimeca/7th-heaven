@@ -1800,29 +1800,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Specs & Dimensions */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 text-center">
             {[
               { label: "Gross Tonnage", value: "248,663 GT", icon: "⚖️" },
               { label: "Total Length", value: "1,196.9 Feet", icon: "📐" },
               { label: "Total Width", value: "159.1 Feet", icon: "↔️" },
               { label: "Decks Tall", value: "20 Decks", icon: "🏢" },
             ].map((stat, idx) => (
-              <div key={idx} className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 hover:border-cyan-500/20 transition-colors">
+              <div key={idx} className="bg-transparent p-4 transition-colors">
                 <span className="text-3xl block mb-2">{stat.icon}</span>
-                <span className="text-[10px] text-white/30 font-black uppercase tracking-wider block">{stat.label}</span>
+                <span className="text-[10px] text-white/40 font-black uppercase tracking-wider block">{stat.label}</span>
                 <span className="text-lg md:text-xl font-black text-white mt-1 block">{stat.value}</span>
               </div>
             ))}
           </div>
 
           {/* Dining Tab Section */}
-          <div className="bg-[#0b0b12] border border-white/5 rounded-3xl p-6 md:p-8 text-left mb-16">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-white/5">
+          <div className="bg-transparent p-0 text-left mb-16">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10">
               <div>
                 <h3 className="text-xl font-black uppercase text-white">Dining Explorer Guide</h3>
                 <p className="text-xs text-white/40 mt-1">Discover included food spots and premium specialty restaurants.</p>
               </div>
-              <div className="flex bg-black/40 p-1 rounded-xl border border-white/5 shrink-0 self-center">
+              <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 shrink-0 self-center">
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("included")}
@@ -1845,7 +1845,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
 
             {/* Food Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-xs text-white/60">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs text-white/80">
               {(foodTypeTab === "included"
                 ? [
                     "Windjammer Buffet", "Main Dining Room", "Park Cafe", "Pearl Cafe",
@@ -1861,9 +1861,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     "Sugar Beach", "Room Service (Lunch/Dinner)", "Trellis Bar Dining"
                   ]
               ).map((food, idx) => (
-                <div key={idx} className="bg-black/30 border border-white/5 p-4 rounded-xl flex items-center gap-2">
+                <div key={idx} className="bg-transparent p-2.5 flex items-center gap-2.5 hover:bg-white/[0.04] rounded-xl transition-all">
                   <span className="text-cyan-400 font-extrabold shrink-0">✓</span>
-                  <span className="font-medium text-white">{food}</span>
+                  <span className="font-semibold text-white">{food}</span>
                 </div>
               ))}
             </div>
