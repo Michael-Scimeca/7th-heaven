@@ -446,8 +446,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (MATCHING NAVBAR WIDTH: max-w-[1400px]) ── */}
       <div
         ref={desktopContainerRef}
-        className="hidden md:block w-full max-w-[1400px] mx-auto py-8 px-4 md:px-8 lg:px-12 relative"
-        style={{ overflow: 'visible' }}
+        className="hidden md:block w-full max-w-[1400px] mx-auto py-8 px-4 md:px-8 lg:px-12 relative overflow-clip"
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div

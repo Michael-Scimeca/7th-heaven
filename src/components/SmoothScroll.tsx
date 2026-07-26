@@ -33,7 +33,26 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
+    // Immediately recalculate page scroll bounds on mount & layout changes
+    const resizeLenis = () => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    };
+
+    const t1 = setTimeout(resizeLenis, 100);
+    const t2 = setTimeout(resizeLenis, 400);
+
+    const ro = new ResizeObserver(() => {
+      lenis.resize();
+    });
+    if (document.body) {
+      ro.observe(document.body);
+    }
+
     return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      ro.disconnect();
       lenis.off("scroll", onScroll);
       gsap.ticker.remove(update);
       lenis.destroy();

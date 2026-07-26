@@ -531,7 +531,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   const progress = Math.min((totalGuests / GOAL) * 100, 100);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden max-w-full">
       {/* ── SECTION 1: HERO ── */}
       <section className="relative flex flex-col justify-center overflow-hidden pt-44 pb-16">
         <div className="absolute inset-0">
@@ -1085,10 +1085,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
         </section>
 
-      {/* ── SECTION 3: 25+ YEARS CRUISE HISTORY TIMELINE ── */}
-      <div className="max-w-[1400px] mx-auto px-4 py-8 relative z-20 border-t border-white/10">
-        <CruiseHistoryTimeline history={CRUISE_HISTORY} />
-      </div>
+
 
       {/* ── OFFICIAL BOOKING FORM ── */}
       <section id="book-now" className="py-16 site-container relative z-20">
