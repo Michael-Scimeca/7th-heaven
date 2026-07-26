@@ -15,19 +15,6 @@ type Props = {
   history: HistoryItem[];
 };
 
-// Custom Vector SVG Water Drop Icon for Mini-Map Track
-const WaterDropIcon = ({ className = '', fill = 'currentColor' }: { className?: string; fill?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    className={`transition-all duration-300 ${className}`}
-  >
-    <path
-      d="M 12 2.5 C 12 2.5 4.5 11 4.5 15.5 C 4.5 19.64 7.86 23 12 23 C 16.14 23 19.5 19.64 19.5 15.5 C 19.5 11 12 2.5 12 2.5 Z"
-      fill={fill}
-    />
-  </svg>
-);
-
 export default function CruiseHistoryTimeline({ history }: Props) {
   const desktopContainerRef = useRef<HTMLDivElement>(null);
   const desktopPathRef = useRef<SVGPathElement>(null);
@@ -254,21 +241,21 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </p>
       </div>
 
-      {/* ── FIXED BOTTOM-RIGHT SCROLL MINI-MAP & YEAR NAVIGATION CAROUSEL (SVG WATER DROPS) ── */}
+      {/* ── FIXED BOTTOM-RIGHT SCROLL MINI-MAP & YEAR NAVIGATION CAROUSEL (THINNER SLEEK CIRCLES) ── */}
       <div
-        className={`fixed bottom-6 right-6 z-50 transition-all duration-500 max-w-sm sm:max-w-md w-auto ${
+        className={`fixed bottom-6 right-6 z-50 transition-all duration-500 max-w-xs sm:max-w-sm w-auto ${
           isMiniMapVisible
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 translate-y-8 pointer-events-none'
         }`}
       >
-        <div className="bg-[#0c0c16]/95 backdrop-blur-2xl border border-white/20 px-5 py-3 rounded-full relative shadow-2xl">
+        <div className="bg-[#0c0c16]/95 backdrop-blur-2xl border border-white/20 px-4 py-2.5 rounded-full relative shadow-2xl">
           
           {/* Active Year Tooltip Pointer */}
           <div
             className="absolute -top-9 transition-all duration-300 ease-out flex flex-col items-center pointer-events-none -translate-x-1/2"
             style={{
-              left: `calc(1.5rem + (${activeYearIndex} / ${chronologicalHistory.length - 1}) * (100% - 3.5rem))`,
+              left: `calc(1.25rem + (${activeYearIndex} / ${chronologicalHistory.length - 1}) * (100% - 2.5rem))`,
             }}
           >
             <div className="bg-white text-black text-[10px] font-black font-mono px-2 py-0.5 rounded tracking-wider border border-white/30">
@@ -277,8 +264,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-white" />
           </div>
 
-          {/* 23 SVG Water Drops Track */}
-          <div className="flex items-center gap-1 sm:gap-1.5 px-1">
+          {/* 23 Thinner Sleek Circle Dots Track */}
+          <div className="flex items-center gap-1.5 sm:gap-2 px-1">
             {chronologicalHistory.map((item, idx) => {
               const isPast = idx < activeYearIndex;
               const isActive = idx === activeYearIndex;
@@ -298,22 +285,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     </div>
                   </div>
 
-                  {/* SVG Water Drop Teardrop Icon */}
-                  <WaterDropIcon
-                    fill={
+                  {/* Thinner Crisp Circle Dot */}
+                  <div
+                    className={`rounded-full transition-all duration-300 ${
                       isActive
-                        ? '#00f2fe'
+                        ? 'w-2.5 h-2.5 bg-cyan-300 scale-125'
                         : isPast
-                        ? '#06b6d4'
-                        : 'rgba(255, 255, 255, 0.25)'
-                    }
-                    className={
-                      isActive
-                        ? 'w-4 h-4 sm:w-4.5 sm:h-4.5 scale-125'
-                        : isPast
-                        ? 'w-3 h-3 sm:w-3.5 sm:h-3.5 hover:scale-125'
-                        : 'w-3 h-3 sm:w-3.5 sm:h-3.5 hover:scale-125'
-                    }
+                        ? 'w-1.5 h-1.5 bg-cyan-400/80 hover:scale-125'
+                        : 'w-1.5 h-1.5 bg-white/25 hover:bg-white/60 hover:scale-125'
+                    }`}
                   />
                 </button>
               );
