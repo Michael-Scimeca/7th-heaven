@@ -1168,22 +1168,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const isPassed = visitedNodes[i];
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
 
-          const formatShortLocation = (loc: string) => {
-            if (!loc) return 'PORT';
-            const l = loc.toLowerCase();
-            if (l.includes('sea') || l.includes('cruising')) return 'DAY AT SEA';
-            if (l.includes('maarten')) return 'ST. MAARTEN';
-            if (l.includes('thomas')) return 'ST. THOMAS';
-            if (l.includes('cococay')) return 'COCOCAY';
-            if (l.includes('canaveral')) return 'PORT CANAVERAL';
-            if (l.includes('roatan')) return 'ROATAN';
-            if (l.includes('cozumel')) return 'COZUMEL';
-            if (l.includes('nassau')) return 'NASSAU';
-            if (l.includes('key west')) return 'KEY WEST';
-            return loc.split(',')[0].trim().toUpperCase();
-          };
-
-          const shortLoc = formatShortLocation(day.location);
+          const displayLocation = isSea ? 'DAY AT SEA' : (day.location || '').toUpperCase();
 
           return (
             <React.Fragment key={`node-group-${i}`}>
@@ -1196,13 +1181,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   zIndex: 35,
                   pointerEvents: 'none',
                 }}
-                className={`whitespace-nowrap bg-[#060612]/95 border text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
+                className={`whitespace-nowrap bg-[#060612]/95 border text-[10px] font-black uppercase tracking-widest px-3.5 py-1 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
                   isActive 
                     ? 'border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.6)] scale-105' 
                     : 'border-white/20 text-white/80 shadow-[0_0_10px_rgba(0,0,0,0.5)]'
                 }`}
               >
-                <span>{isSea ? '🌊' : '📍'}</span> {shortLoc}
+                <span>{isSea ? '🌊' : '📍'}</span> {displayLocation}
               </div>
               <div
                 key={`node-ring-${i}`}
