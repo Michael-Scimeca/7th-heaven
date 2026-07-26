@@ -475,6 +475,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const viewportFocusY = viewH * (t.scrollStartMul ?? 0.45);
         const relativeScrollY = viewportFocusY - rect.top;
         const rawProgress = (relativeScrollY - startY) / Math.max(1, endY - startY);
+        const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
         const shipAdvance = t.shipAdvancePx ?? 80;
         const lineLead = t.lineFillLeadPx ?? 0;
         // Calculate target ship position along path
