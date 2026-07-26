@@ -655,8 +655,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">⚙️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">How To Book</h3>
+                <span className="text-2xl">🏷️</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Best Rate Guarantee</h3>
               </div>
               <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4">
                 Flexible rates & price drop matching
