@@ -187,21 +187,21 @@
 }
 
 .dayBadge {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 900;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding: 7px 16px;
+    padding: 8px 18px;
     border-radius: 100px;
     border: 1px solid;
 }
 
 .location {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .cardTitle {
@@ -232,10 +232,10 @@
 
 .eventTime {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.06em;
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -253,8 +253,8 @@
 }
 
 .eventSubtitle {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.45);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.55);
     margin-top: 3px;
     line-height: 1.5;
 }

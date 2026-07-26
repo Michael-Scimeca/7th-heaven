@@ -560,7 +560,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       </section>
 
       {/* ── SECTION 3: CABINS & PRICING (AT TOP) ── */}
-      <section id="pricing" className="py-16 site-container border-t border-white/5 relative z-10">
+      <section id="pricing" className="py-16 site-container -mt-20 md:-mt-32 relative z-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
@@ -600,12 +600,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           <div className="space-y-16">
             {/* GROUP RATES */}
             <div className="bg-transparent p-0 relative text-left">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-2">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Exclusive Group Deal</span>
-                  <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
+                  <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">Exclusive Group Deal</span>
+                  <h3 className="text-2xl md:text-3xl font-black uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
                 </div>
-                <div className="max-w-md text-2xs leading-relaxed text-cyan-200/90 font-medium">
+                <div className="max-w-md text-xs md:text-sm leading-relaxed text-cyan-200/90 font-medium">
                   💡 <strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).
                 </div>
               </div>
@@ -645,14 +645,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       )}
                       <div className="flex justify-between items-start gap-2 mb-3 text-left">
                         <span className="text-2xl">{room.icon}</span>
-                        <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
-                          room.status === "soldout" ? "bg-red-500/10 text-red-400" :
-                          room.status === "warning" ? "bg-amber-500/10 text-amber-400" :
-                          "bg-cyan-500/10 text-cyan-400"
+                        <span className={`text-[11px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider ${
+                          room.status === "soldout" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
+                          room.status === "warning" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
+                          "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
                         }`}>{room.badge}</span>
                       </div>
-                      <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
-                      <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
+                      <span className="text-xs font-bold text-white/40 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
+                      <h4 className="text-lg font-black text-white uppercase tracking-tight text-left">{room.title}</h4>
                     </div>
 
                     <div className="mt-4 pt-2 text-left">
@@ -660,16 +660,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <p className="text-xs text-white/40 italic font-medium">Prevailing Rates Only</p>
                       ) : (
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-xl font-black text-white">{room.price}</span>
-                          <span className="text-2xs text-white/40">USD pp</span>
+                          <span className="text-2xl font-black text-white">{room.price}</span>
+                          <span className="text-xs text-white/40 uppercase font-semibold">USD pp</span>
                         </div>
                       )}
                       {room.inclusions && (
-                        <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
+                        <span className="text-xs text-cyan-400 font-bold uppercase tracking-wider block mt-1.5">✓ {room.inclusions}</span>
                       )}
                       <button 
                         type="button"
-                        className="mt-4 w-full py-2.5 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 group-hover:text-white font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.15)]"
+                        className="mt-4 w-full py-3 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 group-hover:text-white font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.15)]"
                       >
                         <span>Select & Book Cabin</span>
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -832,7 +832,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Stateroom Suite Class Perks */}
-          <div className="border-t border-white/5 pt-16">
+          <div className="pt-16">
             <div className="text-center max-w-3xl mx-auto mb-12">
               <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 px-4 py-1 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20">
                 Accommodations Guide
@@ -1553,7 +1553,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
 
       {/* ── SECTION 1: ITINERARIES & DATES ── */}
-      <section id="itinerary" className="py-20 site-container border-t border-white/5">
+      <section id="itinerary" className="py-20 site-container">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
@@ -1594,7 +1594,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </section>
 
       {/* ── SECTION 2: BANDS & PORTS ── */}
-      <section id="bands-ports" className="pt-10 pb-20 site-container border-t border-white/5">
+      <section id="bands-ports" className="pt-10 pb-20 site-container">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Featured Artists <span className="accent-gradient-text">& Ports</span>
@@ -1623,7 +1623,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Ports of Call Section with Interactive Layout Options */}
-          <div className="border-t border-white/5 pt-16">
+          <div className="pt-16">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
               <div className="text-center md:text-left">
                 <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Destination Explorer</span>
@@ -1826,7 +1826,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
 
       {/* ── SECTION 4: SHIP EXPLORER ── */}
-      <section id="ship-explorer" className="py-20 site-container border-t border-white/5">
+      <section id="ship-explorer" className="py-20 site-container">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
@@ -1947,7 +1947,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </section>
 
       {/* ── SECTION 5: FAQS & HISTORY ── */}
-      <section id="faqs" className="py-20 site-container border-t border-white/5">
+      <section id="faqs" className="py-20 site-container">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Cruise FAQs <span className="accent-gradient-text">& Travel History</span>

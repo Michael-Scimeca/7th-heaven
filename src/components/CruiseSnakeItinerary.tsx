@@ -9,7 +9,7 @@ import styles from './CruiseSnakeItinerary.module.css';
 
 function ShipModel({
   scale = 1.0,
-  offsetY = -0.2,
+  offsetY = 0.05,
   shipRotYRef,
   shipScaleFactorRef,
 }: {
@@ -150,10 +150,10 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollStartMul: 0.48,
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
-  shipScale: 1.8,
-  shipOffsetY: 0.3,
+  shipScale: 1.5,
+  shipOffsetY: 0.05,
   anchorOffsetX: 0,
-  anchorOffsetY: -26,
+  anchorOffsetY: 0,
   minShipDist: 50,
   maxShipDistPad: 40,
   lineWidth: 6,
@@ -340,10 +340,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       const savedStr = localStorage.getItem('7h_cruise_tuning');
       if (savedStr) {
         const saved = JSON.parse(savedStr);
-        saved.shipScale = 1.0;
+        saved.shipScale = 1.5;
         saved.anchorOffsetX = 0;
-        saved.anchorOffsetY = -26;
-        saved.shipOffsetY = 0.3;
+        saved.anchorOffsetY = 0;
+        saved.shipOffsetY = 0.05;
         setTuning({ ...DEFAULT_TUNING, ...saved });
       }
     } catch {}
@@ -550,20 +550,21 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const pNext = fill.getPointAtLength(Math.min(totalLen, shipDist + 12));
         const dx = pNext.x - pPrev.x;
         const dy = pNext.y - pPrev.y;
+        const len = Math.hypot(dx, dy) || 1;
+        const ux = dx / len;
+        const uy = dy / len;
         const headingLeft = dx < 0;
 
-        // Container angle is ALWAYS kept within [-90°, +90°] so top of container ALWAYS points UP!
+        // Container angle matches path tangent angle
         const containerAngle = headingLeft ? Math.atan2(-dy, -dx) : Math.atan2(dy, dx);
         shipRotYRef.current = headingLeft ? Math.PI : 0;
 
         if (shipContainerRef.current) {
           const xPct = (pt.x / SVG_W) * 100;
           const yPct = (pt.y / totalH) * 100;
-          const offX = t.anchorOffsetX ?? 0;
-          const offY = t.anchorOffsetY ?? 0;
 
-          shipContainerRef.current.style.left = `calc(${xPct}% + ${offX}px)`;
-          shipContainerRef.current.style.top = `calc(${yPct}% + ${offY}px)`;
+          shipContainerRef.current.style.left = `${xPct}%`;
+          shipContainerRef.current.style.top = `${yPct}%`;
           shipContainerRef.current.style.transform = `translate(-50%, -50%) rotate(${containerAngle}rad)`;
           shipContainerRef.current.style.opacity = opacityVal.toFixed(3);
         }
@@ -1180,15 +1181,20 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           ref={shipContainerRef}
           style={{
             position: 'absolute',
-            width: isMobile ? 180 : 280,
-            height: isMobile ? 180 : 280,
+            width: isMobile ? 220 : 380,
+            height: isMobile ? 220 : 380,
             pointerEvents: 'none',
             zIndex: 2,
+            overflow: 'visible',
             transition: 'none',
             filter: 'none',
           }}
         >
-          <Canvas orthographic camera={{ zoom: isMobile ? 42 : 65, position: [0, 0, 100] }}>
+          <Canvas
+            orthographic
+            camera={{ left: -250, right: 250, top: 250, bottom: -250, zoom: isMobile ? 42 : 55, position: [0, 0, 100] }}
+            style={{ width: '100%', height: '100%', overflow: 'visible' }}
+          >
             <ambientLight intensity={1.5} />
             <directionalLight position={[5, 10, 5]} intensity={2} />
             <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
@@ -1225,7 +1231,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 backgroundColor: '#0a0a12',
                 border: '2px solid #06b6d4',
                 boxShadow: 'none',
-                zIndex: isActive ? 12 : 9,
+                zIndex: isActive ? 30 : 25,
                 overflow: 'hidden',
                 transition: 'width 0.3s ease, height 0.3s ease',
                 pointerEvents: 'none',

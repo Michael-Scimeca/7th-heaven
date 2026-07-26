@@ -50,17 +50,18 @@ html.lenis, html.lenis body {
  --font-heading: var(--font-rockstar);
  --font-body: var(--font-barlow);
 
-  /* Fluid Typography Sizing — Sleek, Modern & Compact Scale */
-  --font-size-xs: 0.72rem;
-  --font-size-sm: 0.82rem;
-  --font-size-base: 0.95rem;
-  --font-size-lg: clamp(0.95rem, 0.9rem + 0.2vw, 1.08rem);
-  --font-size-xl: clamp(1.08rem, 1rem + 0.3vw, 1.22rem);
-  --font-size-2xl: clamp(1.22rem, 1.12rem + 0.4vw, 1.45rem);
-  --font-size-3xl: clamp(1.45rem, 1.32rem + 0.5vw, 1.75rem);
-  --font-size-4xl: clamp(1.75rem, 1.55rem + 0.8vw, 2.15rem);
-  --font-size-5xl: clamp(2.15rem, 1.85rem + 1vw, 2.65rem);
-  --font-size-6xl: clamp(2.65rem, 2.2rem + 1.2vw, 3.3rem);
+  /* Fluid Typography Sizing — Sleek, Modern & Readable Hierarchy Scale */
+  --font-size-2xs: 0.72rem; /* ~11px */
+  --font-size-xs: 0.8rem;   /* ~13px */
+  --font-size-sm: 0.88rem;  /* ~14px */
+  --font-size-base: 1rem;   /* 16px base body */
+  --font-size-lg: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+  --font-size-xl: clamp(1.2rem, 1.1rem + 0.35vw, 1.35rem);
+  --font-size-2xl: clamp(1.35rem, 1.25rem + 0.5vw, 1.6rem);
+  --font-size-3xl: clamp(1.6rem, 1.45rem + 0.75vw, 2rem);
+  --font-size-4xl: clamp(2rem, 1.75rem + 1vw, 2.5rem);
+  --font-size-5xl: clamp(2.5rem, 2.1rem + 1.25vw, 3.2rem);
+  --font-size-6xl: clamp(3.2rem, 2.6rem + 1.5vw, 4rem);
 
  /* Animation */
  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -620,31 +621,4 @@ html.tour-sort-stuck #tour-sort-bar {
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
   }
-}
-
-/* ── Universal 16px Font Size Minimum Floor ── */
-.text-2xs,
-.text-xs,
-.text-sm,
-[class*="text-2xs"],
-[class*="text-xs"],
-[class*="text-sm"],
-[class*="text-[7px]"],
-[class*="text-[8px]"],
-[class*="text-[9px]"],
-[class*="text-[10px]"],
-[class*="text-[11px]"],
-[class*="text-[12px]"],
-[class*="text-[13px]"],
-[class*="text-[14px]"],
-[class*="text-[15px]"],
-[class*="text-[0.5rem]"],
-[class*="text-[0.6rem]"],
-[class*="text-[0.65rem]"],
-[class*="text-[0.7rem]"],
-[class*="text-[0.75rem]"],
-[class*="text-[0.8rem]"],
-[class*="text-[0.85rem]"],
-[class*="text-[0.9rem]"] {
-  font-size: 1rem !important;
 }
