@@ -360,10 +360,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               const pathDistance = Math.min(maxTravelLen, Math.max(0, xProgress * maxTravelLen));
               setCurrentShipLength(pathDistance);
 
-              // Interpolate length from 150px (1998, scrollProgress=0) to 280px (2026, scrollProgress=1) linearly
+              // Interpolate length from 150px (1998) to 220px (2026) clamped in 1:1 sync with position (xProgress)
               const startPx = 150;
-              const endPx = 280;
-              const targetLengthPx = startPx + scrollProgress * (endPx - startPx);
+              const endPx = 220;
+              const targetLengthPx = startPx + xProgress * (endPx - startPx);
               shipScaleRef.current = targetLengthPx;
 
               // Solid cyan ocean fill line fills 100% to 2026 at scrollProgress = 1.0
