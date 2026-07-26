@@ -160,7 +160,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 0,
-  maxShipDistPad: 320,
+  maxShipDistPad: 65,
   lineWidth: 6,
   glowBlur: 0,
   nodeDipRadius: 65,
@@ -350,8 +350,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
         saved.shipOffsetY = 0.50;
-        saved.maxShipDistPad = 320;
-        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 320 });
+        saved.maxShipDistPad = 65;
+        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 65 });
       }
     } catch {}
   }, []);
@@ -470,7 +470,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const relativeScrollY = viewportFocusY - rect.top;
         const rawProgress = (relativeScrollY - startY) / Math.max(1, endY - startY);
         const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
-        const targetOffset = totalLen * (1 - progress);
+        // Lock line fill & boat together so blue water current flows behind ship and both land cleanly at circle node ring edge
+        const pad = t.maxShipDistPad ?? 65;
+        const maxFillLen = Math.max(0, totalLen - pad);
+        const targetOffset = totalLen - (progress * maxFillLen);
 
         // Section is in range when the scroll focus position reaches the canvas top and bottom hasn't completely scrolled out
         const isSectionInRange = relativeScrollY > 0 && rect.bottom > 100;
@@ -486,10 +489,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
-        // Compute current tip point on SVG path (set back 320px so ship's front bow stops cleanly in open space before circle node ring)
-        const pad = t.maxShipDistPad ?? 320;
+        // Boat rides the exact leading tip of the flowing blue line
         const lineFillDist = totalLen - currentFillOffset;
-        const shipDist = Math.max(0, Math.min(totalLen - pad, lineFillDist - pad));
+        const shipDist = Math.max(0, Math.min(maxFillLen, lineFillDist));
         const pt = fill.getPointAtLength(shipDist);
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
