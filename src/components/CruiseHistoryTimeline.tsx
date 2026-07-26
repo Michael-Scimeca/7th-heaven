@@ -17,10 +17,21 @@ type Props = {
 
 export default function CruiseHistoryTimeline({ history }: Props) {
   const desktopContainerRef = useRef<HTMLDivElement>(null);
+  const desktopPathRef = useRef<SVGPathElement>(null);
+  const startDotRef = useRef<HTMLDivElement>(null);
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const mobilePathRef = useRef<SVGPathElement>(null);
 
   const [desktopProgress, setDesktopProgress] = useState(0);
+  const [desktopPathLength, setDesktopPathLength] = useState(0);
+
   const [mobileProgress, setMobileProgress] = useState(0);
+  const [mobilePathLength, setMobilePathLength] = useState(0);
+
+  const [pathD, setPathD] = useState('');
+  const [svgSize, setSvgSize] = useState({ w: 1000, h: 2000 });
 
   // Chunk history items into 3 items per row for desktop
   const rows: HistoryItem[][] = [];
@@ -28,6 +39,81 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   for (let i = 0; i < history.length; i += chunkSize) {
     rows.push(history.slice(i, i + chunkSize));
   }
+
+  // Calculate single continuous SVG path string dynamically from real DOM positions
+  useEffect(() => {
+    const updatePathGeometry = () => {
+      if (!desktopContainerRef.current) return;
+      const containerRect = desktopContainerRef.current.getBoundingClientRect();
+      const w = containerRect.width;
+      const h = containerRect.height;
+      setSvgSize({ w, h });
+
+      // Measure exact Y-center for each row's year header
+      const rowCenters: number[] = [];
+      rowRefs.current.forEach((rowEl) => {
+        if (rowEl) {
+          const headerEl = rowEl.querySelector('[data-year-header-row]');
+          if (headerEl) {
+            const rect = headerEl.getBoundingClientRect();
+            const yCenter = rect.top - containerRect.top + rect.height / 2;
+            rowCenters.push(yCenter);
+          }
+        }
+      });
+
+      if (rowCenters.length === 0) return;
+
+      // Measure START dot position
+      let startX = 18;
+      let startY = 20;
+      if (startDotRef.current) {
+        const dotRect = startDotRef.current.getBoundingClientRect();
+        startX = dotRect.left - containerRect.left + dotRect.width / 2;
+        startY = dotRect.top - containerRect.top + dotRect.height / 2;
+      }
+
+      const marginX = 60;
+      const outerRight = w - 12;
+      const outerLeft = 12;
+      const innerRight = w - marginX;
+      const innerLeft = marginX;
+      const r = 36; // Smooth corner radius
+
+      // Build single continuous SVG path string
+      let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${rowCenters[0]} H ${innerRight}`;
+
+      for (let i = 0; i < rowCenters.length - 1; i++) {
+        const yCurr = rowCenters[i];
+        const yNext = rowCenters[i + 1];
+        const isEven = i % 2 === 0;
+
+        if (isEven) {
+          // Right bend from Row i to Row i+1
+          d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${innerRight} ${yNext} H ${innerLeft}`;
+        } else {
+          // Left bend from Row i to Row i+1
+          d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${innerLeft} ${yNext} H ${innerRight}`;
+        }
+      }
+
+      setPathD(d);
+    };
+
+    updatePathGeometry();
+    window.addEventListener('resize', updatePathGeometry);
+    return () => window.removeEventListener('resize', updatePathGeometry);
+  }, [rows.length]);
+
+  // Measure path length whenever pathD updates
+  useEffect(() => {
+    if (desktopPathRef.current && pathD) {
+      setDesktopPathLength(desktopPathRef.current.getTotalLength());
+    }
+    if (mobilePathRef.current) {
+      setMobilePathLength(mobilePathRef.current.getTotalLength());
+    }
+  }, [pathD]);
 
   // Hook up Lenis Smooth Scroll & GSAP ScrollTrigger scrub
   useEffect(() => {
@@ -52,30 +138,46 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     gsap.ticker.lagSmoothing(0);
 
     const ctx = gsap.context(() => {
-      // Desktop Lenis + GSAP ScrollTrigger
-      if (desktopContainerRef.current) {
-        ScrollTrigger.create({
-          trigger: desktopContainerRef.current,
-          start: 'top 70%',
-          end: 'bottom 80%',
-          scrub: 0.5,
-          onUpdate: (self) => {
-            setDesktopProgress(self.progress);
-          },
-        });
+      // Desktop Lenis + GSAP ScrollTrigger Scrub
+      if (desktopPathRef.current && desktopPathLength > 0) {
+        gsap.fromTo(
+          desktopPathRef.current,
+          { strokeDashoffset: desktopPathLength },
+          {
+            strokeDashoffset: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: desktopContainerRef.current,
+              start: 'top 70%',
+              end: 'bottom 80%',
+              scrub: 0.5,
+              onUpdate: (self) => {
+                setDesktopProgress(self.progress);
+              },
+            },
+          }
+        );
       }
 
-      // Mobile Lenis + GSAP ScrollTrigger
-      if (mobileContainerRef.current) {
-        ScrollTrigger.create({
-          trigger: mobileContainerRef.current,
-          start: 'top 70%',
-          end: 'bottom 80%',
-          scrub: 0.5,
-          onUpdate: (self) => {
-            setMobileProgress(self.progress);
-          },
-        });
+      // Mobile Lenis + GSAP ScrollTrigger Scrub
+      if (mobilePathRef.current && mobilePathLength > 0) {
+        gsap.fromTo(
+          mobilePathRef.current,
+          { strokeDashoffset: mobilePathLength },
+          {
+            strokeDashoffset: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: mobileContainerRef.current,
+              start: 'top 70%',
+              end: 'bottom 80%',
+              scrub: 0.5,
+              onUpdate: (self) => {
+                setMobileProgress(self.progress);
+              },
+            },
+          }
+        );
       }
     });
 
@@ -84,7 +186,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       gsap.ticker.remove(tickerFn);
       lenis.destroy();
     };
-  }, []);
+  }, [desktopPathLength, mobilePathLength]);
 
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
@@ -109,50 +211,79 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={desktopContainerRef}
         className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
       >
-        {/* START POINT HEADER (Top-Left Corner Entry) */}
+        {/* ONE SINGLE CONTINUOUS DYNAMIC SVG PATHWAY (100% PERFECT REGISTRATION WITH ALL DOM ROWS) */}
+        {pathD && (
+          <svg
+            viewBox={`0 0 ${svgSize.w} ${svgSize.h}`}
+            className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
+          >
+            <defs>
+              {/* Crisp Solid Ocean Cyan Gradient */}
+              <linearGradient id="ocean-water-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#00f2fe" />
+                <stop offset="50%" stopColor="#06b6d4" />
+                <stop offset="100%" stopColor="#3b82f6" />
+              </linearGradient>
+            </defs>
+
+            {/* 1. Muted Background Track Path */}
+            <path
+              d={pathD}
+              fill="none"
+              stroke="rgba(6, 182, 212, 0.15)"
+              strokeWidth="3.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+
+            {/* 2. Lenis + GSAP ScrollTrigger Scrub Main Liquid Cyan Line Filler */}
+            <path
+              ref={desktopPathRef}
+              d={pathD}
+              fill="none"
+              stroke="url(#ocean-water-gradient)"
+              strokeWidth="3.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{
+                strokeDasharray: desktopPathLength || 10000,
+                strokeDashoffset: desktopPathLength || 10000,
+              }}
+            />
+          </svg>
+        )}
+        
+        {/* START POINT HEADER */}
         <div className="relative pl-2 mb-12">
           <div className="flex items-center gap-3">
-            <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10" />
+            <div
+              ref={startDotRef}
+              className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10"
+            />
             <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
               START · LATEST VOYAGES
             </span>
           </div>
-
-          {/* Smooth Curve connecting START badge down into left-[60px] of 2028 (100% flush!) */}
-          <div className="absolute left-[17.5px] top-[10px] bottom-[-4.55rem] w-[42.5px] border-l-[3px] border-b-[3px] border-cyan-400 rounded-bl-[20px] pointer-events-none z-0" />
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
         <div className="flex flex-col">
           {rows.map((rowItems, rowIndex) => {
             const isEvenRow = rowIndex % 2 === 0;
-            const isLastRow = rowIndex === rows.length - 1;
 
             return (
-              <div key={rowIndex} className="relative mb-24 last:mb-0">
-                {/* 100% Perfect Continuous Side Bends with zero step/jump */}
-                {!isLastRow && (
-                  <>
-                    {isEvenRow ? (
-                      /* RIGHT SIDE BEND: Exits 2026 right, curves 52px out to right-[8px], drops, and curves back to 2025 right */
-                      <div className="absolute right-[8px] top-[24px] bottom-[-7.55rem] w-[52px] border-r-[3px] border-t-[3px] border-b-[3px] border-cyan-400 rounded-tr-[44px] rounded-br-[44px] pointer-events-none z-0" />
-                    ) : (
-                      /* LEFT SIDE BEND: Exits 2023 left, curves 52px out to left-[8px], drops, and curves back to 2022 left */
-                      <div className="absolute left-[8px] top-[24px] bottom-[-7.55rem] w-[52px] border-l-[3px] border-t-[3px] border-b-[3px] border-cyan-400 rounded-tl-[44px] rounded-bl-[44px] pointer-events-none z-0" />
-                    )}
-                  </>
-                )}
-
-                {/* YEAR HEADERS & HORIZONTAL LINE ROW (100% Dead-Center through Year Badges) */}
+              <div
+                key={rowIndex}
+                ref={(el) => { rowRefs.current[rowIndex] = el; }}
+                className="relative mb-24 last:mb-0"
+              >
+                {/* YEAR HEADERS ROW */}
                 <div
+                  data-year-header-row
                   className={`relative flex justify-between items-center px-8 h-12 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
-                  {/* Horizontal Pipeline Line (100% Dead-Center behind every year badge) */}
-                  <div className="absolute top-1/2 -translate-y-1/2 left-[60px] right-[60px] h-[3px] bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 pointer-events-none z-0" />
-
-                  {/* Year Headers (3 per row) */}
                   {rowItems.map((hist, itemIndex) => {
                     const globalIdx = rowIndex * chunkSize + itemIndex;
                     const itemProgressTrigger = (globalIdx + 0.5) / history.length;
@@ -246,7 +377,25 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={mobileContainerRef}
         className="block lg:hidden relative max-w-lg mx-auto py-6 px-4"
       >
-        <div className="absolute left-6 top-4 bottom-4 w-[3px] bg-cyan-400 pointer-events-none z-0" />
+        <svg className="absolute left-6 top-4 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
+          <path
+            d="M 2 0 V 1000"
+            fill="none"
+            stroke="rgba(6, 182, 212, 0.15)"
+            strokeWidth="3"
+          />
+          <path
+            ref={mobilePathRef}
+            d="M 2 0 V 1000"
+            fill="none"
+            stroke="url(#ocean-water-gradient)"
+            strokeWidth="3.5"
+            style={{
+              strokeDasharray: mobilePathLength || 1000,
+              strokeDashoffset: mobilePathLength || 1000,
+            }}
+          />
+        </svg>
 
         <div className="space-y-6 pl-10">
           {history.map((hist, idx) => {
