@@ -14,6 +14,7 @@ import {
   ITINERARY_2028,
 } from "./cruiseData";
 import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
+import CruiseVideoGallery from "@/components/CruiseVideoGallery";
 
 function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
   const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#f59e0b", "#ec4899", "#8b5cf6", "#64748b"];
@@ -596,6 +597,95 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
           </div>
 
+          {/* Cancellation Guidelines — Placed at Top of Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 text-left border-b border-white/10 pb-12">
+            <div className="bg-transparent border-0 p-4 relative text-left">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">⚠️</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Crucial Booking Policy</h3>
+              </div>
+              <p className="text-sm font-black text-amber-400 uppercase tracking-widest mb-4">
+                You must be booked through us to participate
+              </p>
+              <p className="text-white/60 text-xs md:text-sm leading-relaxed mb-6">
+                To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
+              </p>
+              <div className="py-2 space-y-3">
+                <p className="text-xs text-white/50">
+                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
+                </p>
+                <p className="text-xs text-white/50">
+                  💳 <strong>Deposit:</strong> $250 per person to secure your cabin and rate.
+                </p>
+                <p className="text-xs text-white/50">
+                  📅 <strong>Final Payment Deadline:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-transparent border-0 p-4 relative text-left">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">⚙️</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">How To Book</h3>
+              </div>
+              <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4">
+                Flexible rates, rate matching & price drops
+              </p>
+              <ul className="space-y-3 text-xs text-white/60 leading-normal">
+                <li className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions. We can book any room category available.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span>We match and often beat rates you find elsewhere. We also automatically re-roll your room if prices drop before the final payment deadline!</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span><strong>Group Rate Inclusions:</strong> If you book under our group rate cabins, gratuities are fully included.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-transparent border-0 p-4 relative text-left">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">📅</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
+              </div>
+              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
+                Understand your refund terms before booking
+              </p>
+              <div className="space-y-4 text-xs text-white/60 leading-relaxed">
+                <div>
+                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-1">Group Rate Rooms:</h4>
+                  {activePriceYear === 2027 ? (
+                    <ul className="list-disc pl-4 space-y-0.5">
+                      <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
+                      <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
+                      <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
+                      <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
+                      <li>After Nov 10, 2026: <strong>50% of cabin cost</strong></li>
+                      <li>After Dec 10, 2026: <strong>No refund</strong></li>
+                    </ul>
+                  ) : (
+                    <ul className="list-disc pl-4 space-y-0.5">
+                      <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
+                      <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
+                      <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
+                      <li>Sept 11, 2027 – Nov 8, 2027: <strong>$200 pp fee</strong></li>
+                      <li>After Nov 8, 2027: <strong>50% of cabin cost</strong></li>
+                      <li>After Dec 9, 2027: <strong>No refund</strong></li>
+                    </ul>
+                  )}
+                </div>
+                <div>
+                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-0.5">Prevailing Rate (Refundable):</h4>
+                  <p>Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty. After that: standard cruise lines fee percentages apply (25%, 50%, 100%).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Pricing Grid */}
           <div className="space-y-16">
             {/* GROUP RATES */}
@@ -742,94 +832,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             )}
           </div>
 
-          {/* Cancellation Guidelines */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-16 text-left">
-            <div className="bg-transparent border-0 p-4 relative text-left">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">⚠️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Crucial Booking Policy</h3>
-              </div>
-              <p className="text-sm font-black text-amber-400 uppercase tracking-widest mb-4">
-                You must be booked through us to participate
-              </p>
-              <p className="text-white/60 text-xs md:text-sm leading-relaxed mb-6">
-                To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
-              </p>
-              <div className="py-2 space-y-3">
-                <p className="text-xs text-white/50">
-                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
-                </p>
-                <p className="text-xs text-white/50">
-                  💳 <strong>Deposit:</strong> $250 per person to secure your cabin and rate.
-                </p>
-                <p className="text-xs text-white/50">
-                  📅 <strong>Final Payment Deadline:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
-                </p>
-              </div>
-            </div>
 
-            <div className="bg-transparent border-0 p-4 relative text-left">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">⚙️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">How To Book</h3>
-              </div>
-              <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4">
-                Flexible rates, rate matching & price drops
-              </p>
-              <ul className="space-y-3 text-xs text-white/60 leading-normal">
-                <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions. We can book any room category available.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span>We match and often beat rates you find elsewhere. We also automatically re-roll your room if prices drop before the final payment deadline!</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
-                  <span><strong>Group Rate Inclusions:</strong> If you book under our group rate cabins, gratuities are fully included.</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-transparent border-0 p-4 relative text-left">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">📅</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
-              </div>
-              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
-                Understand your refund terms before booking
-              </p>
-              <div className="space-y-4 text-xs text-white/60 leading-relaxed">
-                <div>
-                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-1">Group Rate Rooms:</h4>
-                  {activePriceYear === 2027 ? (
-                    <ul className="list-disc pl-4 space-y-0.5">
-                      <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
-                      <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
-                      <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
-                      <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
-                      <li>After Nov 10, 2026: <strong>50% of cabin cost</strong></li>
-                      <li>After Dec 10, 2026: <strong>No refund</strong></li>
-                    </ul>
-                  ) : (
-                    <ul className="list-disc pl-4 space-y-0.5">
-                      <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
-                      <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
-                      <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
-                      <li>Sept 11, 2027 – Nov 8, 2027: <strong>$200 pp fee</strong></li>
-                      <li>After Nov 8, 2027: <strong>50% of cabin cost</strong></li>
-                      <li>After Dec 9, 2027: <strong>No refund</strong></li>
-                    </ul>
-                  )}
-                </div>
-                <div>
-                  <h4 className="font-bold text-white uppercase tracking-wider text-2xs mb-0.5">Prevailing Rate (Refundable):</h4>
-                  <p>Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty. After that: standard cruise lines fee percentages apply (25%, 50%, 100%).</p>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Stateroom Suite Class Perks */}
           <div className="pt-16">
@@ -1607,8 +1610,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* Bands/Artists Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {BANDS_DATA.map((band, idx) => (
-              <div key={idx} className="bg-gradient-to-br from-[#0c0c14] to-[#12121e] border border-white/5 rounded-3xl p-8 text-left flex flex-col justify-between relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+              <div key={idx} className="bg-transparent border-0 p-4 text-left flex flex-col justify-between relative overflow-hidden">
                 <div>
                   <span className="text-4xl block mb-4">{band.logo}</span>
                   <h3 className="text-xl font-black uppercase text-white tracking-wide">{band.name}</h3>
@@ -1622,39 +1624,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             ))}
           </div>
 
-          {/* Ports of Call Section with Interactive Layout Options */}
+          {/* Ports of Call Section */}
           <div className="pt-16">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
-              <div className="text-center md:text-left">
-                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Destination Explorer</span>
-                <h3 className="text-2xl md:text-3xl font-black uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-                  Ports of Call Catalog
-                </h3>
-              </div>
-
-              {/* Layout Switcher Controls */}
-              <div className="flex items-center gap-1.5 bg-[#08080d] p-1.5 rounded-2xl border border-white/10 shrink-0 shadow-lg">
-                {[
-                  { id: "grid", label: "Grid View", icon: "🔳" },
-                  { id: "spotlight", label: "Spotlight Hero", icon: "⭐" },
-                  { id: "carousel", label: "Carousel Slider", icon: "🎠" },
-                  { id: "list", label: "Compact List", icon: "☰" },
-                ].map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => setPortLayoutMode(opt.id as any)}
-                    className={`px-3 py-2 rounded-xl text-2xs font-extrabold uppercase tracking-wider transition-all cursor-pointer border-none flex items-center gap-1.5 ${
-                      portLayoutMode === opt.id
-                        ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black shadow-lg shadow-cyan-500/25 scale-[1.02]"
-                        : "text-white/40 hover:text-white hover:bg-white/5 bg-transparent"
-                    }`}
-                  >
-                    <span className="text-sm">{opt.icon}</span>
-                    <span className="hidden sm:inline">{opt.label}</span>
-                  </button>
-                ))}
-              </div>
+            <div className="text-center md:text-left mb-10">
+              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Destination Explorer</span>
+              <h3 className="text-2xl md:text-3xl font-black uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                Ports of Call Catalog
+              </h3>
             </div>
 
             {/* LAYOUT 1: GRID VIEW */}

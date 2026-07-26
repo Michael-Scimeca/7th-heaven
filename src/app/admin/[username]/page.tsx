@@ -26,6 +26,7 @@ import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
 import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
 import CustomScrollbar from "@/components/CustomScrollbar";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
+import CruiseVideoManager from "@/components/admin/CruiseVideoManager";
 
 interface ParsedCruiseNotes {
   cabin?: string;
@@ -10841,6 +10842,10 @@ return (
 
         {adminTab === 'cruise' && (
           <>
+            <div className="mb-10">
+              <CruiseVideoManager />
+            </div>
+
         {/* === CRUISE BROADCAST CENTER === */}
         <div id="admin-sec-cruise-command" className="mb-14 relative">
           <div className="flex items-center gap-3 mb-6">
