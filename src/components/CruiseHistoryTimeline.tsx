@@ -118,40 +118,42 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     };
   }, [desktopPathLength, mobilePathLength]);
 
-  // Single Continuous Desktop Serpentine SVG Path passing DIRECTLY THROUGH the center of Year Headers
+  // Single Continuous Desktop Serpentine SVG Path passing 100% DIRECTLY THROUGH the center of Year Headers in every row
+  // viewBox: 0 0 1000 2300 (Step = 284px per row)
+  // Row 0 Y = 105, Row 1 Y = 389, Row 2 Y = 673, Row 3 Y = 957, Row 4 Y = 1241, Row 5 Y = 1525, Row 6 Y = 1809, Row 7 Y = 2093
   const serpentinePathD = `
     M 20 10
-    V 80
-    A 25 25 0 0 0 45 105
-    H 955
-    A 45 45 0 0 1 1000 150
-    V 285
-    A 45 45 0 0 1 955 330
-    H 45
-    A 45 45 0 0 0 0 375
-    V 510
-    A 45 45 0 0 0 45 555
-    H 955
-    A 45 45 0 0 1 1000 600
-    V 735
-    A 45 45 0 0 1 955 780
-    H 45
-    A 45 45 0 0 0 0 825
-    V 960
-    A 45 45 0 0 0 45 1005
-    H 955
-    A 45 45 0 0 1 1000 1050
-    V 1185
-    A 45 45 0 0 1 955 1230
-    H 45
-    A 45 45 0 0 0 0 1275
-    V 1410
-    A 45 45 0 0 0 45 1455
-    H 955
-    A 45 45 0 0 1 1000 1500
-    V 1635
-    A 45 45 0 0 1 955 1680
-    H 45
+    V 60
+    A 45 45 0 0 0 65 105
+    H 935
+    A 45 45 0 0 1 980 150
+    V 344
+    A 45 45 0 0 1 935 389
+    H 65
+    A 45 45 0 0 0 20 434
+    V 628
+    A 45 45 0 0 0 65 673
+    H 935
+    A 45 45 0 0 1 980 718
+    V 912
+    A 45 45 0 0 1 935 957
+    H 65
+    A 45 45 0 0 0 20 1002
+    V 1196
+    A 45 45 0 0 0 65 1241
+    H 935
+    A 45 45 0 0 1 980 1286
+    V 1480
+    A 45 45 0 0 1 935 1525
+    H 65
+    A 45 45 0 0 0 20 1570
+    V 1764
+    A 45 45 0 0 0 65 1809
+    H 935
+    A 45 45 0 0 1 980 1854
+    V 2048
+    A 45 45 0 0 1 935 2093
+    H 65
   `.replace(/\s+/g, ' ').trim();
 
   return (
@@ -179,7 +181,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       >
         {/* SINGLE CONTINUOUS SOLID CLEAN SVG PATHWAY */}
         <svg
-          viewBox="0 0 1000 2000"
+          viewBox="0 0 1000 2300"
           preserveAspectRatio="none"
           className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
         >
