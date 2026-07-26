@@ -188,16 +188,24 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     };
   }, [desktopPathLength, mobilePathLength]);
 
-  const activeVoyageIndex = Math.min(
-    Math.floor(desktopProgress * chronologicalHistory.length) + 1,
-    chronologicalHistory.length
+  // Compute active year index based on current scroll progress
+  const activeYearIndex = Math.min(
+    Math.floor(desktopProgress * chronologicalHistory.length),
+    chronologicalHistory.length - 1
   );
-  const progressPercent = Math.round(desktopProgress * 100);
+
+  const handleScrollToYear = (index: number) => {
+    const rowIndex = Math.floor(index / 3);
+    const targetEl = rowRefs.current[rowIndex];
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
 
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
       {/* Section Header */}
-      <div className="text-center max-w-4xl mx-auto mb-16 px-4">
+      <div className="text-center max-w-4xl mx-auto mb-10 px-4">
         <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
           25+ Years Legacy Pathway
         </span>
@@ -210,6 +218,53 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         <p className="text-white/40 text-xs md:text-sm mt-2 leading-relaxed">
           Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our serpentine timeline.
         </p>
+      </div>
+
+      {/* ── SCROLL MINI-MAP & YEAR NAVIGATION CAROUSEL (FLOATING STICKY TRACKER) ── */}
+      <div className="sticky top-24 z-30 max-w-xl mx-auto mb-12 px-4 pointer-events-auto">
+        <div className="bg-[#0c0c16]/95 backdrop-blur-2xl border border-white/20 px-5 py-3.5 rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.8)] relative">
+          
+          {/* Active Year Tooltip Pointer */}
+          <div
+            className="absolute -top-9 transition-all duration-300 ease-out flex flex-col items-center pointer-events-none -translate-x-1/2"
+            style={{
+              left: `calc(1.75rem + (${activeYearIndex} / ${chronologicalHistory.length - 1}) * (100% - 3.5rem))`,
+            }}
+          >
+            <div className="bg-white text-black text-[10px] font-black font-mono px-2 py-0.5 rounded shadow-xl tracking-wider border border-white/30">
+              {chronologicalHistory[activeYearIndex]?.year || '1998'}
+            </div>
+            <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-white" />
+          </div>
+
+          {/* 23 Milestone Dots Track */}
+          <div className="flex items-center justify-between px-1">
+            {chronologicalHistory.map((item, idx) => {
+              const isPast = idx < activeYearIndex;
+              const isActive = idx === activeYearIndex;
+
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  title={`${item.year} - ${item.ship}`}
+                  onClick={() => handleScrollToYear(idx)}
+                  className="group relative focus:outline-none cursor-pointer py-1"
+                >
+                  <div
+                    className={`rounded-full transition-all duration-300 ${
+                      isActive
+                        ? 'w-4 h-4 bg-cyan-300 shadow-[0_0_15px_rgba(6,182,212,1)] scale-125'
+                        : isPast
+                        ? 'w-2.5 h-2.5 bg-cyan-400/80 hover:scale-125'
+                        : 'w-2.5 h-2.5 bg-white/20 hover:bg-white/50 hover:scale-125'
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* ── DESKTOP CODEPEN SERPENTINE SNAKE TIMELINE (MATCHING NAVBAR WIDTH: max-w-[1400px]) ── */}
