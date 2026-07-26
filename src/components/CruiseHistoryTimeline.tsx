@@ -191,8 +191,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   }
                   const angle = lastAngleRef.current;
 
-                  // Progressive ship scale: grows from 200px (1.0x) at 1998 to 500px (2.5x) at 2028 end
-                  shipScaleRef.current = 1.0 + self.progress * 1.5;
+                  // Progressive ship scale: starts compact (0.4x ~75px) at 1998 and grows to (1.5x ~280px) at 2028 end
+                  shipScaleRef.current = 0.4 + self.progress * 1.1;
 
                   shipDivRef.current.style.left = `${pt.x}px`;
                   shipDivRef.current.style.top = `${pt.y}px`;
