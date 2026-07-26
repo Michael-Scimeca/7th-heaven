@@ -50,16 +50,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             </span>
           </div>
 
-          {/* SVG Smooth Curve connecting START badge down and extending right directly into 2028 */}
-          <svg className="absolute left-[10px] top-[10px] bottom-[-2.25rem] w-[140px] h-[calc(100%+2.25rem)] pointer-events-none z-0 overflow-visible">
-            <path
-              d="M 0 0 V calc(100% - 20px) A 20 20 0 0 0 20 100% H 120"
-              fill="none"
-              stroke="#06b6d4"
-              strokeWidth="2.5"
-              className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-            />
-          </svg>
+          {/* Smooth Curve connecting START badge down and extending right directly into 2028 */}
+          <div className="absolute left-[10px] top-[10px] bottom-[-2.25rem] w-[110px] border-l-[2.5px] border-b-[2.5px] border-cyan-400 rounded-bl-[20px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
         </div>
 
         {/* TIMELINE ROWS CONTAINER */}
@@ -70,31 +62,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
             return (
               <div key={rowIndex} className="relative mb-24 last:mb-0">
-                {/* 100% Perfect Full-Height SVG Side Bends (Spans from Row N line down to Row N+1 line) */}
+                {/* 100% Perfect Continuous Side Bends connecting Row N line down to Row N+1 line */}
                 {!isLastRow && (
                   <>
                     {isEvenRow ? (
-                      /* RIGHT SIDE BEND: Exits 2026 right, drops down full row height, curves left into 2025 right */
-                      <svg className="absolute left-[calc(100%-60px)] top-6 h-full w-[60px] pointer-events-none z-0 overflow-visible">
-                        <path
-                          d="M 0 0 A 36 36 0 0 1 36 36 V calc(100% - 36px) A 36 36 0 0 1 0 100%"
-                          fill="none"
-                          stroke="#06b6d4"
-                          strokeWidth="2.5"
-                          className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-                        />
-                      </svg>
+                      /* RIGHT SIDE BEND: Exits 2026 right, drops down full height to 2025 right */
+                      <div className="absolute right-[24px] top-6 bottom-[-6.5rem] w-[36px] border-r-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tr-[36px] rounded-br-[36px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
                     ) : (
-                      /* LEFT SIDE BEND: Exits 2023 left, drops down full row height, curves right into 2022 left */
-                      <svg className="absolute right-[calc(100%-60px)] top-6 h-full w-[60px] pointer-events-none z-0 overflow-visible">
-                        <path
-                          d="M 60 0 A 36 36 0 0 0 24 36 V calc(100% - 36px) A 36 36 0 0 0 60 100%"
-                          fill="none"
-                          stroke="#06b6d4"
-                          strokeWidth="2.5"
-                          className="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-                        />
-                      </svg>
+                      /* LEFT SIDE BEND: Exits 2023 left, drops down full height to 2022 left */
+                      <div className="absolute left-[24px] top-6 bottom-[-6.5rem] w-[36px] border-l-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tl-[36px] rounded-bl-[36px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
                     )}
                   </>
                 )}
