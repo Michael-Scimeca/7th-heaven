@@ -801,47 +801,66 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
                     { code: "ZI", title: "Inside GTY", price: "$1,430.77", label: "Guaranteed Cabin", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", selectValue: "prev_zi" },
-                    { code: "YO", title: "Ocean View GTY", price: "$1,691.27", label: "Guaranteed Cabin", image: "/images/cruise/n5.jpg", icon: "🌊", selectValue: "prev_yo" },
+                    { code: "YO", title: "Ocean View GTY", price: "$1,691.27", label: "Guaranteed Cabin", image: "/images/cruise/n5.jpg", icon: "🌊", selectValue: "prev_yo", isHighlighted: true },
                     { code: "IF", title: "Infinite Central Park", price: "$1,907.27", label: "Central Park View", image: "/images/cruise/if.jpg", icon: "🌳", selectValue: "prev_if" },
                     { code: "XB", title: "Oceanview Balcony GTY", price: "$1,903.77", label: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", selectValue: "prev_xb" },
                     { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,237.77", label: "Balcony Access", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", selectValue: "prev_i1" },
                     { code: "JY", title: "Sky Junior Suite", price: "$5,157.77", label: "Suite Class Luxury", image: "/images/cruise/jy.png", icon: "👑", selectValue: "prev_jy" },
-                  ].map((room, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => handleSelectCabin(room.selectValue)}
-                      className="bg-transparent border-0 p-2 flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02]"
-                    >
-                      <div>
-                        {room.image && (
-                          <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 text-center">
-                            <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  ].map((room, idx) => {
+                    const isYo = room.code === "YO";
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => handleSelectCabin(room.selectValue)}
+                        className={`p-3.5 rounded-2xl flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative ${
+                          isYo
+                            ? 'bg-purple-950/40 border-2 border-purple-500 shadow-[0_0_30px_rgba(168,85,247,0.4)] ring-2 ring-purple-500/50'
+                            : 'bg-transparent border-0'
+                        }`}
+                      >
+                        {isYo && (
+                          <div className="absolute -top-3 left-4 bg-purple-600 text-white text-[10px] font-black uppercase px-3 py-0.5 rounded-full tracking-widest shadow-lg flex items-center gap-1.5 border border-purple-400 z-10">
+                            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                            RECOMMENDED OCEAN VIEW
                           </div>
                         )}
-                        <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                          <span className="text-2xl">{room.icon}</span>
-                          <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider text-white/40">{room.label}</span>
+                        <div>
+                          {room.image && (
+                            <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 text-center">
+                              <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            </div>
+                          )}
+                          <div className="flex justify-between items-start gap-2 mb-3 text-left">
+                            <span className="text-2xl">{room.icon}</span>
+                            <span className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${
+                              isYo ? 'bg-purple-500/30 text-purple-200 border border-purple-400/40' : 'text-white/40'
+                            }`}>{room.label}</span>
+                          </div>
+                          <span className={`text-[10px] font-bold uppercase tracking-widest ${isYo ? 'text-purple-300' : 'text-white/30'}`}>{room.code} Category</span>
+                          <h4 className={`text-base font-extrabold uppercase tracking-tight mt-0.5 text-left ${isYo ? 'text-purple-200' : 'text-white'}`}>{room.title}</h4>
                         </div>
-                        <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{room.code} Category</span>
-                        <h4 className="text-base font-extrabold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
-                      </div>
 
-                      <div className="mt-4 pt-2 text-left">
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-xl font-black text-white">{room.price}</span>
-                          <span className="text-2xs text-white/40">USD pp</span>
+                        <div className="mt-4 pt-2 text-left">
+                          <div className="flex items-baseline gap-1.5">
+                            <span className={`text-xl font-black ${isYo ? 'text-purple-300' : 'text-white'}`}>{room.price}</span>
+                            <span className="text-2xs text-white/40">USD pp</span>
+                          </div>
+                          <span className="text-[9px] text-white/20 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
+                          <button 
+                            type="button"
+                            className={`mt-4 w-full py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                              isYo
+                                ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] border border-purple-400'
+                                : 'bg-[var(--color-accent)]/15 hover:bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/30 text-purple-300 group-hover:text-white shadow-[0_0_12px_rgba(133,29,239,0.15)]'
+                            }`}
+                          >
+                            <span>Select Prevailing Rate</span>
+                            <span className="group-hover:translate-x-1 transition-transform">→</span>
+                          </button>
                         </div>
-                        <span className="text-[9px] text-white/20 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
-                        <button 
-                          type="button"
-                          className="mt-4 w-full py-2.5 px-4 rounded-xl bg-[var(--color-accent)]/15 hover:bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/30 text-purple-300 group-hover:text-white font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(133,29,239,0.15)]"
-                        >
-                          <span>Select Prevailing Rate</span>
-                          <span className="group-hover:translate-x-1 transition-transform">→</span>
-                        </button>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -1078,66 +1097,66 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
 
                     {/* GUEST 1 (Primary Booker) */}
-                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
-                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10 flex items-center justify-between">
-                        <span className="text-xs font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Primary</span>
+                    <div className="booking-section-container border-b border-white/15 bg-white/[0.02]">
+                      <div className="booking-section-header bg-white/[0.08] px-5 py-3 border-b border-white/15 flex items-center justify-between">
+                        <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
+                        <span className="text-xs font-extrabold uppercase tracking-widest text-purple-100 bg-purple-600 px-3 py-1 rounded-full shadow-md border border-purple-400">Primary</span>
                       </div>
                       <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                         {/* Name */}
-                        <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Full Legal Name (as spelled on passport) *</label>
-                          <input type="text" required placeholder="Guest 1 Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        <div className="booking-cell border-b md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                          <input type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                         </div>
                         {/* DOB */}
-                        <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Date of Birth *</label>
-                          <input type="text" required placeholder="MM/DD/YYYY" value={formData.dob1} onChange={e => setFormData({...formData, dob1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        <div className="booking-cell border-b border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Date of Birth *</label>
+                          <input type="text" required placeholder="MM/DD/YYYY" value={formData.dob1} onChange={e => setFormData({...formData, dob1: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                         </div>
                         {/* Phone */}
-                        <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
-                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({...formData, phone: formatPhoneDisplay(e.target.value)})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        <div className="booking-cell border-b md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Phone Number *</label>
+                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({...formData, phone: formatPhoneDisplay(e.target.value)})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                         </div>
                         {/* Email */}
-                        <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address *</label>
-                          <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        <div className="booking-cell border-b border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Email Address *</label>
+                          <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                         </div>
                         {/* T-Shirt Size */}
-                        <div className="booking-cell md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all relative">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">T-Shirt Size</label>
-                          <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none cursor-pointer appearance-none">
-                            {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0b0b12] text-white">{sz}</option>)}
+                        <div className="booking-cell md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all relative">
+                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                          <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none">
+                            {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0b0b12] text-white font-bold">{sz}</option>)}
                           </select>
                         </div>
                         {/* Crown & Anchor */}
-                        <div className="booking-cell p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Crown & Anchor Number (if applicable)</label>
-                          <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({...formData, crownAnchor1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        <div className="booking-cell p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                          <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({...formData, crownAnchor1: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                         </div>
                       </div>
 
                       {/* Customization toggles mirroring the Guest 1 page elements */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 border-t border-white/10">
-                        <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 p-3 flex flex-col justify-between">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-2">Do you want travel protection insurance? *</label>
-                          <div className="flex gap-2">
+                      <div className="grid grid-cols-1 md:grid-cols-2 border-t border-white/15">
+                        <div className="booking-cell border-b md:border-b-0 md:border-r border-white/15 p-4 flex flex-col justify-between">
+                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</label>
+                          <div className="flex gap-3">
                             {["yes", "no"].map(opt => (
                               <button key={opt} type="button" onClick={() => setFormData(f => ({...f, insurance: opt}))}
-                                className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border transition-all cursor-pointer ${formData.insurance === opt ? "bg-cyan-500/15 border-cyan-500/30 text-cyan-400" : "bg-white/5 border-white/5 text-white/40"}`}>
+                                className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-md ${formData.insurance === opt ? "bg-cyan-500 border-cyan-400 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "bg-white/10 border-white/20 text-white/80 hover:text-white hover:bg-white/20"}`}>
                                 {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                               </button>
                             ))}
                           </div>
                         </div>
 
-                        <div className="booking-cell p-3 flex flex-col justify-between">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-2">Do you want pre-paid gratuities? *</label>
-                          <div className="flex gap-2">
+                        <div className="booking-cell p-4 flex flex-col justify-between">
+                          <label className="booking-label block text-xs font-black text-purple-300 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</label>
+                          <div className="flex gap-3">
                             {["yes", "no"].map(opt => (
                               <button key={opt} type="button" onClick={() => setFormData(f => ({...f, prepaidGratuities: opt}))}
-                                className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border transition-all cursor-pointer ${formData.prepaidGratuities === opt ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/30 text-[var(--color-accent)]" : "bg-white/5 border-white/5 text-white/40"}`}>
+                                className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-md ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]" : "bg-white/10 border-white/20 text-white/80 hover:text-white hover:bg-white/20"}`}>
                                 {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                               </button>
                             ))}
@@ -1150,17 +1169,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     {guests.map((g, i) => {
                       const guestNum = i + 2;
                       return (
-                        <div key={i} className={`booking-section-container border-b border-white/10 transition-all duration-300 ${g.active ? "bg-white/[0.01] opacity-100" : "bg-black/10 opacity-50 print:booking-inactive"}`}>
+                        <div key={i} className={`booking-section-container border-b border-white/15 transition-all duration-300 ${g.active ? "bg-white/[0.02] opacity-100" : "bg-black/20 opacity-60 print:booking-inactive"}`}>
                           {/* Section Header with checkbox activator */}
-                          <div className="booking-section-header bg-white/[0.02] px-4 py-2.5 border-b border-white/10 flex items-center gap-3">
+                          <div className="booking-section-header bg-white/[0.06] px-5 py-3 border-b border-white/15 flex items-center gap-3">
                             <input 
                               type="checkbox" 
                               id={`guest-active-${guestNum}`} 
                               checked={g.active} 
                               onChange={e => toggleGuestActive(i, e.target.checked)} 
-                              className="no-print w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" 
+                              className="no-print w-5 h-5 rounded border-white/30 bg-white/10 accent-cyan-400 cursor-pointer" 
                             />
-                            <label htmlFor={`guest-active-${guestNum}`} className="text-xs font-black uppercase tracking-wider text-white cursor-pointer select-none">
+                            <label htmlFor={`guest-active-${guestNum}`} className="text-sm font-black uppercase tracking-wider text-white cursor-pointer select-none">
                               Include Guest {guestNum} in Cabin Reservation
                             </label>
                           </div>
@@ -1168,36 +1187,36 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {g.active ? (
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                               {/* Name */}
-                              <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Full Legal Name (as spelled on passport) *</label>
-                                <input type="text" required placeholder={`Guest ${guestNum} Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              <div className="booking-cell border-b md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                                <input type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                               </div>
                               {/* DOB */}
-                              <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Date of Birth *</label>
-                                <input type="text" required placeholder="MM/DD/YYYY" value={g.dob} onChange={e => updateGuest(i, "dob", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              <div className="booking-cell border-b border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Date of Birth *</label>
+                                <input type="text" required placeholder="MM/DD/YYYY" value={g.dob} onChange={e => updateGuest(i, "dob", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                               </div>
                               {/* Phone */}
-                              <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number (Optional)</label>
-                                <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              <div className="booking-cell border-b md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
+                                <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                               </div>
                               {/* Email */}
-                              <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address (Optional)</label>
-                                <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              <div className="booking-cell border-b border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
+                                <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                               </div>
                               {/* T-Shirt Size */}
-                              <div className="booking-cell md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all relative">
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">T-Shirt Size</label>
-                                <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none cursor-pointer appearance-none">
-                                  {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0b0b12] text-white">{sz}</option>)}
+                              <div className="booking-cell md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all relative">
+                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                                <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none">
+                                  {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0b0b12] text-white font-bold">{sz}</option>)}
                                 </select>
                               </div>
                               {/* Crown & Anchor */}
-                              <div className="booking-cell p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Crown & Anchor Number (if applicable)</label>
-                                <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                              <div className="booking-cell p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
+                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                                <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
                               </div>
                             </div>
                           ) : (
@@ -1227,7 +1246,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           </optgroup>
                           <optgroup label="Prevailing Rates (Gratuities NOT Included, Taxes & Fees Included)" className="bg-[#0b0b12]">
                             <option value="prev_zi" className="bg-[#0b0b12]">ZI - Inside GTY ($1,430.77 pp)</option>
-                            <option value="prev_yo" className="bg-[#0b0b12]">YO - Ocean View GTY ($1,691.27 pp)</option>
+                            <option value="prev_yo" className="bg-[#0b0b12] text-purple-300 font-bold">🟣 YO - Ocean View GTY ($1,691.27 pp) ★ FEATURED</option>
                             <option value="prev_if" className="bg-[#0b0b12]">IF - Infinite Central Park ($1,907.27 pp)</option>
                             <option value="prev_xb" className="bg-[#0b0b12]">XB - Oceanview Balcony GTY ($1,903.77 pp) - 8 Left</option>
                             <option value="prev_i1" className="bg-[#0b0b12]">I1 - Infinite Ocean View Balcony ($2,237.77 pp)</option>
