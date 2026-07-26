@@ -150,7 +150,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
   shipScale: 1.5,
-  shipOffsetY: -0.35,
+  shipOffsetY: 0.50,
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 0,
@@ -343,8 +343,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.shipScale = 1.5;
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
-        saved.shipOffsetY = -0.35;
-        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: -0.35 });
+        saved.shipOffsetY = 0.50;
+        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50 });
       }
     } catch {}
   }, []);
