@@ -533,23 +533,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   return (
     <div className="min-h-screen">
 
-      {/* ── TOP ALERT BANNER: CRUCIAL PASSPORT REQUIREMENTS ── */}
-      <div className="bg-amber-950/80 border-b border-amber-500/40 backdrop-blur-md pt-24 pb-3.5 px-6 relative z-30 text-left">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-3.5">
-          <span className="text-2xl shrink-0">🛂</span>
-          <div className="flex-1">
-            <h4 className="text-xs md:text-sm font-black text-amber-400 uppercase tracking-wider">
-              Crucial Passport Requirements
-            </h4>
-            <p className="text-xs md:text-sm text-white font-semibold leading-relaxed mt-0.5">
-              A physical passport book valid for 6 months post-cruise is highly recommended for all travelers. For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method. Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-300 font-extrabold underline hover:text-white">travel.state.gov</a> to ensure compliance.
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* ── HERO ── */}
-      <section className="relative flex flex-col justify-center overflow-hidden pt-12 pb-16">
+      <section className="relative flex flex-col justify-center overflow-hidden pt-44 pb-16">
         <div className="absolute inset-0">
           <video
             autoPlay
@@ -817,13 +802,18 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* PREVAILING RATES */}
             {activePriceYear === 2027 && (
               <div className="bg-transparent p-0 relative text-left">
+                {/* Top Gratuities Notice Banner */}
+                <div className="bg-purple-950/50 border border-purple-500/40 rounded-2xl p-4 md:p-5 mb-8 flex items-start gap-3.5 shadow-xl">
+                  <span className="text-2xl shrink-0">⚠️</span>
+                  <div className="text-xs md:text-sm text-purple-200 font-medium leading-relaxed">
+                    <strong className="text-purple-300 font-black uppercase tracking-wider">NOTICE:</strong> Gratuities are <strong className="text-white font-extrabold">NOT included</strong> in rates below (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.
+                  </div>
+                </div>
+
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-2">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Variable Market Pricing</span>
-                    <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Prevailing Rate Cabins (2027)</h3>
-                  </div>
-                  <div className="max-w-md text-2xs leading-relaxed text-purple-200/90 font-medium">
-                    ⚠️ <strong>NOTICE:</strong> Gratuities are <strong>NOT included</strong> in rates below (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.
+                    <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Variable Market Pricing</span>
+                    <h3 className="text-xl md:text-3xl font-black uppercase text-white mt-1">Prevailing Rate Cabins (2027)</h3>
                   </div>
                 </div>
 
