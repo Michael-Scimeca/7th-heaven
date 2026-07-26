@@ -1083,7 +1083,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           let cardStyle: React.CSSProperties = {
             position: 'absolute',
             top: `${topPct}%`,
-            zIndex: 10,
+            zIndex: 20,
           };
 
           if (layoutMode === 'harbor') {
@@ -1144,7 +1144,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             width: isMobile ? 220 : 380,
             height: isMobile ? 220 : 380,
             pointerEvents: 'none',
-            zIndex: 35,
+            zIndex: 5,
             overflow: 'visible',
             transition: 'none',
             filter: 'none',
