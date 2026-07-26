@@ -533,8 +533,23 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   return (
     <div className="min-h-screen">
 
+      {/* ── TOP ALERT BANNER: CRUCIAL PASSPORT REQUIREMENTS ── */}
+      <div className="bg-amber-950/80 border-b border-amber-500/40 backdrop-blur-md pt-24 pb-3.5 px-6 relative z-30 text-left">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-3.5">
+          <span className="text-2xl shrink-0">🛂</span>
+          <div className="flex-1">
+            <h4 className="text-xs md:text-sm font-black text-amber-400 uppercase tracking-wider">
+              Crucial Passport Requirements
+            </h4>
+            <p className="text-xs md:text-sm text-white font-semibold leading-relaxed mt-0.5">
+              A physical passport book valid for 6 months post-cruise is highly recommended for all travelers. For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method. Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-300 font-extrabold underline hover:text-white">travel.state.gov</a> to ensure compliance.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* ── HERO ── */}
-      <section className="relative flex flex-col justify-center overflow-hidden pt-44 pb-16">
+      <section className="relative flex flex-col justify-center overflow-hidden pt-12 pb-16">
         <div className="absolute inset-0">
           <video
             autoPlay
@@ -2030,26 +2045,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
       {/* ── SECTION 5: FAQS & HISTORY ── */}
       <section id="faqs" className="py-20 site-container">
-          <div className="text-center max-w-3xl mx-auto mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Cruise FAQs <span className="accent-gradient-text">& Travel History</span>
             </h2>
             <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
               Find answers to important passport requirements, dining configurations, and explore our 25-year cruising history timeline.
             </p>
-          </div>
-
-          {/* Crucial Passport Warning Callout */}
-          <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 md:p-6 mb-12 text-left flex items-start gap-4 shadow-xl">
-            <span className="text-3xl shrink-0">🛂</span>
-            <div>
-              <h4 className="text-sm md:text-base font-black text-amber-300 uppercase tracking-wider flex items-center gap-2">
-                <span>Crucial Passport Requirements</span>
-              </h4>
-              <p className="text-xs md:text-sm text-white/90 font-medium leading-relaxed mt-1.5">
-                A physical passport book valid for 6 months post-cruise is highly recommended for all travelers. For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method. Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-bold underline hover:text-white">travel.state.gov</a> to ensure compliance.
-              </p>
-            </div>
           </div>
 
           {/* FAQs List */}
