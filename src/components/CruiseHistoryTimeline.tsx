@@ -119,8 +119,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   }, [desktopPathLength, mobilePathLength]);
 
   // Single Continuous Desktop Serpentine SVG Path passing DIRECTLY THROUGH the center of Year Headers
-  // viewBox: 0 0 1000 2000
-  // Row 0 Y = 105, Row 1 Y = 330, Row 2 Y = 555, Row 3 Y = 780, Row 4 Y = 1005, Row 5 Y = 1230, Row 6 Y = 1455, Row 7 Y = 1680
   const serpentinePathD = `
     M 20 10
     V 80
@@ -179,14 +177,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={desktopContainerRef}
         className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
       >
-        {/* SINGLE CONTINUOUS LENIS SMOOTH-ANIMATED SVG PATHWAY */}
+        {/* SINGLE CONTINUOUS SOLID CLEAN SVG PATHWAY */}
         <svg
           viewBox="0 0 1000 2000"
           preserveAspectRatio="none"
           className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
         >
           <defs>
-            {/* Vibrant Ocean Water Gradient */}
+            {/* Crisp Solid Ocean Cyan Gradient */}
             <linearGradient id="ocean-water-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#00f2fe" />
               <stop offset="50%" stopColor="#06b6d4" />
@@ -199,29 +197,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             d={serpentinePathD}
             fill="none"
             stroke="rgba(6, 182, 212, 0.15)"
-            strokeWidth="3.5"
+            strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
 
-          {/* 2. Soft Outer Ambient Glow Layer */}
-          <path
-            d={serpentinePathD}
-            fill="none"
-            stroke="rgba(6, 182, 212, 0.4)"
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{
-              strokeDasharray: desktopPathLength || 10000,
-              strokeDashoffset: desktopPathLength
-                ? desktopPathLength * (1 - desktopProgress)
-                : 10000,
-              filter: 'blur(4px)',
-            }}
-          />
-
-          {/* 3. Lenis + GSAP ScrollTrigger Scrub Main Liquid Cyan Line Filler */}
+          {/* 2. Solid Crisp Clean Main Cyan Line Filler (No Outer Glow Blur) */}
           <path
             ref={desktopPathRef}
             d={serpentinePathD}
@@ -233,7 +214,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             style={{
               strokeDasharray: desktopPathLength || 10000,
               strokeDashoffset: desktopPathLength || 10000,
-              filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.9))',
             }}
           />
         </svg>
@@ -241,8 +221,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         {/* START POINT HEADER */}
         <div className="relative pl-2 mb-12">
           <div className="flex items-center gap-3">
-            <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] drop-shadow-[0_0_10px_rgba(6,182,212,0.9)] animate-pulse z-10" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full drop-shadow-[0_0_10px_rgba(6,182,212,0.6)] font-mono z-10">
+            <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10" />
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
               START · LATEST VOYAGES
             </span>
           </div>
@@ -274,14 +254,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         <div
                           className={`inline-block px-5 py-1 rounded-2xl z-20 shadow-[0_0_15px_rgba(0,0,0,0.8)] transition-all duration-300 ${
                             isReached
-                              ? 'bg-[#06060c] border border-cyan-400/80 shadow-[0_0_20px_rgba(6,182,212,0.5)] scale-105'
+                              ? 'bg-[#06060c] border border-cyan-400/80 scale-105'
                               : 'bg-[#06060c] border border-white/10'
                           }`}
                         >
                           <h6
                             className={`text-4xl md:text-5xl font-black font-mono tracking-tight transition-colors leading-none ${
                               isReached
-                                ? 'text-cyan-300 drop-shadow-[0_0_12px_rgba(6,182,212,0.9)]'
+                                ? 'text-cyan-300'
                                 : 'text-white/40'
                             }`}
                           >
@@ -313,7 +293,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         <div
                           className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-3xl shadow-2xl transition-all duration-300 ${
                             isReached
-                              ? 'border border-cyan-400/60 shadow-[0_8px_30px_rgba(6,182,212,0.25)] -translate-y-1'
+                              ? 'border border-cyan-400/60 -translate-y-1'
                               : 'border border-white/10 opacity-70'
                           }`}
                         >
@@ -321,7 +301,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             <span
                               className={`text-[10px] font-black uppercase tracking-widest font-mono px-2.5 py-0.5 rounded transition-colors ${
                                 isReached
-                                  ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/40 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
+                                  ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/40'
                                   : 'text-white/40 bg-white/5 border border-white/10'
                               }`}
                             >
@@ -372,7 +352,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             style={{
               strokeDasharray: mobilePathLength || 1000,
               strokeDashoffset: mobilePathLength || 1000,
-              filter: 'drop-shadow(0 0 8px rgba(6,182,212,0.9))',
             }}
           />
         </svg>
@@ -386,7 +365,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <div
                   className={`absolute left-[-26px] top-4 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
                     isReached
-                      ? 'bg-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.9)] scale-125'
+                      ? 'bg-cyan-300 scale-125'
                       : 'bg-cyan-500/30'
                   }`}
                 />
@@ -394,7 +373,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <div
                   className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-2xl shadow-xl transition-all duration-300 ${
                     isReached
-                      ? 'border border-cyan-400/60 shadow-[0_8px_30px_rgba(6,182,212,0.2)]'
+                      ? 'border border-cyan-400/60'
                       : 'border border-white/10 opacity-70'
                   }`}
                 >

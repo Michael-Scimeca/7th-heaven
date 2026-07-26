@@ -150,7 +150,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
   shipScale: 1.5,
-  shipOffsetY: 1.05,
+  shipOffsetY: 0.20,
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 0,
