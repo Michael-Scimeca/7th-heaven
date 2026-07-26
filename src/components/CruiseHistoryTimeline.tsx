@@ -30,6 +30,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [mobileProgress, setMobileProgress] = useState(0);
   const [mobilePathLength, setMobilePathLength] = useState(0);
 
+  const [isMiniMapVisible, setIsMiniMapVisible] = useState(false);
+
   const [pathD, setPathD] = useState('');
   const [svgSize, setSvgSize] = useState({ w: 1400, h: 2000 });
 
@@ -42,6 +44,25 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   for (let i = 0; i < chronologicalHistory.length; i += chunkSize) {
     rows.push(chronologicalHistory.slice(i, i + chunkSize));
   }
+
+  // Check visibility for bottom-right fixed mini-map slider (until reaching end of timeline section)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const checkVisibility = () => {
+      if (!desktopContainerRef.current) return;
+      const rect = desktopContainerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Show when timeline is visible in viewport, hide once scrolled past the end of the section
+      const visible = rect.top < windowHeight * 0.8 && rect.bottom > 120;
+      setIsMiniMapVisible(visible);
+    };
+
+    window.addEventListener('scroll', checkVisibility);
+    checkVisibility();
+    return () => window.removeEventListener('scroll', checkVisibility);
+  }, []);
 
   // Calculate single continuous SVG path string dynamically from real DOM positions (Matching Nav Width: max-w-[1400px])
   useEffect(() => {
@@ -220,25 +241,31 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </p>
       </div>
 
-      {/* ── SCROLL MINI-MAP & YEAR NAVIGATION CAROUSEL (FLOATING STICKY TRACKER) ── */}
-      <div className="sticky top-24 z-30 max-w-xl mx-auto mb-12 px-4 pointer-events-auto">
-        <div className="bg-[#0c0c16]/95 backdrop-blur-2xl border border-white/20 px-5 py-3.5 rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.8)] relative">
+      {/* ── FIXED BOTTOM-RIGHT SCROLL MINI-MAP & YEAR NAVIGATION CAROUSEL (UNTIL END OF SECTION) ── */}
+      <div
+        className={`fixed bottom-6 right-6 z-50 transition-all duration-500 max-w-sm sm:max-w-md w-auto ${
+          isMiniMapVisible
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 translate-y-8 pointer-events-none'
+        }`}
+      >
+        <div className="bg-[#0c0c16]/95 backdrop-blur-2xl border border-white/20 px-5 py-3 rounded-full relative shadow-2xl">
           
           {/* Active Year Tooltip Pointer */}
           <div
             className="absolute -top-9 transition-all duration-300 ease-out flex flex-col items-center pointer-events-none -translate-x-1/2"
             style={{
-              left: `calc(1.75rem + (${activeYearIndex} / ${chronologicalHistory.length - 1}) * (100% - 3.5rem))`,
+              left: `calc(1.5rem + (${activeYearIndex} / ${chronologicalHistory.length - 1}) * (100% - 3.5rem))`,
             }}
           >
-            <div className="bg-white text-black text-[10px] font-black font-mono px-2 py-0.5 rounded shadow-xl tracking-wider border border-white/30">
+            <div className="bg-white text-black text-[10px] font-black font-mono px-2 py-0.5 rounded tracking-wider border border-white/30">
               {chronologicalHistory[activeYearIndex]?.year || '1998'}
             </div>
             <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-white" />
           </div>
 
           {/* 23 Milestone Dots Track */}
-          <div className="flex items-center justify-between px-1">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-1">
             {chronologicalHistory.map((item, idx) => {
               const isPast = idx < activeYearIndex;
               const isActive = idx === activeYearIndex;
@@ -251,13 +278,20 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onClick={() => handleScrollToYear(idx)}
                   className="group relative focus:outline-none cursor-pointer py-1"
                 >
+                  {/* Individual Hover Pop-Up Year Label */}
+                  <div className="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-200 pointer-events-none z-20">
+                    <div className="bg-cyan-400 text-black text-[9px] font-black font-mono px-1.5 py-0.5 rounded shadow-lg tracking-widest whitespace-nowrap border border-cyan-300">
+                      {item.year}
+                    </div>
+                  </div>
+
                   <div
                     className={`rounded-full transition-all duration-300 ${
                       isActive
-                        ? 'w-4 h-4 bg-cyan-300 shadow-[0_0_15px_rgba(6,182,212,1)] scale-125'
+                        ? 'w-3.5 h-3.5 bg-cyan-300 scale-125'
                         : isPast
-                        ? 'w-2.5 h-2.5 bg-cyan-400/80 hover:scale-125'
-                        : 'w-2.5 h-2.5 bg-white/20 hover:bg-white/50 hover:scale-125'
+                        ? 'w-2 h-2 bg-cyan-400/80 hover:scale-125'
+                        : 'w-2 h-2 bg-white/20 hover:bg-white/50 hover:scale-125'
                     }`}
                   />
                 </button>
@@ -333,9 +367,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           <div className="flex items-center gap-3">
             <div
               ref={startDotRef}
-              className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10 shadow-[0_0_15px_rgba(6,182,212,0.8)]"
+              className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10"
             />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full font-mono z-10">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>
@@ -372,13 +406,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         <div
                           className={`inline-block px-6 py-1.5 rounded-2xl z-20 transition-all duration-300 ${
                             isReached
-                              ? 'bg-[#06060c] border border-cyan-400/90 scale-110 shadow-[0_0_25px_rgba(6,182,212,0.6)]'
-                              : 'bg-[#06060c] border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]'
+                              ? 'bg-[#06060c] border border-cyan-400/90 scale-105'
+                              : 'bg-[#06060c] border border-white/10'
                           }`}
                         >
                           <h6
                             className={`text-4xl md:text-5xl font-black font-mono tracking-tight transition-colors leading-none ${
-                              isReached ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)]' : 'text-white/40'
+                              isReached ? 'text-cyan-300' : 'text-white/40'
                             }`}
                           >
                             {hist.year}
@@ -407,9 +441,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         className="w-[340px] xl:w-[380px] shrink-0 group text-left"
                       >
                         <div
-                          className={`bg-[#0c0c16]/90 backdrop-blur-xl p-6 rounded-3xl shadow-2xl transition-all duration-300 ${
+                          className={`bg-[#0c0c16]/90 backdrop-blur-xl p-6 rounded-3xl transition-all duration-300 ${
                             isReached
-                              ? 'border border-cyan-400/70 -translate-y-1 shadow-[0_10px_30px_rgba(6,182,212,0.25)]'
+                              ? 'border border-cyan-400/70 -translate-y-1'
                               : 'border border-white/10 opacity-60'
                           }`}
                         >
@@ -417,7 +451,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             <span
                               className={`text-[10px] font-black uppercase tracking-widest font-mono px-3 py-0.5 rounded transition-colors ${
                                 isReached
-                                  ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                                  ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
                                   : 'text-white/40 bg-white/5 border border-white/10'
                               }`}
                             >
@@ -481,13 +515,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div key={idx} className="relative group">
                 <div
                   className={`absolute left-[-26px] top-4 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
-                    isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
+                    isReached ? 'bg-cyan-300 scale-125' : 'bg-cyan-500/30'
                   }`}
                 />
 
                 <div
-                  className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-2xl shadow-xl transition-all duration-300 ${
-                    isReached ? 'border border-cyan-400/60 shadow-[0_5px_20px_rgba(6,182,212,0.2)]' : 'border border-white/10 opacity-70'
+                  className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-2xl transition-all duration-300 ${
+                    isReached ? 'border border-cyan-400/60' : 'border border-white/10 opacity-70'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2">
