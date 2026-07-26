@@ -806,14 +806,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* PREVAILING RATES */}
             {activePriceYear === 2027 && (
               <div className="bg-transparent p-0 relative text-left">
-                {/* Top Gratuities Notice Banner */}
-                <div className="bg-purple-950/50 border border-purple-500/40 rounded-2xl p-4 md:p-5 mb-8 flex items-start gap-3.5 shadow-xl">
-                  <span className="text-2xl shrink-0">⚠️</span>
-                  <div className="text-xs md:text-sm text-purple-200 font-medium leading-relaxed">
-                    <strong className="text-purple-300 font-black uppercase tracking-wider">NOTICE:</strong> Gratuities are <strong className="text-white font-extrabold">NOT included</strong> in rates below (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.
-                  </div>
-                </div>
-
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-2">
                   <div>
                     <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Variable Market Pricing</span>
@@ -837,7 +829,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => handleSelectCabin(room.selectValue)}
                         className={`p-3.5 rounded-2xl flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative ${
                           isYo
-                            ? 'bg-purple-950/40 border-2 border-purple-500 shadow-[0_0_30px_rgba(168,85,247,0.4)] ring-2 ring-purple-500/50'
+                            ? 'bg-purple-950/40 border-2 border-purple-500'
                             : 'bg-transparent border-0'
                         }`}
                       >
