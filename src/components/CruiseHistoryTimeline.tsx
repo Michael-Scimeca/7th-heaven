@@ -266,8 +266,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             position: 'absolute',
             left: -100,
             top: -100,
-            width: 240,
-            height: 240,
+            width: 600,
+            height: 600,
             pointerEvents: 'none',
             zIndex: 30,
             overflow: 'visible',
@@ -278,7 +278,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           <Canvas
             orthographic
             gl={{ powerPreference: 'high-performance', antialias: true, alpha: true }}
-            camera={{ left: -160, right: 160, top: 160, bottom: -160, zoom: 45, position: [0, 250, 0], up: [0, 0, -1] }}
+            camera={{ left: -500, right: 500, top: 500, bottom: -500, zoom: 36, position: [0, 250, 0], up: [0, 0, -1] }}
             style={{ width: '100%', height: '100%', overflow: 'visible' }}
           >
             <ambientLight intensity={1.8} />
