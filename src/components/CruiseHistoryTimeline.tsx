@@ -14,7 +14,7 @@ function TopDownHistoryShip({ scale = 1.4 }: { scale?: number }) {
 
   useFrame(() => {
     if (groupRef.current) {
-      groupRef.current.rotation.set(0, Math.PI / 2, 0);
+      groupRef.current.rotation.set(0, Math.PI, 0);
       groupRef.current.scale.set(scale, scale, scale);
     }
   });
