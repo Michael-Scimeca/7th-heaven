@@ -636,6 +636,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <span>We match rates & automatically re-roll your room if prices drop before final payment!</span>
                 </li>
                 <li className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold shrink-0">💡</span>
+                  <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).</span>
+                </li>
+                <li className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold shrink-0">✓</span>
                   <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                 </li>
@@ -727,9 +731,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div>
                   <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">Exclusive Group Deal</span>
                   <h3 className="text-2xl md:text-3xl font-black uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
-                </div>
-                <div className="max-w-md text-xs md:text-sm leading-relaxed text-cyan-200/90 font-medium">
-                  💡 <strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).
                 </div>
               </div>
 
