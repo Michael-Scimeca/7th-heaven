@@ -8,14 +8,15 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
-function TopDownHistoryShip({ scale = 1.4 }: { scale?: number }) {
+function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<number> }) {
   const { scene } = useGLTF('/objects/ship.glb');
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame(() => {
     if (groupRef.current) {
+      const s = shipScaleRef.current ?? 1.0;
       groupRef.current.rotation.set(0, 0, 0);
-      groupRef.current.scale.set(scale, scale, scale);
+      groupRef.current.scale.set(s, s, s);
     }
   });
 
@@ -40,6 +41,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const desktopContainerRef = useRef<HTMLDivElement>(null);
   const desktopPathRef = useRef<SVGPathElement>(null);
   const shipDivRef = useRef<HTMLDivElement>(null);
+  const shipScaleRef = useRef(1.0);
   const lastAngleRef = useRef(0);
   const startDotRef = useRef<HTMLDivElement>(null);
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -189,6 +191,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   }
                   const angle = lastAngleRef.current;
 
+                  // Progressive ship scale: grows from 1.0x (1998 Inaugural) to 2.35x (2028 Modern Mega-Ship)
+                  shipScaleRef.current = 1.0 + self.progress * 1.35;
+
                   shipDivRef.current.style.left = `${pt.x}px`;
                   shipDivRef.current.style.top = `${pt.y}px`;
                   shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
@@ -278,7 +283,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <directionalLight position={[5, 12, 5]} intensity={2.5} />
             <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
             <React.Suspense fallback={null}>
-              <TopDownHistoryShip scale={1.4} />
+              <TopDownHistoryShip shipScaleRef={shipScaleRef} />
             </React.Suspense>
           </Canvas>
         </div>
