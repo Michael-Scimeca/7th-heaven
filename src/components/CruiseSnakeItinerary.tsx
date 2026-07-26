@@ -160,7 +160,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 0,
-  maxShipDistPad: 100,
+  maxShipDistPad: 200,
   lineWidth: 6,
   glowBlur: 0,
   nodeDipRadius: 65,
@@ -350,8 +350,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
         saved.shipOffsetY = 0.50;
-        saved.maxShipDistPad = 100;
-        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 100 });
+        saved.maxShipDistPad = 200;
+        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 200 });
       }
     } catch {}
   }, []);
@@ -486,8 +486,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
-        // Compute current tip point on SVG path (set back 100px from leading line fill so ship stops before circle node)
-        const pad = t.maxShipDistPad ?? 100;
+        // Compute current tip point on SVG path (set back 200px from leading line fill so ship's front bow stops cleanly before circle node ring)
+        const pad = t.maxShipDistPad ?? 200;
         const lineFillDist = totalLen - currentFillOffset;
         const shipDist = Math.max(0, Math.min(totalLen - pad, lineFillDist - pad));
         const pt = fill.getPointAtLength(shipDist);
