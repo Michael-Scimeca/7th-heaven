@@ -76,7 +76,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Update leading liquid droplet position along the path
+  // Update leading liquid water surface point position along the path
   useEffect(() => {
     if (desktopPathRef.current && desktopPathLength > 0) {
       const currentLen = desktopPathLength * desktopProgress;
@@ -148,23 +148,37 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={desktopContainerRef}
         className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
       >
-        {/* SINGLE CONTINUOUS ANIMATED SVG SERPENTINE PATHWAY */}
+        {/* SINGLE CONTINUOUS FLUID WATER ANIMATED SVG PATHWAY */}
         <svg
           viewBox="0 0 1000 1800"
           preserveAspectRatio="none"
           className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
         >
           <defs>
-            {/* Liquid Cyan Water Gradient */}
-            <linearGradient id="liquid-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            {/* Ocean Water Cyan Gradient */}
+            <linearGradient id="ocean-water-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#00f2fe" />
-              <stop offset="50%" stopColor="#06b6d4" />
-              <stop offset="100%" stopColor="#3b82f6" />
+              <stop offset="40%" stopColor="#06b6d4" />
+              <stop offset="80%" stopColor="#3b82f6" />
+              <stop offset="100%" stopColor="#0284c7" />
             </linearGradient>
 
-            {/* Liquid Glow Filter */}
-            <filter id="liquid-glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
+            {/* SVG Animated Fluid Water Wave Turbulence Filter */}
+            <filter id="water-wave-motion" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.02 0.06" numOctaves="2" result="noise">
+                <animate
+                  attributeName="baseFrequency"
+                  values="0.02 0.06; 0.04 0.1; 0.02 0.06"
+                  dur="5s"
+                  repeatCount="indefinite"
+                />
+              </feTurbulence>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+
+            {/* Soft Ambient Glow Filter */}
+            <filter id="cyan-glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="5" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
@@ -172,23 +186,22 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             </filter>
           </defs>
 
-          {/* 1. Subtle Muted Track Path (Outline) */}
+          {/* 1. Muted Background Track Path */}
           <path
             d={serpentinePathD}
             fill="none"
             stroke="rgba(6, 182, 212, 0.12)"
-            strokeWidth="3.5"
+            strokeWidth="4"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
 
-          {/* 2. Interactive Scroll-Animated Glowing Liquid Cyan Line */}
+          {/* 2. Outer Soft Ocean Water Glow Layer */}
           <path
-            ref={desktopPathRef}
             d={serpentinePathD}
             fill="none"
-            stroke="url(#liquid-gradient)"
-            strokeWidth="4"
+            stroke="rgba(6, 182, 212, 0.35)"
+            strokeWidth="8"
             strokeLinecap="round"
             strokeLinejoin="round"
             style={{
@@ -196,60 +209,85 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               strokeDashoffset: desktopPathLength
                 ? desktopPathLength * (1 - desktopProgress)
                 : 10000,
-              filter: 'url(#liquid-glow)',
+              filter: 'blur(3px)',
               transition: 'stroke-dashoffset 0.1s linear',
             }}
           />
 
-          {/* 3. Travelling Liquid Droplet Blob at the Leading Tip */}
-          {liquidPoint && (
-            <g className="transition-transform duration-100 ease-linear">
-              {/* Outer Pulsing Aura */}
+          {/* 3. Main Fluid Ocean Water Animated Line Filler */}
+          <path
+            ref={desktopPathRef}
+            d={serpentinePathD}
+            fill="none"
+            stroke="url(#ocean-water-gradient)"
+            strokeWidth="4.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{
+              strokeDasharray: desktopPathLength || 10000,
+              strokeDashoffset: desktopPathLength
+                ? desktopPathLength * (1 - desktopProgress)
+                : 10000,
+              filter: 'url(#water-wave-motion)',
+              transition: 'stroke-dashoffset 0.1s linear',
+            }}
+          />
+
+          {/* 4. Flying Water Splash Droplets & Bubbles at Leading Water Edge */}
+          {liquidPoint && desktopProgress > 0 && desktopProgress < 0.99 && (
+            <g className="pointer-events-none">
+              {/* Splash Droplet 1 */}
               <circle
-                cx={liquidPoint.x}
-                cy={liquidPoint.y}
-                r="12"
+                cx={liquidPoint.x - 8}
+                cy={liquidPoint.y - 12}
+                r="2"
                 fill="#00f2fe"
-                opacity="0.4"
+                opacity="0.8"
+                className="animate-bounce"
+              />
+              {/* Splash Droplet 2 */}
+              <circle
+                cx={liquidPoint.x + 10}
+                cy={liquidPoint.y - 8}
+                r="3"
+                fill="#38bdf8"
+                opacity="0.7"
+                className="animate-pulse"
+              />
+              {/* Splash Droplet 3 */}
+              <circle
+                cx={liquidPoint.x - 14}
+                cy={liquidPoint.y + 6}
+                r="1.5"
+                fill="#7dd3fc"
+                opacity="0.9"
                 className="animate-ping"
               />
-              {/* Liquid Droplet Outer Shell */}
+              {/* Splash Droplet 4 */}
               <circle
-                cx={liquidPoint.x}
-                cy={liquidPoint.y}
-                r="7"
+                cx={liquidPoint.x + 12}
+                cy={liquidPoint.y + 10}
+                r="2.5"
                 fill="#00f2fe"
-                filter="url(#liquid-glow)"
+                opacity="0.6"
               />
-              {/* Inner White Core */}
+              {/* Splash Droplet 5 */}
               <circle
                 cx={liquidPoint.x}
-                cy={liquidPoint.y}
-                r="3"
+                cy={liquidPoint.y - 16}
+                r="1.8"
                 fill="#ffffff"
+                opacity="0.9"
+                className="animate-bounce"
               />
             </g>
           )}
         </svg>
         
-        {/* START POINT HEADER (Liquid Circle Loader Badge) */}
+        {/* START POINT HEADER */}
         <div className="relative pl-2 mb-12">
           <div className="flex items-center gap-3">
-            {/* DRIBBBLE-INSPIRED LIQUID CIRCLE LOADER ORB */}
-            <div className="relative w-8 h-8 rounded-full border-2 border-cyan-400/80 p-0.5 overflow-hidden shadow-[0_0_15px_rgba(6,182,212,0.8)] bg-[#06060c]">
-              {/* Liquid Fill Level inside Circle Orb */}
-              <div
-                className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-500 to-cyan-300 transition-all duration-150 ease-out"
-                style={{ height: `${Math.max(15, desktopProgress * 100)}%` }}
-              >
-                {/* Liquid Surface Wave Animation */}
-                <div className="absolute -top-1.5 left-0 right-0 h-3 bg-cyan-200/50 rounded-full blur-[1px] animate-pulse" />
-              </div>
-
-              {/* Inner Shiny Specular Light Dot */}
-              <div className="absolute top-1 left-1.5 w-1.5 h-1.5 rounded-full bg-white/70 pointer-events-none z-10" />
-            </div>
-
+            <div className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] drop-shadow-[0_0_10px_rgba(6,182,212,0.9)] animate-pulse z-10" />
             <span className="text-xs font-black uppercase tracking-[0.2em] text-black bg-cyan-400 px-4 py-1.5 rounded-full drop-shadow-[0_0_10px_rgba(6,182,212,0.6)] font-mono z-10">
               START · LATEST VOYAGES
             </span>
@@ -357,20 +395,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             );
           })}
         </div>
-
-        {/* END POINT FOOTER */}
-        <div className="relative flex items-center gap-3 mt-12 pl-2">
-          <div
-            className={`w-5 h-5 rounded-full border-4 border-[#06060c] transition-all duration-500 ${
-              desktopProgress >= 0.95
-                ? 'bg-purple-400 shadow-[0_0_20px_rgba(168,85,247,1)] scale-125'
-                : 'bg-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.4)]'
-            }`}
-          />
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-white bg-purple-600 px-4 py-1.5 rounded-full drop-shadow-[0_0_10px_rgba(168,85,247,0.6)] font-mono z-10">
-            CONTINUE · INAUGURAL 1998 VOYAGE 🏆
-          </span>
-        </div>
       </div>
 
       {/* ── MOBILE VERTICAL SNAKE TIMELINE (MD & BELOW) ── */}
@@ -389,14 +413,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             ref={mobilePathRef}
             d="M 2 0 V 1000"
             fill="none"
-            stroke="url(#liquid-gradient)"
+            stroke="url(#ocean-water-gradient)"
             strokeWidth="3.5"
             style={{
               strokeDasharray: mobilePathLength || 1000,
               strokeDashoffset: mobilePathLength
                 ? mobilePathLength * (1 - mobileProgress)
                 : 1000,
-              filter: 'drop-shadow(0 0 8px rgba(6,182,212,0.9))',
+              filter: 'url(#water-wave-motion)',
               transition: 'stroke-dashoffset 0.1s linear',
             }}
           />
