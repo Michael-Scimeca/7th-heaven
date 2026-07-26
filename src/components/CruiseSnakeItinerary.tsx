@@ -664,6 +664,34 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 </div>
               </div>
 
+              {/* Ship Bow Path Advance Offset */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>🚢 Ship Bow Path Advance Offset</span>
+                  <span className="text-cyan-400 font-mono">{(tuning.shipAdvancePx ?? 80)}px</span>
+                </div>
+                <input
+                  type="range" min="-200" max="300" step="5"
+                  value={tuning.shipAdvancePx ?? 80}
+                  onChange={e => setTuning({ ...tuning, shipAdvancePx: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Blue Line Lead / Lag Offset */}
+              <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
+                <div className="flex justify-between items-center text-white/90 font-bold">
+                  <span>🌊 Blue Line Lead/Lag Offset</span>
+                  <span className="text-cyan-400 font-mono">{(tuning.lineFillLeadPx ?? 0)}px</span>
+                </div>
+                <input
+                  type="range" min="-200" max="200" step="5"
+                  value={tuning.lineFillLeadPx ?? 0}
+                  onChange={e => setTuning({ ...tuning, lineFillLeadPx: Number(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+              </div>
+
               {/* Start Trigger Location */}
               <div className="bg-black/60 border border-white/10 p-3 rounded-2xl space-y-1.5">
                 <div className="flex justify-between items-center text-white/90 font-bold">
@@ -949,6 +977,17 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             </div>
 
           </div>,
+          document.body
+        )}
+
+        {/* ── Persistent Floating Settings Button ── */}
+        {mounted && createPortal(
+          <button
+            onClick={() => setShowSettings(prev => !prev)}
+            className="fixed bottom-6 right-6 z-[999999] bg-[#060614] hover:bg-cyan-950 border-2 border-cyan-400 text-cyan-300 px-5 py-3 rounded-full font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(6,182,212,0.6)] backdrop-blur-md flex items-center gap-2 hover:scale-105 transition-all cursor-pointer"
+          >
+            <span>⚙️</span> {showSettings ? 'Close Tuning' : 'Tune Cruise Controls'}
+          </button>,
           document.body
         )}
 
