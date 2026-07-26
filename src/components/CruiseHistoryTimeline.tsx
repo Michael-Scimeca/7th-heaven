@@ -1,6 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 
 export type HistoryItem = {
   year: string;
@@ -32,99 +35,125 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     rows.push(history.slice(i, i + chunkSize));
   }
 
-  // 60FPS Butter-Smooth Scroll Listener using requestAnimationFrame
+  // Measure path length on mount
   useEffect(() => {
-    let animationFrameId: number;
-
-    const measurePaths = () => {
-      if (desktopPathRef.current) {
-        setDesktopPathLength(desktopPathRef.current.getTotalLength());
-      }
-      if (mobilePathRef.current) {
-        setMobilePathLength(mobilePathRef.current.getTotalLength());
-      }
-    };
-
-    measurePaths();
-
-    const updateScrollProgress = () => {
-      const windowHeight = window.innerHeight;
-
-      // Desktop Scroll Calculation
-      if (desktopContainerRef.current) {
-        const rect = desktopContainerRef.current.getBoundingClientRect();
-        const startY = rect.top;
-        const totalHeight = rect.height - windowHeight * 0.3;
-        if (totalHeight > 0) {
-          const current = windowHeight * 0.7 - startY;
-          const progress = Math.max(0, Math.min(1, current / totalHeight));
-          setDesktopProgress(progress);
-        }
-      }
-
-      // Mobile Scroll Calculation
-      if (mobileContainerRef.current) {
-        const rect = mobileContainerRef.current.getBoundingClientRect();
-        const startY = rect.top;
-        const totalHeight = rect.height - windowHeight * 0.3;
-        if (totalHeight > 0) {
-          const current = windowHeight * 0.7 - startY;
-          const progress = Math.max(0, Math.min(1, current / totalHeight));
-          setMobileProgress(progress);
-        }
-      }
-    };
-
-    const onScroll = () => {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = requestAnimationFrame(updateScrollProgress);
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', measurePaths, { passive: true });
-    updateScrollProgress(); // Initial check
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', measurePaths);
-      cancelAnimationFrame(animationFrameId);
-    };
+    if (desktopPathRef.current) {
+      setDesktopPathLength(desktopPathRef.current.getTotalLength());
+    }
+    if (mobilePathRef.current) {
+      setMobilePathLength(mobilePathRef.current.getTotalLength());
+    }
   }, []);
 
-  // Single Continuous Desktop Serpentine SVG Path (viewBox 0 0 1000 1800)
+  // Hook up Lenis Smooth Scroll & GSAP ScrollTrigger scrub
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Initialize Lenis smooth scroll instance
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const tickerFn = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(tickerFn);
+    gsap.ticker.lagSmoothing(0);
+
+    const ctx = gsap.context(() => {
+      // Desktop Lenis + GSAP ScrollTrigger Scrub
+      if (desktopPathRef.current && desktopPathLength > 0) {
+        gsap.fromTo(
+          desktopPathRef.current,
+          { strokeDashoffset: desktopPathLength },
+          {
+            strokeDashoffset: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: desktopContainerRef.current,
+              start: 'top 70%',
+              end: 'bottom 80%',
+              scrub: 0.5,
+              onUpdate: (self) => {
+                setDesktopProgress(self.progress);
+              },
+            },
+          }
+        );
+      }
+
+      // Mobile Lenis + GSAP ScrollTrigger Scrub
+      if (mobilePathRef.current && mobilePathLength > 0) {
+        gsap.fromTo(
+          mobilePathRef.current,
+          { strokeDashoffset: mobilePathLength },
+          {
+            strokeDashoffset: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: mobileContainerRef.current,
+              start: 'top 70%',
+              end: 'bottom 80%',
+              scrub: 0.5,
+              onUpdate: (self) => {
+                setMobileProgress(self.progress);
+              },
+            },
+          }
+        );
+      }
+    });
+
+    return () => {
+      ctx.revert();
+      gsap.ticker.remove(tickerFn);
+      lenis.destroy();
+    };
+  }, [desktopPathLength, mobilePathLength]);
+
+  // Single Continuous Desktop Serpentine SVG Path passing DIRECTLY THROUGH the center of Year Headers
+  // viewBox: 0 0 1000 2000
+  // Row 0 Y = 105, Row 1 Y = 330, Row 2 Y = 555, Row 3 Y = 780, Row 4 Y = 1005, Row 5 Y = 1230, Row 6 Y = 1455, Row 7 Y = 1680
   const serpentinePathD = `
     M 20 10
-    V 40
-    A 20 20 0 0 0 40 60
-    H 940
-    A 40 40 0 0 1 980 100
-    V 260
-    A 40 40 0 0 1 940 300
-    H 60
-    A 40 40 0 0 0 20 340
-    V 500
-    A 40 40 0 0 0 60 540
-    H 940
-    A 40 40 0 0 1 980 580
-    V 740
-    A 40 40 0 0 1 940 780
-    H 60
-    A 40 40 0 0 0 20 820
-    V 980
-    A 40 40 0 0 0 60 1020
-    H 940
-    A 40 40 0 0 1 980 1060
-    V 1220
-    A 40 40 0 0 1 940 1260
-    H 60
-    A 40 40 0 0 0 20 1300
-    V 1460
-    A 40 40 0 0 0 60 1500
-    H 940
-    A 40 40 0 0 1 980 1540
-    V 1700
-    A 40 40 0 0 1 940 1740
-    H 60
+    V 80
+    A 25 25 0 0 0 45 105
+    H 955
+    A 45 45 0 0 1 1000 150
+    V 285
+    A 45 45 0 0 1 955 330
+    H 45
+    A 45 45 0 0 0 0 375
+    V 510
+    A 45 45 0 0 0 45 555
+    H 955
+    A 45 45 0 0 1 1000 600
+    V 735
+    A 45 45 0 0 1 955 780
+    H 45
+    A 45 45 0 0 0 0 825
+    V 960
+    A 45 45 0 0 0 45 1005
+    H 955
+    A 45 45 0 0 1 1000 1050
+    V 1185
+    A 45 45 0 0 1 955 1230
+    H 45
+    A 45 45 0 0 0 0 1275
+    V 1410
+    A 45 45 0 0 0 45 1455
+    H 955
+    A 45 45 0 0 1 1000 1500
+    V 1635
+    A 45 45 0 0 1 955 1680
+    H 45
   `.replace(/\s+/g, ' ').trim();
 
   return (
@@ -150,9 +179,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={desktopContainerRef}
         className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
       >
-        {/* SINGLE CONTINUOUS SILKY SMOOTH ANIMATED SVG PATHWAY */}
+        {/* SINGLE CONTINUOUS LENIS SMOOTH-ANIMATED SVG PATHWAY */}
         <svg
-          viewBox="0 0 1000 1800"
+          viewBox="0 0 1000 2000"
           preserveAspectRatio="none"
           className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
         >
@@ -189,11 +218,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 ? desktopPathLength * (1 - desktopProgress)
                 : 10000,
               filter: 'blur(4px)',
-              transition: 'stroke-dashoffset 0.05s ease-out',
             }}
           />
 
-          {/* 3. Crisp Silky Smooth Main Liquid Cyan Line Filler */}
+          {/* 3. Lenis + GSAP ScrollTrigger Scrub Main Liquid Cyan Line Filler */}
           <path
             ref={desktopPathRef}
             d={serpentinePathD}
@@ -204,11 +232,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             strokeLinejoin="round"
             style={{
               strokeDasharray: desktopPathLength || 10000,
-              strokeDashoffset: desktopPathLength
-                ? desktopPathLength * (1 - desktopProgress)
-                : 10000,
+              strokeDashoffset: desktopPathLength || 10000,
               filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.9))',
-              transition: 'stroke-dashoffset 0.05s ease-out',
             }}
           />
         </svg>
@@ -346,11 +371,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             strokeWidth="3.5"
             style={{
               strokeDasharray: mobilePathLength || 1000,
-              strokeDashoffset: mobilePathLength
-                ? mobilePathLength * (1 - mobileProgress)
-                : 1000,
+              strokeDashoffset: mobilePathLength || 1000,
               filter: 'drop-shadow(0 0 8px rgba(6,182,212,0.9))',
-              transition: 'stroke-dashoffset 0.05s ease-out',
             }}
           />
         </svg>
