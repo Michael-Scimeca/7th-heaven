@@ -197,7 +197,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
       {/* Section Header */}
-      <div className="text-center max-w-4xl mx-auto mb-12 px-4">
+      <div className="text-center max-w-4xl mx-auto mb-16 px-4">
         <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
           25+ Years Legacy Pathway
         </span>
@@ -210,27 +210,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         <p className="text-white/40 text-xs md:text-sm mt-2 leading-relaxed">
           Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our serpentine timeline.
         </p>
-
-        {/* ── REAL-TIME PROGRESS TRACKER BAR & PILL ── */}
-        <div className="mt-8 max-w-xl mx-auto bg-black/60 backdrop-blur-xl border border-white/15 p-4 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-          <div className="flex items-center justify-between gap-4 mb-2 text-xs font-mono font-black uppercase">
-            <span className="text-cyan-400 tracking-wider flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              TIMELINE PROGRESS: {progressPercent}%
-            </span>
-            <span className="text-white/70 bg-white/10 px-3 py-0.5 rounded-full border border-white/15">
-              VOYAGE #{activeVoyageIndex} OF {chronologicalHistory.length}
-            </span>
-          </div>
-
-          {/* Progress Bar Container */}
-          <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10">
-            <div
-              className="h-full bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 rounded-full transition-all duration-150 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
-              style={{ width: `${Math.max(progressPercent, 2)}%` }}
-            />
-          </div>
-        </div>
       </div>
 
       {/* ── DESKTOP CODEPEN SERPENTINE SNAKE TIMELINE (MATCHING NAVBAR WIDTH: max-w-[1400px]) ── */}
