@@ -643,40 +643,40 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <p className="text-[10px] text-white/40 mt-1">Size at 2028 Voyage #23 finish (0.05x to 8.00x).</p>
               </div>
 
-              {/* 3. Ship Y Path Offset */}
-              <div>
+              {/* 3. Ship X Position Offset */}
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
                 <div className="flex justify-between items-center mb-1.5">
-                  <span className="font-bold text-white/90">↕️ Ship Y Path Offset (Height Position)</span>
-                  <span className="text-cyan-400 font-mono font-bold">{tuning.shipOffsetY ?? 0}px</span>
+                  <span className="font-black text-cyan-300">↔️ Ship X Position Offset (Horizontal)</span>
+                  <span className="text-cyan-400 font-mono font-black text-sm">{tuning.shipOffsetX ?? 0}px</span>
                 </div>
                 <input
                   type="range"
-                  min="-150"
-                  max="150"
-                  step="1"
-                  value={tuning.shipOffsetY ?? 0}
-                  onChange={e => setTuning({ ...tuning, shipOffsetY: parseInt(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-                <p className="text-[10px] text-white/40 mt-1">Vertical alignment offset of the 3D ship on the line (-150px to +150px).</p>
-              </div>
-
-              {/* 4. Ship X Path Offset */}
-              <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <span className="font-bold text-white/90">↔️ Ship X Path Offset (Lateral Position)</span>
-                  <span className="text-cyan-400 font-mono font-bold">{tuning.shipOffsetX ?? 0}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="-150"
-                  max="150"
+                  min="-200"
+                  max="200"
                   step="1"
                   value={tuning.shipOffsetX ?? 0}
                   onChange={e => setTuning({ ...tuning, shipOffsetX: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[10px] text-white/40 mt-1">Horizontal alignment offset of the 3D ship on the line (-150px to +150px).</p>
+                <p className="text-[10px] text-white/50 mt-1">Nudge ship left or right on the path (-200px to +200px).</p>
+              </div>
+
+              {/* 4. Ship Y Position Offset */}
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-black text-cyan-300">↕️ Ship Y Position Offset (Vertical)</span>
+                  <span className="text-cyan-400 font-mono font-black text-sm">{tuning.shipOffsetY ?? 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-200"
+                  max="200"
+                  step="1"
+                  value={tuning.shipOffsetY ?? 0}
+                  onChange={e => setTuning({ ...tuning, shipOffsetY: parseInt(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+                <p className="text-[10px] text-white/50 mt-1">Nudge ship up or down on the path (-200px to +200px).</p>
               </div>
 
               {/* 5. Bow Offset */}
