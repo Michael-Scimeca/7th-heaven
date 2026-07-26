@@ -470,8 +470,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const relativeScrollY = viewportFocusY - rect.top;
         const rawProgress = (relativeScrollY - startY) / Math.max(1, endY - startY);
         const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
-        // Lock line fill & boat together so blue water current flows into ship hull and front bow lands directly at circle node
-        const targetOffset = totalLen - (progress * totalLen);
+        // Calculate target ship position along path (advancing front bow to land at circle node ring)
+        const rawShipDist = Math.max(0, Math.min(totalLen - 20, progress * (totalLen - 20) + 80));
+        // Sync solid blue line fill length 1:1 with ship position so blue line flows directly into ship hull
+        const targetOffset = totalLen - rawShipDist;
 
         // Section is in range when the scroll focus position reaches the canvas top and bottom hasn't completely scrolled out
         const isSectionInRange = relativeScrollY > 0 && rect.bottom > 100;
@@ -487,9 +489,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
-        // Advance shipDist forward by +80px so front bow closes the gap and lands right at the circle node ring edge
-        const lineFillDist = totalLen - currentFillOffset;
-        const shipDist = Math.max(0, Math.min(totalLen - 20, lineFillDist + 80));
+        const shipDist = Math.max(0, Math.min(totalLen - 20, totalLen - currentFillOffset));
         const pt = fill.getPointAtLength(shipDist);
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
