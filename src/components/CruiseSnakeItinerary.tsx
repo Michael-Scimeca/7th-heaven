@@ -9,7 +9,7 @@ import styles from './CruiseSnakeItinerary.module.css';
 
 function ShipModel({
   scale = 1.0,
-  offsetY = 0.38,
+  offsetY = 1.05,
   shipRotYRef,
   shipScaleFactorRef,
 }: {
@@ -146,14 +146,14 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   rippleAmp: 7,
   waveSpeed: 0.0011,
   lerpSpeed: 0.75,
-  scrollStartMul: 0.48,
+  scrollStartMul: 0.35,
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
   shipScale: 1.5,
-  shipOffsetY: 0.38,
+  shipOffsetY: 1.05,
   anchorOffsetX: 0,
   anchorOffsetY: 0,
-  minShipDist: 50,
+  minShipDist: 0,
   maxShipDistPad: 40,
   lineWidth: 6,
   glowBlur: 0,
@@ -343,7 +343,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.shipScale = 1.5;
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
-        saved.shipOffsetY = 0.38;
+        saved.shipOffsetY = 1.05;
         setTuning({ ...DEFAULT_TUNING, ...saved });
       }
     } catch {}
@@ -413,8 +413,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
       for (let s = 1; s <= STEPS; s++) {
         const t = s / STEPS;
-        const ease = t * t * (3 - 2 * t);
-        const baseX = prev.x + (curr.x - prev.x) * ease;
+        const baseX = prev.x + (curr.x - prev.x) * t;
         const baseY = prev.y + (curr.y - prev.y) * t;
 
         const angle = Math.atan2(curr.y - prev.y, curr.x - prev.x);
@@ -459,7 +458,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         // Lock boat 1:1 with viewport scroll position
         const viewportFocusY = viewH * (t.scrollStartMul ?? 0.5);
         const relativeScrollY = viewportFocusY - rect.top;
-        const totalScrollDistance = Math.max(1, rect.height);
+        const totalScrollDistance = Math.max(1, rect.height + 450);
         const rawProgress = Math.max(0, Math.min(1, relativeScrollY / totalScrollDistance));
         const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
         const targetOffset = totalLen * (1 - progress);
@@ -475,7 +474,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
         // Compute current tip point on SVG path (distance along path from start)
-        const shipDist = Math.max(0, Math.min(totalLen, totalLen - currentFillOffset));
+        const lineFillDist = Math.min(totalLen - 120, totalLen - currentFillOffset);
+        const shipDist = Math.max(0, Math.min(totalLen - 190, lineFillDist - 60));
         const pt = fill.getPointAtLength(shipDist);
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
@@ -519,42 +519,20 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           setIsShipInNodeProximity(inProximity);
         }
 
-        const dipRadius = t.nodeDipRadius ?? 65;
-        const minScale = t.nodeMinScale ?? 0.0;
-        const action = t.nodeAction ?? 'hide';
-        let opacityVal = 1.0;
-
-        if (minNodeDist < dipRadius) {
-          const dipRatio = minNodeDist / dipRadius; // 1.0 at outer edge, 0.0 right over center
-          if (action === 'hide') {
-            shipScaleFactorRef.current = minScale + (1.0 - minScale) * Math.pow(dipRatio, 1.4);
-            // Proportional opacity fade from 1 (100% visible at edge) to 0 (completely invisible at center)
-            opacityVal = Math.max(0, Math.min(1, Math.pow(dipRatio, 1.2)));
-          } else if (action === 'bounce') {
-            shipScaleFactorRef.current = minScale + (1.0 - minScale) * Math.sin((dipRatio * Math.PI) / 2);
-            opacityVal = 0.4 + 0.6 * dipRatio;
-          } else if (action === 'spin') {
-            shipScaleFactorRef.current = minScale + (1.0 - minScale) * dipRatio;
-            opacityVal = 0.5 + 0.5 * dipRatio;
-          } else {
-            shipScaleFactorRef.current = 1.0;
-            opacityVal = 1.0;
-          }
-        } else {
-          shipScaleFactorRef.current = 1.0;
-          opacityVal = 1.0;
-        }
+        shipScaleFactorRef.current = 1.0;
+        const opacityVal = 1.0;
         
-        // Compute direction tangent for ship heading angle (sample 12px behind & ahead for smooth angle)
-        const pPrev = fill.getPointAtLength(Math.max(0, shipDist - 12));
-        const pNext = fill.getPointAtLength(Math.min(totalLen, shipDist + 12));
+        // Compute direction tangent for ship heading angle (sample 24px behind & ahead for smooth angle)
+        const pPrev = fill.getPointAtLength(Math.max(0, shipDist - 24));
+        const pNext = fill.getPointAtLength(Math.min(totalLen, shipDist + 24));
         const dx = pNext.x - pPrev.x;
         const dy = pNext.y - pPrev.y;
-        const len = Math.hypot(dx, dy) || 1;
-        const ux = dx / len;
-        const uy = dy / len;
         const headingLeft = dx < 0;
-        const angle = headingLeft ? Math.atan2(-dy, -dx) : Math.atan2(dy, dx);
+        const rawAngle = headingLeft ? Math.atan2(-dy, -dx) : Math.atan2(dy, dx);
+
+        // Clamp maximum pitch angle to max ±22 degrees (0.38 rad) so the boat never nose-dives or looks like it's sinking
+        const MAX_TILT = (22 * Math.PI) / 180;
+        const angle = Math.max(-MAX_TILT, Math.min(MAX_TILT, rawAngle));
 
         shipRotYRef.current = headingLeft ? Math.PI : 0;
 
@@ -1228,11 +1206,11 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 height: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
                 borderRadius: '50%',
                 backgroundColor: '#0a0a12',
-                border: '2px solid #06b6d4',
-                boxShadow: 'none',
+                border: isActive ? '3px solid #06b6d4' : '2px solid rgba(6,182,212,0.4)',
+                boxShadow: isActive ? '0 0 25px rgba(6,182,212,0.7)' : 'none',
                 zIndex: isActive ? 30 : 25,
                 overflow: 'hidden',
-                transition: 'width 0.3s ease, height 0.3s ease',
+                transition: 'all 0.3s ease',
                 pointerEvents: 'none',
                 display: 'flex',
                 alignItems: 'center',
@@ -1241,7 +1219,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             >
               <CircleVideoNode
                 src={videoSrc}
-                shouldPlay={isPassed}
+                shouldPlay={hasScrolledIntoRange && (isActive || isPassed)}
               />
             </div>
           );
