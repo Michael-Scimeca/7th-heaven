@@ -67,10 +67,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <>
                     {isEvenRow ? (
                       /* RIGHT SIDE BEND: Exits 2026 right, drops down full height to 2025 right */
-                      <div className="absolute right-[24px] top-6 bottom-[-6.5rem] w-[36px] border-r-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tr-[36px] rounded-br-[36px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
+                      <div className="absolute right-[24px] top-[22.75px] bottom-[-7.5rem] w-[36px] border-r-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tr-[36px] rounded-br-[36px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
                     ) : (
                       /* LEFT SIDE BEND: Exits 2023 left, drops down full height to 2022 left */
-                      <div className="absolute left-[24px] top-6 bottom-[-6.5rem] w-[36px] border-l-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tl-[36px] rounded-bl-[36px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
+                      <div className="absolute left-[24px] top-[22.75px] bottom-[-7.5rem] w-[36px] border-l-[2.5px] border-t-[2.5px] border-b-[2.5px] border-cyan-400 rounded-tl-[36px] rounded-bl-[36px] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] pointer-events-none z-0" />
                     )}
                   </>
                 )}
