@@ -1042,18 +1042,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   />
                 </div>
               )}
-              <div className={styles.cardHeader}>
-                <span
-                  className={styles.dayBadge}
-                  style={{
-                    color: themeColor,
-                    backgroundColor: `color-mix(in srgb, ${themeColor} 12%, transparent)`,
-                    borderColor: `color-mix(in srgb, ${themeColor} 30%, transparent)`,
-                  }}
-                >
-                  {day.dayLabel}
-                </span>
-              </div>
+              {/* Card content header */}
               <h3 className={styles.cardTitle}>{day.theme}</h3>
               <ul className={styles.eventsList}>
                 {day.events.map(ev => (
@@ -1168,7 +1157,22 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const isPassed = visitedNodes[i];
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
 
-          const displayLocation = isSea ? 'DAY AT SEA' : (day.location || '').toUpperCase();
+          const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#a855f7');
+          const formatNodeBadgeText = (d: ItineraryDay, idx: number) => {
+            const isSeaDay = isAtSeaDay(d);
+            const loc = (d.location || '').toLowerCase();
+            let locName = 'PORT';
+            if (isSeaDay) locName = 'DAY AT SEA';
+            else if (loc.includes('maarten')) locName = 'ST. MAARTEN';
+            else if (loc.includes('thomas')) locName = 'ST. THOMAS';
+            else if (loc.includes('cococay')) locName = 'COCOCAY';
+            else if (loc.includes('canaveral')) locName = 'PORT CANAVERAL';
+            else if (loc.includes('roatan')) locName = 'ROATAN';
+            else if (loc.includes('cozumel')) locName = 'COZUMEL';
+            else locName = (d.location || '').split(',')[0].trim().toUpperCase();
+
+            return `DAY ${idx + 1} · ${locName}`;
+          };
 
           return (
             <React.Fragment key={`node-group-${i}`}>
@@ -1180,14 +1184,18 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   transform: 'translateX(-50%)',
                   zIndex: 35,
                   pointerEvents: 'none',
+                  color: themeColor,
+                  backgroundColor: '#060614',
+                  borderColor: `color-mix(in srgb, ${themeColor} 50%, transparent)`,
+                  boxShadow: isActive 
+                    ? `0 0 20px color-mix(in srgb, ${themeColor} 60%, transparent)` 
+                    : '0 0 10px rgba(0,0,0,0.5)',
                 }}
-                className={`whitespace-nowrap bg-[#060612]/95 border text-[10px] font-black uppercase tracking-widest px-3.5 py-1 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
-                  isActive 
-                    ? 'border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.6)] scale-105' 
-                    : 'border-white/20 text-white/80 shadow-[0_0_10px_rgba(0,0,0,0.5)]'
+                className={`whitespace-nowrap border text-[11px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
+                  isActive ? 'scale-105 opacity-100' : 'opacity-85'
                 }`}
               >
-                <span>{isSea ? '🌊' : '📍'}</span> {displayLocation}
+                <span>{isSea ? '🌊' : '📍'}</span> {formatNodeBadgeText(day, i)}
               </div>
               <div
                 key={`node-ring-${i}`}
