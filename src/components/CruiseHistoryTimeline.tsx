@@ -10,14 +10,34 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 
 function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<number> }) {
   const { scene } = useGLTF('/objects/ship.glb');
-  const clonedScene = React.useMemo(() => scene.clone(), [scene]);
+  const clonedScene = React.useMemo(() => {
+    const c = scene.clone();
+    c.traverse((child) => {
+      child.matrixAutoUpdate = true;
+    });
+    return c;
+  }, [scene]);
+
   const groupRef = useRef<THREE.Group>(null);
 
-  useFrame(() => {
+  useFrame(({ camera }) => {
+    const s = shipScaleRef.current ?? 1.0;
     if (groupRef.current) {
-      const s = shipScaleRef.current ?? 1.0;
       groupRef.current.rotation.set(0, 0, 0);
       groupRef.current.scale.set(s, s, s);
+      groupRef.current.updateMatrixWorld(true);
+    }
+    if (clonedScene) {
+      clonedScene.scale.set(s, s, s);
+      clonedScene.traverse((child) => {
+        child.matrixAutoUpdate = true;
+      });
+      clonedScene.updateMatrixWorld(true);
+    }
+    if (camera && 'zoom' in camera) {
+      const orthCamera = camera as THREE.OrthographicCamera;
+      orthCamera.zoom = 22 * s;
+      orthCamera.updateProjectionMatrix();
     }
   });
 
@@ -31,23 +51,29 @@ function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<nu
 export type HistoryTuningConfig = {
   startScale: number;
   endScale: number;
+  scalingCurve: 'linear' | 'exponential' | 'stepped';
+  growthCurveExp: number;
   shipOffsetX: number;
   shipOffsetY: number;
   bowOffsetPx: number;
   scrollStartMul: number;
   scrollEndMul: number;
+  scrubDamping: number;
   lineWidth: number;
   lineColor: string;
 };
 
 export const DEFAULT_HISTORY_TUNING: HistoryTuningConfig = {
-  startScale: 0.70,
-  endScale: 3.20,
+  startScale: 0.85,
+  endScale: 2.40,
+  scalingCurve: 'linear',
+  growthCurveExp: 1.5,
   shipOffsetX: 0,
   shipOffsetY: 0,
-  bowOffsetPx: 70,
-  scrollStartMul: 0.70,
-  scrollEndMul: 0.80,
+  bowOffsetPx: 145,
+  scrollStartMul: 0.50,
+  scrollEndMul: 0.50,
+  scrubDamping: 0.5,
   lineWidth: 6,
   lineColor: '#06b6d4',
 };
@@ -91,16 +117,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   useEffect(() => {
     setMounted(true);
     try {
-      const savedStr = localStorage.getItem('7h_history_tuning');
+      const savedStr = localStorage.getItem('7h_history_tuning_v6');
       if (savedStr) {
-        setTuning({ ...DEFAULT_HISTORY_TUNING, ...JSON.parse(savedStr) });
+        const parsed = JSON.parse(savedStr);
+        setTuning({ ...DEFAULT_HISTORY_TUNING, ...parsed });
       }
     } catch {}
   }, []);
 
   const handleSaveTuning = () => {
     try {
-      localStorage.setItem('7h_history_tuning', JSON.stringify(tuning));
+      localStorage.setItem('7h_history_tuning_v6', JSON.stringify(tuning));
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
     } catch {}
@@ -125,6 +152,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     rows.push(chronologicalHistory.slice(i, i + chunkSize));
   }
 
+  // Measure path distance to 2026 badge and all individual year badges
+  const [pathLengthTo2026, setPathLengthTo2026] = useState<number | null>(null);
+  const pathLengthTo2026Ref = useRef<number | null>(null);
+  const rowCentersRef = useRef<number[]>([]);
+  const rowPathLengthsRef = useRef<number[]>([]);
+  const [badgePathLengths, setBadgePathLengths] = useState<number[]>([]);
+  const [currentShipLength, setCurrentShipLength] = useState<number>(0);
+  const [shipMaxTravelLength, setShipMaxTravelLength] = useState<number>(0);
+
   // Calculate single continuous SVG path string dynamically from real DOM positions (Matching Nav Width: max-w-[1400px])
   useEffect(() => {
     const updatePathGeometry = () => {
@@ -134,13 +170,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const h = containerRect.height;
       setSvgSize({ w, h });
 
-      // Measure exact Y-center for each row's year header
+      // Measure exact Y-center for each row's year badge pill
       const rowCenters: number[] = [];
       rowRefs.current.forEach((rowEl) => {
         if (rowEl) {
-          const headerEl = rowEl.querySelector('[data-year-header-row]');
-          if (headerEl) {
-            const rect = headerEl.getBoundingClientRect();
+          const badgeEl = rowEl.querySelector('[data-year-badge]') || rowEl.querySelector('[data-year-header-row]');
+          if (badgeEl) {
+            const rect = badgeEl.getBoundingClientRect();
             const yCenter = rect.top - containerRect.top + rect.height / 2;
             rowCenters.push(yCenter);
           }
@@ -148,6 +184,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       });
 
       if (rowCenters.length === 0) return;
+      rowCentersRef.current = rowCenters;
 
       // Measure START dot position (Top Left)
       let startX = 24;
@@ -158,19 +195,34 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         startY = dotRect.top - containerRect.top + dotRect.height / 2;
       }
 
-      const outerRight = w - 16;
-      const outerLeft = 16;
+      const outerRight = w - 60;
+      const outerLeft = 60;
       const r = 44; // Corner radius matching expanded layout perfectly
 
-      // Build single continuous SVG path string starting from top-left corner
-      let d = `M ${startX} ${startY} V ${rowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${rowCenters[0]} H ${outerRight - r}`;
+      // Measure exact X-center for 2026 badge node for path termination
+      const allYearBadges = Array.from(desktopContainerRef.current.querySelectorAll('[data-year-badge]'));
+      const badge2026El = allYearBadges.find(el => el.textContent?.includes('2026'));
+      let endX2026 = outerRight - 80;
+      if (badge2026El) {
+        const bRect = badge2026El.getBoundingClientRect();
+        endX2026 = bRect.left - containerRect.left + bRect.width / 2;
+      }
 
-      for (let i = 0; i < rowCenters.length - 1; i++) {
-        const yCurr = rowCenters[i];
-        const yNext = rowCenters[i + 1];
+      // Active timeline rows from Row 0 (1998) through Row 6 (2024-2026)
+      const activeRowCenters = rowCenters.slice(0, 7);
+
+      // Build single continuous SVG path string terminating PRECISELY at 2026 node
+      let d = `M ${startX} ${startY} V ${activeRowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${activeRowCenters[0]} H ${outerRight - r}`;
+
+      for (let i = 0; i < activeRowCenters.length - 1; i++) {
+        const yCurr = activeRowCenters[i];
+        const yNext = activeRowCenters[i + 1];
         const isEven = i % 2 === 0;
 
-        if (isEven) {
+        if (i === activeRowCenters.length - 2) {
+          // Final row turn into Row 6: draw horizontal line straight to the 2026 badge node!
+          d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${endX2026}`;
+        } else if (isEven) {
           // Right bend from Row i to Row i+1
           d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yNext} H ${outerLeft + r}`;
         } else {
@@ -180,17 +232,72 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       }
 
       setPathD(d);
+
+      // Measure exact distance along path to each row center for 1:1 scroll progress mapping
+      if (desktopPathRef.current && rowCenters.length > 0) {
+        const totalLen = desktopPathRef.current.getTotalLength();
+        const rLengths: number[] = [];
+
+        rowCenters.forEach((yCenter) => {
+          let closestLen = 0;
+          let minDistance = Infinity;
+          for (let l = 0; l <= totalLen; l += 15) {
+            const pt = desktopPathRef.current!.getPointAtLength(l);
+            const dist = Math.abs(pt.y - yCenter);
+            if (dist < minDistance) {
+              minDistance = dist;
+              closestLen = l;
+            }
+          }
+          rLengths.push(closestLen);
+        });
+
+        rowPathLengthsRef.current = rLengths;
+
+        const allYearBadges = Array.from(desktopContainerRef.current.querySelectorAll('[data-year-badge]'));
+        const lengths: number[] = [];
+        allYearBadges.forEach((badgeEl) => {
+          const targetRect = badgeEl.getBoundingClientRect();
+          const targetX = targetRect.left - containerRect.left;
+          const targetY = targetRect.top - containerRect.top + targetRect.height / 2;
+
+          let closestLen = 0;
+          let minDistance = Infinity;
+          for (let l = 0; l <= totalLen; l += 15) {
+            const pt = desktopPathRef.current!.getPointAtLength(l);
+            const dist = Math.hypot(pt.x - targetX, pt.y - targetY);
+            if (dist < minDistance) {
+              minDistance = dist;
+              closestLen = l;
+            }
+          }
+          lengths.push(closestLen);
+        });
+
+        setBadgePathLengths(lengths);
+
+        const targetBadgeIdx = allYearBadges.findIndex((el) => el.textContent?.includes('2026'));
+        if (targetBadgeIdx !== -1 && lengths[targetBadgeIdx] !== undefined) {
+          pathLengthTo2026Ref.current = lengths[targetBadgeIdx];
+          setPathLengthTo2026(lengths[targetBadgeIdx]);
+        }
+      }
     };
 
     updatePathGeometry();
+    const t = setTimeout(updatePathGeometry, 200);
     window.addEventListener('resize', updatePathGeometry);
-    return () => window.removeEventListener('resize', updatePathGeometry);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener('resize', updatePathGeometry);
+    };
   }, [rows.length]);
 
   // Measure path length whenever pathD updates
   useEffect(() => {
     if (desktopPathRef.current && pathD) {
       setDesktopPathLength(desktopPathRef.current.getTotalLength());
+      setTimeout(() => ScrollTrigger.refresh(), 100);
     }
     if (mobilePathRef.current) {
       setMobilePathLength(mobilePathRef.current.getTotalLength());
@@ -207,56 +314,64 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     const endPct = (tuning.scrollEndMul * 100).toFixed(0);
 
     const ctx = gsap.context(() => {
+      // Find row element containing 2026 badge for ScrollTrigger end target
+      const row2026El = rowRefs.current.find(rowEl => rowEl?.querySelector('[data-year-badge]')?.textContent?.includes('2026'));
+
       // Desktop Lenis + GSAP ScrollTrigger Scrub
       if (desktopPathRef.current && desktopPathLength > 0) {
-        gsap.fromTo(
-          desktopPathRef.current,
-          { strokeDashoffset: desktopPathLength },
-          {
-            strokeDashoffset: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: desktopContainerRef.current,
-              start: `top ${startPct}%`,
-              end: `bottom ${endPct}%`,
-              scrub: 0.5,
-              onUpdate: (self) => {
-                setDesktopProgress(self.progress);
-                if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
-                  const progress = Math.min(1.0, Math.max(0, self.progress));
-                  const startS = tuning.startScale ?? 0.70;
-                  const endS = tuning.endScale ?? 3.20;
-                  const currentScale = startS + progress * (endS - startS);
-                  shipScaleRef.current = currentScale;
+        ScrollTrigger.create({
+          trigger: desktopContainerRef.current,
+          endTrigger: row2026El || undefined,
+          start: `top 50%`,
+          end: row2026El ? `center 50%` : `bottom ${endPct}%`,
+          scrub: tuning.scrubDamping ?? 0.5,
+          onUpdate: (self) => {
+            setDesktopProgress(self.progress);
+            if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
+              const scrollProgress = Math.min(1.0, Math.max(0, self.progress));
+              const maxTravelLen = Math.max(0, desktopPathLength - 300);
+              setShipMaxTravelLength(maxTravelLen);
 
-                  // Offset travel length by front bow half-length so the front bow tip stops exactly at the end of the line
-                  const halfBowOffset = (tuning.bowOffsetPx ?? 70) * currentScale;
-                  const maxTravelLength = Math.max(0, desktopPathLength - halfBowOffset);
-                  const len = Math.min(maxTravelLength, Math.max(0, progress * maxTravelLength));
+              // Accelerated linear path movement along X, backed off 300px from end
+              const xProgress = Math.min(1.0, scrollProgress * 1.35);
+              const pathDistance = Math.min(maxTravelLen, Math.max(0, xProgress * maxTravelLen));
+              setCurrentShipLength(pathDistance);
 
-                  const pt = desktopPathRef.current.getPointAtLength(len);
-                  const pPrev = desktopPathRef.current.getPointAtLength(Math.max(0, len - 15));
-                  const pNext = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, len + 15));
-                  const dx = pNext.x - pPrev.x;
-                  const dy = pNext.y - pPrev.y;
+              // Linear scale interpolation with X progress
+              const startS = tuning.startScale ?? 0.85;
+              const endS = tuning.endScale ?? 2.40;
+              const currentScale = startS + xProgress * (endS - startS);
+              shipScaleRef.current = currentScale;
 
-                  if (Math.abs(dx) > 0.001 || Math.abs(dy) > 0.001) {
-                    lastAngleRef.current = Math.atan2(dy, dx);
-                  }
-                  const angle = lastAngleRef.current;
+              // Solid cyan ocean fill line fills 100% to 2026 at scrollProgress = 1.0
+              const strokeOffset = Math.max(0, desktopPathLength - pathDistance);
+              desktopPathRef.current.style.strokeDashoffset = `${strokeOffset}px`;
 
-                  const offX = tuning.shipOffsetX ?? 0;
-                  const offY = tuning.shipOffsetY ?? 0;
+              // Sample exact SVG path point & tangent rotation angle at pathDistance
+              const pt = desktopPathRef.current.getPointAtLength(pathDistance);
+              const pPrev = desktopPathRef.current.getPointAtLength(Math.max(0, pathDistance - 15));
+              const pNext = desktopPathRef.current.getPointAtLength(Math.min(desktopPathLength, pathDistance + 15));
+              const dx = pNext.x - pPrev.x;
+              const dy = pNext.y - pPrev.y;
 
-                  shipDivRef.current.style.left = `${pt.x + offX}px`;
-                  shipDivRef.current.style.top = `${pt.y + offY}px`;
-                  shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
-                  shipDivRef.current.style.opacity = self.progress > 0.005 ? '1' : '0';
-                }
-              },
-            },
-          }
-        );
+              if (Math.abs(dx) > 0.001 || Math.abs(dy) > 0.001) {
+                lastAngleRef.current = Math.atan2(dy, dx);
+              }
+              const angle = lastAngleRef.current;
+
+              const offX = tuning.shipOffsetX ?? 0;
+              const offY = tuning.shipOffsetY ?? 0;
+
+              // Absolute container position derived directly from SVG path geometry
+              shipDivRef.current.style.position = 'absolute';
+              shipDivRef.current.style.left = `${pt.x + offX}px`;
+              shipDivRef.current.style.top = `${pt.y + offY}px`;
+              shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
+              shipDivRef.current.style.zIndex = '9999';
+              shipDivRef.current.style.opacity = self.progress > 0.005 ? '1' : '0';
+            }
+          },
+        });
       }
 
       // Mobile Lenis + GSAP ScrollTrigger Scrub
@@ -279,12 +394,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           }
         );
       }
+      setTimeout(() => ScrollTrigger.refresh(), 150);
     });
 
     return () => {
       ctx.revert();
     };
-  }, [desktopPathLength, mobilePathLength, tuning]);
+  }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning]);
 
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
@@ -308,6 +424,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       <div
         ref={desktopContainerRef}
         className="hidden lg:block w-full max-w-[1400px] mx-auto py-8 px-8 lg:px-12 relative"
+        style={{ overflow: 'visible' }}
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
@@ -319,7 +436,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             width: 1200,
             height: 1200,
             pointerEvents: 'none',
-            zIndex: 30,
+            zIndex: 10,
             overflow: 'visible',
             transition: 'none',
             opacity: 0,
@@ -422,24 +539,35 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* YEAR HEADERS ROW */}
                 <div
                   data-year-header-row
-                  className={`relative flex justify-between items-center px-6 h-12 ${
+                  className={`relative flex justify-between items-center px-6 h-12 z-30 ${
                     isEvenRow ? 'flex-row' : 'flex-row-reverse'
                   }`}
                 >
                   {rowItems.map((hist, itemIndex) => {
                     const globalIdx = rowIndex * chunkSize + itemIndex;
-                    const itemProgressTrigger = (globalIdx + 0.5) / chronologicalHistory.length;
-                    const isReached = desktopProgress >= itemProgressTrigger;
+                    const badgePathLen = badgePathLengths[globalIdx] ?? Infinity;
+                    const is2026 = hist.year === '2026';
+                    const isReached = is2026
+                      ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
+                      : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
+
+                    const is2028 = hist.year === '2028';
+                    const flexAlignClass = is2028
+                      ? 'flex justify-center text-center'
+                      : isEvenRow
+                      ? (itemIndex === 0 ? 'flex justify-start text-left' : itemIndex === rowItems.length - 1 ? 'flex justify-end text-right' : 'flex justify-center text-center')
+                      : (itemIndex === 0 ? 'flex justify-end text-right' : itemIndex === rowItems.length - 1 ? 'flex justify-start text-left' : 'flex justify-center text-center');
 
                     return (
                       <div
                         key={itemIndex}
-                        className="w-[340px] xl:w-[380px] text-center shrink-0 z-10 group"
+                        className={`w-[340px] xl:w-[380px] shrink-0 z-30 group ${flexAlignClass}`}
                       >
                         <div
-                          className={`inline-block px-6 py-1.5 rounded-2xl z-20 transition-all duration-300 ${
+                          data-year-badge
+                          className={`inline-block px-6 py-1.5 rounded-2xl z-40 transition-all duration-300 ${
                             isReached
-                              ? 'bg-[#06060c] border border-cyan-400/90 scale-105'
+                              ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
                               : 'bg-[#06060c] border border-white/10'
                           }`}
                         >
@@ -465,13 +593,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   {rowItems.map((hist, itemIndex) => {
                     const globalIdx = rowIndex * chunkSize + itemIndex;
                     const voyageNum = globalIdx + 1;
-                    const itemProgressTrigger = (globalIdx + 0.5) / chronologicalHistory.length;
-                    const isReached = desktopProgress >= itemProgressTrigger;
+                    const badgePathLen = badgePathLengths[globalIdx] ?? Infinity;
+                    const is2026 = hist.year === '2026';
+                    const isReached = is2026
+                      ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
+                      : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
+
+                    const cardAlignClass = hist.year === '2028' ? 'mx-auto' : '';
 
                     return (
                       <div
                         key={itemIndex}
-                        className="w-[340px] xl:w-[380px] shrink-0 group text-left"
+                        className={`w-[340px] xl:w-[380px] shrink-0 group text-left ${cardAlignClass}`}
                       >
                         <div
                           className={`bg-[#0c0c16]/90 backdrop-blur-xl p-6 rounded-3xl transition-all duration-300 ${
@@ -579,7 +712,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-transparent pointer-events-none animate-in fade-in duration-200">
           <div 
             data-settings-panel
-            className="fixed bottom-16 left-6 w-[450px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#04040e]/25 border border-cyan-400/40 rounded-3xl backdrop-blur-md shadow-[0_0_60px_rgba(6,182,212,0.25)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto"
+            className="fixed bottom-16 left-6 w-[450px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#04040e]/30 border border-cyan-400/40 rounded-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto"
           >
             <style>{`
               [data-settings-panel], [data-settings-panel] * {
@@ -643,6 +776,53 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <p className="text-[10px] text-white/40 mt-1">Size at 2028 Voyage #23 finish (0.05x to 8.00x).</p>
               </div>
 
+              {/* 3. Year Scaling Curve Mode */}
+              <div className="bg-cyan-950/40 border border-cyan-400/40 p-3.5 rounded-2xl space-y-2">
+                <span className="font-black text-cyan-300 block text-xs uppercase tracking-wide">📈 Year-by-Year Scaling Mode</span>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {(['linear', 'exponential', 'stepped'] as const).map(mode => (
+                    <button
+                      key={mode}
+                      onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
+                      className={`py-1.5 px-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer border ${
+                        (tuning.scalingCurve || 'linear') === mode
+                          ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
+                          : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
+                      }`}
+                    >
+                      {mode === 'linear' ? 'Linear' : mode === 'exponential' ? 'Accel' : 'Stepped'}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-[10px] text-white/50">
+                  {tuning.scalingCurve === 'stepped'
+                    ? 'Steps size discretely as each year milestone is passed.'
+                    : tuning.scalingCurve === 'exponential'
+                    ? 'Accelerates size growth faster in recent years.'
+                    : 'Smooth continuous growth from 1998 to 2028.'}
+                </p>
+              </div>
+
+              {/* 4. Exponential Curve Exponent (only shown if exponential mode selected) */}
+              {(tuning.scalingCurve === 'exponential') && (
+                <div>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="font-bold text-white/90">⚡ Year Acceleration Curve (Exponent)</span>
+                    <span className="text-cyan-400 font-mono font-bold">{(tuning.growthCurveExp ?? 1.5).toFixed(1)}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.3"
+                    max="3.5"
+                    step="0.1"
+                    value={tuning.growthCurveExp ?? 1.5}
+                    onChange={e => setTuning({ ...tuning, growthCurveExp: parseFloat(e.target.value) })}
+                    className="w-full accent-cyan-400 cursor-pointer"
+                  />
+                  <p className="text-[10px] text-white/40 mt-1">Lower = early growth, Higher = rapid late growth.</p>
+                </div>
+              )}
+
               {/* 3. Ship X Position Offset */}
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
                 <div className="flex justify-between items-center mb-1.5">
@@ -679,56 +859,76 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <p className="text-[10px] text-white/50 mt-1">Nudge ship up or down on the path (-200px to +200px).</p>
               </div>
 
-              {/* 5. Bow Offset */}
-              <div>
+              {/* 5. Bow Offset / Ship Stop Position */}
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
                 <div className="flex justify-between items-center mb-1.5">
-                  <span className="font-bold text-white/90">🎯 Bow Tip End Stop Offset</span>
-                  <span className="text-cyan-400 font-mono font-bold">{tuning.bowOffsetPx}px</span>
+                  <span className="font-black text-cyan-300">🎯 Ship & Blue Line Timeline Stop Position</span>
+                  <span className="text-cyan-400 font-mono font-black text-sm">{tuning.bowOffsetPx}px</span>
                 </div>
                 <input
                   type="range"
-                  min="-100"
+                  min="0"
                   max="400"
                   step="5"
                   value={tuning.bowOffsetPx}
                   onChange={e => setTuning({ ...tuning, bowOffsetPx: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[10px] text-white/40 mt-1">Ensures the front bow tip lands exactly at the end of the line (-100px to 400px).</p>
+                <p className="text-[10px] text-white/50 mt-1">Live tunes where the 3D ship and solid blue line stop on the timeline relative to 2026 (0px to 400px).</p>
               </div>
 
-              {/* 4. Scroll Start Target */}
-              <div>
+              {/* 6. Scroll Start Target */}
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
                 <div className="flex justify-between items-center mb-1.5">
-                  <span className="font-bold text-white/90">🚀 Scroll Start Position (% Viewport)</span>
-                  <span className="text-cyan-400 font-mono font-bold">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
+                  <span className="font-black text-cyan-300">🚀 Scroll Start Trigger (% Viewport)</span>
+                  <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
                 </div>
                 <input
                   type="range"
                   min="0.10"
-                  max="0.90"
+                  max="0.95"
                   step="0.05"
                   value={tuning.scrollStartMul}
                   onChange={e => setTuning({ ...tuning, scrollStartMul: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
+                <p className="text-[10px] text-white/50 mt-1">Controls when the timeline scrub starts scrolling into view (10% to 95%).</p>
               </div>
 
-              {/* 5. Scroll End Target */}
-              <div>
+              {/* 7. Scroll End Target */}
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
                 <div className="flex justify-between items-center mb-1.5">
-                  <span className="font-bold text-white/90">🏁 Scroll End Position (% Viewport)</span>
-                  <span className="text-cyan-400 font-mono font-bold">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
+                  <span className="font-black text-cyan-300">🏁 2026 Finish Viewport Position (% Viewport)</span>
+                  <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
                 </div>
                 <input
                   type="range"
                   min="0.10"
-                  max="0.90"
+                  max="0.95"
                   step="0.05"
                   value={tuning.scrollEndMul}
                   onChange={e => setTuning({ ...tuning, scrollEndMul: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
+                <p className="text-[10px] text-white/50 mt-1">Controls vertically where row 2026 sits on screen when the timeline finishes (10% to 95%).</p>
+              </div>
+
+              {/* 8. Scrub Damping / Smoothness */}
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-black text-cyan-300">⚡ Scroll Scrub Smoothness (Damping)</span>
+                  <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrubDamping ?? 0.5).toFixed(1)}s</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="2.0"
+                  step="0.1"
+                  value={tuning.scrubDamping ?? 0.5}
+                  onChange={e => setTuning({ ...tuning, scrubDamping: parseFloat(e.target.value) })}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+                <p className="text-[10px] text-white/50 mt-1">Adjusts how smoothly the 3D ship responds to your scroll wheel (0.1s snappy to 2.0s ultra-smooth).</p>
               </div>
 
               {/* 6. Line Width */}

@@ -532,8 +532,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
   return (
     <div className="min-h-screen">
-
-      {/* ── HERO ── */}
+      {/* ── SECTION 1: HERO ── */}
       <section className="relative flex flex-col justify-center overflow-hidden pt-44 pb-16">
         <div className="absolute inset-0">
           <video
@@ -575,8 +574,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </div>
       </section>
 
-      {/* ── SECTION 3: CABINS & PRICING (AT TOP) ── */}
-      <section id="pricing" className="py-16 site-container -mt-20 md:-mt-32 relative z-20">
+      {/* ── SECTION 2: CABINS & PRICING ── */}
+      <section id="pricing" className="py-16 site-container relative z-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
@@ -1085,6 +1084,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
           </div>
         </section>
+
+      {/* ── SECTION 3: 25+ YEARS CRUISE HISTORY TIMELINE ── */}
+      <div className="max-w-[1400px] mx-auto px-4 py-8 relative z-20 border-t border-white/10">
+        <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+      </div>
 
       {/* ── OFFICIAL BOOKING FORM ── */}
       <section id="book-now" className="py-16 site-container relative z-20">

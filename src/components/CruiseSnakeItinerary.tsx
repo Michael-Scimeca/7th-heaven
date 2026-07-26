@@ -615,7 +615,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         {showSettings && mounted && createPortal(
           <div 
             data-settings-panel
-            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[#060614]/40 border-2 border-cyan-400/50 rounded-3xl backdrop-blur-2xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-right duration-300 opacity-100"
+            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[#060614]/40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-right duration-300 opacity-100"
             style={{ zIndex: 999999, pointerEvents: 'auto' }}
           >
             <style>{`
@@ -629,7 +629,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               }
             `}</style>
 
-            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 bg-[#060614]/40 backdrop-blur-md pt-1 z-10">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 bg-[#060614]/60 pt-1 z-10">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚙️</span>
                 <div>
