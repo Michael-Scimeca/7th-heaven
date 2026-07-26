@@ -166,8 +166,8 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   lineWidth: 6,
   glowBlur: 0,
   nodeDipRadius: 65,
-  nodeMinScale: 0.0,
-  nodeAction: 'hide',
+  nodeMinScale: 1.0,
+  nodeAction: 'none',
   nodePopDist: 60,
   shipAdvancePx: 80,
   lineFillLeadPx: 0,
@@ -351,13 +351,15 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       if (savedStr) {
         const saved = JSON.parse(savedStr);
         saved.shipScale = 1.5;
+        saved.nodeMinScale = 1.0;
+        saved.nodeAction = 'none';
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
         saved.shipOffsetY = 0.50;
         saved.maxShipDistPad = 0;
         saved.lerpSpeed = 1.0;
         saved.speedMultiplier = 1.0;
-        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 0 });
+        setTuning({ ...DEFAULT_TUNING, ...saved, shipScale: 1.5, nodeMinScale: 1.0, nodeAction: 'none', shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 0 });
       }
     } catch {}
   }, []);
