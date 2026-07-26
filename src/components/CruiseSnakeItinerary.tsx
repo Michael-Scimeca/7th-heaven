@@ -160,7 +160,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 0,
-  maxShipDistPad: 65,
+  maxShipDistPad: 0,
   lineWidth: 6,
   glowBlur: 0,
   nodeDipRadius: 65,
@@ -350,8 +350,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
         saved.shipOffsetY = 0.50;
-        saved.maxShipDistPad = 65;
-        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 65 });
+        saved.maxShipDistPad = 0;
+        setTuning({ ...DEFAULT_TUNING, ...saved, shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 0 });
       }
     } catch {}
   }, []);
@@ -470,8 +470,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const relativeScrollY = viewportFocusY - rect.top;
         const rawProgress = (relativeScrollY - startY) / Math.max(1, endY - startY);
         const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
-        // Lock line fill & boat together so blue water current flows behind ship and both land cleanly at circle node ring edge
-        const pad = t.maxShipDistPad ?? 65;
+        // Lock line fill & boat together so blue water current flows behind ship and both land cleanly by circle node ring edge
+        const pad = t.maxShipDistPad ?? 0;
         const maxFillLen = Math.max(0, totalLen - pad);
         const targetOffset = totalLen - (progress * maxFillLen);
 
