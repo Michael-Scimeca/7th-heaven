@@ -9,7 +9,7 @@ import styles from './CruiseSnakeItinerary.module.css';
 
 function ShipModel({
   scale = 1.0,
-  offsetY = 0.15,
+  offsetY = 0.38,
   shipRotYRef,
   shipScaleFactorRef,
 }: {
@@ -150,7 +150,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
   shipScale: 1.5,
-  shipOffsetY: 0.15,
+  shipOffsetY: 0.38,
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 50,
@@ -343,7 +343,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.shipScale = 1.5;
         saved.anchorOffsetX = 0;
         saved.anchorOffsetY = 0;
-        saved.shipOffsetY = 0.15;
+        saved.shipOffsetY = 0.38;
         setTuning({ ...DEFAULT_TUNING, ...saved });
       }
     } catch {}
@@ -554,7 +554,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const ux = dx / len;
         const uy = dy / len;
         const headingLeft = dx < 0;
-        const angle = Math.atan2(dy, dx);
+        const angle = headingLeft ? Math.atan2(-dy, -dx) : Math.atan2(dy, dx);
 
         shipRotYRef.current = headingLeft ? Math.PI : 0;
 
