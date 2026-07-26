@@ -352,17 +352,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             setDesktopProgress(self.progress);
             if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
               const scrollProgress = Math.min(1.0, Math.max(0, self.progress));
-              const maxTravelLen = desktopPathLength;
+              const maxTravelLen = Math.max(0, desktopPathLength - 225);
               setShipMaxTravelLength(maxTravelLen);
 
-              // 1:1 path movement along serpentine curve straight to 2026 badge node
-              const pathDistance = Math.min(maxTravelLen, Math.max(0, scrollProgress * maxTravelLen));
+              // Accelerated linear path movement along X, backed off 300px from end
+              const xProgress = Math.min(1.0, scrollProgress * 1.35);
+              const pathDistance = Math.min(maxTravelLen, Math.max(0, xProgress * maxTravelLen));
               setCurrentShipLength(pathDistance);
 
-              // Interpolate length from 150px (1998) to 220px (2026) clamped in 1:1 sync with scroll progress
+              // Interpolate length from 150px (1998) to 220px (2026) clamped in 1:1 sync with position (xProgress)
               const startPx = 150;
               const endPx = 220;
-              const targetLengthPx = startPx + scrollProgress * (endPx - startPx);
+              const targetLengthPx = startPx + xProgress * (endPx - startPx);
               shipScaleRef.current = targetLengthPx;
 
               // Solid cyan ocean fill line fills 100% to 2026 at scrollProgress = 1.0
