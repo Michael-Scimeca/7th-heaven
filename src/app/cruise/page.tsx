@@ -550,14 +550,28 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </div>
 
         {/* Hero Text */}
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 text-xs font-bold uppercase tracking-widest mb-6">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            Cruise Booking Center
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mb-10">
+          {/* Cruise Line & Booking Center Pill Badge */}
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/40 text-cyan-300 text-xs font-black uppercase tracking-[0.25em] mb-6 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
+            ROYAL CARIBBEAN INTERNATIONAL · OFFICIAL GROUP CRUISE
           </div>
-          <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-            7th Heaven <span className="accent-gradient-text">Cruise</span>
+
+          {/* Main Title: Cruise Name */}
+          <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            7TH HEAVEN <span className="accent-gradient-text">FAN CRUISE</span>
           </h1>
+
+          {/* Cruise Ship Names Subtitle */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm font-extrabold uppercase tracking-widest text-white/70">
+            <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/15 text-cyan-300">
+              🚢 STAR OF THE SEAS (2027)
+            </span>
+            <span className="text-white/30">•</span>
+            <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/15 text-amber-300">
+              🚢 LEGEND OF THE SEAS (2028)
+            </span>
+          </div>
         </div>
       </section>
 
@@ -1840,18 +1854,56 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
             {/* Bars & Clubs */}
             <div className="bg-[#0b0b12] border border-white/5 rounded-3xl p-6 md:p-8">
-              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-4 border-b border-white/5 pb-2">Bars, Clubs & Lounges</h3>
-              <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
+              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-6 border-b border-white/5 pb-3 flex items-center justify-between">
+                <span>Bars, Clubs & Lounges</span>
+                <span className="text-[10px] font-mono font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">
+                  20 VENUES ONBOARD
+                </span>
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-white/80">
                 {[
-                  "Lime & Coconut Bar", "Rye & Beam", "Lemon Post Bar", "Swim & Tonic Pool Bar",
-                  "The Hideaway Lounge", "Vue Bar", "Overlook Bar & Pods", "Basecamp Bar",
-                  "Trellis Bar", "Boleros Latin Bar", "Cantina Fresca", "Bubbles Champagne Bar",
-                  "Point & Feather Pub", "Schooner Bar", "1400 Lobby Bar", "Dueling Pianos Lounge",
-                  "Lou's Jazz & Blues", "Music Hall Lounge", "Playmakers Lounge", "Casino Royale Bar"
+                  { name: "Lime & Coconut Bar", img: "/images/venues/lime_coconut.png", tag: "Poolside" },
+                  { name: "Rye & Beam", img: "/images/venues/lime_coconut.png", tag: "Bourbon" },
+                  { name: "Lemon Post Bar", img: "/images/venues/lime_coconut.png", tag: "Outdoor" },
+                  { name: "Swim & Tonic Pool Bar", img: "/images/venues/lime_coconut.png", tag: "Swim-Up" },
+                  { name: "The Hideaway Lounge", img: "/images/venues/hideaway.png", tag: "Adults Only" },
+                  { name: "Vue Bar", img: "/images/venues/hideaway.png", tag: "Ocean View" },
+                  { name: "Overlook Bar & Pods", img: "/images/venues/hideaway.png", tag: "AquaDome" },
+                  { name: "Basecamp Bar", img: "/images/venues/hideaway.png", tag: "Thrill Zone" },
+                  { name: "Trellis Bar", img: "/images/venues/trellis.png", tag: "Central Park" },
+                  { name: "Boleros Latin Bar", img: "/images/venues/trellis.png", tag: "Latin Dance" },
+                  { name: "Cantina Fresca", img: "/images/venues/trellis.png", tag: "Mexican" },
+                  { name: "Bubbles Champagne Bar", img: "/images/venues/trellis.png", tag: "Champagne" },
+                  { name: "Point & Feather Pub", img: "/images/venues/lime_coconut.png", tag: "English Pub" },
+                  { name: "Schooner Bar", img: "/images/venues/hideaway.png", tag: "Piano Lounge" },
+                  { name: "1400 Lobby Bar", img: "/images/venues/trellis.png", tag: "Atrium" },
+                  { name: "Dueling Pianos Lounge", img: "/images/venues/lime_coconut.png", tag: "Live Music" },
+                  { name: "Lou's Jazz & Blues", img: "/images/venues/hideaway.png", tag: "Jazz Club" },
+                  { name: "Music Hall Lounge", img: "/images/venues/trellis.png", tag: "Rock Venue" },
+                  { name: "Playmakers Lounge", img: "/images/venues/lime_coconut.png", tag: "Sports & Arcade" },
+                  { name: "Casino Royale Bar", img: "/images/venues/hideaway.png", tag: "Casino Lounge" },
                 ].map((bar, idx) => (
-                  <p key={idx} className="flex items-center gap-1.5">
-                    <span className="text-cyan-400">🍹</span> {bar}
-                  </p>
+                  <div
+                    key={idx}
+                    className="flex items-center gap-3 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 p-2.5 rounded-2xl transition-all duration-300 group"
+                  >
+                    <div className="relative w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-cyan-400/30 shadow-md">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={bar.img}
+                        alt={bar.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-extrabold text-white text-xs truncate group-hover:text-cyan-300 transition-colors">
+                        {bar.name}
+                      </p>
+                      <span className="text-[9px] font-mono uppercase tracking-widest text-cyan-400/80 bg-cyan-500/10 px-2 py-0.5 rounded inline-block mt-0.5">
+                        {bar.tag}
+                      </span>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
