@@ -118,41 +118,41 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     };
   }, [desktopPathLength, mobilePathLength]);
 
-  // Single Continuous Desktop Serpentine SVG Path passing 100% DIRECTLY THROUGH the center of Year Headers in every row
+  // Single Continuous Desktop Serpentine SVG Path passing 100% VERTICALLY CENTERED WITH THE YEAR TEXT
   // viewBox: 0 0 1000 2300 (Step = 284px per row)
-  // Row 0 Y = 105, Row 1 Y = 389, Row 2 Y = 673, Row 3 Y = 957, Row 4 Y = 1241, Row 5 Y = 1525, Row 6 Y = 1809, Row 7 Y = 2093
+  // Row 0 Y = 117, Row 1 Y = 401, Row 2 Y = 685, Row 3 Y = 969, Row 4 Y = 1253, Row 5 Y = 1537, Row 6 Y = 1821, Row 7 Y = 2105
   const serpentinePathD = `
     M 20 10
-    V 60
-    A 45 45 0 0 0 65 105
+    V 72
+    A 45 45 0 0 0 65 117
     H 935
-    A 45 45 0 0 1 980 150
-    V 344
-    A 45 45 0 0 1 935 389
+    A 45 45 0 0 1 980 162
+    V 356
+    A 45 45 0 0 1 935 401
     H 65
-    A 45 45 0 0 0 20 434
-    V 628
-    A 45 45 0 0 0 65 673
+    A 45 45 0 0 0 20 446
+    V 640
+    A 45 45 0 0 0 65 685
     H 935
-    A 45 45 0 0 1 980 718
-    V 912
-    A 45 45 0 0 1 935 957
+    A 45 45 0 0 1 980 730
+    V 924
+    A 45 45 0 0 1 935 969
     H 65
-    A 45 45 0 0 0 20 1002
-    V 1196
-    A 45 45 0 0 0 65 1241
+    A 45 45 0 0 0 20 1014
+    V 1208
+    A 45 45 0 0 0 65 1253
     H 935
-    A 45 45 0 0 1 980 1286
-    V 1480
-    A 45 45 0 0 1 935 1525
+    A 45 45 0 0 1 980 1298
+    V 1492
+    A 45 45 0 0 1 935 1537
     H 65
-    A 45 45 0 0 0 20 1570
-    V 1764
-    A 45 45 0 0 0 65 1809
+    A 45 45 0 0 0 20 1582
+    V 1776
+    A 45 45 0 0 0 65 1821
     H 935
-    A 45 45 0 0 1 980 1854
-    V 2048
-    A 45 45 0 0 1 935 2093
+    A 45 45 0 0 1 980 1866
+    V 2060
+    A 45 45 0 0 1 935 2105
     H 65
   `.replace(/\s+/g, ' ').trim();
 
