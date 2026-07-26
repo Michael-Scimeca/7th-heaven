@@ -30,8 +30,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [mobileProgress, setMobileProgress] = useState(0);
   const [mobilePathLength, setMobilePathLength] = useState(0);
 
-  const [isMiniMapVisible, setIsMiniMapVisible] = useState(false);
-
   const [pathD, setPathD] = useState('');
   const [svgSize, setSvgSize] = useState({ w: 1400, h: 2000 });
 
@@ -44,25 +42,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   for (let i = 0; i < chronologicalHistory.length; i += chunkSize) {
     rows.push(chronologicalHistory.slice(i, i + chunkSize));
   }
-
-  // Check visibility for bottom-right fixed mini-map slider (until reaching end of timeline section)
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const checkVisibility = () => {
-      if (!desktopContainerRef.current) return;
-      const rect = desktopContainerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Show when timeline is visible in viewport, hide once scrolled past the end of the section
-      const visible = rect.top < windowHeight * 0.8 && rect.bottom > 120;
-      setIsMiniMapVisible(visible);
-    };
-
-    window.addEventListener('scroll', checkVisibility);
-    checkVisibility();
-    return () => window.removeEventListener('scroll', checkVisibility);
-  }, []);
 
   // Calculate single continuous SVG path string dynamically from real DOM positions (Matching Nav Width: max-w-[1400px])
   useEffect(() => {
@@ -209,24 +188,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     };
   }, [desktopPathLength, mobilePathLength]);
 
-  // Compute active year index based on current scroll progress
-  const activeYearIndex = Math.min(
-    Math.floor(desktopProgress * chronologicalHistory.length),
-    chronologicalHistory.length - 1
-  );
-
-  const handleScrollToYear = (index: number) => {
-    const rowIndex = Math.floor(index / 3);
-    const targetEl = rowRefs.current[rowIndex];
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  };
-
   return (
     <div className="border-t border-white/10 pt-16 mt-16 text-left">
       {/* Section Header */}
-      <div className="text-center max-w-4xl mx-auto mb-10 px-4">
+      <div className="text-center max-w-4xl mx-auto mb-16 px-4">
         <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
           25+ Years Legacy Pathway
         </span>
@@ -239,67 +204,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         <p className="text-white/40 text-xs md:text-sm mt-2 leading-relaxed">
           Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our serpentine timeline.
         </p>
-      </div>
-
-      {/* ── FIXED BOTTOM-RIGHT SCROLL MINI-MAP & YEAR NAVIGATION CAROUSEL (THINNER SLEEK CIRCLES) ── */}
-      <div
-        className={`fixed bottom-6 right-6 z-50 transition-all duration-500 max-w-xs sm:max-w-sm w-auto ${
-          isMiniMapVisible
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 translate-y-8 pointer-events-none'
-        }`}
-      >
-        <div className="bg-[#0c0c16]/95 backdrop-blur-2xl border border-white/20 px-4 py-2.5 rounded-full relative shadow-2xl">
-          
-          {/* Active Year Tooltip Pointer */}
-          <div
-            className="absolute -top-9 transition-all duration-300 ease-out flex flex-col items-center pointer-events-none -translate-x-1/2"
-            style={{
-              left: `calc(1.25rem + (${activeYearIndex} / ${chronologicalHistory.length - 1}) * (100% - 2.5rem))`,
-            }}
-          >
-            <div className="bg-white text-black text-[10px] font-black font-mono px-2 py-0.5 rounded tracking-wider border border-white/30">
-              {chronologicalHistory[activeYearIndex]?.year || '1998'}
-            </div>
-            <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-white" />
-          </div>
-
-          {/* 23 Thinner Sleek Circle Dots Track */}
-          <div className="flex items-center gap-1.5 sm:gap-2 px-1">
-            {chronologicalHistory.map((item, idx) => {
-              const isPast = idx < activeYearIndex;
-              const isActive = idx === activeYearIndex;
-
-              return (
-                <button
-                  key={idx}
-                  type="button"
-                  title={`${item.year} - ${item.ship}`}
-                  onClick={() => handleScrollToYear(idx)}
-                  className="group relative focus:outline-none cursor-pointer py-1"
-                >
-                  {/* Individual Hover Pop-Up Year Label */}
-                  <div className="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-200 pointer-events-none z-20">
-                    <div className="bg-cyan-400 text-black text-[9px] font-black font-mono px-1.5 py-0.5 rounded shadow-lg tracking-widest whitespace-nowrap border border-cyan-300">
-                      {item.year}
-                    </div>
-                  </div>
-
-                  {/* Thinner Crisp Circle Dot */}
-                  <div
-                    className={`rounded-full transition-all duration-300 ${
-                      isActive
-                        ? 'w-2.5 h-2.5 bg-cyan-300 scale-125'
-                        : isPast
-                        ? 'w-1.5 h-1.5 bg-cyan-400/80 hover:scale-125'
-                        : 'w-1.5 h-1.5 bg-white/25 hover:bg-white/60 hover:scale-125'
-                    }`}
-                  />
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
       {/* ── DESKTOP CODEPEN SERPENTINE SNAKE TIMELINE (MATCHING NAVBAR WIDTH: max-w-[1400px]) ── */}
