@@ -612,14 +612,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
           </div>
 
-          {/* Top Gratuities Notice Banner */}
-          <div className="bg-purple-950/50 border border-purple-500/40 rounded-2xl p-4 md:p-5 mb-10 flex items-start gap-3.5 shadow-xl text-left max-w-5xl mx-auto">
-            <span className="text-2xl shrink-0">⚠️</span>
-            <div className="text-xs md:text-sm text-purple-200 font-medium leading-relaxed">
-              <strong className="text-purple-300 font-black uppercase tracking-wider">NOTICE:</strong> Gratuities are <strong className="text-white font-extrabold">NOT included</strong> in prevailing rates (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.
-            </div>
-          </div>
-
           {/* Cancellation & Policy Guidelines — 3-Column Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-left border-b border-white/10 pb-12">
             {/* Merged Column 1: Booking Policy & Best Rate Guarantee */}
@@ -646,6 +638,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <li className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold shrink-0">✓</span>
                   <span><strong>Group Rate:</strong> Gratuities fully included.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-amber-400 font-bold shrink-0">⚠️</span>
+                  <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.</span>
                 </li>
               </ul>
               <div className="pt-3 border-t border-white/10 space-y-2">
