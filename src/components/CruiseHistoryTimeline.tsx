@@ -180,7 +180,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 setDesktopProgress(self.progress);
                 if (desktopPathRef.current && desktopPathLength > 0 && shipDivRef.current) {
                   const progress = Math.min(1.0, Math.max(0, self.progress));
-                  const currentScale = 0.3 + progress * 0.55;
+                  const currentScale = 0.7 + progress * 0.9;
                   shipScaleRef.current = currentScale;
 
                   // Offset travel length by front bow half-length so the front bow tip stops exactly at the end of the line
