@@ -6,7 +6,6 @@ import { useGLTF } from '@react-three/drei';
 import type * as THREE from 'three';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import Lenis from 'lenis';
 
 function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<number> }) {
   const { scene } = useGLTF('/objects/ship.glb');
@@ -141,27 +140,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     }
   }, [pathD]);
 
-  // Hook up Lenis Smooth Scroll & GSAP ScrollTrigger scrub
+  // Hook up GSAP ScrollTrigger scrub
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     gsap.registerPlugin(ScrollTrigger);
-
-    // Initialize Lenis smooth scroll instance
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    const tickerFn = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(tickerFn);
-    gsap.ticker.lagSmoothing(0);
 
     const ctx = gsap.context(() => {
       // Desktop Lenis + GSAP ScrollTrigger Scrub
@@ -237,8 +220,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
     return () => {
       ctx.revert();
-      gsap.ticker.remove(tickerFn);
-      lenis.destroy();
     };
   }, [desktopPathLength, mobilePathLength]);
 
