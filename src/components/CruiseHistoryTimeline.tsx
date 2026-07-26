@@ -32,16 +32,22 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     rows.push(history.slice(i, i + chunkSize));
   }
 
-  // Calculate SVG path lengths & update scroll progress dynamically
+  // 60FPS Butter-Smooth Scroll Listener using requestAnimationFrame
   useEffect(() => {
-    if (desktopPathRef.current) {
-      setDesktopPathLength(desktopPathRef.current.getTotalLength());
-    }
-    if (mobilePathRef.current) {
-      setMobilePathLength(mobilePathRef.current.getTotalLength());
-    }
+    let animationFrameId: number;
 
-    const handleScroll = () => {
+    const measurePaths = () => {
+      if (desktopPathRef.current) {
+        setDesktopPathLength(desktopPathRef.current.getTotalLength());
+      }
+      if (mobilePathRef.current) {
+        setMobilePathLength(mobilePathRef.current.getTotalLength());
+      }
+    };
+
+    measurePaths();
+
+    const updateScrollProgress = () => {
       const windowHeight = window.innerHeight;
 
       // Desktop Scroll Calculation
@@ -51,7 +57,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         const totalHeight = rect.height - windowHeight * 0.3;
         if (totalHeight > 0) {
           const current = windowHeight * 0.7 - startY;
-          setDesktopProgress(Math.max(0, Math.min(1, current / totalHeight)));
+          const progress = Math.max(0, Math.min(1, current / totalHeight));
+          setDesktopProgress(progress);
         }
       }
 
@@ -62,15 +69,26 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         const totalHeight = rect.height - windowHeight * 0.3;
         if (totalHeight > 0) {
           const current = windowHeight * 0.7 - startY;
-          setMobileProgress(Math.max(0, Math.min(1, current / totalHeight)));
+          const progress = Math.max(0, Math.min(1, current / totalHeight));
+          setMobileProgress(progress);
         }
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    const onScroll = () => {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(updateScrollProgress);
+    };
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measurePaths, { passive: true });
+    updateScrollProgress(); // Initial check
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measurePaths);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
   // Single Continuous Desktop Serpentine SVG Path (viewBox 0 0 1000 1800)
@@ -123,7 +141,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           Cruising <span className="accent-gradient-text">History & Milestones</span>
         </h3>
         <p className="text-white/40 text-xs md:text-sm mt-2 leading-relaxed">
-          Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our liquid serpentine timeline.
+          Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our serpentine timeline.
         </p>
       </div>
 
@@ -132,50 +150,36 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={desktopContainerRef}
         className="hidden lg:block max-w-6xl mx-auto py-8 px-16 relative"
       >
-        {/* SINGLE CONTINUOUS FLUID WATER ANIMATED SVG PATHWAY */}
+        {/* SINGLE CONTINUOUS SILKY SMOOTH ANIMATED SVG PATHWAY */}
         <svg
           viewBox="0 0 1000 1800"
           preserveAspectRatio="none"
           className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
         >
           <defs>
-            {/* Ocean Water Cyan Gradient */}
-            <linearGradient id="ocean-water-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            {/* Vibrant Ocean Water Gradient */}
+            <linearGradient id="ocean-water-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#00f2fe" />
-              <stop offset="40%" stopColor="#06b6d4" />
-              <stop offset="80%" stopColor="#3b82f6" />
-              <stop offset="100%" stopColor="#0284c7" />
+              <stop offset="50%" stopColor="#06b6d4" />
+              <stop offset="100%" stopColor="#3b82f6" />
             </linearGradient>
-
-            {/* SVG Animated Fluid Water Wave Turbulence Filter */}
-            <filter id="water-wave-motion" x="-20%" y="-20%" width="140%" height="140%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.02 0.06" numOctaves="2" result="noise">
-                <animate
-                  attributeName="baseFrequency"
-                  values="0.02 0.06; 0.04 0.1; 0.02 0.06"
-                  dur="5s"
-                  repeatCount="indefinite"
-                />
-              </feTurbulence>
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
           </defs>
 
           {/* 1. Muted Background Track Path */}
           <path
             d={serpentinePathD}
             fill="none"
-            stroke="rgba(6, 182, 212, 0.12)"
-            strokeWidth="4"
+            stroke="rgba(6, 182, 212, 0.15)"
+            strokeWidth="3.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
 
-          {/* 2. Outer Soft Ocean Water Glow Layer */}
+          {/* 2. Soft Outer Ambient Glow Layer */}
           <path
             d={serpentinePathD}
             fill="none"
-            stroke="rgba(6, 182, 212, 0.35)"
+            stroke="rgba(6, 182, 212, 0.4)"
             strokeWidth="8"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -184,18 +188,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               strokeDashoffset: desktopPathLength
                 ? desktopPathLength * (1 - desktopProgress)
                 : 10000,
-              filter: 'blur(3px)',
-              transition: 'stroke-dashoffset 0.1s linear',
+              filter: 'blur(4px)',
+              transition: 'stroke-dashoffset 0.05s ease-out',
             }}
           />
 
-          {/* 3. Main Fluid Ocean Water Animated Line Filler */}
+          {/* 3. Crisp Silky Smooth Main Liquid Cyan Line Filler */}
           <path
             ref={desktopPathRef}
             d={serpentinePathD}
             fill="none"
             stroke="url(#ocean-water-gradient)"
-            strokeWidth="4.5"
+            strokeWidth="3.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             style={{
@@ -203,8 +207,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               strokeDashoffset: desktopPathLength
                 ? desktopPathLength * (1 - desktopProgress)
                 : 10000,
-              filter: 'url(#water-wave-motion)',
-              transition: 'stroke-dashoffset 0.1s linear',
+              filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.9))',
+              transition: 'stroke-dashoffset 0.05s ease-out',
             }}
           />
         </svg>
@@ -243,7 +247,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         className="w-[280px] text-center shrink-0 z-10 group"
                       >
                         <div
-                          className={`inline-block px-5 py-1 rounded-2xl z-20 shadow-[0_0_15px_rgba(0,0,0,0.8)] transition-all duration-500 ${
+                          className={`inline-block px-5 py-1 rounded-2xl z-20 shadow-[0_0_15px_rgba(0,0,0,0.8)] transition-all duration-300 ${
                             isReached
                               ? 'bg-[#06060c] border border-cyan-400/80 shadow-[0_0_20px_rgba(6,182,212,0.5)] scale-105'
                               : 'bg-[#06060c] border border-white/10'
@@ -282,7 +286,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         className="w-[280px] shrink-0 group text-left"
                       >
                         <div
-                          className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-3xl shadow-2xl transition-all duration-500 ${
+                          className={`bg-[#0c0c16]/90 backdrop-blur-xl p-5 rounded-3xl shadow-2xl transition-all duration-300 ${
                             isReached
                               ? 'border border-cyan-400/60 shadow-[0_8px_30px_rgba(6,182,212,0.25)] -translate-y-1'
                               : 'border border-white/10 opacity-70'
@@ -345,8 +349,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               strokeDashoffset: mobilePathLength
                 ? mobilePathLength * (1 - mobileProgress)
                 : 1000,
-              filter: 'url(#water-wave-motion)',
-              transition: 'stroke-dashoffset 0.1s linear',
+              filter: 'drop-shadow(0 0 8px rgba(6,182,212,0.9))',
+              transition: 'stroke-dashoffset 0.05s ease-out',
             }}
           />
         </svg>
