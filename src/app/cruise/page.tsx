@@ -1870,16 +1870,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Bars, Lounges, and Entertainment Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
             {/* Bars & Clubs */}
-            <div className="bg-[#0b0b12] border border-white/5 rounded-3xl p-6 md:p-8">
-              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-6 border-b border-white/5 pb-3 flex items-center justify-between">
+            <div className="bg-transparent p-0">
+              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-6 border-b border-white/10 pb-3 flex items-center justify-between">
                 <span>Bars, Clubs & Lounges</span>
                 <span className="text-[10px] font-mono font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">
                   20 VENUES ONBOARD
                 </span>
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-white/80">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-white/80">
                 {[
                   { name: "Lime & Coconut Bar", img: "/images/venues/lime_coconut.png", tag: "Poolside" },
                   { name: "Rye & Beam", img: "/images/venues/lime_coconut.png", tag: "Bourbon" },
@@ -1904,21 +1904,21 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 ].map((bar, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-3 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 p-2.5 rounded-2xl transition-all duration-300 group"
+                    className="flex items-center gap-4 bg-transparent hover:bg-white/[0.04] p-2.5 rounded-2xl transition-all duration-300 group cursor-pointer"
                   >
-                    <div className="relative w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-cyan-400/30 shadow-md">
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden shrink-0 border border-white/10 shadow-lg">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={bar.img}
                         alt={bar.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-extrabold text-white text-xs truncate group-hover:text-cyan-300 transition-colors">
+                      <p className="font-extrabold text-white text-sm md:text-base leading-snug group-hover:text-cyan-300 transition-colors">
                         {bar.name}
                       </p>
-                      <span className="text-[9px] font-mono uppercase tracking-widest text-cyan-400/80 bg-cyan-500/10 px-2 py-0.5 rounded inline-block mt-0.5">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/15 border border-cyan-500/30 px-2.5 py-0.5 rounded-full inline-block mt-1.5 font-bold">
                         {bar.tag}
                       </span>
                     </div>
@@ -1928,19 +1928,57 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
 
             {/* Kids & Family Areas */}
-            <div className="bg-[#0b0b12] border border-white/5 rounded-3xl p-6 md:p-8">
-              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-4 border-b border-white/5 pb-2">Onboard Entertainment & Family Areas</h3>
-              <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
+            <div className="bg-transparent p-0">
+              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-6 border-b border-white/10 pb-3 flex items-center justify-between">
+                <span>Onboard Entertainment & Family Areas</span>
+                <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20">
+                  ATTRACTIONS
+                </span>
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-white/80">
                 {[
-                  "Back to the Future Musical", "Torque Racing Arena", "SOL Pool Zone", "Create! Art Studio",
-                  "The Price is Right Game", "The Quest Adult Game", "Comedy Live Theater", "Headliner Concert Stage",
-                  "Dueling Pianos Duel", "Spotlight Karaoke Box", "Music Hall Nightclub", "Absolute Zero Ice Rink",
-                  "Ultimate Family Townhouse", "Splashaway Bay", "Flowrider Surf Simulator", "Adrenaline Peak Climb",
-                  "Adventure Ocean Kids Club", "Central Park Gardens", "Lost Dunes Mini Golf", "Surfside Carousel"
+                  { name: "Back to the Future Musical", img: "/images/venues/broadway.png", tag: "Broadway Show" },
+                  { name: "Flowrider Surf Simulator", img: "/images/venues/surf.png", tag: "Surf Simulator" },
+                  { name: "Absolute Zero Ice Rink", img: "/images/venues/hideaway.png", tag: "Ice Arena" },
+                  { name: "Torque Racing Arena", img: "/images/venues/lime_coconut.png", tag: "E-Karting" },
+                  { name: "SOL Pool Zone", img: "/images/venues/lime_coconut.png", tag: "Top Deck Pool" },
+                  { name: "Create! Art Studio", img: "/images/venues/trellis.png", tag: "Craft Studio" },
+                  { name: "The Price is Right Game", img: "/images/venues/broadway.png", tag: "Game Show" },
+                  { name: "The Quest Adult Game", img: "/images/venues/broadway.png", tag: "Adult Show" },
+                  { name: "Comedy Live Theater", img: "/images/venues/broadway.png", tag: "Standup Comedy" },
+                  { name: "Headliner Concert Stage", img: "/images/venues/broadway.png", tag: "Live Concerts" },
+                  { name: "Spotlight Karaoke Box", img: "/images/venues/lime_coconut.png", tag: "Karaoke" },
+                  { name: "Music Hall Nightclub", img: "/images/venues/trellis.png", tag: "Nightclub" },
+                  { name: "Ultimate Family Townhouse", img: "/images/venues/hideaway.png", tag: "3-Story Suite" },
+                  { name: "Splashaway Bay", img: "/images/venues/lime_coconut.png", tag: "Water Park" },
+                  { name: "Adrenaline Peak Climb", img: "/images/venues/surf.png", tag: "Rock Climbing" },
+                  { name: "Adventure Ocean Kids Club", img: "/images/venues/trellis.png", tag: "Youth Program" },
+                  { name: "Central Park Gardens", img: "/images/venues/trellis.png", tag: "Nature Park" },
+                  { name: "Lost Dunes Mini Golf", img: "/images/venues/surf.png", tag: "Mini Golf" },
+                  { name: "Surfside Carousel", img: "/images/venues/lime_coconut.png", tag: "Carousel" },
+                  { name: "Royal Theater Mainstage", img: "/images/venues/broadway.png", tag: "Main Theater" },
                 ].map((act, idx) => (
-                  <p key={idx} className="flex items-center gap-1.5">
-                    <span className="text-purple-400">⚡</span> {act}
-                  </p>
+                  <div
+                    key={idx}
+                    className="flex items-center gap-4 bg-transparent hover:bg-white/[0.04] p-2.5 rounded-2xl transition-all duration-300 group cursor-pointer"
+                  >
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden shrink-0 border border-white/10 shadow-lg">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={act.img}
+                        alt={act.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-extrabold text-white text-sm md:text-base leading-snug group-hover:text-purple-300 transition-colors">
+                        {act.name}
+                      </p>
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-0.5 rounded-full inline-block mt-1.5 font-bold">
+                        {act.tag}
+                      </span>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
