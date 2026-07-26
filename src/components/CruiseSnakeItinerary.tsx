@@ -477,7 +477,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
         const viewportFocusY = viewH * (t.scrollStartMul ?? 0.45);
         const relativeScrollY = viewportFocusY - rect.top;
-        const rawProgress = (relativeScrollY - startY) / Math.max(1, endY - startY);
+
+        // Calculate maximum reachable relative Y on current viewport height so progress reaches 1.0 at full scroll
+        const maxReachableY = Math.min(endY, Math.max(startY + 100, totalH - viewH + viewportFocusY));
+        const rawProgress = (relativeScrollY - startY) / Math.max(1, maxReachableY - startY);
         const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
         const shipAdvance = t.shipAdvancePx ?? 80;
         const lineLead = t.lineFillLeadPx ?? 0;

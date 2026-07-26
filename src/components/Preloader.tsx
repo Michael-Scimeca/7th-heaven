@@ -106,14 +106,17 @@ interface PreloaderProps {
 
 export default function Preloader({ forceShow = false, onComplete }: PreloaderProps = {}) {
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
+  
+  // Pages that require/benefit from heavy preloading (or forced via props/query)
+  const heavyPages = ["/", "/cruise", "/features", "/live", "/video"];
+  const requiresPreloader = heavyPages.includes(pathname) || forceShow;
 
   const [percent, setPercent] = useState(0);
   const [visible, setVisible] = useState(() => {
-    if (typeof window === "undefined") return true;
+    if (typeof window === "undefined") return false;
     if (forceShow) return true;
-    if (window.location.pathname !== "/") return false;
-    return !sessionStorage.getItem("7h_preloaded");
+    if (!requiresPreloader) return false;
+    return !sessionStorage.getItem(`7h_preloaded_${pathname}`) && !sessionStorage.getItem("7h_preloaded");
   });
   const [fadeOut, setFadeOut] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -140,7 +143,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
   useEffect(() => { isLoadedRef.current = isLoaded; }, [isLoaded]);
 
   useEffect(() => {
-    if (!isHomePage && !forceShow) return;
+    if (!requiresPreloader && !forceShow) return;
 
     const handleLoad = () => setIsLoaded(true);
     if (document.readyState === "complete") {
@@ -158,10 +161,11 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       window.removeEventListener("load", handleLoad);
       clearTimeout(failsafeTimer);
     };
-  }, [isHomePage, forceShow]);
+  }, [requiresPreloader, forceShow]);
 
   useEffect(() => {
-    if (!isHomePage && !forceShow) return;
+    if (!requiresPreloader && !forceShow) return;
+    if (!visible) return;
 
     // Lock scroll on both html and body (covers iOS safari, desktop, touch)
     const html = document.documentElement;
@@ -181,6 +185,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       document.removeEventListener("touchmove", preventTouch);
       try {
         sessionStorage.setItem("7h_preloaded", "true");
+        sessionStorage.setItem(`7h_preloaded_${pathname}`, "true");
       } catch {}
     };
 
@@ -216,9 +221,8 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       clearTimeout(timer);
       unlock();
     };
-  }, [isHomePage, forceShow]);
+  }, [requiresPreloader, forceShow, visible, pathname, onComplete]);
 
-  if (!isHomePage && !forceShow) return null;
   if (!visible) return null;
 
   return (

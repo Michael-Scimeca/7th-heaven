@@ -174,8 +174,10 @@ export default async function RootLayout({
           <SmoothScroll>
             <div className="flex flex-col min-h-screen">
               <Header />
-              <PageTransition>{children}</PageTransition>
-              <Footer />
+              <PageTransition>
+                {children}
+                <Footer />
+              </PageTransition>
               <SanityLive />
               {isDraftMode && <VisualEditing />}
               

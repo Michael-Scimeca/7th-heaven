@@ -36,7 +36,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
 
   return (
     <div
-      className="transition-opacity duration-300 ease-in-out w-full flex-grow min-h-[70vh]"
+      className="transition-opacity duration-300 ease-in-out w-full flex-grow flex flex-col min-h-[70vh]"
       style={{ opacity }}
     >
       {displayChildren}
