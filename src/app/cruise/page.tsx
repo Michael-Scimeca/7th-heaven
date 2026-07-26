@@ -668,7 +668,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
             </div>
 
-            {/* Column 2: Cancellation Policy */}
+            {/* Column 2: Passport Requirements */}
+            <div className="bg-transparent border-0 p-4 relative text-left">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">🛂</span>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Requirements</h3>
+              </div>
+              <p className="text-sm font-black text-amber-300 uppercase tracking-widest mb-4">
+                Essential travel document guidelines
+              </p>
+              <div className="space-y-4 text-base text-white/80 leading-relaxed">
+                <p>
+                  A physical passport book valid for 6 months post-cruise is <strong>highly recommended</strong> for all travelers.
+                </p>
+                <p>
+                  For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
+                </p>
+                <p>
+                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-extrabold underline hover:text-white animate-pulse inline-block">travel.state.gov</a> to ensure compliance.
+                </p>
+              </div>
+            </div>
+
+            {/* Column 3: Cancellation Policy */}
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">📅</span>
@@ -704,28 +726,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Prevailing Rate:</h4>
                   <p className="text-base text-white/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
                 </div>
-              </div>
-            </div>
-
-            {/* Column 3: Passport Requirements */}
-            <div className="bg-transparent border-0 p-4 relative text-left">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">🛂</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Requirements</h3>
-              </div>
-              <p className="text-sm font-black text-amber-300 uppercase tracking-widest mb-4">
-                Essential travel document guidelines
-              </p>
-              <div className="space-y-4 text-base text-white/80 leading-relaxed">
-                <p>
-                  A physical passport book valid for 6 months post-cruise is <strong>highly recommended</strong> for all travelers.
-                </p>
-                <p>
-                  For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
-                </p>
-                <p>
-                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-extrabold underline hover:text-white animate-pulse inline-block">travel.state.gov</a> to ensure compliance.
-                </p>
               </div>
             </div>
           </div>
