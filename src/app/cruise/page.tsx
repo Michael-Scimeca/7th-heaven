@@ -1656,8 +1656,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
           </div>
 
-          {/* 3D Snake Itinerary Timeline Component */}
-          <CruiseSnakeItinerary itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
+          {/* 3D Snake Itinerary Timeline Component — Suspense prevents render
+              until the GLTF asset is fully loaded, avoiding blob URL errors */}
+          <React.Suspense fallback={null}>
+            <CruiseSnakeItinerary itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
+          </React.Suspense>
         </section>
 
       {/* ── SECTION 2: PORTS OF CALL ── */}
@@ -2112,7 +2115,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Cruise History Section with 6 Interactive Layout Modes */}
-          <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+          <React.Suspense fallback={null}>
+            <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+          </React.Suspense>
         </section>
       </div>
     );

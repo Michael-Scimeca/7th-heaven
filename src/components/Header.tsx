@@ -174,7 +174,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 pointer-events-none pt-2 ${scrolled
+      className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-all duration-300 pointer-events-none pt-2 ${scrolled
           ? "bg-black/95 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.9)]"
           : "bg-transparent"
         }`}
@@ -211,7 +211,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className="shrink-0 min-w-0 max-[1400px]:-ml-1.5 min-[1401px]:mx-4"
+            className={`shrink-0 min-w-0 max-[1400px]:-ml-1.5 min-[1401px]:mx-4 relative ${mobileOpen ? "z-[10001]" : ""}`}
           >
             <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden">
               <Logo className="w-full h-full text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]" />
@@ -219,7 +219,7 @@ export function Header() {
           </Link>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className="flex items-center gap-3 min-[1401px]:gap-4 ml-auto font-[family-name:var(--font-barlow)] z-10">
+          <div className={`flex items-center gap-3 min-[1401px]:gap-4 ml-auto font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-10"}`}>
 
             {/* Live Stream link */}
             <Link
@@ -227,7 +227,7 @@ export function Header() {
               className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
             >
               {/* Live / Offline badge — absolute above the text */}
-              <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 text-[var(--font-size-5xs)] font-black uppercase tracking-widest text-white/90 bg-red-600/90 border border-red-400 px-1.5 py-[0.5px] rounded-full shadow-[0_0_6px_rgba(239,68,68,0.5)] whitespace-nowrap font-sans">
+              <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full shadow-[0_0_4px_rgba(239,68,68,0.4)] whitespace-nowrap font-sans scale-90">
                 <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
                 {hasLiveStreams ? "LIVE" : "OFFLINE"}
               </span>
@@ -341,34 +341,60 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — ONLY visible at <= 1400px (mutually exclusive with desktop nav) */}
             <button
-              className="flex min-[1401px]:hidden w-8 h-8 items-center justify-center z-50 relative cursor-pointer"
+              className="flex min-[1401px]:hidden w-10 h-10 items-center justify-center relative cursor-pointer text-white hover:text-purple-300 transition-colors p-1"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle navigation"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"
             >
-              <span
-                className={`relative w-[22px] h-0.5 transition-all duration-300 ${mobileOpen
-                    ? "bg-transparent before:top-0 before:rotate-45 after:bottom-0 after:-rotate-45"
-                    : "bg-white before:-top-[7px] after:-bottom-[7px]"
-                  } before:content-[''] before:absolute before:left-0 before:w-full before:h-0.5 before:bg-white before:transition-all before:duration-300 after:content-[''] after:absolute after:left-0 after:w-full after:h-0.5 after:bg-white after:transition-all after:duration-300`}
-              />
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-7 h-7 overflow-visible"
+              >
+                <line
+                  x1="4"
+                  y1="6"
+                  x2="20"
+                  y2="6"
+                  className="transition-all duration-300 ease-in-out origin-[12px_12px]"
+                  style={{
+                    transform: mobileOpen ? "translateY(6px) rotate(45deg)" : "translateY(0px) rotate(0deg)",
+                  }}
+                />
+                <line
+                  x1="4"
+                  y1="12"
+                  x2="20"
+                  y2="12"
+                  className="transition-all duration-300 ease-in-out origin-[12px_12px]"
+                  style={{
+                    opacity: mobileOpen ? 0 : 1,
+                    transform: mobileOpen ? "scaleX(0)" : "scaleX(1)",
+                  }}
+                />
+                <line
+                  x1="4"
+                  y1="18"
+                  x2="20"
+                  y2="18"
+                  className="transition-all duration-300 ease-in-out origin-[12px_12px]"
+                  style={{
+                    transform: mobileOpen ? "translateY(-6px) rotate(-45deg)" : "translateY(0px) rotate(0deg)",
+                  }}
+                />
+              </svg>
             </button>
           </div>
 
           {/* ── MOBILE OVERLAY DRAWER ── */}
           {mobileOpen && (
-            <div className="fixed inset-0 bg-[#0c021a]/98 backdrop-blur-3xl z-40 flex flex-col justify-start items-start pl-8 pt-8 gap-3 font-[family-name:var(--font-rockstar)]">
-              {/* Close X Button */}
-              <button
-                onClick={() => setMobileOpen(false)}
-                className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors z-50 cursor-pointer"
-                aria-label="Close menu"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <line x1="4" y1="4" x2="20" y2="20" />
-                  <line x1="20" y1="4" x2="4" y2="20" />
-                </svg>
-              </button>
+            <div className="fixed inset-0 bg-[#0c021a] z-[9999] pointer-events-auto flex flex-col justify-start items-start pl-8 pt-28 pb-12 gap-3 font-[family-name:var(--font-rockstar)] overflow-y-auto">
 
               <Link href="/news" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">NEWS</Link>
               <Link href="/bio" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BAND</Link>

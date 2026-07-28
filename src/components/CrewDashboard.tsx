@@ -6,6 +6,9 @@ import dynamic from 'next/dynamic';
 const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mod => mod.LiveKitStream), { ssr: false });
 import { getProducts } from '@/lib/shopify';
 import { shiftCoverageRequest } from '@/lib/email-templates';
+import { createClient } from '@/lib/supabase/client';
+
+const supabase = createClient();
 
 // --- Types ---
 interface FakeAccount {

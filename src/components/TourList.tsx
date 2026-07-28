@@ -750,6 +750,86 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
    });
   }, [activeShowsByTime, activeMonth, activeType, activeCity, searchQuery]);
 
+  const hasActiveFilters = activeMonth !== "All" || activeType !== "All" || activeCity !== "All" || searchQuery !== "";
+
+  const clearAll = () => {
+    setActiveMonth("All");
+    setActiveType("All");
+    setActiveCity("All");
+    setSearchQuery("");
+  };
+
+  // ── Print Tour List ──────────────────────────────────────────────────────────
+  const handlePrintTourList = useCallback(() => {
+    const showsToPrint = filtered;
+    if (showsToPrint.length === 0) return;
+
+    // Build filter summary line
+    const filterParts: string[] = [];
+    if (activeMonth !== "All") filterParts.push(activeMonth);
+    if (activeCity !== "All") filterParts.push(activeCity);
+    if (searchQuery) filterParts.push(`"${searchQuery}"`);
+    const filterLine = filterParts.length > 0
+      ? `<p style="font-size:11px;color:#888;margin:0 0 16px;font-style:italic">Filtered by: ${filterParts.join(' · ')}</p>`
+      : '';
+
+    const rows = showsToPrint.map((show: any) => {
+      const location = show.city ? `${show.city}${show.state ? `, ${show.state}` : ''}` : '';
+      const isPast = isShowOver(show);
+      return `
+        <tr style="${isPast ? 'opacity:0.45;' : ''}border-bottom:1px solid #eee">
+          <td style="padding:7px 10px;font-weight:700;color:#7c3aed;text-transform:uppercase;font-size:11px;white-space:nowrap">${show.day || ''}</td>
+          <td style="padding:7px 10px;white-space:nowrap">${show.date || ''}</td>
+          <td style="padding:7px 10px;font-weight:700">${show.venue || ''}</td>
+          <td style="padding:7px 10px;color:#555">${location}</td>
+          <td style="padding:7px 10px;white-space:nowrap">${show.time || ''}</td>
+          <td style="padding:7px 10px;font-size:11px;color:#888">${show.info || show.notes || ''}</td>
+        </tr>`;
+    }).join('');
+
+    const html = `<!DOCTYPE html>
+<html><head>
+<title>7th Heaven — Tour Dates</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #1a1a1a; padding: 40px; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .subtitle { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #999; border-bottom: 2px solid #222; }
+  tbody tr:last-child { border-bottom: none; }
+  .footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid #ddd; font-size: 10px; color: #aaa; display: flex; justify-content: space-between; }
+  @media print {
+    body { padding: 20px; }
+    @page { margin: 0.5in; }
+  }
+</style>
+</head><body>
+<h1>7th Heaven — Tour Dates</h1>
+<p class="subtitle">${showsToPrint.length} show${showsToPrint.length !== 1 ? 's' : ''} · Printed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+${filterLine}
+<table>
+  <thead><tr>
+    <th>Day</th><th>Date</th><th>Venue</th><th>City</th><th>Time</th><th>Info</th>
+  </tr></thead>
+  <tbody>${rows}</tbody>
+</table>
+<div class="footer">
+  <span>7thheaven.band</span>
+  <span>Generated from 7thheaven.band/shows</span>
+</div>
+</body></html>`;
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(html);
+      printWindow.document.close();
+      // Give fonts a moment to load before triggering print
+      setTimeout(() => printWindow.print(), 400);
+    }
+  }, [filtered, activeMonth, activeCity, searchQuery]);
+
  const showCount = filtered.length;
 
  const upcomingCount = useMemo(() => {
@@ -759,15 +839,6 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
  const filteredUpcomingCount = useMemo(() => {
   return filtered.filter(s => !isShowOver(s)).length;
  }, [filtered]);
-
- const hasActiveFilters = activeMonth !== "All" || activeType !== "All" || activeCity !== "All" || searchQuery !== "";
-
- const clearAll = () => {
-  setActiveMonth("All");
-  setActiveType("All");
-  setActiveCity("All");
-  setSearchQuery("");
- };
 
  // Build active filter labels
  const activeLabels: string[] = [];
@@ -1020,6 +1091,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             ➕ Add Show
           </button>
         )}
+        <button
+          onClick={handlePrintTourList}
+          title="Print tour list"
+          className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-4 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-1.5 cursor-pointer text-white/80 hover:text-white whitespace-nowrap"
+        >
+          🖨️ Print
+        </button>
         {hasActiveFilters && (
          <button
           onClick={clearAll}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 import { useState, useEffect } from "react";
+import { useTransition } from "@/context/TransitionContext";
 
 const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
@@ -88,8 +89,22 @@ export function Footer() {
       .catch(() => {});
   }, []);
 
+  // Hide footer when the overlay is at full coverage (isCovered=true).
+  // This is driven by the overlay animation event — not the route change —
+  // so it stays perfectly in sync with the transition reveal.
+  const { isCovered } = useTransition();
+
   return (
-    <footer className="relative bg-black pt-24 pb-12 overflow-hidden border-t border-white/5" id="footer" suppressHydrationWarning>
+    <footer
+      className="relative bg-black pt-24 pb-12 overflow-hidden border-t border-white/5"
+      id="footer"
+      suppressHydrationWarning
+      style={{
+        opacity: isCovered ? 0 : 1,
+        pointerEvents: isCovered ? 'none' : 'auto',
+        transition: 'opacity 0.15s ease',
+      }}
+    >
       <div className="site-container relative z-10">
 
         {/* Book The Band — Bold CTA (Planner only) */}

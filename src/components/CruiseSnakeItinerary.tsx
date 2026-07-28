@@ -8,6 +8,11 @@ import Lenis from 'lenis';
 import type * as THREE from 'three';
 import styles from './CruiseSnakeItinerary.module.css';
 
+import { suppressBlobTextureErrors } from '@/lib/suppressBlobTextureErrors';
+
+// Suppress blob URL texture errors that occur during page transitions
+suppressBlobTextureErrors();
+
 // Preload 3D ship asset immediately so it renders without network delay on production
 if (typeof window !== 'undefined') {
   useGLTF.preload('/objects/ship.glb');

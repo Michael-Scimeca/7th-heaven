@@ -1,8 +1,94 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import Logo from "@/components/Logo";
+import { PageNav } from "@/components/PageNav";
+import ScrollToTop from "@/components/ScrollToTop";
+import { GrainOverlay } from "@/components/GrainOverlay";
+import CursorFollower from "@/components/CursorFollower";
+import CustomScrollbar from "@/components/CustomScrollbar";
+import { DevPerformancePanel } from "@/components/DevPerformancePanel";
+import Preloader from "@/components/Preloader";
+
+import AnnouncementBanner from "@/components/AnnouncementBanner";
+import LiveStatusSign from "@/components/LiveStatusSign";
+import RoleBadge from "@/components/RoleBadge";
+import CountdownTimer from "@/components/CountdownTimer";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
+import { EmergencyBroadcastCenter } from "@/components/EmergencyBroadcastCenter";
+import ProximityNotify from "@/components/ProximityNotify";
+import ProximityPanel from "@/components/ProximityPanel";
+
+import FeaturedTrack from "@/components/FeaturedTrack";
+import HeroAlbumPlayer from "@/components/HeroAlbumPlayer";
+import VinylHeroPlayer from "@/components/VinylHeroPlayer";
+import AudioPlayerSection from "@/components/AudioPlayer";
+
+import HeroVideoPlayer from "@/components/HeroVideoPlayer";
+import VideoSection from "@/components/VideoSection";
+import InlineYTPlayer from "@/components/InlineYTPlayer";
+import CustomYTPlayer from "@/components/CustomYTPlayer";
+import BehindTheScenes from "@/components/BehindTheScenes";
+
+import HeroLiveHub from "@/components/HeroLiveHub";
+import HeroLiveThumbs from "@/components/HeroLiveThumbs";
+import { FakeLiveStream } from "@/components/FakeLiveStream";
+import LiveShowFeed from "@/components/LiveShowFeed";
+
+import HeroUpcomingShows from "@/components/HeroUpcomingShows";
+import TourList from "@/components/TourList";
+import { CalendarPicker } from "@/components/CalendarPicker";
+import ShowCrewPanel from "@/components/ShowCrewPanel";
+
+import HomeMerch from "@/components/HomeMerch";
+
+import CruiseHistoryTimeline from "@/components/CruiseHistoryTimeline";
+import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
+import CruiseVideoGallery from "@/components/CruiseVideoGallery";
+
+import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
+import CruiseChat from "@/components/CruiseChat";
+import {
+  EmbarkationCountdown,
+  DailyPoll,
+  OriginStats,
+  PhotoWall,
+  ImportantLinksWidget,
+  SongRequestLeaderboard,
+  CaptainsLog,
+  ExcursionTeasers,
+} from "@/components/CruiseWidgets";
+
+import { NewsHeroLayouts } from "@/components/NewsHeroLayouts";
+import AccomplishmentsLayouts from "@/components/AccomplishmentsLayouts";
+import BioParallaxSlider from "@/components/BioParallaxSlider";
+import PickAwardsSection from "@/components/PickAwardsSection";
+
+import FanUploadForm from "@/components/FanUploadForm";
+import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
+import LoginModal from "@/components/LoginModal";
+import DirectMessageChat from "@/components/DirectMessageChat";
+import AdminFeedPost from "@/components/AdminFeedPost";
+
+import MemberDashboard from "@/components/MemberDashboard";
+import { CrewDashboard } from "@/components/CrewDashboard";
+import CrewFeed from "@/components/CrewFeed";
+import { CrewHQ } from "@/components/CrewHQ";
+import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
+import PlannerDashboard from "@/components/PlannerDashboard";
+
+import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
+import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
+import CruiseVideoManager from "@/components/admin/CruiseVideoManager";
+import InviteChallengePanel from "@/components/admin/InviteChallengePanel";
+import ReferralProgramPanel from "@/components/admin/ReferralProgramPanel";
+import { RoleEmailDirectory } from "@/components/admin/RoleEmailDirectory";
+
+const TourMap = dynamic(() => import("@/components/TourMap"), { ssr: false });
+const AdminMap = dynamic(() => import("@/components/AdminMap"), { ssr: false });
 
 /* ─────────────────────────────────────────────
    Token Map — auto-read from CSS custom props
@@ -61,15 +147,7 @@ const fontSizes = [
   { token: "--font-size-6xl", label: "6xl", note: "fluid" },
 ];
 
-const shadows = [
-  { token: "--shadow-card", label: "Card" },
-  { token: "--shadow-deep", label: "Deep" },
-  { token: "--shadow-accent-glow", label: "Accent Glow" },
-  { token: "--shadow-accent-glow-lg", label: "Accent Glow LG" },
-  { token: "--shadow-cyan-glow", label: "Cyan Glow" },
-  { token: "--shadow-pink-glow", label: "Pink Glow" },
-  { token: "--shadow-nav", label: "Nav" },
-];
+
 
 const zLayers = [
   { token: "--z-base", value: "0", label: "Base" },
@@ -144,7 +222,6 @@ export default function StyleGuidePage() {
     { id: "colors", label: "Colors" },
     { id: "typography", label: "Typography" },
     { id: "spacing", label: "Spacing" },
-    { id: "shadows", label: "Shadows" },
     { id: "z-index", label: "Z-Index" },
     { id: "buttons", label: "Buttons" },
     { id: "forms", label: "Forms" },
@@ -154,7 +231,7 @@ export default function StyleGuidePage() {
   return (
     <div className="min-h-screen bg-[var(--color-bg-primary)]">
       {/* Sticky Sub-Nav */}
-      <div className="sticky top-0 z-40 bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border-b border-white/5">
+      <div className="sticky top-[60px] z-[60] bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border-b border-white/5">
         <div className="site-container">
           <div className="flex items-center gap-1 py-3 overflow-x-auto">
             <h1 className="text-sm font-black uppercase tracking-widest text-white/60 mr-4 shrink-0 font-[family-name:var(--font-rockstar)]">
@@ -399,21 +476,7 @@ export default function StyleGuidePage() {
         </div>
       </Section>
 
-      {/* ═══ SHADOWS ═══ */}
-      <Section title="Shadows" id="shadows">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {shadows.map((s) => (
-            <div
-              key={s.token}
-              className="h-32 bg-[var(--color-bg-card)] rounded-2xl flex flex-col items-center justify-center gap-2"
-              style={{ boxShadow: `var(${s.token})` }}
-            >
-              <span className="text-sm font-bold text-white">{s.label}</span>
-              <TokenBadge token={s.token} />
-            </div>
-          ))}
-        </div>
-      </Section>
+
 
       {/* ═══ Z-INDEX ═══ */}
       <Section title="Z-Index Layers" id="z-index">
@@ -513,12 +576,29 @@ export default function StyleGuidePage() {
       {/* ═══ LIVE COMPONENTS ═══ */}
       <Section title="Live Components" id="components">
         <p className="text-body mb-8">
-          These are the real production components imported and rendered live. If they look wrong here, they&apos;re wrong in production.
+          These are all real production components in the application imported and rendered live. Editing any component file below will instantly update it site-wide.
         </p>
 
-        {/* Nav States */}
-        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
-          Navigation <FileBadge path="src/components/Header.tsx" />
+        {/* ── 1. GLOBAL LAYOUT & NAVIGATION ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            1. Global Layout & Navigation
+          </h2>
+        </div>
+
+        {/* Logo */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Logo</span>
+          <FileBadge path="src/components/Logo.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-8 rounded-2xl border border-white/5 mb-12 flex items-center justify-center">
+          <Logo className="h-16 text-white hover:text-[var(--color-accent)] transition-colors" />
+        </div>
+
+        {/* Header Navigation */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Header Navigation</span>
+          <FileBadge path="src/components/Header.tsx" />
         </h3>
         <div className="bg-[var(--color-bg-surface)] rounded-2xl border border-white/5 overflow-hidden mb-12">
           <div className="relative h-[80px]">
@@ -526,42 +606,570 @@ export default function StyleGuidePage() {
           </div>
         </div>
 
-        {/* Glass Utility */}
-        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
-          Glass Card <TokenBadge token="@utility glass" />
+        {/* Footer */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Footer</span>
+          <FileBadge path="src/components/Footer.tsx" />
         </h3>
-        <div className="flex gap-4 mb-12">
-          <div className="glass rounded-2xl p-6 w-64">
-            <h4 className="text-white font-bold mb-2">Glass Panel</h4>
-            <p className="text-body text-sm">Frosted glass effect with blur backdrop.</p>
+        <div className="rounded-2xl border border-white/5 overflow-hidden mb-12">
+          <Footer />
+        </div>
+
+        {/* Page Navigation & Dev Performance */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+              <span>Page Navigation</span>
+              <FileBadge path="src/components/PageNav.tsx" />
+            </h3>
+            <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 flex items-center justify-center">
+              <PageNav />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+              <span>Dev Performance Panel</span>
+              <FileBadge path="src/components/DevPerformancePanel.tsx" />
+            </h3>
+            <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5">
+              <DevPerformancePanel />
+            </div>
           </div>
         </div>
 
-        {/* Card Elevation Demo */}
+        {/* Utility Visual Effects */}
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
-          Card Elevation Scale
+          Layout & Visual Overlay Helpers
         </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-12">
-          {["deep", "surface", "card", "elevated"].map((level) => (
-            <div
-              key={level}
-              className={`p-6 rounded-2xl border border-white/5 bg-[var(--color-bg-${level})]`}
-              style={{ backgroundColor: `var(--color-bg-${level})` }}
-            >
-              <div className="text-sm font-bold text-white mb-1 uppercase">{level}</div>
-              <TokenBadge token={`--color-bg-${level}`} />
-              <p className="text-body text-sm mt-2">Card at the {level} elevation level.</p>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
+          <div className="bg-[var(--color-bg-surface)] p-4 rounded-xl border border-white/5 text-center">
+            <span className="text-xs font-bold text-white block mb-1">ScrollToTop</span>
+            <FileBadge path="src/components/ScrollToTop.tsx" />
+          </div>
+          <div className="bg-[var(--color-bg-surface)] p-4 rounded-xl border border-white/5 text-center">
+            <span className="text-xs font-bold text-white block mb-1">GrainOverlay</span>
+            <FileBadge path="src/components/GrainOverlay.tsx" />
+          </div>
+          <div className="bg-[var(--color-bg-surface)] p-4 rounded-xl border border-white/5 text-center">
+            <span className="text-xs font-bold text-white block mb-1">CursorFollower</span>
+            <FileBadge path="src/components/CursorFollower.tsx" />
+          </div>
+          <div className="bg-[var(--color-bg-surface)] p-4 rounded-xl border border-white/5 text-center">
+            <span className="text-xs font-bold text-white block mb-1">CustomScrollbar</span>
+            <FileBadge path="src/components/CustomScrollbar.tsx" />
+          </div>
         </div>
 
-        {/* Footer */}
-        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
-          Footer <FileBadge path="src/components/Footer.tsx" />
-        </h3>
-        <div className="rounded-2xl border border-white/5 overflow-hidden">
-          <Footer />
+
+        {/* ── 2. NOTIFICATIONS & BANNERS ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            2. Notifications, Banners & Indicators
+          </h2>
         </div>
+
+        {/* Announcement Banner */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Announcement Banner</span>
+          <FileBadge path="src/components/AnnouncementBanner.tsx" />
+        </h3>
+        <div className="mb-12">
+          <AnnouncementBanner text="🔥 SPECIAL ANNOUNCEMENT: NEW ALBUM RELEASE & TOUR DATES 2026!" inline />
+        </div>
+
+        {/* User Role Badges */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>User Role Badges</span>
+          <FileBadge path="src/components/RoleBadge.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12 flex flex-wrap items-center gap-6">
+          <div className="flex items-center gap-2">
+            <RoleBadge role="fan" size="md" showLabel />
+            <span className="text-xs text-white/40">Fan Badge</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <RoleBadge role="crew" size="md" showLabel />
+            <span className="text-xs text-white/40">Crew Badge</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <RoleBadge role="admin" size="md" showLabel />
+            <span className="text-xs text-white/40">Admin Badge</span>
+          </div>
+        </div>
+
+        {/* Countdown Timer */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Countdown Timer</span>
+          <FileBadge path="src/components/CountdownTimer.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12 flex flex-col md:flex-row items-center justify-around gap-6">
+          <div className="text-center">
+            <p className="text-xs text-white/40 mb-2 uppercase font-bold tracking-wider">Standard Layout</p>
+            <CountdownTimer targetDate="2026-12-31" targetTime="08:00 pm" />
+          </div>
+          <div className="text-center">
+            <p className="text-xs text-white/40 mb-2 uppercase font-bold tracking-wider">Compact Layout</p>
+            <CountdownTimer targetDate="2026-12-31" compact />
+          </div>
+        </div>
+
+        {/* Emergency Broadcast & Cookie Consent */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+              <span>Emergency Broadcast Center</span>
+              <FileBadge path="src/components/EmergencyBroadcastCenter.tsx" />
+            </h3>
+            <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5">
+              <EmergencyBroadcastCenter />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+              <span>Cookie Consent Banner</span>
+              <FileBadge path="src/components/CookieConsentBanner.tsx" />
+            </h3>
+            <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 relative min-h-[160px] overflow-hidden">
+              <CookieConsentBanner />
+            </div>
+          </div>
+        </div>
+
+
+        {/* ── 3. MUSIC & AUDIO PLAYERS ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            3. Music & Audio Players
+          </h2>
+        </div>
+
+        {/* Featured Track Player */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Featured Track Player</span>
+          <FileBadge path="src/components/FeaturedTrack.tsx" />
+        </h3>
+        <div className="mb-12">
+          <FeaturedTrack />
+        </div>
+
+        {/* Hero Album Player */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Hero Album Player</span>
+          <FileBadge path="src/components/HeroAlbumPlayer.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] rounded-2xl border border-white/5 overflow-hidden mb-12">
+          <HeroAlbumPlayer />
+        </div>
+
+        {/* Vinyl Hero Player */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Vinyl Hero Player</span>
+          <FileBadge path="src/components/VinylHeroPlayer.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] rounded-2xl border border-white/5 overflow-hidden mb-12 p-6">
+          <VinylHeroPlayer />
+        </div>
+
+        {/* Full Audio Player Section */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Full Audio Player Section</span>
+          <FileBadge path="src/components/AudioPlayer.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] rounded-2xl border border-white/5 overflow-hidden mb-16 p-6">
+          <AudioPlayerSection />
+        </div>
+
+
+        {/* ── 4. VIDEO PLAYERS & MEDIA ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            4. Video Players & Media
+          </h2>
+        </div>
+
+        {/* Hero Video Player */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Hero Video Player</span>
+          <FileBadge path="src/components/HeroVideoPlayer.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] rounded-2xl border border-white/5 overflow-hidden mb-12 p-6">
+          <HeroVideoPlayer />
+        </div>
+
+        {/* Video Section */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Video Section Grid</span>
+          <FileBadge path="src/components/VideoSection.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <VideoSection />
+        </div>
+
+        {/* Inline & Custom YouTube Players */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+              <span>Inline YouTube Player</span>
+              <FileBadge path="src/components/InlineYTPlayer.tsx" />
+            </h3>
+            <div className="bg-[var(--color-bg-surface)] p-4 rounded-2xl border border-white/5 min-h-[220px]">
+              <InlineYTPlayer videoId="BzHUNTZ66zY" title="Ain't That Just Beautiful" />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+              <span>Custom YouTube Player</span>
+              <FileBadge path="src/components/CustomYTPlayer.tsx" />
+            </h3>
+            <div className="bg-[var(--color-bg-surface)] p-4 rounded-2xl border border-white/5 flex items-center justify-center min-h-[220px]">
+              <FileBadge path="src/components/CustomYTPlayer.tsx" />
+            </div>
+          </div>
+        </div>
+
+
+        {/* ── 5. LIVE STREAMS & FEEDS ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            5. Live Streams & Feeds
+          </h2>
+        </div>
+
+        {/* Live Status Indicator */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Live Status Indicator</span>
+          <FileBadge path="src/components/LiveStatusSign.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <LiveStatusSign />
+        </div>
+
+        {/* Hero Live Hub */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Hero Live Hub</span>
+          <FileBadge path="src/components/HeroLiveHub.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <HeroLiveHub />
+        </div>
+
+        {/* Hero Live Thumbs */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Hero Live Thumbs</span>
+          <FileBadge path="src/components/HeroLiveThumbs.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <HeroLiveThumbs />
+        </div>
+
+        {/* Live Show Feed */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Live Show Feed</span>
+          <FileBadge path="src/components/LiveShowFeed.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-16">
+          <LiveShowFeed />
+        </div>
+
+
+        {/* ── 6. TOUR, SHOWS & MAPS ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            6. Tour, Shows & Maps
+          </h2>
+        </div>
+
+        {/* Hero Upcoming Shows */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Upcoming Shows Hub</span>
+          <FileBadge path="src/components/HeroUpcomingShows.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <HeroUpcomingShows
+            upcomingShows={[
+              {
+                id: "1",
+                venue: "Soldier Field",
+                city: "Chicago",
+                state: "IL",
+                date: "Aug 15, 2026",
+                startDate: "2026-08-15",
+                time: "8:00 PM",
+                ticketUrl: "#",
+                vipUrl: "#",
+                info: "Headline Outdoor Stadium Concert!"
+              },
+              {
+                id: "2",
+                venue: "Hard Rock Live",
+                city: "Gary",
+                state: "IN",
+                date: "Aug 22, 2026",
+                startDate: "2026-08-22",
+                time: "9:00 PM",
+                ticketUrl: "#",
+                info: "Indoor Arena Experience"
+              }
+            ]}
+          />
+        </div>
+
+        {/* Interactive Calendar Picker */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Calendar Picker</span>
+          <FileBadge path="src/components/CalendarPicker.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <CalendarPicker selectedDate="2026-08-15" onSelectDate={() => {}} bookingSlots={[]} />
+        </div>
+
+        {/* Tour Map */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Interactive Tour Map</span>
+          <FileBadge path="src/components/TourMap.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-16 h-[350px]">
+          <TourMap shows={[]} />
+        </div>
+
+
+        {/* ── 7. STORE & MERCH ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            7. Store & Merch
+          </h2>
+        </div>
+
+        {/* Homepage Merch Grid */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Homepage Merch Grid</span>
+          <FileBadge path="src/components/HomeMerch.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-16">
+          <HomeMerch />
+        </div>
+
+
+        {/* ── 8. CRUISE EXPERIENCE ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            8. Cruise Experience
+          </h2>
+        </div>
+
+        {/* Cruise History Timeline */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Cruise History Timeline</span>
+          <FileBadge path="src/components/CruiseHistoryTimeline.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <CruiseHistoryTimeline history={[]} />
+        </div>
+
+        {/* Cruise Video Gallery */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Cruise Video Gallery</span>
+          <FileBadge path="src/components/CruiseVideoGallery.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <CruiseVideoGallery />
+        </div>
+
+        {/* Cruise Widgets */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Cruise Widgets</span>
+          <FileBadge path="src/components/CruiseWidgets.tsx" />
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5">
+            <EmbarkationCountdown />
+          </div>
+          <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5">
+            <DailyPoll />
+          </div>
+          <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5">
+            <ImportantLinksWidget />
+          </div>
+          <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5">
+            <CaptainsLog />
+          </div>
+        </div>
+
+
+        {/* ── 9. BAND, BIO & NEWS ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            9. Band, Bio & News
+          </h2>
+        </div>
+
+        {/* News Hero Layouts */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>News Hero Layouts</span>
+          <FileBadge path="src/components/NewsHeroLayouts.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <NewsHeroLayouts
+            newsItems={[
+              {
+                date: "January 2026",
+                title: "2026 Tour Dates & Cruise Announced",
+                content: "It's winter time, and besides our annual cruise we do every year, we are working in the studio on brand new releases."
+              }
+            ]}
+          />
+        </div>
+
+        {/* Accomplishments Layouts */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Accomplishments Showcase</span>
+          <FileBadge path="src/components/AccomplishmentsLayouts.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <AccomplishmentsLayouts
+            accomplishments={[
+              "Three #1 Hit Songs on Billboard",
+              "Seven Major Radio Hit Songs",
+              "Five CDs reached #1 on Billboard",
+              "Opened for Bon Jovi & Kid Rock at Soldier Field",
+              "Opened for Styx to 80,000 people",
+              "Written/Recorded over 5,000 songs to date"
+            ]}
+          />
+        </div>
+
+        {/* Bio Parallax Slider */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Bio Parallax Slider</span>
+          <FileBadge path="src/components/BioParallaxSlider.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-16">
+          <BioParallaxSlider />
+        </div>
+
+
+        {/* ── 10. FAN INTERACTION & AUTH MODALS ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            10. Fan Interaction & Auth Modals
+          </h2>
+        </div>
+
+        {/* Fan Photo Upload Form */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Fan Upload Form</span>
+          <FileBadge path="src/components/FanUploadForm.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <FanUploadForm />
+        </div>
+
+        {/* Profile Photo Uploader */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Profile Photo Uploader</span>
+          <FileBadge path="src/components/ProfilePhotoUploader.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12 flex items-center justify-center">
+          <ProfilePhotoUploader />
+        </div>
+
+        {/* Direct Message Chat */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Direct Message Chat</span>
+          <FileBadge path="src/components/DirectMessageChat.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-16">
+          <DirectMessageChat />
+        </div>
+
+
+        {/* ── 11. MEMBER & CREW DASHBOARDS ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            11. Member & Crew Dashboards
+          </h2>
+        </div>
+
+        {/* Member Dashboard */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Member Dashboard</span>
+          <FileBadge path="src/components/MemberDashboard.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <MemberDashboard />
+        </div>
+
+        {/* Crew HQ */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Crew HQ Hub</span>
+          <FileBadge path="src/components/CrewHQ.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <CrewHQ />
+        </div>
+
+        {/* Crew Feed */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Crew Feed</span>
+          <FileBadge path="src/components/CrewFeed.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-16">
+          <CrewFeed />
+        </div>
+
+
+        {/* ── 12. ADMIN CONTROL PANELS ── */}
+        <div className="border-b border-white/10 pb-4 mb-8">
+          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+            12. Admin Control Panels
+          </h2>
+        </div>
+
+        {/* Award Picks Panel */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Award Picks Panel</span>
+          <FileBadge path="src/components/admin/AwardPicksPanel.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <AwardPicksPanel />
+        </div>
+
+        {/* Bulk Invite Panel */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Bulk Invite Panel</span>
+          <FileBadge path="src/components/admin/BulkInvitePanel.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <BulkInvitePanel />
+        </div>
+
+        {/* Cruise Video Manager */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Cruise Video Manager</span>
+          <FileBadge path="src/components/admin/CruiseVideoManager.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <CruiseVideoManager />
+        </div>
+
+        {/* Referral Program Panel */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Referral Program Panel</span>
+          <FileBadge path="src/components/admin/ReferralProgramPanel.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
+          <ReferralProgramPanel />
+        </div>
+
+        {/* Role Email Directory */}
+        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
+          <span>Role Email Directory</span>
+          <FileBadge path="src/components/admin/RoleEmailDirectory.tsx" />
+        </h3>
+        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-16">
+          <RoleEmailDirectory />
+        </div>
+
       </Section>
     </div>
   );

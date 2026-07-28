@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useId } from "react";
 
 declare global {
   interface Window {
@@ -16,11 +16,12 @@ interface InlineYTPlayerProps {
 }
 
 export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlayerProps) {
+  const reactId = useId();
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
-  const playerDivId = useRef(`yt-inline-${videoId}-${Date.now()}`);
+  const playerDivId = useRef(`yt-inline-${videoId}-${reactId.replace(/:/g, "")}`);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);

@@ -7,6 +7,17 @@ import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { suppressBlobTextureErrors } from '@/lib/suppressBlobTextureErrors';
+
+// Suppress blob URL texture errors that occur during page transitions
+suppressBlobTextureErrors();
+
+// Preload the GLTF model at module level so the asset + all blob-URL textures
+// are fully cached before any component mounts. This prevents THREE.GLTFLoader
+// errors when a page transition interrupts a mid-load blob URL texture.
+if (typeof window !== 'undefined') {
+  useGLTF.preload('/objects/ship.glb');
+}
 
 function TopDownHistoryShip({ shipScaleRef }: { shipScaleRef: React.RefObject<number> }) {
   const { scene } = useGLTF('/objects/ship.glb');
@@ -359,31 +370,39 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     }
   }, []);
 
-  // Update geometry & ship position on mount, window resize, and container ResizeObserver
+  // Update geometry & ship position on mount, window resize, and container ResizeObserver with debouncing
   useEffect(() => {
-    const handleResize = () => {
-      updatePathGeometry();
-      requestAnimationFrame(() => {
-        updateShipPosition(latestProgressRef.current);
-      });
+    let resizeTimer: NodeJS.Timeout | null = null;
+
+    const debouncedResize = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        updatePathGeometry();
+        requestAnimationFrame(() => {
+          updateShipPosition(latestProgressRef.current);
+        });
+      }, 150);
     };
 
-    handleResize();
-    const t = setTimeout(handleResize, 200);
+    // Immediate initial update
+    updatePathGeometry();
+    requestAnimationFrame(() => {
+      updateShipPosition(latestProgressRef.current);
+    });
 
     let resizeObserver: ResizeObserver | null = null;
     if (desktopContainerRef.current && typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(() => {
-        handleResize();
+        debouncedResize();
       });
       resizeObserver.observe(desktopContainerRef.current);
     }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', debouncedResize, { passive: true });
     return () => {
-      clearTimeout(t);
+      if (resizeTimer) clearTimeout(resizeTimer);
       if (resizeObserver) resizeObserver.disconnect();
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', debouncedResize);
     };
   }, [rows.length, updatePathGeometry, updateShipPosition]);
 
@@ -392,7 +411,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     if (desktopPathRef.current && pathD) {
       setDesktopPathLength(desktopPathRef.current.getTotalLength());
       updateShipPosition(latestProgressRef.current);
-      setTimeout(() => ScrollTrigger.refresh(), 100);
+      const t = setTimeout(() => {
+        if (typeof window !== 'undefined' && ScrollTrigger) {
+          ScrollTrigger.refresh();
+        }
+      }, 250);
+      return () => clearTimeout(t);
     }
     if (mobilePathRef.current) {
       setMobilePathLength(mobilePathRef.current.getTotalLength());

@@ -390,6 +390,14 @@ body.preloading #page-content-wrapper {
 
 #page-content-wrapper {
   transition: opacity 0.5s ease-in-out;
+  transition-delay: 0.05s;
+}
+
+/* Guarantee the content area between header and footer is ALWAYS at least
+   full viewport height. This prevents the footer from ever floating to the
+   top when page content is loading or a transition is in progress. */
+#page-content-wrapper > .content-area {
+  min-height: 100svh;
 }
 
 /* --- Typography Utilities --- */

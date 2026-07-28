@@ -122,9 +122,13 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
   // Determine visibility after mount to avoid SSR hydration mismatch
   useEffect(() => {
     if (forceShow) { setVisible(true); return; }
-    // If the preloader won't show, immediately reveal the page content
+    // If the preloader won't show, reveal the page content after a short delay
+    // so that Next.js streaming SSR has time to deliver the page content
+    // before the page becomes visible (prevents footer flash before content).
     if (hasRanInMemory || sessionStorage.getItem("7h_preloader_shown") === "true" || !requiresPreloader) {
-      document.body.classList.remove("preloading");
+      setTimeout(() => {
+        document.body.classList.remove("preloading");
+      }, 150);
       return;
     }
     setVisible(true);
@@ -269,6 +273,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     let displayedPercent = 0;
     let rafId: number;
     const startTime = performance.now();
+    const currentPercentRef = { current: 0 };
 
     const tick = () => {
       if (finished) return;
@@ -335,12 +340,12 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       {/* Portrait Circle */}
       <div className="relative mb-8 flex flex-col items-center justify-center">
         <div className="absolute w-[240px] h-[240px] rounded-full bg-gradient-to-tr from-[#d946ef]/20 to-[#7c00ff]/20 blur-2xl animate-pulse" />
-        <div className="relative w-[180px] h-[180px] rounded-full border border-white/10 shadow-[0_0_50px_rgba(217,70,239,0.3)] flex items-center justify-center">
+        <div className="relative w-[180px] h-[180px] rounded-full overflow-hidden border border-white/20 shadow-[0_0_50px_rgba(217,70,239,0.35)] flex items-center justify-center">
           {selectedFrames.map((idx) => {
             const isActive = getActiveFrame(percent) === idx;
             return (
-              <div key={idx} className="absolute inset-0 transition-opacity duration-300 ease-in-out" style={{ opacity: isActive ? 1 : 0 }}>
-                <Image src={`/images/loading-images/${idx}.png`} alt={`Loading ${idx}`} fill priority sizes="180px" className="object-contain" style={getImageStyle(idx)} />
+              <div key={idx} className="absolute inset-0 rounded-full overflow-hidden transition-opacity duration-300 ease-in-out" style={{ opacity: isActive ? 1 : 0 }}>
+                <Image src={`/images/loading-images/${idx}.png`} alt={`Loading ${idx}`} fill priority sizes="180px" className="object-contain rounded-full" style={getImageStyle(idx)} />
               </div>
             );
           })}

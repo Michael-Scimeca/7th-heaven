@@ -25,6 +25,7 @@ import { GrainOverlay } from "@/components/GrainOverlay";
 import Preloader from "@/components/Preloader";
 import PageTransition from "@/components/PageTransition";
 import CursorFollower from "@/components/CursorFollower";
+import { TransitionProvider } from "@/context/TransitionContext";
 
 import localFont from "next/font/local";
 
@@ -158,11 +159,14 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(bandLd) }}
         />
+        {/* Blocking script: runs synchronously during HTML parse (before hydration).
+            Removes .preloading immediately for return visitors so there's zero
+            flash of hidden content on cached page loads. Must be in <head> —
+            React 18 does not allow dangerouslySetInnerHTML <script> in <body>. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("7h_preloader_shown")==="true"){setTimeout(function(){document.body.classList.remove("preloading")},80)}}catch(e){}` }} />
       </head>
       <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable} preloading`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
-        {/* Blocking script: remove .preloading immediately for return visitors
-            so content is visible before React hydrates. Runs synchronously. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("7h_preloader_shown")==="true"){document.body.classList.remove("preloading")}}catch(e){}` }} />
+
         <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
           if (window.location.search.includes('bypass=true')) {
             var style = document.createElement('style');
@@ -173,24 +177,30 @@ export default async function RootLayout({
         <GrainOverlay />
         <Preloader />
         <CursorFollower />
-        <Providers>
-          <ScrollToTop />
-          <SmoothScroll>
-            <div id="page-content-wrapper" className="flex flex-col min-h-screen">
-              <Header />
-              <PageTransition>
-                {children}
+        <TransitionProvider>
+          <Providers>
+            <ScrollToTop />
+            <SmoothScroll>
+              <div id="page-content-wrapper" className="flex flex-col min-h-screen">
+                <Header />
+                {/* content-area class + CSS guarantees min-height: 100svh so footer
+                    can NEVER appear before page content loads */}
+                <div className="content-area flex-1 flex flex-col">
+                  <PageTransition>
+                    {children}
+                  </PageTransition>
+                </div>
                 <Footer />
-              </PageTransition>
-              <SanityLive />
-              {isDraftMode && <VisualEditing />}
-              
-              <DirectMessageChat />
-              <PageNav />
-              <DevPerformancePanel />
-            </div>
-          </SmoothScroll>
-        </Providers>
+                <SanityLive />
+                {isDraftMode && <VisualEditing />}
+                
+                <DirectMessageChat />
+                <PageNav />
+                <DevPerformancePanel />
+              </div>
+            </SmoothScroll>
+          </Providers>
+        </TransitionProvider>
       </body>
     </html>
   );

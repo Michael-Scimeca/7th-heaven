@@ -6,6 +6,7 @@ import React, {
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mod => mod.LiveKitStream), { ssr: false });
+import { useRouter, usePathname } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
 import { supabase } from '@/lib/supabase';
 
