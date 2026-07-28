@@ -194,7 +194,7 @@ export default function ProximityPanel() {
                 className="w-full bg-white/[0.03] border border-white/10 text-white text-sm px-4 py-3 rounded-xl outline-none focus:border-blue-500/40 transition-colors appearance-none cursor-pointer"
               >
                 {RADIUS_OPTIONS.map(r => (
-                  <option key={r} value={r} className="bg-[#0a0a14]">{r} miles</option>
+                  <option key={r} value={r} className="bg-[var(--color-bg-surface)]">{r} miles</option>
                 ))}
               </select>
             </div>
@@ -212,7 +212,7 @@ export default function ProximityPanel() {
 
       {/* Nearby Shows */}
       {notificationsEnabled && (
-        <div className="p-6 bg-[#0a0a0f]/80 border border-white/5 rounded-2xl">
+        <div className="p-6 bg-[var(--color-bg-surface)]/80 border border-white/5 rounded-2xl">
           <div className="flex items-center justify-between mb-5">
             <span className="text-xs font-black uppercase tracking-widest text-blue-400">
               📍 Shows Within {radius} Miles

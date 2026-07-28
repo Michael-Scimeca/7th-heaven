@@ -9,10 +9,16 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
   const [showInput, setShowInput] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("7h_profile_avatar") || member?.avatar || null;
+    }
+    return member?.avatar || null;
+  });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const currentAvatar = member?.avatar;
-  const isAvatarUrl = currentAvatar && (currentAvatar.startsWith("http") || currentAvatar.startsWith("/") || currentAvatar.startsWith("data:"));
+  const activeAvatar = previewUrl || member?.avatar;
+  const isAvatarUrl = activeAvatar && (activeAvatar.startsWith("http") || activeAvatar.startsWith("/") || activeAvatar.startsWith("data:"));
   const initials = member?.name ? member.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) : "ME";
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +40,10 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
     reader.onload = async (event) => {
       const dataUrl = event.target?.result as string;
       if (dataUrl) {
+        setPreviewUrl(dataUrl);
+        try {
+          localStorage.setItem("7h_profile_avatar", dataUrl);
+        } catch {}
         await updateAvatar(dataUrl);
         setMessage({ text: "Profile & scheduling photo updated!", type: "success" });
       }
@@ -48,9 +58,14 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
   const handleUrlSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!urlInput.trim()) return;
+    const trimmed = urlInput.trim();
+    if (!trimmed) return;
     setIsUploading(true);
-    await updateAvatar(urlInput.trim());
+    setPreviewUrl(trimmed);
+    try {
+      localStorage.setItem("7h_profile_avatar", trimmed);
+    } catch {}
+    await updateAvatar(trimmed);
     setMessage({ text: "Photo URL updated!", type: "success" });
     setUrlInput("");
     setShowInput(false);
@@ -62,7 +77,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
       <div className="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-xl p-3">
         <div className="relative w-12 h-12 rounded-lg bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]/60 flex items-center justify-center overflow-hidden shrink-0">
           {isAvatarUrl ? (
-            <img src={currentAvatar} alt="Profile" className="w-full h-full object-cover" />
+            <img src={activeAvatar} alt="Profile" className="w-full h-full object-cover" />
           ) : (
             <span className="text-purple-300 font-black text-sm">{initials}</span>
           )}
@@ -71,7 +86,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           <p className="text-xs font-black uppercase tracking-wider text-white truncate">
             {member?.name || "Official Profile Photo"}
           </p>
-          <p className="text-[10px] text-white/40">
+          <p className="text-[var(--font-size-3xs)] text-white/40">
             {isAvatarUrl ? "Photo active for scheduling & site" : "No photo set — upload one below"}
           </p>
         </div>
@@ -121,11 +136,11 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         {/* Preview Box */}
         <div className="relative w-24 h-24 rounded-xl bg-purple-950/40 border-2 border-[var(--color-accent)]/70 flex items-center justify-center overflow-hidden shrink-0 shadow-lg group">
           {isAvatarUrl ? (
-            <img src={currentAvatar} alt="Profile preview" className="w-full h-full object-cover" />
+            <img src={activeAvatar} alt="Profile preview" className="w-full h-full object-cover" />
           ) : (
             <div className="text-center">
               <span className="text-2xl font-black text-purple-300 tracking-tighter">{initials}</span>
-              <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-0.5">No Photo</p>
+              <p className="text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mt-0.5">No Photo</p>
             </div>
           )}
           <button
@@ -150,7 +165,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[#9d3cff] text-white font-black text-xs uppercase tracking-wider rounded-lg transition-all shadow-[0_0_15px_rgba(133,29,239,0.3)] cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-wider rounded-lg transition-all shadow-[0_0_15px_rgba(133,29,239,0.3)] cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
               {isUploading ? "Uploading..." : "Upload Photo File"}
@@ -183,7 +198,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             </form>
           )}
 
-          <p className="text-[11px] text-white/40 leading-relaxed">
+          <p className="text-[var(--font-size-2xs)] text-white/40 leading-relaxed">
             Supported formats: JPG, PNG, WebP (max 5MB). Photo syncs automatically across your scheduling profile and header avatar.
           </p>
         </div>

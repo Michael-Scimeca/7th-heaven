@@ -50,7 +50,7 @@ export default function EmailPreviewPage() {
   };
 
   return (
-    <div className="h-screen bg-[#050508] pt-[72px] overflow-hidden">
+    <div className="h-screen bg-[var(--color-bg-deep)] pt-[72px] overflow-hidden">
       <div className="flex h-full overflow-hidden">
 
         {/* ── Sidebar ── */}
@@ -159,10 +159,10 @@ export default function EmailPreviewPage() {
           )}
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto bg-[#111] flex justify-center p-8">
+          <div className="flex-1 overflow-y-auto bg-[var(--color-bg-card)] flex justify-center p-8">
             {viewMode === "preview" ? (
               <div className="w-full max-w-[620px]">
-                <div className="bg-[#050508] rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+                <div className="bg-[var(--color-bg-deep)] rounded-2xl overflow-hidden shadow-2xl border border-white/5">
                   <iframe
                     srcDoc={html}
                     className="w-full border-0"
@@ -172,7 +172,7 @@ export default function EmailPreviewPage() {
                 </div>
               </div>
             ) : (
-              <pre className="w-full max-w-[900px] bg-[#0a0a0f] border border-white/5 rounded-2xl p-6 text-sm text-white/50 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">
+              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 text-sm text-white/50 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">
                 {html}
               </pre>
             )}

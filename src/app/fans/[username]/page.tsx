@@ -379,7 +379,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 effectiveMember?.role === 'event_planner' ? 'bg-fuchsia-500' :
                 ((dashboardView === 'cruise' || effectiveMember?.signup_source === 'cruise_member_signup') ? 'bg-cyan-400 text-black' : 'bg-[var(--color-accent)]')
               } border-2 border-[var(--color-bg-primary)] flex items-center justify-center`}>
-                <span className="text-[10px]">
+                <span className="text-[var(--font-size-3xs)]">
                   {effectiveMember?.role === 'admin' ? '🛡️' :
                    effectiveMember?.role === 'crew' ? '🛡️' :
                    effectiveMember?.role === 'event_planner' ? '📋' :
@@ -557,7 +557,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {cruiseItinerary.map(day => (
-                        <div key={day.id} className="bg-[#0a0a0f] border border-white/5 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
+                        <div key={day.id} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
                           <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 transition-all duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
@@ -588,7 +588,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-1">
                 <div className="sticky top-32 flex flex-col gap-6">
                   {/* Passengers Widget */}
-                  <div className="bg-[#0b0b12] border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
+                  <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-all duration-500 pointer-events-none" />
                     <div className="flex justify-between items-end mb-5 relative z-10">
                       <div>
@@ -604,12 +604,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         {['JD', 'SL', 'MT', 'AB', 'RC', 'KW'].map((initials, i) => {
                           const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-amber-500', 'bg-violet-500', 'bg-pink-500'];
                           return (
-                            <div key={i} className={`w-10 h-10 rounded-full border-2 border-[#0b0b12] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
+                            <div key={i} className={`w-10 h-10 rounded-full border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
                               <span className="text-xs font-black text-white/90 tracking-widest">{initials}</span>
                             </div>
                           );
                         })}
-                        <div className="w-10 h-10 rounded-full border-2 border-[#0b0b12] bg-[var(--color-accent)]/20 flex items-center justify-center shadow-lg text-[var(--color-accent)] font-bold text-xs">
+                        <div className="w-10 h-10 rounded-full border-2 border-[var(--color-bg-surface)] bg-[var(--color-accent)]/20 flex items-center justify-center shadow-lg text-[var(--color-accent)] font-bold text-xs">
                           +406
                         </div>
                       </div>
@@ -803,7 +803,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         })()}
 
         {/* 📍 Upcoming Shows */}
-        <div className="mb-8 p-6 bg-[#0a0a0f]/80 border border-white/5 rounded-2xl">
+        <div className="mb-8 p-6 bg-[var(--color-bg-surface)]/80 border border-white/5 rounded-2xl">
             <div className="flex items-center justify-between mb-4">
               <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-emerald-400">📍 Upcoming Shows</span>
               <Link href="/#tour" className="text-xs text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">All Dates →</Link>
@@ -843,7 +843,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         </div>
 
         {/* 🔔 Specific Show Alerts */}
-        <div className="mb-8 p-6 bg-[#0a0a0f]/80 border border-white/5 rounded-2xl">
+        <div className="mb-8 p-6 bg-[var(--color-bg-surface)]/80 border border-white/5 rounded-2xl">
           <div className="flex items-center justify-between mb-4">
             <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-purple-400">
               🔔 Subscribed Show Alerts
@@ -1116,7 +1116,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             <ProfilePhotoUploader />
             
             {/* VIP Inbox */}
-            <div className="bg-[#0a0a0f]/80 border border-white/5 p-6 flex flex-col justify-between hover:border-white/10 transition-colors">
+            <div className="bg-[var(--color-bg-surface)]/80 border border-white/5 p-6 flex flex-col justify-between hover:border-white/10 transition-colors">
               <div className="mb-6 border-b border-white/10 pb-4">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#3b82f6]">
@@ -1134,7 +1134,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   <div key={msg.id || i} className={`group cursor-pointer p-3 -mx-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
                     <div className="flex items-start gap-3">
                       <div className={`w-8 h-8 rounded-full ${msg.color === 'yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
-                        <span className="text-[10px]">{msg.icon}</span>
+                        <span className="text-[var(--font-size-3xs)]">{msg.icon}</span>
                       </div>
                       <div>
                         <p className={`text-sm font-bold text-white transition-colors ${msg.color === 'yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
@@ -1163,7 +1163,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
         {/* 🛍️ Merch Quick Shop */}
         {merch.length > 0 && (
-          <div className="mt-8 p-6 bg-[#0a0a0f]/80 border border-white/5 rounded-2xl">
+          <div className="mt-8 p-6 bg-[var(--color-bg-surface)]/80 border border-white/5 rounded-2xl">
             <div className="flex items-center justify-between mb-5">
               <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-fuchsia-400">🛍️ Quick Shop</span>
               <Link href="/store" className="text-xs text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">Full Store →</Link>

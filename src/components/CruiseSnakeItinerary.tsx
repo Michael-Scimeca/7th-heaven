@@ -618,7 +618,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         {showSettings && mounted && createPortal(
           <div 
             data-settings-panel
-            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[#060614]/40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-right duration-300 opacity-100"
+            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[var(--color-bg-deep)]/40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-right duration-300 opacity-100"
             style={{ zIndex: 999999, pointerEvents: 'auto' }}
           >
             <style>{`
@@ -632,7 +632,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               }
             `}</style>
 
-            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 bg-[#060614]/60 pt-1 z-10">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 bg-[var(--color-bg-deep)]/60 pt-1 z-10">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚙️</span>
                 <div>
@@ -663,7 +663,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer h-2"
                 />
-                <div className="flex justify-between text-[10px] text-white/50 font-bold uppercase tracking-wider">
+                <div className="flex justify-between text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-wider">
                   <span>0.2x (Slow Motion)</span>
                   <span>1.0x (1:1 Viewport Lock)</span>
                   <span>4.0x (Hyper Speed)</span>
@@ -830,7 +830,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         <button
                           key={act.id}
                           onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                          className={`flex-1 py-1.5 px-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${
+                          className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all ${
                             (tuning.nodeAction ?? 'hide') === act.id
                               ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
                               : 'bg-white/5 text-white/60 hover:bg-white/10'
@@ -959,7 +959,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             </div>
 
             {/* Actions Bar */}
-            <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 bg-[#060614]/40 backdrop-blur-md pb-1 z-10">
+            <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 bg-[var(--color-bg-deep)]/40 backdrop-blur-md pb-1 z-10">
               <button
                 onClick={handleResetTuning}
                 className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-white/10 cursor-pointer"
@@ -1213,7 +1213,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   borderColor: `color-mix(in srgb, ${themeColor} 40%, transparent)`,
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border text-[11px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
+                className={`whitespace-nowrap border text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
                   isActive ? 'scale-105 opacity-100' : 'opacity-85'
                 }`}
               >

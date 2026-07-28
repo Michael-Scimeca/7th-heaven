@@ -16,6 +16,7 @@ import { VisualEditing } from "next-sanity/visual-editing";
 
 import { draftMode } from "next/headers";
 import { PageNav } from "@/components/PageNav";
+import { DevPerformancePanel } from "@/components/DevPerformancePanel";
 import DirectMessageChat from "@/components/DirectMessageChat";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -158,7 +159,10 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(bandLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
+      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable} preloading`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
+        {/* Blocking script: remove .preloading immediately for return visitors
+            so content is visible before React hydrates. Runs synchronously. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("7h_preloader_shown")==="true"){document.body.classList.remove("preloading")}}catch(e){}` }} />
         <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
           if (window.location.search.includes('bypass=true')) {
             var style = document.createElement('style');
@@ -172,7 +176,7 @@ export default async function RootLayout({
         <Providers>
           <ScrollToTop />
           <SmoothScroll>
-            <div className="flex flex-col min-h-screen">
+            <div id="page-content-wrapper" className="flex flex-col min-h-screen">
               <Header />
               <PageTransition>
                 {children}
@@ -182,6 +186,8 @@ export default async function RootLayout({
               {isDraftMode && <VisualEditing />}
               
               <DirectMessageChat />
+              <PageNav />
+              <DevPerformancePanel />
             </div>
           </SmoothScroll>
         </Providers>

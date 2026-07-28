@@ -195,7 +195,7 @@ export default function VideoPage() {
                     </button>
                   )}
                 </div>
-                <div className="px-3 py-3 bg-[#0a0a10] border-b border-r border-white/[0.04]">
+                <div className="px-3 py-3 bg-[var(--color-bg-surface)] border-b border-r border-white/[0.04]">
                   <p className="text-sm font-bold text-white truncate group-hover:text-[var(--color-accent)] transition-colors">{video.title}</p>
                   <div className="flex items-center gap-2 text-xs text-white/30 mt-1"><span>{video.year}</span>{video.viewCount && <><span>·</span><span>{video.viewCount} views</span></>}</div>
                 </div>

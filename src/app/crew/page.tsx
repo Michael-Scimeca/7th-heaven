@@ -36,7 +36,7 @@ export default function CrewPortalPage() {
 
   // Full-screen loading / redirect state
   return (
-    <div className="min-h-screen bg-[#050508] flex items-center justify-center">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center">
       <div className="text-center">
         <div className="w-10 h-10 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
         <p className="text-white/30 text-xs uppercase tracking-widest font-bold">

@@ -310,11 +310,11 @@ export default function CruiseVideoManager() {
                   </div>
 
                   {vid.featured && (
-                    <span className="absolute top-2 right-2 bg-amber-400 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded shadow">
+                    <span className="absolute top-2 right-2 bg-amber-400 text-black text-[var(--font-size-4xs)] font-black uppercase px-2 py-0.5 rounded shadow">
                       ⭐ Featured
                     </span>
                   )}
-                  <span className="absolute bottom-2 left-2 bg-black/80 text-cyan-300 text-[10px] font-bold uppercase px-2.5 py-0.5 rounded border border-cyan-500/30">
+                  <span className="absolute bottom-2 left-2 bg-black/80 text-cyan-300 text-[var(--font-size-3xs)] font-bold uppercase px-2.5 py-0.5 rounded border border-cyan-500/30">
                     {vid.category}
                   </span>
                 </div>

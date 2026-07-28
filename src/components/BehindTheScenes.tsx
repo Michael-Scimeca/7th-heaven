@@ -124,7 +124,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {btsVideos.slice(1).map((video) => (
               <div key={video.id} className="group">
-                <div className="relative aspect-video overflow-hidden bg-[#12121a] border border-white/10">
+                <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] border border-white/10">
                   {playingId === `bts-${video.id}` ? (
                     <InlineYTPlayer
                       videoId={video.id}

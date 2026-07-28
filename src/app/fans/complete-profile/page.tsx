@@ -107,7 +107,7 @@ export default function CompleteProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050508] text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
           <p className="text-sm font-bold uppercase tracking-widest text-white/40">Loading your profile...</p>
@@ -117,10 +117,10 @@ export default function CompleteProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
         {/* Card */}
-        <div className="bg-[#0c0c18] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
           {/* Accent bar */}
           <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
 
@@ -153,7 +153,7 @@ export default function CompleteProfilePage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               {/* Username */}
               <div>
-                <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">
+                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
                   Choose Your Username
                 </label>
                 <div className="relative">
@@ -168,12 +168,12 @@ export default function CompleteProfilePage() {
                     required
                   />
                 </div>
-                <p className="text-[10px] text-white/20 mt-1">This is your public handle. Letters, numbers &amp; underscores only.</p>
+                <p className="text-[var(--font-size-3xs)] text-white/20 mt-1">This is your public handle. Letters, numbers &amp; underscores only.</p>
               </div>
 
               {/* Notification Preferences */}
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">
+                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
                   Notification Preferences
                 </label>
 
@@ -202,7 +202,7 @@ export default function CompleteProfilePage() {
                 {/* Zip code */}
                 {wantNotifications && (
                   <div className="ml-1">
-                    <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
+                    <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
                     <input
                       type="text"
                       value={zipCode}
@@ -238,7 +238,7 @@ export default function CompleteProfilePage() {
 
               {/* Info callout */}
               <div className="bg-white/[0.02] border border-white/5 rounded-lg px-4 py-3">
-                <p className="text-[10px] text-white/30 leading-relaxed">
+                <p className="text-[var(--font-size-3xs)] text-white/30 leading-relaxed">
                   💡 <strong className="text-white/50">Tip:</strong> You can always change these preferences later from your Fan Dashboard settings. You can also follow specific shows to get notified about just the ones you care about.
                 </p>
               </div>
@@ -255,7 +255,7 @@ export default function CompleteProfilePage() {
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
 
-              <p className="text-[10px] text-white/25 text-center leading-relaxed">
+              <p className="text-[var(--font-size-3xs)] text-white/25 text-center leading-relaxed">
                 By continuing you confirm you are 13+ and agree to our{" "}
                 <a href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</a> &amp;{" "}
                 <a href="/terms" className="underline hover:text-white/40 transition-colors">Terms</a>.

@@ -9,7 +9,7 @@ export default function HeroDemoPage() {
   const [active, setActive] = useState<Layout>("A");
 
   return (
-    <div className="bg-[#050508] min-h-screen">
+    <div className="bg-[var(--color-bg-deep)] min-h-screen">
       {/* Layout Switcher */}
       <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-2xl">
         <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Layout</p>
@@ -381,8 +381,8 @@ export default function HeroDemoPage() {
 
                 {/* Dashed separator */}
                 <div className="border-t-2 border-dashed border-white/[0.1] mb-8 relative">
-                  <div className="absolute -left-12 -top-4 w-8 h-8 rounded-full bg-[#050508]" />
-                  <div className="absolute -right-12 -top-4 w-8 h-8 rounded-full bg-[#050508]" />
+                  <div className="absolute -left-12 -top-4 w-8 h-8 rounded-full bg-[var(--color-bg-deep)]" />
+                  <div className="absolute -right-12 -top-4 w-8 h-8 rounded-full bg-[var(--color-bg-deep)]" />
                 </div>
 
                 <div className="flex items-center justify-between">

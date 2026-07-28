@@ -33,11 +33,11 @@ class MapErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="w-full h-[400px] bg-[#14141c]/60 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-3">
+        <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-3">
           <p className="text-xs text-white/50">Map reloading...</p>
           <button
             onClick={() => this.setState({ hasError: false })}
-            className="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-black text-[10px] font-bold uppercase rounded cursor-pointer border-none"
+            className="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-black text-[var(--font-size-3xs)] font-bold uppercase rounded cursor-pointer border-none"
           >
             Reset Map
           </button>

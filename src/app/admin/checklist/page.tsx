@@ -69,7 +69,7 @@ export default function SetupChecklistPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050508] text-white flex items-center justify-center pt-[72px]">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center pt-[72px]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
           <p className="text-sm font-bold uppercase tracking-widest text-white/40">Loading status dashboard...</p>
@@ -81,7 +81,7 @@ export default function SetupChecklistPage() {
   const activeConnected = countConnected();
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white pt-[72px] pb-16">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-[72px] pb-16">
       <div className="site-container max-w-6xl mx-auto px-4 mt-8">
         
         {/* Header */}
@@ -846,7 +846,7 @@ export default function SetupChecklistPage() {
           <p className="text-sm text-white/50 mb-6 leading-relaxed">
             All integrations are managed through environment variables inside your root file: <code className="font-mono text-white">.env.local</code>. Make sure to restart your local development server in the terminal after editing this file to apply changes:
           </p>
-          <pre className="bg-[#030305] p-5 rounded-2xl text-xs font-mono border border-white/5 overflow-x-auto text-white/40 leading-relaxed">
+          <pre className="bg-[var(--color-bg-primary)] p-5 rounded-2xl text-xs font-mono border border-white/5 overflow-x-auto text-white/40 leading-relaxed">
 {`# Sample setup format inside your .env.local:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsIn...

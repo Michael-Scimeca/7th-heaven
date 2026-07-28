@@ -46,11 +46,11 @@ export default function GridLayoutDemo() {
   const catNames = categories.map(c => c.category);
 
   return (
-    <div className="bg-[#050508] min-h-screen pt-[72px]">
+    <div className="bg-[var(--color-bg-deep)] min-h-screen pt-[72px]">
       <Switcher active={active} set={setActive} />
 
       {/* Shared nav */}
-      <div className="sticky top-[72px] z-40 bg-[#050508]/90 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
         <div className="site-container py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <CatTabs cats={catNames} active={cat} set={setCat} />
           <p className="text-xs text-white/20 font-bold uppercase tracking-widest">{videos.length} Videos · Layout {active}</p>
@@ -83,7 +83,7 @@ export default function GridLayoutDemo() {
       {active === "B" && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-white/[0.04]">
           {videos.map(v => (
-            <div key={v.id} className="relative aspect-video group cursor-pointer overflow-hidden bg-[#0a0a10]">
+            <div key={v.id} className="relative aspect-video group cursor-pointer overflow-hidden bg-[var(--color-bg-surface)]">
               <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -111,7 +111,7 @@ export default function GridLayoutDemo() {
                 </div>
                 {v.duration && <span className="absolute bottom-2 right-2 bg-black/70 text-white text-2xs font-bold px-1.5 py-0.5 rounded">{v.duration}</span>}
               </div>
-              <div className="px-3 py-3 bg-[#0a0a10] border-b border-r border-white/[0.04]">
+              <div className="px-3 py-3 bg-[var(--color-bg-surface)] border-b border-r border-white/[0.04]">
                 <p className="text-sm font-bold text-white truncate group-hover:text-[var(--color-accent)] transition-colors">{v.title}</p>
                 <div className="flex items-center gap-2 text-2xs text-white/25 mt-0.5"><span>{v.year}</span>{v.viewCount && <><span>·</span><span>{v.viewCount} views</span></>}</div>
               </div>
@@ -156,7 +156,7 @@ export default function GridLayoutDemo() {
                   </div>
                 ))}
                 {/* Fill empties */}
-                {row.length < 4 && Array.from({ length: 4 - row.length }).map((_, i) => <div key={`empty-${i}`} className="aspect-video bg-[#0a0a10]" />)}
+                {row.length < 4 && Array.from({ length: 4 - row.length }).map((_, i) => <div key={`empty-${i}`} className="aspect-video bg-[var(--color-bg-surface)]" />)}
               </div>
             );
           })}
@@ -167,7 +167,7 @@ export default function GridLayoutDemo() {
       {active === "E" && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[2px]">
           {videos.map(v => (
-            <div key={v.id} className="relative group cursor-pointer overflow-hidden bg-[#0a0a10]">
+            <div key={v.id} className="relative group cursor-pointer overflow-hidden bg-[var(--color-bg-surface)]">
               <div className="aspect-video relative overflow-hidden">
                 <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover brightness-75 group-hover:brightness-100 group-hover:scale-105 transition-all duration-500" />
                 <div className="absolute inset-0 border-2 border-transparent group-hover:border-[var(--color-accent)] transition-colors" />
@@ -176,7 +176,7 @@ export default function GridLayoutDemo() {
                 </div>
               </div>
               {/* Expanding info panel */}
-              <div className="max-h-0 group-hover:max-h-24 overflow-hidden transition-all duration-300 ease-out bg-[#0d0d14] border-t border-[var(--color-accent)]/20">
+              <div className="max-h-0 group-hover:max-h-24 overflow-hidden transition-all duration-300 ease-out bg-[var(--color-bg-surface)] border-t border-[var(--color-accent)]/20">
                 <div className="p-3">
                   <p className="text-sm font-bold text-white truncate">{v.title}</p>
                   <div className="flex items-center justify-between mt-1">

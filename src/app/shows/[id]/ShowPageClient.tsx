@@ -430,7 +430,7 @@ export default function ShowPageClient({
           {isPast && (
             <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
               {/* Notify Me Column */}
-              <div className="bg-[#0c0c14] border border-white/5 p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+              <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-2xs font-black text-purple-400 uppercase tracking-widest mb-4">
@@ -473,7 +473,7 @@ export default function ShowPageClient({
               </div>
 
               {/* Video Embed Column */}
-              <div className="bg-[#0c0c14] border border-white/5 p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+              <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-2xs font-black text-red-400 uppercase tracking-widest mb-4">

@@ -88,7 +88,7 @@ export default function CruiseVideoGallery() {
             <div
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
-              className="group bg-[#0a0a14] border border-white/10 hover:border-cyan-400/50 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 cursor-pointer shadow-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:-translate-y-1 text-left"
+              className="group bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-400/50 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 cursor-pointer shadow-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:-translate-y-1 text-left"
             >
               {/* Poster Thumbnail */}
               <div className="relative aspect-video bg-black/90 overflow-hidden">
@@ -103,12 +103,12 @@ export default function CruiseVideoGallery() {
                   </div>
                 </div>
 
-                <span className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-cyan-300 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-lg border border-cyan-500/30">
+                <span className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-cyan-300 text-[var(--font-size-3xs)] font-black uppercase tracking-wider px-3 py-1 rounded-lg border border-cyan-500/30">
                   {vid.category}
                 </span>
 
                 {vid.featured && (
-                  <span className="absolute top-3 right-3 bg-amber-400 text-black text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded shadow-lg">
+                  <span className="absolute top-3 right-3 bg-amber-400 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-widest px-2.5 py-0.5 rounded shadow-lg">
                     ⭐ Featured
                   </span>
                 )}
@@ -140,10 +140,10 @@ export default function CruiseVideoGallery() {
       {/* Full-screen Video Player Modal */}
       {activeVideo && (
         <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
-          <div className="relative w-full max-w-5xl bg-[#080812] border-2 border-cyan-400 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.3)]">
+          <div className="relative w-full max-w-5xl bg-[var(--color-bg-deep)] border-2 border-cyan-400 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.3)]">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
-                <span className="text-[10px] font-black uppercase text-cyan-400 tracking-widest block">
+                <span className="text-[var(--font-size-3xs)] font-black uppercase text-cyan-400 tracking-widest block">
                   {activeVideo.category}
                 </span>
                 <h3 className="text-white font-black text-base md:text-xl uppercase tracking-wide">

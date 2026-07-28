@@ -84,7 +84,7 @@ export function CalendarPicker({
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
-    <div className="bg-[#0a0a0f] border border-[var(--color-accent)]/20 p-6 rounded-2xl w-full">
+    <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-6 rounded-2xl w-full">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-white font-bold tracking-widest uppercase text-sm">{label} {required && <span className="text-[var(--color-accent)]">*</span>}</h3>
@@ -102,7 +102,7 @@ export function CalendarPicker({
           </button>
 
           {showMonthPicker && (
-            <div className="absolute z-50 top-full mt-3 right-0 w-64 bg-[#0c0c18] border border-white/10 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
+            <div className="absolute z-50 top-full mt-3 right-0 w-64 bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
               <div className="flex items-center justify-between mb-3">
                 <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear() - 1, currentMonth.getMonth(), 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
                 <span className="text-sm font-bold text-white">{currentMonth.getFullYear()}</span>
@@ -202,7 +202,7 @@ export function CalendarPicker({
                     <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500" />
                   )}
                   {slotsForDay.length > 1 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-fuchsia-600 border border-white/20 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-scale-in">
+                    <span className="absolute -top-1.5 -right-1.5 bg-fuchsia-600 border border-white/20 text-white text-[var(--font-size-3xs)] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-scale-in">
                       {slotsForDay.length}x
                     </span>
                   )}
@@ -225,9 +225,9 @@ export function CalendarPicker({
                   onChange={(e) => onStartTimeChange(e.target.value)}
                   className="w-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-white font-bold tracking-wider py-4 px-5 rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
-                  <option value="" disabled className="bg-[#0a0a0f]">Select Start Time</option>
+                  <option value="" disabled className="bg-[var(--color-bg-surface)]">Select Start Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
-                    <option key={time} value={time} className="bg-[#0a0a0f]">{time}</option>
+                    <option key={time} value={time} className="bg-[var(--color-bg-surface)]">{time}</option>
                   ))}
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
@@ -243,9 +243,9 @@ export function CalendarPicker({
                   onChange={(e) => onEndTimeChange(e.target.value)}
                   className="w-full bg-white/[0.03] border border-white/10 text-white font-bold tracking-wider py-4 px-5 rounded-xl outline-none focus:border-white/30 transition-all appearance-none cursor-pointer"
                 >
-                  <option value="" disabled className="bg-[#0a0a0f]">Select End Time</option>
+                  <option value="" disabled className="bg-[var(--color-bg-surface)]">Select End Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(time => (
-                    <option key={time} value={time} className="bg-[#0a0a0f]">{time}</option>
+                    <option key={time} value={time} className="bg-[var(--color-bg-surface)]">{time}</option>
                   ))}
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">

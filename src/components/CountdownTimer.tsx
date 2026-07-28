@@ -69,7 +69,7 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
      </span>
-     <span className={`font-black uppercase tracking-[0.2em] text-white ${compact ? 'text-[7px]' : 'text-xs'}`}>LIVE NOW</span>
+     <span className={`font-black uppercase tracking-[0.2em] text-white ${compact ? 'text-[var(--font-size-5xs)]' : 'text-xs'}`}>LIVE NOW</span>
     </div>
    );
   }
@@ -101,9 +101,9 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
        >
         {String(u.value).padStart(2, "0")}
        </span>
-       <span className={`uppercase tracking-wider ${compact ? 'text-[5px] font-medium text-white/20 mt-0.5' : 'text-[10px] font-extrabold text-white/35 mt-1.5 tracking-widest'}`}>{u.label}</span>
+       <span className={`uppercase tracking-wider ${compact ? 'text-[var(--font-size-5xs)] font-medium text-white/20 mt-0.5' : 'text-[var(--font-size-3xs)] font-extrabold text-white/35 mt-1.5 tracking-widest'}`}>{u.label}</span>
       </div>
-      {i < 3 && <span className={`text-white/20 font-light ${compact ? 'text-[10px]' : 'text-3xl'}`}>:</span>}
+      {i < 3 && <span className={`text-white/20 font-light ${compact ? 'text-[var(--font-size-3xs)]' : 'text-3xl'}`}>:</span>}
      </div>
     ))}
    </div>

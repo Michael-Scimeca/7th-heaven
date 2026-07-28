@@ -371,7 +371,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
   if (isLoading) {
     return (
-      <div className="bg-[#0b0b12] border border-white/5 rounded-2xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center">
+      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center">
         <div className="w-6 h-6 border-2 border-white/10 border-t-[var(--color-accent)] rounded-full animate-spin" />
         <p className="text-xs font-bold text-white/20 uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
@@ -380,7 +380,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
   if (!chatEnabled) {
     return (
-      <div className="bg-[#0b0b12] border border-white/5 rounded-2xl flex flex-col h-[320px] overflow-hidden relative group">
+      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl flex flex-col h-[320px] overflow-hidden relative group">
         <div className="bg-black/40 px-5 py-4 border-b border-white/5 flex items-center justify-between z-10 relative">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-lg opacity-50">
@@ -388,7 +388,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
             </div>
             <div>
               <h3 className="font-bold text-white text-sm tracking-wide">Passenger Lounge</h3>
-              <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider">Chat Temporarily Disabled</span>
+              <span className="text-[var(--font-size-3xs)] text-white/40 font-bold uppercase tracking-wider">Chat Temporarily Disabled</span>
             </div>
           </div>
         </div>
@@ -411,13 +411,13 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
           <div>
             <h3 className="font-black text-white text-xs tracking-wide flex items-center gap-1.5">
               Passenger Lounge
-              <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 px-1.5 py-0.5 rounded">
+              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 px-1.5 py-0.5 rounded">
                 LIVE
               </span>
             </h3>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]" />
-              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Cruisers Online</span>
+              <span className="text-[var(--font-size-3xs)] font-bold text-emerald-400 uppercase tracking-widest">Cruisers Online</span>
             </div>
           </div>
         </div>
@@ -425,13 +425,13 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
           {isCrewOrAdmin && (
             <button
               onClick={() => setIsEditingPin(!isEditingPin)}
-              className="text-[10px] font-black uppercase tracking-wider bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 px-2 py-1 rounded transition-all cursor-pointer"
+              className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 px-2 py-1 rounded transition-all cursor-pointer"
             >
               {pinnedMessage ? '✏️ Edit Pin' : '📌 Add Pin'}
             </button>
           )}
           {messages.length > 0 && (
-            <span className="min-w-[26px] h-[26px] flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-[11px] font-black px-2 shadow-[0_0_12px_rgba(217,70,239,0.5)] border border-purple-400/40">
+            <span className="min-w-[26px] h-[26px] flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-[var(--font-size-2xs)] font-black px-2 shadow-[0_0_12px_rgba(217,70,239,0.5)] border border-purple-400/40">
               {messages.length > 99 ? '99+' : messages.length}
             </span>
           )}
@@ -440,7 +440,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
       {isEditingPin && isCrewOrAdmin && (
         <div className="bg-amber-950/80 border-b border-amber-500/40 p-3 z-20 animate-[slideDown_0.2s_ease-out]">
-          <label className="text-[10px] font-black uppercase tracking-wider text-amber-300 block mb-1.5">
+          <label className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-amber-300 block mb-1.5">
             📢 Update Crew Announcement Banner (Broadcasts to all fans)
           </label>
           <div className="flex gap-2">
@@ -474,11 +474,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
           <span className="text-amber-400 text-xs shrink-0">📌</span>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-amber-300 mb-0.5">Crew Announcement</h4>
+              <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-amber-300 mb-0.5">Crew Announcement</h4>
               {isCrewOrAdmin && (
                 <button
                   onClick={() => setIsEditingPin(true)}
-                  className="text-[9px] text-amber-400/70 hover:text-amber-200 underline uppercase"
+                  className="text-[var(--font-size-4xs)] text-amber-400/70 hover:text-amber-200 underline uppercase"
                 >
                   Edit
                 </button>
@@ -493,7 +493,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         <div className="bg-amber-500/15 border-b border-amber-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
           <span className="text-amber-400 text-xs shrink-0">⚠️</span>
           <div className="flex-1">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Warning Alert</h4>
+            <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Warning Alert</h4>
             <p className="text-amber-100/90 text-xs font-medium leading-relaxed">
               You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
             </p>
@@ -505,7 +505,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         <div className="bg-red-500/15 border-b border-red-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
           <span className="text-red-400 text-xs shrink-0">🚫</span>
           <div className="flex-1">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
+            <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
             <p className="text-red-100/90 text-xs font-medium leading-relaxed">
               You have been permanently banned from sending messages in this chat.
             </p>
@@ -557,15 +557,15 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                     <span className={`text-xs font-bold ${getSenderNameColor(msg.sender_name, msg.sender_role)}`}>
                       {msg.sender_name}
                     </span>
-                    <span className={`text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
+                    <span className={`text-[var(--font-size-4xs)] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${getRoleColor(msg.sender_role)}`}>
                       {msg.sender_role}
                     </span>
                     {hasAdminTag && (
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-300 bg-amber-500/20 border border-amber-500/40 px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm animate-pulse">
+                      <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-amber-300 bg-amber-500/20 border border-amber-500/40 px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm animate-pulse">
                         👑 Question for Admin
                       </span>
                     )}
-                    <span className="text-[10px] text-white/40 ml-auto font-mono">
+                    <span className="text-[var(--font-size-3xs)] text-white/40 ml-auto font-mono">
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
@@ -581,7 +581,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 </div>
 
                 {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                  <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[#0b0b12]/95 border border-white/10 rounded-lg p-1 shadow-lg z-20">
+                  <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-lg p-1 shadow-lg z-20">
                     <button
                       onClick={() => handleWarn(msg.sender_name)}
                       title="Warn User"
@@ -621,7 +621,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
       <div className="py-2.5 border-t border-white/10 relative">
         {showTagMenu && (
           <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 rounded-xl p-2 shadow-2xl z-30 animate-[slideUp_0.15s_ease-out]">
-            <div className="text-[10px] font-black uppercase tracking-widest text-cyan-400 px-2 py-1 flex items-center justify-between">
+            <div className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 px-2 py-1 flex items-center justify-between">
               <span>Tag Admin / Crew Member</span>
               <button onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
             </div>
@@ -636,7 +636,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                   <span>{s.icon}</span>
                   <div className="truncate">
                     <span className="font-bold text-cyan-300">{s.tag}</span>
-                    <span className="text-[10px] text-white/40 block truncate">{s.label}</span>
+                    <span className="text-[var(--font-size-3xs)] text-white/40 block truncate">{s.label}</span>
                   </div>
                 </button>
               ))}
@@ -645,7 +645,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         )}
 
         {isArchived ? (
-          <div className="w-full bg-[#15151f] border border-white/10 rounded-xl px-4 py-3 text-sm text-white/40 text-center flex items-center justify-center gap-2">
+          <div className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white/40 text-center flex items-center justify-center gap-2">
             <span>🔒</span> This cruise chat has been archived.
           </div>
         ) : (
@@ -684,7 +684,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 </button>
               </div>
             </form>
-            <div className="flex items-center justify-between text-[9px] font-black text-cyan-400/60 uppercase tracking-[0.12em] mt-2 px-1">
+            <div className="flex items-center justify-between text-[var(--font-size-4xs)] font-black text-cyan-400/60 uppercase tracking-[0.12em] mt-2 px-1">
               <span>KEEP IT RATED PG-13</span>
               <button
                 type="button"

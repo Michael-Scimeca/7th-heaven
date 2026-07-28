@@ -462,25 +462,45 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   setMember(prev => prev ? { ...prev, notificationRadius: miles } : prev);
  };
 
- const updateAvatar = async (avatarUrl: string) => {
-  setMember(prev => prev ? { ...prev, avatar: avatarUrl } : prev);
-  try {
-   const stored = localStorage.getItem("7h_member");
-   if (stored) {
-    const parsed = JSON.parse(stored);
-    parsed.avatar = avatarUrl;
-    localStorage.setItem("7h_member", JSON.stringify(parsed));
-   }
-   const { createClient } = await import("@/utils/supabase/client");
-   const supabase = createClient();
-   const { data: { user } } = await supabase.auth.getUser();
-   if (user) {
-    await supabase.from("profiles").update({ avatar_url: avatarUrl }).eq("id", user.id);
-   }
-  } catch (err) {
-   console.error("Failed to update avatar:", err);
-  }
- };
+  const updateAvatar = async (avatarUrl: string) => {
+    setMember(prev => {
+      if (!prev) {
+        return {
+          id: "dev-admin",
+          name: "Michael Scimeca",
+          username: "michael",
+          email: "mikeyscimeca@gmail.com",
+          joinDate: new Date().toISOString(),
+          avatar: avatarUrl,
+          points: 100,
+          tier: "Gold",
+          showsAttended: 10,
+          favoriteVenues: [],
+          notificationsEnabled: true,
+          notificationRadius: 25,
+          role: "admin",
+        };
+      }
+      return { ...prev, avatar: avatarUrl };
+    });
+    try {
+      localStorage.setItem("7h_profile_avatar", avatarUrl);
+      const stored = localStorage.getItem("7h_member");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        parsed.avatar = avatarUrl;
+        localStorage.setItem("7h_member", JSON.stringify(parsed));
+      }
+      const { createClient } = await import("@/utils/supabase/client");
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase.from("profiles").update({ avatar_url: avatarUrl }).eq("id", user.id);
+      }
+    } catch (err) {
+      console.error("Failed to update avatar:", err);
+    }
+  };
 
  return (
   <MemberContext.Provider value={{

@@ -56,7 +56,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-40"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       </button>
       {showCal && (
-        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[#0c0c18] border border-white/10 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
+        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
           <div className="flex items-center justify-between mb-3">
             <button type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
             <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-white/60 hover:text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
@@ -130,8 +130,8 @@ const SelectField = ({ label, options, required, ...props }: { label: string; op
     <select {...props} required={required}
       className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-lg text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
     >
-      <option value="" className="bg-[#0a0a0f]">Select</option>
-      {options.map(o => <option key={o} value={o} className="bg-[#0a0a0f]">{o}</option>)}
+      <option value="" className="bg-[var(--color-bg-surface)]">Select</option>
+      {options.map(o => <option key={o} value={o} className="bg-[var(--color-bg-surface)]">{o}</option>)}
     </select>
   </div>
 );
@@ -582,11 +582,11 @@ function BookPageContent() {
 
   if (submitted) {
     return (
-      <section className="min-h-screen flex items-center justify-center bg-[#050508] px-6 relative overflow-hidden">
+      <section className="min-h-screen flex items-center justify-center bg-[var(--color-bg-deep)] px-6 relative overflow-hidden">
         {/* Background Glows */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] opacity-[0.05] rounded-full blur-[150px] pointer-events-none" />
 
-        <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[#0b0b12]/80 border border-white/5 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl">
+        <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[var(--color-bg-surface)]/80 border border-white/5 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl">
           <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 border border-[var(--color-accent)] rounded-2xl flex items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
@@ -613,7 +613,7 @@ function BookPageContent() {
                           onChange={e => setAccountEmail(e.target.value)}
                           autoFocus
                           disabled={pinSent || pinLoading}
-                          className="flex-1 bg-[#050508] border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
+                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
                         />
                         <button type="button" onClick={() => setEditingEmail(false)} className="text-base text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
                       </div>
@@ -636,7 +636,7 @@ function BookPageContent() {
                           value={accountPassword}
                           onChange={e => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
-                          className="flex-1 bg-[#050508] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
+                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
                         />
                         <button
                           type="button"
@@ -663,7 +663,7 @@ function BookPageContent() {
                           value={pinCode}
                           onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
                           disabled={pinLoading}
-                          className="flex-1 bg-[#050508] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all text-center tracking-[0.2em] font-mono disabled:opacity-50"
+                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all text-center tracking-[0.2em] font-mono disabled:opacity-50"
                         />
                         <button
                           type="button"
@@ -744,7 +744,7 @@ function BookPageContent() {
   }
 
   return (
-    <div className="bg-[#050508] min-h-screen relative overflow-clip">
+    <div className="bg-[var(--color-bg-deep)] min-h-screen relative overflow-clip">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
       
@@ -760,7 +760,7 @@ function BookPageContent() {
                 <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${
                   member.role === 'event_planner' ? 'bg-fuchsia-500' : 'bg-[var(--color-accent)]'
                 } border-2 border-[#050508] flex items-center justify-center`}>
-                  <span className="text-[9px]">{member.role === 'event_planner' ? '📋' : '★'}</span>
+                  <span className="text-[var(--font-size-4xs)]">{member.role === 'event_planner' ? '📋' : '★'}</span>
                 </span>
               </div>
               <div className="text-left">
@@ -891,7 +891,7 @@ function BookPageContent() {
           )}
 
           {/* Step 1: Event Schedule & Format */}
-          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
               <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">1</span>
               Event Schedule & Format
@@ -956,7 +956,7 @@ function BookPageContent() {
           </div>
 
           {/* Your Scheduled Shows (Full Width Grid) */}
-          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
             {bookingSlots.length === 0 ? (
               <div className="text-center py-12 border-2 border-dashed border-white/10 rounded-2xl bg-white/[0.01]">
                 <span className="text-4xl block mb-4">📅</span>
@@ -982,7 +982,7 @@ function BookPageContent() {
                     return (
                       <div 
                         key={slot.id} 
-                        className="bg-[#0a0a0f] border border-white/5 hover:border-[var(--color-accent)]/30 rounded-2xl p-6 relative group transition-all"
+                        className="bg-[var(--color-bg-surface)] border border-white/5 hover:border-[var(--color-accent)]/30 rounded-2xl p-6 relative group transition-all"
                       >
                         {/* Duplicate and Remove buttons */}
                         <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -995,7 +995,7 @@ function BookPageContent() {
                               };
                               setBookingSlots([...bookingSlots, newSlot]);
                             }}
-                            className="text-white/30 hover:text-[var(--color-accent)] transition-colors cursor-pointer text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg hover:bg-[var(--color-accent)]/10 border border-white/5 hover:border-[var(--color-accent)]/25"
+                            className="text-white/30 hover:text-[var(--color-accent)] transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg hover:bg-[var(--color-accent)]/10 border border-white/5 hover:border-[var(--color-accent)]/25"
                             title="Add another show on this date"
                           >
                             ➕ Add Another
@@ -1003,7 +1003,7 @@ function BookPageContent() {
                           <button 
                             type="button" 
                             onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                            className="text-white/30 hover:text-rose-400 transition-colors cursor-pointer text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/25"
+                            className="text-white/30 hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/25"
                             title="Remove this show"
                           >
                             ✕ Remove
@@ -1011,14 +1011,14 @@ function BookPageContent() {
                         </div>
 
                         <div className="mb-4">
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] block mb-1">Show #{index + 1}</span>
+                          <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] block mb-1">Show #{index + 1}</span>
                           <h5 className="text-base font-bold text-white tracking-wide">{formattedDate}</h5>
                         </div>
 
                         <div className="space-y-3 mt-4 border-t border-white/5 pt-4">
                           {/* Format */}
                           <div>
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Show Format</label>
+                            <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Show Format</label>
                             <div className="relative">
                               <select 
                                 value={slot.eventType}
@@ -1026,12 +1026,12 @@ function BookPageContent() {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                               >
-                                <option value="full_band" className="bg-[#050508]">🎸 Full Band</option>
-                                <option value="unplugged" className="bg-[#050508]">🎤 Unplugged</option>
-                                <option value="private" className="bg-[#050508]">🎉 Private Event</option>
-                                <option value="custom" className="bg-[#050508]">✨ Custom Booking</option>
+                                <option value="full_band" className="bg-[var(--color-bg-deep)]">🎸 Full Band</option>
+                                <option value="unplugged" className="bg-[var(--color-bg-deep)]">🎤 Unplugged</option>
+                                <option value="private" className="bg-[var(--color-bg-deep)]">🎉 Private Event</option>
+                                <option value="custom" className="bg-[var(--color-bg-deep)]">✨ Custom Booking</option>
                               </select>
                               <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -1046,7 +1046,7 @@ function BookPageContent() {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full mt-1.5 bg-[#050508] border border-[var(--color-accent)]/20 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                className="w-full mt-1.5 bg-[var(--color-bg-deep)] border border-[var(--color-accent)]/20 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
                               />
                             )}
                           </div>
@@ -1054,7 +1054,7 @@ function BookPageContent() {
                           {/* Times */}
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Start Time</label>
+                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Start Time</label>
                               <div className="relative">
                                 <select 
                                   value={slot.startTime}
@@ -1062,10 +1062,10 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                  className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                 >
                                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                    <option key={t} value={t} className="bg-[#050508]">{t}</option>
+                                    <option key={t} value={t} className="bg-[var(--color-bg-deep)]">{t}</option>
                                   ))}
                                 </select>
                                 <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
@@ -1074,7 +1074,7 @@ function BookPageContent() {
                               </div>
                             </div>
                             <div>
-                              <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-1.5">End Time</label>
+                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 block mb-1.5">End Time</label>
                               <div className="relative">
                                 <select 
                                   value={slot.endTime}
@@ -1082,10 +1082,10 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                  className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                 >
                                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(t => (
-                                    <option key={t} value={t} className="bg-[#050508]">{t}</option>
+                                    <option key={t} value={t} className="bg-[var(--color-bg-deep)]">{t}</option>
                                   ))}
                                 </select>
                                 <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
@@ -1099,8 +1099,8 @@ function BookPageContent() {
                         {/* Separate Contact/Venue details toggle buttons & form fields */}
                         <div className="mt-4 pt-4 border-t border-white/5">
                           <div className="mb-3">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-2">Contact & Venue Details</label>
-                            <div className="grid grid-cols-2 gap-1.5 bg-[#050508] p-1 rounded-xl border border-white/5">
+                            <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 block mb-2">Contact & Venue Details</label>
+                            <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 rounded-xl border border-white/5">
                               <button
                                 type="button"
                                 onClick={() => {
@@ -1116,7 +1116,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Share Main Info
                               </button>
@@ -1135,7 +1135,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Use Separate Info
                               </button>
@@ -1143,31 +1143,31 @@ function BookPageContent() {
                           </div>
                           
                           {!slot.useSeparateInfo ? (
-                            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl text-[10px] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
+                            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
                               <div className="flex justify-between items-start gap-2">
-                                <span className="font-bold text-white/20 uppercase tracking-widest text-[9px] mt-0.5">Contact:</span>
+                                <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
                                 <span className="text-white font-medium text-right break-all">
                                   {formData.name || <span className="text-white/20 italic">(empty)</span>}
-                                  {formData.email && <span className="block text-[9px] text-white/40 font-mono mt-0.5">{formData.email}</span>}
+                                  {formData.email && <span className="block text-[var(--font-size-4xs)] text-white/40 font-mono mt-0.5">{formData.email}</span>}
                                 </span>
                               </div>
                               <div className="flex justify-between items-start gap-2">
-                                <span className="font-bold text-white/20 uppercase tracking-widest text-[9px] mt-0.5">Venue:</span>
+                                <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Venue:</span>
                                 <span className="text-white font-medium text-right break-all">
                                   {formData.venueName || <span className="text-white/20 italic">(empty)</span>}
                                   {(formData.venueCity || formData.venueState) && (
-                                    <span className="block text-[9px] text-white/40 mt-0.5">{formData.venueCity || '—'}, {formData.venueState || '—'}</span>
+                                    <span className="block text-[var(--font-size-4xs)] text-white/40 mt-0.5">{formData.venueCity || '—'}, {formData.venueState || '—'}</span>
                                   )}
                                 </span>
                               </div>
-                              <p className="text-[9px] text-[var(--color-accent)] font-bold tracking-wide italic mt-2 pt-1.5 border-t border-white/5 text-right flex items-center justify-end gap-1">
+                              <p className="text-[var(--font-size-4xs)] text-[var(--color-accent)] font-bold tracking-wide italic mt-2 pt-1.5 border-t border-white/5 text-right flex items-center justify-end gap-1">
                                 <span>🔗 Link Active: Shares contact & venue data</span>
                               </p>
                             </div>
                           ) : (
                             <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.02] border border-white/5 rounded-xl">
                               <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
-                                <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
+                                <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
                                 <div className="flex gap-2">
                                   <button
                                     type="button"
@@ -1183,7 +1183,7 @@ function BookPageContent() {
                                       } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="text-[9px] font-bold text-[var(--color-accent)] hover:underline cursor-pointer"
+                                    className="text-[var(--font-size-4xs)] font-bold text-[var(--color-accent)] hover:underline cursor-pointer"
                                   >
                                     ⚡ Copy Main
                                   </button>
@@ -1208,7 +1208,7 @@ function BookPageContent() {
                                           }
                                         } catch {}
                                       }}
-                                      className="text-[9px] font-bold text-fuchsia-400 hover:underline cursor-pointer"
+                                      className="text-[var(--font-size-4xs)] font-bold text-fuchsia-400 hover:underline cursor-pointer"
                                     >
                                       ⚡ Load Last
                                     </button>
@@ -1218,7 +1218,7 @@ function BookPageContent() {
                               
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Contact Name</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Contact Name</label>
                                   <input 
                                     type="text"
                                     placeholder="e.g. Jane Doe"
@@ -1227,11 +1227,11 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
                                   />
                                 </div>
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Contact Email</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Contact Email</label>
                                   <input 
                                     type="email"
                                     placeholder="e.g. jane@email.com"
@@ -1240,13 +1240,13 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
                                   />
                                 </div>
                               </div>
                               
                               <div>
-                                <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Venue Name</label>
+                                <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Venue Name</label>
                                 <input 
                                   type="text"
                                   placeholder="e.g. House of Blues"
@@ -1255,13 +1255,13 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                  className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
                                 />
                               </div>
                               
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">City</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">City</label>
                                   <input 
                                     type="text"
                                     placeholder="Chicago"
@@ -1270,11 +1270,11 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
                                   />
                                 </div>
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">State</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">State</label>
                                   <input 
                                     type="text"
                                     placeholder="IL"
@@ -1283,7 +1283,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#050508] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
                                   />
                                 </div>
                               </div>
@@ -1295,10 +1295,10 @@ function BookPageContent() {
                           <button
                             type="button"
                             onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                            className="w-full text-left flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] hover:text-purple-300 transition-colors"
+                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)] hover:text-purple-300 transition-colors"
                           >
                             <span>📢 Tour Page Details {expandedMetadata[slot.id] ? "▼" : "▶"}</span>
-                            <span className="text-[9px] text-white/30 lowercase font-normal">(optional: age limit, tickets, notes)</span>
+                            <span className="text-[var(--font-size-4xs)] text-white/30 lowercase font-normal">(optional: age limit, tickets, notes)</span>
                           </button>
                           
                           {expandedMetadata[slot.id] && (
@@ -1306,7 +1306,7 @@ function BookPageContent() {
                               {/* Age Restriction & Doors Time */}
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Age Limit</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Age Limit</label>
                                   <div className="relative">
                                     <select 
                                       value={slot.ageRestriction || "all_ages"}
@@ -1314,11 +1314,11 @@ function BookPageContent() {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                      className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                     >
-                                      <option value="all_ages" className="bg-[#050508]">All Ages</option>
-                                      <option value="21_plus" className="bg-[#050508]">21 & Over</option>
-                                      <option value="18_plus" className="bg-[#050508]">18 & Over</option>
+                                      <option value="all_ages" className="bg-[var(--color-bg-deep)]">All Ages</option>
+                                      <option value="21_plus" className="bg-[var(--color-bg-deep)]">21 & Over</option>
+                                      <option value="18_plus" className="bg-[var(--color-bg-deep)]">18 & Over</option>
                                     </select>
                                     <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
                                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -1326,7 +1326,7 @@ function BookPageContent() {
                                   </div>
                                 </div>
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Doors Time</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Doors Time</label>
                                   <div className="relative">
                                     <select 
                                       value={slot.doorsTime || ""}
@@ -1334,11 +1334,11 @@ function BookPageContent() {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-[#050508] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                      className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                     >
-                                      <option value="" className="bg-[#050508]">Same as Start</option>
+                                      <option value="" className="bg-[var(--color-bg-deep)]">Same as Start</option>
                                       {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                        <option key={t} value={t} className="bg-[#050508]">{t}</option>
+                                        <option key={t} value={t} className="bg-[var(--color-bg-deep)]">{t}</option>
                                       ))}
                                     </select>
                                     <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
@@ -1351,7 +1351,7 @@ function BookPageContent() {
                               {/* Ticket Price & Link */}
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Cover / Price</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Cover / Price</label>
                                   <input 
                                     type="text"
                                     placeholder="e.g. Free, $15..."
@@ -1360,11 +1360,11 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#050508] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
                                   />
                                 </div>
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Ticket Link</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Ticket Link</label>
                                   <input 
                                     type="text"
                                     placeholder="https://..."
@@ -1373,7 +1373,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#050508] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
                                   />
                                 </div>
                               </div>
@@ -1390,11 +1390,11 @@ function BookPageContent() {
                                     }}
                                     className="accent-[var(--color-accent)] cursor-pointer"
                                   />
-                                  <span className="text-[9px] font-bold uppercase tracking-wider">This is a Festival / Fair show</span>
+                                  <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider">This is a Festival / Fair show</span>
                                 </label>
                                 
                                 <div>
-                                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/40 block mb-1">Public Notes (shown to fans)</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Public Notes (shown to fans)</label>
                                   <textarea 
                                     placeholder="e.g. All Age Outdoor Beer Garden show, unplugged set..."
                                     value={slot.notes || ""}
@@ -1403,7 +1403,7 @@ function BookPageContent() {
                                       setBookingSlots(updated);
                                     }}
                                     rows={2}
-                                    className="w-full bg-[#050508] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20 resize-none [color-scheme:dark]"
+                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20 resize-none [color-scheme:dark]"
                                   />
                                 </div>
                               </div>
@@ -1419,7 +1419,7 @@ function BookPageContent() {
           </div>
 
           {/* Step 2: Contact Information */}
-          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
               <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">2</span>
               Contact Information
@@ -1433,7 +1433,7 @@ function BookPageContent() {
           </div>
 
           {/* Step 3: Venue Details */}
-          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
               <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">3</span>
               Venue Details
@@ -1451,7 +1451,7 @@ function BookPageContent() {
             <div className="flex flex-col gap-8">
 
             {/* Step 4: Technical & Logistics */}
-            <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
                 <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">4</span>
                 Technical & Logistics
@@ -1471,7 +1471,7 @@ function BookPageContent() {
             </div>
 
             {/* Step 5: Additional Options */}
-            <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
                 <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">5</span>
                 Production & Extras
@@ -1519,7 +1519,7 @@ function BookPageContent() {
             </div>
 
             {/* Step 6: Notes & Questions */}
-            <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
                 <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">6</span>
                 Notes & Questions
@@ -1671,7 +1671,7 @@ function BookPageContent() {
               { img: '/images/events/acoustic.png', title: 'Wine & Dine Series', venue: 'Vino & Vine, Naperville', type: 'Unplugged', guests: '60' },
               { img: '/images/events/private-party.png', title: 'Luxury Pool Party', venue: 'Private Estate, Lake Forest', type: 'Private Event', guests: '150' },
             ].map((event, i) => (
-              <div key={i} className="group relative rounded-2xl overflow-hidden border border-white/5 bg-[#0b0b12]">
+              <div key={i} className="group relative rounded-2xl overflow-hidden border border-white/5 bg-[var(--color-bg-surface)]">
                 <div className="aspect-[4/3] overflow-hidden">
                   <img src={event.img} alt={event.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

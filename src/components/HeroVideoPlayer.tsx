@@ -209,10 +209,10 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/5 pb-2">
                 <div className="flex flex-col">
-                  <span className="font-[family-name:var(--font-rockstar)] text-[11px] font-black uppercase tracking-wider text-amber-500">
+                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-amber-500">
                     Video Tint Tester
                   </span>
-                  <span className="text-[9px] text-white/40 uppercase font-semibold">
+                  <span className="text-[var(--font-size-4xs)] text-white/40 uppercase font-semibold">
                     Customize background tint
                   </span>
                 </div>
@@ -226,7 +226,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Presets */}
               <div className="space-y-1.5">
-                <span className="text-[10px] font-extrabold text-white/45 uppercase tracking-wider block">Presets</span>
+                <span className="text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider block">Presets</span>
                 <div className="flex flex-wrap gap-2">
                   {TINT_PRESETS.map((preset) => (
                     <button
@@ -262,7 +262,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Opacity Slider */}
               <div className="space-y-1.5">
-                <div className="flex justify-between text-[10px] font-extrabold text-white/45 uppercase tracking-wider">
+                <div className="flex justify-between text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider">
                   <span>Opacity</span>
                   <span className="text-amber-500 font-mono font-black">{Math.round(tintOpacity * 100)}%</span>
                 </div>
@@ -279,13 +279,13 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Blend Modes */}
               <div className="space-y-1.5">
-                <span className="text-[10px] font-extrabold text-white/45 uppercase tracking-wider block">Mix Blend Mode</span>
+                <span className="text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider block">Mix Blend Mode</span>
                 <div className="grid grid-cols-3 gap-1">
                   {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
                     <button
                       key={mode}
                       onClick={() => updateBlend(mode)}
-                      className={`px-1 py-1 text-[9px] font-black uppercase rounded border transition-all cursor-pointer ${
+                      className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-all cursor-pointer ${
                         mixBlendMode === mode
                           ? "bg-amber-500 border-amber-500 text-black shadow-[0_0_8px_rgba(245,158,11,0.3)] font-black"
                           : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
@@ -298,7 +298,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               </div>
 
               {/* Active Values HUD */}
-              <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2 text-[9px] font-mono text-white/40 space-y-0.5">
+              <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2 text-[var(--font-size-4xs)] font-mono text-white/40 space-y-0.5">
                 <div>Color: <span className="text-white font-bold">{tintColor}</span></div>
                 <div>Opacity: <span className="text-white font-bold">{tintOpacity}</span></div>
                 <div>Blend: <span className="text-white font-bold">{mixBlendMode}</span></div>
@@ -307,7 +307,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               {/* Copy CSS Button */}
               <button
                 onClick={copyCSS}
-                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[11px] uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_12px_rgba(245,158,11,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[var(--font-size-2xs)] uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_12px_rgba(245,158,11,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? (
                   <>

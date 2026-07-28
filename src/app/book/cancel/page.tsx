@@ -34,7 +34,7 @@ function CancelContent() {
 
   if (!token || !bookingId) {
     return (
-      <div className="min-h-screen bg-[#050508] flex items-center justify-center px-6">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center px-6">
         <div className="max-w-md w-full text-center">
           <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
             <span className="text-2xl">⚠️</span>
@@ -50,7 +50,7 @@ function CancelContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] flex items-center justify-center px-6">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center px-6">
       <div className="max-w-md w-full text-center">
 
         {status === "confirm" && (
@@ -132,7 +132,7 @@ function CancelContent() {
 
 export default function CancelBookingPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#050508]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[var(--color-bg-deep)]" />}>
       <CancelContent />
     </Suspense>
   );

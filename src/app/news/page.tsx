@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { sanityClient, queries, SanityNewsPost } from "@/lib/sanity";
+import { NewsHeroLayouts } from "@/components/NewsHeroLayouts";
 
 export const metadata: Metadata = {
   title: "News & Updates — 7th Heaven",
@@ -49,71 +50,82 @@ export default async function NewsPage() {
       }))
     : FALLBACK_NEWS;
 
- return (
- <div className="pt-[72px]">
- <section className="pt-24 pb-10 text-center bg-gradient-to-b from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)]">
- <div className="site-container">
- <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Updates</span>
- <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-tight tracking-tight">
- Latest <span className="gradient-text">News</span>
- </h1>
- <p className="text-lg text-[var(--color-text-secondary)] max-w-[600px] mx-auto mt-4">Updates, announcements, and what&apos;s happening with 7th heaven.</p>
- </div>
- </section>
+  return (
+    <div className="pt-[72px]">
+      {/* ── BORDERLESS & BOXLESS SPLIT SHOWCASE HERO SECTION ── */}
+      <section className="relative py-16 md:py-24 overflow-hidden bg-[var(--color-bg-deep)]">
+        {/* Background Concert Photo */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-30 transition-transform duration-1000 scale-105" 
+          style={{ backgroundImage: "url('/images/hero-band-bg.png')" }} 
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#090314] via-[#090314]/90 to-[#090314]/70" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/40 to-black/80" />
+        
+        <div className="site-container relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Column — Branding */}
+          <div className="lg:col-span-5 text-left">
+            <span className="text-xs font-mono font-extrabold uppercase tracking-widest text-cyan-400">
+              Official Bulletins & Updates
+            </span>
+            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mt-3 mb-4 leading-none">
+              7th Heaven <br /><span className="text-cyan-400">Band News</span>
+            </h1>
+            <p className="text-white/60 text-sm md:text-base leading-relaxed">
+              Direct updates from the band — tour announcements, new releases, and live event updates.
+            </p>
+          </div>
+          
+          {/* Right Column — Featured Article (No Box, No Border) */}
+          {newsItems.length > 0 && (() => {
+            const featured = newsItems[0];
+            return (
+              <div className="lg:col-span-7 text-left">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-purple-400">
+                    Featured Article
+                  </span>
+                  <span className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-wider">
+                    {featured.date}
+                  </span>
+                </div>
+                <h2 className="text-2xl md:text-4xl font-extrabold text-white leading-tight mb-4 hover:text-cyan-300 transition-colors">
+                  {featured.title}
+                </h2>
+                <p className="text-white/80 text-sm md:text-base leading-relaxed font-medium">
+                  {featured.content}
+                </p>
+              </div>
+            );
+          })()}
+        </div>
+      </section>
 
-
-
- {/* Editorial News Layout */}
- <section className="py-20">
- <div className="site-container flex flex-col gap-12">
-  
-  {/* Featured Article (Top Item) */}
-  {newsItems.length > 0 && (() => {
-   const featured = newsItems[0];
-   return (
-    <article className="relative overflow-hidden border border-[var(--color-accent)]/30 rounded-2xl bg-[#0a0a0e] shadow-[0_10px_40px_rgba(133,29,239,0.1)] group">
-     {/* Faux Background Image / Gradient */}
-     <div className="absolute inset-0 bg-gradient-to-tr from-[#1a0b2e] via-[#0a0a0e] to-[#0a0a0e] opacity-80" />
-     <div className="absolute top-0 right-0 w-2/3 h-full bg-[url('/images/hero-banner.png')] bg-cover bg-center opacity-10 mix-blend-screen group-hover:scale-105 transition-transform duration-700" />
-     <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0e] via-[#0a0a0e]/80 to-transparent" />
-     
-     <div className="relative z-10 p-10 md:p-16 lg:p-24 max-w-[800px]">
-      <span className="inline-block px-3 py-1 mb-6 text-sm font-bold tracking-widest uppercase text-white bg-[var(--color-accent)] rounded-sm">Featured</span>
-      <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-tight mb-6 text-white text-balance drop-shadow-lg">{featured.title}</h2>
-      <p className="text-[var(--color-text-secondary)] text-lg md:text-xl leading-relaxed mb-8 max-w-[90%]">{featured.content}</p>
-      <div className="flex items-center justify-between">
-       <span className="text-sm font-semibold text-white/50 tracking-widest uppercase">{featured.date}</span>
-       <button className="text-[var(--color-accent)] font-bold text-sm tracking-widest uppercase hover:text-white transition-colors flex items-center gap-2">
-        Read Story <span className="text-lg">→</span>
-       </button>
-      </div>
-     </div>
-    </article>
-   );
-  })()}
-
-  {/* Grid of Remaining Articles */}
-  {newsItems.length > 1 && (
-   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    {newsItems.slice(1).map((item, i) => (
-     <article key={i} className="flex flex-col p-8 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-xl transition-all duration-300 hover:border-[var(--color-border-hover)] hover:bg-[var(--color-bg-card-hover)] hover:-translate-y-1 hover:shadow-xl" id={`news-item-${i + 1}`}>
-      <div className="mb-6 flex justify-between items-center">
-       <span className="inline-block px-3 py-1 text-xs tracking-widest font-bold uppercase text-[var(--color-accent)] bg-[rgba(133,29,239,0.1)] border border-[rgba(133,29,239,0.2)] rounded-sm">{item.date}</span>
-      </div>
-      <h3 className="font-[var(--font-heading)] text-xl font-bold mb-4 leading-tight text-white/90 group-hover:text-white">{item.title}</h3>
-      <p className="text-[var(--color-text-secondary)] text-base leading-relaxed flex-grow line-clamp-4">{item.content}</p>
-      
-      <div className="mt-8 pt-6 border-t border-white/5">
-       <button className="text-white/40 hover:text-[var(--color-accent)] transition-colors text-sm font-bold uppercase tracking-widest flex items-center gap-2">
-        Read More <span className="text-lg">→</span>
-       </button>
-      </div>
-     </article>
-    ))}
-   </div>
-  )}
- </div>
- </section>
- </div>
- );
+      {/* Editorial News Layout */}
+      <section className="py-16">
+        <div className="site-container">
+          {/* Grid of Remaining Articles */}
+          {newsItems.length > 1 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {newsItems.slice(1).map((item, i) => (
+                <article key={i} className="flex flex-col p-8 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-none transition-all duration-300 hover:border-[var(--color-border-hover)] hover:bg-[var(--color-bg-card-hover)] hover:-translate-y-1 hover:shadow-xl" id={`news-item-${i + 1}`}>
+                  <div className="mb-6 flex justify-between items-center">
+                    <span className="inline-block px-3 py-1 text-xs tracking-widest font-bold uppercase text-[var(--color-accent)] bg-[rgba(133,29,239,0.1)] border border-[rgba(133,29,239,0.2)] rounded-none">{item.date}</span>
+                  </div>
+                  <h3 className="font-[var(--font-heading)] text-xl font-bold mb-4 leading-tight text-white/90 group-hover:text-white">{item.title}</h3>
+                  <p className="text-[var(--color-text-secondary)] text-base leading-relaxed flex-grow line-clamp-4">{item.content}</p>
+                  
+                  <div className="mt-8 pt-6 border-t border-white/5">
+                    <button className="text-white/40 hover:text-[var(--color-accent)] transition-colors text-sm font-bold uppercase tracking-widest flex items-center gap-2">
+                      Read More <span className="text-lg">→</span>
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
 }

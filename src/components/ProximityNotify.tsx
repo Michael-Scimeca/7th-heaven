@@ -154,7 +154,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
  };
 
  return (
-  <section className="relative py-24 sm:py-32 bg-[#0d0914] overflow-hidden" id="proximity-notify">
+  <section className="relative py-24 sm:py-32 bg-[var(--color-bg-surface)] overflow-hidden" id="proximity-notify">
 
    {/* ═══ Full Background — Dark Map ═══ */}
    <div className="absolute inset-0 pointer-events-none select-none">
@@ -193,7 +193,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
        {/* ═══ STEP 1: iMessage Text Thread ═══ */}
        <div className="absolute inset-0 z-[2] animate-[lockFade_20s_ease-in-out_infinite]">
         {/* Dark iMessage background */}
-        <div className="absolute inset-0 bg-[#000000]" />
+        <div className="absolute inset-0 bg-[var(--color-bg-primary)]" />
 
         {/* Status bar */}
         <div className="relative z-10 flex items-center justify-between px-6 pt-4">
@@ -247,7 +247,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
          </div>
 
          {/* Link preview card */}
-         <div className="max-w-[85%] mt-1.5 bg-[#1c1c1e] rounded-xl overflow-hidden border border-white/[0.06]">
+         <div className="max-w-[85%] mt-1.5 bg-[var(--color-bg-elevated)] rounded-xl overflow-hidden border border-white/[0.06]">
           <div className="bg-[#2c2c2e] px-3 py-2">
            <p className="text-xs text-white/30 uppercase tracking-wider font-bold">7thheavenband.com</p>
           </div>
@@ -286,7 +286,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
          {/* Safari address bar */}
          <div className="absolute top-10 inset-x-0 z-10 px-3">
-           <div className="bg-[#1c1c1e] border border-white/[0.08] rounded-xl px-3 py-2 flex items-center gap-2">
+           <div className="bg-[var(--color-bg-elevated)] border border-white/[0.08] rounded-xl px-3 py-2 flex items-center gap-2">
              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
              <p className="text-xs text-white/40 flex-1 truncate">7thheavenband.com/shows/{showVenueSlug}</p>
              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
@@ -512,10 +512,10 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
            onChange={(e) => setRadius(e.target.value)}
            className="bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-4 text-base text-white/40 focus:border-[var(--color-accent)]/50 focus:outline-none transition-all duration-200 appearance-none cursor-pointer text-center w-[110px]"
           >
-           <option value="25" className="bg-[#0a0a12]">25 mi</option>
-           <option value="50" className="bg-[#0a0a12]">50 mi</option>
-           <option value="100" className="bg-[#0a0a12]">100 mi</option>
-           <option value="200" className="bg-[#0a0a12]">200 mi</option>
+           <option value="25" className="bg-[var(--color-bg-surface)]">25 mi</option>
+           <option value="50" className="bg-[var(--color-bg-surface)]">50 mi</option>
+           <option value="100" className="bg-[var(--color-bg-surface)]">100 mi</option>
+           <option value="200" className="bg-[var(--color-bg-surface)]">200 mi</option>
           </select>
          </div>
 
@@ -532,7 +532,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 />
                 <div className="text-left">
                   <p className="text-xs font-bold text-white/80">Shows In My Area</p>
-                  <p className="text-[10px] text-white/40">Within {radius} miles of {zip || "Zip"}</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/40">Within {radius} miles of {zip || "Zip"}</p>
                 </div>
               </label>
               <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] rounded-xl hover:bg-white/[0.06] transition-all">
@@ -544,7 +544,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 />
                 <div className="text-left">
                   <p className="text-xs font-bold text-white/80">Next Upcoming Show</p>
-                  <p className="text-[10px] text-white/40">General band alerts</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/40">General band alerts</p>
                 </div>
               </label>
               <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] rounded-xl hover:bg-white/[0.06] transition-all">
@@ -556,7 +556,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 />
                 <div className="text-left">
                   <p className="text-xs font-bold text-white/80">Web Browser Alerts</p>
-                  <p className="text-[10px] text-white/40">Desktop/browser popups</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/40">Desktop/browser popups</p>
                 </div>
               </label>
             </div>

@@ -27,14 +27,14 @@ function SuccessContent() {
   }, [isLoggedIn, member?.role]);
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-[#050508] px-6 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center bg-[var(--color-bg-deep)] px-6 relative overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500 opacity-[0.04] rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] rounded-full blur-[120px] pointer-events-none" />
 
       <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both]">
         {/* Success Card */}
-        <div className="bg-[#0b0b12]/80 border border-emerald-500/10 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl">
+        <div className="bg-[var(--color-bg-surface)]/80 border border-emerald-500/10 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl">
           {/* Checkmark */}
           <div className="w-20 h-20 mx-auto mb-6 bg-emerald-500/10 border-2 border-emerald-500/30 rounded-full flex items-center justify-center animate-[scale-in_0.5s_ease-out_0.2s_both]">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -101,7 +101,7 @@ function SuccessContent() {
 
 export default function BookingSuccessPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#050508]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[var(--color-bg-deep)]" />}>
       <SuccessContent />
     </Suspense>
   );

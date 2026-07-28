@@ -183,7 +183,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
             return (
               <div key={product.id} className="group border border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04] transition-all duration-300 flex flex-col">
-                <div className="relative aspect-square bg-[#0d0d15] flex items-center justify-center overflow-hidden">
+                <div className="relative aspect-square bg-[var(--color-bg-surface)] flex items-center justify-center overflow-hidden">
                   {imageUrl ? (
                     <img src={imageUrl} alt={product.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
@@ -230,10 +230,10 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
       {/* ─── SECURE STORE CHECKOUT MODAL ─── */}
       {showCheckoutModal && selectedProduct && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#111116] border border-white/10 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
+          <div className="bg-[var(--color-bg-card)] border border-white/10 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
             
             {/* Modal Header */}
-            <div className="p-5 border-b border-white/[0.05] flex items-center justify-between bg-[#181820]">
+            <div className="p-5 border-b border-white/[0.05] flex items-center justify-between bg-[var(--color-bg-elevated)]">
               <div className="flex items-center gap-2">
                 <span className="text-base">🛍️</span>
                 <span className="text-xs font-black uppercase tracking-wider text-white">Store Checkout Gateway</span>
@@ -275,7 +275,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                           : 'TBD'}
                       </p>
                       {selectedProduct.description && (
-                        <p className="text-white/30 text-[10px] line-clamp-1 mt-1 font-sans">{selectedProduct.description}</p>
+                        <p className="text-white/30 text-[var(--font-size-3xs)] line-clamp-1 mt-1 font-sans">{selectedProduct.description}</p>
                       )}
                     </div>
                   </div>
@@ -284,7 +284,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                   {selectedProduct.title.toLowerCase().match(/shirt|tee|hoodie|sweat|jersey|jacket|tank|hat|cap/) && (
                     <div className="grid grid-cols-2 gap-3 bg-white/[0.01] border border-white/5 p-3 rounded-xl">
                       <div>
-                        <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Select Size</label>
+                        <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Select Size</label>
                         <select 
                           value={checkoutSelectedSize}
                           onChange={e => setCheckoutSelectedSize(e.target.value)}
@@ -297,7 +297,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                         </select>
                       </div>
                       <div>
-                        <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Select Color</label>
+                        <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Select Color</label>
                         <select 
                           value={checkoutSelectedColor}
                           onChange={e => setCheckoutSelectedColor(e.target.value)}
@@ -313,7 +313,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
                   {/* Delivery method toggle */}
                   <div className="space-y-1.5">
-                    <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block font-sans">Delivery Option</label>
+                    <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block font-sans">Delivery Option</label>
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         type="button"
@@ -343,7 +343,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                   {/* Details forms */}
                   <div className="space-y-3 pt-2">
                     <div>
-                      <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Full Name</label>
+                      <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Full Name</label>
                       <input
                         type="text"
                         required
@@ -354,7 +354,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Email Address</label>
+                      <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Email Address</label>
                       <input
                         type="email"
                         required
@@ -368,7 +368,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                     {checkoutDeliveryMethod === 'shipping' && (
                       <>
                         <div>
-                          <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Shipping Address</label>
+                          <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Shipping Address</label>
                           <input
                             type="text"
                             required
@@ -380,7 +380,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                         </div>
                         <div className="grid grid-cols-2 gap-2">
                           <div>
-                            <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">City</label>
+                            <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">City</label>
                             <input
                               type="text"
                               required
@@ -391,7 +391,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                             />
                           </div>
                           <div>
-                            <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">ZIP Code</label>
+                            <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">ZIP Code</label>
                             <input
                               type="text"
                               required
@@ -406,7 +406,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                     )}
 
                     <div>
-                      <label className="text-[9px] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Card Details (Mock)</label>
+                      <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block mb-1 font-sans">Card Details (Mock)</label>
                       <input
                         type="text"
                         required
@@ -431,7 +431,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                 <div className="text-center py-10 space-y-4">
                   <div className="w-12 h-12 border-4 border-white/10 border-t-[var(--color-accent)] rounded-full animate-spin mx-auto" />
                   <h3 className="text-sm font-black uppercase tracking-widest text-white/80 font-sans">Securing payment</h3>
-                  <p className="text-[11px] text-white/40 max-w-[200px] mx-auto font-sans">Connecting to Shopify checkout secure gateways...</p>
+                  <p className="text-[var(--font-size-2xs)] text-white/40 max-w-[200px] mx-auto font-sans">Connecting to Shopify checkout secure gateways...</p>
                 </div>
               )}
 
@@ -469,14 +469,14 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
                       {/* Product Description */}
                       {selectedProduct.description && (
-                        <p className="text-[11px] text-white/50 text-center leading-relaxed font-sans px-2">
+                        <p className="text-[var(--font-size-2xs)] text-white/50 text-center leading-relaxed font-sans px-2">
                           {selectedProduct.description}
                         </p>
                       )}
 
                       {/* Order Details */}
                       <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
-                        <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest font-sans mb-1.5">Order Details</p>
+                        <p className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-widest font-sans mb-1.5">Order Details</p>
                         <p className="text-xs font-bold text-white/90 font-sans">Recipient: <span className="font-normal text-white/60">{shippingDetails.name}</span></p>
                         <p className="text-xs font-bold text-white/90 font-sans truncate">Product: <span className="font-normal text-white/60">{selectedProduct.title}</span></p>
                         {isClothing && checkoutSelectedSize && (

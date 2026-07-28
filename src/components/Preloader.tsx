@@ -99,6 +99,8 @@ function WaveProgress({ percent }: { percent: number }) {
 }
 // ──────────────────────────────────────────────────────────────────────────
 
+let hasRanInMemory = false;
+
 interface PreloaderProps {
   forceShow?: boolean;
   onComplete?: () => void;
@@ -112,17 +114,21 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
   const requiresPreloader = heavyPages.includes(pathname) || forceShow;
 
   const [percent, setPercent] = useState(0);
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === "undefined") return false;
-    if (forceShow) return true;
-    if (!requiresPreloader) return false;
-    return !sessionStorage.getItem(`7h_preloaded_${pathname}`) && !sessionStorage.getItem("7h_preloaded");
-  });
+  const [visible, setVisible] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const isLoadedRef = useRef(false);
 
   const [selectedFrames, setSelectedFrames] = useState<number[]>([1, 3, 4, 5, 2]);
+
+  // Determine visibility after mount to avoid SSR hydration mismatch
+  useEffect(() => {
+    if (forceShow) { setVisible(true); return; }
+    // If the preloader won't show, immediately reveal the page content
+    if (hasRanInMemory || sessionStorage.getItem("7h_preloader_shown") === "true" || !requiresPreloader) {
+      document.body.classList.remove("preloading");
+      return;
+    }
+    setVisible(true);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // Shuffle image order safely on client after hydration to avoid SSR mismatch
@@ -140,95 +146,186 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     return selectedFrames[4];
   };
 
-  useEffect(() => { isLoadedRef.current = isLoaded; }, [isLoaded]);
 
+
+  // ── Real resource tracking ──────────────────────────────────────────────
   useEffect(() => {
-    if (!requiresPreloader && !forceShow) return;
-
-    const handleLoad = () => setIsLoaded(true);
-    if (document.readyState === "complete") {
-      setIsLoaded(true);
-    } else {
-      window.addEventListener("load", handleLoad);
-    }
-
-    // Failsafe timer: Guarantee isLoaded = true after 1200ms so preloader NEVER freezes
-    const failsafeTimer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 1200);
-
-    return () => {
-      window.removeEventListener("load", handleLoad);
-      clearTimeout(failsafeTimer);
-    };
-  }, [requiresPreloader, forceShow]);
-
-  useEffect(() => {
-    if (!requiresPreloader && !forceShow) return;
     if (!visible) return;
+    if (!requiresPreloader && !forceShow) return;
 
-    // Lock scroll on both html and body (covers iOS safari, desktop, touch)
     const html = document.documentElement;
     const body = document.body;
-    const preventTouch = (e: TouchEvent) => e.preventDefault();
 
+    // Lock scroll while preloading
+    const preventTouch = (e: TouchEvent) => e.preventDefault();
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
     document.addEventListener("touchmove", preventTouch, { passive: false });
-
-    let currentPercent = 0;
-    let timer: NodeJS.Timeout;
+    if (typeof window !== "undefined" && (window as any).__lenis) {
+      try { (window as any).__lenis.stop(); } catch {}
+    }
 
     const unlock = () => {
       html.style.overflow = "";
       body.style.overflow = "";
       document.removeEventListener("touchmove", preventTouch);
-      try {
-        sessionStorage.setItem("7h_preloaded", "true");
-        sessionStorage.setItem(`7h_preloaded_${pathname}`, "true");
-      } catch {}
-    };
-
-    const runProgress = () => {
-      if (currentPercent < 85) {
-        currentPercent += 2;
-        if (currentPercent > 85) currentPercent = 85;
-        setPercent(currentPercent);
-        timer = setTimeout(runProgress, 18);
-      } else if (currentPercent >= 85 && currentPercent < 100) {
-        if (isLoadedRef.current || currentPercent >= 90) {
-          currentPercent += 2;
-          if (currentPercent > 100) currentPercent = 100;
-          setPercent(currentPercent);
-          timer = setTimeout(runProgress, 16);
-        } else {
-          timer = setTimeout(runProgress, 50);
-        }
-      } else {
-        setTimeout(() => {
-          setFadeOut(true);
-          unlock();
-          setTimeout(() => {
-            setVisible(false);
-            if (onComplete) onComplete();
-          }, 500);
-        }, 200);
+      if (typeof window !== "undefined" && (window as any).__lenis) {
+        try {
+          (window as any).__lenis.start();
+          (window as any).__lenis.resize();
+        } catch {}
       }
     };
 
-    runProgress();
+    const finish = () => {
+      setPercent(100);
+      hasRanInMemory = true;
+      try {
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("7h_preloader_shown", "true");
+        }
+      } catch {}
+      unlock();
+      setFadeOut(true);
+      // Reveal page content by removing the hiding class
+      document.body.classList.remove("preloading");
+      setTimeout(() => {
+        setVisible(false);
+        if (onComplete) onComplete();
+      }, 500);
+    };
+
+    // ── Discover real resources to track ──
+    let totalResources = 0;
+    let loadedResources = 0;
+    let documentReady = document.readyState === "complete";
+    let fontsReady = false;
+    let finished = false;
+
+    const getProgress = () => {
+      if (totalResources === 0) {
+        // No trackable resources — rely on document + fonts
+        const docWeight = documentReady ? 50 : 0;
+        const fontWeight = fontsReady ? 50 : 0;
+        return docWeight + fontWeight;
+      }
+      // Weight: 60% resources, 20% document ready, 20% fonts
+      const resourcePct = totalResources > 0 ? (loadedResources / totalResources) * 60 : 60;
+      const docPct = documentReady ? 20 : 0;
+      const fontPct = fontsReady ? 20 : 0;
+      return Math.min(Math.round(resourcePct + docPct + fontPct), 100);
+    };
+
+    const onResourceLoaded = () => {
+      loadedResources++;
+    };
+
+    // Track all <img> elements (including those with loading=lazy that are in viewport)
+    const images = document.querySelectorAll("img");
+    images.forEach((img) => {
+      if (img.complete && img.naturalWidth > 0) {
+        // Already loaded
+        return;
+      }
+      totalResources++;
+      if (img.complete) {
+        loadedResources++;
+      } else {
+        img.addEventListener("load", onResourceLoaded, { once: true });
+        img.addEventListener("error", onResourceLoaded, { once: true });
+      }
+    });
+
+    // Track <video> elements
+    const videos = document.querySelectorAll("video");
+    videos.forEach((vid) => {
+      if (vid.readyState >= 3) return; // HAVE_FUTURE_DATA or better
+      totalResources++;
+      vid.addEventListener("canplaythrough", onResourceLoaded, { once: true });
+      vid.addEventListener("error", onResourceLoaded, { once: true });
+    });
+
+    // Track document ready state
+    if (document.readyState === "complete") {
+      documentReady = true;
+    } else {
+      const handleLoad = () => { documentReady = true; };
+      window.addEventListener("load", handleLoad, { once: true });
+    }
+
+    // Track fonts
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => { fontsReady = true; }).catch(() => { fontsReady = true; });
+    } else {
+      fontsReady = true;
+    }
+
+    // ── Smooth animation loop ──
+    // Uses a time-based ramp + real progress. The displayed percent is the
+    // MINIMUM of: (a) the time-based ramp and (b) the real resource progress.
+    // This ensures the preloader is always visible for at least MIN_DURATION,
+    // but won't hit 100% until resources are genuinely loaded.
+    const MIN_DURATION = 1800; // ms — minimum time to show the preloader
+    let displayedPercent = 0;
+    let rafId: number;
+    const startTime = performance.now();
+
+    const tick = () => {
+      if (finished) return;
+
+      const elapsed = performance.now() - startTime;
+      const realProgress = getProgress();
+
+      // Time-based ramp: smoothly goes 0→100 over MIN_DURATION
+      const timeRamp = Math.min((elapsed / MIN_DURATION) * 100, 100);
+
+      // The effective ceiling is the minimum of the time ramp and real progress
+      // This means: even if resources are loaded instantly, the bar still takes
+      // MIN_DURATION to fill. But if resources are slow, the bar pauses and
+      // waits for them (capped at 98% until genuinely done).
+      const effectiveProgress = Math.min(timeRamp, realProgress >= 100 ? 100 : Math.min(realProgress + 2, 98));
+
+      // Smooth chase
+      const speed = effectiveProgress >= 100 ? 4 : 1.5;
+      displayedPercent += (effectiveProgress - displayedPercent) * (speed / 10);
+
+      const rounded = Math.min(Math.round(displayedPercent), 100);
+      currentPercentRef.current = rounded;
+      setPercent(rounded);
+
+      // Only finish when both the time ramp is done AND resources are loaded
+      if (rounded >= 100 && realProgress >= 100 && elapsed >= MIN_DURATION) {
+        finished = true;
+        finish();
+        return;
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+
+    // Hard failsafe: guarantee completion after 8 seconds max
+    const maxFailsafe = setTimeout(() => {
+      if (!finished) {
+        finished = true;
+        finish();
+      }
+    }, 8000);
+
     return () => {
-      clearTimeout(timer);
+      cancelAnimationFrame(rafId);
+      clearTimeout(maxFailsafe);
       unlock();
     };
-  }, [requiresPreloader, forceShow, visible, pathname, onComplete]);
+  }, [requiresPreloader, forceShow, visible]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!visible) return null;
 
   return (
     <div
       suppressHydrationWarning
-      className={`fixed inset-0 z-[100000] bg-[#090314] flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${
+      className={`fixed inset-0 z-[100000] bg-[var(--color-bg-deep)] flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
@@ -259,7 +356,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
         {/* Wave Canvas */}
         <WaveProgress percent={percent} />
 
-        <span className="text-[9px] uppercase tracking-[0.25em] text-white/30 font-bold select-none mt-1">
+        <span className="text-[var(--font-size-4xs)] uppercase tracking-[0.25em] text-white/30 font-bold select-none mt-1">
           Rocking The World
         </span>
       </div>

@@ -139,7 +139,7 @@ export default function CursorTestingPage() {
   const pickOpacity = [1, 0.95, 0.88, 0.78, 0.6];
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white relative overflow-hidden font-sans pt-24 pb-20">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white relative overflow-hidden font-sans pt-24 pb-20">
 
       {/* Force cursor:none everywhere — overrides pointer/default on links/buttons */}
       <style>{`*, *:hover, *:active, *:focus { cursor: none !important; }`}</style>
@@ -211,7 +211,7 @@ export default function CursorTestingPage() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-10 border-b border-white/10 mb-10">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#9C27B0]/20 border border-[#9C27B0]/40 text-[#C245AA]">
+              <span className="px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest bg-[#9C27B0]/20 border border-[#9C27B0]/40 text-[#C245AA]">
                 🎸 Guitar Pick Gooey Cursor · SVG Blob Filter
               </span>
             </div>
@@ -233,15 +233,15 @@ export default function CursorTestingPage() {
         {/* Telemetry */}
         <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">X</p>
+            <p className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-white/40 mb-1">X</p>
             <p className="text-2xl font-black text-[#C245AA]"><span ref={posXRef}>0</span><span className="text-xs text-white/30 ml-1">px</span></p>
           </div>
           <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Y</p>
+            <p className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-white/40 mb-1">Y</p>
             <p className="text-2xl font-black text-[#C245AA]"><span ref={posYRef}>0</span><span className="text-xs text-white/30 ml-1">px</span></p>
           </div>
           <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Velocity</p>
+            <p className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-white/40 mb-1">Velocity</p>
             <p className="text-2xl font-black text-[#9C27B0]"><span ref={velRef}>0</span><span className="text-xs text-white/30 ml-1">px/f</span></p>
           </div>
         </div>
@@ -280,7 +280,7 @@ export default function CursorTestingPage() {
           ].map((t, i) => (
             <div
               key={i}
-              className={`bg-[#0c0c16] border border-white/10 ${t.color} rounded-3xl p-8 transition-colors group flex flex-col justify-between min-h-[220px]`}
+              className={`bg-[var(--color-bg-surface)] border border-white/10 ${t.color} rounded-3xl p-8 transition-colors group flex flex-col justify-between min-h-[220px]`}
             >
               <div>
                 <span className={`text-xs font-black uppercase tracking-wider ${t.badge}`}>Zone {i + 1}</span>

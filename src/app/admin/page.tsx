@@ -46,13 +46,13 @@ export default function AdminGatewayPage() {
   }, [hydrated, router]);
 
   if (!hydrated) {
-    return <div className="min-h-screen bg-[#050508]" />;
+    return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;
   }
 
   // If logged in as admin, show loading while redirect takes place
   if (isLoggedIn && member?.role === 'admin') {
     return (
-      <div className="min-h-screen bg-[#050508] text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 rounded-full border-4 border-[var(--color-accent)] border-t-transparent animate-spin mx-auto mb-4" />
           <p className="text-xs uppercase tracking-widest text-white/40 font-bold">Redirecting to dashboard...</p>
@@ -64,11 +64,11 @@ export default function AdminGatewayPage() {
   const isWrongRole = isLoggedIn && member?.role !== 'admin';
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white flex items-center justify-center px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center px-6 relative overflow-hidden">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-500 opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
-        <div className="bg-[#0c0c18] border border-white/10 overflow-hidden shadow-2xl">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-2xl">
           <div className="h-1 bg-gradient-to-r from-red-500 via-amber-500 to-red-500" />
 
           <div className="p-10">
@@ -145,6 +145,21 @@ export default function AdminGatewayPage() {
                 >
                   {adminLoginLoading ? "Authenticating..." : "Sign In as Admin"}
                 </button>
+
+                {process.env.NODE_ENV === "development" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== "undefined") {
+                        localStorage.setItem("7h_dev_bypass", "true");
+                        router.replace("/admin/admin");
+                      }
+                    }}
+                    className="w-full py-3 border border-amber-500/40 bg-amber-500/10 text-amber-300 font-bold text-xs uppercase tracking-[0.15em] hover:bg-amber-500/20 hover:border-amber-400 transition-all cursor-pointer shadow-[0_0_15px_rgba(245,158,11,0.15)] flex items-center justify-center gap-2"
+                  >
+                    <span>⚡</span> Instant Dev Access (Bypass Login)
+                  </button>
+                )}
               </form>
             )}
 

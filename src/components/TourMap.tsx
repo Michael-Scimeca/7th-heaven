@@ -508,7 +508,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, [onPinClick]);
 
   return (
-    <div className="relative w-full aspect-[21/12] overflow-hidden border border-white/10 bg-[#0a0a14]">
+    <div className="relative w-full aspect-[21/12] overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]">
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1]" />
       
       {/* Near Me Button */}
@@ -542,7 +542,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           onClick={() => setLegendOpen(o => !o)}
           className="flex items-center justify-between gap-3 px-3 py-2 w-full cursor-pointer hover:bg-white/5 transition-colors"
         >
-          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/40">Show Types</p>
+          <p className="text-[var(--font-size-4xs)] font-bold uppercase tracking-[0.25em] text-white/40">Show Types</p>
           <svg className={`w-2.5 h-2.5 text-white/30 transition-transform duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
         </button>
         {/* Expandable content */}
@@ -570,21 +570,21 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                       isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
                     }`}
                   >
-                    <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[8px]" style={{ backgroundColor: cfg.color, color: textColor }}>
+                    <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
                       {showLetter}
                     </div>
-                    <span className="text-[10px] font-semibold text-white/80">{cfg.label}</span>
+                    <span className="text-[var(--font-size-3xs)] font-semibold text-white/80">{cfg.label}</span>
                   </button>
                 );
               })}
             </div>
             <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-3">
-              <span className="text-[8px] font-bold uppercase tracking-wider text-white/40">Active</span>
+              <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/40">Active</span>
               <div className="flex items-center gap-2">
                 {selectedTypes.size > 0 && (
-                  <button onClick={() => setSelectedTypes(new Set())} className="text-[8px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
+                  <button onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
                 )}
-                <span className="text-[9px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
+                <span className="text-[var(--font-size-4xs)] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
               </div>
             </div>
           </div>
@@ -592,7 +592,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       </div>
 
       {!isLoaded && (
-        <div className="absolute inset-0 z-[2] flex items-center justify-center bg-[#0a0a14]">
+        <div className="absolute inset-0 z-[2] flex items-center justify-center bg-[var(--color-bg-surface)]">
           <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
         </div>
       )}

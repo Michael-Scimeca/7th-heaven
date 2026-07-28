@@ -974,7 +974,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     <span className="mr-0.5">📅</span><span>Add to Calendar</span>
                   </button>
                  {activeCalDropdownId === 'upnext' && (
-                   <div className="absolute right-0 bottom-full mb-2 bg-[#080812] border border-[var(--color-accent)]/30 rounded-lg py-2 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[170px] backdrop-blur-md">
+                   <div className="absolute right-0 bottom-full mb-2 bg-[var(--color-bg-deep)] border border-[var(--color-accent)]/30 rounded-lg py-2 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[170px] backdrop-blur-md">
                      <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Calendar</a>
                      <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Apple / iCal</a>
                      <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
@@ -1098,13 +1098,13 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                   {show.playTime ? (
                     <div className="flex flex-col gap-0.5">
                       <span className="text-rose-400 font-extrabold text-[0.8rem] whitespace-nowrap">Plays: {show.playTime}</span>
-                      {show.time && <span className="text-white/50 text-[10px] whitespace-nowrap">Starts: {show.time}</span>}
+                      {show.time && <span className="text-white/50 text-[var(--font-size-3xs)] whitespace-nowrap">Starts: {show.time}</span>}
                     </div>
                   ) : (
                     <span className="text-white/95 font-medium whitespace-nowrap">{show.time}</span>
                   )}
                   {isShowToday(show) && (
-                    <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 ml-1.5 whitespace-nowrap animate-pulse">
+                    <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-400 ml-1.5 whitespace-nowrap animate-pulse">
                       {getCountdownString(show)}
                     </span>
                   )}
@@ -1151,7 +1151,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                       </button>
                       {activeCalDropdownId === rowId && (
-                        <div className="absolute right-0 mt-2 bg-[#080812] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md">
+                        <div className="absolute right-0 mt-2 bg-[var(--color-bg-deep)] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md">
                           <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">Google Cal</a>
                           <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">iCal / Apple</a>
                           <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">Outlook</a>
@@ -1225,7 +1225,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                    </span>
                  )}
                  {isShowToday(show) && (
-                   <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 animate-pulse">
+                   <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-400 animate-pulse">
                      {getCountdownString(show)}
                    </span>
                  )}
@@ -1314,7 +1314,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                  </button>
                  {activeCalDropdownId === `${rowId}-mobile` && (
-                   <div className="absolute left-0 mt-2 bg-[#080812] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">
+                   <div className="absolute left-0 mt-2 bg-[var(--color-bg-deep)] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">
                      <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Cal</a>
                      <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">iCal / Apple</a>
                      <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
@@ -1373,7 +1373,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
     {/* Show Edit/Add Modal */}
     {isModalOpen && (
       <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto font-sans">
-        <div className="bg-[#0b0b12] border border-white/10 rounded-3xl w-full max-w-2xl shadow-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-3xl w-full max-w-2xl shadow-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
           <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
           <div className="p-6 md:p-8 text-left">
             <div className="flex items-center justify-between mb-6">
@@ -1520,7 +1520,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
     {/* ═══ Notification Preferences Popup ═══ */}
     {notifyPopupShow && (
       <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={() => setNotifyPopupShow(null)}>
-        <div className="bg-[#0c0c18] border border-white/10 rounded-2xl w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(133,29,239,0.3)] animate-[fadeIn_0.2s_ease]" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(133,29,239,0.3)] animate-[fadeIn_0.2s_ease]" onClick={(e) => e.stopPropagation()}>
           {/* Accent bar */}
           <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
 
@@ -1535,7 +1535,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 </div>
                 <div>
                   <h3 className="text-white font-bold text-sm">Set Up Alerts</h3>
-                  <p className="text-[10px] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
                 </div>
               </div>
               <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer">
@@ -1546,11 +1546,11 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
             {/* Show info */}
             <div className="bg-white/[0.03] border border-white/5 rounded-lg px-3 py-2.5 mb-4">
               <p className="text-xs text-white/60 font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
-              <p className="text-[10px] text-white/30 mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
+              <p className="text-[var(--font-size-3xs)] text-white/30 mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
             </div>
 
             {/* What would you like? */}
-            <p className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-2 font-bold">What would you like to be notified about?</p>
+            <p className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-2 font-bold">What would you like to be notified about?</p>
 
             <div className="flex flex-col gap-2">
               {/* This show */}
@@ -1572,7 +1572,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 </span>
                 <div className="text-left">
                   <p className="text-xs font-bold text-white/80">🎤 This specific show</p>
-                  <p className="text-[10px] text-white/30">Reminders & updates for {notifyPopupShow.venue}</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/30">Reminders & updates for {notifyPopupShow.venue}</p>
                 </div>
               </button>
 
@@ -1595,7 +1595,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 </span>
                 <div className="text-left">
                   <p className="text-xs font-bold text-white/80">📍 Shows near me</p>
-                  <p className="text-[10px] text-white/30">Get emailed when we book near your area</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/30">Get emailed when we book near your area</p>
                 </div>
               </button>
 
@@ -1618,13 +1618,13 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 </span>
                 <div className="text-left">
                   <p className="text-xs font-bold text-white/80">📧 Newsletter & exclusives</p>
-                  <p className="text-[10px] text-white/30">News, drops & merch updates</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/30">News, drops & merch updates</p>
                 </div>
               </button>
             </div>
 
             {/* Sending to email */}
-            <p className="text-[10px] text-white/20 mt-3 text-center">
+            <p className="text-[var(--font-size-3xs)] text-white/20 mt-3 text-center">
               Notifications will be sent to <span className="text-white/40 font-semibold">{member?.email}</span>
             </p>
 
@@ -1652,7 +1652,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
     {/* ── Font Customizer Modal/Panel ── */}
     {isFontCustomizerOpen && (
       <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
-        <div className="w-full max-w-sm bg-[#0d0914]/95 border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
+        <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
           
           {/* Header */}
           <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
@@ -1667,27 +1667,27 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
 
           {/* Font Family */}
           <div className="mb-5">
-            <label className="block text-white/50 text-[10px] uppercase font-bold tracking-wider mb-2">Font Style</label>
+            <label className="block text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider mb-2">Font Style</label>
             <select 
               value={tourFontFamily} 
               onChange={(e) => setTourFontFamily(e.target.value)}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
             >
-              <option value="var(--font-body)" className="bg-[#0d0914] text-white">Barlow (Default)</option>
-              <option value="var(--font-heading)" className="bg-[#0d0914] text-white">Rockstar (Heading)</option>
-              <option value="Inter" className="bg-[#0d0914] text-white">Inter</option>
-              <option value="Montserrat" className="bg-[#0d0914] text-white">Montserrat</option>
-              <option value="Outfit" className="bg-[#0d0914] text-white">Outfit</option>
-              <option value="Syne" className="bg-[#0d0914] text-white">Syne</option>
-              <option value="Playfair Display" className="bg-[#0d0914] text-white">Playfair Display</option>
-              <option value="Courier New" className="bg-[#0d0914] text-white">Monospace</option>
+              <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Barlow (Default)</option>
+              <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
+              <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>
+              <option value="Montserrat" className="bg-[var(--color-bg-surface)] text-white">Montserrat</option>
+              <option value="Outfit" className="bg-[var(--color-bg-surface)] text-white">Outfit</option>
+              <option value="Syne" className="bg-[var(--color-bg-surface)] text-white">Syne</option>
+              <option value="Playfair Display" className="bg-[var(--color-bg-surface)] text-white">Playfair Display</option>
+              <option value="Courier New" className="bg-[var(--color-bg-surface)] text-white">Monospace</option>
             </select>
           </div>
 
           {/* Font Size */}
           <div className="mb-4">
              <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Font Size</label>
+               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Font Size</label>
                <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourFontSize}</span>
              </div>
              <input 
@@ -1698,7 +1698,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                onChange={(e) => setTourFontSize(`${e.target.value}px`)}
                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
              />
-             <div className="flex justify-between text-[8px] text-white/30 font-mono mt-0.5">
+             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
                <span>10px</span>
                <span>17px</span>
                <span>24px</span>
@@ -1708,7 +1708,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
            {/* Row Padding */}
            <div className="mb-4">
              <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Row Padding</label>
+               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Padding</label>
                <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowPadding}</span>
              </div>
              <input 
@@ -1719,7 +1719,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
              />
-             <div className="flex justify-between text-[8px] text-white/30 font-mono mt-0.5">
+             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
                <span>0px</span>
                <span>20px</span>
                <span>40px</span>
@@ -1729,7 +1729,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
            {/* Row Spacing */}
            <div className="mb-4">
              <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
+               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
                <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowGap}</span>
              </div>
              <input 
@@ -1740,7 +1740,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                onChange={(e) => setTourRowGap(`${e.target.value}px`)}
                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
              />
-             <div className="flex justify-between text-[8px] text-white/30 font-mono mt-0.5">
+             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
                <span>0px</span>
                <span>15px</span>
                <span>30px</span>
@@ -1750,7 +1750,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
            {/* Row Height */}
            <div className="mb-5">
              <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[10px] uppercase font-bold tracking-wider">Row Height</label>
+               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Height</label>
                <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowHeight}</span>
              </div>
              <input 
@@ -1761,7 +1761,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
              />
-             <div className="flex justify-between text-[8px] text-white/30 font-mono mt-0.5">
+             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
                <span>30px</span>
                <span>65px</span>
                <span>100px</span>
@@ -1769,7 +1769,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
            </div>
 
           {/* Code telemetry */}
-          <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5 font-mono text-[9px] text-white/60 select-all leading-relaxed whitespace-pre-wrap">
+          <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5 font-mono text-[var(--font-size-4xs)] text-white/60 select-all leading-relaxed whitespace-pre-wrap">
             {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
           </div>
 

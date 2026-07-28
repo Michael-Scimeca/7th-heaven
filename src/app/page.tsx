@@ -144,7 +144,7 @@ export default async function Home() {
   {/* ====== HERO ====== */}
   <section className="relative w-full p-[25px]" id="hero">
     {/* Hero Card — no top padding/rounding so video reaches the very top */}
-    <div id="hero-card" className="relative w-full h-[calc(100vh-50px)] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[#0d0914] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
+    <div id="hero-card" className="relative w-full h-[calc(100vh-50px)] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[var(--color-bg-surface)] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
 
 
 

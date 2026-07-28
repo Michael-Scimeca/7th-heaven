@@ -19,53 +19,128 @@ html.lenis, html.lenis body {
  ============================================= */
 
 @theme {
- /* Layout */
+ /* ═══════════════════════════════════════════════════════
+    LAYOUT
+    ═══════════════════════════════════════════════════════ */
  --container-width: 1440px;
+ --space-container: 32px;
 
- /* Custom breakpoints */
+ /* Breakpoints */
  --breakpoint-desk: 2000px;
 
- /* Colors */
- --color-bg-primary: #0d0914;
- --color-bg-secondary: #0d0914;
- --color-bg-card: rgba(255, 255, 255, 0.03);
+ /* ═══════════════════════════════════════════════════════
+    COLOR PALETTE — Dark Background Scale (5 levels)
+    ═══════════════════════════════════════════════════════ */
+ --color-bg-primary: #000000;        /* Page root */
+ --color-bg-secondary: #000000;      /* Alias for primary (legacy compat) */
+ --color-bg-deep: #050508;           /* Deep section backgrounds */
+ --color-bg-surface: #0b0b12;        /* Default surface / panels */
+ --color-bg-card: #111116;           /* Card & elevated element backgrounds */
+ --color-bg-card-alpha: rgba(255, 255, 255, 0.03);  /* Translucent card */
  --color-bg-card-hover: rgba(255, 255, 255, 0.06);
+ --color-bg-elevated: #181820;       /* Highest elevation: modals, popovers */
  --color-bg-glass: rgba(17, 17, 24, 0.7);
 
+ /* ─── Text ─── */
  --color-text-primary: #FFFEFE;
  --color-text-secondary: #a0a0b8;
  --color-text-muted: #6b6b80;
+ --color-text-disabled: #4a4a5a;
 
+ /* ─── Brand Accent (Purple) ─── */
  --color-accent: #851DEF;
- --color-accent-blue: #3b82f6;
- --color-accent-cyan: #06b6d4;
+ --color-accent-hover: #9d3cff;
+ --color-accent-soft: #a855f7;
+ --color-accent-fuchsia: #d946ef;
  --color-accent-glow: rgba(133, 29, 239, 0.4);
 
- --color-border: rgba(255, 255, 255, 0.06);
- --color-border-hover: rgba(133, 29, 239, 0.3);
+ /* ─── Semantic Accents ─── */
+ --color-accent-pink: #ec4899;
+ --color-accent-blue: #3b82f6;
+ --color-accent-cyan: #06b6d4;
+ --color-accent-green: #10b981;
+ --color-accent-amber: #f59e0b;
+ --color-accent-red: #ef4444;
+ --color-accent-orange: #f97316;
+ --color-accent-indigo: #6366f1;
 
+ /* ─── State Colors ─── */
+ --color-success: #10b981;
  --color-warning: #f59e0b;
+ --color-error: #ef4444;
+ --color-info: #3b82f6;
 
- /* Fonts */
+ /* ─── Borders ─── */
+ --color-border: rgba(255, 255, 255, 0.06);
+ --color-border-subtle: rgba(255, 255, 255, 0.04);
+ --color-border-hover: rgba(133, 29, 239, 0.3);
+ --color-border-strong: rgba(255, 255, 255, 0.15);
+
+ /* ─── Brand / Third Party ─── */
+ --color-brand-spotify: #1DB954;
+ --color-brand-apple-music: #FC3C44;
+ --color-brand-facebook: #1877F2;
+
+ /* ═══════════════════════════════════════════════════════
+    TYPOGRAPHY
+    ═══════════════════════════════════════════════════════ */
  --font-heading: var(--font-rockstar);
  --font-body: var(--font-barlow);
 
-  /* Fluid Typography Sizing — Sleek, Modern & Readable Hierarchy Scale */
-  --font-size-2xs: 0.72rem; /* ~11px */
-  --font-size-xs: 0.8rem;   /* ~13px */
-  --font-size-sm: 0.88rem;  /* ~14px */
-  --font-size-base: 1rem;   /* 16px base body */
-  --font-size-lg: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
-  --font-size-xl: clamp(1.2rem, 1.1rem + 0.35vw, 1.35rem);
-  --font-size-2xl: clamp(1.35rem, 1.25rem + 0.5vw, 1.6rem);
-  --font-size-3xl: clamp(1.6rem, 1.45rem + 0.75vw, 2rem);
-  --font-size-4xl: clamp(2rem, 1.75rem + 1vw, 2.5rem);
-  --font-size-5xl: clamp(2.5rem, 2.1rem + 1.25vw, 3.2rem);
-  --font-size-6xl: clamp(3.2rem, 2.6rem + 1.5vw, 4rem);
+ /* Micro sizes (dashboard labels, badges, metadata) */
+ --font-size-5xs: 0.4375rem;  /* 7px — micro labels */
+ --font-size-4xs: 0.5rem;     /* 8px — tiny badges */
+ --font-size-3xs: 0.625rem;   /* 10px — small metadata */
 
- /* Animation */
+ /* Standard scale */
+ --font-size-2xs: 0.72rem;    /* ~11px */
+ --font-size-xs: 0.8rem;      /* ~13px */
+ --font-size-sm: 0.88rem;     /* ~14px */
+ --font-size-base: 1rem;      /* 16px body */
+ --font-size-lg: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+ --font-size-xl: clamp(1.2rem, 1.1rem + 0.35vw, 1.35rem);
+ --font-size-2xl: clamp(1.35rem, 1.25rem + 0.5vw, 1.6rem);
+ --font-size-3xl: clamp(1.6rem, 1.45rem + 0.75vw, 2rem);
+ --font-size-4xl: clamp(2rem, 1.75rem + 1vw, 2.5rem);
+ --font-size-5xl: clamp(2.5rem, 2.1rem + 1.25vw, 3.2rem);
+ --font-size-6xl: clamp(3.2rem, 2.6rem + 1.5vw, 4rem);
+
+ /* ═══════════════════════════════════════════════════════
+    SHADOWS
+    ═══════════════════════════════════════════════════════ */
+ --shadow-card: 0 8px 30px -10px rgba(0, 0, 0, 0.7);
+ --shadow-deep: 0 6px 20px rgba(0, 0, 0, 0.9);
+ --shadow-accent-glow: 0 0 20px rgba(133, 29, 239, 0.3);
+ --shadow-accent-glow-lg: 0 0 40px rgba(133, 29, 239, 0.4);
+ --shadow-cyan-glow: 0 0 15px rgba(6, 182, 212, 0.3);
+ --shadow-pink-glow: 0 0 20px rgba(236, 72, 153, 0.3);
+ --shadow-nav: 0 10px 30px rgba(0, 0, 0, 0.9);
+
+ /* ═══════════════════════════════════════════════════════
+    Z-INDEX LAYERS
+    ═══════════════════════════════════════════════════════ */
+ --z-base: 0;
+ --z-low: 1;
+ --z-default: 10;
+ --z-raised: 20;
+ --z-high: 30;
+ --z-overlay: 40;
+ --z-nav: 50;
+ --z-modal: 9999;
+ --z-overlay-fx: 99998;
+ --z-preloader: 100000;
+
+ /* ═══════════════════════════════════════════════════════
+    TRANSITIONS
+    ═══════════════════════════════════════════════════════ */
  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+ --duration-fast: 200ms;
+ --duration-normal: 300ms;
+ --duration-slow: 500ms;
+ --duration-slower: 700ms;
+ --duration-slowest: 1000ms;
 
+ /* Animations */
  --animate-fade-in-up: fade-in-up 0.8s var(--ease-out-expo) forwards;
  --animate-fade-in: fade-in 0.6s var(--ease-out-expo) forwards;
  --animate-page-enter: page-enter 0.3s ease-out forwards;
@@ -195,9 +270,10 @@ html.lenis, html.lenis body {
  *,
  *::before,
  *::after {
- margin: 0;
- padding: 0;
- box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   border-radius: 0px !important;
  }
 
  html {
@@ -301,6 +377,20 @@ html.lenis, html.lenis body {
 .overflow-y-auto { overflow-y: scroll !important; }
 .overflow-x-auto { overflow-x: scroll !important; }
 .overflow-auto { overflow: scroll !important; }
+
+/* ── Preloader: Hide page content until loaded ──
+   Body starts with .preloading — page content is invisible.
+   When the preloader finishes, it removes the class and the page
+   smoothly fades in via CSS transition. This prevents any flash of
+   raw content (footer, sections) before the preloader appears. */
+body.preloading #page-content-wrapper {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+#page-content-wrapper {
+  transition: opacity 0.5s ease-in-out;
+}
 
 /* --- Typography Utilities --- */
 @utility heading-hero {
@@ -422,18 +512,20 @@ html.lenis, html.lenis body {
 
 @utility site-container {
  width: 100%;
- max-width: 100%;
- padding-left: 1.5rem;
- padding-right: 1.5rem;
+ max-width: 1440px;
+ margin-left: auto;
+ margin-right: auto;
+ padding-left: 32px !important;
+ padding-right: 32px !important;
 
  @media (min-width: 768px) {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  padding-left: 32px !important;
+  padding-right: 32px !important;
  }
 
  @media (min-width: 1024px) {
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 32px !important;
+  padding-right: 32px !important;
  }
 }
 

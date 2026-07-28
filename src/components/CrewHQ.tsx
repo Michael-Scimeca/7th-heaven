@@ -435,16 +435,16 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     return acc;
   }, {} as Record<string, number>);
 
-  if (isLoading) return <div className="min-h-screen bg-[#050508]" />;
+  if (isLoading) return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;
 
   const member = MEMBER_SEEDS[slug];
   const studioPath = `/crew-${defaultMemberId || slug}/studio`;
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white font-sans pt-20">
+    <div className="min-h-screen bg-[var(--color-bg-primary)] text-white font-sans pt-20">
 
       {/* ─── STICKY HEADER ─────────────────────────────────── */}
-      <header className="sticky top-0 z-40 border-b border-white/[0.05] bg-[#030303]/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-white/[0.05] bg-[var(--color-bg-primary)]/80 backdrop-blur-xl">
         <div className="site-container py-3 flex items-center justify-between gap-4">
           {/* Identity */}
           <div className="flex items-center gap-3">
@@ -457,10 +457,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-black text-sm">{displayName}</span>
-                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[9px] font-black uppercase tracking-widest rounded">Crew HQ</span>
-                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[9px] font-black uppercase tracking-widest rounded"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse"/>LIVE</span>}
+                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[var(--font-size-4xs)] font-black uppercase tracking-widest rounded">Crew HQ</span>
+                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[var(--font-size-4xs)] font-black uppercase tracking-widest rounded"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse"/>LIVE</span>}
               </div>
-              <span className="text-[10px] text-white/25">{email}</span>
+              <span className="text-[var(--font-size-3xs)] text-white/25">{email}</span>
             </div>
           </div>
 
@@ -469,17 +469,17 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div className="hidden md:flex items-center gap-6 px-6 py-2 bg-red-950/30 border border-red-500/20 rounded-xl">
               <div className="text-center">
                 <p className="text-lg font-black text-red-400">{viewerCount.toLocaleString()}</p>
-                <p className="text-[9px] text-white/30 uppercase tracking-widest">Viewers</p>
+                <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Viewers</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
                 <p className="text-lg font-black text-white">{fmt(liveDuration)}</p>
-                <p className="text-[9px] text-white/30 uppercase tracking-widest">Duration</p>
+                <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Duration</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
                 <p className="text-lg font-black text-yellow-400">{chatRate}/min</p>
-                <p className="text-[9px] text-white/30 uppercase tracking-widest">Chat Rate</p>
+                <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Chat Rate</p>
               </div>
             </div>
           )}
@@ -487,7 +487,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {/* Right — Switch + CTA */}
           <div className="flex items-center gap-3">
             <select
-              className="bg-[#111118] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-purple-500/40 cursor-pointer"
+              className="bg-[var(--color-bg-card)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-purple-500/40 cursor-pointer"
               onChange={e => { if (e.target.value) window.location.href = e.target.value; }}
               value={`/crew-${defaultMemberId || slug}`}
             >
@@ -527,8 +527,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <p className="text-sm text-purple-400 font-semibold">{member?.role || "Crew"}</p>
                 <p className="text-xs text-white/30 mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-2 py-0.5 bg-purple-500/10 border border-purple-500/25 text-purple-400 text-[10px] font-black uppercase tracking-wider rounded">7th Heaven</span>
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[10px] font-black uppercase tracking-wider rounded">Active Crew</span>
+                  <span className="px-2 py-0.5 bg-purple-500/10 border border-purple-500/25 text-purple-400 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">7th Heaven</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">Active Crew</span>
                 </div>
               </div>
             </div>
@@ -543,7 +543,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               ].map(({ label, value, icon, color }) => (
                 <div key={label} className="text-center px-5 py-3 bg-white/[0.03] border border-white/[0.06] rounded-xl min-w-[80px]">
                   <p className="text-xl font-black" style={{ color }}>{value}</p>
-                  <p className="text-[10px] text-white/25 mt-0.5">{icon} {label}</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/25 mt-0.5">{icon} {label}</p>
                 </div>
               ))}
             </div>
@@ -571,18 +571,18 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
           {/* ── LEFT COLUMN: SITE-WIDE MONITOR & POLICIES ─────── */}
           <div className="flex flex-col gap-5 flex-1 min-w-0">
-            <div className="bg-[#080810] border border-white/[0.07] rounded-2xl overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
+            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-2xl overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
 
             {/* Feed header */}
             <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
               <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-2">
                   <span className="font-black text-sm">📡 Site-Wide Chat Monitor</span>
-                  <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[10px] text-white/30 font-mono">{msgs.length} msgs</span>
+                  <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[var(--font-size-3xs)] text-white/30 font-mono">{msgs.length} msgs</span>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live"/>
                   <button
                     onClick={toggleSimulator}
-                    className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all cursor-pointer border ${
+                    className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-all cursor-pointer border ${
                       simActive
                         ? "bg-amber-500 text-black border-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.35)] animate-pulse"
                         : "bg-white/5 border border-white/10 text-white/40 hover:text-white/60"
@@ -598,12 +598,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="Search messages…"
-                    className="bg-[#0f0f1a] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-purple-500/40 w-44"
+                    className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-purple-500/40 w-44"
                   />
                   <select
                     value={roleFilter}
                     onChange={e => setRoleFilter(e.target.value)}
-                    className="bg-[#0f0f1a] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-purple-500/40 cursor-pointer"
+                    className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-purple-500/40 cursor-pointer"
                   >
                     <option value="all">All Roles</option>
                     <option value="flagged">🚩 Flagged</option>
@@ -617,7 +617,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               <div className="flex items-center gap-2 mt-3 flex-wrap">
                 <button
                   onClick={() => setRoomFilter("all")}
-                  className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer border ${
+                  className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-all cursor-pointer border ${
                     roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover:text-white/60"
                   }`}
                 >
@@ -627,7 +627,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <button
                     key={room.id}
                     onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
-                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer border ${
+                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-all cursor-pointer border ${
                       roomFilter === room.id
                         ? "text-white border-opacity-100"
                         : "border-white/[0.08] text-white/30 hover:text-white/60"
@@ -662,7 +662,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     >
                       {/* Avatar */}
                       <div
-                        className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-black shrink-0 mt-0.5"
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--font-size-4xs)] font-black shrink-0 mt-0.5"
                         style={{ background: roleColor + "22", color: roleColor }}
                       >
                         {(msg.sender_avatar || msg.sender_name || "??").slice(0,2).toUpperCase()}
@@ -671,21 +671,21 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       {/* Content */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                          <span className="text-[11px] font-black" style={{ color: roleColor }}>
+                          <span className="text-[var(--font-size-2xs)] font-black" style={{ color: roleColor }}>
                             {msg.sender_name}
                           </span>
                           <span
-                            className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+                            className="text-[var(--font-size-4xs)] font-bold px-1.5 py-0.5 rounded-full"
                             style={{ background: room.color + "20", color: room.color, border: `1px solid ${room.color}40` }}
                           >
                             {room.icon} {room.label}
                           </span>
-                          <span className="text-[9px] text-white/20 font-mono">
+                          <span className="text-[var(--font-size-4xs)] text-white/20 font-mono">
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </span>
-                          {isFlagged && <span className="text-[9px] text-yellow-400 font-bold">🚩 flagged</span>}
-                          {warned.has(msg.sender_name) && <span className="text-[9px] text-amber-400 font-bold">⚠️ warned</span>}
-                          {isBanned && <span className="text-[9px] text-red-400 font-bold">🚫 banned</span>}
+                          {isFlagged && <span className="text-[var(--font-size-4xs)] text-yellow-400 font-bold">🚩 flagged</span>}
+                          {warned.has(msg.sender_name) && <span className="text-[var(--font-size-4xs)] text-amber-400 font-bold">⚠️ warned</span>}
+                          {isBanned && <span className="text-[var(--font-size-4xs)] text-red-400 font-bold">🚫 banned</span>}
                         </div>
                         <p className="text-sm text-white/75 break-words">{msg.content}</p>
                       </div>
@@ -695,33 +695,33 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         <button
                           onClick={() => handleFlag(msg.id)}
                           title="Flag message"
-                          className={`px-2 py-1 rounded-lg text-[10px] border transition-colors cursor-pointer ${
+                          className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${
                             isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"
                           }`}
                         >🚩</button>
                         <button
                           onClick={() => handleWarn(msg.sender_name, msg.room)}
                           title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
-                          className={`px-2 py-1 rounded-lg text-[10px] border transition-colors cursor-pointer ${
+                          className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${
                             warned.has(msg.sender_name) ? "border-amber-500/50 bg-amber-500/15 text-amber-400" : "border-amber-500/25 text-amber-500/70 hover:bg-amber-500/10"
                           }`}
                         >⚠️</button>
                         <button
                           onClick={() => handleBan(msg.sender_name, msg.room)}
                           title={isBanned ? "Unban user" : "Ban user"}
-                          className={`px-2 py-1 rounded-lg text-[10px] border transition-colors cursor-pointer ${
+                          className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${
                             isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
                           }`}
                         >🚫</button>
                         <button
                           onClick={() => handleKick(msg.id, msg.sender_name, msg.room)}
                           title="Remove Fan Completely"
-                          className="px-2 py-1 rounded-lg text-[10px] border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
+                          className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
                         >🚪</button>
                         <button
                           onClick={() => handleDeleteMsg(msg.id)}
                           title="Delete message"
-                          className="px-2 py-1 rounded-lg text-[10px] border border-white/[0.08] text-white/30 hover:bg-white/5 transition-colors cursor-pointer"
+                          className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-white/[0.08] text-white/30 hover:bg-white/5 transition-colors cursor-pointer"
                         >🗑</button>
                       </div>
                     </div>
@@ -731,7 +731,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Feed footer stats */}
-            <div className="px-5 py-2.5 border-t border-white/[0.05] flex items-center justify-between text-[10px] text-white/25 flex-shrink-0">
+            <div className="px-5 py-2.5 border-t border-white/[0.05] flex items-center justify-between text-[var(--font-size-3xs)] text-white/25 flex-shrink-0">
               <span>Showing {filteredMsgs.length} of {msgs.length} messages</span>
               <span className="flex items-center gap-3">
                 <span>🚩 {flagged.size} flagged</span>
@@ -742,9 +742,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Chat Moderation Panel */}
-            <div className="bg-[#080810] border border-white/[0.07] rounded-2xl overflow-hidden shadow-2xl">
-               <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[#181820]">
-                  <div className="w-10 h-10 rounded-xl bg-[#ec4899]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
+            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-2xl overflow-hidden shadow-2xl">
+               <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                    <div>
                       <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
                       <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
@@ -754,7 +754,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                <div className="p-4 space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                      <div className="flex-1 min-w-0 w-full space-y-2">
-                        <h4 className="text-xs font-black uppercase tracking-widest text-[#ec4899]">🔍 Custom Flagged Keywords</h4>
+                        <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
                         <p className="text-white/40 text-xs leading-relaxed font-sans font-semibold">
                            Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                         </p>
@@ -769,7 +769,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                            />
                            <button
                              type="submit"
-                             className="px-5 py-2.5 bg-[#ec4899] hover:bg-[#d83f87] text-black font-black text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                             className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
                            >
                              Add Keyword
                            </button>
@@ -815,12 +815,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div className={`rounded-2xl border overflow-hidden transition-all ${
               isLive
                 ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]"
-                : "border-white/[0.07] bg-[#080810]"
+                : "border-white/[0.07] bg-[var(--color-bg-deep)]"
             }`}>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-base font-black">🎥 Broadcast Studio</span>
-                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-full text-[9px] text-red-400 font-black uppercase"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse"/>LIVE</span>}
+                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-full text-[var(--font-size-4xs)] text-red-400 font-black uppercase"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse"/>LIVE</span>}
                 </div>
 
                 {isLive ? (
@@ -868,7 +868,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Quick Analytics */}
-            <div className="bg-[#080810] border border-white/[0.07] rounded-2xl p-5">
+            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-2xl p-5">
               <h3 className="font-black text-xs uppercase tracking-widest text-white/25 mb-4">My Analytics</h3>
               <div className="space-y-3">
                 {[
@@ -886,15 +886,15 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Crew Notes */}
-            <div className="bg-[#080810] border border-white/[0.07] rounded-2xl p-5 flex-1">
+            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-2xl p-5 flex-1">
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <h3 className="font-black text-sm">📝 Notes for Admin</h3>
-                  <p className="text-[10px] text-white/25 mt-0.5">Saved to Supabase</p>
+                  <p className="text-[var(--font-size-3xs)] text-white/25 mt-0.5">Saved to Supabase</p>
                 </div>
                 <button
                   onClick={handleSaveNotes}
-                  className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest cursor-pointer transition-all ${
+                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-widest cursor-pointer transition-all ${
                     notesSaved ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/25" : "bg-white/5 text-white/40 border border-white/[0.08] hover:text-white"
                   }`}
                 >
@@ -921,7 +921,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   key={label}
                   href={href}
                   target={external ? "_blank" : undefined}
-                  className="flex items-center gap-2 p-3 bg-[#080810] border border-white/[0.07] rounded-xl hover:border-white/15 hover:bg-white/[0.02] transition-all group"
+                  className="flex items-center gap-2 p-3 bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-xl hover:border-white/15 hover:bg-white/[0.02] transition-all group"
                 >
                   <span className="text-lg">{icon}</span>
                   <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">{label}</span>

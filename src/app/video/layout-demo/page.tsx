@@ -48,7 +48,7 @@ function CatNav({ active, set }: { active: string; set: (s: string) => void }) {
 function VideoCard({ v, style = "default" }: { v: typeof VIDEOS[0]; style?: string }) {
   return (
     <div className="group cursor-pointer">
-      <div className="relative aspect-video overflow-hidden bg-[#12121a] rounded-xl">
+      <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] rounded-xl">
         <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
         <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all" />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -73,7 +73,7 @@ export default function VideoLayoutDemo() {
   const [cat, setCat] = useState("Official Music Videos");
 
   return (
-    <div className="bg-[#050508] min-h-screen pt-[72px]">
+    <div className="bg-[var(--color-bg-deep)] min-h-screen pt-[72px]">
       <Switcher active={active} set={setActive} />
 
       {/* ═══ A — Cinema Split (current style refined) ═══ */}
@@ -152,7 +152,7 @@ export default function VideoLayoutDemo() {
               <div className="flex gap-3 overflow-x-auto pb-4 -mx-6 px-6 snap-x">
                 {VIDEOS.map(v => (
                   <div key={v.id+v.title+category} className="w-[280px] shrink-0 snap-start group cursor-pointer">
-                    <div className="relative aspect-video rounded-lg overflow-hidden bg-[#12121a]">
+                    <div className="relative aspect-video rounded-lg overflow-hidden bg-[var(--color-bg-card)]">
                       <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 flex items-center justify-center">
                         <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
@@ -181,7 +181,7 @@ export default function VideoLayoutDemo() {
           <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
             {VIDEOS.map((v, i) => (
               <div key={v.id+v.title} className="break-inside-avoid group cursor-pointer">
-                <div className={`relative overflow-hidden rounded-2xl bg-[#12121a] ${i % 3 === 0 ? "aspect-[4/5]" : i % 3 === 1 ? "aspect-video" : "aspect-[3/4]"}`}>
+                <div className={`relative overflow-hidden rounded-2xl bg-[var(--color-bg-card)] ${i % 3 === 0 ? "aspect-[4/5]" : i % 3 === 1 ? "aspect-video" : "aspect-[3/4]"}`}>
                   <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
@@ -214,7 +214,7 @@ export default function VideoLayoutDemo() {
               {VIDEOS.map((v, i) => (
                 <div key={v.id+v.title} className={`flex items-center gap-6 px-4 py-4 rounded-xl cursor-pointer transition-all hover:bg-white/[0.04] group ${i === 0 ? "bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20" : ""}`}>
                   <span className="text-sm font-bold text-white/20 w-6 text-center tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                  <div className="relative w-28 aspect-video rounded-lg overflow-hidden shrink-0 bg-[#12121a]">
+                  <div className="relative w-28 aspect-video rounded-lg overflow-hidden shrink-0 bg-[var(--color-bg-card)]">
                     <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3" /></svg>
@@ -242,7 +242,7 @@ export default function VideoLayoutDemo() {
               <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-4 block">Spotlight</span>
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-4">
                 {/* Main large video */}
-                <div className="relative aspect-video rounded-2xl overflow-hidden bg-[#12121a] group cursor-pointer">
+                <div className="relative aspect-video rounded-2xl overflow-hidden bg-[var(--color-bg-card)] group cursor-pointer">
                   <img src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-8">
@@ -257,7 +257,7 @@ export default function VideoLayoutDemo() {
                 {/* 2x2 grid */}
                 <div className="grid grid-cols-2 gap-4">
                   {VIDEOS.slice(1, 5).map(v => (
-                    <div key={v.id+v.title} className="relative aspect-video rounded-xl overflow-hidden bg-[#12121a] group cursor-pointer">
+                    <div key={v.id+v.title} className="relative aspect-video rounded-xl overflow-hidden bg-[var(--color-bg-card)] group cursor-pointer">
                       <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-3">

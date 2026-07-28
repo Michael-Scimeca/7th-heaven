@@ -240,7 +240,7 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="group relative bg-[#0a0a0f] border border-white/10 rounded-xl overflow-hidden shadow-xl hover:border-purple-500/50 transition-colors"
+                    className="group relative bg-[var(--color-bg-surface)] border border-white/10 rounded-xl overflow-hidden shadow-xl hover:border-purple-500/50 transition-colors"
                   >
                     <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
                       {isVideo ? (
@@ -361,7 +361,7 @@ export default function FansPage() {
               return (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid flex flex-col bg-[#0a0a0f]/50 border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all duration-300 shadow-2xl"
+                  className="break-inside-avoid flex flex-col bg-[var(--color-bg-surface)]/50 border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all duration-300 shadow-2xl"
                 >
                   <div className="p-4 flex items-center justify-between border-b border-white/5 bg-black/20">
                     <div className="flex items-center gap-3">

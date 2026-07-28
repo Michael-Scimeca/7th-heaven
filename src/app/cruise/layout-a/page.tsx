@@ -63,7 +63,7 @@ export default function CruiseLayoutA() {
 
       {/* ── SIGNUP + COUNTER (overlapping hero) ── */}
       <section id="signup" className="site-container max-w-4xl -mt-20 relative z-20 mb-20">
-        <div className="bg-[#0d0d14]/95 backdrop-blur-xl border border-[var(--color-accent)]/30 rounded-3xl p-8 md:p-10 shadow-[0_0_60px_rgba(133,29,239,0.15)]">
+        <div className="bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border border-[var(--color-accent)]/30 rounded-3xl p-8 md:p-10 shadow-[0_0_60px_rgba(133,29,239,0.15)]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Form */}
             <div>

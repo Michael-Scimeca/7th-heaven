@@ -177,7 +177,7 @@ export default function MemberDashboard() {
   return (
    <section className="py-20 min-h-[calc(100vh-72px)] flex items-center justify-center">
     <div className="site-container max-w-xl w-full">
-     <div className="bg-[#0c0c18] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative">
+     <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative">
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
       <div className="p-10">
        <div className="text-center mb-10">
@@ -196,7 +196,7 @@ export default function MemberDashboard() {
         
         <div className="relative py-4 flex items-center justify-center">
          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-         <span className="relative bg-[#0c0c18] px-4 text-xs font-bold text-white/30 uppercase tracking-widest">Already a fan?</span>
+         <span className="relative bg-[var(--color-bg-surface)] px-4 text-xs font-bold text-white/30 uppercase tracking-widest">Already a fan?</span>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">

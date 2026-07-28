@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
@@ -53,6 +55,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.12",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/dompurify": "^3.0.5",
     "@types/leaflet": "^1.9.21",
@@ -66,6 +69,7 @@
     "postcss": "^8.5.8",
     "puppeteer": "^25.3.0",
     "tailwindcss": "^4.2.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.10"
   }
 }

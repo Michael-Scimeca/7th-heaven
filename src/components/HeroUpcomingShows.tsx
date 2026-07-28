@@ -87,14 +87,14 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
         <div className="flex items-center justify-between mb-1.5 px-0.5">
           <div className="flex items-center gap-1">
             <span className="w-1 h-1 rounded-full bg-[var(--color-accent)] animate-pulse" />
-            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
+            <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
           </div>
-          <Link href="/tour" className="text-[8px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
+          <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
             All
             <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
           </Link>
         </div>
-        <p className="text-[10px] text-white/40 py-2 text-center font-bold">No upcoming shows scheduled</p>
+        <p className="text-[var(--font-size-3xs)] text-white/40 py-2 text-center font-bold">No upcoming shows scheduled</p>
       </div>
     );
   }
@@ -125,14 +125,14 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
   const daysLabel = getDaysUntilLabel();
 
   return (
-    <div className="bg-[#050508]/85 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] w-full">
+    <div className="bg-[var(--color-bg-deep)]/85 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-2 px-0.5">
         <div className="flex items-center gap-1">
           <span className="w-1 h-1 rounded-full bg-[var(--color-accent)] animate-pulse" />
-          <span className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
+          <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
         </div>
-        <Link href="/tour" className="text-[8px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
+        <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
           All
           <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
         </Link>
@@ -147,7 +147,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           {/* Top block: UP NEXT Badge & Countdown timer inline */}
           <div className="flex items-center justify-between gap-2 flex-wrap">
             {/* UP NEXT Badge */}
-            <div className="flex items-center gap-1 text-[7px] font-black uppercase tracking-[0.15em]">
+            <div className="flex items-center gap-1 text-[var(--font-size-5xs)] font-black uppercase tracking-[0.15em]">
               <span className={`w-0.5 h-0.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
               <span className={daysLabel === "Happening Now" ? "text-red-500 font-black" : "text-[var(--color-accent)]"}>
                 {daysLabel === "Happening Now" ? "Live" : "Up Next"}
@@ -169,7 +169,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             <h3 className="font-[var(--font-heading)] text-sm font-extrabold text-white leading-tight mb-1 uppercase tracking-tight truncate group-hover/venue:text-[var(--color-accent)] transition-colors">
               {nextShow.venue}
             </h3>
-            <div className="flex flex-wrap items-center gap-1 text-[8px] text-white/50 font-medium">
+            <div className="flex flex-wrap items-center gap-1 text-[var(--font-size-4xs)] text-white/50 font-medium">
               <span>{nextShow.day}, {nextShow.date}</span>
               {nextShow.city && (
                 <>
@@ -198,7 +198,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
               )}
             </div>
             {nextShow.info && (
-              <p className="mt-1 text-[7px] font-extrabold uppercase tracking-[0.12em] text-[var(--color-accent)]/80">
+              <p className="mt-1 text-[var(--font-size-5xs)] font-extrabold uppercase tracking-[0.12em] text-[var(--color-accent)]/80">
                 🎸 {nextShow.info}
               </p>
             )}
@@ -207,28 +207,28 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           {/* Bottom block: Action buttons */}
           <div className="flex flex-wrap gap-1.5 items-center mt-0.5 pt-2 border-t border-white/5">
             {nextShow.mapUrl && (
-              <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[7px] py-1 px-2 border-[var(--color-accent)]/20 uppercase tracking-widest font-bold" id="hero-upnext-map">
+              <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 uppercase tracking-widest font-bold" id="hero-upnext-map">
                 📍 Directions
               </a>
             )}
             {nextShow.websiteUrl && (
-              <a href={nextShow.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-primary btn-primary-hover text-[7px] py-1 px-3 bg-[var(--color-accent)] text-white uppercase tracking-widest font-bold" id="hero-upnext-website">
+              <a href={nextShow.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-primary btn-primary-hover text-[var(--font-size-5xs)] py-1 px-3 bg-[var(--color-accent)] text-white uppercase tracking-widest font-bold" id="hero-upnext-website">
                 Website
               </a>
             )}
             <div className="relative calendar-dropdown-container">
               <button
                 onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                className="btn-outline btn-outline-hover text-[7px] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase tracking-widest font-bold text-white/70"
+                className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase tracking-widest font-bold text-white/70"
                 id="hero-upnext-calendar-btn"
               >
                 📅 Calendar
               </button>
               {activeCalDropdownId === 'upnext' && (
-                <div className="absolute left-0 bottom-full mb-1 bg-[#080812] border border-[var(--color-accent)]/30 rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">
-                  <a href={getGoogleCalendarUrl(nextShow)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[8px] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google</a>
-                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[8px] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">iCal / Apple</a>
-                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[8px] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
+                <div className="absolute left-0 bottom-full mb-1 bg-[var(--color-bg-deep)] border border-[var(--color-accent)]/30 rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">
+                  <a href={getGoogleCalendarUrl(nextShow)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google</a>
+                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">iCal / Apple</a>
+                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
                 </div>
               )}
             </div>
@@ -241,14 +241,14 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
         {remainingShows.map((show, i) => (
           <Link key={i} href="/tour" className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/[0.02] border border-white/5 hover:bg-white/[0.04]">
             <div className="w-7 h-7 rounded flex flex-col items-center justify-center bg-white/[0.03] text-white/40 shrink-0 border border-white/5">
-              <span className="text-[6px] font-black uppercase tracking-wider leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
-              <span className="text-[11px] font-black leading-none mt-0.5">{show.date.split(' ')[1]}</span>
+              <span className="text-[var(--font-size-5xs)] font-black uppercase tracking-wider leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
+              <span className="text-[var(--font-size-2xs)] font-black leading-none mt-0.5">{show.date.split(' ')[1]}</span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-bold text-white/90 truncate leading-tight">{show.venue}</p>
-              <p className="text-[8px] text-white/30 truncate mt-0.5">📍 {show.city}{show.state ? `, ${show.state}` : ''}</p>
+              <p className="text-[var(--font-size-4xs)] text-white/30 truncate mt-0.5">📍 {show.city}{show.state ? `, ${show.state}` : ''}</p>
             </div>
-            <span className="text-[8px] font-bold text-white/20">→</span>
+            <span className="text-[var(--font-size-4xs)] font-bold text-white/20">→</span>
           </Link>
         ))}
       </div>

@@ -31,7 +31,7 @@ export default function CatNavDemo() {
   const count = categories.find(c => c.category === activeCat)?.videos.length || 0;
 
   return (
-    <div className="bg-[#050508] min-h-screen pt-[72px]">
+    <div className="bg-[var(--color-bg-deep)] min-h-screen pt-[72px]">
       <Switcher active={active} set={setActive} />
 
       {/* Spacer to simulate hero */}
@@ -44,7 +44,7 @@ export default function CatNavDemo() {
 
       {/* ═══ A — Slash-separated inline (current) ═══ */}
       {active === "A" && (
-        <div className="sticky top-[72px] z-40 bg-[#050508]/90 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="site-container py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-1">
               {cats.map((c, i) => (
@@ -64,7 +64,7 @@ export default function CatNavDemo() {
 
       {/* ═══ B — Pill/Chip tabs ═══ */}
       {active === "B" && (
-        <div className="sticky top-[72px] z-40 bg-[#050508]/90 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="site-container py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex flex-wrap gap-2">
               {cats.map(c => (
@@ -86,7 +86,7 @@ export default function CatNavDemo() {
 
       {/* ═══ C — Underline tabs with count ═══ */}
       {active === "C" && (
-        <div className="sticky top-[72px] z-40 bg-[#050508]/90 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="site-container flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="flex overflow-x-auto" style={{ scrollbarWidth: "none" }}>
               {cats.map(c => {
@@ -114,7 +114,7 @@ export default function CatNavDemo() {
       {/* ═══ D — Vertical sidebar (left-anchored) ═══ */}
       {active === "D" && (
         <div className="flex">
-          <div className="sticky top-[72px] h-[calc(100vh-72px)] w-[220px] shrink-0 bg-[#0a0a12] border-r border-white/[0.06] flex flex-col py-6 px-4 gap-1">
+          <div className="sticky top-[72px] h-[calc(100vh-72px)] w-[220px] shrink-0 bg-[var(--color-bg-surface)] border-r border-white/[0.06] flex flex-col py-6 px-4 gap-1">
             <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/20 mb-3 px-3">Categories</p>
             {cats.map(c => {
               const vidCount = categories.find(cat => cat.category === c)?.videos.length || 0;
@@ -143,7 +143,7 @@ export default function CatNavDemo() {
 
       {/* ═══ E — Full-width segmented bar ═══ */}
       {active === "E" && (
-        <div className="sticky top-[72px] z-40 bg-[#0a0a12] border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-surface)] border-b border-white/[0.06]">
           <div className="flex items-stretch">
             {cats.map((c, i) => (
               <button key={c} onClick={() => setActiveCat(c)}
@@ -167,7 +167,7 @@ export default function CatNavDemo() {
 
       {/* ═══ F — Dropdown + prominent search ═══ */}
       {active === "F" && (
-        <div className="sticky top-[72px] z-40 bg-[#050508]/90 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="site-container py-4 flex items-center gap-4">
             <div className="relative">
               <select
@@ -175,7 +175,7 @@ export default function CatNavDemo() {
                 onChange={e => setActiveCat(e.target.value)}
                 className="appearance-none bg-white/5 border border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-xs font-bold uppercase tracking-widest text-white cursor-pointer focus:outline-none focus:border-[var(--color-accent)] transition-all"
               >
-                {cats.map(c => <option key={c} value={c} className="bg-[#0a0a12] text-white">{c}</option>)}
+                {cats.map(c => <option key={c} value={c} className="bg-[var(--color-bg-surface)] text-white">{c}</option>)}
               </select>
               <svg className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 w-3.5 h-3.5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
             </div>
@@ -192,7 +192,7 @@ export default function CatNavDemo() {
       {active !== "D" && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-white/[0.02] mt-0">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="aspect-video bg-[#0a0a10] flex items-center justify-center">
+            <div key={i} className="aspect-video bg-[var(--color-bg-surface)] flex items-center justify-center">
               <span className="text-white/10 text-xs">Video {i + 1}</span>
             </div>
           ))}

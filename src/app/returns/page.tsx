@@ -84,7 +84,7 @@ export default function ReturnsPage() {
           <div>
             <h2 className="text-white text-lg font-bold mb-3">5. Damaged or Defective Items</h2>
             <p>
-              If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="text-[#a855f7] hover:underline">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
+              If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent-soft)] hover:underline">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
             </p>
           </div>
 
@@ -96,8 +96,8 @@ export default function ReturnsPage() {
             </p>
             <div className="p-4 border border-white/5 bg-white/[0.02] rounded-xl">
               <p className="text-white font-bold text-sm">7th Heaven Support</p>
-              <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[#a855f7] hover:underline">info@7thheavenband.com</a></p>
-              <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-[#a855f7] hover:underline">7thheavenband.com</a></p>
+              <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent-soft)] hover:underline">info@7thheavenband.com</a></p>
+              <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent-soft)] hover:underline">7thheavenband.com</a></p>
             </div>
           </div>
 

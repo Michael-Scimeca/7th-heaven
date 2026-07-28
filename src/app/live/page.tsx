@@ -239,33 +239,11 @@ export default function LiveHubPage() {
         {/* ── HEADER ── */}
         <div className="max-w-[1440px] mx-auto mb-10">
 
-          {/* Demo + Admin bar */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
-            <div className="flex items-center gap-3 px-5 py-3 rounded-xl" style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.2)" }}>
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#fbbf24" }} />
-              <span className="text-xs font-black uppercase tracking-widest" style={{ color: "#fbbf24" }}>Demo Mode</span>
-              <span className="text-xs" style={{ color: "rgba(251,191,36,0.5)" }}>— Simulated crew streams for client preview</span>
-            </div>
-
-            <button
-              onClick={() => setShowAdmin(v => !v)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-black uppercase tracking-wider transition-all"
-              style={{
-                background: showAdmin ? "rgba(239,68,68,0.15)" : "rgba(255,255,255,0.05)",
-                border: showAdmin ? "1px solid rgba(239,68,68,0.45)" : "1px solid rgba(255,255,255,0.1)",
-                color: showAdmin ? "#f87171" : "rgba(255,255,255,0.55)",
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-              {showAdmin ? "Exit Admin" : "Admin View"}
-              {(flaggedCount > 0 || showAdmin) && !showAdmin && (
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-white font-black text-xs" style={{ background: "#ef4444" }}>
-                  {flaggedCount}
-                </span>
-              )}
-            </button>
+          {/* Demo bar */}
+          <div className="flex items-center gap-3 px-5 py-3 rounded-xl mb-10 w-fit" style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.2)" }}>
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#fbbf24" }} />
+            <span className="text-xs font-black uppercase tracking-widest" style={{ color: "#fbbf24" }}>Demo Mode</span>
+            <span className="text-xs" style={{ color: "rgba(251,191,36,0.5)" }}>— Simulated crew streams for client preview</span>
           </div>
 
           {/* Title row */}
@@ -481,7 +459,7 @@ export default function LiveHubPage() {
             >
               <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
                 {/* Thumbnail with canvas feed */}
-                <div className="aspect-video bg-[#030305] relative overflow-hidden">
+                <div className="aspect-video bg-[var(--color-bg-primary)] relative overflow-hidden">
                   <MiniCanvasFeed color={room.color} index={i} />
 
                   {/* LIVE badge */}
@@ -543,11 +521,11 @@ export default function LiveHubPage() {
         {/* ── SMS ALERTS BANNER ── */}
         {liveAlertsEnabled && (
           <div className="max-w-[1440px] mx-auto mt-20 mb-10 border border-[#ec4899]/10 bg-gradient-to-r from-[#0f0b18] to-[#160d24] rounded-2xl p-8 sm:p-12 relative overflow-hidden shadow-[0_0_50px_rgba(236,72,153,0.05)]">
-            <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#ec4899]/10 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute -top-40 -left-40 w-96 h-96 bg-[var(--color-accent-pink)]/10 rounded-full blur-[100px] pointer-events-none" />
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#ec4899]/10 border border-[#ec4899]/20 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-accent-pink)]/10 border border-[#ec4899]/20 mb-6">
                 <span className="text-xs">📲</span>
-                <span className="text-xs font-black uppercase tracking-widest text-[#ec4899]">Live Stream Alerts</span>
+                <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Live Stream Alerts</span>
               </div>
               <div className="max-w-xl">
                 <h2 className="text-2xl sm:text-3xl font-black text-white italic tracking-tight mb-3">Never Miss a Live Feed</h2>
@@ -561,11 +539,11 @@ export default function LiveHubPage() {
                       <span className="text-white/20 text-sm">📱</span>
                     </div>
                     <input type="tel" placeholder="(312) 555-0199"
-                      className="w-full bg-[#111116] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-white/20 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
+                      className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-white/20 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
                     />
                   </div>
                   <button type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[#ec4899] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0">
+                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0">
                     ALERT ME 🔔
                   </button>
                 </form>

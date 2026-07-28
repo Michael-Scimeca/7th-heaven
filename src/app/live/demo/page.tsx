@@ -1375,7 +1375,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
   const RoleBadge = ({ account }: { account: FakeAccount }) => {
     if (account.role === 'crew' || account.role === 'admin') {
       return (
-        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[#8a1cfc]/20 border border-[#8a1cfc]/40 rounded text-xs font-bold uppercase tracking-wider text-[#c084fc] ml-1.5">
+        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[var(--color-accent)]/20 border border-[#8a1cfc]/40 rounded text-xs font-bold uppercase tracking-wider text-[#c084fc] ml-1.5">
           {account.badge || '⭐'} CREW
         </span>
       );
@@ -1472,7 +1472,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <span className="text-white/90 text-xs sm:text-sm font-bold truncate">Crew Cam: {crewConfig.displayName}</span>
-                <span className="hidden xs:inline-flex px-1.5 py-0.5 bg-[#8a1cfc]/20 border border-[#8a1cfc]/40 rounded text-2xs sm:text-2xs font-bold uppercase tracking-wider text-[#c084fc] shrink-0">{crewConfig.badge} CREW</span>
+                <span className="hidden xs:inline-flex px-1.5 py-0.5 bg-[var(--color-accent)]/20 border border-[#8a1cfc]/40 rounded text-2xs sm:text-2xs font-bold uppercase tracking-wider text-[#c084fc] shrink-0">{crewConfig.badge} CREW</span>
               </div>
               <p className="text-white/30 text-xs sm:text-xs truncate hidden sm:block">7th Heaven · House of Blues, Chicago · {formatTime(elapsed)}</p>
             </div>
@@ -1636,7 +1636,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                 raffleState.winners?.some((w: any) => (w?.name || w)?.toLowerCase().trim() === member!.name.toLowerCase().trim());
               return (
               <div className="absolute top-20 left-4 sm:left-auto sm:right-4 z-40 w-[calc(100%-2rem)] sm:w-full sm:max-w-xs animate-in slide-in-from-right-8 fade-in duration-500">
-                <div className="bg-[#0a0a0e]/95 backdrop-blur-xl border-2 border-yellow-500/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)] text-white relative flex flex-col px-4 py-5 pointer-events-auto">
+                <div className="bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border-2 border-yellow-500/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)] text-white relative flex flex-col px-4 py-5 pointer-events-auto">
 
                   {/* Close button — top right */}
                   <button
@@ -1780,7 +1780,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                       <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-bold mb-2">Next Raffle Drawing In</p>
                       <div className="inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded border border-white/10 shadow-inner">
-                       <span className="text-[10px] animate-pulse">⏳</span>
+                       <span className="text-[var(--font-size-3xs)] animate-pulse">⏳</span>
                        <span className="text-lg font-mono font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-200">
                         {Math.floor(nextRaffleCountdown / 60)}:{(nextRaffleCountdown % 60).toString().padStart(2, '0')}
                        </span>
@@ -1803,7 +1803,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
               const claimUrl = `${window.location.origin}/claim/${pin}`;
               return (
               <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm pointer-events-auto">
-                <div className="bg-[#0a0a0e]/98 backdrop-blur-xl border border-yellow-500/40 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+                <div className="bg-[var(--color-bg-surface)]/98 backdrop-blur-xl border border-yellow-500/40 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
                   <button onClick={() => { setShowClaimModal(false); setClaimMethod(null); }} className="absolute top-3 right-3 text-white/50 hover:text-white transition-colors p-1 bg-white/5 hover:bg-white/10 rounded-full">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                   </button>
@@ -1902,7 +1902,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             {/* FLASH DROP WIDGET */}
             {showFlashDrop && (
               <div className="absolute bottom-16 right-4 sm:bottom-20 z-40 w-[calc(100%-2rem)] max-w-sm sm:max-w-md animate-in slide-in-from-bottom-8 fade-in duration-500 pointer-events-auto">
-                <div className="bg-[#0a0a0e]/95 backdrop-blur-xl border-2 border-pink-500/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(236,72,153,0.3)] flex text-white relative">
+                <div className="bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border-2 border-pink-500/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(236,72,153,0.3)] flex text-white relative">
                   <button onClick={() => setShowFlashDrop(false)} className="absolute top-2 right-2 text-white/50 hover:text-white z-50 p-1 bg-black/50 rounded-full cursor-pointer">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                   </button>
@@ -1997,7 +1997,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
             {/* Ship vs Pickup fulfillment modal */}
             {showFulfillmentModal && (
               <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6 pointer-events-auto">
-                <div className="bg-[#0f0f18] border border-pink-500/30 rounded-2xl w-full max-w-xs overflow-hidden shadow-2xl">
+                <div className="bg-[var(--color-bg-surface)] border border-pink-500/30 rounded-2xl w-full max-w-xs overflow-hidden shadow-2xl">
                   <div className="bg-gradient-to-r from-pink-600/20 to-transparent px-5 py-4 border-b border-white/10">
                     <p className="text-xs text-pink-400 font-black uppercase tracking-widest mb-0.5">🔥 Flash Drop</p>
                     <h3 className="text-white font-black text-sm">{currentProduct.name}</h3>
@@ -2091,7 +2091,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
               ) : (
               <button
                 onClick={() => openModal('login')}
-                className="flex-1 flex items-center justify-center gap-2 bg-black/50 backdrop-blur-md rounded-full px-4 py-1.5 sm:py-2 border border-white/15 hover:border-[#8a1cfc]/60 hover:bg-[#8a1cfc]/20 transition-all cursor-pointer group"
+                className="flex-1 flex items-center justify-center gap-2 bg-black/50 backdrop-blur-md rounded-full px-4 py-1.5 sm:py-2 border border-white/15 hover:border-[#8a1cfc]/60 hover:bg-[var(--color-accent)]/20 transition-all cursor-pointer group"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40 group-hover:text-[#8a1cfc] transition-colors"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                 <span className="text-xs sm:text-sm text-white/50 group-hover:text-white transition-colors font-medium">Sign in to comment</span>
@@ -2112,9 +2112,9 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
         {/* ── LIVE CHAT PANEL ── */}
         {/* Mobile: fills remaining space below video. Desktop: fixed width sidebar */}
-        <div className="flex-1 lg:flex-none w-full lg:w-[360px] xl:w-[420px] shrink lg:shrink-0 flex flex-col bg-[#0a0a0e] border-t lg:border-t-0 lg:border-l border-white/[0.06] overflow-hidden min-h-0">
+        <div className="flex-1 lg:flex-none w-full lg:w-[360px] xl:w-[420px] shrink lg:shrink-0 flex flex-col bg-[var(--color-bg-surface)] border-t lg:border-t-0 lg:border-l border-white/[0.06] overflow-hidden min-h-0">
           {/* Chat header */}
-          <div className="px-4 py-2.5 border-b border-white/[0.06] flex items-center justify-between bg-[#0d0d14] shrink-0">
+          <div className="px-4 py-2.5 border-b border-white/[0.06] flex items-center justify-between bg-[var(--color-bg-surface)] shrink-0">
             <div className="flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#8a1cfc]"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               <span className="text-white/90 text-sm font-bold uppercase tracking-widest">Live Chat</span>
@@ -2125,7 +2125,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
                 <button className="text-xs text-rose-400/80 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded-full font-bold uppercase tracking-widest cursor-pointer hover:bg-rose-500/20 transition-colors">
                   🚫 {bannedUsers.size} muted
                 </button>
-                <div className="hidden group-hover/muted:block absolute right-0 top-full mt-1 bg-[#0d0d14] border border-white/10 rounded-lg shadow-xl z-50 min-w-[160px] p-2">
+                <div className="hidden group-hover/muted:block absolute right-0 top-full mt-1 bg-[var(--color-bg-surface)] border border-white/10 rounded-lg shadow-xl z-50 min-w-[160px] p-2">
                   <p className="text-xs text-white/30 font-bold uppercase tracking-widest mb-2 px-1">Muted Users</p>
                   {Array.from(bannedUsers).map(id => {
                     const acc = [...(FAN_ACCOUNTS || [])].find(a => a.id === id);
@@ -2202,7 +2202,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
 
           {/* Active viewers panel */}
           {showViewers && (
-            <div className="border-t border-white/[0.06] bg-[#0d0d14] px-3 py-2 max-h-[160px] overflow-y-auto scrollbar-hide shrink-0">
+            <div className="border-t border-white/[0.06] bg-[var(--color-bg-surface)] px-3 py-2 max-h-[160px] overflow-y-auto scrollbar-hide shrink-0">
               <p className="text-white/40 text-xs font-bold uppercase tracking-widest mb-1.5">Active Viewers ({ALL_ACCOUNTS.length}+)</p>
               <div className="flex flex-wrap gap-1">
                 {ALL_ACCOUNTS.map(a => (
@@ -2242,7 +2242,7 @@ function LiveSimulation({ memberId = 'mike' }: { memberId?: string }) {
           <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => !isProcessingPayment && setIsCheckoutOpen(false)} />
           
           {/* Modal Body */}
-          <div className="relative w-full max-w-lg bg-[#0d0d14] border border-white/10 shadow-2xl rounded-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-lg bg-[var(--color-bg-surface)] border border-white/10 shadow-2xl rounded-2xl overflow-hidden animate-in zoom-in-95 duration-200">
             {/* Header */}
             <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between bg-black/40">
               <span className="text-white/90 font-black tracking-widest uppercase text-sm">Secure Checkout</span>

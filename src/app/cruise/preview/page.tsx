@@ -225,7 +225,7 @@ export default function CruisePreviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {versions.map(({ label, title, desc, Component }) => (
-            <div key={label} className="bg-[#0d0d14]/80 border border-white/10 rounded-2xl overflow-hidden">
+            <div key={label} className="bg-[var(--color-bg-surface)]/80 border border-white/10 rounded-2xl overflow-hidden">
               <div className="px-6 py-4 border-b border-white/5 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center text-sm font-black text-white">{label}</span>
                 <div>

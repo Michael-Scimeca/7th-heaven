@@ -101,11 +101,11 @@ export default function PlannerClient() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-[#050508] text-white pt-24 pb-16">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-24 pb-16">
         <div className="max-w-2xl mx-auto px-6">
 
           {/* Sign In / Create Account Card */}
-          <div className="bg-[#0c0c18] border border-white/15 rounded-2xl overflow-hidden mb-10 shadow-2xl">
+          <div className="bg-[var(--color-bg-surface)] border border-white/15 rounded-2xl overflow-hidden mb-10 shadow-2xl">
             <div className="h-1 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-500" />
             <div className="p-8 md:p-10">
               <div className="text-center mb-6">
@@ -221,7 +221,7 @@ export default function PlannerClient() {
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item, i) => (
-              <div key={i} className="bg-[#0a0a12] border border-white/5 rounded-2xl p-5 text-center">
+              <div key={i} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-5 text-center">
                 <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black text-purple-400">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
                 <p className="text-xs text-white/30 leading-relaxed">{item.desc}</p>
@@ -237,7 +237,7 @@ export default function PlannerClient() {
   if (!booking) {
     const initials = member?.name ? member.name.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() : '📋';
     return (
-      <div className="min-h-screen bg-[#050508] text-white pt-24 pb-16">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-24 pb-16">
         <div className="max-w-2xl mx-auto px-6">
           {/* Planner Identity */}
           <div className="flex items-center gap-4 mb-12">
@@ -271,7 +271,7 @@ export default function PlannerClient() {
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item, i) => (
-              <div key={i} className="bg-[#0a0a12] border border-white/5 rounded-2xl p-5 text-center">
+              <div key={i} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-5 text-center">
                 <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black text-purple-400">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
                 <p className="text-xs text-white/30 leading-relaxed">{item.desc}</p>
@@ -305,19 +305,19 @@ export default function PlannerClient() {
   const initials = member?.name ? member.name.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() : 'PL';
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white pt-24 pb-16">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-24 pb-16">
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="flex gap-8">
           {/* LEFT SIDEBAR */}
           <div className="w-[220px] shrink-0 hidden lg:block">
-            <div className="bg-[#0a0a12] border border-white/5 rounded-2xl p-6 sticky top-24">
+            <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 sticky top-24">
               <h3 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-8">Booking Status</h3>
               <div className="relative pl-5">
                 <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-purple-500 via-purple-500/30 to-white/5" />
                 <div className="flex flex-col gap-10">
                   {statusSteps.map((step, i) => (
                     <div key={i} className="flex items-center gap-4 relative">
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(147,51,234,0.5)]' : 'bg-[#0a0a12] border-white/10'}`}>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(147,51,234,0.5)]' : 'bg-[var(--color-bg-surface)] border-white/10'}`}>
                         {step.active && <div className="w-2 h-2 rounded-full bg-white" />}
                       </div>
                       <span className={`text-sm font-semibold ${step.active ? 'text-white' : 'text-white/25'}`}>{step.label}</span>
@@ -332,7 +332,7 @@ export default function PlannerClient() {
               <div className="mt-6">
                 <p className="text-xs uppercase tracking-widest text-white/20 font-bold mb-2">Planner</p>
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-[10px] font-bold">{initials}</div>
+                  <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-[var(--font-size-3xs)] font-bold">{initials}</div>
                   <span className="text-xs text-white/60">{member?.name || 'Planner'}</span>
                 </div>
               </div>
@@ -376,7 +376,7 @@ export default function PlannerClient() {
             {/* 3-Column Tools */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Notes */}
-              <div className="bg-[#0a0a12] border border-white/5 rounded-2xl p-6">
+              <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold">Event Notes</h3></div>
                   {notesSaved && <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">✓ Saved</span>}
@@ -390,7 +390,7 @@ export default function PlannerClient() {
               </div>
 
               {/* Checklist — editable */}
-              <div className="bg-[#0a0a12] border border-white/5 rounded-2xl p-6">
+              <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold">Readiness</h3></div>
                   <span className={`text-xs font-bold ${pct===100?'text-emerald-400':'text-white/40'}`}>{done}/{checklist.length}</span>
@@ -419,7 +419,7 @@ export default function PlannerClient() {
                               defaultValue={item.val || ''}
                               autoFocus
                               onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({...booking, [fieldKey]: v} as Booking); setEditField(null); } }}}
-                              className="flex-1 bg-[#050508] border border-white/10 px-2 py-1 rounded text-sm text-white focus:border-purple-500 outline-none"
+                              className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-2 py-1 rounded text-sm text-white focus:border-purple-500 outline-none"
                             />
                             <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({...booking, [fieldKey]: input.value} as Booking); setEditField(null); } }} className="text-2xs text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
                             <button type="button" onClick={() => setEditField(null)} className="text-2xs text-white/30 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
@@ -448,7 +448,7 @@ export default function PlannerClient() {
               </div>
 
               {/* Quick Actions */}
-              <div className="bg-[#0a0a12] border border-white/5 rounded-2xl p-6">
+              <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6">
                 <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-sm font-bold">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
@@ -487,7 +487,7 @@ export default function PlannerClient() {
                       ? { dot:'bg-emerald-500', text:'text-emerald-400', bg:'bg-emerald-500/5', border:'border-emerald-500/15' }
                       : { dot:'bg-purple-500', text:'text-purple-400', bg:'bg-purple-500/5', border:'border-purple-500/15' };
                     return (
-                      <div key={i} className="bg-[#0a0a12] border border-white/5 hover:border-white/10 rounded-xl p-4 flex items-center gap-4 transition-all group">
+                      <div key={i} className="bg-[var(--color-bg-surface)] border border-white/5 hover:border-white/10 rounded-xl p-4 flex items-center gap-4 transition-all group">
                         <div className={`w-2.5 h-2.5 rounded-full ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-bold text-white/80 truncate">{pb.eventName}</h4>

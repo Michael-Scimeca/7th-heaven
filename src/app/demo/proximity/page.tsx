@@ -103,7 +103,7 @@ export default function ProximityDemoPage() {
         {/* ── STEP 1: Sign Up ── */}
         {step === "signup" && (
           <div className="space-y-6">
-            <div className="p-8 bg-[#0c0c18] border border-white/10">
+            <div className="p-8 bg-[var(--color-bg-surface)] border border-white/10">
               {/* Modal preview */}
               <div className="mb-6">
                 <div className="h-1 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-600 mb-8" />
@@ -256,7 +256,7 @@ export default function ProximityDemoPage() {
             </div>
 
             {/* SMS text body */}
-            <div className="p-6 bg-[#0c0c18] border border-white/10 space-y-4">
+            <div className="p-6 bg-[var(--color-bg-surface)] border border-white/10 space-y-4">
               <p className="text-xs uppercase tracking-widest text-white/30 font-bold">SMS text sent to {phoneNumber}</p>
               <div className="bg-[#1a2a1a] border border-emerald-500/20 rounded-2xl p-5">
                 <p className="text-sm text-white/80 leading-relaxed">

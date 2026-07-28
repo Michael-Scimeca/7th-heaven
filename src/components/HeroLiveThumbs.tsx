@@ -118,13 +118,13 @@ export default function HeroLiveThumbs() {
     return (
       <button
         onClick={handleOpen}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0d0914]/80 border border-white/10 hover:border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] active:scale-95 transition-all duration-300 backdrop-blur-md select-none group cursor-pointer"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-bg-surface)]/80 border border-white/10 hover:border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] active:scale-95 transition-all duration-300 backdrop-blur-md select-none group cursor-pointer"
       >
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
           <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600" />
         </span>
-        <span className="text-[10px] font-black text-white/80 group-hover:text-white uppercase tracking-[0.18em]">
+        <span className="text-[var(--font-size-3xs)] font-black text-white/80 group-hover:text-white uppercase tracking-[0.18em]">
           Show Live Streams
         </span>
       </button>
@@ -184,13 +184,13 @@ export default function HeroLiveThumbs() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600" />
             </span>
-            <span className="text-white text-[11px] font-black uppercase tracking-[0.18em] whitespace-nowrap">
+            <span className="text-white text-[var(--font-size-2xs)] font-black uppercase tracking-[0.18em] whitespace-nowrap">
               Crew Streaming
             </span>
             {mediaPosts.length > 2 && (
               <Link
                 href="/live"
-                className="text-[9px] font-black text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap"
+                className="text-[var(--font-size-4xs)] font-black text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap"
               >
                 + {mediaPosts.length - 2} More →
               </Link>
@@ -225,7 +225,7 @@ export default function HeroLiveThumbs() {
               <Link
                 key={post.id}
                 href="/live"
-                className="group shrink-0 w-[220px] h-[250px] rounded-2xl overflow-hidden bg-[#0d0914] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-all duration-300 flex flex-col"
+                className="group shrink-0 w-[220px] h-[250px] rounded-2xl overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-all duration-300 flex flex-col"
               >
                 {/* Thumbnail */}
                 <div className="relative w-full h-[195px] overflow-hidden bg-zinc-950">
@@ -240,7 +240,7 @@ export default function HeroLiveThumbs() {
                   {!imgLoaded[post.id] && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-950">
                       <div className="w-6 h-6 border-2 border-red-500/20 border-t-red-500 rounded-full animate-spin mb-2" />
-                      <span className="text-[8px] font-black uppercase tracking-widest text-red-500/60 animate-pulse">
+                      <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-red-500/60 animate-pulse">
                         Loading Stream
                       </span>
                     </div>
@@ -250,19 +250,19 @@ export default function HeroLiveThumbs() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
                   {/* LIVE badge — top left */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(220,38,38,0.7)]">
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white text-[var(--font-size-3xs)] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(220,38,38,0.7)]">
                     <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                     LIVE
                   </div>
 
                   {/* Viewer count — top right */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
+                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white text-[var(--font-size-4xs)] font-bold px-2 py-0.5 rounded-full">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                     {viewers}
                   </div>
 
                   {/* Stream duration — bottom left */}
-                  <div className="absolute bottom-3 left-3.5 text-white/80 text-[10px] font-mono font-bold">
+                  <div className="absolute bottom-3 left-3.5 text-white/80 text-[var(--font-size-3xs)] font-mono font-bold">
                     {timeText}
                   </div>
                 </div>
@@ -275,13 +275,13 @@ export default function HeroLiveThumbs() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
                     </span>
-                    <span className="text-[11px] font-black uppercase tracking-tight text-white truncate">
+                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-tight text-white truncate">
                       {crewName}
                     </span>
                   </div>
 
                   {/* Watch now cta */}
-                  <span className="text-[9px] font-black uppercase tracking-wide text-red-400 group-hover:text-red-300 transition-colors shrink-0">
+                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-wide text-red-400 group-hover:text-red-300 transition-colors shrink-0">
                     WATCH →
                   </span>
                 </div>

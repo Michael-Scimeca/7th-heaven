@@ -67,7 +67,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
   const selectedShow = shows.find((s) => s._id === selectedShowId);
 
   return (
-    <div className="relative bg-[#0a0a14] border border-white/[0.06] overflow-hidden transition-all duration-300">
+    <div className="relative bg-[var(--color-bg-surface)] border border-white/[0.06] overflow-hidden transition-all duration-300">
       {/* Accent glow */}
       <div className="absolute top-0 left-0 w-64 h-32 bg-purple-600/10 blur-[60px] pointer-events-none" />
 
@@ -81,7 +81,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           <h3 className="text-white font-black text-lg flex items-center gap-2">
             🎁 Invite Challenge
             {challenge.enabled && selectedShowId && (
-              <span className="text-[9px] font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
                 Active
               </span>
             )}

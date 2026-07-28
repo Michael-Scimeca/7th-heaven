@@ -193,11 +193,11 @@ export default function PlannerDashboard() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-[#050508] text-white flex items-center justify-center px-6 relative overflow-hidden">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-fuchsia-500 opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
-          <div className="bg-[#0c0c18] border border-white/10 overflow-hidden shadow-2xl">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-2xl">
             <div className="h-1 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-fuchsia-500" />
 
             <div className="p-10">
@@ -237,7 +237,7 @@ export default function PlannerDashboard() {
                     <input type="checkbox" checked={plannerAgeConfirmed} onChange={e => setPlannerAgeConfirmed(e.target.checked)}
                       className="mt-0.5 w-3.5 h-3.5 rounded border-white/15 bg-white/[0.03] text-fuchsia-600 focus:ring-0 cursor-pointer accent-fuchsia-600"
                       onClick={(e) => e.stopPropagation()} />
-                    <span className="text-[11px] font-semibold text-white/70 leading-tight">
+                    <span className="text-[var(--font-size-2xs)] font-semibold text-white/70 leading-tight">
                       I confirm that I am <span className="text-white font-bold">18 years of age or older</span>
                     </span>
                   </div>
@@ -333,7 +333,7 @@ export default function PlannerDashboard() {
   ];
 
   return (
-    <section className="bg-[#050508] min-h-screen font-sans pt-24 pb-16">
+    <section className="bg-[var(--color-bg-deep)] min-h-screen font-sans pt-24 pb-16">
       <div className="max-w-[1400px] mx-auto px-6">
         
 
@@ -345,7 +345,7 @@ export default function PlannerDashboard() {
                 ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
                 : '📋'}
               <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-fuchsia-500 border-2 border-[#050508] flex items-center justify-center">
-                <span className="text-[10px]">📋</span>
+                <span className="text-[var(--font-size-3xs)]">📋</span>
               </span>
             </div>
             <div className="text-left">
@@ -378,7 +378,7 @@ export default function PlannerDashboard() {
         {/* Cancel Confirmation Modal */}
         {showCancelConfirm && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowCancelConfirm(false)}>
-            <div className="bg-[#0c0c18] border border-rose-500/30 p-8 rounded-3xl shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full" onClick={e => e.stopPropagation()}>
+            <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-3xl shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full" onClick={e => e.stopPropagation()}>
               <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
               </div>
@@ -405,7 +405,7 @@ export default function PlannerDashboard() {
 
         {/* BOOKING CARDS */}
         <div className="grid grid-cols-1 gap-6">
-           <div className={`bg-[#0b0b12] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-all`}>
+           <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-all`}>
               <div className={`absolute top-0 left-0 w-1 h-full ${s.bar}`} />
               
               <div className="flex-1">
@@ -591,7 +591,7 @@ export default function PlannerDashboard() {
 
         {/* ── Planner Notes ── */}
         <div className="mt-8">
-          <div className="bg-[#0b0b12] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl">
+          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📝</div>
@@ -639,7 +639,7 @@ export default function PlannerDashboard() {
         {/* ── Day-of Checklist ── */}
         {booking.status !== 'cancelled' && (
           <div className="mt-8">
-            <div className="bg-[#0b0b12] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
+            <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg">✅</div>
@@ -775,7 +775,7 @@ export default function PlannerDashboard() {
                         className={`flex-1 text-left px-5 py-4 rounded-2xl border transition-all cursor-pointer ${
                           isActive
                             ? `${sc.bg} ${sc.border} border shadow-lg`
-                            : 'bg-[#0b0b12] border-white/5 hover:border-white/10'
+                            : 'bg-[var(--color-bg-surface)] border-white/5 hover:border-white/10'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-1">

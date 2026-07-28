@@ -92,8 +92,8 @@ export default function VerifyPage() {
 
   if (!isLoggedIn || !member) {
     return (
-      <div className="min-h-screen bg-[#08080d] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-        <div className="bg-[#0f0f18] border border-white/10 rounded-2xl p-8 text-center max-w-sm w-full">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-8 text-center max-w-sm w-full">
           <span className="text-5xl block mb-4">🔐</span>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
           <p className="text-white/40 text-sm mb-6">Sign in with your crew account to access PIN verification.</p>
@@ -107,8 +107,8 @@ export default function VerifyPage() {
 
   if (!isCrew) {
     return (
-      <div className="min-h-screen bg-[#08080d] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-        <div className="bg-[#0f0f18] border border-red-500/20 rounded-2xl p-8 text-center max-w-sm w-full">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="bg-[var(--color-bg-surface)] border border-red-500/20 rounded-2xl p-8 text-center max-w-sm w-full">
           <span className="text-5xl block mb-4">🚫</span>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Only</h2>
           <p className="text-white/40 text-sm">This page is for 7th Heaven crew members only.</p>
@@ -118,7 +118,7 @@ export default function VerifyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#08080d] flex flex-col items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-[var(--color-bg-deep)] flex flex-col items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Header */}
       <div className="text-center mb-8">
@@ -131,7 +131,7 @@ export default function VerifyPage() {
 
         {/* PIN Input */}
         {result !== 'valid' && (
-          <div className="bg-[#0f0f18] border border-white/10 rounded-2xl p-6 mb-4">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-6 mb-4">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
 
             <div className="flex items-center justify-center gap-2 mb-6" onPaste={handlePaste}>
@@ -171,7 +171,7 @@ export default function VerifyPage() {
 
         {/* VALID */}
         {result === 'valid' && winnerData && (
-          <div className="bg-[#0f0f18] border-2 border-yellow-500/60 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(251,191,36,0.25)] animate-in fade-in zoom-in-95 duration-300">
+          <div className="bg-[var(--color-bg-surface)] border-2 border-yellow-500/60 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(251,191,36,0.25)] animate-in fade-in zoom-in-95 duration-300">
             <div className="bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-4 text-center">
               <p className="text-black font-black text-lg uppercase tracking-widest">✓ Valid Win</p>
             </div>
@@ -208,7 +208,7 @@ export default function VerifyPage() {
 
         {/* INVALID */}
         {result === 'invalid' && (
-          <div className="bg-[#0f0f18] border-2 border-red-500/40 rounded-2xl p-6 text-center animate-in fade-in zoom-in-95 duration-300">
+          <div className="bg-[var(--color-bg-surface)] border-2 border-red-500/40 rounded-2xl p-6 text-center animate-in fade-in zoom-in-95 duration-300">
             <span className="text-5xl block mb-3">❌</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
             <p className="text-white/40 text-sm mb-5">

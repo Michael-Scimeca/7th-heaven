@@ -410,7 +410,7 @@ export default function LoginModal() {
    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={closeModal} />
 
    {/* Modal */}
-   <div className="relative w-full max-w-2xl mx-4 bg-[#0c0c18] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
+   <div className="relative w-full max-w-2xl mx-4 bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
     {/* Accent bar */}
     <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
 
@@ -560,11 +560,11 @@ export default function LoginModal() {
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(239,68,68,0.08),transparent_60%)] pointer-events-none" />
             <div className="w-10 h-10 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center mx-auto mb-2 text-base">🔐</div>
             <h3 className="text-sm font-black text-red-400 uppercase tracking-widest">Admin Access</h3>
-            <p className="text-[10px] text-white/30 mt-1">Restricted to authorized administrators only</p>
+            <p className="text-[var(--font-size-3xs)] text-white/30 mt-1">Restricted to authorized administrators only</p>
           </div>
 
           <div>
-            <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Admin Email</label>
+            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Admin Email</label>
             <input
               type="email"
               value={adminEmail}
@@ -575,7 +575,7 @@ export default function LoginModal() {
             />
           </div>
           <div>
-            <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Password</label>
+            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Password</label>
             <input
               type="password"
               value={adminPassword}
@@ -614,7 +614,7 @@ export default function LoginModal() {
             <button
               type="button"
               onClick={() => { setAdminEmail('admin@7thheaven.com'); setAdminPassword('password123'); }}
-              className="w-full py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-lg text-[10px] font-bold uppercase tracking-wider text-red-400 hover:text-white transition-all cursor-pointer"
+              className="w-full py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-red-400 hover:text-white transition-all cursor-pointer"
             >
               🛠️ Dev: Auto-fill Admin
             </button>
@@ -623,7 +623,7 @@ export default function LoginModal() {
           <button
             type="button"
             onClick={() => { setAdminMode(false); setAdminEmail(''); setAdminPassword(''); setAdminError(''); }}
-            className="text-[10px] text-white/30 hover:text-white/60 transition-colors uppercase tracking-widest text-center cursor-pointer border-none bg-transparent"
+            className="text-[var(--font-size-3xs)] text-white/30 hover:text-white/60 transition-colors uppercase tracking-widest text-center cursor-pointer border-none bg-transparent"
           >
             ← Back to Login
           </button>
@@ -828,7 +828,7 @@ export default function LoginModal() {
           {/* Zip code — only if opted in */}
           {wantNotifications && (
            <div>
-            <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
+            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
          <input
              type="text"
              value={zipCode}
@@ -848,7 +848,7 @@ export default function LoginModal() {
         <div className="flex flex-col gap-3.5">
           {!forgotPinSent ? (
             <div>
-              <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email Address</label>
+              <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email Address</label>
               <input
                 type="email"
                 value={email}
@@ -864,7 +864,7 @@ export default function LoginModal() {
                 🔑 A verification code has been sent to <strong>{email}</strong>
               </div>
               <div>
-                <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">Verification PIN</label>
+                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Verification PIN</label>
                 <input
                   type="text"
                   maxLength={6}
@@ -876,7 +876,7 @@ export default function LoginModal() {
                 />
               </div>
               <div>
-                <label className="text-[10px] uppercase tracking-[0.15em] text-white/40 mb-1 block">New Password</label>
+                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">New Password</label>
                 <input
                   type="password"
                   value={password}
@@ -974,7 +974,7 @@ export default function LoginModal() {
       <>
        <div className="flex items-center gap-3 my-3">
         <div className="flex-1 h-px bg-white/10" />
-        <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Or continue with</span>
+        <span className="text-[var(--font-size-3xs)] uppercase tracking-widest text-white/30 font-bold">Or continue with</span>
         <div className="flex-1 h-px bg-white/10" />
        </div>
        
@@ -989,7 +989,7 @@ export default function LoginModal() {
         <button 
          type="button"
          onClick={() => handleOAuthLogin('facebook')}
-         className="flex items-center justify-center gap-2 py-2 bg-[#1877F2]/10 hover:bg-[#1877F2]/20 border border-[#1877F2]/30 rounded-lg transition-colors cursor-pointer"
+         className="flex items-center justify-center gap-2 py-2 bg-[var(--color-brand-facebook)]/10 hover:bg-[var(--color-brand-facebook)]/20 border border-[#1877F2]/30 rounded-lg transition-colors cursor-pointer"
         >
          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         </button>
@@ -1023,7 +1023,7 @@ export default function LoginModal() {
 
       {/* Quick Fill & Demo Instant Access — Always visible on live Netlify for instant testing */}
       <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
-        <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400 font-black text-center">⚡ 1-Click Quick Demo Login (Instant Live Access)</p>
+        <p className="text-[var(--font-size-3xs)] uppercase tracking-[0.2em] text-cyan-400 font-black text-center">⚡ 1-Click Quick Demo Login (Instant Live Access)</p>
         <div className="grid grid-cols-5 gap-1.5">
           <button
             type="button"

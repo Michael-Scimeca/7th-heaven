@@ -117,7 +117,7 @@ export default function ReferralProgramPanel() {
 
   if (loading) {
     return (
-      <div className="bg-[#0a0a14] border border-white/[0.06] p-6 animate-pulse">
+      <div className="bg-[var(--color-bg-surface)] border border-white/[0.06] p-6 animate-pulse">
         <div className="h-6 bg-white/5 rounded w-48 mb-3" />
         <div className="h-4 bg-white/5 rounded w-72" />
       </div>
@@ -125,7 +125,7 @@ export default function ReferralProgramPanel() {
   }
 
   return (
-    <div className="relative bg-[#0a0a14] border border-white/[0.06] overflow-hidden">
+    <div className="relative bg-[var(--color-bg-surface)] border border-white/[0.06] overflow-hidden">
       {/* Accent glow */}
       <div className="absolute top-0 right-0 w-64 h-32 bg-amber-500/10 blur-[60px] pointer-events-none" />
 

@@ -72,7 +72,7 @@ export function DailyPoll() {
   const totalVotes = options.reduce((acc, opt) => acc + opt.votes, 0) + (voted !== null ? 1 : 0);
 
   return (
-    <div className="bg-[#0b0b12] border border-emerald-500/20 rounded-2xl p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border border-emerald-500/20 rounded-2xl p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🗳️</span>
       </div>
@@ -142,7 +142,7 @@ export function OriginStats() {
   const maxCount = Math.max(...stats.map(s => s.count));
 
   return (
-    <div className="bg-[#0b0b12] border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
       
       <div className="space-y-4">
@@ -430,13 +430,13 @@ export function BookingManager({ email }: { email?: string }) {
   };
 
   if (loading) return (
-    <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 p-8 rounded-2xl animate-pulse h-32 flex items-center justify-center">
+    <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-8 rounded-2xl animate-pulse h-32 flex items-center justify-center">
       <span className="text-white/30 text-xs font-bold uppercase tracking-widest">Loading Priority Status...</span>
     </div>
   );
 
   if (!booking) return (
-    <div className="bg-[#0b0b12] border border-[var(--color-accent)]/20 p-8 rounded-2xl relative overflow-hidden">
+    <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-8 rounded-2xl relative overflow-hidden">
       <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
         <span className="text-8xl">🚢</span>
       </div>
@@ -446,27 +446,27 @@ export function BookingManager({ email }: { email?: string }) {
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 bg-black/20 p-4 rounded-xl border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</label>
+            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</label>
             <input type="text" readOnly value={member?.name || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
           </div>
           <div>
-            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</label>
+            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</label>
             <input type="text" readOnly value={email || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
-            <input type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[#15151f] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all" />
+            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
+            <input type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all" />
           </div>
           <div>
-            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
-            <input type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[#15151f] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all" />
+            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
+            <input type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all" />
           </div>
           <div>
-            <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
-            <select value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[#15151f] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all cursor-pointer">
+            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
+            <select value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all cursor-pointer">
               <option value="group_n5">Ocean View</option>
               <option value="group_if">Infinite Central Park</option>
               <option value="group_d4">Ocean View Balcony</option>
@@ -517,7 +517,7 @@ export function BookingManager({ email }: { email?: string }) {
                    className="w-full h-full object-cover" 
                  />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                   <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-[2px] border border-cyan-500/20">
+                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-[2px] border border-cyan-500/20">
                      Cabin Room Preview
                    </span>
                  </div>
@@ -533,7 +533,7 @@ export function BookingManager({ email }: { email?: string }) {
                    type="number" min="1" max="10"
                    value={formData.guest_count} 
                    onChange={e => setFormData({...formData, guest_count: parseInt(e.target.value) || 1})}
-                   className="w-full bg-[#0b0b12] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                   className="w-full bg-[var(--color-bg-surface)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
                  />
                </div>
                <div>
@@ -542,7 +542,7 @@ export function BookingManager({ email }: { email?: string }) {
                    type="text" 
                    value={formData.phone} 
                    onChange={e => setFormData({...formData, phone: e.target.value})}
-                   className="w-full bg-[#0b0b12] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                   className="w-full bg-[var(--color-bg-surface)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
                  />
                </div>
                <div className="flex items-center gap-2">
@@ -571,7 +571,7 @@ export function BookingManager({ email }: { email?: string }) {
                            newGuests[i].name = e.target.value;
                            setFormData({...formData, guests: newGuests});
                          }}
-                         className="flex-1 bg-[#0b0b12] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                         className="flex-1 bg-[var(--color-bg-surface)] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)]" 
                        />
                        <select 
                          value={g.type || 'adult'} 
@@ -580,7 +580,7 @@ export function BookingManager({ email }: { email?: string }) {
                            newGuests[i].type = e.target.value;
                            setFormData({...formData, guests: newGuests});
                          }}
-                         className="bg-[#0b0b12] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
+                         className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
                        >
                          <option value="adult">Adult</option>
                          <option value="child">Child</option>
@@ -623,7 +623,7 @@ export function BookingManager({ email }: { email?: string }) {
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-[2px] border border-cyan-500/20">
+                      <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-[2px] border border-cyan-500/20">
                         Cabin Room Preview
                       </span>
                     </div>
@@ -663,8 +663,8 @@ export function BookingManager({ email }: { email?: string }) {
 
                 {/* Travel Readiness Checklist Badges */}
                 <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3 my-3">
-                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
-                  <div className="grid grid-cols-2 gap-2 text-[11px]">
+                  <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
+                  <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
                     <div className="flex items-center gap-1.5 text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
                       <span>✓</span> Passport Verified
                     </div>
@@ -701,7 +701,7 @@ export function BookingManager({ email }: { email?: string }) {
                       {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
                         <button 
                           onClick={() => setIsPayModalOpen(true)}
-                          className="text-[10px] font-black uppercase tracking-wider text-black bg-rose-400 hover:bg-rose-300 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
+                          className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-black bg-rose-400 hover:bg-rose-300 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
                         >
                           💳 Pay Balance
                         </button>
@@ -726,7 +726,7 @@ export function BookingManager({ email }: { email?: string }) {
 
                 {/* Two Clickable Cruise Agent Email Buttons */}
                 <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
-                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
+                  <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {/* Button 1: Cruise Admin Agent */}
                     <a
@@ -740,7 +740,7 @@ export function BookingManager({ email }: { email?: string }) {
                       <div className="flex items-center gap-1.5 font-black">
                         <span>✉️</span> Cruise Admin
                       </div>
-                      <span className="text-[9px] font-mono font-normal text-cyan-200 lowercase tracking-normal">cruise@7thheavenband.com</span>
+                      <span className="text-[var(--font-size-4xs)] font-mono font-normal text-cyan-200 lowercase tracking-normal">cruise@7thheavenband.com</span>
                     </a>
 
                     {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
@@ -755,7 +755,7 @@ export function BookingManager({ email }: { email?: string }) {
                       <div className="flex items-center gap-1.5 font-black">
                         <span>✉️</span> Support Agent (Mary)
                       </div>
-                      <span className="text-[9px] font-mono font-normal text-purple-200 lowercase tracking-normal">mary@ntdvacations.com</span>
+                      <span className="text-[var(--font-size-4xs)] font-mono font-normal text-purple-200 lowercase tracking-normal">mary@ntdvacations.com</span>
                     </a>
                   </div>
                 </div>
@@ -894,7 +894,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
         onClick={processing || success ? undefined : onClose}
       />
       
-      <div className="relative w-full max-w-md bg-[#0d0d15] border border-cyan-500/20 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-all duration-300 text-left">
+      <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-cyan-500/20 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-all duration-300 text-left">
         {success ? (
           <div className="p-8 text-center space-y-4">
             <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 mx-auto text-2xl animate-bounce shadow-[0_0_20px_rgba(16,185,129,0.2)]">
@@ -916,7 +916,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
             <div className="flex justify-between items-center pb-4 border-b border-white/5">
               <div>
                 <h3 className="text-sm font-black uppercase tracking-widest text-white">Final Payment</h3>
-                <p className="text-[10px] text-white/40 uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
+                <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
                 <span className="text-rose-400 font-black text-lg">{balanceDue}</span>
@@ -938,14 +938,14 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                   <button 
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button 
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
                   </button>
@@ -958,10 +958,10 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                         <span className="text-lg">💳</span>
                         <div>
                           <strong className="block text-white text-xs font-bold tracking-wide">Visa ending in 4242</strong>
-                          <span className="text-white/40 text-[9px] uppercase tracking-wider">Expires 12/28 • Demo Cruiser</span>
+                          <span className="text-white/40 text-[var(--font-size-4xs)] uppercase tracking-wider">Expires 12/28 • Demo Cruiser</span>
                         </div>
                       </div>
-                      <span className="text-[9px] font-black text-cyan-400 uppercase tracking-wider border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
+                      <span className="text-[var(--font-size-4xs)] font-black text-cyan-400 uppercase tracking-wider border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
                         Default
                       </span>
                     </div>
@@ -969,47 +969,47 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">Cardholder Name</label>
+                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Cardholder Name</label>
                       <input 
                         type="text"
                         placeholder="John Doe"
                         value={cardName}
                         onChange={e => setCardName(e.target.value)}
-                        className="w-full bg-[#15151f] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all"
+                        className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">Card Number</label>
+                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Card Number</label>
                       <div className="relative">
                         <input 
                           type="text"
                           placeholder="4000 1234 5678 9010"
                           value={cardNumber}
                           onChange={e => handleCardNumberChange(e.target.value)}
-                          className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
                         />
                         <span className="absolute left-3 top-2.5 text-white/40 text-xs">💳</span>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">Expiry Date</label>
+                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Expiry Date</label>
                         <input 
                           type="text"
                           placeholder="MM/YY"
                           value={cardExpiry}
                           onChange={e => handleExpiryChange(e.target.value)}
-                          className="w-full bg-[#15151f] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
                         />
                       </div>
                       <div>
-                        <label className="block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">CVC</label>
+                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">CVC</label>
                         <input 
                           type="password"
                           placeholder="123"
                           value={cardCVC}
                           onChange={e => handleCVCChange(e.target.value)}
-                          className="w-full bg-[#15151f] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
                         />
                       </div>
                     </div>
@@ -1058,7 +1058,7 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="bg-[#0b0b12] border border-fuchsia-500/20 rounded-2xl p-6 shadow-[0_0_30px_rgba(217,70,239,0.05)] relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border border-fuchsia-500/20 rounded-2xl p-6 shadow-[0_0_30px_rgba(217,70,239,0.05)] relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
@@ -1109,7 +1109,7 @@ export function SongRequestLeaderboard() {
   };
 
   return (
-    <div className="bg-[#0b0b12] border border-amber-500/20 rounded-2xl p-6 relative overflow-hidden">
+    <div className="bg-[var(--color-bg-surface)] border border-amber-500/20 rounded-2xl p-6 relative overflow-hidden">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-500 text-sm">🎸</div>
         <div>
@@ -1200,7 +1200,7 @@ export function ExcursionTeasers() {
   ];
 
   return (
-    <div className="bg-[#0b0b12] border border-cyan-500/20 rounded-2xl p-6">
+    <div className="bg-[var(--color-bg-surface)] border border-cyan-500/20 rounded-2xl p-6">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-5">Band Excursions</h2>
       
       <div className="space-y-3">

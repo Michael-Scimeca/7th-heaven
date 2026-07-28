@@ -161,16 +161,16 @@ export default function FAQPage() {
   }, [activeTab, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-[#050508] pt-[112px] pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[112px] pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Decorative Background Elements */}
-      <div className="absolute top-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-[#8a1cfc]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-[var(--color-accent)]/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] rounded-full bg-emerald-500/5 blur-[150px] pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative z-10">
         
         {/* Page Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-[#8a1cfc]/10 border border-[#8a1cfc]/20 rounded-full px-4 py-1.5 mb-4 text-[#a855f7] text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 bg-[var(--color-accent)]/10 border border-[#8a1cfc]/20 rounded-full px-4 py-1.5 mb-4 text-[var(--color-accent-soft)] text-xs font-bold uppercase tracking-wider">
             <SparklesIcon />
             Support Center
           </div>
@@ -185,7 +185,7 @@ export default function FAQPage() {
         {/* Search Bar */}
         <div className="relative mb-10 group">
           <div className="absolute inset-0 bg-gradient-to-r from-[#8a1cfc] to-emerald-500 rounded-2xl opacity-10 group-focus-within:opacity-20 blur-lg transition duration-300" />
-          <div className="relative bg-[#0d0d15] border border-white/5 group-focus-within:border-[#8a1cfc]/40 rounded-2xl p-1.5 flex items-center transition duration-200">
+          <div className="relative bg-[var(--color-bg-surface)] border border-white/5 group-focus-within:border-[#8a1cfc]/40 rounded-2xl p-1.5 flex items-center transition duration-200">
             <div className="pl-4 pr-2 text-white/40">
               <SearchIcon />
             </div>
@@ -218,8 +218,8 @@ export default function FAQPage() {
                 onClick={() => setActiveTab(cat.id)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition duration-200 border ${
                   isActive 
-                    ? "bg-[#8a1cfc] border-[#8a1cfc] text-white shadow-lg shadow-[#8a1cfc]/20" 
-                    : "bg-[#0d0d15] border-white/5 text-white/60 hover:text-white hover:border-white/10"
+                    ? "bg-[var(--color-accent)] border-[#8a1cfc] text-white shadow-lg shadow-[#8a1cfc]/20" 
+                    : "bg-[var(--color-bg-surface)] border-white/5 text-white/60 hover:text-white hover:border-white/10"
                 }`}
               >
                 <span className={isActive ? "text-white" : cat.color}>
@@ -239,7 +239,7 @@ export default function FAQPage() {
               return (
                 <div 
                   key={faq.id}
-                  className={`bg-[#0d0d15] border rounded-2xl overflow-hidden transition-all duration-300 ${
+                  className={`bg-[var(--color-bg-surface)] border rounded-2xl overflow-hidden transition-all duration-300 ${
                     isExpanded 
                       ? "border-[#8a1cfc]/30 shadow-md shadow-[#8a1cfc]/5" 
                       : "border-white/5 hover:border-white/10"
@@ -265,7 +265,7 @@ export default function FAQPage() {
                       isExpanded ? "max-h-[300px] border-t border-white/5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
                     } overflow-hidden`}
                   >
-                    <div className="p-5 sm:p-6 text-sm text-white/60 leading-relaxed bg-[#0a0a0f]/40">
+                    <div className="p-5 sm:p-6 text-sm text-white/60 leading-relaxed bg-[var(--color-bg-surface)]/40">
                       {faq.answer}
                     </div>
                   </div>
@@ -273,7 +273,7 @@ export default function FAQPage() {
               );
             })
           ) : (
-            <div className="text-center py-16 bg-[#0d0d15] border border-white/5 rounded-3xl p-8">
+            <div className="text-center py-16 bg-[var(--color-bg-surface)] border border-white/5 rounded-3xl p-8">
               <span className="text-white/20 inline-block mb-4 scale-150">
                 <HelpIcon />
               </span>
@@ -295,7 +295,7 @@ export default function FAQPage() {
           </div>
           <a
             href="/contact"
-            className="px-6 py-3 rounded-full bg-[#8a1cfc] hover:bg-[#9d47ff] text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-lg shadow-[#8a1cfc]/20"
+            className="px-6 py-3 rounded-full bg-[var(--color-accent)] hover:bg-[#9d47ff] text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-lg shadow-[#8a1cfc]/20"
           >
             Contact Us
           </a>

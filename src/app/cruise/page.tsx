@@ -146,6 +146,36 @@ export default function CruisePage() {
     insurance: "no", prepaidGratuities: "yes", howHeard: "7th Heaven"
   });
 
+  // Restore draft cabin selection from localStorage on load
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("7h_cruise_cabin_draft");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setFormData(prev => ({ ...prev, ...parsed }));
+      }
+    } catch {}
+  }, []);
+
+  // Auto-save draft cabin selection to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem("7h_cruise_cabin_draft", JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        notes: formData.notes,
+        guestCount: formData.guestCount,
+        cabinPreference: formData.cabinPreference,
+        dob1: formData.dob1,
+        tshirtSize1: formData.tshirtSize1,
+        insurance: formData.insurance,
+        prepaidGratuities: formData.prepaidGratuities,
+        howHeard: formData.howHeard
+      }));
+    } catch {}
+  }, [formData]);
+
   const [activeAnchor, setActiveAnchor] = useState("book-now");
   const [portLayoutMode, setPortLayoutMode] = useState<"grid" | "spotlight" | "carousel" | "list">("grid");
   const [activeSpotlightPort, setActiveSpotlightPort] = useState<number>(0);
@@ -549,7 +579,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </div>
 
         {/* Hero Text */}
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mb-10">
+        <div className="relative z-10 text-center px-[32px] max-w-5xl mx-auto mb-10">
           {/* Cruise Line & Booking Center Pill Badge */}
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/40 text-cyan-300 text-xs font-black uppercase tracking-[0.25em] mb-6 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
@@ -758,37 +788,39 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div
                     key={idx}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className="bg-transparent border-0 p-2 flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02]"
+                    className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:border-cyan-500/50"
                   >
                     <div>
                       {room.image && (
-                        <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 text-center">
+                        <div className="relative h-44 w-full overflow-hidden text-center">
                           <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
-                      <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                        <span className="text-xl">{room.icon}</span>
-                        <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
-                          room.status === "soldout" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
-                          room.status === "warning" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
-                          "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-                        }`}>{room.badge}</span>
+                      <div className="p-5">
+                        <div className="flex justify-between items-start gap-2 mb-3 text-left">
+                          <span className="text-xl">{room.icon}</span>
+                          <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
+                            room.status === "soldout" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
+                            room.status === "warning" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
+                            "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                          }`}>{room.badge}</span>
+                        </div>
+                        <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
+                        <h4 className="text-base font-extrabold text-white uppercase tracking-tight text-left">{room.title}</h4>
                       </div>
-                      <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
-                      <h4 className="text-base font-extrabold text-white uppercase tracking-tight text-left">{room.title}</h4>
                     </div>
 
-                    <div className="mt-3 pt-1 text-left">
+                    <div className="px-5 pb-5 pt-0 text-left">
                       {room.price === "Prevailing" ? (
                         <p className="text-2xs text-white/40 italic font-medium">Prevailing Rates Only</p>
                       ) : (
                         <div className="flex items-baseline gap-1.5">
                           <span className="text-xl font-black text-white">{room.price}</span>
-                          <span className="text-[10px] text-white/40 uppercase font-semibold">USD pp</span>
+                          <span className="text-[var(--font-size-3xs)] text-white/40 uppercase font-semibold">USD pp</span>
                         </div>
                       )}
                       {room.inclusions && (
-                        <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
+                        <span className="text-[var(--font-size-3xs)] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                       )}
                       <button 
                         type="button"
@@ -827,40 +859,42 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div
                         key={idx}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className={`p-3.5 rounded-2xl flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative ${
+                        className={`rounded-2xl overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative ${
                           isYo
-                            ? 'bg-purple-950/40 border-2 border-purple-500'
-                            : 'bg-transparent border-0'
+                            ? 'bg-purple-950/40 border-2 border-purple-500 shadow-[0_0_30px_rgba(168,85,247,0.3)]'
+                            : 'bg-white/5 border border-white/10 hover:border-white/20'
                         }`}
                       >
                         {isYo && (
-                          <div className="absolute -top-3 left-4 bg-purple-600 text-white text-[10px] font-black uppercase px-3 py-0.5 rounded-full tracking-widest shadow-lg flex items-center gap-1.5 border border-purple-400 z-10">
-                            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                            RECOMMENDED OCEAN VIEW
+                          <div className="absolute top-3 right-3 bg-purple-600 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-lg flex items-center gap-1 border border-purple-400 z-10">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                            RECOMMENDED
                           </div>
                         )}
                         <div>
                           {room.image && (
-                            <div className="relative h-40 w-full overflow-hidden rounded-xl mb-4 text-center">
+                            <div className="relative h-44 w-full overflow-hidden text-center">
                               <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             </div>
                           )}
-                          <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                            <span className="text-2xl">{room.icon}</span>
-                            <span className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${
-                              isYo ? 'bg-purple-500/30 text-purple-200 border border-purple-400/40' : 'text-white/40'
-                            }`}>{room.label}</span>
+                          <div className="p-5">
+                            <div className="flex justify-between items-start gap-2 mb-3 text-left">
+                              <span className="text-2xl">{room.icon}</span>
+                              <span className={`text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${
+                                isYo ? 'bg-purple-500/30 text-purple-200 border border-purple-400/40' : 'text-white/40'
+                              }`}>{room.label}</span>
+                            </div>
+                            <span className={`text-[var(--font-size-3xs)] font-bold uppercase tracking-widest ${isYo ? 'text-purple-300' : 'text-white/30'}`}>{room.code} Category</span>
+                            <h4 className={`text-base font-extrabold uppercase tracking-tight mt-0.5 text-left ${isYo ? 'text-purple-200' : 'text-white'}`}>{room.title}</h4>
                           </div>
-                          <span className={`text-[10px] font-bold uppercase tracking-widest ${isYo ? 'text-purple-300' : 'text-white/30'}`}>{room.code} Category</span>
-                          <h4 className={`text-base font-extrabold uppercase tracking-tight mt-0.5 text-left ${isYo ? 'text-purple-200' : 'text-white'}`}>{room.title}</h4>
                         </div>
 
-                        <div className="mt-4 pt-2 text-left">
+                        <div className="px-5 pb-5 pt-0 text-left">
                           <div className="flex items-baseline gap-1.5">
                             <span className={`text-xl font-black ${isYo ? 'text-purple-300' : 'text-white'}`}>{room.price}</span>
                             <span className="text-2xs text-white/40">USD pp</span>
                           </div>
-                          <span className="text-[9px] text-white/20 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
+                          <span className="text-[var(--font-size-4xs)] text-white/20 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                           <button 
                             type="button"
                             className={`mt-4 w-full py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
@@ -962,7 +996,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
 
               {/* Suite Class Benefits Column (Span 2) */}
-              <div className="lg:col-span-2 bg-[#0d0d14] border border-cyan-500/20 p-6 md:p-8 rounded-3xl flex flex-col justify-between">
+              <div className="lg:col-span-2 bg-[var(--color-bg-surface)] border border-cyan-500/20 p-6 md:p-8 rounded-3xl flex flex-col justify-between">
                 <div>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/5">
                     <div>
@@ -1090,7 +1124,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {/* ── OFFICIAL BOOKING FORM ── */}
       <section id="book-now" className="py-16 site-container relative z-20">
         <div id="signup" className="relative z-10">
-          <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 md:p-10 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+          <div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
               <div className="lg:col-span-2 text-left">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -1110,7 +1144,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <div className="booking-header-banner border-b border-white/10 p-5 text-center">
                       <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
                       <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
-                      <p className="text-[10px] text-white/40 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
+                      <p className="text-[var(--font-size-3xs)] text-white/40 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
                     </div>
 
                     {/* GUEST 1 (Primary Booker) */}
@@ -1144,7 +1178,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="booking-cell md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all relative">
                           <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
                           <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none">
-                            {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0b0b12] text-white font-bold">{sz}</option>)}
+                            {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[var(--color-bg-surface)] text-white font-bold">{sz}</option>)}
                           </select>
                         </div>
                         {/* Crown & Anchor */}
@@ -1227,7 +1261,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               <div className="booking-cell md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all relative">
                                 <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
                                 <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none">
-                                  {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0b0b12] text-white font-bold">{sz}</option>)}
+                                  {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[var(--color-bg-surface)] text-white font-bold">{sz}</option>)}
                                 </select>
                               </div>
                               {/* Crown & Anchor */}
@@ -1253,21 +1287,21 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div className="p-3.5 focus-within:bg-cyan-500/5 transition-all">
                         <select value={formData.cabinPreference} onChange={e => setFormData(f => ({...f, cabinPreference: e.target.value}))} required
                           className="booking-input w-full bg-transparent text-sm text-white focus:outline-none cursor-pointer appearance-none py-1">
-                          <option value="" disabled className="bg-[#0b0b12]">-- Select Cabin Category --</option>
-                          <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-[#0b0b12]">
-                            <option value="group_n5" className="bg-[#0b0b12]">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
-                            <option value="group_if" className="bg-[#0b0b12]">IF - Infinite Central Park ($2,033.27 pp) - 2 Left</option>
-                            <option value="group_d4" className="bg-[#0b0b12]">D4 - Ocean View Balcony ($2,433.27 pp) - 10 Left</option>
-                            <option value="group_d2" className="bg-[#0b0b12]">D2 - Ocean View Balcony ($2,483.27 pp) - 11 Left</option>
-                            <option value="group_i1" className="bg-[#0b0b12]">I1 - Infinite Ocean View Balcony ($2,583.27 pp) - 5 Left</option>
+                          <option value="" disabled className="bg-[var(--color-bg-surface)]">-- Select Cabin Category --</option>
+                          <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-[var(--color-bg-surface)]">
+                            <option value="group_n5" className="bg-[var(--color-bg-surface)]">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
+                            <option value="group_if" className="bg-[var(--color-bg-surface)]">IF - Infinite Central Park ($2,033.27 pp) - 2 Left</option>
+                            <option value="group_d4" className="bg-[var(--color-bg-surface)]">D4 - Ocean View Balcony ($2,433.27 pp) - 10 Left</option>
+                            <option value="group_d2" className="bg-[var(--color-bg-surface)]">D2 - Ocean View Balcony ($2,483.27 pp) - 11 Left</option>
+                            <option value="group_i1" className="bg-[var(--color-bg-surface)]">I1 - Infinite Ocean View Balcony ($2,583.27 pp) - 5 Left</option>
                           </optgroup>
-                          <optgroup label="Prevailing Rates (Gratuities NOT Included, Taxes & Fees Included)" className="bg-[#0b0b12]">
-                            <option value="prev_zi" className="bg-[#0b0b12]">ZI - Inside GTY ($1,430.77 pp)</option>
-                            <option value="prev_yo" className="bg-[#0b0b12] text-purple-300 font-bold">🟣 YO - Ocean View GTY ($1,691.27 pp) ★ FEATURED</option>
-                            <option value="prev_if" className="bg-[#0b0b12]">IF - Infinite Central Park ($1,907.27 pp)</option>
-                            <option value="prev_xb" className="bg-[#0b0b12]">XB - Oceanview Balcony GTY ($1,903.77 pp) - 8 Left</option>
-                            <option value="prev_i1" className="bg-[#0b0b12]">I1 - Infinite Ocean View Balcony ($2,237.77 pp)</option>
-                            <option value="prev_jy" className="bg-[#0b0b12]">JY - Sky Junior Suite ($5,157.77 pp)</option>
+                          <optgroup label="Prevailing Rates (Gratuities NOT Included, Taxes & Fees Included)" className="bg-[var(--color-bg-surface)]">
+                            <option value="prev_zi" className="bg-[var(--color-bg-surface)]">ZI - Inside GTY ($1,430.77 pp)</option>
+                            <option value="prev_yo" className="bg-[var(--color-bg-surface)] text-purple-300 font-bold">🟣 YO - Ocean View GTY ($1,691.27 pp) ★ FEATURED</option>
+                            <option value="prev_if" className="bg-[var(--color-bg-surface)]">IF - Infinite Central Park ($1,907.27 pp)</option>
+                            <option value="prev_xb" className="bg-[var(--color-bg-surface)]">XB - Oceanview Balcony GTY ($1,903.77 pp) - 8 Left</option>
+                            <option value="prev_i1" className="bg-[var(--color-bg-surface)]">I1 - Infinite Ocean View Balcony ($2,237.77 pp)</option>
+                            <option value="prev_jy" className="bg-[var(--color-bg-surface)]">JY - Sky Junior Suite ($5,157.77 pp)</option>
                           </optgroup>
                         </select>
                       </div>
@@ -1277,7 +1311,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
                       <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10 flex items-center justify-between">
                         <span className="text-xs font-black uppercase tracking-wider text-white">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
-                        <span className="no-print text-[9px] font-black uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
+                        <span className="no-print text-[var(--font-size-4xs)] font-black uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
                       </div>
                       <div className="p-4 text-2xs text-white/45 leading-relaxed border-b border-white/5">
                         A $250.00 per-person deposit is required to secure your cabin under our group code. Payments are mock-processed for staging.
@@ -1285,35 +1319,35 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                       {/* Card 1 */}
                       <div className="p-4 border-b border-white/10">
-                        <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
+                        <span className="text-[var(--font-size-3xs)] font-black text-cyan-400 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
                         <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                           <div className="booking-cell border-b md:border-r border-white/10 p-3">
-                            <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
                             <input type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({...formData, cardName1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
                           </div>
                           <div className="booking-cell border-b border-white/10 p-3">
-                            <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Credit Card Number *</label>
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Credit Card Number *</label>
                             <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({...formData, cardNumber1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
                           </div>
                           <div className="booking-cell md:border-r border-white/10 p-3">
                             <div className="grid grid-cols-3 gap-2">
                               <div>
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Exp. Date *</label>
+                                <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Exp. Date *</label>
                                 <input type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({...formData, cardExpiry1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
                               </div>
                               <div>
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">3 Digit *</label>
+                                <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">3 Digit *</label>
                                 <input type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({...formData, cardCvv1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
                               </div>
                               <div>
-                                <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Billing Zip *</label>
+                                <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Billing Zip *</label>
                                 <input type="text" required placeholder="Billing Zip" value={formData.cardZip1} onChange={e => setFormData({...formData, cardZip1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
                               </div>
                             </div>
                           </div>
                           <div className="booking-cell p-3 flex flex-col justify-end">
                             <div className="flex justify-between items-center bg-black/40 p-2 rounded-xl border border-white/5">
-                              <span className="booking-label text-[9px] font-bold text-white/40 uppercase tracking-widest">Amount to Charge</span>
+                              <span className="booking-label text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest">Amount to Charge</span>
                               <input type="text" required value={formData.cardAmount1} onChange={e => setFormData({...formData, cardAmount1: e.target.value})} className="booking-input w-24 bg-transparent border-none text-right text-sm font-black text-white outline-none" />
                             </div>
                           </div>
@@ -1338,35 +1372,35 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {/* Card 2 Details */}
                       {formData.splitPayment && guests.filter(g => g.active).length > 0 && (
                         <div className="p-4 bg-white/[0.01]">
-                          <span className="text-[10px] font-black text-purple-400 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
+                          <span className="text-[var(--font-size-3xs)] font-black text-purple-400 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
                           <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                             <div className="booking-cell border-b md:border-r border-white/10 p-3">
-                              <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+                              <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
                               <input type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({...formData, cardName2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
                             </div>
                             <div className="booking-cell border-b border-white/10 p-3">
-                              <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Credit Card Number *</label>
+                              <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Credit Card Number *</label>
                               <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({...formData, cardNumber2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
                             </div>
                             <div className="booking-cell md:border-r border-white/10 p-3">
                               <div className="grid grid-cols-3 gap-2">
                                 <div>
-                                  <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Exp. Date *</label>
+                                  <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Exp. Date *</label>
                                   <input type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({...formData, cardExpiry2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
                                 </div>
                                 <div>
-                                  <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">3 Digit *</label>
+                                  <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">3 Digit *</label>
                                   <input type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({...formData, cardCvv2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
                                 </div>
                                 <div>
-                                  <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Billing Zip *</label>
+                                  <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Billing Zip *</label>
                                   <input type="text" required placeholder="Billing Zip" value={formData.cardZip2} onChange={e => setFormData({...formData, cardZip2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
                                 </div>
                               </div>
                             </div>
                             <div className="booking-cell p-3 flex flex-col justify-end">
                               <div className="flex justify-between items-center bg-black/40 p-2 rounded-xl border border-white/5">
-                                <span className="booking-label text-[9px] font-bold text-white/40 uppercase tracking-widest">Amount to Charge</span>
+                                <span className="booking-label text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest">Amount to Charge</span>
                                 <input type="text" required value={formData.cardAmount2} onChange={e => setFormData({...formData, cardAmount2: e.target.value})} className="booking-input w-24 bg-transparent border-none text-right text-sm font-black text-white outline-none" />
                               </div>
                             </div>
@@ -1384,11 +1418,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div className="p-4 border-b border-white/10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
                             <input type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({...f, howHeard: e.target.value}))} className="booking-input w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
                           </div>
                           <div>
-                            <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
                             <textarea placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2} className="booking-input w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:border-[var(--color-accent)] focus:outline-none resize-none" />
                           </div>
                         </div>
@@ -1398,7 +1432,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                         {/* E-Signature */}
                         <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
+                          <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
                           <input 
                             type="text" 
                             required 
@@ -1410,7 +1444,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                         {/* Signature Date */}
                         <div className="booking-cell p-3 bg-white/[0.005]">
-                          <label className="booking-label block text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Date Signed</label>
+                          <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Date Signed</label>
                           <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-transparent text-sm text-white/50 focus:outline-none cursor-not-allowed" />
                         </div>
                       </div>
@@ -1430,7 +1464,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         className="w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" />
                       <div className="flex-1">
                         <p className="text-xs text-white/65 group-hover:text-white transition-colors font-bold">Join the 7th Heaven Cruise Community</p>
-                        <p className="text-[10px] text-white/30">Get early access to deck plans, song request polls, and pre-cruise passenger chat rooms.</p>
+                        <p className="text-[var(--font-size-3xs)] text-white/30">Get early access to deck plans, song request polls, and pre-cruise passenger chat rooms.</p>
                       </div>
                     </label>
 
@@ -1451,7 +1485,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </button>
                     </div>
 
-                    <p className="text-[10px] text-white/25 text-center leading-relaxed">
+                    <p className="text-[var(--font-size-3xs)] text-white/25 text-center leading-relaxed">
                       By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="text-white/40 underline hover:text-white/60 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-white/40 underline hover:text-white/60 transition-colors">Terms of Service</a>. You'll receive a confirmation email.
                     </p>
                     {signupStatus === "error" && <p className="text-rose-400 text-xs text-center">{formError || 'Something went wrong. Try again.'}</p>}
@@ -1462,7 +1496,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* Sidebar Column: NTD Vacations Contacts & Payment Portal */}
             <div className="lg:col-span-1 text-left space-y-8">
               {/* Online Payment Portal Link */}
-              <div className="bg-[#0b0b12] border border-purple-500/20 p-6 rounded-2xl text-left relative overflow-hidden">
+              <div className="bg-[var(--color-bg-surface)] border border-purple-500/20 p-6 rounded-2xl text-left relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-[60px]" />
                 <span className="text-3xl block mb-2">💳</span>
                 <h4 className="text-sm font-black text-white uppercase tracking-wider">Already Booked?</h4>
@@ -1504,11 +1538,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-center">
                     <p className="text-3xl font-black text-white">{signupCount}</p>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Cabins</p>
+                    <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Cabins</p>
                   </div>
                   <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-center">
                     <p className="text-3xl font-black text-white">{totalGuests}</p>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Passengers</p>
+                    <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Passengers</p>
                   </div>
                 </div>
               </div>
@@ -1558,7 +1592,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {/* ── FEATURED HEADLINE ARTISTS ── */}
       <section id="artists" className="pt-16 pb-12 site-container">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Headline Musical Acts</span>
+          <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400">Headline Musical Acts</span>
           <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
             Featured <span className="accent-gradient-text">Artists</span>
           </h2>
@@ -1578,7 +1612,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
               <div className="mt-8 pt-4 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between">
                 <a href={band.website} target="_blank" rel="noopener noreferrer" className="text-xs text-cyan-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline">Visit Band Site →</a>
-                <a href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request" className="text-[10px] text-white/30 uppercase tracking-widest hover:text-white transition-all">Booking Inquiries</a>
+                <a href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request" className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-widest hover:text-white transition-all">Booking Inquiries</a>
               </div>
             </div>
           ))}
@@ -1631,7 +1665,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* Ports of Call Section */}
           <div>
             <div className="text-center md:text-left mb-10">
-              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Destination Explorer</span>
+              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400">Destination Explorer</span>
               <h3 className="text-2xl md:text-3xl font-black uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                 Ports of Call Catalog
               </h3>
@@ -1641,11 +1675,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "grid" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
                 {PORTS_DATA.map((port, idx) => (
-                  <div key={idx} className="bg-[#0b0b12] border-none rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 shadow-lg">
+                  <div key={idx} className="bg-[var(--color-bg-surface)] border-none rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 shadow-lg">
                     <div className="h-48 w-full relative overflow-hidden bg-black/60">
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
                       {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                      <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border-none rounded-full text-[9px] font-black uppercase tracking-widest text-cyan-400">
+                      <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border-none rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400">
                         Port Call #{idx + 1}
                       </span>
                     </div>
@@ -1662,7 +1696,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "spotlight" && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left animate-fadeIn">
                 {/* Main Featured Hero Card */}
-                <div className="lg:col-span-2 bg-[#0c0c14] border-none rounded-3xl overflow-hidden relative shadow-lg">
+                <div className="lg:col-span-2 bg-[var(--color-bg-surface)] border-none rounded-3xl overflow-hidden relative shadow-lg">
                   <div className="h-72 md:h-96 w-full relative overflow-hidden bg-black">
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/40 to-transparent z-10" />
                     {PORTS_DATA[activeSpotlightPort].image && (
@@ -1702,7 +1736,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       className={`w-full p-4 rounded-2xl border-none text-left transition-all cursor-pointer flex items-center gap-4 ${
                         activeSpotlightPort === idx
                           ? "bg-cyan-500/10 shadow-md"
-                          : "bg-[#08080d] hover:bg-white/5"
+                          : "bg-[var(--color-bg-deep)] hover:bg-white/5"
                       }`}
                     >
                       <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-black">
@@ -1712,7 +1746,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <h4 className={`text-xs font-bold uppercase truncate ${activeSpotlightPort === idx ? "text-cyan-400" : "text-white"}`}>
                           {port.name}
                         </h4>
-                        <span className="text-[10px] text-white/35 font-mono">Port #{idx + 1}</span>
+                        <span className="text-[var(--font-size-3xs)] text-white/35 font-mono">Port #{idx + 1}</span>
                       </div>
                     </button>
                   ))}
@@ -1753,12 +1787,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {PORTS_DATA.map((port, idx) => (
                     <div 
                       key={idx} 
-                      className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[#0b0b12] border border-white/10 hover:border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
+                      className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
                     >
                       <div className="h-52 w-full relative overflow-hidden bg-black/60">
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
                         {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                        <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border border-white/20 rounded-full text-[9px] font-black uppercase tracking-widest text-cyan-400">
+                        <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border border-white/20 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400">
                           {idx + 1} / {PORTS_DATA.length}
                         </span>
                       </div>
@@ -1776,10 +1810,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "list" && (
               <div className="space-y-4 animate-fadeIn text-left max-w-5xl mx-auto">
                 {PORTS_DATA.map((port, idx) => (
-                  <div key={idx} className="bg-[#0b0b12] border border-white/10 hover:border-cyan-500/30 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-all duration-300 hover:bg-white/[0.02]">
+                  <div key={idx} className="bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/30 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-all duration-300 hover:bg-white/[0.02]">
                     <div className="w-full md:w-48 h-32 md:h-28 rounded-xl overflow-hidden bg-black relative shrink-0">
                       {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
-                      <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[9px] font-black text-cyan-400 uppercase">
+                      <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[var(--font-size-4xs)] font-black text-cyan-400 uppercase">
                         Port #{idx + 1}
                       </span>
                     </div>
@@ -1826,7 +1860,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             ].map((stat, idx) => (
               <div key={idx} className="bg-transparent p-4 transition-colors">
                 <span className="text-3xl block mb-2">{stat.icon}</span>
-                <span className="text-[10px] text-white/40 font-black uppercase tracking-wider block">{stat.label}</span>
+                <span className="text-[var(--font-size-3xs)] text-white/40 font-black uppercase tracking-wider block">{stat.label}</span>
                 <span className="text-lg md:text-xl font-black text-white mt-1 block">{stat.value}</span>
               </div>
             ))}
@@ -1906,21 +1940,21 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               ).map((food, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-4 bg-transparent hover:bg-white/[0.04] p-2.5 rounded-2xl transition-all duration-300 group cursor-pointer"
+                  className="flex items-center gap-5 bg-transparent hover:bg-white/[0.04] p-3 rounded-none transition-all duration-300 group cursor-pointer border-none"
                 >
-                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden shrink-0 border border-white/10 shadow-lg">
+                  <div className="relative w-36 h-36 md:w-40 md:h-40 rounded-none overflow-hidden shrink-0 border-none shadow-lg">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={food.img}
                       alt={food.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 rounded-none"
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-extrabold text-white text-sm md:text-base leading-snug group-hover:text-cyan-300 transition-colors">
+                    <p className="font-extrabold text-white text-base md:text-lg leading-snug group-hover:text-cyan-300 transition-colors">
                       {food.name}
                     </p>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/15 border border-cyan-500/30 px-2.5 py-0.5 rounded-full inline-block mt-1.5 font-bold">
+                    <span className="text-[var(--font-size-3xs)] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/15 border-none px-2.5 py-0.5 rounded-none inline-block mt-2 font-bold">
                       {food.tag}
                     </span>
                   </div>
@@ -1935,7 +1969,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <div className="bg-transparent p-0">
               <h3 className="text-lg font-black uppercase text-white tracking-wider mb-6 border-b border-white/10 pb-3 flex items-center justify-between">
                 <span>Bars, Clubs & Lounges</span>
-                <span className="text-[10px] font-mono font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">
+                <span className="text-[var(--font-size-3xs)] font-mono font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">
                   20 VENUES ONBOARD
                 </span>
               </h3>
@@ -1964,21 +1998,21 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 ].map((bar, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-4 bg-transparent hover:bg-white/[0.04] p-2.5 rounded-2xl transition-all duration-300 group cursor-pointer"
+                    className="flex items-center gap-5 bg-transparent hover:bg-white/[0.04] p-3 rounded-none transition-all duration-300 group cursor-pointer border-none"
                   >
-                    <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden shrink-0 border border-white/10 shadow-lg">
+                    <div className="relative w-36 h-36 md:w-40 md:h-40 rounded-none overflow-hidden shrink-0 border-none shadow-lg">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={bar.img}
                         alt={bar.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 rounded-none"
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-extrabold text-white text-sm md:text-base leading-snug group-hover:text-cyan-300 transition-colors">
+                      <p className="font-extrabold text-white text-base md:text-lg leading-snug group-hover:text-cyan-300 transition-colors">
                         {bar.name}
                       </p>
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/15 border border-cyan-500/30 px-2.5 py-0.5 rounded-full inline-block mt-1.5 font-bold">
+                      <span className="text-[var(--font-size-3xs)] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/15 border-none px-2.5 py-0.5 rounded-none inline-block mt-2 font-bold">
                         {bar.tag}
                       </span>
                     </div>
@@ -1991,7 +2025,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <div className="bg-transparent p-0">
               <h3 className="text-lg font-black uppercase text-white tracking-wider mb-6 border-b border-white/10 pb-3 flex items-center justify-between">
                 <span>Onboard Entertainment & Family Areas</span>
-                <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20">
+                <span className="text-[var(--font-size-3xs)] font-mono font-bold text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20">
                   ATTRACTIONS
                 </span>
               </h3>
@@ -2020,21 +2054,21 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 ].map((act, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-4 bg-transparent hover:bg-white/[0.04] p-2.5 rounded-2xl transition-all duration-300 group cursor-pointer"
+                    className="flex items-center gap-5 bg-transparent hover:bg-white/[0.04] p-3 rounded-none transition-all duration-300 group cursor-pointer border-none"
                   >
-                    <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden shrink-0 border border-white/10 shadow-lg">
+                    <div className="relative w-36 h-36 md:w-40 md:h-40 rounded-none overflow-hidden shrink-0 border-none shadow-lg">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={act.img}
                         alt={act.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 rounded-none"
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-extrabold text-white text-sm md:text-base leading-snug group-hover:text-purple-300 transition-colors">
+                      <p className="font-extrabold text-white text-base md:text-lg leading-snug group-hover:text-purple-300 transition-colors">
                         {act.name}
                       </p>
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-0.5 rounded-full inline-block mt-1.5 font-bold">
+                      <span className="text-[var(--font-size-3xs)] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/15 border-none px-2.5 py-0.5 rounded-none inline-block mt-2 font-bold">
                         {act.tag}
                       </span>
                     </div>

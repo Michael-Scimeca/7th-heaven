@@ -232,8 +232,8 @@ function MerchDashboard() {
 
   // ─── Auth gates ──────────────────────────────────────────────────────────────
   if (!isDemo && (!isLoggedIn || !member)) return (
-    <div className="min-h-screen bg-[#08080d] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="bg-[#0f0f18] border border-white/10 rounded-2xl p-8 text-center max-w-sm w-full">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🔐</span>
         <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Login Required</h2>
         <p className="text-white/40 text-sm mb-6">Sign in with your merch team account.</p>
@@ -243,8 +243,8 @@ function MerchDashboard() {
   );
 
   if (!isDemo && !isMerch) return (
-    <div className="min-h-screen bg-[#08080d] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="bg-[#0f0f18] border border-red-500/20 rounded-2xl p-8 text-center max-w-sm w-full">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="bg-[var(--color-bg-surface)] border border-red-500/20 rounded-2xl p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🚫</span>
         <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Team Only</h2>
         <p className="text-white/40 text-sm">This page is only accessible to 7th Heaven merch staff.</p>
@@ -256,10 +256,10 @@ function MerchDashboard() {
   const claimedPickups = pickupQueue.filter(o => o.claimed);
 
   return (
-    <div className="min-h-screen bg-[#08080d] pt-[72px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[72px]" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Header — sits below global nav */}
-      <div className="border-b border-white/10 bg-[#0a0a10]/90 backdrop-blur-sm sticky top-[72px] z-20">
+      <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[72px] z-20">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <p className="text-xs text-pink-500 font-black uppercase tracking-[0.3em]">7th Heaven</p>
@@ -279,7 +279,7 @@ function MerchDashboard() {
       <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
 
         {/* Real-time Ticket/PIN Verification Scanner */}
-        <div className="bg-[#0f0f18] border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl overflow-hidden">
           <div className="px-5 py-4 border-b border-white/10 flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-sm">🔍</div>
             <div>
@@ -321,7 +321,7 @@ function MerchDashboard() {
                         </p>
                       )}
                       <p className="text-white/60 text-xs">Customer: {scanResult.order.customer} ({scanResult.order.email})</p>
-                      <p className="text-emerald-400/80 text-[10px] uppercase font-bold mt-1 tracking-wider">Order marked as claimed</p>
+                      <p className="text-emerald-400/80 text-[var(--font-size-3xs)] uppercase font-bold mt-1 tracking-wider">Order marked as claimed</p>
                     </div>
                   </div>
                 )}
@@ -332,7 +332,7 @@ function MerchDashboard() {
                     <div>
                       <p className="text-red-400 font-black text-sm uppercase tracking-wide">Warning: Already Claimed!</p>
                       <p className="text-white/60 text-xs mt-0.5">This QR/PIN code was already redeemed for a <strong className="text-white font-bold">{scanResult.order.item}</strong>.</p>
-                      <p className="text-red-400/80 text-[10px] uppercase font-bold mt-1 tracking-wider">DO NOT HAND OVER DUPLICATE MERCHANDISE</p>
+                      <p className="text-red-400/80 text-[var(--font-size-3xs)] uppercase font-bold mt-1 tracking-wider">DO NOT HAND OVER DUPLICATE MERCHANDISE</p>
                     </div>
                   </div>
                 )}
@@ -352,7 +352,7 @@ function MerchDashboard() {
         </div>
 
         {/* Raffle Winners — PIN display for visual matching */}
-        <div className="bg-[#0f0f18] border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl overflow-hidden">
           <div className="px-5 py-4 border-b border-white/10 flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-sm">🏆</div>
             <div>
@@ -424,7 +424,7 @@ function MerchDashboard() {
         {tab === 'pickup' && (
           <div className="space-y-3">
             {pendingPickups.length === 0 && claimedPickups.length === 0 ? (
-              <div className="bg-[#0f0f18] border border-white/10 rounded-2xl p-10 text-center">
+              <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-10 text-center">
                 <span className="text-4xl block mb-3 opacity-30">🛍️</span>
                 <p className="text-white/30 text-sm">No pickup orders yet</p>
                 <p className="text-white/15 text-xs mt-1">Orders appear here when fans choose "pickup" during a flash sale</p>
@@ -432,7 +432,7 @@ function MerchDashboard() {
             ) : (
               <>
                 {pendingPickups.map(order => (
-                  <div key={order.id} className="bg-[#0f0f18] border border-pink-500/30 rounded-2xl overflow-hidden">
+                  <div key={order.id} className="bg-[var(--color-bg-surface)] border border-pink-500/30 rounded-2xl overflow-hidden">
                     <div className="px-5 py-3 bg-pink-500/5 border-b border-pink-500/20 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
@@ -464,11 +464,11 @@ function MerchDashboard() {
                   <div className="space-y-2">
                     <p className="text-white/20 text-xs font-black uppercase tracking-widest px-1">Completed</p>
                     {claimedPickups.map(order => (
-                      <div key={order.id} className="bg-[#0f0f18] border border-white/5 rounded-xl px-5 py-3 flex items-center justify-between opacity-50">
+                      <div key={order.id} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-xl px-5 py-3 flex items-center justify-between opacity-50">
                         <div>
                           <p className="text-white text-sm font-bold">{order.item}</p>
                           {(order.size || order.color) && (
-                            <p className="text-white/40 text-[10px]">
+                            <p className="text-white/40 text-[var(--font-size-3xs)]">
                               {order.size && <span>{order.size}</span>}
                               {order.size && order.color && <span> / </span>}
                               {order.color && <span>{order.color}</span>}
@@ -495,7 +495,7 @@ function MerchDashboard() {
 
 export default function MerchPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#08080d]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[var(--color-bg-deep)]" />}>
       <MerchDashboard />
     </Suspense>
   );

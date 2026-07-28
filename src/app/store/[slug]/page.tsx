@@ -9,7 +9,7 @@ export default function ProductDetailPage() {
   const [added, setAdded] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#050508] text-white pt-32 pb-20 font-sans">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-32 pb-20 font-sans">
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Breadcrumbs */}
@@ -25,7 +25,7 @@ export default function ProductDetailPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           
           {/* Left: Product Image Container */}
-          <div className="bg-[#0b0b12] border border-white/5 p-8 rounded-3xl flex items-center justify-center aspect-square relative overflow-hidden">
+          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl flex items-center justify-center aspect-square relative overflow-hidden">
             <div className="absolute inset-0 bg-radial-gradient from-[var(--color-accent)]/10 to-transparent opacity-40 blur-[80px]" />
             <span className="text-9xl relative z-10 filter drop-shadow-[0_0_30px_rgba(133,29,239,0.3)]">👕</span>
           </div>

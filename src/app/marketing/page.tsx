@@ -104,7 +104,7 @@ export default function MarketingPage() {
   };
 
   return (
-    <section className="py-32 bg-[#050508] min-h-screen text-white relative overflow-hidden font-sans">
+    <section className="py-32 bg-[var(--color-bg-deep)] min-h-screen text-white relative overflow-hidden font-sans">
       {/* Background glow effects */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none" />
@@ -131,7 +131,7 @@ export default function MarketingPage() {
         </div>
 
         {/* ── SECTION 1: Bio & Copywriting ── */}
-        <div className="mb-20 bg-[#0a0a0f]/60 border border-white/5 p-6 md:p-8 rounded-2xl backdrop-blur-md">
+        <div className="mb-20 bg-[var(--color-bg-surface)]/60 border border-white/5 p-6 md:p-8 rounded-2xl backdrop-blur-md">
           <div className="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
             <span className="text-xl">✍️</span>
             <div>
@@ -146,7 +146,7 @@ export default function MarketingPage() {
               <div>
                 <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
                   <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)]">Short Bio (~100 words)</span>
-                  <span className="text-[10px] text-white/30 font-mono">102 words</span>
+                  <span className="text-[var(--font-size-3xs)] text-white/30 font-mono">102 words</span>
                 </div>
                 <p className="text-xs text-white/70 leading-relaxed font-medium text-left">
                   {shortBio}
@@ -165,7 +165,7 @@ export default function MarketingPage() {
               <div>
                 <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
                   <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)]">Medium Bio (~250 words)</span>
-                  <span className="text-[10px] text-white/30 font-mono">160 words</span>
+                  <span className="text-[var(--font-size-3xs)] text-white/30 font-mono">160 words</span>
                 </div>
                 <p className="text-xs text-white/70 leading-relaxed font-medium text-left whitespace-pre-line">
                   {mediumBio}
@@ -225,7 +225,7 @@ export default function MarketingPage() {
               return (
                 <div
                   key={i}
-                  className="bg-[#0a0a0f]/40 border border-white/10 rounded-xl overflow-hidden shadow-xl hover:border-purple-500/40 transition-all group flex flex-col justify-between"
+                  className="bg-[var(--color-bg-surface)]/40 border border-white/10 rounded-xl overflow-hidden shadow-xl hover:border-purple-500/40 transition-all group flex flex-col justify-between"
                 >
                   {/* Thumbnail / Image Preview Header */}
                   <div className="aspect-[16/10] bg-black/40 relative overflow-hidden flex items-center justify-center border-b border-white/5">
@@ -240,10 +240,10 @@ export default function MarketingPage() {
                     {isPdf && (
                       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-red-950/20 to-black/80">
                         <span className="text-4xl mb-2 filter drop-shadow-[0_0_12px_rgba(239,68,68,0.2)]">📄</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-red-400 font-mono">TECHNICAL PDF DOCUMENT</span>
+                        <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-red-400 font-mono">TECHNICAL PDF DOCUMENT</span>
                       </div>
                     )}
-                    <div className="absolute top-3 left-3 bg-black/80 border border-white/10 rounded px-2.5 py-0.5 text-[7px] font-mono tracking-widest text-white/50 uppercase shadow">
+                    <div className="absolute top-3 left-3 bg-black/80 border border-white/10 rounded px-2.5 py-0.5 text-[var(--font-size-5xs)] font-mono tracking-widest text-white/50 uppercase shadow">
                       {asset.fileSize}
                     </div>
                   </div>
@@ -251,7 +251,7 @@ export default function MarketingPage() {
                   {/* Body Info */}
                   <div className="p-5 flex-1 flex flex-col justify-between">
                     <div className="text-left mb-6">
-                      <span className="text-[8px] font-black uppercase tracking-widest text-[var(--color-accent)] leading-none mb-1 block">
+                      <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-[var(--color-accent)] leading-none mb-1 block">
                         {asset.category === "pdf" ? "Tech Doc" : asset.category}
                       </span>
                       <h4 className="text-sm font-extrabold text-white uppercase tracking-tight leading-tight">

@@ -120,7 +120,7 @@ export default function PreloaderDemo() {
         {/* Top Controls Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Section: Live Operations */}
-          <div className="p-8 bg-[#0c0c18]/90 border border-white/10 rounded-2xl relative overflow-hidden flex flex-col justify-between">
+          <div className="p-8 bg-[var(--color-bg-surface)]/90 border border-white/10 rounded-2xl relative overflow-hidden flex flex-col justify-between">
             {/* Glowing effect */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-3xl rounded-full pointer-events-none" />
             
@@ -173,7 +173,7 @@ export default function PreloaderDemo() {
           </div>
 
           {/* Section: Manual Scrubbing / Slider */}
-          <div className="p-8 bg-[#0c0c18]/90 border border-white/10 rounded-2xl flex flex-col justify-between">
+          <div className="p-8 bg-[var(--color-bg-surface)]/90 border border-white/10 rounded-2xl flex flex-col justify-between">
             <div>
               <h2 className="text-lg font-black uppercase tracking-wider text-purple-300 mb-2">
                 Manual Frame Scrubbing
@@ -228,7 +228,7 @@ export default function PreloaderDemo() {
                   className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
                 />
 
-                <div className="flex justify-between text-[10px] text-white/20 font-mono">
+                <div className="flex justify-between text-[var(--font-size-3xs)] text-white/20 font-mono">
                   <span>0%</span>
                   <span>25%</span>
                   <span>50%</span>
@@ -241,7 +241,7 @@ export default function PreloaderDemo() {
         </div>
 
         {/* Artwork Frames Explorer */}
-        <div className="p-8 bg-[#0a0a0f] border border-white/5 rounded-2xl mb-12">
+        <div className="p-8 bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl mb-12">
           <h2 className="text-xl font-black uppercase tracking-wider text-white mb-2">
             Artwork Frame Directory
           </h2>
@@ -273,19 +273,19 @@ export default function PreloaderDemo() {
                       style={getImageStyle(f.idx)}
                     />
                     {manualFrameIndex === f.idx && (
-                      <div className="absolute top-1 right-1 bg-purple-500 text-[8px] font-black uppercase px-1.5 py-0.5 rounded text-white tracking-widest">
+                      <div className="absolute top-1 right-1 bg-purple-500 text-[var(--font-size-4xs)] font-black uppercase px-1.5 py-0.5 rounded text-white tracking-widest">
                         Active
                       </div>
                     )}
                     {isShuffled && (
-                      <div className="absolute top-1 left-1 bg-purple-500/20 border border-purple-500/30 text-[7px] font-bold uppercase px-1 py-0.5 rounded text-purple-300 tracking-wider">
+                      <div className="absolute top-1 left-1 bg-purple-500/20 border border-purple-500/30 text-[var(--font-size-5xs)] font-bold uppercase px-1 py-0.5 rounded text-purple-300 tracking-wider">
                         In Seq
                       </div>
                     )}
                   </div>
                 <span className="text-xs font-bold text-white/90">Frame {f.idx}</span>
-                <span className="text-[10px] text-purple-400 font-bold mt-1 font-mono">{getFrameRangeStr(f.idx)}</span>
-                <span className="text-[9px] text-white/30 uppercase mt-0.5 tracking-wider">{f.desc}</span>
+                <span className="text-[var(--font-size-3xs)] text-purple-400 font-bold mt-1 font-mono">{getFrameRangeStr(f.idx)}</span>
+                <span className="text-[var(--font-size-4xs)] text-white/30 uppercase mt-0.5 tracking-wider">{f.desc}</span>
               </div>
             );
           })}
@@ -293,7 +293,7 @@ export default function PreloaderDemo() {
         </div>
 
         {/* Technical Design Spec */}
-        <div className="p-8 bg-[#0a0a0f] border border-white/5 rounded-2xl mb-12">
+        <div className="p-8 bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl mb-12">
           <h2 className="text-xl font-black uppercase tracking-wider text-white mb-6">
             Loading Pipeline Architecture
           </h2>
@@ -327,7 +327,7 @@ export default function PreloaderDemo() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white tracking-wide">{p.phase}</h3>
-                  <div className="text-[10px] uppercase font-bold text-purple-400/80 tracking-wider mt-0.5">
+                  <div className="text-[var(--font-size-3xs)] uppercase font-bold text-purple-400/80 tracking-wider mt-0.5">
                     Interval: {p.speed}
                   </div>
                   <p className="text-white/40 text-xs mt-2 leading-relaxed">{p.desc}</p>

@@ -250,11 +250,11 @@ export default function FanUploadForm() {
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
                 className={`relative w-full h-48 border border-white/15 rounded-xl cursor-pointer flex items-center justify-center overflow-hidden transition-all ${
-                  dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "hover:border-[var(--color-accent)]/50 bg-[#0a0a0f]/50"
+                  dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "hover:border-[var(--color-accent)]/50 bg-[var(--color-bg-surface)]/50"
                 }`}
               >
                 {previews.length > 0 ? (
-                  <div className="absolute inset-0 p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 overflow-y-auto bg-[#0a0a0f]/90 z-20">
+                  <div className="absolute inset-0 p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 overflow-y-auto bg-[var(--color-bg-surface)]/90 z-20">
                     {previews.map((src, i) => {
                       const file = selectedFiles[i];
                       const isVideo = file && (file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov'));

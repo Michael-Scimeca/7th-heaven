@@ -133,7 +133,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
   ];
 
   return (
-    <div className="bg-[#08080e] border border-white/5 rounded-xl overflow-hidden">
+    <div className="bg-[var(--color-bg-deep)] border border-white/5 rounded-xl overflow-hidden">
       {/* Header */}
       <div className="px-5 py-3 bg-white/[0.02] border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -200,11 +200,11 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <div className="flex gap-2 items-end bg-white/[0.02] p-3 rounded-lg border border-white/5">
                     <div className="flex-1">
                       <label className="text-2xs uppercase tracking-widest text-white/30 font-bold block mb-1">Name</label>
-                      <input value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500" />
+                      <input value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500" />
                     </div>
                     <div>
                       <label className="text-2xs uppercase tracking-widest text-white/30 font-bold block mb-1">Role</label>
-                      <select value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-purple-500 [color-scheme:dark]">
+                      <select value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-purple-500 [color-scheme:dark]">
                         {CREW_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                       </select>
                     </div>
@@ -265,7 +265,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             <div className="mt-3">
               {addingGear ? (
                 <div className="flex gap-2">
-                  <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 bg-[#050508] border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500" />
+                  <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500" />
                   <button onClick={addGearItem} className="text-xs text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
                   <button onClick={() => setAddingGear(false)} className="text-xs text-white/30 cursor-pointer px-1">✕</button>
                 </div>
@@ -285,7 +285,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 onChange={e => setNewNote(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
-                className="flex-1 bg-[#050508] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500"
+                className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-purple-500"
               />
               <button onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
             </div>

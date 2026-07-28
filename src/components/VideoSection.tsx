@@ -53,7 +53,7 @@ export default function VideoSection() {
 
         const SmallCard = ({ video }: { video: typeof latest }) => (
           <div className="group flex flex-col">
-            <div className="relative aspect-video overflow-hidden bg-[#12121a] border border-white/5">
+            <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] border border-white/5">
               {playingId === video.id ? (
                 <InlineYTPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
               ) : (
@@ -100,7 +100,7 @@ export default function VideoSection() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Big featured video — left */}
               <div className="group flex flex-col">
-                <div className="relative aspect-video overflow-hidden bg-[#12121a] border border-white/5">
+                <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] border border-white/5">
                   {playingId === `featured-${latest.id}` ? (
                     <InlineYTPlayer videoId={latest.id} title={latest.title} onClose={() => setPlayingId(null)} />
                   ) : (
@@ -199,7 +199,7 @@ export default function VideoSection() {
           {filteredVideos.slice(0, visibleCount).map((video, idx) => (
             <div key={video.id} className="group flex flex-col" style={{ animationDelay: gridVisible ? `${idx * 40}ms` : '0ms' }}>
               {/* Thumbnail */}
-              <div className="relative aspect-video overflow-hidden bg-[#12121a] rounded-[8px] border border-white/5">
+              <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] rounded-[8px] border border-white/5">
                 {playingId === video.id ? (
                   <InlineYTPlayer
                     videoId={video.id}

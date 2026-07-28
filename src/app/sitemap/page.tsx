@@ -1203,7 +1203,7 @@ export default function SitemapPage() {
           </h2>
           <p className="text-white/30 text-xs mb-8">Hierarchical view of all routes and how they connect.</p>
 
-          <div className="bg-[#08080e] border border-white/5 rounded-2xl p-8 font-mono text-sm leading-loose overflow-x-auto">
+          <div className="bg-[var(--color-bg-deep)] border border-white/5 rounded-2xl p-8 font-mono text-sm leading-loose overflow-x-auto">
             {/* Root */}
             <div className="text-white font-bold">/ <span className="text-white/30 font-normal ml-2">Home</span></div>
 

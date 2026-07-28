@@ -74,7 +74,7 @@ export default function CruisePaymentPage() {
 
         <div className="bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)] text-left">
           <div className="mb-6">
-            <span className="inline-block text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
+            <span className="inline-block text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
               Secure Additional Payment
             </span>
             <h1 className="text-2xl font-black uppercase text-white tracking-wide">

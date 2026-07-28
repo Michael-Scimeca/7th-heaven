@@ -163,7 +163,7 @@ export default function HomeMerch() {
                     Sale
                   </span>
                 </div>
-                <div className="aspect-square bg-[#0d0d15] relative overflow-hidden">
+                <div className="aspect-square bg-[var(--color-bg-surface)] relative overflow-hidden">
                   {imageUrl ? (
                     <Image src={imageUrl} alt={product.title} fill sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                   ) : (

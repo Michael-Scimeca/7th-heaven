@@ -27,6 +27,8 @@ import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
 import CustomScrollbar from "@/components/CustomScrollbar";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import CruiseVideoManager from "@/components/admin/CruiseVideoManager";
+import { EmergencyBroadcastCenter } from "@/components/EmergencyBroadcastCenter";
+import { RoleEmailDirectory } from "@/components/admin/RoleEmailDirectory";
 
 interface ParsedCruiseNotes {
   cabin?: string;
@@ -194,24 +196,24 @@ const SidebarDateButton = React.memo(({
       }`}
     >
       <div className="flex flex-col items-center min-w-[36px]">
-        <span className="text-[8px] font-bold text-white/35 uppercase">{show.dayLabel}</span>
-        <span className={`text-[11px] font-black ${isSelected ? 'text-amber-400' : isActiveWeek ? 'text-white/60' : 'text-white/40'}`}>{show.dateLabel}</span>
+        <span className="text-[var(--font-size-4xs)] font-bold text-white/35 uppercase">{show.dayLabel}</span>
+        <span className={`text-[var(--font-size-2xs)] font-black ${isSelected ? 'text-amber-400' : isActiveWeek ? 'text-white/60' : 'text-white/40'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`text-[10px] font-bold truncate ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/80' : 'text-white/60'}`}>
+        <p className={`text-[var(--font-size-3xs)] font-bold truncate ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/80' : 'text-white/60'}`}>
           {show.venue || show.venue_name}
         </p>
         {show.city && (
-          <p className="text-[9px] text-white/25 truncate">{show.city}{show.state ? `, ${show.state}` : ''}</p>
+          <p className="text-[var(--font-size-4xs)] text-white/25 truncate">{show.city}{show.state ? `, ${show.state}` : ''}</p>
         )}
       </div>
       {shiftCount > 0 && (
         <div className="relative group/badge shrink-0">
-          <span className="text-[8px] font-black bg-emerald-500/15 text-emerald-400/70 px-1.5 py-0.5 rounded cursor-help">
+          <span className="text-[var(--font-size-4xs)] font-black bg-emerald-500/15 text-emerald-400/70 px-1.5 py-0.5 rounded cursor-help">
             {shiftCount}
           </span>
           {/* Tooltip */}
-          <div className="absolute right-0 bottom-full mb-1.5 opacity-0 invisible group-hover/badge:opacity-100 group-hover/badge:visible transition-all duration-150 bg-[#1c1d22] text-white text-[9px] font-bold py-1 px-2 rounded border border-slate-700/50 shadow-xl whitespace-nowrap z-50 pointer-events-none flex items-center gap-1">
+          <div className="absolute right-0 bottom-full mb-1.5 opacity-0 invisible group-hover/badge:opacity-100 group-hover/badge:visible transition-all duration-150 bg-[#1c1d22] text-white text-[var(--font-size-4xs)] font-bold py-1 px-2 rounded border border-slate-700/50 shadow-xl whitespace-nowrap z-50 pointer-events-none flex items-center gap-1">
             <span>ℹ️</span>
             <span>{shiftCount} active {shiftCount === 1 ? 'shift' : 'shifts'} scheduled</span>
           </div>
@@ -1059,7 +1061,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const upcomingTourDatesWithLabels = useMemo(() => {
     const todayStr = new Date().toISOString().split('T')[0];
     const upcoming = tourDates.filter(show => !show.date || show.date >= todayStr);
-    return upcoming
+    
+    // Deduplicate shows by date and venue name
+    const seen = new Set<string>();
+    const uniqueUpcoming = upcoming.filter(show => {
+      const key = `${show.date || ''}_${(show.venue || show.venue_name || '').toLowerCase().trim()}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    return uniqueUpcoming
       .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
       .map(show => {
         const showDate = show.date ? new Date(show.date + 'T12:00:00') : null;
@@ -1241,18 +1253,39 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       );
     }
 
-    if (scheduleSortByDate) {
-      list = [...list].sort((a, b) => {
-        const aHasShift = schedules.some(s => s.date === scheduleSortByDate && s.crewId === a.id && !s.isTimeOff);
-        const bHasShift = schedules.some(s => s.date === scheduleSortByDate && s.crewId === b.id && !s.isTimeOff);
-        if (aHasShift && !bHasShift) return -1;
-        if (!aHasShift && bHasShift) return 1;
-        return 0;
-      });
-    }
+    const activeSortDate = scheduleSortByDate || selectedTourDate;
+    const activeWeekDateSet = new Set(next7Days.map(d => d.dateStr));
+
+    list = [...list].sort((a, b) => {
+      // 1. If a specific date is selected/clicked, prioritize shifts on that exact date
+      if (activeSortDate) {
+        const aHasSpecificShift = schedules.some(s => s.date === activeSortDate && s.crewId === a.id && !s.isTimeOff && s.crewId !== 'openshifts');
+        const bHasSpecificShift = schedules.some(s => s.date === activeSortDate && s.crewId === b.id && !s.isTimeOff && s.crewId !== 'openshifts');
+        if (aHasSpecificShift && !bHasSpecificShift) return -1;
+        if (!aHasSpecificShift && bHasSpecificShift) return 1;
+      }
+
+      // 2. Prioritize crew members who have ANY active shift in the currently visible week
+      const aWeekShifts = schedules.filter(s => activeWeekDateSet.has(s.date || '') && s.crewId === a.id && !s.isTimeOff && s.crewId !== 'openshifts');
+      const bWeekShifts = schedules.filter(s => activeWeekDateSet.has(s.date || '') && s.crewId === b.id && !s.isTimeOff && s.crewId !== 'openshifts');
+
+      const aHasWeekShift = aWeekShifts.length > 0;
+      const bHasWeekShift = bWeekShifts.length > 0;
+
+      if (aHasWeekShift && !bHasWeekShift) return -1;
+      if (!aHasWeekShift && bHasWeekShift) return 1;
+
+      // 3. If both work in the week, sort by total scheduled hours (descending)
+      const aHours = aWeekShifts.reduce((acc, s) => acc + Math.max(0, (s.endHour || 0) - (s.startHour || 0)), 0);
+      const bHours = bWeekShifts.reduce((acc, s) => acc + Math.max(0, (s.endHour || 0) - (s.startHour || 0)), 0);
+      if (bHours !== aHours) return bHours - aHours;
+
+      // 4. Alphabetical by name fallback
+      return a.name.localeCompare(b.name);
+    });
     
     return list.filter(m => m.id !== 'openshifts');
-  }, [crewMembers, scheduleCrewFilter, schedulePersonSearch, schedules, scheduleSortByDate]);
+  }, [crewMembers, scheduleCrewFilter, schedulePersonSearch, schedules, scheduleSortByDate, selectedTourDate, next7Days]);
 
   const activeFiltersCount = useMemo(() => {
     let count = 0;
@@ -1535,7 +1568,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       id: 'session', 
       text: 'Administrator session granted.', 
       time: '1 min ago', 
-      color: 'bg-[#8a1cfc]',
+      color: 'bg-[var(--color-accent)]',
       details: {
         type: 'signin',
         username: 'michaelscimeca',
@@ -1718,29 +1751,15 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         const matched = recipientsList.find(r => r.id === crewId);
         const crewShifts = dayShifts.filter(s => s.crewId === crewId);
         const roles = Array.from(new Set(crewShifts.map(s => s.role))).join(', ');
-        
-        if (matched) {
-          return {
-            id: matched.id,
-            name: matched.name,
-            phone: matched.phone || '',
-            role: roles
-          };
-        }
+        const times = Array.from(new Set(crewShifts.map(s => s.time || formatTimeFrame(s.startHour, s.endHour)))).filter(Boolean).join(', ');
         const matchedStatic = staticCrew.find(sc => sc.id === crewId);
-        if (matchedStatic) {
-          return {
-            id: crewId,
-            name: matchedStatic.name,
-            phone: matchedStatic.phone || '',
-            role: roles
-          };
-        }
+        
         return {
-          id: crewId,
-          name: findCrewName(crewId),
-          phone: '',
-          role: roles
+          id: matched?.id || crewId,
+          name: matched?.name || matchedStatic?.name || findCrewName(crewId),
+          phone: matched?.phone || matchedStatic?.phone || '',
+          role: roles,
+          timeFrame: times
         };
       });
     
@@ -1757,7 +1776,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     
     let rolesListStr = '';
     assignedCrew.forEach(c => {
-      rolesListStr += `\n- ${c.name}: ${c.role}`;
+      const timeInfo = c.timeFrame ? ` (${c.timeFrame})` : '';
+      const roleInfo = c.role ? `: ${c.role}` : '';
+      rolesListStr += `\n- ${c.name}${roleInfo}${timeInfo}`;
     });
     const message = `Hey team, regarding our show at ${showName} on ${formattedDate}:${rolesListStr}`;
     
@@ -2697,18 +2718,18 @@ try {
   const forceLogin = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('login') === 'true';
 
   if (!mounted) {
-    return <div className="min-h-[200vh] bg-[#050508]" />;
+    return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;
   }
 
   if ((forceLogin || !devBypass) && (!isLoggedIn || member?.role !== 'admin')) {
     const isWrongRole = isLoggedIn && member?.role !== 'admin';
 
     return (
-      <div className="min-h-screen bg-[#050508] text-white flex items-center justify-center px-6 relative overflow-hidden">
+      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-500 opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
-          <div className="bg-[#0c0c18] border border-white/10 overflow-hidden shadow-2xl">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-2xl">
             <div className="h-1 bg-gradient-to-r from-red-500 via-amber-500 to-red-500" />
 
             <div className="p-10">
@@ -2775,7 +2796,7 @@ try {
                     <button
                       type="button"
                       onClick={() => openModal("forgot")}
-                      className="text-[10px] text-red-400 hover:text-white transition-colors block text-right w-full mt-1.5"
+                      className="text-[var(--font-size-3xs)] text-red-400 hover:text-white transition-colors block text-right w-full mt-1.5"
                     >
                       Forgot Password?
                     </button>
@@ -2816,7 +2837,7 @@ try {
           e.stopPropagation();
           setOpenInfoSection(isOpen ? null : sectionId);
         }}
-        className="w-[18px] h-[18px] rounded-full bg-white/5 hover:bg-amber-500/20 border border-white/10 hover:border-amber-500/30 flex items-center justify-center text-[9px] font-black text-white/40 hover:text-amber-400 transition-all cursor-pointer shrink-0 ml-1.5"
+        className="w-[18px] h-[18px] rounded-full bg-white/5 hover:bg-amber-500/20 border border-white/10 hover:border-amber-500/30 flex items-center justify-center text-[var(--font-size-4xs)] font-black text-white/40 hover:text-amber-400 transition-all cursor-pointer shrink-0 ml-1.5"
         title="Show info"
       >
         i
@@ -2830,7 +2851,7 @@ try {
       <div className="mx-6 mt-4 p-3.5 bg-amber-500/5 border border-amber-500/15 text-amber-200/90 text-xs rounded-xl flex items-start gap-2.5 animate-[fadeIn_0.2s_ease-out] shrink-0" onClick={(e) => e.stopPropagation()}>
         <span className="text-sm select-none">ℹ️</span>
         <div>
-          <p className="font-extrabold uppercase tracking-wider text-[9px] text-amber-400">About {title}</p>
+          <p className="font-extrabold uppercase tracking-wider text-[var(--font-size-4xs)] text-amber-400">About {title}</p>
           <p className="mt-0.5 leading-normal opacity-80">{description}</p>
         </div>
       </div>
@@ -2839,7 +2860,57 @@ try {
   const renderAnnouncements = () => (
     <div className="space-y-6">
       <ProfilePhotoUploader />
-      <section id="admin-sec-announcements" className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+
+      {/* 📢 Emergency Show Broadcast & Fan Alert Dispatcher */}
+      <section id="admin-sec-emergencybroadcast" className="bg-[var(--color-bg-surface)] border border-rose-500/20 rounded-2xl overflow-hidden shadow-2xl">
+        <div onClick={() => toggleSection('emergencybroadcast')} className="p-6 border-b border-white/10 flex items-center justify-between bg-rose-500/10 cursor-pointer select-none hover:bg-rose-500/15 transition-colors">
+          <div className="flex items-center gap-2">
+            <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            </div>
+            <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+              📢 Emergency Show & Fan Alert Dispatcher
+              {renderInfoToggle('emergencybroadcast')}
+            </h3>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-[var(--font-size-3xs)] text-rose-400 font-bold uppercase tracking-widest bg-rose-500/15 px-2 py-0.5 rounded border border-rose-500/20">SMS • Email • Fan Wall</span>
+            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emergencybroadcast') ? 'rotate-0' : '-rotate-90')}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+            </div>
+          </div>
+        </div>
+        {renderInfoBanner('emergencybroadcast', 'Emergency Show & Fan Alert Dispatcher', 'Dispatch urgent show cancellations, time changes, or venue updates across Twilio SMS, Email, and Fan Dashboard banners with live cost estimations.')}
+        <div style={{ display: isSectionOpen('emergencybroadcast') ? undefined : 'none' }}>
+          <EmergencyBroadcastCenter tourDates={tourDates} />
+        </div>
+      </section>
+
+      {/* 📧 Role-Based Email Lists & Subscriber Directory */}
+      <section id="admin-sec-emaildirectory" className="bg-[var(--color-bg-surface)] border border-amber-500/20 rounded-2xl overflow-hidden shadow-2xl">
+        <div onClick={() => toggleSection('emaildirectory')} className="p-6 border-b border-white/10 flex items-center justify-between bg-amber-500/10 cursor-pointer select-none hover:bg-amber-500/15 transition-colors">
+          <div className="flex items-center gap-2">
+            <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            </div>
+            <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+              📧 Role-Based Email Lists & Subscriber Directory
+              {renderInfoToggle('emaildirectory')}
+            </h3>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-[var(--font-size-3xs)] text-amber-400 font-bold uppercase tracking-widest bg-amber-500/15 px-2.5 py-1 rounded border border-amber-500/20">Crew • Fans • Cruise • Planners • Admins</span>
+            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emaildirectory') ? 'rotate-0' : '-rotate-90')}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+            </div>
+          </div>
+        </div>
+        {renderInfoBanner('emaildirectory', 'Role-Based Email Lists & Subscriber Directory', 'Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins. Copy bulk BCC lists or export CSV files.')}
+        <div style={{ display: isSectionOpen('emaildirectory') ? undefined : 'none' }}>
+          <RoleEmailDirectory dynamicUsers={users} />
+        </div>
+      </section>
+      <section id="admin-sec-announcements" className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <div onClick={() => toggleSection('announcements')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -2860,7 +2931,7 @@ try {
       <div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }}>
         <div className="p-6">
           {/* Global Announcement Banner Control */}
-          <div className={`relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(133,29,239,0.15)]' : 'border-white/5 hover:border-white/10'} rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
+          <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(133,29,239,0.15)]' : 'border-white/5 hover:border-white/10'} rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
             <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500 rounded-2xl`} />
             
             <div className="relative z-10 flex flex-col">
@@ -2889,7 +2960,7 @@ try {
                     disabled={bannerUpdating}
                     className={`relative px-6 py-2.5 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive 
                       ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:shadow-[0_0_30px_rgba(133,29,239,0.8)] hover:scale-[1.02]' 
-                      : 'bg-[#1c1c24] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)] hover:bg-[#252530]'
+                      : 'bg-[var(--color-bg-elevated)] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)] hover:bg-[#252530]'
                     } disabled:opacity-50 disabled:hover:scale-100`}
                   >
                     <span className="relative z-10 flex items-center gap-2">
@@ -2997,7 +3068,7 @@ try {
   );
 
   const renderAnalytics = () => (
-    <section id="admin-sec-analytics" className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section id="admin-sec-analytics" className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <div onClick={() => toggleSection('analytics')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -3116,7 +3187,7 @@ try {
   );
 
   const renderShopify = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('shopify')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -3363,11 +3434,11 @@ try {
                             {Object.entries(shopifyData.dailyRevenue)
                               .sort(([a], [b]) => a.localeCompare(b))
                               .slice(-14)
-                              .map(([date, amount]: [string, any]) => {
+                              .map(([date, amount]: [string, any], idx: number) => {
                                 const maxRevenue = Math.max(...Object.values(shopifyData.dailyRevenue).map(Number));
                                 const pct = maxRevenue > 0 ? (amount / maxRevenue) * 100 : 0;
                                 return (
-                                  <div key={date} className="flex items-center gap-3">
+                                  <div key={`daily-rev-${date}-${idx}`} className="flex items-center gap-3">
                                     <span className="text-[0.6rem] font-mono text-white/30 w-16 shrink-0">
                                       {new Date(date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                     </span>
@@ -3401,7 +3472,7 @@ try {
                       ) : (
                         <table className="w-full text-left">
                           <thead className="sticky top-0 z-10">
-                            <tr className="bg-[#0f0f13] text-[0.55rem] uppercase tracking-widest text-white/25">
+                            <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25">
                               <th className="px-4 py-3 font-bold border-b border-white/5">Order</th>
                               <th className="px-4 py-3 font-bold border-b border-white/5">Customer</th>
                               <th className="px-4 py-3 font-bold border-b border-white/5">Items</th>
@@ -3551,7 +3622,7 @@ try {
                       ) : (
                         <table className="w-full text-left">
                           <thead>
-                            <tr className="bg-[#0f0f13] text-[0.55rem] uppercase tracking-widest text-white/25 border-b border-white/5">
+                            <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25 border-b border-white/5">
                               <th className="px-4 py-3 font-bold">Order ID</th>
                               <th className="px-4 py-3 font-bold">Customer</th>
                               <th className="px-4 py-3 font-bold">Item Details</th>
@@ -3655,7 +3726,7 @@ try {
   );
 
   const renderBookings = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('bookings')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -3743,21 +3814,21 @@ try {
                             <td colSpan={6} className="p-6 bg-[#060609] border-t border-b border-white/10">
                               <div className="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-left border-b border-white/5 pb-6">
                                 <div>
-                                  <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Age Limit</p>
+                                  <p className="text-[var(--font-size-3xs)] uppercase tracking-widest text-white/30 font-bold mb-1">Age Limit</p>
                                   <p className="text-sm font-semibold text-white">
                                     {b.ageRestriction === "21_plus" ? "🔞 21 & Over" : b.ageRestriction === "18_plus" ? "🔞 18 & Over" : "✅ All Ages"}
                                   </p>
                                 </div>
                                 <div>
-                                  <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Doors Time</p>
+                                  <p className="text-[var(--font-size-3xs)] uppercase tracking-widest text-white/30 font-bold mb-1">Doors Time</p>
                                   <p className="text-sm font-semibold text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
                                 </div>
                                 <div>
-                                  <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Cover / Price</p>
+                                  <p className="text-[var(--font-size-3xs)] uppercase tracking-widest text-white/30 font-bold mb-1">Cover / Price</p>
                                   <p className="text-sm font-semibold text-white">{b.cover || 'Free / No Cover'}</p>
                                 </div>
                                 <div>
-                                  <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Ticket Link</p>
+                                  <p className="text-[var(--font-size-3xs)] uppercase tracking-widest text-white/30 font-bold mb-1">Ticket Link</p>
                                   {b.ticketLink ? (
                                     <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-[var(--color-accent)] hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
                                       {b.ticketLink}
@@ -3768,13 +3839,13 @@ try {
                                 </div>
                                 {b.details && (
                                   <div className="col-span-2 sm:col-span-4 mt-2">
-                                    <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Public Notes (displayed to fans)</p>
+                                    <p className="text-[var(--font-size-3xs)] uppercase tracking-widest text-white/30 font-bold mb-1">Public Notes (displayed to fans)</p>
                                     <p className="text-xs text-white/70 italic bg-white/[0.02] p-3 rounded-lg border border-white/5">"{b.details}"</p>
                                   </div>
                                 )}
                                 {b.plannerNotes && (
                                   <div className="col-span-2 sm:col-span-4 mt-2">
-                                    <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Planner's Internal Notes</p>
+                                    <p className="text-[var(--font-size-3xs)] uppercase tracking-widest text-white/30 font-bold mb-1">Planner's Internal Notes</p>
                                     <p className="text-xs text-white/70 bg-white/[0.02] p-3 rounded-lg border border-white/5">{b.plannerNotes}</p>
                                   </div>
                                 )}
@@ -3794,7 +3865,7 @@ try {
   );
 
   const renderPlanners = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('planners')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -3877,7 +3948,7 @@ try {
   );
 
   const renderPhotoMod = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('photomod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -3907,7 +3978,7 @@ try {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
                     {moderationQueue.map((photo) => (
-                      <div key={photo.id} className="group relative bg-[#0a0a0f] border border-white/10 rounded-xl overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
+                      <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 rounded-xl overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
                         <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
                           <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
@@ -3940,7 +4011,7 @@ try {
   );
 
   const renderMemoryMod = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('memorymod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4014,7 +4085,7 @@ try {
 
 
   const renderLiveAlerts = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('livealerts')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4100,7 +4171,7 @@ try {
   );
 
   const renderSmsBlast = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('smsblast')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4232,7 +4303,7 @@ try {
                       style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff40' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
                     >
                       <option value="">— Select an upcoming show —</option>
-                      {smsShows.map((show: any) => {
+                      {smsShows.map((show: any, idx: number) => {
                         const dateStr = (() => {
                           try {
                             const d = new Date(show.date + 'T12:00:00');
@@ -4241,7 +4312,7 @@ try {
                         })();
                         const loc = show.state ? `${show.city}, ${show.state}` : show.city;
                         return (
-                          <option key={show._id} value={show._id}>
+                          <option key={show._id || `sms-show-${show.date}-${idx}`} value={show._id || show.date}>
                             {dateStr} — {show.venue} ({loc}) {show.time ? `@ ${show.time}` : ''}
                           </option>
                         );
@@ -4486,7 +4557,7 @@ try {
     };
 
     return (
-      <section id="section-crewsms" className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+      <section id="section-crewsms" className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
         <div onClick={() => toggleSection('crewsms')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4516,7 +4587,7 @@ try {
                     <button
                       type="button"
                       onClick={() => setIsManageRolesModalOpen(true)}
-                      className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[9px] font-bold text-white/60 hover:text-white transition-all cursor-pointer flex items-center gap-1 border-solid"
+                      className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-all cursor-pointer flex items-center gap-1 border-solid"
                     >
                       ⚙️ Manage Preset Roles
                     </button>
@@ -4525,9 +4596,18 @@ try {
                     Showing {recipients.length} Crew Member{recipients.length !== 1 ? 's' : ''}
                   </span>
                 </div>
-                <div className="bg-[#14141c]/40 border border-white/5 rounded-2xl p-4 max-h-[460px] overflow-y-auto custom-scrollbar">
+                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 max-h-[460px] overflow-y-auto custom-scrollbar">
                   <div className="flex flex-col gap-1.5">
-                    {recipients.map((r) => {
+                    {recipients
+                      .slice()
+                      .sort((a, b) => {
+                        const aChecked = selectedCrewPhones.includes(normalizePhoneNumber(a.phone));
+                        const bChecked = selectedCrewPhones.includes(normalizePhoneNumber(b.phone));
+                        if (aChecked && !bChecked) return -1;
+                        if (!aChecked && bChecked) return 1;
+                        return a.name.localeCompare(b.name);
+                      })
+                      .map((r) => {
                       const isChecked = selectedCrewPhones.includes(normalizePhoneNumber(r.phone));
                       const isEditingThis = editingDutyMemberId === r.id;
                       return (
@@ -4685,7 +4765,7 @@ try {
               {/* Right Column: Group Setup & Message Sending */}
               <div className="space-y-5">
                 {/* Group dropdown & save selection */}
-                <div className="bg-[#14141c]/40 border border-white/5 rounded-2xl p-4 space-y-4">
+                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 space-y-4">
                   <div>
                     <label className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Group</label>
                     <div className="relative">
@@ -4719,8 +4799,8 @@ try {
                         {tourDates
                           .filter((show: any) => show.date)
                           .sort((a: any, b: any) => a.date.localeCompare(b.date))
-                          .map((show: any) => (
-                            <option key={show.date} value={show.date}>
+                          .map((show: any, idx: number) => (
+                            <option key={show._id || `show-opt-${show.date}-${idx}`} value={show.date}>
                               🎸 {show.venue || show.venue_name} ({show.date})
                             </option>
                           ))}
@@ -4778,7 +4858,7 @@ try {
                                 setSelectedCrewPhones([]);
                               }
                             }}
-                            className="text-[9px] text-rose-400 hover:text-rose-300 font-bold border-none bg-transparent cursor-pointer"
+                            className="text-[var(--font-size-4xs)] text-rose-400 hover:text-rose-300 font-bold border-none bg-transparent cursor-pointer"
                           >
                             Delete Group
                           </button>
@@ -4814,7 +4894,7 @@ try {
                             {allCrewCombined.map(r => {
                               const isChecked = selectedCrewPhones.includes(normalizePhoneNumber(r.phone));
                               return (
-                                <label key={r.id} className="flex items-center justify-between gap-2 cursor-pointer select-none text-[11px] text-white/80 hover:text-white py-0.5">
+                                <label key={r.id} className="flex items-center justify-between gap-2 cursor-pointer select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-0.5">
                                   <div className="flex items-center gap-2">
                                     <input
                                       type="checkbox"
@@ -4845,7 +4925,7 @@ try {
                         </div>
 
                         {newSmsGroupError && (
-                          <span className="text-[9px] font-bold text-red-400 block leading-tight">
+                          <span className="text-[var(--font-size-4xs)] font-bold text-red-400 block leading-tight">
                             ⚠️ {newSmsGroupError}
                           </span>
                         )}
@@ -4911,7 +4991,7 @@ try {
                                     {r.avatar ? (
                                       <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10" />
                                     ) : (
-                                      <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-amber-500/25 to-orange-500/25 border border-amber-500/10 flex items-center justify-center text-[8px] font-black uppercase text-amber-400">
+                                      <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-amber-500/25 to-orange-500/25 border border-amber-500/10 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-amber-400">
                                         {r.name.slice(0, 2)}
                                       </div>
                                     )}
@@ -4926,7 +5006,7 @@ try {
                                         setIsCustomDuty(false);
                                       }}
                                       disabled={savingDuty}
-                                      className="p-1 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold text-[9px] rounded cursor-pointer border-none shrink-0"
+                                      className="p-1 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold text-[var(--font-size-4xs)] rounded cursor-pointer border-none shrink-0"
                                     >
                                       ✓
                                     </button>
@@ -4937,7 +5017,7 @@ try {
                                         setEditingDutyMemberId(null);
                                         setIsCustomDuty(false);
                                       }}
-                                      className="p-1 bg-white/5 hover:bg-white/10 text-white/50 text-[9px] rounded cursor-pointer border-none shrink-0"
+                                      className="p-1 bg-white/5 hover:bg-white/10 text-white/50 text-[var(--font-size-4xs)] rounded cursor-pointer border-none shrink-0"
                                     >
                                       ✕
                                     </button>
@@ -4988,7 +5068,7 @@ try {
                                           setIsCustomDuty(false);
                                           setEditingDutyValue('');
                                         }}
-                                        className="p-1 bg-white/5 hover:bg-white/10 text-white/50 text-[9px] rounded cursor-pointer border-none shrink-0"
+                                        className="p-1 bg-white/5 hover:bg-white/10 text-white/50 text-[var(--font-size-4xs)] rounded cursor-pointer border-none shrink-0"
                                         title="Back to List"
                                       >
                                         ↩
@@ -5000,42 +5080,66 @@ try {
                             );
                           }
                           
+                          const timeFrameStr = dayShifts.length > 0
+                            ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ')
+                            : (r.time || '5:00 PM - 10:00 PM');
+                          const phoneDisplay = r.phone || '(555) 234-5678';
+                          const emailDisplay = r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`;
+
                           return (
-                            <div key={r.id} className="flex items-center justify-between p-2 bg-white/[0.02] border border-white/5 rounded-lg text-xs">
-                              <div className="flex items-center gap-2.5 truncate">
-                                {r.avatar ? (
-                                  <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10" />
-                                ) : (
-                                  <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-amber-500/25 to-orange-500/25 border border-amber-500/10 flex items-center justify-center text-[8px] font-black uppercase text-amber-400">
-                                    {r.name.slice(0, 2)}
-                                  </div>
-                                )}
-                                <div className="truncate">
-                                  <span className="font-bold text-white block leading-none">{r.name}</span>
-                                  <div className="flex items-center gap-1.5 mt-1">
-                                    <span className="text-[8.5px] text-white/35 tracking-wider uppercase font-mono">{roleStr}</span>
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingDutyMemberId(r.id);
-                                        setEditingDutyValue(r.role || '');
-                                      }}
-                                      className="text-white/20 hover:text-amber-400 transition-colors border-none bg-transparent cursor-pointer p-0 text-[10px] leading-none"
-                                      title="Edit Role"
-                                    >
-                                      ✏️
-                                    </button>
+                            <div key={r.id} className="flex flex-col gap-1.5 p-2.5 bg-white/[0.02] border border-white/5 rounded-lg text-xs">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2.5 truncate">
+                                  {r.avatar ? (
+                                    <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
+                                  ) : (
+                                    <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-amber-500/25 to-orange-500/25 border border-amber-500/10 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-amber-400 shrink-0">
+                                      {r.name.slice(0, 2)}
+                                    </div>
+                                  )}
+                                  <div className="truncate">
+                                    <span className="font-bold text-white block leading-none">{r.name}</span>
+                                    <div className="flex items-center gap-1.5 mt-1">
+                                      <span className="text-[var(--font-size-4xs)] text-amber-400/80 font-semibold uppercase tracking-wider font-mono">{roleStr}</span>
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setEditingDutyMemberId(r.id);
+                                          setEditingDutyValue(r.role || '');
+                                        }}
+                                        className="text-white/30 hover:text-amber-400 transition-colors border-none bg-transparent cursor-pointer p-0 text-[var(--font-size-3xs)] leading-none"
+                                        title="Edit Role"
+                                      >
+                                        ✏️
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
+                                <button
+                                  type="button"
+                                  onClick={() => setSelectedCrewPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
+                                  className="text-white/30 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[var(--font-size-2xs)] font-bold shrink-0"
+                                >
+                                  ✕
+                                </button>
                               </div>
-                              <button
-                                type="button"
-                                onClick={() => setSelectedCrewPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
-                                className="text-white/20 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[10px] font-bold"
-                              >
-                                ✕
-                              </button>
+
+                              {/* Time Frame, Phone & Email Details */}
+                              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-white/5 text-[9.5px] text-white/50 font-mono">
+                                <div className="flex items-center gap-1 text-cyan-300/80">
+                                  <span>⏰</span>
+                                  <span>{timeFrameStr}</span>
+                                </div>
+                                <div className="flex items-center gap-1 text-emerald-300/80">
+                                  <span>📞</span>
+                                  <span>{phoneDisplay}</span>
+                                </div>
+                                <div className="flex items-center gap-1 text-purple-300/80 truncate max-w-[200px]">
+                                  <span>✉️</span>
+                                  <span className="truncate">{emailDisplay}</span>
+                                </div>
+                              </div>
                             </div>
                           );
                         })}
@@ -5062,7 +5166,7 @@ try {
                           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                         )}
                       </div>
-                      <span className="text-[11px] font-black uppercase tracking-wider text-amber-400">📱 SMS TEXTS</span>
+                      <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-amber-400">📱 SMS TEXTS</span>
                     </div>
                     <span className="text-[9.5px] text-white/35 leading-normal">Sends raw text alerts to active mobile numbers</span>
                   </div>
@@ -5083,7 +5187,7 @@ try {
                           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                         )}
                       </div>
-                      <span className="text-[11px] font-black uppercase tracking-wider text-amber-400">✉️ EMAIL ALERTS</span>
+                      <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-amber-400">✉️ EMAIL ALERTS</span>
                     </div>
                     <span className="text-[9.5px] text-white/35 leading-normal">Sends styled HTML alerts to registered emails</span>
                   </div>
@@ -5106,7 +5210,7 @@ try {
                           <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                         )}
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-amber-400">👥 Send as Group Text (Show Recipient List)</span>
+                      <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-amber-400">👥 Send as Group Text (Show Recipient List)</span>
                     </div>
                     <span className="text-[8.5px] text-white/35 leading-normal">Appends a list of all checked recipients to the SMS so everyone sees who is on this group alert</span>
                   </div>
@@ -5114,7 +5218,7 @@ try {
 
                 {/* Email Subject Input */}
                 {sendEmailAlert && (
-                  <div className="bg-[#14141c]/40 border border-white/5 rounded-2xl p-4 space-y-4 animate-[fadeIn_0.2s_ease-out]">
+                  <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 space-y-4 animate-[fadeIn_0.2s_ease-out]">
                     <div>
                       <label className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Email Subject</label>
                       <input
@@ -5129,7 +5233,7 @@ try {
                 )}
 
                 {/* SMS Text Message Box */}
-                <div className="bg-[#14141c]/40 border border-white/5 rounded-2xl p-4 space-y-3">
+                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 space-y-3">
                   <div>
                     <label className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Alert Message</label>
                     <textarea
@@ -5152,7 +5256,7 @@ try {
                   {sendSmsAlert && (
                     <div className="bg-amber-500/[0.02] border border-amber-500/10 rounded-xl p-3 text-xs space-y-2 animate-[fadeIn_0.2s_ease-out]">
                       <span className="text-[0.65rem] font-bold text-amber-400 uppercase tracking-widest block">📱 Live SMS Preview (Recipient View)</span>
-                      <p className="text-white/80 font-mono text-[11px] whitespace-pre-wrap bg-black/35 p-2.5 rounded border border-white/5 leading-relaxed">
+                      <p className="text-white/80 font-mono text-[var(--font-size-2xs)] whitespace-pre-wrap bg-black/35 p-2.5 rounded border border-white/5 leading-relaxed">
                         {`🛡️ 7th Heaven CREW ALERT:\n\n${crewAlertMsg || '(Message body empty)'}${
                           crewSendAsGroup
                             ? `\n\nGroup: ${
@@ -5253,26 +5357,26 @@ try {
 
                 {/* Email Dispatch Preview */}
                 {sendEmailAlert && (
-                  <div className="bg-[#14141c]/40 border border-white/5 rounded-2xl p-4 space-y-3 animate-[fadeIn_0.2s_ease-out]">
+                  <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 space-y-3 animate-[fadeIn_0.2s_ease-out]">
                     <div className="flex items-center justify-between border-b border-white/5 pb-2">
                       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40">📧 Email Dispatch Preview</span>
-                      <span className="text-[9px] bg-purple-500/20 text-purple-400 border border-purple-500/10 px-1.5 py-0.5 rounded font-bold">Admin Dispatch Copy</span>
+                      <span className="text-[var(--font-size-4xs)] bg-purple-500/20 text-purple-400 border border-purple-500/10 px-1.5 py-0.5 rounded font-bold">Admin Dispatch Copy</span>
                     </div>
                     
                     <div className="border border-white/10 rounded-xl bg-black/50 overflow-hidden text-left font-sans text-white text-[12px] max-h-[300px] overflow-y-auto custom-scrollbar">
-                      <div className="bg-white/5 border-b border-white/5 p-3 space-y-1 text-[10px] text-white/40">
+                      <div className="bg-white/5 border-b border-white/5 p-3 space-y-1 text-[var(--font-size-3xs)] text-white/40">
                         <p><strong className="text-white/60 font-semibold">Subject:</strong> <span className="text-white/80">{smsEmailSubject || '(No subject)'}</span></p>
                         <p><strong className="text-white/60 font-semibold">To:</strong> <span className="text-white/80">Admins & Dispatch List</span></p>
                       </div>
                       
                       <div className="p-5 space-y-4">
                         <h4 className="text-[12px] font-black text-white uppercase tracking-wider border-b border-purple-500 pb-2">🛡️ Crew SMS Alert Dispatched</h4>
-                        <p className="text-white/60 text-[10px] leading-relaxed">
+                        <p className="text-white/60 text-[var(--font-size-3xs)] leading-relaxed">
                           An administrator has dispatched a new SMS alert to the crew members. Here is the full dispatch log:
                         </p>
                         
-                        <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3 space-y-1.5 text-[10px]">
-                          <span className="text-[9px] uppercase tracking-wider text-white/30 font-bold block mb-1">📅 Show / Event Details</span>
+                        <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3 space-y-1.5 text-[var(--font-size-3xs)]">
+                          <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/30 font-bold block mb-1">📅 Show / Event Details</span>
                           <div className="flex justify-between border-b border-white/5 pb-1"><span className="text-white/40">Date</span><span className="text-white font-semibold">{smsSelectedShowDate || 'N/A'}</span></div>
                           {(() => {
                             const show = smsSelectedShowDate ? tourDates.find((s: any) => s.date === smsSelectedShowDate) : null;
@@ -5286,8 +5390,8 @@ try {
                         </div>
                         
                         <div className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-3 space-y-1">
-                          <span className="text-[9px] uppercase tracking-wider text-purple-400 font-bold block mb-1">📝 SMS Message Text</span>
-                          <p className="text-white/70 italic text-[10px] leading-relaxed">
+                          <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-purple-400 font-bold block mb-1">📝 SMS Message Text</span>
+                          <p className="text-white/70 italic text-[var(--font-size-3xs)] leading-relaxed">
                             "{crewAlertMsg || '(No message text)'}"
                           </p>
                         </div>
@@ -5297,21 +5401,21 @@ try {
                             const checkedCrew = allCrewCombined.filter(c => selectedCrewPhones.includes(normalizePhoneNumber(c.phone)));
                             return (
                               <>
-                                <span className="text-[9px] uppercase tracking-wider text-white/30 font-bold block">👥 SMS Recipients ({checkedCrew.length})</span>
+                                <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/30 font-bold block">👥 SMS Recipients ({checkedCrew.length})</span>
                                 {checkedCrew.length === 0 ? (
-                                  <p className="text-white/30 italic text-[10px]">No recipients checked.</p>
+                                  <p className="text-white/30 italic text-[var(--font-size-3xs)]">No recipients checked.</p>
                                 ) : (
                                   <div className="divide-y divide-white/5">
                                     {checkedCrew.map(c => {
                                       const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[c.id] || [];
                                       const roleStr = dayShifts.length > 0 ? Array.from(new Set(dayShifts.map(s => s.role))).join(', ') : (c.role ? c.role.toUpperCase() : 'CREW');
                                       return (
-                                        <div key={c.id} className="flex justify-between items-center py-1.5 text-[10px]">
+                                        <div key={c.id} className="flex justify-between items-center py-1.5 text-[var(--font-size-3xs)]">
                                           <div>
                                             <span className="text-white font-semibold block">{c.name}</span>
-                                            <span className="text-white/40 text-[9px]">{formatPhoneForDisplay(c.phone)}</span>
+                                            <span className="text-white/40 text-[var(--font-size-4xs)]">{formatPhoneForDisplay(c.phone)}</span>
                                           </div>
-                                          <span className="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[8px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">{roleStr}</span>
+                                          <span className="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[var(--font-size-4xs)] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">{roleStr}</span>
                                         </div>
                                       );
                                     })}
@@ -5396,7 +5500,7 @@ try {
 
                   <div>
                     <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Message Template Preview</label>
-                    <div className="bg-black/30 border border-white/5 rounded-lg p-3 text-[11px] text-white/70 font-mono leading-relaxed select-text">
+                    <div className="bg-black/30 border border-white/5 rounded-lg p-3 text-[var(--font-size-2xs)] text-white/70 font-mono leading-relaxed select-text">
                       Hi [Crew Name], this is an automated reminder that you are scheduled for [Role] at [Show/Location] starting at [Shift Time]. Please reply if you have conflicts.
                     </div>
                   </div>
@@ -5490,7 +5594,7 @@ try {
     const allBandCombined = getBandRecipientsCombined();
 
     return (
-      <section id="section-bandsms" className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+      <section id="section-bandsms" className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
         <div onClick={() => toggleSection('bandsms')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -5522,7 +5626,7 @@ try {
                   </span>
                 </div>
 
-                <div className="bg-[#14141c]/40 border border-white/5 rounded-2xl p-4 max-h-[460px] overflow-y-auto custom-scrollbar">
+                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 max-h-[460px] overflow-y-auto custom-scrollbar">
                   <div className="flex flex-col gap-1.5">
                     {allBandCombined.map((r) => {
                       const isChecked = selectedBandPhones.includes(normalizePhoneNumber(r.phone));
@@ -5590,7 +5694,7 @@ try {
 
               {/* Right Column: Alert Broadcast Form */}
               <div className="space-y-5">
-                <div className="bg-[#14141c]/40 border border-white/5 rounded-2xl p-4 space-y-4">
+                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 space-y-4">
                   <div>
                     <label className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Upcoming Show</label>
                     <div className="relative">
@@ -5600,8 +5704,8 @@ try {
                         className="w-full appearance-none pr-8 pl-3 py-2 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid"
                       >
                         <option value="">-- Choose target show --</option>
-                        {tourDates.map((s: any) => (
-                          <option key={s._id || s.date} value={s.date}>
+                        {tourDates.map((s: any, idx: number) => (
+                          <option key={s._id || `band-show-opt-${s.date}-${idx}`} value={s.date}>
                             {s.date} - {s.venue || s.venue_name}
                           </option>
                         ))}
@@ -5613,7 +5717,7 @@ try {
                   </div>
 
                   {bandSmsSelectedShowDate && (
-                    <div className="flex items-center justify-between bg-amber-500/10 border border-amber-500/25 rounded-lg px-3 py-2 text-[10px] text-amber-400 animate-[fadeIn_0.2s_ease-out]">
+                    <div className="flex items-center justify-between bg-amber-500/10 border border-amber-500/25 rounded-lg px-3 py-2 text-[var(--font-size-3xs)] text-amber-400 animate-[fadeIn_0.2s_ease-out]">
                       <div className="flex items-center gap-1.5">
                         <span>📢</span>
                         <span>Targeting show: <strong>{tourDates.find((s: any) => s.date === bandSmsSelectedShowDate)?.venue || 'Selected show'}</strong></span>
@@ -5639,14 +5743,14 @@ try {
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-white uppercase tracking-wider">SMS Texts</span>
+                        <span className="text-[var(--font-size-3xs)] font-bold text-white uppercase tracking-wider">SMS Texts</span>
                         <div className={`w-3.5 h-3.5 rounded-md border flex items-center justify-center transition-all ${
                           sendBandSmsAlert ? 'bg-amber-500 border-amber-500 text-black' : 'border-white/20 bg-black/45'
                         }`}>
                           {sendBandSmsAlert && <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
                         </div>
                       </div>
-                      <span className="text-[8px] text-white/40 leading-normal">Send Twilio text message to checked band members.</span>
+                      <span className="text-[var(--font-size-4xs)] text-white/40 leading-normal">Send Twilio text message to checked band members.</span>
                     </div>
 
                     <div
@@ -5658,14 +5762,14 @@ try {
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-white uppercase tracking-wider">Email Alerts</span>
+                        <span className="text-[var(--font-size-3xs)] font-bold text-white uppercase tracking-wider">Email Alerts</span>
                         <div className={`w-3.5 h-3.5 rounded-md border flex items-center justify-center transition-all ${
                           sendBandEmailAlert ? 'bg-amber-500 border-amber-500 text-black' : 'border-white/20 bg-black/45'
                         }`}>
                           {sendBandEmailAlert && <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
                         </div>
                       </div>
-                      <span className="text-[8px] text-white/40 leading-normal">Send HTML email alert update.</span>
+                      <span className="text-[var(--font-size-4xs)] text-white/40 leading-normal">Send HTML email alert update.</span>
                     </div>
                   </div>
 
@@ -5740,30 +5844,57 @@ try {
                         Recipients ({checkedRecipients.length})
                       </span>
                       <div className="flex flex-col gap-2 bg-black/20 border border-white/5 rounded-xl p-3 max-h-[220px] overflow-y-auto custom-scrollbar">
-                        {checkedRecipients.map(r => (
-                          <div key={r.id} className="flex items-center justify-between p-2 bg-white/[0.02] border border-white/5 rounded-lg text-xs">
-                            <div className="flex items-center gap-2.5 truncate">
-                              {r.avatar ? (
-                                <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10" />
-                              ) : (
-                                <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-amber-500/25 to-orange-500/25 border border-amber-500/10 flex items-center justify-center text-[8px] font-black uppercase text-amber-400">
-                                  {r.name.slice(0, 2)}
+                        {checkedRecipients.map(r => {
+                          const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[r.id] || [];
+                          const timeFrameStr = dayShifts.length > 0
+                            ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ')
+                            : (r.time || '5:00 PM - 10:00 PM');
+                          const phoneDisplay = r.phone || '(555) 234-5678';
+                          const emailDisplay = r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`;
+
+                          return (
+                            <div key={r.id} className="flex flex-col gap-1.5 p-2.5 bg-white/[0.02] border border-white/5 rounded-lg text-xs">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2.5 truncate">
+                                  {r.avatar ? (
+                                    <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
+                                  ) : (
+                                    <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-purple-500/25 to-indigo-500/25 border border-purple-500/10 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-purple-400 shrink-0">
+                                      {r.name.slice(0, 2)}
+                                    </div>
+                                  )}
+                                  <div className="truncate">
+                                    <span className="font-bold text-white block leading-none">{r.name}</span>
+                                    <span className="text-[var(--font-size-4xs)] text-purple-400/80 font-semibold uppercase tracking-wider font-mono block mt-1">{r.role || 'BAND MEMBER'}</span>
+                                  </div>
                                 </div>
-                              )}
-                              <div className="truncate">
-                                <span className="font-bold text-white block leading-none">{r.name}</span>
-                                <span className="text-[8.5px] text-white/35 tracking-wider block mt-1 uppercase truncate font-mono">{r.role}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => setSelectedBandPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
+                                  className="text-white/30 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[var(--font-size-2xs)] font-bold shrink-0"
+                                >
+                                  ✕
+                                </button>
+                              </div>
+
+                              {/* Time Frame, Phone & Email Details */}
+                              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-white/5 text-[9.5px] text-white/50 font-mono">
+                                <div className="flex items-center gap-1 text-cyan-300/80">
+                                  <span>⏰</span>
+                                  <span>{timeFrameStr}</span>
+                                </div>
+                                <div className="flex items-center gap-1 text-emerald-300/80">
+                                  <span>📞</span>
+                                  <span>{phoneDisplay}</span>
+                                </div>
+                                <div className="flex items-center gap-1 text-purple-300/80 truncate max-w-[200px]">
+                                  <span>✉️</span>
+                                  <span className="truncate">{emailDisplay}</span>
+                                </div>
                               </div>
                             </div>
-                            <button
-                              type="button"
-                              onClick={() => setSelectedBandPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
-                              className="text-white/20 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[10px] font-bold"
-                            >
-                              ✕
-                            </button>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   );
@@ -5771,26 +5902,26 @@ try {
 
                 {/* Email Dispatch Preview */}
                 {sendBandEmailAlert && (
-                  <div className="bg-[#14141c]/40 border border-white/5 rounded-2xl p-4 space-y-3 animate-[fadeIn_0.2s_ease-out]">
+                  <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 space-y-3 animate-[fadeIn_0.2s_ease-out]">
                     <div className="flex items-center justify-between border-b border-white/5 pb-2">
                       <span className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40">📧 Email Dispatch Preview</span>
-                      <span className="text-[9px] bg-purple-500/20 text-purple-400 border border-purple-500/10 px-1.5 py-0.5 rounded font-bold">Band Dispatch Copy</span>
+                      <span className="text-[var(--font-size-4xs)] bg-purple-500/20 text-purple-400 border border-purple-500/10 px-1.5 py-0.5 rounded font-bold">Band Dispatch Copy</span>
                     </div>
                     
                     <div className="border border-white/10 rounded-xl bg-black/50 overflow-hidden text-left font-sans text-white text-[12px] max-h-[300px] overflow-y-auto custom-scrollbar">
-                      <div className="bg-white/5 border-b border-white/5 p-3 space-y-1 text-[10px] text-white/40">
+                      <div className="bg-white/5 border-b border-white/5 p-3 space-y-1 text-[var(--font-size-3xs)] text-white/40">
                         <p><strong className="text-white/60 font-semibold">Subject:</strong> <span className="text-white/80">{bandEmailSubject || '(No subject)'}</span></p>
                         <p><strong className="text-white/60 font-semibold">To:</strong> <span className="text-white/80">Band Members & Dispatch List</span></p>
                       </div>
                       
                       <div className="p-5 space-y-4">
                         <h4 className="text-[12px] font-black text-white uppercase tracking-wider border-b border-purple-500 pb-2">💬 Band Member SMS Dispatched</h4>
-                        <p className="text-white/60 text-[10px] leading-relaxed">
+                        <p className="text-white/60 text-[var(--font-size-3xs)] leading-relaxed">
                           An administrator has dispatched a new SMS alert to the band members. Here is the full dispatch log:
                         </p>
                         
-                        <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3 space-y-1.5 text-[10px]">
-                          <span className="text-[9px] uppercase tracking-wider text-white/30 font-bold block mb-1">📅 Show / Event Details</span>
+                        <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3 space-y-1.5 text-[var(--font-size-3xs)]">
+                          <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/30 font-bold block mb-1">📅 Show / Event Details</span>
                           <div className="flex justify-between border-b border-white/5 pb-1"><span className="text-white/40">Date</span><span className="text-white font-semibold">{bandSmsSelectedShowDate || 'N/A'}</span></div>
                           {(() => {
                             const show = bandSmsSelectedShowDate ? tourDates.find((s: any) => s.date === bandSmsSelectedShowDate) : null;
@@ -5804,8 +5935,8 @@ try {
                         </div>
                         
                         <div className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-3 space-y-1">
-                          <span className="text-[9px] uppercase tracking-wider text-purple-400 font-bold block mb-1">📝 SMS Message Text</span>
-                          <p className="text-white/70 italic text-[10px] leading-relaxed">
+                          <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-purple-400 font-bold block mb-1">📝 SMS Message Text</span>
+                          <p className="text-white/70 italic text-[var(--font-size-3xs)] leading-relaxed">
                             "{bandAlertMsg || '(No message text)'}"
                           </p>
                         </div>
@@ -5815,18 +5946,18 @@ try {
                             const checkedBand = allBandCombined.filter(c => selectedBandPhones.includes(normalizePhoneNumber(c.phone)));
                             return (
                               <>
-                                <span className="text-[9px] uppercase tracking-wider text-white/30 font-bold block">👥 SMS Recipients ({checkedBand.length})</span>
+                                <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/30 font-bold block">👥 SMS Recipients ({checkedBand.length})</span>
                                 {checkedBand.length === 0 ? (
-                                  <p className="text-white/30 italic text-[10px]">No recipients checked.</p>
+                                  <p className="text-white/30 italic text-[var(--font-size-3xs)]">No recipients checked.</p>
                                 ) : (
                                   <div className="divide-y divide-white/5">
                                     {checkedBand.map(c => (
-                                      <div key={c.id} className="flex justify-between items-center py-1.5 text-[10px]">
+                                      <div key={c.id} className="flex justify-between items-center py-1.5 text-[var(--font-size-3xs)]">
                                         <div>
                                           <span className="text-white font-semibold block">{c.name}</span>
-                                          <span className="text-white/40 text-[9px]">{formatPhoneForDisplay(c.phone)}</span>
+                                          <span className="text-white/40 text-[var(--font-size-4xs)]">{formatPhoneForDisplay(c.phone)}</span>
                                         </div>
-                                        <span className="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[8px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">{c.role}</span>
+                                        <span className="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[var(--font-size-4xs)] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">{c.role}</span>
                                       </div>
                                     ))}
                                   </div>
@@ -5848,7 +5979,7 @@ try {
   };
 
   const renderNewsletter = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('newsletter')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -5936,7 +6067,7 @@ try {
   );
 
   const renderEmailFlow = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <div onClick={() => toggleSection('emailflow')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -5976,8 +6107,8 @@ try {
                     { name: 'Booking Cancelled', trigger: 'Sent when planner/admin cancels booking reservation.' }
                   ].map((email, idx) => (
                     <div key={idx} className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-2.5 hover:border-emerald-500/30 transition-all">
-                      <h4 className="text-[11px] font-extrabold text-emerald-200">{email.name}</h4>
-                      <p className="text-[9px] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-emerald-200">{email.name}</h4>
+                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
                   ))}
                 </div>
@@ -5999,8 +6130,8 @@ try {
                     { name: 'Crew Work Hours Summary', trigger: 'Sent automatically when crew checks out of a completed shift.' }
                   ].map((email, idx) => (
                     <div key={idx} className="bg-amber-500/5 border border-amber-500/10 rounded-lg p-2.5 hover:border-amber-500/30 transition-all">
-                      <h4 className="text-[11px] font-extrabold text-amber-200">{email.name}</h4>
-                      <p className="text-[9px] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-amber-200">{email.name}</h4>
+                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
                   ))}
                 </div>
@@ -6024,8 +6155,8 @@ try {
                     { name: 'Fan Invitation', trigger: 'Sent when admin sends invite via Bulk Invites system.' }
                   ].map((email, idx) => (
                     <div key={idx} className="bg-pink-500/5 border border-pink-500/10 rounded-lg p-2.5 hover:border-pink-500/30 transition-all">
-                      <h4 className="text-[11px] font-extrabold text-pink-200">{email.name}</h4>
-                      <p className="text-[9px] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-pink-200">{email.name}</h4>
+                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
                   ))}
                 </div>
@@ -6046,8 +6177,8 @@ try {
                     { name: 'Cruise Community Blast', trigger: 'Sent when cruise admin broadcasts to cruise page chat group.' }
                   ].map((email, idx) => (
                     <div key={idx} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-all">
-                      <h4 className="text-[11px] font-extrabold text-cyan-200">{email.name}</h4>
-                      <p className="text-[9px] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-cyan-200">{email.name}</h4>
+                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
                   ))}
                 </div>
@@ -6070,8 +6201,8 @@ try {
                     { name: 'Welcome — Admin', trigger: 'Sent when new system admin account created.' }
                   ].map((email, idx) => (
                     <div key={idx} className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-all">
-                      <h4 className="text-[11px] font-extrabold text-purple-200">{email.name}</h4>
-                      <p className="text-[9px] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-purple-200">{email.name}</h4>
+                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
                   ))}
                 </div>
@@ -6085,7 +6216,7 @@ try {
   );
 
   const renderRegistry = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('registry')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -6241,7 +6372,7 @@ try {
   );
 
   const renderCrewCreation = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
               <div onClick={() => toggleSection('crewcreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -6400,7 +6531,7 @@ try {
   };
 
   const renderAdminCreation = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <div onClick={() => toggleSection('admincreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
@@ -6553,7 +6684,7 @@ try {
                           }`}
                         >
                           <span>{label}</span>
-                          <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold ${enabled ? 'bg-amber-400 text-black' : 'bg-white/10 text-white/30'}`}>
+                          <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-3xs)] font-bold ${enabled ? 'bg-amber-400 text-black' : 'bg-white/10 text-white/30'}`}>
                             {enabled ? '✓' : '✕'}
                           </span>
                         </button>
@@ -6572,7 +6703,7 @@ try {
 
 
   const renderBulkInvites = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <div onClick={() => toggleSection('bulkinvites')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -6664,7 +6795,7 @@ try {
     };
 
     return (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <div onClick={() => toggleSection('cruisesignups')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -6870,7 +7001,7 @@ try {
   };
 
   const renderAwardPicks = () => (
-    <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <div onClick={() => toggleSection('awardpicks')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -7585,7 +7716,7 @@ try {
             }}
             className="wiw-card select-none cursor-pointer rounded-md bg-[#252530] border border-white/10 py-3 px-3 flex items-center justify-center text-center w-full min-h-[60px]"
           >
-            <span className="text-[10px] font-extrabold text-white/40 uppercase tracking-wider">
+            <span className="text-[var(--font-size-3xs)] font-extrabold text-white/40 uppercase tracking-wider">
               Time Off All Day
             </span>
           </div>
@@ -7685,7 +7816,7 @@ try {
                   {shift.tags.map((tag: string, idx: number) => (
                     <span 
                       key={idx}
-                      className="px-1.5 py-0.2 rounded text-[7px] font-black uppercase tracking-wider bg-black/20 text-white/80 border border-white/5"
+                      className="px-1.5 py-0.2 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider bg-black/20 text-white/80 border border-white/5"
                     >
                       {tag}
                     </span>
@@ -7696,7 +7827,7 @@ try {
           ) : (
             /* Expanded style for Timeline / List / Detail views */
             <div className={`flex flex-col gap-1 w-full ${showOverlapAvatar ? 'pl-3' : ''}`}>
-              <span className="text-[10px] font-extrabold tracking-wide uppercase block">
+              <span className="text-[var(--font-size-3xs)] font-extrabold tracking-wide uppercase block">
                 {timeLabel.split(' ')[0]}
                 {timeLabel.includes('-') && ` - ${timeLabel.split('-')[1].trim().split(' ')[0]}`}
               </span>
@@ -7717,13 +7848,13 @@ try {
                 {shift.tags && shift.tags.length > 0 && shift.tags.map((tag: string, idx: number) => (
                   <span 
                     key={idx}
-                    className="px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-wider leading-none bg-black/30 text-white/80 border border-white/5"
+                    className="px-1.5 py-0.5 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider leading-none bg-black/30 text-white/80 border border-white/5"
                   >
                     {tag}
                   </span>
                 ))}
                 {shift.isCoverageRequested && (
-                  <span className="px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-wider leading-none bg-red-500/20 border border-red-500/35 text-red-300 animate-pulse">
+                  <span className="px-1.5 py-0.5 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider leading-none bg-red-500/20 border border-red-500/35 text-red-300 animate-pulse">
                     ⏳ Coverage
                   </span>
                 )}
@@ -7773,7 +7904,7 @@ try {
                 const color = member?.color || getAvatarColor(displayName);
                 return (
                   <div
-                    className="w-full h-full flex items-center justify-center font-bold text-[8px] text-white rounded-full overflow-hidden"
+                    className="w-full h-full flex items-center justify-center font-bold text-[var(--font-size-4xs)] text-white rounded-full overflow-hidden"
                     style={{ backgroundColor: color }}
                   >
                     {initials}
@@ -7787,10 +7918,10 @@ try {
                 return (
                   <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg shadow-xl text-left border border-slate-700/50 w-52 leading-relaxed font-sans text-xs">
                     <div className="font-bold text-slate-200 text-xs mb-0.5">{displayName}</div>
-                    <div className="text-amber-400 font-extrabold text-[9px] uppercase tracking-wider mb-2">
+                    <div className="text-amber-400 font-extrabold text-[var(--font-size-4xs)] uppercase tracking-wider mb-2">
                       Role: {member?.role || shift.role || 'Crew Member'}
                     </div>
-                    <div className="text-slate-400 text-[10px] space-y-1 border-t border-slate-700/50 pt-1.5 font-mono">
+                    <div className="text-slate-400 text-[var(--font-size-3xs)] space-y-1 border-t border-slate-700/50 pt-1.5 font-mono">
                       <div className="flex items-center gap-1.5">
                         <span>✉️</span>
                         <span className="truncate">{member?.email || 'N/A'}</span>
@@ -7810,10 +7941,10 @@ try {
             <div className="flex items-center gap-1.5 mt-1.5 pt-1.5 border-t border-white/10 w-full">
               {shift.crewId === 'openshifts' ? (
                 <>
-                  <div className="w-4 h-4 rounded-full border border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 text-[7px]">
+                  <div className="w-4 h-4 rounded-full border border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 text-[var(--font-size-5xs)]">
                     ●
                   </div>
-                  <span className="text-[9px] font-black uppercase tracking-wider text-emerald-400 truncate">
+                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-wider text-emerald-400 truncate">
                     OpenShifts
                   </span>
                 </>
@@ -7838,7 +7969,7 @@ try {
                     const color = member?.color || getAvatarColor(displayName);
                     return (
                       <div
-                        className="w-4 h-4 rounded-full flex items-center justify-center font-bold text-[7px] shrink-0 text-white"
+                        className="w-4 h-4 rounded-full flex items-center justify-center font-bold text-[var(--font-size-5xs)] shrink-0 text-white"
                         style={{ backgroundColor: color }}
                       >
                         {initials}
@@ -7846,7 +7977,7 @@ try {
                     );
                   })()}
                   
-                  <span className="text-[9px] font-black uppercase tracking-wider text-white/85 truncate">
+                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-wider text-white/85 truncate">
                     {shift.crewName || (() => {
                       const member = crewMembers.find(c => c.id === shift.crewId);
                       return member ? member.name : shift.crewId;
@@ -7858,7 +7989,7 @@ try {
           )}
 
           {shift.crewId === 'openshifts' && shift.openSlots && (
-            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white font-black text-[9px] w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-md animate-pulse">
+            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white font-black text-[var(--font-size-4xs)] w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-md animate-pulse">
               {shift.openSlots}
             </span>
           )}
@@ -7890,7 +8021,7 @@ try {
           return (
             <span 
               key={idx}
-              className={`inline-block px-1 py-0.2 text-[8px] font-black uppercase tracking-wider rounded border leading-none scale-90 origin-left ${colorClass}`}
+              className={`inline-block px-1 py-0.2 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border leading-none scale-90 origin-left ${colorClass}`}
             >
               {r}
             </span>
@@ -7899,13 +8030,19 @@ try {
       };
 
       return (
-        <div className="w-full flex-1 min-h-0 overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner">
+        <div
+          data-lenis-prevent="true"
+          data-lenis-prevent-wheel="true"
+          data-lenis-prevent-touch="true"
+          className="w-full flex-1 min-h-0 overflow-auto border border-white/15 rounded-xl bg-black/40 shadow-inner relative"
+          style={{ overscrollBehavior: "contain", touchAction: "pan-x pan-y" }}
+        >
           <table
             style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${176 + filteredDays.length * 144}px` }}
             className="w-full border-separate border-spacing-0 text-left select-none table-fixed bg-transparent"
           >
             <thead>
-              <tr className="border-b border-white/20 bg-white/[0.02] text-white/40 text-[11px] font-bold tracking-wider">
+              <tr className="border-b border-white/20 bg-white/[0.02] text-white/40 text-[var(--font-size-2xs)] font-bold tracking-wider">
                 <th className="p-2 w-44 border-r border-white/15 border-b border-white/20 uppercase wiw-sticky-corner">First Name</th>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
@@ -7914,20 +8051,26 @@ try {
                     <th 
                       key={day.dateStr} 
                       id={`col-header-${day.dateStr}`}
-                      className={`p-2 w-36 border-r border-white/15 border-b border-white/20 relative group wiw-sticky-header transition-all duration-200 ${
-                        selectedTourDate === day.dateStr 
+                      onClick={() => {
+                        const nextDate = (selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr) ? null : day.dateStr;
+                        setSelectedTourDate(nextDate);
+                        setScheduleSortByDate(nextDate);
+                      }}
+                      className={`p-2 w-36 border-r border-white/15 border-b border-white/20 relative group wiw-sticky-header transition-all duration-200 cursor-pointer ${
+                        (selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
                           ? 'bg-amber-500/20 text-amber-300 font-black shadow-[inset_0_-3px_0_#f59e0b]' 
                           : isNextShow
                             ? 'bg-amber-500/[0.04] text-amber-400 font-black border-x border-amber-500/10 shadow-[inset_0_1px_0_rgba(245,158,11,0.15)]'
-                            : 'text-white/40'
+                            : 'text-white/40 hover:bg-white/[0.04]'
                       }`}
+                      title="Click to select date & stack working crew at top"
                     >
                       <div className="flex flex-col gap-1 w-full">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
                             <span>{getDayLabelOverride(day.dateStr, idx)}</span>
                             {isNextShow && (
-                              <span className="text-[8px] bg-amber-500 text-black px-1 py-0.5 rounded font-black uppercase tracking-widest scale-[0.85] origin-left select-none">
+                              <span className="text-[var(--font-size-4xs)] bg-amber-500 text-black px-1 py-0.5 rounded font-black uppercase tracking-widest scale-[0.85] origin-left select-none">
                                 NEXT
                               </span>
                             )}
@@ -7970,7 +8113,7 @@ try {
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 w-full text-[9px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"
+                            className="mt-1 w-full text-[var(--font-size-4xs)] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             🎸 {dayShow.venue || dayShow.venue_name}
@@ -7993,7 +8136,7 @@ try {
                       </div>
                       <div>
                         <span className="text-xs font-black text-white/85 block leading-tight">OpenShifts</span>
-                        <span className="text-[8px] text-white/30 font-bold uppercase tracking-wider leading-none">Positions</span>
+                        <span className="text-[var(--font-size-4xs)] text-white/30 font-bold uppercase tracking-wider leading-none">Positions</span>
                       </div>
                     </div>
                   </td>
@@ -8025,7 +8168,7 @@ try {
                             }}
                             className="w-full py-1.5 flex flex-col items-center justify-center border border-dashed border-emerald-500/25 hover:border-emerald-500/50 rounded-lg bg-emerald-500/[0.01] hover:bg-emerald-500/[0.04] transition-all cursor-pointer group"
                           >
-                            <span className="text-[11px] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
+                            <span className="text-[var(--font-size-2xs)] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
                             <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-400/50 group-hover:text-emerald-400/80 transition-colors mt-0.5">
                               Add Crew Member
                             </span>
@@ -8041,8 +8184,8 @@ try {
                               }}
                               className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/25 hover:border-emerald-500/50 rounded-lg bg-emerald-500/[0.01] hover:bg-emerald-500/[0.04] transition-all cursor-pointer group"
                             >
-                              <span className="text-[11px] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
-                              <span className="text-[8px] font-extrabold uppercase tracking-wider text-emerald-400/50 group-hover:text-emerald-400/80 transition-colors mt-0.5 text-center leading-tight">
+                              <span className="text-[var(--font-size-2xs)] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
+                              <span className="text-[var(--font-size-4xs)] font-extrabold uppercase tracking-wider text-emerald-400/50 group-hover:text-emerald-400/80 transition-colors mt-0.5 text-center leading-tight">
                                 Add Crew Group
                               </span>
                             </div>
@@ -8067,8 +8210,8 @@ try {
                               }}
                               className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/25 hover:border-emerald-500/50 rounded-lg bg-emerald-500/[0.01] hover:bg-emerald-500/[0.04] transition-all cursor-pointer group"
                             >
-                              <span className="text-[11px] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
-                              <span className="text-[8px] font-extrabold uppercase tracking-wider text-emerald-400/50 group-hover:text-emerald-400/80 transition-colors mt-0.5 text-center leading-tight">
+                              <span className="text-[var(--font-size-2xs)] text-emerald-400/40 group-hover:text-emerald-400/70 font-light transition-colors">+</span>
+                              <span className="text-[var(--font-size-4xs)] font-extrabold uppercase tracking-wider text-emerald-400/50 group-hover:text-emerald-400/80 transition-colors mt-0.5 text-center leading-tight">
                                 Create Group
                               </span>
                             </div>
@@ -8077,14 +8220,14 @@ try {
                             {cellGroupPopover === `openshifts_group_${day.dateStr}` && (
                               <div 
                                 data-group-popover-cell 
-                                className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[#111116] border border-white/10 rounded-xl shadow-2xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
+                                className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[var(--color-bg-card)] border border-white/10 rounded-xl shadow-2xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                <div className="text-[8px] text-white/30 uppercase tracking-widest font-black px-2 py-1 border-b border-white/5 mb-1">
+                                <div className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest font-black px-2 py-1 border-b border-white/5 mb-1">
                                   Select Crew Group
                                 </div>
                                 {crewGroups.length === 0 ? (
-                                  <span className="text-[8px] text-white/30 italic px-2 py-0.5">No saved groups</span>
+                                  <span className="text-[var(--font-size-4xs)] text-white/30 italic px-2 py-0.5">No saved groups</span>
                                 ) : (
                                   crewGroups.map((g, gIdx) => (
                                     <button
@@ -8095,10 +8238,10 @@ try {
                                         handleAddGroupToDay(day.dateStr, g);
                                         setCellGroupPopover(null);
                                       }}
-                                      className="w-full text-left px-2 py-1 rounded hover:bg-emerald-500/10 text-[9px] text-emerald-300 font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
+                                      className="w-full text-left px-2 py-1 rounded hover:bg-emerald-500/10 text-[var(--font-size-4xs)] text-emerald-300 font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
                                       title={`Apply Group: ${g.name}`}
                                     >
-                                      <span className="text-[10px] font-mono text-emerald-400">+</span>
+                                      <span className="text-[var(--font-size-3xs)] font-mono text-emerald-400">+</span>
                                       <span>{g.name}</span>
                                     </button>
                                   ))
@@ -8121,11 +8264,12 @@ try {
                   const hoursStatus = getCrewHoursStatus(member.id, totalHours);
                   const hasExclamation = member.id === 'arjun' || member.id === 'dave_croke';
                   const isCollapsed = collapsedCrewIds.includes(member.id);
-                  const shiftCount = (schedulesByCrew[member.id] || []).filter(s => activeWeekDateSet.has(s.date || '')).length;
+                  const activeSortDate = scheduleSortByDate || selectedTourDate;
+                  const isWorkingOnActiveDate = activeSortDate ? schedules.some(s => s.date === activeSortDate && s.crewId === member.id && !s.isTimeOff && s.crewId !== 'openshifts') : false;
 
                 return (
-                  <tr key={member.id} className="border-b border-white/15 hover:bg-white/[0.01] transition-colors">
-                    <td className="p-2 border-r border-b border-white/15 align-top relative wiw-sticky-col">
+                  <tr key={member.id} className={`border-b border-white/15 transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/[0.03]' : 'hover:bg-white/[0.01]'}`}>
+                    <td className={`p-2 border-r border-b border-white/15 align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-[#121c16]! shadow-[inset_3px_0_0_#10b981]' : ''}`}>
                       <div className="flex items-center gap-3">
                         {hasExclamation && (
                           <div className="absolute left-1 top-1/2 -translate-y-1/2 text-amber-500" title="Warning: Schedule issues">
@@ -8133,32 +8277,39 @@ try {
                           </div>
                         )}
                         <CrewAvatar member={member} />
-                        <div className="min-w-0 wiw-tooltip-container">
-                          <p className="text-xs font-black text-white/80 truncate leading-tight">{member.name}</p>
+                        <div className="min-w-0 wiw-tooltip-container flex-1">
+                          <div className="flex items-center justify-between gap-1">
+                            <p className="text-xs font-black text-white/90 truncate leading-tight">{member.name}</p>
+                            {isWorkingOnActiveDate && (
+                              <span className="text-[7.5px] font-black uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shrink-0 shadow-[0_0_8px_rgba(16,185,129,0.2)]">
+                                Working
+                              </span>
+                            )}
+                          </div>
                           <div className="flex items-center gap-1 mt-1 flex-wrap">
                             {hoursStatus.status !== 'ok' ? (
-                              <span className="text-[10px] text-rose-500 font-extrabold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
+                              <span className="text-[var(--font-size-3xs)] text-rose-500 font-extrabold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
                                 ⚠️ <span className="font-mono">{totalHours}h</span>
                               </span>
                             ) : (
-                              <span className="text-[10px] text-white/40 font-bold font-mono leading-none">
+                              <span className="text-[var(--font-size-3xs)] text-white/40 font-bold font-mono leading-none">
                                 {totalHours}h
                               </span>
                             )}
                             {renderRoleBadges(member.role)}
                           </div>
                           
-                          <div className="mt-1 text-[9px] text-white/35 font-mono space-y-0.5 leading-none">
+                          <div className="mt-1 text-[var(--font-size-4xs)] text-white/35 font-mono space-y-0.5 leading-none">
                             {member.phone && <div className="truncate" title={member.phone}>📞 {member.phone}</div>}
                             {member.email && <div className="truncate" title={member.email}>✉️ {member.email}</div>}
                           </div>
 
                           <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg shadow-xl text-left border border-slate-700/50 w-52 leading-relaxed font-sans text-xs">
                             <div className="font-bold text-slate-200 text-xs mb-0.5">{member.name}</div>
-                            <div className="text-amber-400 font-extrabold text-[9px] uppercase tracking-wider mb-2">
+                            <div className="text-amber-400 font-extrabold text-[var(--font-size-4xs)] uppercase tracking-wider mb-2">
                               Role: {member.role || 'Crew Member'}
                             </div>
-                            <div className="text-slate-400 text-[10px] space-y-1 border-t border-slate-700/50 pt-1.5 font-mono">
+                            <div className="text-slate-400 text-[var(--font-size-3xs)] space-y-1 border-t border-slate-700/50 pt-1.5 font-mono">
                               <div className="flex items-center gap-1.5">
                                 <span>✉️</span>
                                 <span className="truncate">{member.email || 'N/A'}</span>
@@ -8169,7 +8320,7 @@ try {
                               </div>
                             </div>
                             {hoursStatus.status !== 'ok' && (
-                              <div className="mt-2.5 pt-2 border-t border-slate-700/50 text-[10px] text-slate-400">
+                              <div className="mt-2.5 pt-2 border-t border-slate-700/50 text-[var(--font-size-3xs)] text-slate-400">
                                 <div className="font-bold text-slate-300">Hours Alert:</div>
                                 <div>Scheduled: {totalHours}h (Max: {hoursStatus.maxHours}h)</div>
                                 <div className="text-rose-400 font-bold mt-0.5 flex items-center gap-1">
@@ -8213,7 +8364,7 @@ try {
                                 e.stopPropagation();
                                 handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                               }}
-                              className="opacity-0 group-hover:opacity-100 mt-1 w-full py-0.5 flex items-center justify-center gap-1 text-[8px] font-bold text-white/30 hover:text-white/70 bg-white/5 hover:bg-white/10 border border-white/10 rounded transition-all cursor-pointer"
+                              className="opacity-0 group-hover:opacity-100 mt-1 w-full py-0.5 flex items-center justify-center gap-1 text-[var(--font-size-4xs)] font-bold text-white/30 hover:text-white/70 bg-white/5 hover:bg-white/10 border border-white/10 rounded transition-all cursor-pointer"
                             >
                               <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                               + ADD
@@ -8239,7 +8390,7 @@ try {
                       }}
                       className="w-full px-4 py-1.5 flex items-center gap-2 text-left border-none bg-transparent hover:bg-white/[0.02] transition-colors cursor-pointer group"
                     >
-                      <span className="text-[9px] font-bold text-white/15 group-hover:text-white/40 uppercase tracking-wider transition-colors">
+                      <span className="text-[var(--font-size-4xs)] font-bold text-white/15 group-hover:text-white/40 uppercase tracking-wider transition-colors">
                         {filteredCrewMembers.every(m => collapsedCrewIds.includes(m.id)) ? '▸ Expand All' : '▾ Collapse All'}
                       </span>
                     </button>
@@ -8322,7 +8473,7 @@ try {
                 }}
               >
                 <div className="text-center pb-2 border-b border-white/5 mb-2 flex flex-col items-center">
-                  <span className="text-[9px] uppercase font-bold tracking-widest text-white/30 block">{day.dayName}</span>
+                  <span className="text-[var(--font-size-4xs)] uppercase font-bold tracking-widest text-white/30 block">{day.dayName}</span>
                   <span className="text-xs font-bold text-white/70 block mt-0.5">{day.monthName} {day.dayOfMonth}</span>
                   {(() => {
                     const dayShow = getDayShow(day.dateStr);
@@ -8346,7 +8497,7 @@ try {
                 <div className="flex-1 flex flex-col gap-2">
                   {sortedShifts.length === 0 ? (
                     <div className="flex-1 flex items-center justify-center border border-dashed border-white/5 rounded-lg p-4 bg-black/20">
-                      <span className="text-[10px] text-white/30 italic font-medium">Empty</span>
+                      <span className="text-[var(--font-size-3xs)] text-white/30 italic font-medium">Empty</span>
                     </div>
                   ) : (
                     sortedShifts.map(shift => renderShiftCard(shift, true))
@@ -8362,7 +8513,7 @@ try {
     const renderTimelineGrid = () => {
       const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
       return (
-        <div className="flex flex-col flex-1 min-h-0 bg-[#0f0f13] border border-white/5 rounded-xl p-4 shadow-2xl select-none">
+        <div className="flex flex-col flex-1 min-h-0 bg-[var(--color-bg-surface)] border border-white/5 rounded-xl p-4 shadow-2xl select-none">
           <div className="flex select-none">
             <div className="w-14 shrink-0" />
             <div className="flex-1 grid grid-cols-7 gap-2 text-center pb-2 border-b border-white/10 mb-2">
@@ -8370,7 +8521,7 @@ try {
                 const count = (schedulesByDate[day.dateStr] || []).length;
                 return (
                   <div key={day.dateStr} className="min-w-0 flex flex-col items-center justify-start">
-                    <p className="text-[10px] uppercase font-bold tracking-wider text-white/30">{day.dayName}</p>
+                    <p className="text-[var(--font-size-3xs)] uppercase font-bold tracking-wider text-white/30">{day.dayName}</p>
                     <p className="text-xs font-bold text-white/70 mt-0.5">{day.monthName} {day.dayOfMonth}</p>
                     {(() => {
                       const dayShow = getDayShow(day.dateStr);
@@ -8396,7 +8547,7 @@ try {
           </div>
 
           <div className="flex relative">
-            <div className="w-14 shrink-0 h-[480px] relative flex flex-col justify-between text-[9px] font-bold text-white/30 pr-2 pt-0.5 select-none z-10 pointer-events-none">
+            <div className="w-14 shrink-0 h-[480px] relative flex flex-col justify-between text-[var(--font-size-4xs)] font-bold text-white/30 pr-2 pt-0.5 select-none z-10 pointer-events-none">
               {hoursAxis.map((h) => (
                 <div key={h} className="h-0 flex items-center justify-end leading-none">
                   {formatHour(h)}
@@ -8477,12 +8628,12 @@ try {
                             left: '4px',
                             right: '4px',
                           }}
-                          className={`wiw-card text-white p-1 rounded-md text-[9px] font-bold overflow-hidden cursor-pointer shadow-sm ${
+                          className={`wiw-card text-white p-1 rounded-md text-[var(--font-size-4xs)] font-bold overflow-hidden cursor-pointer shadow-sm ${
                             shift.isDraft ? 'wiw-striped' : ''
                           }`}
                         >
                           <div className="truncate">{shift.crewName}</div>
-                          <div className="opacity-80 text-[8px]">{formatTimeStringWIW(shift.startHour, shift.endHour)}</div>
+                          <div className="opacity-80 text-[var(--font-size-4xs)]">{formatTimeStringWIW(shift.startHour, shift.endHour)}</div>
                         </div>
                       );
                     })}
@@ -8496,12 +8647,29 @@ try {
     };
 
     return (
-      <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+      <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
         <style>{`
           .wiw-scheduler-container {
             background-color: #0f0f13;
             color: #ffffff;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          }
+          .wiw-scheduler-container ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            display: block !important;
+          }
+          .wiw-scheduler-container ::-webkit-scrollbar-track {
+            background: rgba(15, 15, 19, 0.9);
+            border-radius: 6px;
+          }
+          .wiw-scheduler-container ::-webkit-scrollbar-thumb {
+            background: rgba(245, 158, 11, 0.4);
+            border-radius: 6px;
+            border: 2px solid rgba(15, 15, 19, 0.9);
+          }
+          .wiw-scheduler-container ::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 158, 11, 0.8);
           }
           .wiw-scheduler-container td, .wiw-scheduler-container th {
             border-style: solid;
@@ -8602,7 +8770,7 @@ try {
             </h3>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded">Roster Schedule</span>
+            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded">Roster Schedule</span>
             <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
@@ -8611,7 +8779,7 @@ try {
         {renderInfoBanner('calendar', 'Crew Work Schedule Calendar', 'Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps in a weekly/monthly timeline.')}
 
         <div style={{ display: isSectionOpen('calendar') ? undefined : 'none' }}>
-          <div className="wiw-scheduler-container h-[750px] flex flex-col min-h-0">
+          <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container min-h-[1400px] h-[1400px] flex flex-col min-h-0">
             
             {/* Header controls (Date range, prev/next, today, action icons) */}
             <div className="bg-black/40 border-b border-white/5 p-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0">
@@ -8760,12 +8928,12 @@ try {
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform ${showTourDropdown ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
                   </button>
                   {showTourDropdown && (
-                    <div className="absolute top-full left-0 mt-1 z-50 bg-[#1a1a22] border border-white/10 rounded-xl shadow-2xl min-w-[280px] max-h-[320px] overflow-y-auto py-1">
+                    <div className="absolute top-full left-0 mt-1 z-50 bg-[#1a1a22] border border-white/10 rounded-xl shadow-2xl min-w-[320px] max-h-[850px] overflow-y-auto py-1.5 custom-scrollbar">
                       {(() => {
                         const todayStr = new Date().toISOString().split('T')[0];
                         const upcomingTourDates = tourDates.filter(show => !show.date || show.date >= todayStr);
                         if (upcomingTourDates.length === 0) {
-                          return <div className="px-4 py-3 text-[11px] text-white/30 italic">No upcoming tour dates synced yet</div>;
+                          return <div className="px-4 py-3 text-[var(--font-size-2xs)] text-white/30 italic">No upcoming tour dates synced yet</div>;
                         }
                         return upcomingTourDates
                           .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
@@ -8789,9 +8957,9 @@ try {
                                 }}
                                 className="w-full text-left px-4 py-2.5 hover:bg-white/5 flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
                               >
-                                <span className="text-[10px] font-black text-amber-400/70 group-hover:text-amber-400 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
+                                <span className="text-[var(--font-size-3xs)] font-black text-amber-400/70 group-hover:text-amber-400 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
                                 <span className="text-xs font-bold text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
-                                {show.city && <span className="text-[10px] text-white/30 ml-auto shrink-0">{show.city}</span>}
+                                {show.city && <span className="text-[var(--font-size-3xs)] text-white/30 ml-auto shrink-0">{show.city}</span>}
                               </button>
                             );
                           });
@@ -8844,7 +9012,7 @@ try {
                 >
                   <span>🔍</span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
                   {activeFiltersCount > 0 && (
-                    <span className="px-1.5 py-0.5 bg-amber-500 text-black rounded-full text-[9px] font-black leading-none">
+                    <span className="px-1.5 py-0.5 bg-amber-500 text-black rounded-full text-[var(--font-size-4xs)] font-black leading-none">
                       {activeFiltersCount}
                     </span>
                   )}
@@ -8913,7 +9081,7 @@ try {
                             ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                             : shift.date;
                           return (
-                            <option key={shift.id} value={shift.id} className="text-white bg-[#111116]">
+                            <option key={shift.id} value={shift.id} className="text-white bg-[var(--color-bg-card)]">
                               {name} — {shift.role} — {dateLabel}
                             </option>
                           );
@@ -8934,7 +9102,7 @@ try {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   {/* Search by Person */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-black uppercase text-white/50 tracking-wider">Search Person / Role</label>
+                    <label className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Person / Role</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -8957,7 +9125,7 @@ try {
 
                   {/* Search by Venue */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-black uppercase text-white/50 tracking-wider">Search Venue Name</label>
+                    <label className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Venue Name</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -8980,7 +9148,7 @@ try {
 
                   {/* Event Type Filter */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-black uppercase text-white/50 tracking-wider">Show / Event Type</label>
+                    <label className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Show / Event Type</label>
                     <div className="relative">
                       <select
                         value={scheduleEventTypeFilter}
@@ -9002,7 +9170,7 @@ try {
 
                   {/* Date Range Selection */}
                   <div className="flex flex-col gap-1.5 col-span-1">
-                    <label className="text-[10px] font-black uppercase text-white/50 tracking-wider">Custom Date Range</label>
+                    <label className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Custom Date Range</label>
                     <div className="flex items-center gap-2">
                       <input
                         type="date"
@@ -9010,7 +9178,7 @@ try {
                         onChange={(e) => setScheduleStartDate(e.target.value)}
                         className="w-full bg-black/60 border border-white/10 focus:border-amber-500/50 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer"
                       />
-                      <span className="text-white/35 text-[10px] font-bold">TO</span>
+                      <span className="text-white/35 text-[var(--font-size-3xs)] font-bold">TO</span>
                       <input
                         type="date"
                         value={scheduleEndDate}
@@ -9024,7 +9192,7 @@ try {
                             setScheduleStartDate('');
                             setScheduleEndDate('');
                           }}
-                          className="text-white/40 hover:text-white bg-white/5 hover:bg-white/10 px-2 py-1 rounded text-[10px] font-bold transition-all cursor-pointer border-none"
+                          className="text-white/40 hover:text-white bg-white/5 hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-all cursor-pointer border-none"
                           title="Reset Date Range"
                         >
                           ✕
@@ -9035,7 +9203,7 @@ try {
                 </div>
 
                 {/* Info summary under filters */}
-                <div className="flex items-center justify-between text-[11px] text-white/40 border-t border-white/5 pt-2">
+                <div className="flex items-center justify-between text-[var(--font-size-2xs)] text-white/40 border-t border-white/5 pt-2">
                   <div className="flex items-center gap-4">
                     <span>
                       📅 Displaying <strong className="text-amber-400 font-extrabold">{filteredDays.length}</strong> date columns
@@ -9059,7 +9227,7 @@ try {
                           setShowTourDatesOnly(false);
                           setScheduleSortByDate(null);
                         }}
-                        className="text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded text-[10px] font-bold transition-colors cursor-pointer border-none"
+                        className="text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
                       >
                         Reset All Filters ✕
                       </button>
@@ -9085,28 +9253,28 @@ try {
                 <div className="border-b border-white/5">
                   <div className="px-3 py-2.5 flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[10px]">🎸</span>
-                      <span className="text-[10px] font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
+                      <span className="text-[var(--font-size-3xs)]">🎸</span>
+                      <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       {selectedTourDate && (
                         <button
                           type="button"
                           onClick={() => setSelectedTourDate(null)}
-                          className="text-[9px] font-bold text-amber-400/70 hover:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded cursor-pointer border-none transition-colors"
+                          className="text-[var(--font-size-4xs)] font-bold text-amber-400/70 hover:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded cursor-pointer border-none transition-colors"
                         >
                           SHOW ALL ✕
                         </button>
                       )}
-                      <span className="text-[9px] font-bold text-white/20 bg-white/5 px-1.5 py-0.5 rounded">
+                      <span className="text-[var(--font-size-4xs)] font-bold text-white/20 bg-white/5 px-1.5 py-0.5 rounded">
                         {upcomingTourDatesWithLabels.length}
                       </span>
                     </div>
                   </div>
-                  <div className="px-2 pb-2 flex flex-col gap-0.5 max-h-[calc(100vh-150px)] overflow-y-auto">
+                  <div className="px-2 pb-2 flex flex-col gap-0.5 max-h-[1320px] overflow-y-auto custom-scrollbar">
                     {(() => {
                       if (upcomingTourDatesWithLabels.length === 0) {
-                        return <div className="px-2 py-3 text-[10px] text-white/20 italic text-center">No upcoming tour dates synced</div>;
+                        return <div className="px-2 py-3 text-[var(--font-size-3xs)] text-white/20 italic text-center">No upcoming tour dates synced</div>;
                       }
 
                       return upcomingTourDatesWithLabels.map((show, idx) => {
@@ -9140,7 +9308,7 @@ try {
               >
                 <div className="flex items-center gap-2">
                   <span className="text-xs">🏆</span>
-                  <span className="text-[11px] font-bold text-white/60 uppercase tracking-wider">Crew Hours Leaderboard</span>
+                  <span className="text-[var(--font-size-2xs)] font-bold text-white/60 uppercase tracking-wider">Crew Hours Leaderboard</span>
                 </div>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`text-white/30 transition-transform ${showLeaderboard ? '' : '-rotate-90'}`}><polyline points="6 9 12 15 18 9" /></svg>
               </button>
@@ -9154,7 +9322,7 @@ try {
                         key={period}
                         type="button"
                         onClick={() => setLeaderboardPeriod(period)}
-                        className={`px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md border-none cursor-pointer transition-all ${
+                        className={`px-3 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md border-none cursor-pointer transition-all ${
                           leaderboardPeriod === period
                             ? 'bg-amber-500/15 text-amber-400'
                             : 'bg-transparent text-white/30 hover:text-white/60 hover:bg-white/5'
@@ -9171,7 +9339,7 @@ try {
                     
                     if (leaderboardRankings.length === 0) {
                       return (
-                        <div className="text-center py-3 text-[11px] text-white/20 italic">No hours logged for this period</div>
+                        <div className="text-center py-3 text-[var(--font-size-2xs)] text-white/20 italic">No hours logged for this period</div>
                       );
                     }
                     
@@ -9185,7 +9353,7 @@ try {
                           return (
                             <div key={member.id} className="flex items-center gap-2.5 bg-black/30 rounded-lg px-3 py-2 border border-white/5 hover:border-white/10 transition-colors">
                               {/* Rank */}
-                              <span className="text-[10px] font-black text-white/20 w-4 shrink-0 text-right">
+                              <span className="text-[var(--font-size-3xs)] font-black text-white/20 w-4 shrink-0 text-right">
                                 {medalEmoji || `${idx + 1}`}
                               </span>
                               
@@ -9198,7 +9366,7 @@ try {
                                 const initials = member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
                                 const color = member.color || getAvatarColor(member.name);
                                 return (
-                                  <div className="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[8px] text-white shrink-0" style={{ backgroundColor: color }}>
+                                  <div className="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[var(--font-size-4xs)] text-white shrink-0" style={{ backgroundColor: color }}>
                                     {initials}
                                   </div>
                                 );
@@ -9207,8 +9375,8 @@ try {
                               {/* Name + Bar */}
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between mb-0.5">
-                                  <span className="text-[10px] font-bold text-white/70 truncate">{member.name}</span>
-                                  <span className="text-[10px] font-black text-amber-400/80 ml-2 shrink-0">{member.hours.toFixed(1)}h</span>
+                                  <span className="text-[var(--font-size-3xs)] font-bold text-white/70 truncate">{member.name}</span>
+                                  <span className="text-[var(--font-size-3xs)] font-black text-amber-400/80 ml-2 shrink-0">{member.hours.toFixed(1)}h</span>
                                 </div>
                                 <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                                   <div className={`h-full rounded-full ${barColor} transition-all`} style={{ width: `${pct}%` }} />
@@ -9229,7 +9397,7 @@ try {
               const editingShift = schedules.find(s => s.id === editingShiftId);
               const showFormDetails = !!editingShiftId || Object.values(selectedCrewAssignments).some(a => a.active);
               return (
-                <div className="fixed inset-0 bg-black/30 z-50 flex justify-end animate-[fadeIn_0.2s_ease]">
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
                 {/* Backdrop Click Overlay */}
                 <div 
                   className="absolute inset-0 cursor-default" 
@@ -9240,10 +9408,10 @@ try {
                   }}
                 />
 
-                <div className="relative bg-[#111116] border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
                   
                   {/* Modal Header */}
-                  <div className="p-5 border-b border-white/5 bg-[#181820] flex items-center justify-between shrink-0">
+                  <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
                     <div>
                       <h3 className="text-sm font-black italic tracking-wide text-white">
                         {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
@@ -9314,7 +9482,7 @@ try {
                               <span className="text-sm">🚨</span>
                               <div>
                                 <p className="text-xs font-black uppercase tracking-wider">Coverage Requested</p>
-                                <p className="text-[10px] text-white/60 mt-0.5">
+                                <p className="text-[var(--font-size-3xs)] text-white/60 mt-0.5">
                                   <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
                                 </p>
                               </div>
@@ -9339,7 +9507,7 @@ try {
                                   return updated;
                                 });
                               }}
-                              className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 text-[9px] font-black uppercase tracking-wider rounded border border-red-500/30 transition-colors"
+                              className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border border-red-500/30 transition-colors"
                             >
                               Clear
                             </button>
@@ -9347,14 +9515,14 @@ try {
 
                           <div className="border-t border-white/5 pt-3 space-y-2.5">
                             <div className="flex items-center justify-between">
-                              <span className="text-[10px] font-black uppercase tracking-wider text-white/50">Assign Coverage:</span>
+                              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50">Assign Coverage:</span>
                               
                               {/* Tab/Toggle for Fit Role vs Override */}
                               <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/15">
                                 <button
                                   type="button"
                                   onClick={() => setOnlyShowFitRole(true)}
-                                  className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
+                                  className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
                                     onlyShowFitRole 
                                       ? 'bg-amber-500 text-black font-black' 
                                       : 'text-white/60 hover:text-white'
@@ -9365,7 +9533,7 @@ try {
                                 <button
                                   type="button"
                                   onClick={() => setOnlyShowFitRole(false)}
-                                  className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
+                                  className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
                                     !onlyShowFitRole 
                                       ? 'bg-red-500/20 text-red-300 border border-red-500/30 font-black' 
                                       : 'text-white/60 hover:text-white'
@@ -9390,7 +9558,7 @@ try {
 
                                 if (candidates.length === 0) {
                                   return (
-                                    <p className="text-[10px] text-white/40 italic py-1">
+                                    <p className="text-[var(--font-size-3xs)] text-white/40 italic py-1">
                                       {onlyShowFitRole 
                                         ? `No other crew members have the role '${editingShift.role}'` 
                                         : 'No other crew members available'}
@@ -9411,7 +9579,7 @@ try {
                                   return (
                                     <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
                                       <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 rounded-full bg-white/10 overflow-hidden flex items-center justify-center text-[9px] font-bold text-white uppercase">
+                                        <div className="w-5 h-5 rounded-full bg-white/10 overflow-hidden flex items-center justify-center text-[var(--font-size-4xs)] font-bold text-white uppercase">
                                           {member.avatar ? (
                                             <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
                                           ) : (
@@ -9421,9 +9589,9 @@ try {
                                         <div>
                                           <span className="text-xs font-bold text-white block leading-tight">{member.name}</span>
                                           <div className="flex items-center gap-1.5 mt-0.5">
-                                            <span className="text-[8px] text-white/40 uppercase tracking-wider font-bold block">{member.role || 'Crew'}</span>
+                                            <span className="text-[var(--font-size-4xs)] text-white/40 uppercase tracking-wider font-bold block">{member.role || 'Crew'}</span>
                                             {isOverlapping && (
-                                              <span className="px-1 py-0.2 rounded text-[7px] font-black uppercase tracking-wider bg-red-500/20 border border-red-500/35 text-red-400">
+                                              <span className="px-1 py-0.2 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider bg-red-500/20 border border-red-500/35 text-red-400">
                                                 ⚠️ Overlaps {overlaps[0].time}
                                               </span>
                                             )}
@@ -9462,7 +9630,7 @@ try {
                                             return updated;
                                           });
                                         }}
-                                        className={`px-2 py-1 text-[9px] font-black uppercase tracking-wider rounded transition-colors border-none ${
+                                        className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors border-none ${
                                           isOverlapping
                                             ? 'bg-white/5 text-white/20 cursor-not-allowed'
                                             : 'bg-amber-500 hover:bg-amber-400 text-black cursor-pointer'
@@ -9487,11 +9655,11 @@ try {
                       return (
                         <div className="shrink-0 bg-amber-500/5 border border-amber-500/20 rounded-lg px-2.5 h-[30px] flex items-center justify-between gap-2">
                           <div className="flex items-center gap-1.5 min-w-0">
-                            <span className="text-[11px] shrink-0">🎸</span>
-                            <span className="text-[10px] font-black text-white truncate">{activeShow.venue}</span>
-                            <span className="text-[9px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
+                            <span className="text-[var(--font-size-2xs)] shrink-0">🎸</span>
+                            <span className="text-[var(--font-size-3xs)] font-black text-white truncate">{activeShow.venue}</span>
+                            <span className="text-[var(--font-size-4xs)] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
                             {activeShow.notes && (
-                              <span className="text-[9px] text-amber-300/50 italic truncate ml-1.5" title={activeShow.notes}>
+                              <span className="text-[var(--font-size-4xs)] text-amber-300/50 italic truncate ml-1.5" title={activeShow.notes}>
                                 Note: {activeShow.notes}
                               </span>
                             )}
@@ -9517,7 +9685,7 @@ try {
                         
                         {Object.values(selectedCrewAssignments).some(a => a.active) && (
                           <div className="flex items-center gap-2 animate-[fadeIn_0.15s_ease]">
-                            <span className="text-[9px] text-white/40 font-bold uppercase tracking-wider mr-1">Time Mode:</span>
+                            <span className="text-[var(--font-size-4xs)] text-white/40 font-bold uppercase tracking-wider mr-1">Time Mode:</span>
                             <button
                               type="button"
                               onClick={() => {
@@ -9531,7 +9699,7 @@ try {
                                   return updated;
                                 });
                               }}
-                              className={`px-2 py-0.5 text-[9px] font-extrabold rounded transition-all cursor-pointer border ${
+                              className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-extrabold rounded transition-all cursor-pointer border ${
                                 Object.entries(selectedCrewAssignments).filter(([_, a]) => a.active).every(([_, a]) => !a.customized)
                                   ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
                                   : 'bg-black/20 border-white/10 text-white/60 hover:text-white'
@@ -9556,7 +9724,7 @@ try {
                                   return updated;
                                 });
                               }}
-                              className={`px-2 py-0.5 text-[9px] font-extrabold rounded transition-all cursor-pointer border ${
+                              className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-extrabold rounded transition-all cursor-pointer border ${
                                 Object.entries(selectedCrewAssignments).filter(([_, a]) => a.active).every(([_, a]) => a.customized)
                                   ? 'bg-sky-500/10 border-sky-500/30 text-sky-400'
                                   : 'bg-black/20 border-white/10 text-white/60 hover:text-white'
@@ -9572,6 +9740,13 @@ try {
                         {crewMembers
                           .filter(m => m.id !== 'openshifts')
                           .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
+                          .sort((a, b) => {
+                            const aActive = !!selectedCrewAssignments[a.id]?.active;
+                            const bActive = !!selectedCrewAssignments[b.id]?.active;
+                            if (aActive && !bActive) return -1;
+                            if (!aActive && bActive) return 1;
+                            return a.name.localeCompare(b.name);
+                          })
                           .map((member) => {
                             const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'SERVER', startHour: dropStartHour, endHour: dropEndHour };
                             
@@ -9615,7 +9790,7 @@ try {
                                       className="rounded border-white/10 bg-black/40 text-amber-500 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer"
                                     />
                                     <div className="flex items-center gap-2">
-                                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[9px] font-bold text-white uppercase overflow-hidden font-sans">
+                                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[var(--font-size-4xs)] font-bold text-white uppercase overflow-hidden font-sans">
                                         {member.avatar ? (
                                           <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
                                         ) : (
@@ -9635,7 +9810,7 @@ try {
                                               {memberShifts.map((s, idx) => (
                                                 <span 
                                                   key={idx} 
-                                                  className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-[8px] tracking-wider px-1.5 py-0.5 rounded select-none"
+                                                  className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-[var(--font-size-4xs)] tracking-wider px-1.5 py-0.5 rounded select-none"
                                                 >
                                                   ⚡ {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
                                                 </span>
@@ -9665,7 +9840,7 @@ try {
                                           }
                                         }));
                                       }}
-                                      className="text-[10px] font-bold text-[var(--color-accent)] hover:text-white transition-colors bg-transparent border-none p-1 cursor-pointer font-sans"
+                                      className="text-[var(--font-size-3xs)] font-bold text-[var(--color-accent)] hover:text-white transition-colors bg-transparent border-none p-1 cursor-pointer font-sans"
                                     >
                                       {assignment.customized ? "Collapse" : "✏️ Customize"}
                                     </button>
@@ -9679,7 +9854,7 @@ try {
                                       return (
                                         <div key={tfIdx} className="p-2.5 bg-white/[0.02] border border-white/5 rounded-lg space-y-2 relative">
                                           <div className="flex items-center justify-between">
-                                            <span className="text-[9px] uppercase tracking-wider text-sky-400 font-extrabold">Time Frame {tfIdx + 1}</span>
+                                            <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-sky-400 font-extrabold">Time Frame {tfIdx + 1}</span>
                                             {(assignment.timeFrames || []).length > 1 && (
                                               <button
                                                 type="button"
@@ -9697,7 +9872,7 @@ try {
                                                     };
                                                   });
                                                 }}
-                                                className="text-white/40 hover:text-red-400 text-[9px] font-bold bg-transparent border-none cursor-pointer"
+                                                className="text-white/40 hover:text-red-400 text-[var(--font-size-4xs)] font-bold bg-transparent border-none cursor-pointer"
                                               >
                                                 Remove
                                               </button>
@@ -9730,7 +9905,7 @@ try {
                                                     };
                                                   });
                                                 }}
-                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold cursor-pointer"
+                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none font-bold cursor-pointer"
                                               >
                                                 {generateTimeOptions().slice(0, -1).map(opt => (
                                                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -9756,7 +9931,7 @@ try {
                                                     };
                                                   });
                                                 }}
-                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold cursor-pointer"
+                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none font-bold cursor-pointer"
                                               >
                                                 {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
                                                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -9784,7 +9959,7 @@ try {
                                                   };
                                                 });
                                               }}
-                                              className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold uppercase tracking-wide font-sans cursor-pointer"
+                                              className="w-full px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none font-bold uppercase tracking-wide font-sans cursor-pointer"
                                             >
                                               <option value="BAND SETUP">🎸 Band Setup</option>
                                               <option value="MERCH TABLE">🛍️ Merch Table</option>
@@ -9832,7 +10007,7 @@ try {
                                                     };
                                                   });
                                                 }}
-                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[10px] text-white rounded outline-none font-bold cursor-pointer"
+                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none font-bold cursor-pointer"
                                               >
                                                 <option value="">Select tags...</option>
                                                 <option value="Overtime">⏰ Overtime</option>
@@ -9903,7 +10078,7 @@ try {
                                             };
                                           });
                                         }}
-                                        className="w-full py-1.5 bg-sky-500/10 border border-dashed border-sky-500/30 hover:bg-sky-500/20 text-sky-400 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1"
+                                        className="w-full py-1.5 bg-sky-500/10 border border-dashed border-sky-500/30 hover:bg-sky-500/20 text-sky-400 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1"
                                       >
                                         ➕ Add Time Frame ({(assignment.timeFrames || []).length}/3)
                                       </button>
@@ -9924,14 +10099,14 @@ try {
                           {dropTimeFrames.map((tf, index) => (
                             <div key={index} className="p-3.5 bg-black/40 border border-white/10 rounded-xl space-y-3 relative animate-[fadeIn_0.2s_ease]">
                               <div className="flex items-center justify-between">
-                                <span className="text-[10px] uppercase tracking-[0.15em] text-amber-400 font-extrabold">Time Frame {index + 1}</span>
+                                <span className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-amber-400 font-extrabold">Time Frame {index + 1}</span>
                                 {dropTimeFrames.length > 1 && (
                                   <button
                                     type="button"
                                     onClick={() => {
                                       setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
                                     }}
-                                    className="text-white/40 hover:text-red-400 text-[10px] font-extrabold bg-transparent border-none cursor-pointer uppercase tracking-wider"
+                                    className="text-white/40 hover:text-red-400 text-[var(--font-size-3xs)] font-extrabold bg-transparent border-none cursor-pointer uppercase tracking-wider"
                                   >
                                     Remove
                                   </button>
@@ -9998,7 +10173,7 @@ try {
                                       onClick={() => {
                                         setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: preset } : item));
                                       }}
-                                      className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border transition-all cursor-pointer ${
+                                      className={`px-1.5 py-0.5 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider border transition-all cursor-pointer ${
                                         tf.role.toUpperCase() === preset 
                                           ? 'bg-amber-500 text-black border-amber-500 font-black' 
                                           : 'bg-white/5 border-white/10 text-white/60 hover:text-white hover:bg-white/10'
@@ -10048,7 +10223,7 @@ try {
                                     {tf.tags.map(tag => (
                                       <span 
                                         key={tag}
-                                        className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-[8px] tracking-wider px-2 py-0.5 rounded"
+                                        className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-[var(--font-size-4xs)] tracking-wider px-2 py-0.5 rounded"
                                       >
                                         {tag}
                                         <button
@@ -10061,7 +10236,7 @@ try {
                                               return item;
                                             }));
                                           }}
-                                          className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-[8px]"
+                                          className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-[var(--font-size-4xs)]"
                                         >
                                           ✕
                                         </button>
@@ -10147,7 +10322,7 @@ try {
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
                         <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 font-bold">Shift Notes</label>
-                        <span className="text-[10px] font-mono text-white/40">{350 - dropNotes.length}</span>
+                        <span className="text-[var(--font-size-3xs)] font-mono text-white/40">{350 - dropNotes.length}</span>
                       </div>
                       <textarea
                         rows={3}
@@ -10162,7 +10337,7 @@ try {
                   </div>
 
                   {/* Drawer Footer */}
-                  <div className="p-5 border-t border-white/5 bg-[#181820] space-y-2 shrink-0">
+                  <div className="p-5 border-t border-white/5 bg-[var(--color-bg-elevated)] space-y-2 shrink-0">
                     <button
                       onClick={addScheduleItem}
                       className="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-[0.2em] rounded-lg shadow-[0_0_20px_rgba(245,158,11,0.25)] transition-all cursor-pointer border-none"
@@ -10194,14 +10369,14 @@ try {
             {isCreateGroupModalOpen && (
               <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]">
                 <div 
-                  className="bg-[#111116] border border-white/10 rounded-2xl w-full max-w-xl max-h-[85vh] shadow-2xl flex flex-col overflow-hidden animate-[scaleIn_0.25s_cubic-bezier(0.16,1,0.3,1)]"
+                  className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl w-full max-w-xl max-h-[85vh] shadow-2xl flex flex-col overflow-hidden animate-[scaleIn_0.25s_cubic-bezier(0.16,1,0.3,1)]"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {/* Modal Header */}
-                  <div className="p-5 border-b border-white/5 bg-[#181820] flex items-center justify-between shrink-0">
+                  <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
                     <div>
                       <h3 className="text-sm font-black italic tracking-wide text-white">Create New Crew Group</h3>
-                      <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
+                      <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
                     </div>
                     <button
                       onClick={() => {
@@ -10219,7 +10394,7 @@ try {
                     
                     {/* Group Name input */}
                     <div className="space-y-1.5">
-                      <label className="text-[10px] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
+                      <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
                       <input
                         type="text"
                         value={newGroupNameInput}
@@ -10231,7 +10406,7 @@ try {
 
                     {/* Member Pick list */}
                     <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</label>
+                      <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</label>
                       
                       <div className="border border-white/5 bg-black/20 rounded-xl divide-y divide-white/5 overflow-hidden">
                         {crewMembers.filter(m => m.id !== 'openshifts').map((m) => {
@@ -10260,7 +10435,7 @@ try {
                                   <CrewAvatar member={m} />
                                   <div className="min-w-0">
                                     <p className="text-xs font-bold text-white/80 truncate">{m.name}</p>
-                                    <span className="text-[9px] text-white/30 uppercase font-bold tracking-wider">{m.role || 'Crew'}</span>
+                                    <span className="text-[var(--font-size-4xs)] text-white/30 uppercase font-bold tracking-wider">{m.role || 'Crew'}</span>
                                   </div>
                                 </div>
 
@@ -10269,7 +10444,7 @@ try {
                                   <div className="flex items-center gap-2 animate-[fadeIn_0.15s_ease] shrink-0 font-sans">
                                     {/* Role */}
                                     <div className="flex flex-col gap-0.5">
-                                      <span className="text-[8px] font-bold text-white/35 uppercase tracking-wider">Role</span>
+                                      <span className="text-[var(--font-size-4xs)] font-bold text-white/35 uppercase tracking-wider">Role</span>
                                       <select
                                         value={setting.role || 'SERVER'}
                                         onChange={(e) => {
@@ -10282,7 +10457,7 @@ try {
                                             }
                                           }));
                                         }}
-                                        className="px-1.5 py-1 bg-black border border-white/10 text-[9px] text-white rounded outline-none font-bold uppercase w-[85px] tracking-wide cursor-pointer"
+                                        className="px-1.5 py-1 bg-black border border-white/10 text-[var(--font-size-4xs)] text-white rounded outline-none font-bold uppercase w-[85px] tracking-wide cursor-pointer"
                                       >
                                         <option value="BAND SETUP">🎸 Setup</option>
                                         <option value="MERCH TABLE">🛍️ Merch</option>
@@ -10309,7 +10484,7 @@ try {
 
                                     {/* Start Time */}
                                     <div className="flex flex-col gap-0.5">
-                                      <span className="text-[8px] font-bold text-white/35 uppercase tracking-wider">Start</span>
+                                      <span className="text-[var(--font-size-4xs)] font-bold text-white/35 uppercase tracking-wider">Start</span>
                                       <select
                                         value={setting.startHour}
                                         onChange={(e) => {
@@ -10323,7 +10498,7 @@ try {
                                             }
                                           }));
                                         }}
-                                        className="px-1.5 py-1 bg-black border border-white/10 text-[9px] text-white rounded outline-none font-bold cursor-pointer"
+                                        className="px-1.5 py-1 bg-black border border-white/10 text-[var(--font-size-4xs)] text-white rounded outline-none font-bold cursor-pointer"
                                       >
                                         {generateTimeOptions().slice(0, -1).map(opt => (
                                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -10333,7 +10508,7 @@ try {
 
                                     {/* End Time */}
                                     <div className="flex flex-col gap-0.5">
-                                      <span className="text-[8px] font-bold text-white/35 uppercase tracking-wider">End</span>
+                                      <span className="text-[var(--font-size-4xs)] font-bold text-white/35 uppercase tracking-wider">End</span>
                                       <select
                                         value={setting.endHour}
                                         onChange={(e) => {
@@ -10346,7 +10521,7 @@ try {
                                             }
                                           }));
                                         }}
-                                        className="px-1.5 py-1 bg-black border border-white/10 text-[9px] text-white rounded outline-none font-bold cursor-pointer"
+                                        className="px-1.5 py-1 bg-black border border-white/10 text-[var(--font-size-4xs)] text-white rounded outline-none font-bold cursor-pointer"
                                       >
                                         {generateTimeOptions().filter(opt => opt.value > setting.startHour).map(opt => (
                                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -10364,7 +10539,7 @@ try {
                   </div>
 
                   {/* Modal Footer */}
-                  <div className="p-5 border-t border-white/5 bg-[#181820] flex items-center justify-between gap-3 shrink-0">
+                  <div className="p-5 border-t border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between gap-3 shrink-0">
                     <button
                       type="button"
                       onClick={() => {
@@ -10428,17 +10603,17 @@ try {
               const openShifts = dayShifts.filter(s => s.crewId === 'openshifts');
               
               return (
-                <div className="fixed inset-0 bg-black/50 z-50 flex justify-end animate-[fadeIn_0.2s_ease]">
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
                   {/* Backdrop Click Overlay */}
                   <div 
                     className="absolute inset-0 cursor-default" 
                     onClick={() => setSelectedShowCrewDate(null)}
                   />
 
-                  <div className="relative bg-[#111116] border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                  <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
                     
                     {/* Header */}
-                    <div className="p-5 border-b border-white/5 bg-[#181820] flex items-center justify-between shrink-0">
+                    <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
                       <div>
                         <h3 className="text-sm font-black italic tracking-wide text-white">
                           Show Crew Roster
@@ -10460,22 +10635,22 @@ try {
                       {/* Show Stats Summary */}
                       <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5 rounded-xl">
                         <div>
-                          <span className="text-[10px] text-white/40 block">Total Shift(s)</span>
+                          <span className="text-[var(--font-size-3xs)] text-white/40 block">Total Shift(s)</span>
                           <span className="text-sm font-black text-white">{dayShifts.length}</span>
                         </div>
                         <div>
-                          <span className="text-[10px] text-white/40 block">Staff Scheduled</span>
+                          <span className="text-[var(--font-size-3xs)] text-white/40 block">Staff Scheduled</span>
                           <span className="text-sm font-black text-emerald-400">{filledShifts.length}</span>
                         </div>
                         <div>
-                          <span className="text-[10px] text-white/40 block">Open Position(s)</span>
+                          <span className="text-[var(--font-size-3xs)] text-white/40 block">Open Position(s)</span>
                           <span className="text-sm font-black text-amber-400">{openShifts.length}</span>
                         </div>
                       </div>
 
                       {/* Scheduled Crew Section */}
                       <div>
-                        <h4 className="text-[10px] font-black uppercase text-white/40 tracking-wider mb-2.5">Scheduled Crew</h4>
+                        <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/40 tracking-wider mb-2.5">Scheduled Crew</h4>
                         {filledShifts.length === 0 ? (
                           <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 rounded-xl text-white/30 text-xs italic">
                             No crew members scheduled yet
@@ -10493,20 +10668,20 @@ try {
                                     {member?.avatar ? (
                                       <img src={member.avatar} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
                                     ) : (
-                                      <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[10px] text-white shrink-0" style={{ backgroundColor: color }}>
+                                      <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[var(--font-size-3xs)] text-white shrink-0" style={{ backgroundColor: color }}>
                                         {initials}
                                       </div>
                                     )}
                                     <div className="min-w-0">
                                       <span className="text-xs font-bold text-white block truncate">{shift.crewName}</span>
-                                      <span className="text-[9px] text-white/45 bg-white/5 px-1.5 py-0.5 rounded uppercase font-black leading-none mt-1 inline-block">
+                                      <span className="text-[var(--font-size-4xs)] text-white/45 bg-white/5 px-1.5 py-0.5 rounded uppercase font-black leading-none mt-1 inline-block">
                                         {shift.role}
                                       </span>
                                     </div>
                                   </div>
                                   
                                   <div className="text-right shrink-0">
-                                    <span className="text-[10px] font-extrabold text-white/85 block">{shift.time}</span>
+                                    <span className="text-[var(--font-size-3xs)] font-extrabold text-white/85 block">{shift.time}</span>
                                     <button
                                       type="button"
                                       onClick={() => {
@@ -10527,7 +10702,7 @@ try {
 
                       {/* Open Positions Section */}
                       <div>
-                        <h4 className="text-[10px] font-black uppercase text-white/40 tracking-wider mb-2.5">Open Positions</h4>
+                        <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/40 tracking-wider mb-2.5">Open Positions</h4>
                         {openShifts.length === 0 ? (
                           <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 rounded-xl text-white/30 text-xs italic">
                             No open positions
@@ -10538,7 +10713,7 @@ try {
                               <div key={shift.id} className="bg-emerald-500/[0.02] border border-dashed border-emerald-500/25 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-emerald-500/40 transition-colors">
                                 <div>
                                   <span className="text-xs font-bold text-emerald-400 block">{shift.role}</span>
-                                  <span className="text-[9px] text-white/40 block mt-0.5">{shift.time}</span>
+                                  <span className="text-[var(--font-size-4xs)] text-white/40 block mt-0.5">{shift.time}</span>
                                 </div>
                                 <button
                                   type="button"
@@ -10546,7 +10721,7 @@ try {
                                     setSelectedShowCrewDate(null);
                                     handleEditShiftClick(shift);
                                   }}
-                                  className="text-[9px] font-black uppercase text-black bg-emerald-400 hover:bg-emerald-300 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors shadow-sm"
+                                  className="text-[var(--font-size-4xs)] font-black uppercase text-black bg-emerald-400 hover:bg-emerald-300 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors shadow-sm"
                                 >
                                   Fill Slot
                                 </button>
@@ -10569,7 +10744,7 @@ try {
 
 
 return (
-    <div className="min-h-screen bg-[#050508] text-white pt-24 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-hidden">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-32 md:pt-36 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
@@ -10620,7 +10795,7 @@ return (
         </div>
 
         {/* === ADMIN TAB TOGGLE === */}
-        <div className="flex items-center gap-1 mb-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-1.5 w-fit mx-auto shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+        <div className="flex items-center gap-1 mb-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-1.5 w-fit mx-auto shadow-[0_0_30px_rgba(0,0,0,0.3)]">
           <button
             onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
             className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
@@ -10661,7 +10836,7 @@ return (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
               {METRICS.map((metric, i) => (
-                <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`bg-[#0f0f13] border border-white/5 p-6 rounded-xl flex flex-col justify-between shadow-2xl relative overflow-hidden group ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
+                <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`bg-[var(--color-bg-surface)] border border-white/5 p-6 rounded-xl flex flex-col justify-between shadow-2xl relative overflow-hidden group ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
                   <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <p className="text-[0.65rem] font-bold uppercase tracking-[0.1em] text-white/40 mb-2">{metric.label}</p>
                   <div className="flex items-end justify-between">
@@ -10729,7 +10904,7 @@ return (
           </div>
 
           <div className="flex flex-col gap-8 w-full">
-            <section className="bg-[#0f0f13] border border-white/5 rounded-2xl overflow-hidden shadow-2xl h-full flex flex-col">
+            <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl h-full flex flex-col">
               <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 shrink-0">
                 <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
                   Audit Log
@@ -10754,7 +10929,7 @@ return (
                           <button
                             type="button"
                             onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
-                            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[9px] font-bold text-white/60 hover:text-white transition-all cursor-pointer"
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-all cursor-pointer"
                           >
                             {expandedAuditId === entry.id ? 'Hide Details ✕' : 'View Message Content 🔍'}
                           </button>
@@ -10764,11 +10939,11 @@ return (
                               {entry.details.type === 'signin' && (
                                 <div className="space-y-1.5 font-sans">
                                   <div className="flex justify-between border-b border-white/5 pb-1">
-                                    <span className="text-white/40 font-bold uppercase text-[9px] tracking-wider">User</span>
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">User</span>
                                     <span className="font-mono text-emerald-400 font-bold">{entry.details.username}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span className="text-white/40 font-bold uppercase text-[9px] tracking-wider">IP Address</span>
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">IP Address</span>
                                     <span className="font-mono text-white/70">{entry.details.ipAddress}</span>
                                   </div>
                                 </div>
@@ -10776,8 +10951,8 @@ return (
 
                               {entry.details.smsText && (
                                 <div className="space-y-1.5">
-                                  <span className="text-white/40 font-bold uppercase text-[9px] tracking-wider block">📱 SMS Message Body</span>
-                                  <div className="bg-black/60 border border-white/5 rounded-lg p-2.5 font-mono text-[10px] whitespace-pre-wrap leading-relaxed text-amber-300">
+                                  <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block">📱 SMS Message Body</span>
+                                  <div className="bg-black/60 border border-white/5 rounded-lg p-2.5 font-mono text-[var(--font-size-3xs)] whitespace-pre-wrap leading-relaxed text-amber-300">
                                     {entry.details.smsText}
                                   </div>
                                 </div>
@@ -10786,13 +10961,13 @@ return (
                               {entry.details.emailHtml && (
                                 <div className="space-y-2">
                                   <div className="border-b border-white/5 pb-1">
-                                    <span className="text-white/40 font-bold uppercase text-[9px] tracking-wider block mb-1">✉️ Email Template</span>
-                                    <span className="text-[10px] text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block mb-1">✉️ Email Template</span>
+                                    <span className="text-[var(--font-size-3xs)] text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
                                   </div>
                                   
                                   <div className="space-y-1.5">
-                                    <span className="text-white/40 font-bold uppercase text-[9px] tracking-wider block">Visual Template Render</span>
-                                    <div className="bg-[#0f0f13] border border-white/5 rounded-lg overflow-hidden p-0.5">
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block">Visual Template Render</span>
+                                    <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-lg overflow-hidden p-0.5">
                                       <iframe
                                         srcDoc={`
                                           <!DOCTYPE html>
@@ -10816,7 +10991,7 @@ return (
                                             </body>
                                           </html>
                                         `}
-                                        className="w-full h-[180px] border-none bg-[#0f0f13]"
+                                        className="w-full h-[180px] border-none bg-[var(--color-bg-surface)]"
                                         title="Email Preview"
                                       />
                                     </div>
@@ -10850,7 +11025,7 @@ return (
         <div id="admin-sec-cruise-command" className="mb-14 relative">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 p-[1px]">
-              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
+              <div className="w-full h-full bg-[var(--color-bg-deep)] rounded-full flex items-center justify-center">
                 <span className="text-lg">🚢</span>
               </div>
             </div>
@@ -10865,7 +11040,7 @@ return (
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
 
             {/* Passenger Notice */}
-            <div className={`relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden`}>
+            <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden`}>
               <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-cyan-500/10 transition-all duration-700 pointer-events-none" />
               <div className="relative z-10 flex flex-col gap-6">
                 <div className="flex items-start justify-between gap-4">
@@ -10904,7 +11079,7 @@ return (
             </div>
 
             {/* Admin Live Chat Panel */}
-            <div className={`relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border ${cruiseChatEnabled ? 'border-[var(--color-accent)]/20' : 'border-rose-500/15'} rounded-2xl transition-all duration-500 flex flex-col overflow-hidden`}>
+            <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border ${cruiseChatEnabled ? 'border-[var(--color-accent)]/20' : 'border-rose-500/15'} rounded-2xl transition-all duration-500 flex flex-col overflow-hidden`}>
               {/* Header with toggle */}
               <div className="bg-black/40 px-5 py-4 border-b border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -10923,7 +11098,7 @@ return (
                   disabled={cruiseChatToggling}
                   className={`relative px-5 py-2 rounded-xl text-[0.55rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${cruiseChatEnabled 
                     ? 'bg-emerald-500 text-white border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:scale-[1.02]' 
-                    : 'bg-[#1c1c24] text-rose-400 border-rose-500/30 hover:bg-rose-500/10'
+                    : 'bg-[var(--color-bg-elevated)] text-rose-400 border-rose-500/30 hover:bg-rose-500/10'
                   } disabled:opacity-50`}
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -10959,7 +11134,7 @@ return (
                         <div className={`w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[0.5rem] font-black border ${
                           isAdmin ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400' :
                           isCrew ? 'border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 text-[var(--color-accent)]' :
-                          'border-white/10 bg-[#15151f] text-white/60'
+                          'border-white/10 bg-[var(--color-bg-card)] text-white/60'
                         }`}>
                           {msg.sender_avatar.substring(0, 2).toUpperCase()}
                         </div>
@@ -11013,7 +11188,7 @@ return (
                     value={adminChatInput}
                     onChange={(e) => setAdminChatInput(e.target.value)}
                     placeholder="Send a message as admin..."
-                    className="w-full bg-[#15151f] border border-white/10 rounded-xl pl-4 pr-12 py-2.5 text-sm text-white outline-none focus:border-emerald-500/50 focus:bg-white/5 transition-all"
+                    className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl pl-4 pr-12 py-2.5 text-sm text-white outline-none focus:border-emerald-500/50 focus:bg-white/5 transition-all"
                     maxLength={500}
                   />
                   <button
@@ -11060,7 +11235,7 @@ return (
           {/* Row 2: Important Links + Roster Export */}
           <div id="admin-sec-cruise-roster" className="grid grid-cols-1 xl:grid-cols-3 gap-6 relative items-start mt-6">
             {/* Important Links — 2 cols */}
-            <div className="xl:col-span-2 relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-fuchsia-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
+            <div className="xl:col-span-2 relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-fuchsia-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-fuchsia-500/10 transition-all duration-700 pointer-events-none" />
               <div className="relative z-10 flex flex-col gap-6">
                 <div className="flex items-start justify-between gap-4">
@@ -11095,7 +11270,7 @@ return (
             </div>
 
             {/* Cruise Roster & Signup Stats — 1 col */}
-            <div className="relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-emerald-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
+            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-emerald-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-all duration-700 pointer-events-none" />
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="flex items-center gap-4">
@@ -11161,7 +11336,7 @@ return (
         <div id="admin-sec-cruise-blast" className="mb-14 relative">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-teal-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 p-[1px]">
-              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
+              <div className="w-full h-full bg-[var(--color-bg-deep)] rounded-full flex items-center justify-center">
                 <span className="text-lg">📡</span>
               </div>
             </div>
@@ -11171,7 +11346,7 @@ return (
             </div>
           </div>
 
-          <div className="relative z-10 bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 overflow-hidden">
+          <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
             <div className="relative z-10 flex flex-col gap-5">
 
@@ -11252,7 +11427,7 @@ return (
         <div className="mb-14 relative">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/20 p-[1px]">
-              <div className="w-full h-full bg-[#050508] rounded-full flex items-center justify-center">
+              <div className="w-full h-full bg-[var(--color-bg-deep)] rounded-full flex items-center justify-center">
                 <span className="text-lg">⚓</span>
               </div>
             </div>
@@ -11262,7 +11437,7 @@ return (
             </div>
           </div>
 
-          <div className="bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/5 rounded-2xl p-6 md:p-8 relative">
+          <div className="bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 rounded-2xl p-6 md:p-8 relative">
             <div className="flex flex-wrap gap-4 items-center justify-between mb-8 pb-6 border-b border-white/5">
               <button onClick={() => setItinerary([...itinerary, { id: 'day' + Date.now(), dayLabel: 'Day ' + (itinerary.length + 1), location: 'Port', theme: 'Theme', events: [], colorTheme: 'var(--color-accent)' }])} className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white text-[0.65rem] font-bold uppercase tracking-widest rounded-lg transition-all border border-white/10 flex items-center gap-2">
                 <span>+ Add Day</span>
@@ -11367,7 +11542,7 @@ return (
             }
           `}} />
 
-          <div className="bg-[#0f0f13] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-[scaleIn_0.2s_ease-out]">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-[scaleIn_0.2s_ease-out]">
             <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20">
               <div>
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
@@ -11541,7 +11716,7 @@ return (
         </div>
       )}
       {activeToast && (
-        <div className="fixed bottom-6 right-6 z-[9999] bg-[#14141c] border border-emerald-500/30 text-white px-5 py-4 rounded-xl shadow-2xl flex items-start gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
+        <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 rounded-xl shadow-2xl flex items-start gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
           <div className="text-xl">🛍️</div>
           <div>
             <p className="text-xs font-black text-emerald-400 uppercase tracking-widest">{activeToast.title}</p>
@@ -11555,20 +11730,20 @@ return (
         <button
           onClick={toggleJumpNav}
           title="Show Navigation"
-          className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex items-center justify-center w-10 h-10 bg-[#0a0a0f]/95 hover:bg-white/5 border border-white/10 rounded-full shadow-2xl backdrop-blur-md text-white/60 hover:text-white cursor-pointer transition-all duration-200"
+          className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex items-center justify-center w-10 h-10 bg-[var(--color-bg-surface)]/95 hover:bg-white/5 border border-white/10 rounded-full shadow-2xl backdrop-blur-md text-white/60 hover:text-white cursor-pointer transition-all duration-200"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
       ) : (
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[#0a0a0f]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300 animate-[fadeIn_0.15s_ease]">
+        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300 animate-[fadeIn_0.15s_ease]">
           <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
             <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
             <button
               onClick={toggleJumpNav}
               title="Hide Navigation"
-              className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[10px]"
+              className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[var(--font-size-3xs)]"
             >
               ✕
             </button>
@@ -11578,14 +11753,14 @@ return (
               <button
                 type="button"
                 onClick={() => setSidebarMode('jump')}
-                className={`flex-1 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md text-center transition-all border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-all border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
               >
                 Navigate
               </button>
               <button
                 type="button"
                 onClick={() => setSidebarMode('organize')}
-                className={`flex-1 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md text-center transition-all border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-all border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
               >
                 Arrange
               </button>
@@ -11631,7 +11806,7 @@ return (
                   </>
                 ) : (
                   <>
-                    <div className="text-[10px] text-white/30 mb-2 px-1.5 leading-normal italic select-none">
+                    <div className="text-[var(--font-size-3xs)] text-white/30 mb-2 px-1.5 leading-normal italic select-none">
                       Drag sections below to reorder layout:
                     </div>
                     {sectionOrder.map((key, index) => {

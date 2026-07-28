@@ -237,7 +237,7 @@ export default function AdminLegalPage() {
   const active = SECTIONS.find((s) => s.id === selectedSection) || SECTIONS[0];
 
   return (
-    <div className="min-h-screen pt-[72px] bg-[#050508] text-white">
+    <div className="min-h-screen pt-[72px] bg-[var(--color-bg-deep)] text-white">
       <div className="site-container py-16">
         
         {/* Header */}
@@ -275,7 +275,7 @@ export default function AdminLegalPage() {
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-white leading-tight">{sec.title}</h3>
-                    <p className="text-[11px] text-white/40 mt-1 line-clamp-1">{sec.subtitle}</p>
+                    <p className="text-[var(--font-size-2xs)] text-white/40 mt-1 line-clamp-1">{sec.subtitle}</p>
                   </div>
                 </button>
               );
@@ -283,8 +283,8 @@ export default function AdminLegalPage() {
             
             {/* Disclaimer notice */}
             <div className="mt-8 p-4 bg-white/[0.01] border border-white/5 rounded-xl">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 block mb-1">Legal Disclaimer</span>
-              <p className="text-[10px] leading-relaxed text-white/40">
+              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/30 block mb-1">Legal Disclaimer</span>
+              <p className="text-[var(--font-size-3xs)] leading-relaxed text-white/40">
                 This dashboard serves as a general checklist of legal frameworks. It is not formal legal advice. Consult with an attorney or copyright expert before publishing live streaming services or bulk SMS campaigns.
               </p>
             </div>
@@ -317,11 +317,11 @@ export default function AdminLegalPage() {
               <h3 className="text-xs font-extrabold uppercase tracking-widest text-[var(--color-accent)] mb-3">Requirements & Action Checklist</h3>
               
               {active.requirements.map((req, index) => (
-                <div key={index} className="bg-[#050508]/85 border border-white/5 rounded-xl p-5 relative overflow-hidden">
+                <div key={index} className="bg-[var(--color-bg-deep)]/85 border border-white/5 rounded-xl p-5 relative overflow-hidden">
                   
                   {/* Critical Warning Indicator */}
                   {req.isCritical && (
-                    <span className="absolute top-0 right-0 text-[9px] font-black uppercase tracking-widest bg-rose-500/20 text-rose-400 px-3 py-1 border-b border-l border-rose-500/20 rounded-bl-lg">
+                    <span className="absolute top-0 right-0 text-[var(--font-size-4xs)] font-black uppercase tracking-widest bg-rose-500/20 text-rose-400 px-3 py-1 border-b border-l border-rose-500/20 rounded-bl-lg">
                       Critical
                     </span>
                   )}

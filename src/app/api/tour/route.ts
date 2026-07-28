@@ -20,18 +20,26 @@ export async function GET() {
       allAges: s.allAges,
     }));
 
-    // Sort shows by date ascending
-    shows.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+    // Deduplicate shows by date and venue
+    const seen = new Set<string>();
+    const deduplicated = shows.filter(s => {
+      const key = `${s.date || ''}_${(s.venue || '').toLowerCase().trim()}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 
-    if (shows.length > 0 && shows[0].date) {
-      // Calculate difference between the first show date and July 15, 2026
-      const firstShowDate = new Date(shows[0].date + 'T12:00:00');
-      const targetDate = new Date('2026-07-15T12:00:00');
+    // Sort shows by date ascending
+    deduplicated.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+    // Only shift if the first show date is in an older year (e.g. 2025 or earlier)
+    if (deduplicated.length > 0 && deduplicated[0].date && deduplicated[0].date.startsWith('2025')) {
+      const firstShowDate = new Date(deduplicated[0].date + 'T12:00:00');
+      const targetDate = new Date('2026-05-20T12:00:00');
       const diffTime = targetDate.getTime() - firstShowDate.getTime();
       const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
-      // Shift all dates by diffDays
-      const shifted = shows.map(s => {
+      const shifted = deduplicated.map(s => {
         if (!s.date) return s;
         const d = new Date(s.date + 'T12:00:00');
         d.setDate(d.getDate() + diffDays);
@@ -54,7 +62,7 @@ export async function GET() {
       return NextResponse.json(shifted);
     }
 
-    return NextResponse.json(shows);
+    return NextResponse.json(deduplicated);
   } catch (error) {
     return NextResponse.json([], { status: 500 });
   }

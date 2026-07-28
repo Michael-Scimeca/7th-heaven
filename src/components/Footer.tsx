@@ -34,10 +34,9 @@ const FALLBACK_ENDORSEMENTS = [
 
 const footerLinks = [
   { href: "/news", label: "News" },
-  { href: "/bio", label: "Bio" },
-  { href: "/#tour", label: "Tour" },
+  { href: "/bio", label: "Band" },
   { href: "/#music-player-section", label: "Music" },
-  { href: "/video", label: "Video" },
+  { href: "/media", label: "Media" },
   { href: "/contact", label: "Contact" },
   { href: "/faq", label: "FAQ" },
 ];
@@ -110,47 +109,6 @@ export function Footer() {
         </div>
         )}
 
-        {/* Inline Links — Single Row */}
-        <div className="flex flex-wrap items-center justify-between gap-4 py-6 border-t border-white/10">
-          {/* Nav Links */}
-          <div className="flex flex-wrap items-center gap-6">
-            {footerLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
-                {link.label}
-              </Link>
-            ))}
-            <button
-              onClick={() => {
-                if (member?.role === 'crew') {
-                  router.push('/crew');
-                } else {
-                  openModal('login');
-                }
-              }}
-              className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
-            >
-              Crew Login
-            </button>
-            <Link href="/planner?login=true" className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
-              Planner Login
-            </Link>
-          </div>
-
-          {/* Social Links */}
-          <div className="flex flex-wrap items-center gap-1">
-            {socialLinks.map((link, i) => (
-              <span key={link.name} className="flex items-center">
-                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
-                  {link.name}
-                </a>
-                {i < socialLinks.length - 1 && (
-                  <span className="text-[var(--color-accent)] mx-3 text-base font-bold">/</span>
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
-
       </div>
 
       {/* SMS Text Alerts */}
@@ -211,10 +169,10 @@ export function Footer() {
                 className="w-28 px-3 py-3 bg-white/[0.03] border border-white/10 text-sm text-white outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none"
                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}
               >
-                <option value="25" className="bg-[#111] text-white">25 mi</option>
-                <option value="50" className="bg-[#111] text-white">50 mi</option>
-                <option value="100" className="bg-[#111] text-white">100 mi</option>
-                <option value="200" className="bg-[#111] text-white">200 mi</option>
+                <option value="25" className="bg-[var(--color-bg-card)] text-white">25 mi</option>
+                <option value="50" className="bg-[var(--color-bg-card)] text-white">50 mi</option>
+                <option value="100" className="bg-[var(--color-bg-card)] text-white">100 mi</option>
+                <option value="200" className="bg-[var(--color-bg-card)] text-white">200 mi</option>
               </select>
               <button
                 type="submit"
@@ -253,6 +211,49 @@ export function Footer() {
               onMouseLeave={(e) => { e.currentTarget.style.filter = 'invert(1) brightness(0.4)'; }}
             />
           ))}
+        </div>
+      </div>
+
+      {/* Inline Links Row — MOVED TO BOTTOM */}
+      <div className="site-container border-t border-white/10 py-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          {/* Nav Links */}
+          <div className="flex flex-wrap items-center gap-6">
+            {footerLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+                {link.label}
+              </Link>
+            ))}
+            <button
+              onClick={() => {
+                if (member?.role === 'crew') {
+                  router.push('/crew');
+                } else {
+                  openModal('login');
+                }
+              }}
+              className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
+            >
+              Crew Login
+            </button>
+            <Link href="/planner?login=true" className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+              Planner Login
+            </Link>
+          </div>
+
+          {/* Social Links */}
+          <div className="flex flex-wrap items-center gap-1">
+            {socialLinks.map((link, i) => (
+              <span key={link.name} className="flex items-center">
+                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+                  {link.name}
+                </a>
+                {i < socialLinks.length - 1 && (
+                  <span className="text-[var(--color-accent)] mx-3 text-base font-bold">/</span>
+                )}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 

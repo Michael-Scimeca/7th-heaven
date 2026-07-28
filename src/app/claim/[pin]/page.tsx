@@ -178,7 +178,7 @@ export default function ClaimPage() {
   }, [pin, isLoggedIn, member]);
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${status === 'valid' ? 'flash-bg' : 'bg-[#08080d]'}`}
+    <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${status === 'valid' ? 'flash-bg' : 'bg-[var(--color-bg-deep)]'}`}
       style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}>
       <style>{`
         @keyframes winnerFlash {
@@ -210,7 +210,7 @@ export default function ClaimPage() {
 
         {/* NOT LOGGED IN */}
         {status === 'not_logged_in' && (
-          <div className="bg-[#0f0f18] border border-white/10 rounded-2xl p-8 text-center">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-8 text-center">
             <span className="text-5xl block mb-4">🔐</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Sign In Required</h2>
             <p className="text-white/40 text-sm mb-6">
@@ -227,7 +227,7 @@ export default function ClaimPage() {
 
         {/* WRONG USER — logged in but not the winner */}
         {status === 'wrong_user' && (
-          <div className="bg-[#0f0f18] border border-red-500/30 rounded-2xl p-8 text-center">
+          <div className="bg-[var(--color-bg-surface)] border border-red-500/30 rounded-2xl p-8 text-center">
             <span className="text-5xl block mb-4">🚫</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Not Your Claim</h2>
             <p className="text-white/40 text-sm mb-4">
@@ -241,7 +241,7 @@ export default function ClaimPage() {
 
         {/* VALID — logged in AND is the winner */}
         {status === 'valid' && (
-          <div className="bg-[#0f0f18] border-2 border-yellow-500/50 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(251,191,36,0.2)]">
+          <div className="bg-[var(--color-bg-surface)] border-2 border-yellow-500/50 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(251,191,36,0.2)]">
 
             {/* Top bar */}
             <div className="bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3 flex items-center justify-center gap-2">
@@ -323,7 +323,7 @@ export default function ClaimPage() {
 
         {/* INVALID — PIN not found */}
         {status === 'invalid' && (
-          <div className="bg-[#0f0f18] border border-white/10 rounded-2xl p-8 text-center">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-8 text-center">
             <span className="text-5xl block mb-4">❌</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">PIN Not Found</h2>
             <p className="text-white/40 text-sm mb-6">
