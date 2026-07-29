@@ -167,8 +167,9 @@ export default function FansPage() {
           <img
             src="https://img.youtube.com/vi/C0PQYmyaTFk/maxresdefault.jpg"
             alt="7th Heaven Live at DeKalb Cornfest"
-            className="w-full h-full object-cover object-center scale-105 filter brightness-90 saturate-125"
+            className="w-full h-full object-cover object-top scale-105 filter brightness-90 saturate-125 opacity-70"
           />
+
 
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[var(--color-bg-primary)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(133,29,239,0.25)_0%,transparent_70%)]" />
@@ -231,18 +232,7 @@ export default function FansPage() {
             </button>
           </div>
 
-          {/* Stat Counter Pills - Frameless */}
-          <div className="flex flex-wrap items-center gap-6 mt-8 pt-6 border-t border-white/10 text-xs font-extrabold uppercase tracking-widest text-white/70">
-            <span className="text-purple-300 flex items-center gap-2">
-              <span>⚡</span> {photos.length} Total Moments Shared
-            </span>
-            <span className="text-cyan-300 flex items-center gap-2">
-              <span>🎸</span> 40 Years of Shows
-            </span>
-            <span className="text-amber-300 flex items-center gap-2">
-              <span>🌟</span> Top Fan Gallery
-            </span>
-          </div>
+
 
 
           {/* Dynamic Upload Form */}
