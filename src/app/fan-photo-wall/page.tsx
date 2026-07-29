@@ -197,7 +197,8 @@ export default function FansPage() {
 
               {/* Login Promo text if guest */}
               {!effectivelyLoggedIn && (
-                <div className="mt-4 text-xs text-white/70 max-w-lg flex items-center gap-2">
+                <div className="mt-4 text-xs text-white/70 flex items-center gap-2 max-w-none md:whitespace-nowrap">
+
                   <span className="text-sm">🔒</span>
                   <p>
                     You must be a <span className="font-extrabold text-white">Fan Member</span> to share your moments.{" "}
