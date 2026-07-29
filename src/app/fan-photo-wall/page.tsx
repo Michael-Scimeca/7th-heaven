@@ -248,13 +248,12 @@ export default function FansPage() {
         </div>
       </section>
 
-      {/* ── PHOTO GRID & MODERATION SECTION ── */}
-      <section className="py-16 site-container">
-
+      {/* ── PHOTO GRID & MODERATION SECTION (FULL BLEED) ── */}
+      <section className="py-8 w-full max-w-none">
 
         {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
         {isModerator && pendingPhotos.length > 0 && (
-          <div className="mb-14 p-6 bg-purple-500/5 border border-purple-500/25 rounded-2xl">
+          <div className="site-container mx-auto mb-14 p-6 bg-purple-500/5 border border-purple-500/25 rounded-2xl">
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-sm">
                 🛡️
@@ -345,55 +344,57 @@ export default function FansPage() {
 
         {/* Featured Hero Photo */}
         {approvedPhotos.length > 0 && (
-          <div
-            className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden mb-10 group cursor-pointer"
-            onClick={() => setSelectedPhoto(approvedPhotos[0])}
-          >
-            {approvedPhotos[0].type === "video" ||
-            approvedPhotos[0].src.endsWith(".mp4") ||
-            approvedPhotos[0].src.endsWith(".mov") ? (
-              <video
-                src={approvedPhotos[0].src}
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
-            ) : (
-              <img
-                src={approvedPhotos[0].src}
-                alt={`Featured: ${approvedPhotos[0].name}`}
-                className="w-full h-full object-cover"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 block">
-                Featured Moment
-              </span>
-              <p className="text-2xl md:text-3xl font-black text-white">
-                {approvedPhotos[0].name}
-              </p>
-              <div className="flex items-center gap-3 text-sm text-white/40 mt-2">
-                {approvedPhotos[0].venue && <span>{approvedPhotos[0].venue}</span>}
-                {approvedPhotos[0].venue && approvedPhotos[0].date && (
-                  <span>·</span>
-                )}
-                {approvedPhotos[0].date && <span>{approvedPhotos[0].date}</span>}
-              </div>
-              {approvedPhotos[0].caption && (
-                <p className="text-white/50 text-base mt-3 max-w-xl">
-                  &ldquo;{approvedPhotos[0].caption}&rdquo;
-                </p>
+          <div className="site-container mx-auto mb-8">
+            <div
+              className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden group cursor-pointer border border-white/10 shadow-2xl"
+              onClick={() => setSelectedPhoto(approvedPhotos[0])}
+            >
+              {approvedPhotos[0].type === "video" ||
+              approvedPhotos[0].src.endsWith(".mp4") ||
+              approvedPhotos[0].src.endsWith(".mov") ? (
+                <video
+                  src={approvedPhotos[0].src}
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={approvedPhotos[0].src}
+                  alt={`Featured: ${approvedPhotos[0].name}`}
+                  className="w-full h-full object-cover"
+                />
               )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 block">
+                  Featured Moment
+                </span>
+                <p className="text-2xl md:text-3xl font-black text-white">
+                  {approvedPhotos[0].name}
+                </p>
+                <div className="flex items-center gap-3 text-sm text-white/40 mt-2">
+                  {approvedPhotos[0].venue && <span>{approvedPhotos[0].venue}</span>}
+                  {approvedPhotos[0].venue && approvedPhotos[0].date && (
+                    <span>·</span>
+                  )}
+                  {approvedPhotos[0].date && <span>{approvedPhotos[0].date}</span>}
+                </div>
+                {approvedPhotos[0].caption && (
+                  <p className="text-white/50 text-base mt-3 max-w-xl">
+                    &ldquo;{approvedPhotos[0].caption}&rdquo;
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         )}
 
-        {/* Photo Feed Grid */}
+        {/* Photo Feed Grid - Full Bleed 0 Gap */}
         {approvedPhotos.length > 1 ? (
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-3 gap-0 space-y-0 w-full border-t border-white/10">
             {approvedPhotos.slice(1).map((photo) => {
               const isVideo =
                 photo.type === "video" ||
@@ -402,11 +403,11 @@ export default function FansPage() {
               return (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid flex flex-col bg-[var(--color-bg-surface)]/50 border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all duration-300 shadow-2xl"
+                  className="break-inside-avoid flex flex-col bg-black/40 border-b border-r border-white/10 overflow-hidden hover:bg-black/60 transition-all duration-300"
                 >
-                  <div className="p-4 flex items-center justify-between border-b border-white/5 bg-black/20">
+                  <div className="p-4 flex items-center justify-between border-b border-white/5 bg-black/30">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center font-bold text-xs text-white tracking-widest">
+                      <div className="w-8 h-8 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center font-bold text-xs text-white tracking-widest">
                         {photo.name
                           ? photo.name
                               .split(" ")
@@ -422,7 +423,7 @@ export default function FansPage() {
                           {photo.name}
                         </p>
                         {(photo.venue || photo.city) && (
-                          <p className="text-[var(--color-accent)] text-xs uppercase tracking-widest font-bold mt-0.5">
+                          <p className="text-[var(--color-accent)] text-2xs uppercase tracking-widest font-bold mt-0.5">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}
@@ -431,11 +432,11 @@ export default function FansPage() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-0.5">
-                      <span className="text-white/20 text-xs uppercase tracking-widest font-bold">
+                      <span className="text-white/30 text-[0.65rem] uppercase tracking-widest font-bold">
                         {isVideo ? "Video" : "Photo"}
                       </span>
                       {photo.date && (
-                        <span className="text-white/20 text-xs">{photo.date}</span>
+                        <span className="text-white/30 text-[0.65rem]">{photo.date}</span>
                       )}
                     </div>
                   </div>
@@ -461,14 +462,14 @@ export default function FansPage() {
                       />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8">
-                      <span className="text-white bg-white/10 border border-white/20 px-6 py-2 rounded-full font-bold text-sm uppercase tracking-widest backdrop-blur-md">
+                      <span className="text-white bg-white/10 border border-white/20 px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest backdrop-blur-md">
                         {isVideo ? "Play Video" : "Expand Photo"}
                       </span>
                     </div>
                   </div>
                   {photo.caption && (
                     <div className="p-4 bg-white/[0.02]">
-                      <p className="text-white/80 text-base leading-relaxed font-medium">
+                      <p className="text-white/80 text-sm leading-relaxed font-medium">
                         &ldquo;{photo.caption}&rdquo;
                       </p>
                     </div>
@@ -477,6 +478,7 @@ export default function FansPage() {
               );
             })}
           </div>
+
         ) : (
           /* Empty state */
           <div className="text-center py-32">
