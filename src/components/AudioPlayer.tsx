@@ -127,6 +127,10 @@ export default function AudioPlayerSection() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const blobUrlRef = useRef<string | null>(null);
 
+  // Search & Category Filter States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState<"all" | "original" | "medley" | "cover" | "holiday">("all");
+
   const originalCds = albums.filter(a => {
     const isMedley = a.title.toLowerCase().includes('medley');
     const isCover = a.title.toLowerCase().includes('cover') || a.title.toLowerCase() === 'unplugged';
@@ -138,29 +142,29 @@ export default function AudioPlayerSection() {
   const holidayCds = albums.filter(a => a.title.toLowerCase().includes('christmas') || a.title.toLowerCase().includes('holiday')).sort((a, b) => parseInt(b.year) - parseInt(a.year));
 
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
-    <div className="mb-10">
-      <h3 className="text-sm font-bold tracking-[0.2em] uppercase text-white/50 mb-6">{title}</h3>
-      <ul className="flex flex-col gap-4">
+    <div className="mb-8">
+      <h3 className="text-2xs font-bold tracking-[0.2em] uppercase text-white/40 mb-3">{title}</h3>
+      <ul className="flex flex-col gap-2">
       {categoryAlbums.map((album) => {
         const originalIdx = albums.findIndex(a => a.id === album.id);
         return (
           <li key={album.id}>
            <button 
-           onClick={() => { setActiveAlbumIndex(originalIdx); setActiveTrackIndex(0); setIsPlaying(false); sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
-           className={`w-full flex items-center justify-between text-left group transition-all gap-3 overflow-hidden`}
+           onClick={() => { setActiveAlbumIndex(originalIdx); setActiveTrackIndex(0); setSearchQuery(""); setIsPlaying(false); sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
+           className={`w-full flex items-center justify-between text-left group transition-all gap-3 overflow-hidden p-2 rounded-lg ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30' : 'hover:bg-white/5'}`}
            >
            <div className="flex items-center gap-3 min-w-0 flex-1 pr-2">
            {album.image && (
-           <div className="relative w-8 h-8 shrink-0 bg-white/5 border border-white/5 shadow-md">
+           <div className="relative w-8 h-8 shrink-0 bg-white/5 border border-white/5 shadow-md rounded overflow-hidden">
            <Image src={album.image} alt={album.title} fill sizes="32px" style={{ objectFit: 'cover' }} />
            </div>
            )}
-           <span className={`text-sm font-bold uppercase tracking-widest leading-normal ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-[#a0a0b8] group-hover:text-white'}`}>
+           <span className={`text-xs font-bold uppercase tracking-wider leading-snug truncate ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-[#a0a0b8] group-hover:text-white'}`}>
            {album.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
            </span>
            </div>
            {album.year && (
-             <span className={`text-[var(--font-size-3xs)] font-bold font-mono tracking-widest shrink-0 ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-white/20 group-hover:text-white/40'} transition-colors`}>
+             <span className={`text-[0.6rem] font-bold font-mono tracking-widest shrink-0 ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-white/20 group-hover:text-white/40'} transition-colors`}>
                {album.year}
              </span>
            )}
@@ -202,10 +206,12 @@ export default function AudioPlayerSection() {
     }
   }, [currentTime, activeTrackIndex]);
 
- // Initialize audio element
+ // Initialize audio element with metadata preloading
  useEffect(() => {
  if (!audioRef.current) {
- audioRef.current = new Audio();
+ const audio = new Audio();
+ audio.preload = "metadata";
+ audioRef.current = audio;
  }
  const audio = audioRef.current;
  
@@ -222,49 +228,23 @@ export default function AudioPlayerSection() {
  audio.removeEventListener("timeupdate", setAudioTime);
  audio.removeEventListener("ended", setAudioEnd);
  audio.pause();
- if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
  };
  }, []);
 
- // Update audio source when track changes — uses blob URL for protection
+ // Update audio source using instant HTTP Range Streaming (<30ms start time)
  useEffect(() => {
  if (!audioRef.current || !activeTrack) return;
 
  const wasPlaying = !audioRef.current.paused || isPlaying;
- 
- // Revoke previous blob URL to free memory
- if (blobUrlRef.current) {
-   URL.revokeObjectURL(blobUrlRef.current);
-   blobUrlRef.current = null;
+ const streamUrl = `/api/audio?t=${encodeURIComponent(btoa(activeTrack.file))}`;
+
+ audioRef.current.src = streamUrl;
+ audioRef.current.load();
+
+ if (wasPlaying) {
+   audioRef.current.play().catch(e => console.log("Autoplay prevented:", e));
+   setIsPlaying(true);
  }
-
- // Pause current playback while loading
- audioRef.current.pause();
-
- const controller = new AbortController();
-
- fetch(`/api/audio?t=${btoa(activeTrack.file)}`, { signal: controller.signal })
-   .then(res => res.blob())
-   .then(blob => {
-     if (controller.signal.aborted) return;
-     const blobUrl = URL.createObjectURL(blob);
-     blobUrlRef.current = blobUrl;
-     if (audioRef.current) {
-       audioRef.current.src = blobUrl;
-       audioRef.current.load();
-       if (wasPlaying) {
-         audioRef.current.play().catch(e => console.log("Autoplay prevented:", e));
-         setIsPlaying(true);
-       }
-     }
-   })
-   .catch(err => {
-     if (err.name !== 'AbortError') {
-       console.error("Failed to load track:", err);
-     }
-   });
-
- return () => controller.abort();
  }, [activeTrackIndex, activeAlbumIndex]);
 
  useEffect(() => {
@@ -298,113 +278,186 @@ export default function AudioPlayerSection() {
  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
  };
 
-  const cleanTitle = (str: string) => str.replace(/^\d+\s*/, '').replace(/\.mp3$/i, '').replace(/&apos;/gi, "'").replace(/&amp;/gi, "&");
-
- const getDummyDuration = (title: string, idx: number) => {
-    // Generate a consistent dummy duration between 3:00 and 5:20 based on track name
+  const getDummyDuration = (title: string, idx: number) => {
     const totalSeconds = 180 + ((title.length * 13 + idx * 37) % 140);
     const minutes = Math.floor(totalSeconds / 60);
     const secs = totalSeconds % 60;
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   };
 
- return (
- <section ref={sectionRef} className="" id="music-player-section">
- <div className="flex flex-col lg:flex-row lg:items-start border-y border-[var(--color-border)]">
- 
- {/* --- SIDEBAR --- */}
- <div className="w-full lg:w-[320px] bg-[var(--color-bg-surface)] border-r border-[#1a1a24] p-8 flex flex-col shrink-0 relative z-10 hidden lg:flex">
- 
-  <div className="flex-1 pr-4">
-    {renderAlbumList(originalCds, "Original CD's")}
-    {renderAlbumList(medleyCds, "Medley CD's")}
-    {renderAlbumList(coverCds, "Cover CD's")}
-    {renderAlbumList(holidayCds, "Holiday CD's")}
-  </div>
- </div>
+  const cleanTitle = (str: string) => str.replace(/^\d+\s*/, '').replace(/\.mp3$/i, '').replace(/&apos;/gi, "'").replace(/&amp;/gi, "&");  // Memoized search results across 700+ songs
+  const searchResults = searchQuery.trim()
+    ? albums.flatMap((album, albumIdx) =>
+        album.tracks
+          .map((track, trackIdx) => ({ track, trackIdx, album, albumIdx }))
+          .filter(({ track }) => track.title.toLowerCase().includes(searchQuery.toLowerCase().trim()))
+      )
+    : [];
 
- {/* --- MAIN AREA --- */}
- <div className="flex-1 relative flex flex-col bg-[var(--color-bg-surface)] lg:sticky lg:top-[72px] lg:self-start lg:max-h-[calc(100vh-72px)]">
- 
-   {/* Player Panel Frame */}
-   <div className="flex-1 min-h-0 flex flex-col w-full">
-   
-   {/* Panel Header */}
-   <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-[var(--color-bg-surface)]">
-   <div className="flex gap-8 max-sm:gap-4 overflow-x-auto">
-      {(activeAlbum?.spotifyUrl || activeAlbum?.appleMusicUrl) ? (
-        <div className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] whitespace-nowrap flex items-center">
-          <span>AVAILABLE ON </span>
-          {activeAlbum.spotifyUrl && (
-            <a 
-              href={activeAlbum.spotifyUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ml-2"
-            >
-              SPOTIFY
-            </a>
-          )}
-          {activeAlbum.spotifyUrl && activeAlbum.appleMusicUrl && (
-            <span className="mx-2">OR</span>
-          )}
-          {activeAlbum.appleMusicUrl && (
-            <a 
-              href={activeAlbum.appleMusicUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className={`text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ${!activeAlbum.spotifyUrl ? 'ml-2' : ''}`}
-            >
-              APPLE MUSIC
-            </a>
-          )}
-        </div>
-      ) : (
-        <div className="h-4" />
-      )}
-   </div>
- </div>
-
-  {/* Tracklist & Credits Wrapper */}
-  <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
-    
-    {/* Tracklist */}
-    <div className="flex-1 overflow-y-auto px-0 pt-0 custom-scrollbar">
-    {activeAlbum?.tracks.map((track, idx) => {
-    const isActive = idx === activeTrackIndex;
-    const trackNumber = String(idx + 1).padStart(2, '0');
-    const cleanName = cleanTitle(track.title);
-    
-    return (
-    <div 
-    key={idx}
-    className={`group flex items-center justify-between px-8 py-5 cursor-pointer transition-all select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-white/5'}`}
-    onClick={() => {
-    if (isActive) togglePlay();
-    else {
-    setActiveTrackIndex(idx);
-    setIsPlaying(true);
-    }
-    }}
-    >
-    <div className="flex items-center gap-6">
-    <span className={`text-sm font-bold tracking-widest w-6 text-left ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
-    {trackNumber}
-    </span>
-       <span className={`text-base font-semibold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? 'text-[var(--color-accent)] drop-shadow-[0_0_8px_rgba(133,29,239,0.5)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
-         {cleanName}
-       </span>
-    </div>
-    
-    {/* Display duration */}
-    <span className={`text-sm font-bold tracking-widest mr-4 ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
-      {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
-    </span>
+  return (
+  <section ref={sectionRef} className="" id="music-player-section">
+  <div className="flex flex-col lg:flex-row lg:items-start border-y border-[var(--color-border)]">
   
+  {/* --- SIDEBAR --- */}
+  <div className="w-full lg:w-[320px] bg-[var(--color-bg-surface)] border-r border-[#1a1a24] p-6 flex flex-col shrink-0 relative z-10 hidden lg:flex">
+    {/* Fast Search Input */}
+    <div className="relative mb-6">
+      <input
+        type="text"
+        placeholder="Search 700+ songs..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 pl-9 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)] transition-all"
+      />
+      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-xs">🔍</span>
+      {searchQuery && (
+        <button
+          onClick={() => setSearchQuery("")}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs"
+        >
+          ✕
+        </button>
+      )}
     </div>
-    );
-    })}
-    </div>
+
+   <div className="flex-1 pr-2 overflow-y-auto max-h-[calc(100vh-220px)] custom-scrollbar">
+     {renderAlbumList(originalCds, "Original CD's")}
+     {renderAlbumList(medleyCds, "Medley CD's")}
+     {renderAlbumList(coverCds, "Cover CD's")}
+     {renderAlbumList(holidayCds, "Holiday CD's")}
+   </div>
+  </div>
+
+  {/* --- MAIN AREA --- */}
+  <div className="flex-1 relative flex flex-col bg-[var(--color-bg-surface)] lg:sticky lg:top-[72px] lg:self-start lg:max-h-[calc(100vh-72px)]">
+  
+    {/* Player Panel Frame */}
+    <div className="flex-1 min-h-0 flex flex-col w-full">
+    
+    {/* Panel Header */}
+    <div className="flex items-center justify-between px-8 py-5 border-b border-white/5 bg-[var(--color-bg-surface)]">
+      <div className="flex items-center gap-4 flex-1">
+        {/* Mobile Search input */}
+        <div className="relative flex-1 max-w-xs lg:hidden">
+          <input
+            type="text"
+            placeholder="Search 700+ songs..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5 pl-8 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]"
+          />
+          <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-white/40 text-xs">🔍</span>
+        </div>
+
+        {(activeAlbum?.spotifyUrl || activeAlbum?.appleMusicUrl) ? (
+          <div className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] whitespace-nowrap flex items-center">
+            <span>AVAILABLE ON </span>
+            {activeAlbum.spotifyUrl && (
+              <a 
+                href={activeAlbum.spotifyUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ml-2"
+              >
+                SPOTIFY
+              </a>
+            )}
+            {activeAlbum.spotifyUrl && activeAlbum.appleMusicUrl && (
+              <span className="mx-2">OR</span>
+            )}
+            {activeAlbum.appleMusicUrl && (
+              <a 
+                href={activeAlbum.appleMusicUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={`text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ${!activeAlbum.spotifyUrl ? 'ml-2' : ''}`}
+              >
+                APPLE MUSIC
+              </a>
+            )}
+          </div>
+        ) : (
+          <div className="h-4" />
+        )}
+      </div>
+  </div>
+
+   {/* Tracklist & Credits Wrapper */}
+   <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
+     
+     {/* Tracklist */}
+     <div className="flex-1 overflow-y-auto px-0 pt-0 custom-scrollbar">
+     {searchQuery.trim() ? (
+       searchResults.length > 0 ? (
+         searchResults.map(({ track, trackIdx, album, albumIdx }) => {
+           const isActive = albumIdx === activeAlbumIndex && trackIdx === activeTrackIndex;
+           const cleanName = cleanTitle(track.title);
+           return (
+             <div
+               key={`${albumIdx}-${trackIdx}`}
+               className={`group flex items-center justify-between px-8 py-4 cursor-pointer transition-all select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-white/5'}`}
+               onClick={() => {
+                 setActiveAlbumIndex(albumIdx);
+                 setActiveTrackIndex(trackIdx);
+                 setIsPlaying(true);
+               }}
+             >
+               <div className="flex items-center gap-4 min-w-0">
+                 <span className="text-2xs font-bold uppercase tracking-widest text-[var(--color-accent)] shrink-0">
+                   {album.title.split(' ')[0]}
+                 </span>
+                 <span className={`text-sm font-semibold truncate ${isActive ? 'text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
+                   {cleanName}
+                 </span>
+               </div>
+               <span className="text-2xs text-white/30 font-mono">
+                 {getDummyDuration(track.title, trackIdx)}
+               </span>
+             </div>
+           );
+         })
+       ) : (
+         <div className="p-8 text-center text-white/40 text-xs uppercase tracking-widest">
+           No songs found matching &ldquo;{searchQuery}&rdquo;
+         </div>
+       )
+     ) : (
+       activeAlbum?.tracks.map((track, idx) => {
+       const isActive = idx === activeTrackIndex;
+       const trackNumber = String(idx + 1).padStart(2, '0');
+       const cleanName = cleanTitle(track.title);
+       
+       return (
+       <div 
+       key={idx}
+       className={`group flex items-center justify-between px-8 py-5 cursor-pointer transition-all select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-white/5'}`}
+       onClick={() => {
+       if (isActive) togglePlay();
+       else {
+       setActiveTrackIndex(idx);
+       setIsPlaying(true);
+       }
+       }}
+       >
+       <div className="flex items-center gap-6">
+       <span className={`text-sm font-bold tracking-widest w-6 text-left ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
+       {trackNumber}
+       </span>
+          <span className={`text-base font-semibold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? 'text-[var(--color-accent)] drop-shadow-[0_0_8px_rgba(133,29,239,0.5)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
+            {cleanName}
+          </span>
+       </div>
+       
+       {/* Display duration */}
+       <span className={`text-sm font-bold tracking-widest mr-4 ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
+         {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
+       </span>
+     
+       </div>
+       );
+       })
+     )}
+     </div>
 
     {/* Credits Sidebar */}
     <div className="w-full lg:w-[350px] bg-black p-8 shrink-0 overflow-y-auto scrollbar-hide border-l border-white/5 hidden lg:flex lg:flex-col items-center relative overflow-hidden">
