@@ -177,8 +177,8 @@ export default function FansPage() {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-purple-500/20 backdrop-blur-md border border-purple-400/40 text-purple-300 text-xs font-black uppercase tracking-[0.2em] mb-6 shadow-[0_0_20px_rgba(133,29,239,0.3)]">
-                <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse" />
+              <div className="inline-flex items-center gap-2 text-purple-400 text-xs font-black uppercase tracking-[0.25em] mb-6">
+                <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
                 COMMUNITY GALLERY & FAN MOMENTS
               </div>
 
@@ -190,10 +190,10 @@ export default function FansPage() {
                 Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!
               </p>
 
-              {/* Login Promo badge if guest */}
+              {/* Login Promo text if guest */}
               {!effectivelyLoggedIn && (
-                <div className="mt-5 p-4 rounded-2xl bg-black/40 backdrop-blur-md border border-purple-500/30 text-xs text-purple-200/90 max-w-lg flex items-center gap-3 shadow-xl">
-                  <span className="text-lg">🔒</span>
+                <div className="mt-4 text-xs text-white/70 max-w-lg flex items-center gap-2">
+                  <span className="text-sm">🔒</span>
                   <p>
                     You must be a <span className="font-extrabold text-white">Fan Member</span> to share your moments.{" "}
                     <button
@@ -230,18 +230,19 @@ export default function FansPage() {
             </button>
           </div>
 
-          {/* Stat Counter Pills */}
-          <div className="flex flex-wrap items-center gap-4 mt-8 pt-6 border-t border-white/10 text-xs font-extrabold uppercase tracking-widest text-white/70">
-            <span className="bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-purple-300 flex items-center gap-2">
+          {/* Stat Counter Pills - Frameless */}
+          <div className="flex flex-wrap items-center gap-6 mt-8 pt-6 border-t border-white/10 text-xs font-extrabold uppercase tracking-widest text-white/70">
+            <span className="text-purple-300 flex items-center gap-2">
               <span>⚡</span> {photos.length} Total Moments Shared
             </span>
-            <span className="bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-cyan-300 flex items-center gap-2">
+            <span className="text-cyan-300 flex items-center gap-2">
               <span>🎸</span> 40 Years of Shows
             </span>
-            <span className="bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-amber-300 flex items-center gap-2">
+            <span className="text-amber-300 flex items-center gap-2">
               <span>🌟</span> Top Fan Gallery
             </span>
           </div>
+
 
           {/* Dynamic Upload Form */}
           {showUpload && effectivelyLoggedIn && (
