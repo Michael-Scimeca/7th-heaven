@@ -48,13 +48,20 @@ export default function FansPage() {
 
   const isModerator = isLoggedIn && (member?.role === "admin" || member?.role === "crew");
 
-  // Fetch photos
+  // Fetch photos and notify PageTransition when data & images are loaded
   const fetchPhotos = () => {
     const url = isModerator ? "/api/fans?all=true" : "/api/fans";
     fetch(url)
       .then((r) => r.json())
-      .then((data) => setPhotos(data))
-      .catch(() => {});
+      .then((data) => {
+        setPhotos(data);
+        requestAnimationFrame(() => {
+          window.dispatchEvent(new CustomEvent("7h:page:ready"));
+        });
+      })
+      .catch(() => {
+        window.dispatchEvent(new CustomEvent("7h:page:ready"));
+      });
   };
 
   useEffect(() => {

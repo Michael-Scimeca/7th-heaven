@@ -196,13 +196,25 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   const startPhase2 = useCallback(() => {
     if (phase2StartedRef.current) return;
+
+    // Hard Guard: Refuse to start Phase 2 if current browser location doesn't match target route!
+    if (targetPathnameRef.current) {
+      const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+      const targetPath = targetPathnameRef.current.replace(/\/$/, "") || "/";
+      if (currentPath !== targetPath) {
+        console.warn(`[Wave] Guard blocked startPhase2: current path (${currentPath}) !== target path (${targetPath})`);
+        return;
+      }
+    }
+
     phase2StartedRef.current = true;
-    console.log(`[Wave] Phase2 startPhase2 called`);
+    console.log(`[Wave] Phase2 startPhase2 executing — confirmed route: ${window.location.pathname}`);
     randomDelays();
     isOpenedRef.current  = false;
     timeStartRef.current = Date.now();
     startLoop("Phase2", () => {
       phase2StartedRef.current = false;
+      targetPathnameRef.current = null;
       setMode("idle");
     });
   }, [randomDelays, startLoop, setMode]);
@@ -230,6 +242,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (mode === "covering") phase2StartedRef.current = false;
   }, [mode]);
 
+  const targetPathnameRef = useRef<string | null>(null);
+
   // ── Phase 1 ───────────────────────────────────────────────────────────────
   useEffect(() => {
     if (mode !== "covering") return;
@@ -238,6 +252,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     timeStartRef.current = Date.now();
     startLoop("Phase1", () => {
       const href = pendingHrefRef.current;
+      if (href) {
+        targetPathnameRef.current = href.split("?")[0].split("#")[0];
+      } else {
+        targetPathnameRef.current = null;
+      }
       clearPendingHref();
       window.scrollTo({ top: 0, behavior: "instant" });
       setMode("covered");
@@ -249,11 +268,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  // ── Phase 2 trigger: pathname changed ─────────────────────────────────────
+  // ── Phase 2 trigger: pathname changed to target route ─────────────────────
   useLayoutEffect(() => {
     if (prevPathnameRef.current === pathname) return;
     const prev = prevPathnameRef.current;
     prevPathnameRef.current = pathname;
+
     if (mode === "covered") {
       let cancelled = false;
       waitForPageReady().then(() => { if (!cancelled) startPhase2(); });
@@ -266,24 +286,44 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (mode !== "covered") return;
     let cancelled = false;
 
-    // Listener for explicit "7h:page:ready" event if a page signals early readiness
+    const tryStartPhase2 = () => {
+      const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+      const targetPath = targetPathnameRef.current ? targetPathnameRef.current.replace(/\/$/, "") || "/" : null;
+
+      if (targetPath && currentPath !== targetPath) {
+        console.log(`[Wave] Route transition in progress: current (${currentPath}) !== target (${targetPath})`);
+        return;
+      }
+      waitForPageReady().then(() => { if (!cancelled) startPhase2(); });
+    };
+
+    // Listener for explicit "7h:page:ready" event
     const handlePageReady = () => {
       if (cancelled) return;
-      waitForPageReady().then(() => { if (!cancelled) startPhase2(); });
+      tryStartPhase2();
     };
     window.addEventListener("7h:page:ready", handlePageReady, { once: true });
 
-    // Safety timeout: 1200ms fallback if route transition takes extra time
-    const id = setTimeout(() => {
-      waitForPageReady().then(() => { if (!cancelled) startPhase2(); });
-    }, 1200);
+    // Safety polling: check every 150ms until router navigation to target path completes
+    const intervalId = setInterval(() => {
+      if (cancelled || phase2StartedRef.current) return;
+      const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+      const targetPath = targetPathnameRef.current ? targetPathnameRef.current.replace(/\/$/, "") || "/" : null;
+
+      if (!targetPath || currentPath === targetPath) {
+        clearInterval(intervalId);
+        waitForPageReady().then(() => { if (!cancelled) startPhase2(); });
+      }
+    }, 150);
 
     return () => {
       cancelled = true;
-      clearTimeout(id);
+      clearInterval(intervalId);
       window.removeEventListener("7h:page:ready", handlePageReady);
     };
-  }, [mode, startPhase2]);
+  }, [mode, pathname, startPhase2]);
+
+
 
 
   // ── Safety 1: visibilitychange ────────────────────────────────────────────
