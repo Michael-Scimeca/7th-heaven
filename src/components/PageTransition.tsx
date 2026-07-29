@@ -16,16 +16,13 @@ const cubicInOut = (t: number) =>
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 const NUM_POINTS     = 10;
-const DURATION       = 900;
-const DELAY_MAX      = 300;
-const DELAY_PER_PATH = 200;
-const NUM_PATHS      = 3;
+const DURATION       = 600;
+const DELAY_MAX      = 200;
+const DELAY_PER_PATH = 180;
+const NUM_PATHS      = 2;
 const ANIM_TOTAL     = DURATION + DELAY_PER_PATH * (NUM_PATHS - 1) + DELAY_MAX;
 
 // ─── Path builder ─────────────────────────────────────────────────────────────
-// Wave closes to the TOP (V 0 H 0).
-// Phase 1 (covering, top→bottom):  points go 0→100, area ABOVE wave is filled
-// Phase 2 (uncovering, bottom→top): points go 100→0, wave retreats upward
 function buildPath(points: number[]): string {
   let str = `M 0 ${points[0]}`;
   for (let i = 0; i < NUM_POINTS - 1; i++) {
@@ -37,6 +34,81 @@ function buildPath(points: number[]): string {
   return str;
 }
 
+// ─── Page-ready check (Fonts + DOM Text + Images + Double RAF) ─────────────
+const MAX_WAIT_MS = 1200;
+async function waitForPageReady(): Promise<void> {
+  // 1. Wait for custom web fonts (Barlow, Rockstar, Inter, etc.) to fully load
+  if (typeof document !== "undefined" && "fonts" in document) {
+    try {
+      await document.fonts.ready;
+      if (document.fonts.status === "loading") {
+        await new Promise<void>(resolve => {
+          const onDone = () => {
+            document.fonts.removeEventListener("loadingdone", onDone);
+            resolve();
+          };
+          document.fonts.addEventListener("loadingdone", onDone);
+          setTimeout(resolve, 600);
+        });
+      }
+    } catch {}
+  }
+
+  // 2. Ensure text content is rendered in DOM and images/paint passes complete
+  return new Promise<void>(resolve => {
+    let resolved = false;
+    const finish = () => {
+      if (resolved) return;
+      resolved = true;
+      clearTimeout(deadline);
+      // Double RAF ensures Next.js layout & browser font paint frames have finished
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => resolve());
+      });
+    };
+
+    const deadline = setTimeout(finish, MAX_WAIT_MS);
+
+    const check = () => {
+      if (resolved) return;
+
+      // Verify DOM has rendered text
+      const target = document.querySelector("main") || document.body;
+      const textLength = (target.innerText || target.textContent || "").trim().length;
+
+      // Find visible images that haven't finished loading
+      const pendingImages = Array.from(
+        document.querySelectorAll<HTMLImageElement>("img")
+      ).filter(img => {
+        if (img.complete) return false;
+        const r = img.getBoundingClientRect();
+        return r.top < window.innerHeight && r.bottom > 0;
+      });
+
+      if (textLength > 30 && pendingImages.length === 0) {
+        finish();
+      } else if (pendingImages.length > 0) {
+        let remaining = pendingImages.length;
+        const imgDone = () => {
+          if (--remaining <= 0) finish();
+        };
+        pendingImages.forEach(img => {
+          img.addEventListener("load", imgDone, { once: true });
+          img.addEventListener("error", imgDone, { once: true });
+        });
+      } else {
+        // Re-check next frame if React DOM is still mounting text
+        requestAnimationFrame(check);
+      }
+    };
+
+    requestAnimationFrame(check);
+  });
+}
+
+
+
+
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -45,21 +117,24 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const { mode, setMode, pendingHref, clearPendingHref, requestTransition } =
     useTransition();
 
-  // Track pathname so we can detect when Next.js commits the new page
   const prevPathnameRef = useRef(pathname);
+  const pathRefs        = useRef<(SVGPathElement | null)[]>([]);
 
-  // SVG path refs
-  const pathRefs = useRef<(SVGPathElement | null)[]>([]);
-
-  // Animation refs
   const isOpenedRef  = useRef(false);
   const timeStartRef = useRef(0);
   const delaysRef    = useRef<number[]>(Array(NUM_POINTS).fill(0));
   const rafRef       = useRef<number | null>(null);
 
-  // Stable ref for pendingHref so the Phase-1 callback always sees the latest value
   const pendingHrefRef = useRef(pendingHref);
   useEffect(() => { pendingHrefRef.current = pendingHref; }, [pendingHref]);
+
+  const routerRef = useRef(router);
+  useEffect(() => { routerRef.current = router; }, [router]);
+
+  const modeRef = useRef(mode);
+  const requestTransitionRef = useRef(requestTransition);
+  useEffect(() => { modeRef.current = mode; }, [mode]);
+  useEffect(() => { requestTransitionRef.current = requestTransition; }, [requestTransition]);
 
   // ── Animation core ────────────────────────────────────────────────────────
   const renderFrame = useCallback(() => {
@@ -75,27 +150,41 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       const pts: number[] = [];
       for (let j = 0; j < NUM_POINTS; j++) {
         const raw = Math.min(Math.max(elapsed - delaysRef.current[j], 0) / DURATION, 1);
-        // Phase 1 (isOpened=true):  0→100 (sweeps down, covers from top)
-        // Phase 2 (isOpened=false): 100→0 (retreats up, reveals from bottom)
         pts[j] = isOpened ? cubicInOut(raw) * 100 : (1 - cubicInOut(raw)) * 100;
       }
       el.setAttribute("d", buildPath(pts));
     }
   }, []);
 
-  const startLoop = useCallback((onDone: () => void) => {
+  const startLoop = useCallback((label: string, onDone: () => void) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    let lastFrameTime = performance.now();
+    let frameCount = 0;
+    console.log(`[Wave] ${label} START — ANIM_TOTAL=${ANIM_TOTAL}ms`);
     const tick = () => {
-      renderFrame();
+      const now = performance.now();
+      const gap = now - lastFrameTime;
+      frameCount++;
+      if (gap > 50) {
+        console.warn(`[Wave] ${label} FRAME DROP — gap=${gap.toFixed(0)}ms after ${frameCount} frames (${(now - timeStartRef.current).toFixed(0)}ms into anim)`);
+      }
+      lastFrameTime = now;
+      try { renderFrame(); } catch (err) {
+        console.warn("[PageTransition] renderFrame error", err);
+      }
       if (Date.now() - timeStartRef.current < ANIM_TOTAL) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
         rafRef.current = null;
-        onDone();
+        console.log(`[Wave] ${label} DONE — ${frameCount} frames rendered`);
+        try { onDone(); } catch (err) {
+          console.warn("[PageTransition] onDone error", err);
+          setMode("idle");
+        }
       }
     };
     rafRef.current = requestAnimationFrame(tick);
-  }, [renderFrame]);
+  }, [renderFrame, setMode]);
 
   const randomDelays = useCallback(() => {
     for (let i = 0; i < NUM_POINTS; i++) {
@@ -103,138 +192,164 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Phase 2: wave exits upward — called after pathname confirms new page is live
+  const phase2StartedRef = useRef(false);
+
   const startPhase2 = useCallback(() => {
+    if (phase2StartedRef.current) return;
+    phase2StartedRef.current = true;
+    console.log(`[Wave] Phase2 startPhase2 called`);
     randomDelays();
     isOpenedRef.current  = false;
     timeStartRef.current = Date.now();
-    startLoop(() => {
+    startLoop("Phase2", () => {
+      phase2StartedRef.current = false;
       setMode("idle");
     });
   }, [randomDelays, startLoop, setMode]);
 
-  // ── Phase 1: start when mode switches to "covering" ───────────────────────
+  // ── Global signals ────────────────────────────────────────────────────────
+  const signalDone = useCallback(() => {
+    (window as any).__pageTransitionActive = false;
+    window.dispatchEvent(new CustomEvent("7h:pagetransition:done"));
+  }, []);
+
+  // ── Paths reset + event dispatch on idle ──────────────────────────────────
+  useEffect(() => {
+    if (mode === "covering") {
+      (window as any).__pageTransitionActive = true;
+    }
+    if (mode !== "idle") return;
+    pathRefs.current.forEach(el => {
+      if (el) el.setAttribute("d", "M 0 0 V 0 H 0");
+    });
+    signalDone();
+  }, [mode, signalDone]);
+
+  // ── Reset Phase 2 guard ───────────────────────────────────────────────────
+  useEffect(() => {
+    if (mode === "covering") phase2StartedRef.current = false;
+  }, [mode]);
+
+  // ── Phase 1 ───────────────────────────────────────────────────────────────
   useEffect(() => {
     if (mode !== "covering") return;
-
     randomDelays();
     isOpenedRef.current  = true;
     timeStartRef.current = Date.now();
-
-    startLoop(() => {
-      // ──────────────────────────────────────────────────────────────────────
-      // COVERED. The wave is at full-screen coverage.
-      //
-      // NOW we navigate. React's children won't update until the route
-      // commits, which happens AFTER the wave is already covering everything.
-      // The user sees zero flash of the new page during Phase 1 because the
-      // route literally hasn't changed yet.
-      // ──────────────────────────────────────────────────────────────────────
+    startLoop("Phase1", () => {
       const href = pendingHrefRef.current;
       clearPendingHref();
       window.scrollTo({ top: 0, behavior: "instant" });
-      setMode("covered");          // wave holds at full coverage
-      if (href) router.push(href); // navigate — children will update soon
-      // Phase 2 fires when useLayoutEffect detects pathname changed (below)
+      setMode("covered");
+      if (href) routerRef.current.push(href);
     });
-
     return () => {
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
-      }
+      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  // ── Phase 2 trigger: start when Next.js confirms the new page ─────────────
+  // ── Phase 2 trigger: pathname changed ─────────────────────────────────────
   useLayoutEffect(() => {
     if (prevPathnameRef.current === pathname) return;
+    const prev = prevPathnameRef.current;
     prevPathnameRef.current = pathname;
-
     if (mode === "covered") {
-      // Pathname changed while wave covers → new page is in the DOM.
-      // Give React one frame to paint the new page, then start Phase 2.
-      requestAnimationFrame(() => startPhase2());
+      let cancelled = false;
+      waitForPageReady().then(() => { if (!cancelled) startPhase2(); });
+      return () => { cancelled = true; prevPathnameRef.current = prev; };
     }
   }, [pathname, mode, startPhase2]);
 
-  // ── Global link interceptor ───────────────────────────────────────────────
-  // Instead of replacing every <Link> with a custom component, we intercept
-  // all anchor clicks at the document level (capture phase).
-  // This catches Next.js <Link>, plain <a>, and any other anchor.
-  const modeRef = useRef(mode);
-  const requestTransitionRef = useRef(requestTransition);
-  useEffect(() => { modeRef.current = mode; }, [mode]);
-  useEffect(() => { requestTransitionRef.current = requestTransition; }, [requestTransition]);
+  // ── Fallback & Explicit Ready Signal ──────────────────────────────────────
+  useEffect(() => {
+    if (mode !== "covered") return;
+    let cancelled = false;
 
+    // Listener for explicit "7h:page:ready" event if a page signals early readiness
+    const handlePageReady = () => {
+      if (cancelled) return;
+      waitForPageReady().then(() => { if (!cancelled) startPhase2(); });
+    };
+    window.addEventListener("7h:page:ready", handlePageReady, { once: true });
+
+    // Safety timeout: 1200ms fallback if route transition takes extra time
+    const id = setTimeout(() => {
+      waitForPageReady().then(() => { if (!cancelled) startPhase2(); });
+    }, 1200);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(id);
+      window.removeEventListener("7h:page:ready", handlePageReady);
+    };
+  }, [mode, startPhase2]);
+
+
+  // ── Safety 1: visibilitychange ────────────────────────────────────────────
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState !== "visible") return;
+      if (modeRef.current === "idle") return;
+      if (rafRef.current !== null) return;
+      phase2StartedRef.current = false;
+      setMode("idle");
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, [setMode]);
+
+  // ── Safety 2: 5 s hard-reset ──────────────────────────────────────────────
+  useEffect(() => {
+    if (mode === "idle") return;
+    const id = setTimeout(() => {
+      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
+      phase2StartedRef.current = false;
+      setMode("idle");
+    }, 5000);
+    return () => clearTimeout(id);
+  }, [mode, setMode]);
+
+  // ── Click interceptor ─────────────────────────────────────────────────────
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      // Ignore modifier clicks (open in new tab, etc.)
       if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
-      if (e.button !== 0) return; // left click only
-
-      // Walk up the DOM to find the nearest anchor
+      if (e.button !== 0) return;
       const anchor = (e.target as HTMLElement).closest("a");
       if (!anchor) return;
-
       const href = anchor.getAttribute("href");
       if (!href) return;
-
-      // Skip external, hash-only, mailto, tel, and blob links
       if (
-        href.startsWith("http") ||
-        href.startsWith("//")   ||
-        href.startsWith("#")    ||
-        href.startsWith("mailto:") ||
-        href.startsWith("tel:") ||
-        href.startsWith("blob:")
+        href.startsWith("http") || href.startsWith("//") || href.startsWith("#") ||
+        href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("blob:")
       ) return;
-
-      // If already transitioning, block the click
-      if (modeRef.current !== "idle") {
-        e.preventDefault();
-        return;
-      }
-
-      // Same-page link? Skip transition.
+      if (modeRef.current !== "idle") { e.preventDefault(); return; }
       const targetPath = href.split("?")[0].split("#")[0];
       if (targetPath === window.location.pathname && !href.includes("?")) return;
-
-      // Intercept: prevent Next.js and the browser from navigating now.
-      // We will call router.push(href) ourselves after the wave covers.
       e.preventDefault();
       e.stopPropagation();
-
+      try { routerRef.current.prefetch(href); } catch { /* ignore */ }
       requestTransitionRef.current(href);
     };
-
-    // Capture phase so we fire before Next.js's own click handler
     document.addEventListener("click", handleClick, true);
     return () => document.removeEventListener("click", handleClick, true);
-  }, []); // Mount once — uses refs for live mode/requestTransition values
+  }, []);
 
   return (
     <>
-      {/* Page content — React updates this freely.
-          During Phase 1 the route hasn't changed, so children = old page.
-          During Phase 2 the route has changed, so children = new page.
-          No displayChildren state, no blocking refs — React's own batching
-          keeps the content correct by construction. */}
-      <div className="flex-1 flex flex-col">
-        {children}
-      </div>
+      <div className="flex-1 flex flex-col">{children}</div>
 
-      {/* SVG wave overlay */}
+      {/* SVG wave overlay — visibility:hidden when idle */}
       <svg
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          zIndex: 99999,
+          position     : "fixed",
+          top          : 0,
+          left         : 0,
+          width        : "100vw",
+          height       : "100vh",
+          zIndex       : 99999,
           pointerEvents: mode !== "idle" ? "auto" : "none",
+          visibility   : mode !== "idle" ? "visible" : "hidden",
         }}
         aria-hidden="true"
         preserveAspectRatio="none"
@@ -246,10 +361,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             <stop offset="100%" stopColor="#2a0055" />
           </linearGradient>
           <linearGradient id="pg-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#4a00a0" />
-            <stop offset="100%" stopColor="#7c00e8" />
-          </linearGradient>
-          <linearGradient id="pg-grad-3" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%"   stopColor="#8519ef" />
             <stop offset="50%"  stopColor="#b94fff" />
             <stop offset="100%" stopColor="#6a00ff" />
@@ -257,7 +368,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         </defs>
         <path ref={el => { pathRefs.current[0] = el; }} fill="url(#pg-grad-1)" d="M 0 0 V 0 H 0" />
         <path ref={el => { pathRefs.current[1] = el; }} fill="url(#pg-grad-2)" d="M 0 0 V 0 H 0" />
-        <path ref={el => { pathRefs.current[2] = el; }} fill="url(#pg-grad-3)" d="M 0 0 V 0 H 0" />
       </svg>
     </>
   );

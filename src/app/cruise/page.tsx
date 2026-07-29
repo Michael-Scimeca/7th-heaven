@@ -13,9 +13,10 @@ import {
   ITINERARY_2027,
   ITINERARY_2028,
 } from "./cruiseData";
-import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
-import CruiseVideoGallery from "@/components/CruiseVideoGallery";
-import CruiseHistoryTimeline from "@/components/CruiseHistoryTimeline";
+import dynamic from "next/dynamic";
+const CruiseSnakeItinerary  = dynamic(() => import("@/components/CruiseSnakeItinerary"),  { ssr: false });
+const CruiseVideoGallery    = dynamic(() => import("@/components/CruiseVideoGallery"),    { ssr: false });
+const CruiseHistoryTimeline = dynamic(() => import("@/components/CruiseHistoryTimeline"), { ssr: false });
 
 function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
   const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#f59e0b", "#ec4899", "#8b5cf6", "#64748b"];
@@ -135,6 +136,11 @@ export default function CruisePage() {
   const supabase = createClient();
   const router = useRouter();
   const { isLoggedIn, member, openModal } = useMember();
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+  // Don't render below-hero content until the wave transition exits.
+  // Rendering ~1500 lines of JSX synchronously was blocking the main thread.
+  const [transitionDone, setTransitionDone] = useState(true);
+
   const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [formData, setFormData] = useState({ 
     name: "", email: "", phone: "", notes: "", anonymous: false, 
@@ -157,7 +163,31 @@ export default function CruisePage() {
     } catch {}
   }, []);
 
-  // Auto-save draft cabin selection to localStorage
+  // Signal PageTransition that CruisePage has mounted and web fonts are ready
+  useEffect(() => {
+    if (typeof document !== "undefined" && "fonts" in document) {
+      document.fonts.ready.then(() => {
+        window.dispatchEvent(new CustomEvent("7h:page:ready"));
+      });
+    } else {
+      window.dispatchEvent(new CustomEvent("7h:page:ready"));
+    }
+  }, []);
+
+
+  // Gate all below-hero sections until the wave is gone
+  useEffect(() => {
+    if (!(window as any).__pageTransitionActive) {
+      setTransitionDone(true);
+      return;
+    }
+    const done = () => setTransitionDone(true);
+    window.addEventListener('7h:pagetransition:done', done, { once: true });
+    return () => window.removeEventListener('7h:pagetransition:done', done);
+  }, []);
+
+
+
   useEffect(() => {
     try {
       localStorage.setItem("7h_cruise_cabin_draft", JSON.stringify({
@@ -216,6 +246,7 @@ export default function CruisePage() {
   const [activeItinYear, setActiveItinYear] = useState<2027 | 2028>(2027);
   const [activePriceYear, setActivePriceYear] = useState<2027 | 2028>(2027);
   const [foodTypeTab, setFoodTypeTab] = useState<"included" | "paid">("included");
+  const [barTab, setBarTab] = useState<"bars" | "entertainment">("bars");
 
   const [guests, setGuests] = useState<{
     active: boolean;
@@ -570,6 +601,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             muted
             loop
             playsInline
+            preload="auto"
             className="w-full h-full object-cover"
             poster="/images/cruise-hero.png"
           >
@@ -603,6 +635,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
         </div>
       </section>
+
+      {/* ── SECTIONS 2–N: only rendered after wave exits to prevent main-thread block ── */}
+      {transitionDone && (<>
 
       {/* ── SECTION 2: CABINS & PRICING ── */}
       <section id="pricing" className="py-16 site-container relative z-20">
@@ -1871,7 +1906,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Dining Tab Section */}
           <div className="bg-transparent p-0 text-left mb-16">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
               <div>
                 <h3 className="text-xl font-black uppercase text-white">Dining Explorer Guide</h3>
                 <p className="text-xs text-white/40 mt-1">Discover included food spots and premium specialty restaurants.</p>
@@ -1898,8 +1933,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
             </div>
 
-            {/* Food Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs text-white/80">
+            {/* Bento Box Food Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs text-white/80 grid-flow-dense">
               {(foodTypeTab === "included"
                 ? [
                     { name: "Windjammer Buffet", img: "/images/venues/dining_buffet.png", tag: "Buffet" },
@@ -1940,146 +1975,125 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     { name: "Room Service (Lunch/Dinner)", img: "/images/venues/dining_steakhouse.png", tag: "24/7 In-Room" },
                     { name: "Trellis Bar Dining", img: "/images/venues/trellis.png", tag: "Outdoor Dining" },
                   ]
-              ).map((food, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-5 bg-transparent hover:bg-white/[0.04] p-3 rounded-none transition-all duration-300 group cursor-pointer border-none"
-                >
-                  <div className="relative w-36 h-36 md:w-40 md:h-40 rounded-none overflow-hidden shrink-0 border-none shadow-lg">
+              ).map((food, idx) => {
+                const isFeatured = idx === 0 || idx === 7 || idx === 14;
+                return (
+                  <div key={idx} className={`relative rounded-2xl overflow-hidden group border border-white/10 ${isFeatured ? 'col-span-2 h-44 md:h-52' : 'h-36'}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={food.img}
-                      alt={food.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 rounded-none"
-                    />
+                    <img src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-3.5 flex flex-col justify-end">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/30 backdrop-blur-md px-2 py-0.5 rounded-full font-bold self-start mb-1">{food.tag}</span>
+                      <p className="font-extrabold text-white text-sm leading-snug">{food.name}</p>
+                    </div>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="font-extrabold text-white text-base md:text-lg leading-snug group-hover:text-cyan-300 transition-colors">
-                      {food.name}
-                    </p>
-                    <span className="text-[var(--font-size-3xs)] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/15 border-none px-2.5 py-0.5 rounded-none inline-block mt-2 font-bold">
-                      {food.tag}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
-          {/* Bars, Lounges, and Entertainment Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
-            {/* Bars & Clubs */}
-            <div className="bg-transparent p-0">
-              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-6 border-b border-white/10 pb-3 flex items-center justify-between">
-                <span>Bars, Clubs & Lounges</span>
-                <span className="text-[var(--font-size-3xs)] font-mono font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">
-                  20 VENUES ONBOARD
-                </span>
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-white/80">
-                {[
-                  { name: "Lime & Coconut Bar", img: "/images/venues/lime_coconut.png", tag: "Poolside" },
-                  { name: "Rye & Beam", img: "/images/venues/lime_coconut.png", tag: "Bourbon" },
-                  { name: "Lemon Post Bar", img: "/images/venues/lime_coconut.png", tag: "Outdoor" },
-                  { name: "Swim & Tonic Pool Bar", img: "/images/venues/lime_coconut.png", tag: "Swim-Up" },
-                  { name: "The Hideaway Lounge", img: "/images/venues/hideaway.png", tag: "Adults Only" },
-                  { name: "Vue Bar", img: "/images/venues/hideaway.png", tag: "Ocean View" },
-                  { name: "Overlook Bar & Pods", img: "/images/venues/hideaway.png", tag: "AquaDome" },
-                  { name: "Basecamp Bar", img: "/images/venues/hideaway.png", tag: "Thrill Zone" },
-                  { name: "Trellis Bar", img: "/images/venues/trellis.png", tag: "Central Park" },
-                  { name: "Boleros Latin Bar", img: "/images/venues/trellis.png", tag: "Latin Dance" },
-                  { name: "Cantina Fresca", img: "/images/venues/trellis.png", tag: "Mexican" },
-                  { name: "Bubbles Champagne Bar", img: "/images/venues/trellis.png", tag: "Champagne" },
-                  { name: "Point & Feather Pub", img: "/images/venues/lime_coconut.png", tag: "English Pub" },
-                  { name: "Schooner Bar", img: "/images/venues/hideaway.png", tag: "Piano Lounge" },
-                  { name: "1400 Lobby Bar", img: "/images/venues/trellis.png", tag: "Atrium" },
-                  { name: "Dueling Pianos Lounge", img: "/images/venues/lime_coconut.png", tag: "Live Music" },
-                  { name: "Lou's Jazz & Blues", img: "/images/venues/hideaway.png", tag: "Jazz Club" },
-                  { name: "Music Hall Lounge", img: "/images/venues/trellis.png", tag: "Rock Venue" },
-                  { name: "Playmakers Lounge", img: "/images/venues/lime_coconut.png", tag: "Sports & Arcade" },
-                  { name: "Casino Royale Bar", img: "/images/venues/hideaway.png", tag: "Casino Lounge" },
-                ].map((bar, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-5 bg-transparent hover:bg-white/[0.04] p-3 rounded-none transition-all duration-300 group cursor-pointer border-none"
-                  >
-                    <div className="relative w-36 h-36 md:w-40 md:h-40 rounded-none overflow-hidden shrink-0 border-none shadow-lg">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={bar.img}
-                        alt={bar.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 rounded-none"
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-extrabold text-white text-base md:text-lg leading-snug group-hover:text-cyan-300 transition-colors">
-                        {bar.name}
-                      </p>
-                      <span className="text-[var(--font-size-3xs)] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/15 border-none px-2.5 py-0.5 rounded-none inline-block mt-2 font-bold">
-                        {bar.tag}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+
+
+
+          {/* ── BARS & ENTERTAINMENT SEGMENTED TABS SECTION (Option 2) ── */}
+          <div className="mt-20">
+            {/* Segmented Tab Header */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10">
+              <div>
+                <h3 className="text-xl font-black uppercase text-white">Bars & Entertainment Explorer</h3>
+                <p className="text-xs text-white/40 mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
+              </div>
+              <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setBarTab("bars")}
+                  className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
+                    barTab === "bars" ? "bg-cyan-500 text-black font-black shadow-lg shadow-cyan-500/25 scale-105" : "text-white/50 hover:text-white"
+                  }`}
+                >
+                  <span>🍸 Bars & Clubs</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "bars" ? "bg-black/20 text-black" : "bg-white/10 text-cyan-400"}`}>20</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBarTab("entertainment")}
+                  className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
+                    barTab === "entertainment" ? "bg-purple-500 text-white font-black shadow-lg shadow-purple-500/25 scale-105" : "text-white/50 hover:text-white"
+                  }`}
+                >
+                  <span>🎭 Entertainment</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-400"}`}>20</span>
+                </button>
               </div>
             </div>
 
-            {/* Kids & Family Areas */}
-            <div className="bg-transparent p-0">
-              <h3 className="text-lg font-black uppercase text-white tracking-wider mb-6 border-b border-white/10 pb-3 flex items-center justify-between">
-                <span>Onboard Entertainment & Family Areas</span>
-                <span className="text-[var(--font-size-3xs)] font-mono font-bold text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20">
-                  ATTRACTIONS
-                </span>
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-white/80">
-                {[
-                  { name: "Back to the Future Musical", img: "/images/venues/broadway.png", tag: "Broadway Show" },
-                  { name: "Flowrider Surf Simulator", img: "/images/venues/surf.png", tag: "Surf Simulator" },
-                  { name: "Absolute Zero Ice Rink", img: "/images/venues/hideaway.png", tag: "Ice Arena" },
-                  { name: "Torque Racing Arena", img: "/images/venues/lime_coconut.png", tag: "E-Karting" },
-                  { name: "SOL Pool Zone", img: "/images/venues/lime_coconut.png", tag: "Top Deck Pool" },
-                  { name: "Create! Art Studio", img: "/images/venues/trellis.png", tag: "Craft Studio" },
-                  { name: "The Price is Right Game", img: "/images/venues/broadway.png", tag: "Game Show" },
-                  { name: "The Quest Adult Game", img: "/images/venues/broadway.png", tag: "Adult Show" },
-                  { name: "Comedy Live Theater", img: "/images/venues/broadway.png", tag: "Standup Comedy" },
-                  { name: "Headliner Concert Stage", img: "/images/venues/broadway.png", tag: "Live Concerts" },
-                  { name: "Spotlight Karaoke Box", img: "/images/venues/lime_coconut.png", tag: "Karaoke" },
-                  { name: "Music Hall Nightclub", img: "/images/venues/trellis.png", tag: "Nightclub" },
-                  { name: "Ultimate Family Townhouse", img: "/images/venues/hideaway.png", tag: "3-Story Suite" },
-                  { name: "Splashaway Bay", img: "/images/venues/lime_coconut.png", tag: "Water Park" },
-                  { name: "Adrenaline Peak Climb", img: "/images/venues/surf.png", tag: "Rock Climbing" },
-                  { name: "Adventure Ocean Kids Club", img: "/images/venues/trellis.png", tag: "Youth Program" },
-                  { name: "Central Park Gardens", img: "/images/venues/trellis.png", tag: "Nature Park" },
-                  { name: "Lost Dunes Mini Golf", img: "/images/venues/surf.png", tag: "Mini Golf" },
-                  { name: "Surfside Carousel", img: "/images/venues/lime_coconut.png", tag: "Carousel" },
-                  { name: "Royal Theater Mainstage", img: "/images/venues/broadway.png", tag: "Main Theater" },
-                ].map((act, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-5 bg-transparent hover:bg-white/[0.04] p-3 rounded-none transition-all duration-300 group cursor-pointer border-none"
-                  >
-                    <div className="relative w-36 h-36 md:w-40 md:h-40 rounded-none overflow-hidden shrink-0 border-none shadow-lg">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={act.img}
-                        alt={act.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 rounded-none"
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-extrabold text-white text-base md:text-lg leading-snug group-hover:text-purple-300 transition-colors">
-                        {act.name}
-                      </p>
-                      <span className="text-[var(--font-size-3xs)] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/15 border-none px-2.5 py-0.5 rounded-none inline-block mt-2 font-bold">
-                        {act.tag}
-                      </span>
+            {/* Full-Width 4-Column Bento Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-xs text-white/80 grid-flow-dense">
+              {(barTab === "bars"
+                ? [
+                    { name: "Lime & Coconut Bar", img: "/images/venues/lime_coconut.png", tag: "Poolside" },
+                    { name: "Rye & Beam", img: "/images/venues/lime_coconut.png", tag: "Bourbon" },
+                    { name: "Lemon Post Bar", img: "/images/venues/lime_coconut.png", tag: "Outdoor" },
+                    { name: "Swim & Tonic Pool Bar", img: "/images/venues/lime_coconut.png", tag: "Swim-Up" },
+                    { name: "The Hideaway Lounge", img: "/images/venues/hideaway.png", tag: "Adults Only" },
+                    { name: "Vue Bar", img: "/images/venues/hideaway.png", tag: "Ocean View" },
+                    { name: "Overlook Bar & Pods", img: "/images/venues/hideaway.png", tag: "AquaDome" },
+                    { name: "Basecamp Bar", img: "/images/venues/hideaway.png", tag: "Thrill Zone" },
+                    { name: "Trellis Bar", img: "/images/venues/trellis.png", tag: "Central Park" },
+                    { name: "Boleros Latin Bar", img: "/images/venues/trellis.png", tag: "Latin Dance" },
+                    { name: "Cantina Fresca", img: "/images/venues/trellis.png", tag: "Mexican" },
+                    { name: "Bubbles Champagne Bar", img: "/images/venues/trellis.png", tag: "Champagne" },
+                    { name: "Point & Feather Pub", img: "/images/venues/lime_coconut.png", tag: "English Pub" },
+                    { name: "Schooner Bar", img: "/images/venues/hideaway.png", tag: "Piano Lounge" },
+                    { name: "1400 Lobby Bar", img: "/images/venues/trellis.png", tag: "Atrium" },
+                    { name: "Dueling Pianos Lounge", img: "/images/venues/lime_coconut.png", tag: "Live Music" },
+                    { name: "Lou's Jazz & Blues", img: "/images/venues/hideaway.png", tag: "Jazz Club" },
+                    { name: "Music Hall Lounge", img: "/images/venues/trellis.png", tag: "Rock Venue" },
+                    { name: "Playmakers Lounge", img: "/images/venues/lime_coconut.png", tag: "Sports & Arcade" },
+                    { name: "Casino Royale Bar", img: "/images/venues/hideaway.png", tag: "Casino Lounge" },
+                  ]
+                : [
+                    { name: "Back to the Future Musical", img: "/images/venues/broadway.png", tag: "Broadway Show" },
+                    { name: "Flowrider Surf Simulator", img: "/images/venues/surf.png", tag: "Surf Simulator" },
+                    { name: "Absolute Zero Ice Rink", img: "/images/venues/hideaway.png", tag: "Ice Arena" },
+                    { name: "Torque Racing Arena", img: "/images/venues/lime_coconut.png", tag: "E-Karting" },
+                    { name: "SOL Pool Zone", img: "/images/venues/lime_coconut.png", tag: "Top Deck Pool" },
+                    { name: "Create! Art Studio", img: "/images/venues/trellis.png", tag: "Craft Studio" },
+                    { name: "The Price is Right Game", img: "/images/venues/broadway.png", tag: "Game Show" },
+                    { name: "The Quest Adult Game", img: "/images/venues/broadway.png", tag: "Adult Show" },
+                    { name: "Comedy Live Theater", img: "/images/venues/broadway.png", tag: "Standup Comedy" },
+                    { name: "Headliner Concert Stage", img: "/images/venues/broadway.png", tag: "Live Concerts" },
+                    { name: "Spotlight Karaoke Box", img: "/images/venues/lime_coconut.png", tag: "Karaoke" },
+                    { name: "Music Hall Nightclub", img: "/images/venues/trellis.png", tag: "Nightclub" },
+                    { name: "Ultimate Family Townhouse", img: "/images/venues/hideaway.png", tag: "3-Story Suite" },
+                    { name: "Splashaway Bay", img: "/images/venues/lime_coconut.png", tag: "Water Park" },
+                    { name: "Adrenaline Peak Climb", img: "/images/venues/surf.png", tag: "Rock Climbing" },
+                    { name: "Adventure Ocean Kids Club", img: "/images/venues/trellis.png", tag: "Youth Program" },
+                    { name: "Central Park Gardens", img: "/images/venues/trellis.png", tag: "Nature Park" },
+                    { name: "Lost Dunes Mini Golf", img: "/images/venues/surf.png", tag: "Mini Golf" },
+                    { name: "Surfside Carousel", img: "/images/venues/lime_coconut.png", tag: "Carousel" },
+                    { name: "Royal Theater Mainstage", img: "/images/venues/broadway.png", tag: "Main Theater" },
+                  ]
+              ).map((item, idx) => {
+                const isFeatured = idx === 0 || idx === 7 || idx === 14;
+                const isCyan = barTab === "bars";
+                return (
+                  <div key={idx} className={`relative rounded-2xl overflow-hidden group border border-white/10 ${isFeatured ? 'col-span-2 h-44 md:h-52' : 'h-36 md:h-40'}`}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-3.5 flex flex-col justify-end">
+                      <span className={`text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-0.5 rounded-full font-bold self-start mb-1.5 ${
+                        isCyan ? 'text-cyan-300 bg-cyan-500/30' : 'text-purple-300 bg-purple-500/30'
+                      }`}>{item.tag}</span>
+                      <p className="font-extrabold text-white text-sm md:text-base leading-snug">{item.name}</p>
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
           </div>
+
+
+
         </section>
 
       {/* ── SECTION 5: FAQS & HISTORY ── */}
@@ -2115,10 +2129,15 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Cruise History Section with 6 Interactive Layout Modes */}
+          {/* TEMPORARILY REMOVED FOR ISOLATION TESTING
           <React.Suspense fallback={null}>
             <CruiseHistoryTimeline history={CRUISE_HISTORY} />
           </React.Suspense>
+          */}
+
+
         </section>
-      </div>
+      </>)}
+    </div>
     );
 }

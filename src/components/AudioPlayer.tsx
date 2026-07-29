@@ -29,6 +29,11 @@ function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
   const drawRef = useRef<(time: number) => void>(() => {});
 
   const draw = useCallback((time: number) => {
+    // Skip during page transitions — frees frame budget for the wave
+    if ((window as any).__pageTransitionActive) {
+      stateRef.current.rafId = requestAnimationFrame((ts) => drawRef.current(ts / 1000));
+      return;
+    }
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");

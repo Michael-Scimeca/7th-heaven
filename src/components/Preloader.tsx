@@ -122,6 +122,17 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
   // Determine visibility after mount to avoid SSR hydration mismatch
   useEffect(() => {
     if (forceShow) { setVisible(true); return; }
+
+    // If we arrived here via the page-transition wave, the transition already handles
+    // the enter visual. Running the preloader's two rAF loops at the same time is what
+    // freezes the wave animation. Suppress and mark done so it won't show again.
+    if ((window as any).__pageTransitionActive) {
+      hasRanInMemory = true;
+      try { sessionStorage.setItem("7h_preloader_shown", "true"); } catch {}
+      setTimeout(() => { document.body.classList.remove("preloading"); }, 150);
+      return;
+    }
+
     // If the preloader won't show, reveal the page content after a short delay
     // so that Next.js streaming SSR has time to deliver the page content
     // before the page becomes visible (prevents footer flash before content).

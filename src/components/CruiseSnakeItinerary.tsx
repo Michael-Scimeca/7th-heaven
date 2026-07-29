@@ -341,8 +341,18 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     setMounted(true);
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    // Debounce: only update state 150ms after the user stops resizing
+    // (without this, every pixel of resize triggers a full re-render)
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    const debouncedCheck = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(checkMobile, 150);
+    };
+    window.addEventListener('resize', debouncedCheck, { passive: true });
+    return () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      window.removeEventListener('resize', debouncedCheck);
+    };
   }, []);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -450,14 +460,17 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     return d;
   };
 
-  // Initial static path for SSR
+  // Initial static path for SSR (used as d= on the SVG paths before the rAF loop starts)
   const initialPathD = buildWavyPath(0);
 
   // Animate the path ripples over time + scroll-driven fill
   useEffect(() => {
     let running = true;
-    const allPaths = [trackRef, fillRef, currentRef, highlightRef];
+    let rafId: number;
     let currentFillOffset = 99999;
+    // Cache path length — getTotalLength() forces browser layout and is expensive.
+    // Compute once (it never changes for a static path) and reuse every frame.
+    let cachedTotalLen = -1;
 
     const tick = (time: number) => {
       if (!running) return;
@@ -468,10 +481,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       const canvas = canvasRef.current;
       const fill = fillRef.current;
       if (canvas && fill) {
-        const totalLen = fill.getTotalLength();
+        // Compute path length only once — force-reflow every frame was the cursor freeze
+        if (cachedTotalLen < 0) {
+          cachedTotalLen = fill.getTotalLength();
+          fill.style.strokeDasharray = `${cachedTotalLen}`;
+        }
+        const totalLen = cachedTotalLen;
         if (currentFillOffset > totalLen) currentFillOffset = totalLen;
-
-        fill.style.strokeDasharray = `${totalLen}`;
 
         const rect = canvas.getBoundingClientRect();
         const viewH = window.innerHeight;
@@ -580,13 +596,30 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }
       }
 
-      requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
     };
 
-    requestAnimationFrame(tick);
-    return () => { running = false; };
+    // getTotalLength() + getPointAtLength() force browser layout reflow every frame.
+    // Starting this loop while the page-transition wave is animating stalls the wave's
+    // own rAF and causes it to freeze mid-animation. Defer until the wave exits.
+    const startLoop = () => { if (running) rafId = requestAnimationFrame(tick); };
+
+    if ((window as any).__pageTransitionActive) {
+      window.addEventListener('7h:pagetransition:done', startLoop, { once: true });
+      const fallback = setTimeout(startLoop, 3000);
+      return () => {
+        running = false;
+        cancelAnimationFrame(rafId);
+        clearTimeout(fallback);
+        window.removeEventListener('7h:pagetransition:done', startLoop);
+      };
+    } else {
+      startLoop();
+      return () => { running = false; cancelAnimationFrame(rafId); };
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itinerary.length, layoutMode]);
+
 
   /* ── Scroll-driven card reveal ── */
   useEffect(() => {

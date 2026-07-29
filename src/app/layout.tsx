@@ -16,8 +16,7 @@ import { VisualEditing } from "next-sanity/visual-editing";
 
 import { draftMode } from "next/headers";
 import { PageNav } from "@/components/PageNav";
-import { DevPerformancePanel } from "@/components/DevPerformancePanel";
-import DirectMessageChat from "@/components/DirectMessageChat";
+import ClientOnlyExtras from "@/components/ClientOnlyExtras";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -194,9 +193,8 @@ export default async function RootLayout({
                 <SanityLive />
                 {isDraftMode && <VisualEditing />}
                 
-                <DirectMessageChat />
+                <ClientOnlyExtras />
                 <PageNav />
-                <DevPerformancePanel />
               </div>
             </SmoothScroll>
           </Providers>

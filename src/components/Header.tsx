@@ -7,6 +7,7 @@ import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
+import { useTransition } from "@/context/TransitionContext";
 
 const leftNavLinks = [
   { href: "/news", label: "NEWS" },
@@ -20,11 +21,19 @@ const leftNavLinks = [
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const { mode, pendingHref } = useTransition();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isCrewLive, setIsCrewLive] = useState(false);
   const [hasLiveStreams, setHasLiveStreams] = useState(false);
   const { member, isLoggedIn, openModal, logout } = useMember();
+
+  // During a transition the pathname hasn't changed yet (we delay navigation).
+  // Use the pending destination so the correct nav link highlights immediately.
+  const effectivePathname =
+    (mode === "covering" || mode === "covered") && pendingHref
+      ? pendingHref
+      : pathname;
 
   const isDemoFanPage = pathname === "/fans/demo";
   const isDemoCruisePage = pathname === "/cruise/demo";
@@ -193,8 +202,9 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider transition-colors duration-200 ${pathname === link.href ? "text-white" : "text-white/80 hover:text-white"
-                  }`}
+              className={`text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider transition-colors duration-200 ${
+                  effectivePathname === link.href ? "text-white" : "text-white/80 hover:text-white"
+                }`}
               >
                 {link.label}
               </Link>
@@ -243,23 +253,13 @@ export function Header() {
               <CruiseWaveAnimation />
             </Link>
 
-            {/* Book Us pill button with spark accents */}
-            <div className="hidden min-[1401px]:flex flex-col items-center justify-center relative">
-              {/* Top dashes \ | / */}
-              <div className="flex items-center gap-1 text-white/40 text-[var(--font-size-5xs)] leading-none mb-[2px] pointer-events-none tracking-widest font-mono">
-                <span>\</span>
-                <span>|</span>
-                <span>/</span>
-              </div>
-
-              <Link
-                href="/book"
-                className="px-4 py-1.5 border-2 border-white rounded-[18px] text-white text-[clamp(10px,1.0vw,15px)] font-semibold uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_12px_rgba(255,255,255,0.2)]"
-              >
-                BOOK US
-              </Link>
-
-            </div>
+            {/* Book Us link */}
+            <Link
+              href="/book"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+            >
+              BOOK US
+            </Link>
 
             {/* Contact link */}
             <Link
@@ -404,7 +404,7 @@ export function Header() {
               <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">FAN WALL</Link>
               <Link href="/live" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">LIVE</Link>
               <Link href="/cruise" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">CRUISE</Link>
-              <Link href="/book" onClick={() => setMobileOpen(false)} className="px-6 py-2 border-2 border-white rounded-[20px] text-white text-2xl font-black uppercase mt-3">BOOK US</Link>
+              <Link href="/book" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BOOK US</Link>
               <Link href="/contact" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">CONTACT</Link>
               {isLoggedIn ? (
                 <button

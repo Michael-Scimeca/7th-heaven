@@ -48,6 +48,12 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     (href: string) => {
       setModeState((prev) => {
         if (prev !== "idle") return prev; // already animating
+        // Set the global flag SYNCHRONOUSLY so that canvas rAF loops on the
+        // current page see it immediately and skip their expensive draw calls.
+        // This frees up frame budget for Phase 1 before any useEffect fires.
+        if (typeof window !== "undefined") {
+          (window as any).__pageTransitionActive = true;
+        }
         setPendingHref(href);
         return "covering";
       });

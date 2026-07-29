@@ -1,25 +1,30 @@
 import Image from "next/image";
 import Link from "next/link";
-
-import VideoSection from "@/components/VideoSection";
-import BehindTheScenes from "@/components/BehindTheScenes";
-import ProximityNotify from "@/components/ProximityNotify";
-import Logo from "@/components/Logo";
-import LiveStatusSign from "@/components/LiveStatusSign";
-import TourMap from "@/components/TourMap";
+import dynamic from "next/dynamic";
 import { getShowDateTime } from "@/lib/date-utils";
-import TourList from "@/components/TourList";
-import HeroUpcomingShows from "@/components/HeroUpcomingShows";
-import HomeMerch from "@/components/HomeMerch";
-import FeaturedTrack from "@/components/FeaturedTrack";
-import HeroLiveThumbs from "@/components/HeroLiveThumbs";
-import HeroAlbumPlayer from "@/components/HeroAlbumPlayer";
-import VinylHeroPlayer from "@/components/VinylHeroPlayer";
-import HeroVideoPlayer from "@/components/HeroVideoPlayer";
 import { VENUE_LINKS } from "@/lib/venue-links";
 import { sanityClient, queries, SanityBandMember, SanityTourDate, SanitySiteSettings } from "@/lib/sanity";
+
+// Above-the-fold, needed for initial render
+import VideoSection from "@/components/VideoSection";
+import Logo from "@/components/Logo";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
-import CanvasLightsWrapper from "@/components/CanvasLightsWrapper";
+import HeroUpcomingShows from "@/components/HeroUpcomingShows";
+import LiveStatusSign from "@/components/LiveStatusSign";
+
+// Lazy-loaded: canvas/rAF components only load when rendered
+const VinylHeroPlayer   = dynamic(() => import("@/components/VinylHeroPlayer"),   { ssr: false });
+const HeroVideoPlayer   = dynamic(() => import("@/components/HeroVideoPlayer"),   { ssr: false });
+const HeroAlbumPlayer   = dynamic(() => import("@/components/HeroAlbumPlayer"),   { ssr: false });
+const HeroLiveThumbs    = dynamic(() => import("@/components/HeroLiveThumbs"),    { ssr: false });
+const TourList          = dynamic(() => import("@/components/TourList"),          { ssr: false });
+const TourMap           = dynamic(() => import("@/components/TourMap"),           { ssr: false });
+const BehindTheScenes   = dynamic(() => import("@/components/BehindTheScenes"),   { ssr: false });
+const ProximityNotify   = dynamic(() => import("@/components/ProximityNotify"),   { ssr: false });
+const HomeMerch         = dynamic(() => import("@/components/HomeMerch"),         { ssr: false });
+const FeaturedTrack     = dynamic(() => import("@/components/FeaturedTrack"),     { ssr: false });
+
+
 
 const FALLBACK_STATS = [
  { number: "40+", label: "Years Performing" },
