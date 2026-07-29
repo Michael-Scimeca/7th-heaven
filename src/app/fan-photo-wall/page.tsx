@@ -158,65 +158,103 @@ export default function FansPage() {
   const approvedPhotos = isModerator ? photos.filter((p) => p.approved) : photos;
 
   return (
-    <section className="py-32 min-h-screen" id="fan-wall">
-      <div className="site-container">
-        {/* Header */}
-        <div className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">
-              Community
-            </span>
-            <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-tight tracking-tight text-white">
-              Fan Photo & Video <span className="gradient-text">Wall</span>
-            </h1>
-            <p className="text-white/40 mt-3 max-w-lg text-base">
-              Share your best moments from 7th Heaven shows. Upload your photos and videos and join the wall!
-            </p>
-
-            {/* Login Promo badge if guest */}
-            {!effectivelyLoggedIn && (
-              <div className="mt-4 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs text-purple-200/90 max-w-lg flex items-center gap-3 animate-pulse">
-                <span className="text-base">🔒</span>
-                <p>
-                  You must be a <span className="font-extrabold text-white">Fan Member</span> to share your moments.{" "}
-                  <button
-                    onClick={() => openModal("signup")}
-                    className="underline font-bold text-white hover:text-purple-300 transition-colors"
-                  >
-                    Sign up free
-                  </button>{" "}
-                  or{" "}
-                  <button
-                    onClick={() => openModal("login")}
-                    className="underline font-bold text-white hover:text-purple-300 transition-colors"
-                  >
-                    sign in
-                  </button>
-                  .
-                </p>
-              </div>
-            )}
-          </div>
-          <button
-            onClick={() => {
-              if (!isLoggedIn) {
-                openModal("login");
-              } else {
-                setShowUpload(!showUpload);
-              }
-            }}
-            className="px-6 py-3 bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-widest rounded-lg hover:brightness-110 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(133,29,239,0.3)] cursor-pointer shrink-0 self-start md:self-auto"
-          >
-            📸 {showUpload ? "Hide Upload Form" : "Upload Photo / Video"}
-          </button>
+    <div className="min-h-screen">
+      {/* ── HERO SECTION WITH BACKGROUND IMAGE ── */}
+      <section className="relative pt-44 pb-20 overflow-hidden flex flex-col justify-center border-b border-white/10" id="fan-wall">
+        {/* Hero Background Image & Gradient Overlay */}
+        <div className="absolute inset-0 z-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/band-performance.png"
+            alt="7th Heaven Concert Crowd"
+            className="w-full h-full object-cover object-center scale-105 filter brightness-90 saturate-125"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[var(--color-bg-primary)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(133,29,239,0.25)_0%,transparent_70%)]" />
         </div>
 
-        {/* Dynamic Upload Form */}
-        {showUpload && effectivelyLoggedIn && (
-          <div className="mb-12 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
-            <FanUploadForm />
+        <div className="site-container relative z-10">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6">
+            <div>
+              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-purple-500/20 backdrop-blur-md border border-purple-400/40 text-purple-300 text-xs font-black uppercase tracking-[0.2em] mb-6 shadow-[0_0_20px_rgba(133,29,239,0.3)]">
+                <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse" />
+                COMMUNITY GALLERY & FAN MOMENTS
+              </div>
+
+              <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                FAN PHOTO & VIDEO <span className="gradient-text">WALL</span>
+              </h1>
+
+              <p className="text-white/60 mt-4 max-w-xl text-sm md:text-base leading-relaxed">
+                Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!
+              </p>
+
+              {/* Login Promo badge if guest */}
+              {!effectivelyLoggedIn && (
+                <div className="mt-5 p-4 rounded-2xl bg-black/40 backdrop-blur-md border border-purple-500/30 text-xs text-purple-200/90 max-w-lg flex items-center gap-3 shadow-xl">
+                  <span className="text-lg">🔒</span>
+                  <p>
+                    You must be a <span className="font-extrabold text-white">Fan Member</span> to share your moments.{" "}
+                    <button
+                      onClick={() => openModal("signup")}
+                      className="underline font-bold text-white hover:text-purple-300 transition-colors cursor-pointer"
+                    >
+                      Sign up free
+                    </button>{" "}
+                    or{" "}
+                    <button
+                      onClick={() => openModal("login")}
+                      className="underline font-bold text-white hover:text-purple-300 transition-colors cursor-pointer"
+                    >
+                      sign in
+                    </button>
+                    .
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={() => {
+                if (!isLoggedIn) {
+                  openModal("login");
+                } else {
+                  setShowUpload(!showUpload);
+                }
+              }}
+              className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-xl hover:brightness-110 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(133,29,239,0.4)] cursor-pointer shrink-0 self-start md:self-auto hover:scale-105"
+            >
+              <span className="text-lg">📸</span>
+              <span>{showUpload ? "Hide Upload Form" : "Upload Photo / Video"}</span>
+            </button>
           </div>
-        )}
+
+          {/* Stat Counter Pills */}
+          <div className="flex flex-wrap items-center gap-4 mt-8 pt-6 border-t border-white/10 text-xs font-extrabold uppercase tracking-widest text-white/70">
+            <span className="bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-purple-300 flex items-center gap-2">
+              <span>⚡</span> {photos.length} Total Moments Shared
+            </span>
+            <span className="bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-cyan-300 flex items-center gap-2">
+              <span>🎸</span> 40 Years of Shows
+            </span>
+            <span className="bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-amber-300 flex items-center gap-2">
+              <span>🌟</span> Top Fan Gallery
+            </span>
+          </div>
+
+          {/* Dynamic Upload Form */}
+          {showUpload && effectivelyLoggedIn && (
+            <div className="mt-10 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
+              <FanUploadForm />
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── PHOTO GRID & MODERATION SECTION ── */}
+      <section className="py-16 site-container">
+
 
         {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
         {isModerator && pendingPhotos.length > 0 && (
@@ -533,11 +571,10 @@ export default function FansPage() {
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="2.5"
                       strokeLinecap="round"
-                      strokeLinejoin="round"
                     >
                       <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+
                       <line x1="4" y1="22" x2="4" y2="15"></line>
                     </svg>
                     {flaggingId === selectedPhoto.id ? "Flagging..." : "Report"}
@@ -547,7 +584,11 @@ export default function FansPage() {
             </div>
           </div>
         )}
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
+
+
+
+
