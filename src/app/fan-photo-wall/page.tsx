@@ -165,10 +165,11 @@ export default function FansPage() {
         <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/band-performance.png"
-            alt="7th Heaven Concert Crowd"
+            src="https://img.youtube.com/vi/C0PQYmyaTFk/maxresdefault.jpg"
+            alt="7th Heaven Live at DeKalb Cornfest"
             className="w-full h-full object-cover object-center scale-105 filter brightness-90 saturate-125"
           />
+
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[var(--color-bg-primary)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(133,29,239,0.25)_0%,transparent_70%)]" />
         </div>
