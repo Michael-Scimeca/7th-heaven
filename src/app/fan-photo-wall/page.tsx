@@ -160,16 +160,17 @@ export default function FansPage() {
   return (
     <div className="min-h-screen">
       {/* ── HERO SECTION WITH BACKGROUND IMAGE ── */}
-      <section className="relative pt-44 pb-20 overflow-hidden flex flex-col justify-center border-b border-white/10" id="fan-wall">
+      <section className="relative pt-28 pb-8 overflow-hidden flex flex-col justify-center border-b border-white/10" id="fan-wall">
         {/* Hero Background Image & Gradient Overlay */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://img.youtube.com/vi/C0PQYmyaTFk/maxresdefault.jpg"
             alt="7th Heaven Live at DeKalb Cornfest"
-            className="w-full h-[130%] -translate-y-[15%] object-cover filter brightness-90 saturate-125 opacity-70"
-            style={{ objectPosition: "center 10%" }}
+            className="w-full h-[180%] -translate-y-[45%] object-cover filter brightness-90 saturate-125 opacity-75"
+            style={{ objectPosition: "center 0%" }}
           />
+
 
 
 
