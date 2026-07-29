@@ -167,8 +167,10 @@ export default function FansPage() {
           <img
             src="https://img.youtube.com/vi/C0PQYmyaTFk/maxresdefault.jpg"
             alt="7th Heaven Live at DeKalb Cornfest"
-            className="w-full h-full object-cover object-top scale-105 filter brightness-90 saturate-125 opacity-70"
+            className="w-full h-[130%] -translate-y-[15%] object-cover filter brightness-90 saturate-125 opacity-70"
+            style={{ objectPosition: "center 10%" }}
           />
+
 
 
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[var(--color-bg-primary)]" />
