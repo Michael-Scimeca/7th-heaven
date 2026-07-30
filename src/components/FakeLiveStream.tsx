@@ -1733,7 +1733,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
       {/* ── Main layout ── */}
       <section
-        className="fixed bottom-0 left-0 right-0 top-[72px] z-40 flex flex-col overflow-hidden"
+        className="fixed bottom-0 left-0 right-0 top-[120px] z-40 flex flex-col overflow-hidden"
         style={{ background: '#07070a' }}
       >
 
