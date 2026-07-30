@@ -10,9 +10,9 @@ export const revalidate = 60;
 
 const FALLBACK_CONTACTS = [
  { category: "Booking", company: "NTD Management", name: null, email: "info@NTDManagement.com", phone: "847-551-5363", note: null },
- { category: "Press • Media", company: "NTD Records", name: "Lenny Rago", email: "LRago@NTDRecords.com", phone: "847-269-6200", note: "No Bookings" },
- { category: "Technical • Production • Advance", company: null, name: "Jeff Dobbs", email: "jeffdobbs64@yahoo.com", phone: "847-772-5333", note: "No Bookings" },
- { category: "Advance — Non-Technical", company: null, name: "Alan McRae", email: "Alan@NTDManagement.com", phone: "630-842-9129", note: "No Bookings" },
+ { category: "Press • Media", company: "NTD Records", name: "Lenny Rago", email: "LRago@NTDRecords.com", phone: "847-269-6200", note: null },
+ { category: "Technical • Production • Advance", company: null, name: "Jeff Dobbs", email: "jeffdobbs64@yahoo.com", phone: "847-772-5333", note: null },
+ { category: "Advance — Non-Technical", company: null, name: "Alan McRae", email: "Alan@NTDManagement.com", phone: "630-842-9129", note: null },
 ];
 
 export default async function ContactPage() {
@@ -38,9 +38,6 @@ export default async function ContactPage() {
  <div key={i} className="py-6 px-2 flex flex-col justify-between bg-transparent border-none" id={`contact-card-${i}`}>
  <div className="flex items-start justify-between gap-4 mb-3">
  <h3 className="font-[var(--font-heading)] text-xl font-black text-[var(--color-accent)]">{contact.category}</h3>
- {contact.note && (
- <span className="shrink-0 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-warning)]">{contact.note}</span>
- )}
  </div>
  {contact.company && <p className="text-sm font-bold text-white/90 mb-0.5">{contact.company}</p>}
  {contact.name && <p className="text-sm text-white/60 mb-4">{contact.name}</p>}
