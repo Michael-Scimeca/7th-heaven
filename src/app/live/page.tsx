@@ -233,19 +233,12 @@ export default function LiveHubPage() {
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen pt-[120px] pb-24 w-full" style={{ background: "var(--color-bg-primary)" }}>
+    <section className="min-h-screen pt-[95px] pb-24 w-full" style={{ background: "var(--color-bg-primary)" }}>
       <div className="w-full px-0">
 
 
         {/* ── HEADER ── */}
         <div className="w-full px-6 md:px-12 mb-10">
-
-          {/* Demo bar */}
-          <div className="flex items-center gap-3 px-5 py-3 rounded-xl mb-8 w-fit" style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.2)" }}>
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#fbbf24" }} />
-            <span className="text-xs font-black uppercase tracking-widest" style={{ color: "#fbbf24" }}>Demo Mode</span>
-            <span className="text-xs" style={{ color: "rgba(251,191,36,0.5)" }}>— Simulated crew streams for client preview</span>
-          </div>
 
           {/* Title row */}
           <div className="text-left mb-10">

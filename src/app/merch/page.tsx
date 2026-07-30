@@ -256,10 +256,10 @@ function MerchDashboard() {
   const claimedPickups = pickupQueue.filter(o => o.claimed);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[72px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[95px]" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Header — sits below global nav */}
-      <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[72px] z-20">
+      <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <p className="text-xs text-pink-500 font-black uppercase tracking-[0.3em]">7th Heaven</p>
