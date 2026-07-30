@@ -160,7 +160,7 @@ export default function FansPage() {
   return (
     <div className="min-h-screen">
       {/* ── HERO SECTION WITH BACKGROUND IMAGE ── */}
-      <section className="relative pt-28 pb-8 overflow-hidden flex flex-col justify-center border-b border-white/10" id="fan-wall">
+      <section className="relative pt-[95px] pb-8 overflow-hidden flex flex-col justify-center border-b border-white/10" id="fan-wall">
         {/* Hero Background Image & Gradient Overlay */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}

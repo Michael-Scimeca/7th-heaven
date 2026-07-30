@@ -594,7 +594,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   return (
     <div className="min-h-screen overflow-x-hidden max-w-full">
       {/* ── SECTION 1: HERO ── */}
-      <section className="relative flex flex-col justify-center overflow-hidden pt-44 pb-16">
+      <section className="relative flex flex-col justify-center overflow-hidden pt-[95px] pb-16">
         <div className="absolute inset-0">
           <video
             autoPlay

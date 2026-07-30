@@ -293,7 +293,7 @@ export default function ShowPageClient({
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-[72px]">
+    <div className="min-h-screen bg-[#050505] text-white pt-[95px]">
 
       {/* ── LIVE FEED BANNER ─────────────────────────────────────── */}
       {liveFeeds.length > 0 && (
