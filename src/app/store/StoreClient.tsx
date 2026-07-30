@@ -140,7 +140,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
   };
 
   return (
-    <section className="pt-[110px] pb-32 min-h-screen" id="store">
+    <section className="pt-[120px] pb-32 min-h-screen" id="store">
       <div className="site-container">
 
         {/* Header */}

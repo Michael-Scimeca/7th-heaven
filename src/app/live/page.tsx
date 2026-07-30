@@ -233,7 +233,7 @@ export default function LiveHubPage() {
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen pt-[110px] pb-24 w-full" style={{ background: "var(--color-bg-primary)" }}>
+    <section className="min-h-screen pt-[120px] pb-24 w-full" style={{ background: "var(--color-bg-primary)" }}>
       <div className="w-full px-0">
 
 

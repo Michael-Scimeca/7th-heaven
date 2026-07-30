@@ -66,11 +66,11 @@ export default function VideoPage() {
     .filter(cat => cat.videos.length > 0);
 
   return (
-    <div className="pt-[72px] min-h-screen">
+    <div className="min-h-screen">
 
-      {/* ── FEATURED HERO (Netflix-style) ── */}
+      {/* ── FEATURED HERO (100vh Full Screen) ── */}
       {featuredVideo && (
-        <section className="relative bg-black overflow-hidden" style={{ minHeight: "clamp(500px, 85vh, 900px)" }}>
+        <section className="relative bg-black overflow-hidden h-screen w-full">
           {/* Background — either static image or full-screen YouTube */}
           <div className="absolute inset-0">
             {heroPlaying ? (
@@ -119,7 +119,7 @@ export default function VideoPage() {
 
           {/* Hero content — hidden when video is playing */}
           {!heroPlaying && (
-            <div className="relative z-10 site-container flex items-end pb-16" style={{ minHeight: "clamp(500px, 85vh, 900px)" }}>
+            <div className="relative z-10 site-container flex items-end pb-24 h-screen">
               <div className="max-w-lg">
                 <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-3 block flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
