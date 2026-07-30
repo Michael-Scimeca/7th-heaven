@@ -144,20 +144,20 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
       <div className="site-container">
 
         {/* Header */}
-        <div className="mb-6 text-center">
+        <div className="mb-6 text-left flex flex-col items-start">
           <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">
             Official Store
           </span>
-          <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-tight tracking-tight text-white">
+          <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-tight tracking-tight text-white text-left">
             Band <span className="gradient-text">Merch</span>
           </h1>
-          <p className="text-white/40 mt-4 max-w-lg mx-auto text-base">
+          <p className="text-white/40 mt-4 max-w-lg text-base text-left">
             Apparel, Music, and more directly from the band.
           </p>
         </div>
 
         {/* Category filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-14">
+        <div className="flex flex-wrap justify-start gap-2 mb-14">
           {categories.map(cat => (
             <button
               key={cat}
