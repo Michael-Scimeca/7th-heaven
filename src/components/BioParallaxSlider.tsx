@@ -83,21 +83,21 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const adamCenterIdx = 2; // Index 2 is Adam Heisler
   const [activeIndex, setActiveIndex] = useState<number>(adamCenterIdx);
   
-  // Smooothy Default Physics & UI System Parameters
+  // Smooothy Physics & Tuned UI Configuration
   const [physicsMode, setPhysicsMode] = useState<"snap" | "free">("free");
-  const [lerpSpeed, setLerpSpeed] = useState<number>(0.12);
+  const [lerpSpeed, setLerpSpeed] = useState<number>(0.10);
   const [dragSens, setDragSens] = useState<number>(1.15);
   const [dragThreshold, setDragThreshold] = useState<number>(12);
 
-  // Tunable Stage & Cutout Size Controls
-  const [cardWidth, setCardWidth] = useState<number>(380);
-  const [imageHeight, setImageHeight] = useState<number>(380);
+  // Tunable Stage & Cutout Size Controls — Saved User Configuration
+  const [cardWidth, setCardWidth] = useState<number>(355);
+  const [imageHeight, setImageHeight] = useState<number>(510);
   const [imageScale, setImageScale] = useState<number>(1.15);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(0);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(4);
   const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
-  const [maxSkew, setMaxSkew] = useState<number>(12);
-  const [focalScale, setFocalScale] = useState<number>(1.18);
+  const [maxSkew, setMaxSkew] = useState<number>(11);
+  const [focalScale, setFocalScale] = useState<number>(1.28);
 
   // Tuner UI state
   const [showTuner, setShowTuner] = useState<boolean>(false);
@@ -138,15 +138,15 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   // Quick Presets
   const applyPreset = (preset: "default" | "compact" | "giant" | "grounded") => {
     if (preset === "default") {
-      setCardWidth(380);
-      setImageHeight(380);
+      setCardWidth(355);
+      setImageHeight(510);
       setImageScale(1.15);
-      setImageOffsetY(0);
-      setFocalScale(1.18);
+      setImageOffsetY(4);
+      setFocalScale(1.28);
       setGap(24);
       setParallaxDepth(0.14);
-      setMaxSkew(12);
-      setLerpSpeed(0.12);
+      setMaxSkew(11);
+      setLerpSpeed(0.10);
     } else if (preset === "compact") {
       setCardWidth(310);
       setImageHeight(310);
