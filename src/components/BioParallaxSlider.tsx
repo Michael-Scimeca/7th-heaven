@@ -93,7 +93,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [cardWidth, setCardWidth] = useState<number>(355);
   const [imageHeight, setImageHeight] = useState<number>(480);
   const [imageScale, setImageScale] = useState<number>(1.15);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(20);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(0);
   const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(11);
@@ -141,7 +141,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       setCardWidth(355);
       setImageHeight(480);
       setImageScale(1.15);
-      setImageOffsetY(20);
+      setImageOffsetY(0);
       setFocalScale(1.28);
       setGap(24);
       setParallaxDepth(0.14);
@@ -527,7 +527,7 @@ lerpSpeed: ${lerpSpeed}`;
                   key={i}
                   onClick={() => goToSlide(i)}
                   style={{ width: `${cardWidth}px` }}
-                  className="shrink-0 bg-transparent rounded-3xl p-4 md:p-6 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom"
+                  className="shrink-0 bg-transparent rounded-3xl px-4 md:px-6 pt-4 md:pt-6 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom"
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible">
