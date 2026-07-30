@@ -22,18 +22,18 @@ export default async function ContactPage() {
 
  return (
  <div className="pt-[72px]">
- <section className="pt-24 pb-10 text-center bg-gradient-to-b from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)]">
- <div className="site-container">
- <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Get in Touch</span>
- <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-tight tracking-tight">
+ <section className="pt-24 pb-10 text-left bg-gradient-to-b from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)]">
+ <div className="site-container flex flex-col items-start text-left">
+ <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">Get in Touch</span>
+ <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-tight tracking-tight text-left">
  Contact <span className="gradient-text">Info</span>
  </h1>
- <p className="text-lg text-[var(--color-text-secondary)] max-w-[600px] mx-auto mt-4">For booking, press inquiries, and production advance.</p>
+ <p className="text-lg text-[var(--color-text-secondary)] max-w-[600px] mt-4 text-left">For booking, press inquiries, and production advance.</p>
  </div>
  </section>
 
  <section className="py-16">
- <div className="site-container !max-w-[900px] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+ <div className="site-container grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
  {contacts.map((contact, i) => (
  <div key={i} className="py-6 px-2 flex flex-col justify-between bg-transparent border-none" id={`contact-card-${i}`}>
  <div className="flex items-start justify-between gap-4 mb-3">
