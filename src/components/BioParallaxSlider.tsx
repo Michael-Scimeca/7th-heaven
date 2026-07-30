@@ -82,17 +82,26 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const adamCenterIdx = 2; // Index 2 is Adam Heisler
   const [activeIndex, setActiveIndex] = useState<number>(adamCenterIdx);
-
-  // Smooothy Default Physics Parameters (Federico Valla Smooothy style)
+  
+  // Smooothy Default Physics & UI System Parameters
   const [physicsMode, setPhysicsMode] = useState<"snap" | "free">("free");
   const [lerpSpeed, setLerpSpeed] = useState<number>(0.12);
   const [dragSens, setDragSens] = useState<number>(1.15);
   const [dragThreshold, setDragThreshold] = useState<number>(12);
-  const [cardWidth, setCardWidth] = useState<number>(400);
-  const [gap, setGap] = useState<number>(28);
+
+  // Tunable Stage & Cutout Size Controls
+  const [cardWidth, setCardWidth] = useState<number>(380);
+  const [imageHeight, setImageHeight] = useState<number>(380);
+  const [imageScale, setImageScale] = useState<number>(1.15);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(0);
+  const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(12);
-  const [focalScale, setFocalScale] = useState<number>(1.22);
+  const [focalScale, setFocalScale] = useState<number>(1.18);
+
+  // Tuner UI state
+  const [showTuner, setShowTuner] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
 
   const itemTotalWidth = cardWidth + gap;
 
@@ -119,10 +128,73 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const isDraggingRef = useRef<boolean>(false);
   const dragStartXRef = useRef<number>(0);
   const dragStartTargetRef = useRef<number>(0);
+  const dragStartIdxRef = useRef<number>(adamCenterIdx);
   const lastClientXRef = useRef<number>(0);
+  const hasTriggeredRef = useRef<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+
+  // Quick Presets
+  const applyPreset = (preset: "default" | "compact" | "giant" | "grounded") => {
+    if (preset === "default") {
+      setCardWidth(380);
+      setImageHeight(380);
+      setImageScale(1.15);
+      setImageOffsetY(0);
+      setFocalScale(1.18);
+      setGap(24);
+      setParallaxDepth(0.14);
+      setMaxSkew(12);
+      setLerpSpeed(0.12);
+    } else if (preset === "compact") {
+      setCardWidth(310);
+      setImageHeight(310);
+      setImageScale(1.02);
+      setImageOffsetY(0);
+      setFocalScale(1.10);
+      setGap(18);
+      setParallaxDepth(0.10);
+      setMaxSkew(8);
+      setLerpSpeed(0.15);
+    } else if (preset === "giant") {
+      setCardWidth(450);
+      setImageHeight(450);
+      setImageScale(1.30);
+      setImageOffsetY(-20);
+      setFocalScale(1.25);
+      setGap(32);
+      setParallaxDepth(0.18);
+      setMaxSkew(15);
+      setLerpSpeed(0.10);
+    } else if (preset === "grounded") {
+      setCardWidth(360);
+      setImageHeight(360);
+      setImageScale(1.10);
+      setImageOffsetY(20);
+      setFocalScale(1.14);
+      setGap(20);
+      setParallaxDepth(0.12);
+      setMaxSkew(10);
+      setLerpSpeed(0.14);
+    }
+  };
+
+  const copyConfig = () => {
+    const config = `// Slider Configuration Settings
+cardWidth: ${cardWidth}px
+imageHeight: ${imageHeight}px
+imageScale: ${imageScale}x
+imageOffsetY: ${imageOffsetY}px
+focalScale: ${focalScale}x
+gap: ${gap}px
+parallaxDepth: ${parallaxDepth}
+maxSkew: ${maxSkew}°
+lerpSpeed: ${lerpSpeed}`;
+    navigator.clipboard.writeText(config);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   // Initialize position centered on Adam Heisler (index 2)
   useEffect(() => {
@@ -193,7 +265,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
           if (imgEl) {
             const cardOffset = i * itemTotalWidth - currentXRef.current;
             const parallaxX = cardOffset * parallaxDepthRef.current;
-            const speedScale = 1.25 + Math.min(Math.abs(vel) * 0.006, 0.08);
+            const speedScale = imageScale + Math.min(Math.abs(vel) * 0.005, 0.06);
             imgEl.style.transform = `translate3d(${parallaxX}px, 0, 0) scale(${speedScale})`;
 
             if (focalVal > 0.05) {
@@ -219,21 +291,13 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [itemTotalWidth, cardWidth, displayMembers.length]);
+  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale]);
 
   // Go to slide
-  const goToSlide = useCallback((index: number) => {
-    const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, index));
+  const goToSlide = (idx: number) => {
+    const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, idx));
     targetXRef.current = safeIdx * itemTotalWidth;
-  }, [displayMembers.length, itemTotalWidth]);
-
-
-
-  const physicsModeRef = useRef<"snap" | "free">(physicsMode);
-  useEffect(() => { physicsModeRef.current = physicsMode; }, [physicsMode]);
-
-  const hasTriggeredRef = useRef<boolean>(false);
-  const dragStartIdxRef = useRef<number>(2);
+  };
 
   // Pointer drag handlers — Live 1:1 visual dragging during move, slide transition on release
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -256,7 +320,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
     const maxTarget = (displayMembers.length - 1) * itemTotalWidth;
     const totalDelta = dragStartXRef.current - e.clientX;
 
-    // Trigger slide change immediately as soon as drag reaches 20px threshold in either direction!
+    // Trigger slide change immediately as soon as drag reaches threshold in either direction
     if (totalDelta >= dragThresholdRef.current) {
       hasTriggeredRef.current = true;
       goToSlide(dragStartIdxRef.current + 1);
@@ -267,7 +331,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       return;
     }
 
-    // Physical 1:1 visual dragging while under 20px threshold
+    // Physical 1:1 visual dragging while under threshold
     const totalDragOffset = totalDelta * dragSens;
     const newX = Math.max(0, Math.min(maxTarget, dragStartTargetRef.current + totalDragOffset));
     targetXRef.current = newX;
@@ -293,7 +357,141 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   };
 
   return (
-    <div className="w-full max-w-full overflow-visible min-h-[calc(100vh-80px)] flex flex-col justify-start select-none font-sans relative bg-black pt-2 pb-4">
+    <div className="w-full max-w-full overflow-visible min-h-[calc(100vh-130px)] flex flex-col justify-end select-none font-sans relative bg-black pt-2 pb-6">
+      
+      {/* ── FLOATING LIVE STAGE & SLIDER UI TUNER CONTROLS ── */}
+      <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end">
+        {!showTuner ? (
+          <button
+            onClick={() => setShowTuner(true)}
+            className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest rounded-2xl shadow-[0_0_40px_rgba(133,29,239,0.6)] transition-all hover:scale-105 flex items-center gap-2 cursor-pointer border border-white/20"
+          >
+            <span>⚙️ Slider UI Tuner</span>
+          </button>
+        ) : (
+          <div className="w-[340px] max-h-[80vh] overflow-y-auto bg-black/90 backdrop-blur-2xl border border-white/15 rounded-3xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.9)] text-white text-xs font-sans">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
+                <h4 className="font-black uppercase tracking-widest text-sm text-white">Slider UI System</h4>
+              </div>
+              <button
+                onClick={() => setShowTuner(false)}
+                className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Presets */}
+            <div className="mb-4">
+              <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">Quick Presets</p>
+              <div className="grid grid-cols-2 gap-1.5">
+                <button onClick={() => applyPreset("default")} className="px-3 py-1.5 bg-white/10 hover:bg-[var(--color-accent)] rounded-xl font-bold text-[11px] text-white/80 hover:text-white transition-all text-left">🎯 Default Hero</button>
+                <button onClick={() => applyPreset("compact")} className="px-3 py-1.5 bg-white/10 hover:bg-[var(--color-accent)] rounded-xl font-bold text-[11px] text-white/80 hover:text-white transition-all text-left">⚡ Compact</button>
+                <button onClick={() => applyPreset("giant")} className="px-3 py-1.5 bg-white/10 hover:bg-[var(--color-accent)] rounded-xl font-bold text-[11px] text-white/80 hover:text-white transition-all text-left">🚀 Giant Cutout</button>
+                <button onClick={() => applyPreset("grounded")} className="px-3 py-1.5 bg-white/10 hover:bg-[var(--color-accent)] rounded-xl font-bold text-[11px] text-white/80 hover:text-white transition-all text-left">⚓ Grounded</button>
+              </div>
+            </div>
+
+            {/* Sliders */}
+            <div className="space-y-3.5 mb-5 border-t border-white/10 pt-4">
+              {/* Card Width */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>Card Width</span>
+                  <span className="text-[var(--color-accent)]">{cardWidth}px</span>
+                </div>
+                <input type="range" min="260" max="520" step="5" value={cardWidth} onChange={e => setCardWidth(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+
+              {/* Cutout Image Height */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>Photo Cutout Height</span>
+                  <span className="text-[var(--color-accent)]">{imageHeight}px</span>
+                </div>
+                <input type="range" min="260" max="540" step="5" value={imageHeight} onChange={e => setImageHeight(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+
+              {/* Photo Zoom / Scale */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>Photo Zoom Scale</span>
+                  <span className="text-[var(--color-accent)]">{imageScale.toFixed(2)}x</span>
+                </div>
+                <input type="range" min="0.80" max="1.45" step="0.01" value={imageScale} onChange={e => setImageScale(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+
+              {/* Photo Offset Y */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>Photo Y-Offset (Up/Down)</span>
+                  <span className="text-[var(--color-accent)]">{imageOffsetY}px</span>
+                </div>
+                <input type="range" min="-80" max="80" step="2" value={imageOffsetY} onChange={e => setImageOffsetY(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+
+              {/* Focal Scale */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>Center Focal Zoom</span>
+                  <span className="text-[var(--color-accent)]">{focalScale.toFixed(2)}x</span>
+                </div>
+                <input type="range" min="1.00" max="1.40" step="0.01" value={focalScale} onChange={e => setFocalScale(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+
+              {/* Parallax Depth */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>3D Parallax Depth</span>
+                  <span className="text-[var(--color-accent)]">{parallaxDepth.toFixed(2)}</span>
+                </div>
+                <input type="range" min="0.00" max="0.30" step="0.01" value={parallaxDepth} onChange={e => setParallaxDepth(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+
+              {/* Speed Skew */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>Velocity Skew Angle</span>
+                  <span className="text-[var(--color-accent)]">{maxSkew}°</span>
+                </div>
+                <input type="range" min="0" max="25" step="1" value={maxSkew} onChange={e => setMaxSkew(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+
+              {/* Lerp Speed */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>Inertia Speed (Lerp)</span>
+                  <span className="text-[var(--color-accent)]">{lerpSpeed.toFixed(2)}</span>
+                </div>
+                <input type="range" min="0.04" max="0.30" step="0.01" value={lerpSpeed} onChange={e => setLerpSpeed(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+
+              {/* Gap Spacing */}
+              <div>
+                <div className="flex justify-between font-bold text-white/80 mb-1">
+                  <span>Card Gap Spacing</span>
+                  <span className="text-[var(--color-accent)]">{gap}px</span>
+                </div>
+                <input type="range" min="10" max="60" step="2" value={gap} onChange={e => setGap(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+              <button
+                onClick={copyConfig}
+                className="w-full py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] font-black uppercase tracking-widest text-white rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+              >
+                {copied ? "✓ Configuration Copied!" : "📋 Copy Settings"}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* 100VW FULL-SCREEN STAGE CONTAINER */}
       <div className="w-full relative overflow-visible">
 
@@ -305,12 +503,12 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           style={{ touchAction: "pan-y" }}
-          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative py-4"
+          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative py-2"
         >
           {/* TRACK ELEMENT */}
           <div
             ref={trackRef}
-            className="will-change-transform flex items-center py-2"
+            className="will-change-transform flex items-end py-2"
             style={{ gap: `${gap}px`, width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
@@ -328,11 +526,11 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
                   key={i}
                   onClick={() => goToSlide(i)}
                   style={{ width: `${cardWidth}px` }}
-                  className="shrink-0 h-[540px] md:h-[620px] bg-transparent rounded-3xl p-6 md:p-8 relative overflow-visible cursor-pointer flex flex-col justify-between"
+                  className="shrink-0 bg-transparent rounded-3xl p-4 md:p-6 relative overflow-visible cursor-pointer flex flex-col justify-end"
                 >
-                  <div className="relative z-10 flex flex-col justify-between h-full overflow-visible">
+                  <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible">
-                      <div className="flex justify-between items-start mb-6 md:mb-10 overflow-visible relative z-30 pointer-events-none">
+                      <div className="flex justify-between items-start mb-4 overflow-visible relative z-30 pointer-events-none">
                         <div className="whitespace-nowrap overflow-visible">
                           <span className="text-[var(--font-size-4xs)] font-bold uppercase text-cyan-400 tracking-wider block mb-0.5 whitespace-nowrap drop-shadow-[0_2px_8px_rgba(0,0,0,1)] [text-shadow:_0_2px_12px_rgb(0_0_0_/_100%),_0_1px_4px_rgb(0_0_0_/_100%)]">
                             {m?.role}
@@ -348,13 +546,23 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
                         )}
                       </div>
 
-                      {/* 1.25x Member Photo Cutout — Completely Unclipped (overflow-visible) */}
-                      <div className="h-[400px] md:h-[460px] relative flex items-end justify-center mt-4 md:mt-8 overflow-visible bg-transparent">
+                      {/* Dynamic Sized Member Photo Cutout */}
+                      <div
+                        className="relative flex items-end justify-center overflow-visible bg-transparent transition-all duration-150 origin-bottom"
+                        style={{
+                          height: `${imageHeight}px`,
+                          transform: `translateY(${imageOffsetY}px)`
+                        }}
+                      >
                         <img
                           src={imageSrc}
                           alt={m?.name}
                           draggable={false}
-                          className="smooothy-img max-h-[400px] md:max-h-[460px] w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none scale-[1.25] origin-bottom"
+                          className="smooothy-img w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom"
+                          style={{
+                            maxHeight: `${imageHeight}px`,
+                            transform: `scale(${imageScale})`
+                          }}
                         />
                       </div>
                     </div>
