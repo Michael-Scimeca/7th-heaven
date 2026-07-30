@@ -96,7 +96,7 @@ export function Footer() {
 
   return (
     <footer
-      className="relative bg-black pt-24 pb-32 md:pb-24 overflow-hidden border-t border-white/5"
+      className="relative bg-black pt-24 pb-32 md:pb-24 overflow-hidden"
       id="footer"
       suppressHydrationWarning
       style={{
@@ -127,7 +127,7 @@ export function Footer() {
       </div>
 
       {/* SMS Text Alerts */}
-      <div className="site-container py-12 border-t border-white/5" suppressHydrationWarning>
+      <div className="site-container py-12" suppressHydrationWarning>
         <div className="max-w-lg" suppressHydrationWarning>
           <div className="flex items-center gap-3 mb-1" suppressHydrationWarning>
             <span className="text-lg">📱</span>
@@ -211,7 +211,7 @@ export function Footer() {
       </div>
 
       {/* Endorsements */}
-      <div className="site-container border-t border-white/5 py-16 text-center">
+      <div className="site-container py-16 text-center">
         <p className="text-xs font-black uppercase tracking-[0.3em] text-white/20 mb-12">Official Gear Endorsements</p>
         <div className="flex flex-wrap justify-center items-center gap-x-14 gap-y-10 px-4">
           {endorsements.map((brand) => (
@@ -230,7 +230,7 @@ export function Footer() {
       </div>
 
       {/* Inline Links Row — MOVED TO BOTTOM */}
-      <div className="site-container border-t border-white/10 py-6">
+      <div className="site-container py-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           {/* Nav Links */}
           <div className="flex flex-wrap items-center gap-6">
@@ -273,7 +273,7 @@ export function Footer() {
       </div>
 
       {/* Legal Bottom */}
-      <div className="site-container border-t border-white/5 pt-8 pb-16 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="site-container pt-8 pb-16 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 text-sm font-black uppercase tracking-widest text-white/30 mt-4 md:mt-0">
           <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
