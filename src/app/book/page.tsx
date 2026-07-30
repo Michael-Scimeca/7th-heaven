@@ -786,10 +786,9 @@ function BookPageContent() {
         {/* Planner Account CTA */}
         {!isFromPlanner && (
           member?.role === 'event_planner' ? (
-            <div className="relative bg-gradient-to-r from-purple-600/10 via-fuchsia-500/10 to-purple-600/10 border border-purple-500/25 rounded-2xl px-8 py-6 flex items-center justify-between gap-6 overflow-hidden mb-8">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_rgba(147,51,234,0.08),_transparent_60%)]" />
-              <div className="flex items-center gap-5 relative">
-                <div className="w-14 h-14 rounded-2xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(147,51,234,0.15)]">
+            <div className="flex items-center justify-between gap-6 mb-8 py-2">
+              <div className="flex items-center gap-5">
+                <div className="w-12 h-12 flex items-center justify-center shrink-0">
                   <span className="text-lg font-black text-purple-400">{member?.name?.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() || '👋'}</span>
                 </div>
                 <div>
@@ -797,15 +796,14 @@ function BookPageContent() {
                   <p className="text-white/40 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
                 </div>
               </div>
-              <Link href="/planner" className="relative px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
+              <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
                 My Dashboard →
               </Link>
             </div>
           ) : (
-            <div className="relative bg-gradient-to-r from-purple-600/10 via-fuchsia-500/10 to-purple-600/10 border border-purple-500/25 rounded-2xl px-8 py-6 flex items-center justify-between gap-6 overflow-hidden mb-8">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_rgba(147,51,234,0.08),_transparent_60%)]" />
-              <div className="flex items-center gap-5 relative">
-                <div className="w-14 h-14 rounded-2xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(147,51,234,0.15)]">
+            <div className="flex items-center justify-between gap-6 mb-8 py-2">
+              <div className="flex items-center gap-5">
+                <div className="w-12 h-12 flex items-center justify-center shrink-0">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 </div>
                 <div>
@@ -813,7 +811,7 @@ function BookPageContent() {
                   <p className="text-white/40 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
                 </div>
               </div>
-              <Link href="/planner?login=true" className="relative px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
+              <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
                 Planner Portal →
               </Link>
             </div>
