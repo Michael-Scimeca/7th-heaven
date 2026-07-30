@@ -83,16 +83,16 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const adamCenterIdx = 2; // Index 2 is Adam Heisler
   const [activeIndex, setActiveIndex] = useState<number>(adamCenterIdx);
 
-  // Full Interactive Physics & Stage Controls
+  // Smooothy Default Physics Parameters (Federico Valla Smooothy style)
   const [physicsMode, setPhysicsMode] = useState<"snap" | "free">("free");
-  const [lerpSpeed, setLerpSpeed] = useState<number>(0.20);
-  const [dragSens, setDragSens] = useState<number>(1.0);
-  const [dragThreshold, setDragThreshold] = useState<number>(15);
+  const [lerpSpeed, setLerpSpeed] = useState<number>(0.12);
+  const [dragSens, setDragSens] = useState<number>(1.15);
+  const [dragThreshold, setDragThreshold] = useState<number>(12);
   const [cardWidth, setCardWidth] = useState<number>(400);
   const [gap, setGap] = useState<number>(28);
-  const [parallaxDepth, setParallaxDepth] = useState<number>(0.05);
-  const [maxSkew, setMaxSkew] = useState<number>(8);
-  const [focalScale, setFocalScale] = useState<number>(1.20);
+  const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
+  const [maxSkew, setMaxSkew] = useState<number>(12);
+  const [focalScale, setFocalScale] = useState<number>(1.22);
 
   const itemTotalWidth = cardWidth + gap;
 
@@ -130,20 +130,20 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
     currentXRef.current = adamCenterIdx * itemTotalWidth;
   }, [adamCenterIdx, itemTotalWidth]);
 
-  // 60fps Lerp physics loop
+  // 60fps Smooothy Lerp physics loop
   useEffect(() => {
     let lastX = currentXRef.current;
 
     const updatePhysics = () => {
-      // Lerp current position to target position using active slider speed
+      // Lerp current position to target position using Smooothy inertia factor
       const diff = targetXRef.current - currentXRef.current;
-      if (Math.abs(diff) < 0.5) {
+      if (Math.abs(diff) < 0.1) {
         currentXRef.current = targetXRef.current;
       } else {
         currentXRef.current += diff * lerpSpeedRef.current;
       }
 
-      // Velocity
+      // Velocity calculation
       const vel = currentXRef.current - lastX;
       lastX = currentXRef.current;
       velocityRef.current = vel;
@@ -162,17 +162,17 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
         for (let i = 0; i < cardEls.length; i++) {
           const card = cardEls[i] as HTMLElement;
           const imgEl = card.querySelector(".smooothy-img") as HTMLElement | null;
-          const bgNumEl = card.querySelector(".smooothy-num") as HTMLElement | null;
 
           // Distance in slide units from center focal point
           const distFromCenter = Math.abs((currentXRef.current - i * itemTotalWidth) / itemTotalWidth);
 
           // Continuous smooth scale & opacity: Active center member scales up continuously as it glides into center
           const focalVal = Math.max(0, 1 - Math.min(distFromCenter, 1.5) / 1.5);
-          const scale = 0.80 + focalVal * (focalScaleRef.current - 0.80);
-          const opacity = 0.35 + focalVal * 0.65;
+          const scale = 0.82 + focalVal * (focalScaleRef.current - 0.82);
+          const opacity = 0.40 + focalVal * 0.60;
 
-          const skewX = Math.max(-maxSkewRef.current, Math.min(maxSkewRef.current, vel * 0.25));
+          // Smooothy speed-based dynamic skew
+          const skewX = Math.max(-maxSkewRef.current, Math.min(maxSkewRef.current, vel * 0.35));
 
           card.style.transform = `scale(${scale}) skewX(${skewX}deg)`;
           card.style.opacity = `${opacity}`;
@@ -189,28 +189,19 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
             card.classList.remove("z-20", "z-30");
           }
 
-          // Purple drop shadow glow intensifies continuously AS the card slides into place (not after)
-          if (imgEl) {
-            if (focalVal > 0.05) {
-              const shadowAlpha = (focalVal * 0.50).toFixed(2);
-              imgEl.style.filter = `drop-shadow(0 25px 50px rgba(168, 85, 247, ${shadowAlpha})) drop-shadow(0 15px 30px rgba(0,0,0,0.9))`;
-            } else {
-              imgEl.style.filter = "drop-shadow(0 10px 20px rgba(0,0,0,0.95))";
-            }
-          }
-
-          // Parallax cutout translate inside photo box
+          // Parallax cutout translate + speed scale effect inside member card
           if (imgEl) {
             const cardOffset = i * itemTotalWidth - currentXRef.current;
             const parallaxX = cardOffset * parallaxDepthRef.current;
-            const speedScale = 1 + Math.min(Math.abs(vel) * 0.004, 0.06);
+            const speedScale = 1.25 + Math.min(Math.abs(vel) * 0.006, 0.08);
             imgEl.style.transform = `translate3d(${parallaxX}px, 0, 0) scale(${speedScale})`;
-          }
 
-          // Counter-parallax on background number
-          if (bgNumEl) {
-            const cardOffset = i * itemTotalWidth - currentXRef.current;
-            bgNumEl.style.transform = `translate3d(${-cardOffset * 0.22}px, 0, 0)`;
+            if (focalVal > 0.05) {
+              const shadowAlpha = (focalVal * 0.60).toFixed(2);
+              imgEl.style.filter = `drop-shadow(0 25px 50px rgba(168, 85, 247, ${shadowAlpha})) drop-shadow(0 15px 30px rgba(0,0,0,0.95))`;
+            } else {
+              imgEl.style.filter = "drop-shadow(0 10px 20px rgba(0,0,0,0.95))";
+            }
           }
         }
       }
