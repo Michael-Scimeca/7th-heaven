@@ -246,6 +246,7 @@ lerpSpeed: ${lerpSpeed}`;
           // Smooothy speed-based dynamic skew
           const skewX = Math.max(-maxSkewRef.current, Math.min(maxSkewRef.current, vel * 0.35));
 
+          card.style.transformOrigin = "bottom center";
           card.style.transform = `scale(${scale}) skewX(${skewX}deg)`;
           card.style.opacity = `${opacity}`;
 
@@ -526,7 +527,7 @@ lerpSpeed: ${lerpSpeed}`;
                   key={i}
                   onClick={() => goToSlide(i)}
                   style={{ width: `${cardWidth}px` }}
-                  className="shrink-0 bg-transparent rounded-3xl p-4 md:p-6 relative overflow-visible cursor-pointer flex flex-col justify-end"
+                  className="shrink-0 bg-transparent rounded-3xl p-4 md:p-6 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom"
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible">
