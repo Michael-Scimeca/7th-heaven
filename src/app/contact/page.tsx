@@ -32,23 +32,26 @@ export default async function ContactPage() {
  </div>
  </section>
 
- <section className="py-32">
- <div className="site-container !max-w-[900px] grid grid-cols-1 md:grid-cols-2 gap-6">
+ <section className="py-16">
+ <div className="site-container !max-w-[900px] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
  {contacts.map((contact, i) => (
- <div key={i} className="p-10 bg-[var(--color-bg-card)] border border-[var(--color-border)] transition-all duration-300 hover:border-[var(--color-border-hover)] hover:bg-[var(--color-bg-card-hover)] hover:-translate-y-1 hover:shadow-xl" id={`contact-card-${i}`}>
- <div className="flex items-start justify-between gap-4 mb-6">
- <h3 className="font-[var(--font-heading)] text-lg font-extrabold gradient-text">{contact.category}</h3>
+ <div key={i} className="py-6 px-2 flex flex-col justify-between bg-transparent border-none" id={`contact-card-${i}`}>
+ <div className="flex items-start justify-between gap-4 mb-3">
+ <h3 className="font-[var(--font-heading)] text-xl font-black text-[var(--color-accent)]">{contact.category}</h3>
  {contact.note && (
- <span className="shrink-0 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-[var(--color-warning)] bg-[rgba(245,158,11,0.1)] border border-[rgba(245,158,11,0.2)] ">{contact.note}</span>
+ <span className="shrink-0 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-warning)]">{contact.note}</span>
  )}
  </div>
- {contact.company && <p className="text-sm font-semibold text-[var(--color-text-primary)] mb-1">{contact.company}</p>}
- {contact.name && <p className="text-sm text-[var(--color-text-secondary)] mb-6">{contact.name}</p>}
- <div className="flex flex-col gap-2 mt-auto">
- <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2 text-base text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors duration-150 py-1">
+ {contact.company && <p className="text-sm font-bold text-white/90 mb-0.5">{contact.company}</p>}
+ {contact.name && <p className="text-sm text-white/60 mb-4">{contact.name}</p>}
+
+ <div className="flex flex-col gap-2 mt-auto pt-2">
+ {contact.email && (
+ <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors duration-150">
  📧 {contact.email}
  </a>
- <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-2 text-base text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors duration-150 py-1">
+ )}
+ <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-3 text-2xl md:text-3xl font-black text-white hover:text-[var(--color-accent)] transition-colors duration-150 mt-1 font-mono tracking-tight">
  📞 {contact.phone}
  </a>
  </div>
