@@ -96,7 +96,7 @@ export function Footer() {
 
   return (
     <footer
-      className="relative bg-black pt-24 pb-32 md:pb-24 overflow-hidden"
+      className="relative bg-black pt-24 pb-6 overflow-hidden"
       id="footer"
       suppressHydrationWarning
       style={{
@@ -273,7 +273,7 @@ export function Footer() {
       </div>
 
       {/* Legal Bottom */}
-      <div className="site-container pt-8 pb-16 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="site-container pt-6 pb-4 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 text-sm font-black uppercase tracking-widest text-white/30 mt-4 md:mt-0">
           <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
