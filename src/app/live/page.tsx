@@ -233,25 +233,26 @@ export default function LiveHubPage() {
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen py-24" style={{ background: "var(--color-bg-primary)" }}>
-      <div className="w-full px-4 md:px-8">
+    <section className="min-h-screen py-24 w-full" style={{ background: "var(--color-bg-primary)" }}>
+      <div className="w-full px-0">
+
 
         {/* ── HEADER ── */}
-        <div className="max-w-[1440px] mx-auto mb-10">
+        <div className="w-full px-6 md:px-12 mb-10">
 
           {/* Demo bar */}
-          <div className="flex items-center gap-3 px-5 py-3 rounded-xl mb-10 w-fit" style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.2)" }}>
+          <div className="flex items-center gap-3 px-5 py-3 rounded-xl mb-8 w-fit" style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.2)" }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#fbbf24" }} />
             <span className="text-xs font-black uppercase tracking-widest" style={{ color: "#fbbf24" }}>Demo Mode</span>
             <span className="text-xs" style={{ color: "rgba(251,191,36,0.5)" }}>— Simulated crew streams for client preview</span>
           </div>
 
           {/* Title row */}
-          <div className="text-center mb-14">
-            <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tight">
+          <div className="text-left mb-10">
+            <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tight text-left">
               Live <span className="gradient-text">Stream Hub</span>
             </h1>
-            <p className="text-white/40 mt-3 text-lg">
+            <p className="text-white/40 mt-3 text-lg text-left">
               {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching now
             </p>
           </div>
@@ -446,16 +447,14 @@ export default function LiveHubPage() {
         )}
 
         {/* ══════════════════════════════════════════════════
-            STREAM CARDS GRID
+            STREAM CARDS GRID (FULL BLEED — FRAMELESS)
         ══════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[1440px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full border-none">
           {rooms.map((room, i) => (
             <div
               key={room.name}
-              className="group bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 shadow-xl"
+              className="group bg-black/40 border-none rounded-none overflow-hidden transition-all duration-300"
               style={{ "--room-color": room.color } as React.CSSProperties}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = room.color + "55")}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)")}
             >
               <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
                 {/* Thumbnail with canvas feed */}
@@ -489,7 +488,7 @@ export default function LiveHubPage() {
               </Link>
 
               {/* Card meta */}
-              <div className="p-6 flex items-center justify-between relative">
+              <div className="p-6 flex items-center justify-between relative bg-black/50 border-none">
                 {/* Avatar badge */}
                 <div
                   className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ring-4"
@@ -508,7 +507,7 @@ export default function LiveHubPage() {
                     const slug = room.name.replace(/^live_/, "");
                     navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                   }}
-                  className="ml-4 px-4 py-2 text-sm font-bold rounded-xl transition-all hover:scale-105"
+                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all hover:scale-105"
                   style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}
                 >
                   COPY LINK
@@ -518,12 +517,11 @@ export default function LiveHubPage() {
           ))}
         </div>
 
-        {/* ── SMS ALERTS BANNER ── */}
+        {/* ── SMS ALERTS BANNER (FRAMELESS) ── */}
         {liveAlertsEnabled && (
-          <div className="max-w-[1440px] mx-auto mt-20 mb-10 border border-[#ec4899]/10 bg-gradient-to-r from-[#0f0b18] to-[#160d24] rounded-2xl p-8 sm:p-12 relative overflow-hidden shadow-[0_0_50px_rgba(236,72,153,0.05)]">
-            <div className="absolute -top-40 -left-40 w-96 h-96 bg-[var(--color-accent-pink)]/10 rounded-full blur-[100px] pointer-events-none" />
+          <div className="w-full px-6 md:px-12 mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-accent-pink)]/10 border border-[#ec4899]/20 mb-6">
+              <div className="inline-flex items-center gap-2 mb-4">
                 <span className="text-xs">📲</span>
                 <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Live Stream Alerts</span>
               </div>
