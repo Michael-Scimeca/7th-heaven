@@ -98,58 +98,10 @@ export default async function BioPage() {
 
   return (
     <div className="pt-[120px] bg-black overflow-x-hidden w-full max-w-full">
-
       {/* Full Screen Bio Parallax Slider */}
       <section className="w-full max-w-full overflow-visible bg-black pt-2 pb-8">
-    <BioParallaxSlider members={members} />
-  </section>
-
-  {/* Accomplishments */}
-  <section className="py-32 bg-[var(--color-bg-secondary)]">
-    <div className="site-container">
-      <div className="text-center mb-10">
-        <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">Accomplishments</span>
-        <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">
-          40 Years of <span className="gradient-text">Achievements</span>
-        </h2>
-      </div>
-
-      <AccomplishmentsLayouts accomplishments={accomplishments} />
+        <BioParallaxSlider members={members} />
+      </section>
     </div>
-  </section>
-
- {/* Performed With */}
- <section className="py-32 bg-[var(--color-bg-secondary)]">
- <div className="site-container">
- <div className="text-center mb-16">
- <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)] ">Shared the Stage With</span>
- <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">
- Major Label <span className="gradient-text">Artists</span>
- </h2>
- </div>
- <div className="flex flex-wrap justify-center gap-2 max-w-[1000px] mx-auto">
- {performedWith.map((artist, i) => (
- <span key={i} className="inline-block px-4 py-1.5 text-base text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] border border-[var(--color-border)] transition-all duration-150 hover:text-[var(--color-text-primary)] hover:border-[var(--color-accent)] hover:bg-[rgba(133,29,239,0.1)]">
- {artist}
- </span>
- ))}
- <span className="inline-block px-4 py-1.5 text-base text-[var(--color-text-secondary)] opacity-50">and many more...</span>
- </div>
- </div>
- </section>
-
- {/* Download */}
- <section className="py-32 text-center">
- <div className="site-container">
- <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight mb-4">
- Download the <span className="gradient-text">Official Bio</span>
- </h2>
- <p className="text-lg text-[var(--color-text-secondary)] max-w-[600px] mx-auto mb-10">
- Get the full 7th heaven press bio for booking and media inquiries.
- </p>
- <a href="#" className="btn-primary btn-primary-hover" id="download-bio-btn">📄 Download Bio (PDF)</a>
- </div>
- </section>
- </div>
- );
+  );
 }
