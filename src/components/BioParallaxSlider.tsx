@@ -93,7 +93,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [cardWidth, setCardWidth] = useState<number>(355);
   const [imageHeight, setImageHeight] = useState<number>(510);
   const [imageScale, setImageScale] = useState<number>(1.15);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(4);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(40);
   const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(11);
@@ -358,7 +358,7 @@ lerpSpeed: ${lerpSpeed}`;
   };
 
   return (
-    <div className="w-full max-w-full overflow-visible min-h-[calc(100vh-130px)] flex flex-col justify-end select-none font-sans relative bg-black pt-2 pb-6">
+    <div className="w-full max-w-full overflow-visible min-h-[calc(100vh-180px)] flex flex-col justify-end select-none font-sans relative bg-black pt-16 md:pt-24 pb-2">
       
       {/* ── FLOATING LIVE STAGE & SLIDER UI TUNER CONTROLS ── */}
       <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end">
