@@ -93,7 +93,7 @@ export default async function ShowsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-32 md:pt-36 pb-12">
+    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[110px] pb-12">
       <TourList initialShows={combinedShows} />
     </div>
   );

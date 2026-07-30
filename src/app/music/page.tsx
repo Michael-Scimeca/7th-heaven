@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function MusicPage() {
   return (
-    <main className="min-h-[calc(100vh-72px)] pt-[72px] px-0 w-full bg-transparent">
+    <main className="min-h-[calc(100vh-110px)] pt-[110px] px-0 w-full bg-transparent">
       <AudioPlayerSection />
     </main>
   );

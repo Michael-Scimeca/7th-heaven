@@ -15,7 +15,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     fav7hSong: "Midwest Girls In The Summertime",
     favQuote: "Success is where preparation and opportunity meet",
     funFact: "I'm Polish, or wait, everyone knows that :)",
-    image: "/images/members/frankie.png"
+    image: "/images/band-memebers/Frankie.png"
   },
   {
     name: "Nick Cox", role: "Guitars • Vocals • Piano",
@@ -26,7 +26,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "American History X", fav7hSong: "Take Me With You",
     favQuote: "The universe is a pretty big place... seems like an awful waste of space.",
     funFact: "I love just staying home on my couch",
-    image: "/images/members/nick.png"
+    image: "/images/band-memebers/Nick.png"
   },
   {
     name: "Adam Heisler", role: "Lead Vocals",
@@ -36,7 +36,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "Give me a good romantic comedy",
     fav7hSong: "You and I", favQuote: "I'm always happy and never satisfied",
     funFact: "I used to be a Jr. Black belt in Tae Kwon Do",
-    image: "/images/members/adam.png"
+    image: "/images/band-memebers/Adam.png"
   },
   {
     name: "Richard Hofherr", role: "Guitars • Keys • Vocals",
@@ -48,7 +48,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     fav7hSong: "Sing, Diamonds, Midwest Girls",
     favQuote: "Life is all about perspectives. You can look at the glass half-empty and half-full.",
     funFact: "I have never had alcohol, drugs, cigarettes or a headache.",
-    image: "/images/members/richard.png"
+    image: "/images/band-memebers/Dicky.png"
   },
   {
     name: "Mark Kennetz", role: "Bass • Vocals • Uke • Guitar",
@@ -58,7 +58,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "Hot Fuzz, Anchorman", fav7hSong: "Ethereal",
     favQuote: "The past is in our heads, the future is in our hands",
     funFact: "Stage 2 carnivore — eat anything with 2 legs or less!",
-    image: "/images/members/mark.png"
+    image: "/images/band-memebers/Mark.png"
   },
 ];
 
@@ -323,7 +323,14 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
             style={{ gap: `${gap}px`, width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
-              const imageSrc = m?.image ? (typeof m.image === 'string' ? m.image : urlFor(m.image).url()) : `/images/members/${m?.name?.split(' ')[0].toLowerCase()}.png`;
+              const nameLower = m?.name?.toLowerCase() || "";
+              let imageSrc = "";
+              if (nameLower.includes("adam")) imageSrc = "/images/band-memebers/Adam.png";
+              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/band-memebers/Dicky.png";
+              else if (nameLower.includes("frankie")) imageSrc = "/images/band-memebers/Frankie.png";
+              else if (nameLower.includes("mark")) imageSrc = "/images/band-memebers/Mark.png";
+              else if (nameLower.includes("nick")) imageSrc = "/images/band-memebers/Nick.png";
+              else imageSrc = m?.image ? (typeof m.image === 'string' ? m.image : urlFor(m.image).url()) : "/images/band-memebers/Adam.png";
 
               return (
                 <div
