@@ -21,39 +21,47 @@ export default async function ContactPage() {
  const contacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
 
  return (
- <div className="pt-[72px]">
- <section className="pt-24 pb-10 text-left bg-gradient-to-b from-[var(--color-bg-secondary)] to-[var(--color-bg-primary)]">
- <div className="site-container flex flex-col items-start text-left">
- <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">Get in Touch</span>
- <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-tight tracking-tight text-left">
+ <div className="pt-[72px] min-h-[calc(100vh-72px)] flex flex-col justify-center">
+ <section className="py-8 md:py-12 flex flex-col justify-center">
+ <div className="site-container w-full flex flex-col justify-center">
+ {/* Header */}
+ <div className="mb-8 text-left">
+ <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 px-4 py-1 border border-[rgba(133,29,239,0.3)]">
+ Get in Touch
+ </span>
+ <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight text-left">
  Contact <span className="gradient-text">Info</span>
  </h1>
- <p className="text-lg text-[var(--color-text-secondary)] max-w-[600px] mt-4 text-left">For booking, press inquiries, and production advance.</p>
+ <p className="text-sm md:text-base text-white/60 max-w-xl mt-2 text-left">
+ For booking, press inquiries, and production advance.
+ </p>
  </div>
- </section>
 
- <section className="py-16">
- <div className="site-container grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+ {/* Contact Cards Grid */}
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-y-8 gap-x-12 md:gap-x-16">
  {contacts.map((contact, i) => (
- <div key={i} className="py-6 px-2 flex flex-col justify-between bg-transparent border-none" id={`contact-card-${i}`}>
- <div className="flex items-start justify-between gap-4 mb-3">
- <h3 className="font-[var(--font-heading)] text-xl font-black text-[var(--color-accent)]">{contact.category}</h3>
+ <div key={i} className="flex flex-col justify-between" id={`contact-card-${i}`}>
+ <div>
+ <h3 className="font-[var(--font-heading)] text-lg md:text-xl font-black text-[var(--color-accent)] mb-1">
+ {contact.category}
+ </h3>
+ {contact.company && <p className="text-xs md:text-sm font-bold text-white/90">{contact.company}</p>}
+ {contact.name && <p className="text-xs md:text-sm text-white/60">{contact.name}</p>}
  </div>
- {contact.company && <p className="text-sm font-bold text-white/90 mb-0.5">{contact.company}</p>}
- {contact.name && <p className="text-sm text-white/60 mb-4">{contact.name}</p>}
 
- <div className="flex flex-col gap-2 mt-auto pt-2">
+ <div className="flex flex-col gap-1 mt-3">
  {contact.email && (
- <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors duration-150">
+ <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2 text-xs md:text-sm text-white/70 hover:text-white transition-colors duration-150">
  📧 {contact.email}
  </a>
  )}
- <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-3 text-2xl md:text-3xl font-black text-white hover:text-[var(--color-accent)] transition-colors duration-150 mt-1 font-mono tracking-tight">
+ <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-2.5 text-xl md:text-2xl font-black text-white hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight">
  📞 {contact.phone}
  </a>
  </div>
  </div>
  ))}
+ </div>
  </div>
  </section>
  </div>
