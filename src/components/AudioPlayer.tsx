@@ -296,10 +296,10 @@ export default function AudioPlayerSection() {
 
   return (
   <section ref={sectionRef} className="" id="music-player-section">
-  <div className="flex flex-col lg:flex-row lg:items-start border-y border-[var(--color-border)]">
+  <div className="flex flex-col lg:flex-row lg:items-start bg-transparent border-none">
   
   {/* --- SIDEBAR --- */}
-  <div className="w-full lg:w-[320px] bg-[var(--color-bg-surface)] border-r border-[#1a1a24] p-6 flex flex-col shrink-0 relative z-10 hidden lg:flex">
+  <div className="w-full lg:w-[320px] bg-transparent border-r border-white/5 p-6 flex flex-col shrink-0 relative z-10 hidden lg:flex">
     {/* Fast Search Input */}
     <div className="relative mb-6">
       <input
@@ -329,13 +329,13 @@ export default function AudioPlayerSection() {
   </div>
 
   {/* --- MAIN AREA --- */}
-  <div className="flex-1 relative flex flex-col bg-[var(--color-bg-surface)] lg:sticky lg:top-[72px] lg:self-start lg:max-h-[calc(100vh-72px)]">
+  <div className="flex-1 relative flex flex-col bg-transparent lg:sticky lg:top-[72px] lg:self-start lg:max-h-[calc(100vh-72px)]">
   
     {/* Player Panel Frame */}
     <div className="flex-1 min-h-0 flex flex-col w-full">
     
     {/* Panel Header */}
-    <div className="flex items-center justify-between px-8 py-5 border-b border-white/5 bg-[var(--color-bg-surface)]">
+    <div className="flex items-center justify-between px-8 py-3 border-b border-white/5 bg-transparent">
       <div className="flex items-center gap-4 flex-1">
         {/* Mobile Search input */}
         <div className="relative flex-1 max-w-xs lg:hidden">
@@ -376,9 +376,7 @@ export default function AudioPlayerSection() {
               </a>
             )}
           </div>
-        ) : (
-          <div className="h-4" />
-        )}
+        ) : null}
       </div>
   </div>
 
@@ -460,7 +458,7 @@ export default function AudioPlayerSection() {
      </div>
 
     {/* Credits Sidebar */}
-    <div className="w-full lg:w-[350px] bg-black p-8 shrink-0 overflow-y-auto scrollbar-hide border-l border-white/5 hidden lg:flex lg:flex-col items-center relative overflow-hidden">
+    <div className="w-full lg:w-[350px] bg-transparent p-8 shrink-0 overflow-y-auto scrollbar-hide border-l border-white/5 hidden lg:flex lg:flex-col items-center relative overflow-hidden">
       
       {/* Animated gradient orb */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
