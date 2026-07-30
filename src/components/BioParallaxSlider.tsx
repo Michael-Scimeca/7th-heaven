@@ -92,7 +92,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [gap, setGap] = useState<number>(28);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(12);
-  const [focalScale, setFocalScale] = useState<number>(1.08);
+  const [focalScale, setFocalScale] = useState<number>(1.22);
 
   const itemTotalWidth = cardWidth + gap;
 
@@ -193,7 +193,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
           if (imgEl) {
             const cardOffset = i * itemTotalWidth - currentXRef.current;
             const parallaxX = cardOffset * parallaxDepthRef.current;
-            const speedScale = 1.0 + Math.min(Math.abs(vel) * 0.004, 0.05);
+            const speedScale = 1.25 + Math.min(Math.abs(vel) * 0.006, 0.08);
             imgEl.style.transform = `translate3d(${parallaxX}px, 0, 0) scale(${speedScale})`;
 
             if (focalVal > 0.05) {
@@ -342,13 +342,13 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
                         )}
                       </div>
 
-                      {/* Member Photo Cutout */}
-                      <div className="h-[300px] md:h-[350px] relative flex items-end justify-center mt-4 md:mt-6 overflow-visible bg-transparent">
+                      {/* 1.25x Member Photo Cutout — Completely Unclipped (overflow-visible) */}
+                      <div className="h-[400px] md:h-[460px] relative flex items-end justify-center mt-4 md:mt-8 overflow-visible bg-transparent">
                         <img
                           src={imageSrc}
                           alt={m?.name}
                           draggable={false}
-                          className="smooothy-img max-h-[300px] md:max-h-[350px] w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none scale-100 origin-bottom"
+                          className="smooothy-img max-h-[400px] md:max-h-[460px] w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none scale-[1.25] origin-bottom"
                         />
                       </div>
                     </div>
