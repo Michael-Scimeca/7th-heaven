@@ -803,7 +803,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
         <div className="space-y-6 pl-7">
           {chronologicalHistory.map((hist, idx) => {
-            const isReached = idx === 0 || mobileProgress >= (idx + 0.5) / chronologicalHistory.length;
+            const nodeThreshold = idx / Math.max(1, chronologicalHistory.length - 1);
+            const isReached = idx === 0 || mobileProgress >= (nodeThreshold * 0.92);
 
             return (
               <div key={idx} className="relative group">
