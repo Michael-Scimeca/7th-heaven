@@ -783,39 +783,31 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={mobileContainerRef}
         className="block md:hidden relative w-full py-6 px-[32px]"
       >
-        <svg className="absolute left-[32px] top-8 bottom-4 w-[6px] h-[calc(100%-2rem)] pointer-events-none z-0 overflow-visible">
-          {/* Muted background track stopping at 2026 */}
-          <path
-            d={`M 3 0 V ${maxMobileHeight}`}
-            fill="none"
-            stroke="rgba(6, 182, 212, 0.2)"
-            strokeWidth="4"
-          />
-          {/* Scroll progress bright cyan fill line stopping at 2026 */}
-          <path
-            ref={mobilePathRef}
-            d={`M 3 0 V ${Math.min(maxMobileHeight, Math.max(20, (mobileProgress || 0) * (mobileSvgSize.h || 3000)))}`}
-            fill="none"
-            stroke="#06b6d4"
-            strokeWidth="4.5"
-            strokeLinecap="round"
-            style={{
-              filter: 'drop-shadow(0 0 6px rgba(6,182,212,0.8))',
-            }}
-          />
-        </svg>
-
-        <div className="space-y-6 pl-7">
+        <div className="space-y-6 pl-7 relative">
           {chronologicalHistory.map((hist, idx) => {
             const isReached = idx === 0 || mobileProgress >= Math.max(0, (idx / chronologicalHistory.length) - 0.03);
+            const nextHist = chronologicalHistory[idx + 1];
+            const isLastHistoricalNode = hist.year === '2026';
+            const isFutureItem = hist.year === '2027' || hist.year === '2028';
+            const showConnectorLine = !isLastHistoricalNode && !isFutureItem && nextHist;
 
             return (
               <div key={idx} className="relative group">
+                {/* Node Box */}
                 <div
-                  className={`absolute left-[-34px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
-                    isReached ? 'bg-cyan-300 scale-125' : 'bg-cyan-500/30'
+                  className={`absolute left-[-34px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-all duration-300 ${
+                    isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
                   }`}
                 />
+
+                {/* Connecting Line Segment — STOPS COMPLETELY AT 2026 */}
+                {showConnectorLine && (
+                  <div
+                    className={`absolute left-[-28px] top-6 bottom-[-24px] w-[4px] transition-colors duration-300 ${
+                      isReached ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'bg-cyan-500/20'
+                    }`}
+                  />
+                )}
 
                 <div
                   className={`py-1 transition-all duration-300 ${
