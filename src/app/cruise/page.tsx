@@ -678,7 +678,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* Cancellation & Policy Guidelines — 3-Column Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-left border-b border-black/10 pb-12">
             {/* Merged Column 1: Booking Policy & Best Rate Guarantee */}
-            <div className="bg-transparent border-0 p-4 relative text-left">
+            <div className="bg-transparent border-0 p-0 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">⚠️</span>
                 <h3 className="text-lg font-black uppercase text-black tracking-wide">Booking Policy & Best Rate Guarantee</h3>
@@ -725,7 +725,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
 
             {/* Column 2: Passport Requirements */}
-            <div className="bg-transparent border-0 p-4 relative text-left">
+            <div className="bg-transparent border-0 p-0 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🛂</span>
                 <h3 className="text-lg font-black uppercase text-black tracking-wide">Passport Requirements</h3>
@@ -747,7 +747,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
 
             {/* Column 3: Cancellation Policy */}
-            <div className="bg-transparent border-0 p-4 relative text-left">
+            <div className="bg-transparent border-0 p-0 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">📅</span>
                 <h3 className="text-lg font-black uppercase text-black tracking-wide">Cancellation Policy</h3>
