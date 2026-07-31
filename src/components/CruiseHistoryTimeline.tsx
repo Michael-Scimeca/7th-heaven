@@ -781,7 +781,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 32px LEFT ALIGNED & STOPS AT 2026) ── */}
       <div
         ref={mobileContainerRef}
-        className="block md:hidden relative w-full py-6 px-[32px]"
+        className="block md:hidden relative w-full py-6 px-4 sm:px-6 md:px-[32px]"
       >
         <div className="space-y-6 pl-7 relative">
           {chronologicalHistory.map((hist, idx) => {

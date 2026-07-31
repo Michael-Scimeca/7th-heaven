@@ -1105,8 +1105,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   />
                 </div>
               )}
-              {/* Card content header & events list with generous 32px inner padding */}
-              <div className="px-8 pb-6 pt-2">
+              {/* Card content header & events list with responsive inner padding (less padding on mobile) */}
+              <div className="px-4 sm:px-6 md:px-8 pb-4 md:pb-6 pt-2">
                 <h3 className={styles.cardTitle}>{day.theme}</h3>
                 <ul className={styles.eventsList}>
                   {day.events.map(ev => (
