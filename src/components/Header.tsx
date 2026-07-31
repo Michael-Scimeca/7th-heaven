@@ -285,24 +285,24 @@ export function Header() {
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {isLoggedIn || isDemoPage ? (
               <div className="flex items-center gap-1.5">
-                <div className="relative shrink-0">
+                <div className="relative shrink-0 flex items-center justify-center">
                   <Link
                     href={dashboardHref}
                     className="relative w-11 h-11 rounded-full overflow-hidden bg-[#38bdf8] border-2 border-[#38bdf8] flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
-                    style={{ borderRadius: "9999px" }}
+                    style={{ borderRadius: "50%", overflow: "hidden" }}
                     title={displayName}
                   >
                     {isAvatarUrl ? (
-                      <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" style={{ borderRadius: "9999px" }} />
+                      <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" style={{ borderRadius: "50%" }} />
                     ) : (
-                      <div className="w-full h-full rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm" style={{ borderRadius: "9999px" }}>
+                      <div className="w-full h-full rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm" style={{ borderRadius: "50%" }}>
                         {initials}
                       </div>
                     )}
                   </Link>
 
-                  {/* Overlapping Role Badge */}
-                  <span className={`absolute -bottom-1 -right-2 w-6 h-6 text-[var(--font-size-4xs)] font-black uppercase text-white rounded-full border-2 border-white flex items-center justify-center shadow-lg leading-none ${badgeBg}`} style={{ borderRadius: "9999px" }}>
+                  {/* Overlapping Role Badge Circle */}
+                  <span className={`absolute -bottom-1 -right-2 w-6 h-6 text-[var(--font-size-4xs)] font-black uppercase text-white rounded-full border-2 border-white flex items-center justify-center shadow-lg leading-none ${badgeBg}`} style={{ borderRadius: "50%" }}>
                     {badgeText}
                   </span>
                 </div>
