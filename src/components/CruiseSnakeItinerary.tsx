@@ -505,8 +505,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
         const shipAdvance = t.shipAdvancePx ?? 80;
         const lineLead = t.lineFillLeadPx ?? 0;
-        // Calculate target ship position along path
-        const rawShipDist = Math.max(0, Math.min(totalLen, progress * totalLen + shipAdvance));
+        // Calculate target ship position along path (stops 40px back from totalLen end point)
+        const maxPathTravel = Math.max(0, totalLen - 40);
+        const rawShipDist = Math.max(0, Math.min(maxPathTravel, progress * totalLen + shipAdvance));
         // Sync solid blue line fill length with ship position + line lead offset
         const targetOffset = totalLen - (rawShipDist + lineLead);
 
@@ -524,7 +525,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
-        const shipDist = Math.max(0, Math.min(totalLen, totalLen - currentFillOffset));
+        const shipDist = Math.max(0, Math.min(maxPathTravel, totalLen - currentFillOffset));
         const pt = fill.getPointAtLength(shipDist);
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
