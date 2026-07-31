@@ -592,8 +592,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
   return (
     <div className="min-h-screen overflow-x-hidden max-w-full bg-white text-black pt-[88px]">
-      {/* ── SECTION 1: HERO (BACKGROUND VIDEO — +120px HEIGHT) ── */}
-      <section className="relative flex flex-col justify-center overflow-hidden pt-20 pb-20 bg-black text-white min-h-[480px] md:min-h-[580px]">
+      {/* ── SECTION 1: HERO (BACKGROUND VIDEO — 32px TOP & BOTTOM PADDING ON MOBILE) ── */}
+      <section className="relative flex flex-col justify-center overflow-hidden py-[32px] md:py-20 bg-black text-white min-h-[360px] md:min-h-[580px]">
         {/* Cruise Hero Video Background Overlay */}
         <div className="absolute inset-0 z-0">
           <video
@@ -639,8 +639,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {transitionDone && (<>
 
       {/* ── SECTION 2: CABINS & PRICING ── */}
-      <section id="pricing" className="pt-6 pb-16 site-container relative z-20">
-          <div className="text-center max-w-3xl mx-auto mb-12">
+      <section id="pricing" className="py-[32px] md:pt-6 md:pb-16 site-container relative z-20">
+          <div className="text-left max-w-3xl mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
             </h2>
@@ -648,8 +648,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms.
             </p>
 
-            {/* Pricing Year Toggle */}
-            <div className="flex gap-2 justify-center mt-8">
+            {/* Pricing Year Toggle — Left Aligned */}
+            <div className="flex flex-wrap gap-2 justify-start mt-8">
               <button
                 type="button"
                 onClick={() => setActivePriceYear(2027)}
@@ -1899,7 +1899,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
 
       {/* ── SECTION 4: SHIP EXPLORER ── */}
-      <section id="ship-explorer" className="py-20 site-container">
+      <section id="ship-explorer" className="py-[32px] md:py-20 site-container">
           <div className="text-left w-full mb-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
@@ -2016,13 +2016,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* ── BARS & ENTERTAINMENT SEGMENTED TABS SECTION (Option 2) ── */}
           <div className="mt-20">
-            {/* Segmented Tab Header */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-4 border-b border-black/10">
-              <div>
-                <h3 className="text-xl font-black uppercase text-black">Bars & Entertainment Explorer</h3>
+            {/* Segmented Tab Header — Stacks vertically on mobile & tablet for full text width */}
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b border-black/10 text-left">
+              <div className="w-full lg:w-auto">
+                <h3 className="text-xl sm:text-2xl font-black uppercase text-black">Bars & Entertainment Explorer</h3>
                 <p className="text-xs text-black/60 font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
               </div>
-              <div className="flex bg-black/5 p-1 rounded-2xl border border-black/10 shrink-0">
+              <div className="flex bg-black/5 p-1 rounded-2xl border border-black/10 shrink-0 self-start lg:self-center max-w-full overflow-x-auto">
                 <button
                   type="button"
                   onClick={() => setBarTab("bars")}
