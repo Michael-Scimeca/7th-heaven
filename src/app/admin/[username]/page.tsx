@@ -12070,18 +12070,8 @@ return (
         </div>
       )}
 
-      {/* Floating Quick Scroll Nav / Toggle Button */}
-      {!showJumpNav ? (
-        <button
-          onClick={toggleJumpNav}
-          title="Show Navigation"
-          className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex items-center justify-center w-10 h-10 bg-[var(--color-bg-surface)]/95 hover:bg-white/5 border border-white/10 rounded-full shadow-2xl backdrop-blur-md text-white/60 hover:text-white cursor-pointer transition-all duration-200"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-        </button>
-      ) : (
+      {/* Floating Quick Scroll Nav / Toggle Button — Removed */}
+      {showJumpNav && (
         <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300 animate-[fadeIn_0.15s_ease]">
           <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
             <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
