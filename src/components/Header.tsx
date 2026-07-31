@@ -157,15 +157,15 @@ export function Header() {
 
   const badgeText =
     displayRole === "admin"
-      ? "ADM"
+      ? "ADMIN"
       : displayRole === "crew"
-        ? "CRW"
+        ? "CREW"
         : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
-          ? "PLN"
+          ? "PLANNER"
           : displayRole === "cruise"
-            ? "CRS"
+            ? "CRUISE"
             : displayRole === "merch"
-              ? "MRC"
+              ? "MERCH"
               : "FAN";
 
   const badgeBg =
@@ -301,10 +301,10 @@ export function Header() {
                     )}
                   </Link>
 
-                  {/* Overlapping Role Badge Circle with Smaller Text */}
+                  {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-1 -right-2.5 w-7 h-7 text-[7px] font-black uppercase text-white border-2 border-white flex items-center justify-center shadow-lg leading-none ${badgeBg}`}
-                    style={{ borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}
+                    className={`absolute -bottom-1 -right-3.5 px-1.5 py-0.5 min-w-[26px] h-6 text-[6.5px] font-black uppercase text-white border-2 border-white flex items-center justify-center shadow-lg leading-none ${badgeBg}`}
+                    style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
                   </span>
