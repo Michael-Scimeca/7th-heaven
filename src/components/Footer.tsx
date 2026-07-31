@@ -274,7 +274,7 @@ export function Footer() {
 
       {/* Legal Bottom */}
       <div className="site-container pt-6 pb-4 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 text-sm font-black uppercase tracking-widest text-white/30 mt-4 md:mt-0">
+        <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 text-sm font-semibold tracking-wide text-white/40 mt-4 md:mt-0">
           <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
           <Link href="/returns" className="hover:text-white transition-colors">Returns</Link>
@@ -284,7 +284,7 @@ export function Footer() {
           <Link href="/admin?login=true" className="hover:text-[var(--color-accent)] transition-colors">Admin</Link>
           <Link href="/planner?login=true" className="hover:text-[var(--color-accent)] transition-colors">Planner</Link>
         </div>
-        <p className="text-sm font-black uppercase tracking-widest text-white/20">
+        <p className="text-sm font-medium tracking-wide text-white/30">
           Designed & Developed by NTD Records © {new Date().getFullYear()}
         </p>
       </div>
