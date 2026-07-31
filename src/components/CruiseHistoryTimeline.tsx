@@ -124,6 +124,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [pathD, setPathD] = useState('');
   const [staticFuturePathD, setStaticFuturePathD] = useState('');
   const [svgSize, setSvgSize] = useState({ w: 1400, h: 2000 });
+  const [mobileSvgSize, setMobileSvgSize] = useState({ w: 400, h: 3000 });
 
   const [tuning, setTuning] = useState<HistoryTuningConfig>(DEFAULT_HISTORY_TUNING);
   const [showSettings, setShowSettings] = useState(false);
@@ -721,11 +722,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       const badgePathLen = badgePathLengths[globalIdx] ?? Infinity;
                       const is2026 = hist.year === '2026';
                       const isFutureNode = hist.year === '2027' || hist.year === '2028';
-                      const isReached = isFutureNode
+                      const isReached = globalIdx === 0 || (isFutureNode
                         ? false
                         : is2026
                         ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
-                        : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
+                        : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80)));
 
                       return (
                         <div
@@ -734,12 +735,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           style={{ width: 'clamp(200px, 24vw, 380px)' }}
                         >
                           <div
-                            className={`bg-[#0a1937]/90 backdrop-blur-xl rounded-2xl md:rounded-3xl transition-all duration-300 ${
+                            className={`transition-all duration-300 ${
                               isReached
-                                ? 'border border-cyan-400/70 -translate-y-1 shadow-[0_10px_30px_rgba(6,182,212,0.25)]'
-                                : 'border border-white/15 opacity-80'
+                                ? 'opacity-100'
+                                : 'opacity-70'
                             }`}
-                            style={{ padding: 'clamp(0.75rem, 1.5vw, 1.5rem)' }}
+                            style={{ padding: '0.5rem 0' }}
                           >
                             <div className="flex items-center justify-between gap-2 mb-2">
                               <span
@@ -788,20 +789,20 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       >
         <svg className="absolute left-[32px] top-4 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
           <path
-            d="M 2 0 V 1000"
+            d={`M 2 0 V ${mobileSvgSize.h || 3000}`}
             fill="none"
             stroke="rgba(6, 182, 212, 0.15)"
             strokeWidth="3"
           />
           <path
             ref={mobilePathRef}
-            d="M 2 0 V 1000"
+            d={`M 2 0 V ${mobileSvgSize.h || 3000}`}
             fill="none"
             stroke="url(#ocean-water-gradient)"
             strokeWidth="3.5"
             style={{
-              strokeDasharray: mobilePathLength || 1000,
-              strokeDashoffset: mobilePathLength || 1000,
+              strokeDasharray: mobilePathLength || 3000,
+              strokeDashoffset: (mobilePathLength || 3000) * (1 - (mobileProgress || 0)),
               filter: 'url(#water-wave-motion)',
             }}
           />
@@ -809,7 +810,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
         <div className="space-y-6 pl-7">
           {chronologicalHistory.map((hist, idx) => {
-            const isReached = mobileProgress >= (idx + 0.5) / chronologicalHistory.length;
+            const isReached = idx === 0 || mobileProgress >= (idx + 0.5) / chronologicalHistory.length;
 
             return (
               <div key={idx} className="relative group">
@@ -820,8 +821,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 />
 
                 <div
-                  className={`bg-[var(--color-bg-surface)]/90 backdrop-blur-xl p-5 rounded-2xl transition-all duration-300 ${
-                    isReached ? 'border border-cyan-400/60' : 'border border-white/10 opacity-70'
+                  className={`py-1 transition-all duration-300 ${
+                    isReached ? 'opacity-100' : 'opacity-70'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2">
