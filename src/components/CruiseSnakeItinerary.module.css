@@ -108,16 +108,16 @@
 .slotLeft {
     display: flex;
     justify-content: flex-end;
-    padding-left: 32px;
-    padding-right: 32px;
+    padding-left: 0;
+    padding-right: 0;
     pointer-events: all;
 }
 
 .slotRight {
     display: flex;
     justify-content: flex-start;
-    padding-left: 32px;
-    padding-right: 32px;
+    padding-left: 0;
+    padding-right: 0;
     pointer-events: all;
 }
 

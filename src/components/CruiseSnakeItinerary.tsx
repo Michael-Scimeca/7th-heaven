@@ -1155,12 +1155,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               width: '640px',
             };
           } else {
-            // Wide Screen Sweep (default) — aligned with nav text padding (72px desktop / clamp)
+            // Wide Screen Sweep (default) — aligned 100% flush with 32px nav text padding
             cardStyle = {
               ...cardStyle,
               ...(node.isLeft
-                ? { left: 'clamp(24px, 5vw, 72px)' }
-                : { right: 'clamp(24px, 5vw, 72px)' }
+                ? { left: '0px' }
+                : { right: '0px' }
               ),
               width: 'min(620px, 42vw)',
             };
