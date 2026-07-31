@@ -627,6 +627,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {/* ── SECTIONS 2–N: only rendered after wave exits to prevent main-thread block ── */}
       {transitionDone && (<>
 
+      {/* ── CRUISE HISTORY & MILESTONES TIMELINE (MOVED TO TOP) ── */}
+      <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
+        <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+      </React.Suspense>
+
       {/* ── SECTION 2: CABINS & PRICING ── */}
       <section id="pricing" className="pt-6 pb-16 site-container relative z-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -2136,11 +2141,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             ))}
           </div>
         </section>
-
-        {/* Cruise History Timeline Section */}
-        <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
-          <CruiseHistoryTimeline history={CRUISE_HISTORY} />
-        </React.Suspense>
       </>)}
     </div>
     );
