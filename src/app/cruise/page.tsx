@@ -2109,10 +2109,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       <section id="faqs" className="pt-20 pb-10 site-container">
           <div className="text-left w-full mb-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-              Cruise FAQs <span className="accent-gradient-text">& Travel History</span>
+              Frequently Asked <span className="accent-gradient-text">Questions</span>
             </h2>
             <p className="text-black/60 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
-              Find answers to important passport requirements, dining configurations, and explore our 25-year cruising history timeline.
+              Find answers to important passport requirements, dining configurations, payment plans, and booking rules.
             </p>
           </div>
 
@@ -2137,11 +2137,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             ))}
           </div>
         </section>
-
-        {/* Cruise History Section with 6 Interactive Layout Modes */}
-        <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
-          <CruiseHistoryTimeline history={CRUISE_HISTORY} />
-        </React.Suspense>
       </>)}
     </div>
     );
