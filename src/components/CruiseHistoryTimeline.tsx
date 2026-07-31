@@ -803,7 +803,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* Connecting Line Segment — STOPS COMPLETELY AT 2026 */}
                 {showConnectorLine && (
                   <div
-                    className={`absolute left-[-28px] top-6 bottom-[-24px] w-[4px] transition-colors duration-300 ${
+                    className={`absolute left-[-28px] top-2 bottom-[-32px] w-[4px] transition-colors duration-300 ${
                       isReached ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'bg-cyan-500/20'
                     }`}
                   />
