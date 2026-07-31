@@ -453,11 +453,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         });
       }
 
-      // Mobile Lenis + GSAP ScrollTrigger Scrub
-      if (mobilePathRef.current && mobilePathLength > 0) {
+      // Mobile Lenis + GSAP ScrollTrigger Scrub — fills bright cyan line as you scroll down
+      if (mobilePathRef.current && mobileContainerRef.current) {
+        const pathLen = mobilePathRef.current.getTotalLength() || 3000;
+        setMobilePathLength(pathLen);
         gsap.fromTo(
           mobilePathRef.current,
-          { strokeDashoffset: mobilePathLength },
+          { strokeDashoffset: pathLen, strokeDasharray: pathLen },
           {
             strokeDashoffset: 0,
             ease: 'none',
@@ -787,7 +789,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={mobileContainerRef}
         className="block md:hidden relative w-full py-6 px-[32px]"
       >
-        <svg className="absolute left-[32px] top-4 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
+        <svg className="absolute left-[32px] top-8 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
           <path
             d={`M 2 0 V ${mobileSvgSize.h || 3000}`}
             fill="none"
@@ -815,7 +817,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             return (
               <div key={idx} className="relative group">
                 <div
-                  className={`absolute left-[-34px] top-4 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
+                  className={`absolute left-[-34px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
                     isReached ? 'bg-cyan-300 scale-125' : 'bg-cyan-500/30'
                   }`}
                 />
