@@ -221,7 +221,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 -ml-2.5 sm:-ml-3 min-[1401px]:mx-4 relative ${mobileOpen ? "z-[10001]" : ""}`}
+            className={`shrink-0 min-w-0 -ml-[20px] sm:-ml-[24px] min-[1401px]:mx-4 relative ${mobileOpen ? "z-[10001]" : ""}`}
           >
             <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden">
               <Logo className="w-full h-full text-black drop-shadow-sm" />
@@ -345,28 +345,28 @@ export function Header() {
               </button>
             )}
 
-            {/* Mobile Menu Toggle Button — ONLY visible at <= 1400px (aligned flush to 25px right padding) */}
+            {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="flex min-[1401px]:hidden w-8 h-10 items-center justify-end -mr-1 relative cursor-pointer text-black hover:text-[var(--color-accent)] transition-colors p-0"
+              className="flex min-[1401px]:hidden w-10 h-10 items-center justify-end -mr-1 relative cursor-pointer text-black hover:text-[var(--color-accent)] transition-colors p-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"
             >
               <svg
-                width="28"
-                height="28"
+                width="34"
+                height="34"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2.5"
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="w-7 h-7 overflow-visible"
+                className="w-8.5 h-8.5 overflow-visible"
               >
                 <line
-                  x1="4"
+                  x1="1.5"
                   y1="6"
-                  x2="20"
+                  x2="22.5"
                   y2="6"
                   className="transition-all duration-300 ease-in-out origin-[12px_12px]"
                   style={{
@@ -374,9 +374,9 @@ export function Header() {
                   }}
                 />
                 <line
-                  x1="4"
+                  x1="1.5"
                   y1="12"
-                  x2="20"
+                  x2="22.5"
                   y2="12"
                   className="transition-all duration-300 ease-in-out origin-[12px_12px]"
                   style={{
@@ -385,9 +385,9 @@ export function Header() {
                   }}
                 />
                 <line
-                  x1="4"
+                  x1="1.5"
                   y1="18"
-                  x2="20"
+                  x2="22.5"
                   y2="18"
                   className="transition-all duration-300 ease-in-out origin-[12px_12px]"
                   style={{
