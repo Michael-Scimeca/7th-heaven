@@ -91,9 +91,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
   const [cardWidth, setCardWidth] = useState<number>(355);
-  const [imageHeight, setImageHeight] = useState<number>(500);
+  const [imageHeight, setImageHeight] = useState<number>(460);
   const [imageScale, setImageScale] = useState<number>(1.15);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(140);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(10);
   const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(11);
@@ -139,9 +139,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const applyPreset = (preset: "default" | "compact" | "giant" | "grounded") => {
     if (preset === "default") {
       setCardWidth(355);
-      setImageHeight(500);
+      setImageHeight(460);
       setImageScale(1.15);
-      setImageOffsetY(140);
+      setImageOffsetY(10);
       setFocalScale(1.28);
       setGap(24);
       setParallaxDepth(0.14);
