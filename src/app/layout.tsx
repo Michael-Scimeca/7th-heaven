@@ -194,7 +194,6 @@ export default async function RootLayout({
                 {isDraftMode && <VisualEditing />}
                 
                 <ClientOnlyExtras />
-                <PageNav />
               </div>
             </SmoothScroll>
           </Providers>
