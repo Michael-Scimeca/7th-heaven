@@ -1944,7 +1944,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
 
             {/* Bento Box Food Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs text-white/80 grid-flow-dense">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-white/80">
               {(foodTypeTab === "included"
                 ? [
                     { name: "Windjammer Buffet", img: "/images/venues/dining_buffet.png", tag: "Buffet" },
@@ -1986,9 +1986,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     { name: "Trellis Bar Dining", img: "/images/venues/trellis.png", tag: "Outdoor Dining" },
                   ]
               ).map((food, idx) => {
-                const isFeatured = idx === 0 || idx === 7 || idx === 14;
                 return (
-                  <div key={idx} className={`relative rounded-2xl overflow-hidden group border border-black/10 ${isFeatured ? 'col-span-2 h-64 md:h-80' : 'h-52 md:h-64'}`}>
+                  <div key={idx} className="relative rounded-2xl overflow-hidden group border border-black/10 h-48 md:h-56">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
