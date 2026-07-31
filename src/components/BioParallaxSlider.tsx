@@ -532,17 +532,17 @@ lerpSpeed: ${lerpSpeed}`;
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible">
-                      <div className="flex justify-between items-start mb-4 overflow-visible relative z-30 pointer-events-none">
-                        <div className="whitespace-nowrap overflow-visible">
-                          <span className="text-[var(--font-size-4xs)] font-bold uppercase text-cyan-400 tracking-wider block mb-0.5 whitespace-nowrap drop-shadow-[0_2px_8px_rgba(0,0,0,1)] [text-shadow:_0_2px_12px_rgb(0_0_0_/_100%),_0_1px_4px_rgb(0_0_0_/_100%)]">
+                      <div className="flex justify-between items-start gap-2 mb-3 overflow-visible relative z-30 pointer-events-none">
+                        <div className="whitespace-nowrap overflow-visible min-w-0 flex-1">
+                          <span className="text-[10px] font-extrabold uppercase text-cyan-400 tracking-wider block mb-0.5 whitespace-nowrap overflow-hidden text-ellipsis drop-shadow-[0_2px_8px_rgba(0,0,0,1)] [text-shadow:_0_2px_12px_rgb(0_0_0_/_100%),_0_1px_4px_rgb(0_0_0_/_100%)]">
                             {m?.role}
                           </span>
-                          <h3 className="text-xs md:text-sm font-black uppercase text-white tracking-wide whitespace-nowrap drop-shadow-[0_2px_8px_rgba(0,0,0,1)] [text-shadow:_0_2px_12px_rgb(0_0_0_/_100%),_0_1px_4px_rgb(0_0_0_/_100%)]">
+                          <h3 className="text-xs font-black uppercase text-white tracking-wide whitespace-nowrap overflow-hidden text-ellipsis drop-shadow-[0_2px_8px_rgba(0,0,0,1)] [text-shadow:_0_2px_12px_rgb(0_0_0_/_100%),_0_1px_4px_rgb(0_0_0_/_100%)]">
                             {m?.name}
                           </h3>
                         </div>
                         {m?.birthday && (
-                          <span className="text-[var(--font-size-4xs)] font-bold text-white bg-black/80 border border-white/20 px-2.5 py-1 rounded-full uppercase shrink-0 shadow-xl drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
+                          <span className="text-[9px] font-bold text-white bg-black/80 border border-white/20 px-2 py-0.5 rounded-full uppercase shrink-0 shadow-xl drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
                             🎂 {m.birthday}
                           </span>
                         )}
