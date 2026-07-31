@@ -171,8 +171,13 @@
 }
 
 .cardRight {
-    text-align: left;
+    text-align: right;
     background: rgba(10, 25, 55, 0.85);
+}
+
+.cardRight .eventItem {
+    flex-direction: row-reverse;
+    text-align: right;
 }
 
 .cardVisible {
