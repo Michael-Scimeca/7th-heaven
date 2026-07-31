@@ -288,21 +288,24 @@ export function Header() {
                 <div className="relative shrink-0 flex items-center justify-center">
                   <Link
                     href={dashboardHref}
-                    className="relative w-11 h-11 rounded-full overflow-hidden bg-[#38bdf8] border-2 border-[#38bdf8] flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
-                    style={{ borderRadius: "50%", overflow: "hidden" }}
+                    className="relative flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
+                    style={{ width: "44px", height: "44px", borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}
                     title={displayName}
                   >
                     {isAvatarUrl ? (
-                      <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" style={{ borderRadius: "50%" }} />
+                      <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }} />
                     ) : (
-                      <div className="w-full h-full rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm" style={{ borderRadius: "50%" }}>
+                      <div className="w-full h-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
                         {initials}
                       </div>
                     )}
                   </Link>
 
-                  {/* Overlapping Role Badge Circle */}
-                  <span className={`absolute -bottom-1 -right-2 w-6 h-6 text-[var(--font-size-4xs)] font-black uppercase text-white rounded-full border-2 border-white flex items-center justify-center shadow-lg leading-none ${badgeBg}`} style={{ borderRadius: "50%" }}>
+                  {/* Overlapping Role Badge Circle with Smaller Text */}
+                  <span
+                    className={`absolute -bottom-1 -right-2.5 w-7 h-7 text-[7px] font-black uppercase text-white border-2 border-white flex items-center justify-center shadow-lg leading-none ${badgeBg}`}
+                    style={{ borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}
+                  >
                     {badgeText}
                   </span>
                 </div>
