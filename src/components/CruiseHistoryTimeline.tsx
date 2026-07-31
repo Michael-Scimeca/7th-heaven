@@ -479,8 +479,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
   return (
     <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip border-t border-cyan-500/20 shadow-2xl">
-      {/* Section Header */}
-      <div className="text-center max-w-4xl mx-auto mb-16 px-4">
+      {/* Section Header — Synced to Global Layout Padding (25px Mobile / 32px Desktop) */}
+      <div className="text-center max-w-4xl mx-auto mb-16 px-[25px] md:px-[32px]">
         <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
           25+ Years Legacy Pathway
         </span>
@@ -781,9 +781,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 32px LEFT ALIGNED & STOPS AT 2026) ── */}
       <div
         ref={mobileContainerRef}
-        className="block md:hidden relative w-full py-6 px-4 sm:px-6 md:px-[32px]"
+        className="block md:hidden relative w-full py-6 px-[25px]"
       >
-        <div className="space-y-6 pl-7 relative">
+        <div className="space-y-6 pl-6 relative">
           {chronologicalHistory.map((hist, idx) => {
             const isReached = idx === 0 || mobileProgress >= Math.max(0, (idx / chronologicalHistory.length) - 0.03);
             const nextHist = chronologicalHistory[idx + 1];
@@ -793,17 +793,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
             return (
               <div key={idx} className="relative group">
-                {/* Node Box */}
+                {/* Node Circle Box */}
                 <div
-                  className={`absolute left-[-34px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-all duration-300 ${
+                  className={`absolute left-[-25px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-all duration-300 ${
                     isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
                   }`}
                 />
 
-                {/* Connecting Line Segment — STOPS COMPLETELY AT 2026 */}
+                {/* Connecting Line Segment — Aligned at 25px Global Mobile Padding */}
                 {showConnectorLine && (
                   <div
-                    className={`absolute left-[-28px] top-2 bottom-[-32px] w-[4px] transition-colors duration-300 ${
+                    className={`absolute left-[-19px] top-2 bottom-[-32px] w-[4px] transition-colors duration-300 ${
                       isReached ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'bg-cyan-500/20'
                     }`}
                   />

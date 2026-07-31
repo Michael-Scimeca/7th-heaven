@@ -275,7 +275,6 @@ html.lenis, html.lenis body {
    margin: 0;
    padding: 0;
    box-sizing: border-box;
-   border-radius: 0px !important;
  }
 
  html {
@@ -520,13 +519,20 @@ body.preloading #page-content-wrapper {
  line-height: 1rem;
 }
 
-@utility site-container {
+.site-container {
  width: 100%;
  max-width: 100% !important;
  margin-left: auto;
  margin-right: auto;
- padding-left: 32px !important;
- padding-right: 32px !important;
+ padding-left: 25px !important;
+ padding-right: 25px !important;
+}
+
+@media (min-width: 768px) {
+ .site-container {
+   padding-left: 32px !important;
+   padding-right: 32px !important;
+ }
 }
 
 @utility pt-page {

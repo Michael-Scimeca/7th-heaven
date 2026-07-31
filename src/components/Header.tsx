@@ -189,7 +189,7 @@ export function Header() {
         }`}
       suppressHydrationWarning
     >
-      <div className="w-full max-w-full px-8">
+      <div className="w-full max-w-full px-[25px] md:px-[32px]">
         <div
           id="nav-inner-card"
           suppressHydrationWarning
@@ -221,7 +221,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 max-[1400px]:-ml-1.5 min-[1401px]:mx-4 relative ${mobileOpen ? "z-[10001]" : ""}`}
+            className={`shrink-0 min-w-0 max-[1400px]:ml-0 min-[1401px]:mx-4 relative ${mobileOpen ? "z-[10001]" : ""}`}
           >
             <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden">
               <Logo className="w-full h-full text-black drop-shadow-sm" />
@@ -345,9 +345,9 @@ export function Header() {
               </button>
             )}
 
-            {/* Mobile Menu Toggle Button — ONLY visible at <= 1400px (mutually exclusive with desktop nav) */}
+            {/* Mobile Menu Toggle Button — ONLY visible at <= 1400px (aligned flush to 25px right padding) */}
             <button
-              className="flex min-[1401px]:hidden w-10 h-10 items-center justify-center relative cursor-pointer text-black hover:text-[var(--color-accent)] transition-colors p-1"
+              className="flex min-[1401px]:hidden w-8 h-10 items-center justify-end -mr-1 relative cursor-pointer text-black hover:text-[var(--color-accent)] transition-colors p-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"
