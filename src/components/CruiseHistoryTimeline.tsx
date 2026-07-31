@@ -170,6 +170,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     rows.push(chronologicalHistory.slice(i, i + chunkSize));
   }
 
+  const idx2026 = chronologicalHistory.findIndex(h => h.year === '2026');
+  const max2026Ratio = idx2026 >= 0 ? (idx2026 / Math.max(1, chronologicalHistory.length - 1)) : 0.88;
+  const maxMobileHeight = max2026Ratio * (mobileSvgSize.h || 3000);
+
   // Measure path distance to 2026 badge and all individual year badges
   const [pathLengthTo2026, setPathLengthTo2026] = useState<number | null>(null);
   const pathLengthTo2026Ref = useRef<number | null>(null);
@@ -774,23 +778,23 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </div>
       </div>
 
-      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 32px LEFT ALIGNED) ── */}
+      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 32px LEFT ALIGNED & STOPS AT 2026) ── */}
       <div
         ref={mobileContainerRef}
         className="block md:hidden relative w-full py-6 px-[32px]"
       >
         <svg className="absolute left-[32px] top-8 bottom-4 w-[6px] h-[calc(100%-2rem)] pointer-events-none z-0 overflow-visible">
-          {/* Muted background track */}
+          {/* Muted background track stopping at 2026 */}
           <path
-            d={`M 3 0 V ${mobileSvgSize.h || 3000}`}
+            d={`M 3 0 V ${maxMobileHeight}`}
             fill="none"
             stroke="rgba(6, 182, 212, 0.2)"
             strokeWidth="4"
           />
-          {/* Scroll progress bright cyan fill line */}
+          {/* Scroll progress bright cyan fill line stopping at 2026 */}
           <path
             ref={mobilePathRef}
-            d={`M 3 0 V ${Math.max(20, (mobileProgress || 0) * (mobileSvgSize.h || 3000))}`}
+            d={`M 3 0 V ${Math.min(maxMobileHeight, Math.max(20, (mobileProgress || 0) * (mobileSvgSize.h || 3000)))}`}
             fill="none"
             stroke="#06b6d4"
             strokeWidth="4.5"
