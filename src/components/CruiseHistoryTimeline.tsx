@@ -264,9 +264,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       startY = dotRect.top - containerRect.top + dotRect.height / 2;
     }
 
-    const outerRight = w - 60;
-    const outerLeft = 60;
-    const r = 44; // Corner radius matching expanded layout perfectly
+    const outerRight = w - 32;
+    const outerLeft = 32;
+    const r = 32; // Corner radius matching 32px layout spacing
 
     // Measure exact X-center for 2026 badge node for path termination
     const allYearBadges = Array.from(desktopContainerRef.current.querySelectorAll('[data-year-badge]'));
@@ -498,10 +498,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </p>
       </div>
 
-      {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (MATCHING NAVBAR WIDTH: max-w-[1400px]) ── */}
+      {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (32px LEADING & TRAILING SPACING) ── */}
       <div
         ref={desktopContainerRef}
-        className="hidden md:block w-full max-w-[1400px] mx-auto py-8 px-4 md:px-8 lg:px-12 relative overflow-clip"
+        className="hidden md:block w-full py-8 px-[32px] relative overflow-clip"
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
@@ -781,12 +781,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </div>
       </div>
 
-      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD) ── */}
+      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 32px LEFT ALIGNED) ── */}
       <div
         ref={mobileContainerRef}
-        className="block md:hidden relative max-w-lg mx-auto py-6 px-4 sm:px-6"
+        className="block md:hidden relative w-full py-6 px-[32px]"
       >
-        <svg className="absolute left-6 top-4 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
+        <svg className="absolute left-[32px] top-4 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
           <path
             d="M 2 0 V 1000"
             fill="none"
@@ -807,14 +807,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           />
         </svg>
 
-        <div className="space-y-6 pl-10">
+        <div className="space-y-6 pl-7">
           {chronologicalHistory.map((hist, idx) => {
             const isReached = mobileProgress >= (idx + 0.5) / chronologicalHistory.length;
 
             return (
               <div key={idx} className="relative group">
                 <div
-                  className={`absolute left-[-26px] top-4 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
+                  className={`absolute left-[-34px] top-4 w-4 h-4 rounded-full border-2 border-[#06060c] transition-all duration-300 ${
                     isReached ? 'bg-cyan-300 scale-125' : 'bg-cyan-500/30'
                   }`}
                 />
