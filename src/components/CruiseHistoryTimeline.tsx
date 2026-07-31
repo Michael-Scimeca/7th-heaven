@@ -789,23 +789,23 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         ref={mobileContainerRef}
         className="block md:hidden relative w-full py-6 px-[32px]"
       >
-        <svg className="absolute left-[32px] top-8 bottom-4 w-[4px] h-[calc(100%-2rem)] pointer-events-none z-0">
+        <svg className="absolute left-[32px] top-8 bottom-4 w-[6px] h-[calc(100%-2rem)] pointer-events-none z-0 overflow-visible">
+          {/* Muted background track */}
           <path
-            d={`M 2 0 V ${mobileSvgSize.h || 3000}`}
+            d={`M 3 0 V ${mobileSvgSize.h || 3000}`}
             fill="none"
-            stroke="rgba(6, 182, 212, 0.15)"
-            strokeWidth="3"
+            stroke="rgba(6, 182, 212, 0.2)"
+            strokeWidth="4"
           />
+          {/* Scroll progress bright cyan fill line */}
           <path
-            ref={mobilePathRef}
-            d={`M 2 0 V ${mobileSvgSize.h || 3000}`}
+            d={`M 3 0 V ${Math.max(20, (mobileProgress || 0) * (mobileSvgSize.h || 3000))}`}
             fill="none"
-            stroke="url(#ocean-water-gradient)"
-            strokeWidth="3.5"
+            stroke="#06b6d4"
+            strokeWidth="4.5"
+            strokeLinecap="round"
             style={{
-              strokeDasharray: mobilePathLength || 3000,
-              strokeDashoffset: (mobilePathLength || 3000) * (1 - (mobileProgress || 0)),
-              filter: 'url(#water-wave-motion)',
+              filter: 'drop-shadow(0 0 6px rgba(6,182,212,0.8))',
             }}
           />
         </svg>
