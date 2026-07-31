@@ -725,3 +725,16 @@ html.tour-sort-stuck #tour-sort-bar {
     transform: translate(-50%, -50%) !important;
   }
 }
+
+/* Hide Next.js development indicator badge (N) */
+nextjs-portal,
+[data-nextjs-toast],
+#nextjs__container,
+div[class*="nextjs-toast"],
+div[class*="nextjs-portal"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
