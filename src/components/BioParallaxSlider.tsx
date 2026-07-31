@@ -359,7 +359,7 @@ lerpSpeed: ${lerpSpeed}`;
   };
 
   return (
-    <div className="w-full max-w-full overflow-visible min-h-[calc(100vh-180px)] flex flex-col justify-end select-none font-sans relative bg-black pt-16 md:pt-24 pb-2">
+    <div className="w-full max-w-full overflow-visible min-h-[calc(100vh-180px)] flex flex-col justify-end select-none font-sans relative bg-black pt-16 md:pt-24 pb-0">
       
       {/* ── FLOATING LIVE STAGE & SLIDER UI TUNER CONTROLS ── */}
       <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end">
@@ -505,12 +505,12 @@ lerpSpeed: ${lerpSpeed}`;
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           style={{ touchAction: "pan-y" }}
-          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative py-2"
+          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative pt-2 pb-0"
         >
           {/* TRACK ELEMENT */}
           <div
             ref={trackRef}
-            className="will-change-transform flex items-end py-2"
+            className="will-change-transform flex items-end pt-2 pb-0"
             style={{ gap: `${gap}px`, width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
