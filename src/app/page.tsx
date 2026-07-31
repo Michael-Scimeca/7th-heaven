@@ -13,48 +13,48 @@ import HeroUpcomingShows from "@/components/HeroUpcomingShows";
 import LiveStatusSign from "@/components/LiveStatusSign";
 
 // Lazy-loaded: canvas/rAF components only load when rendered
-const VinylHeroPlayer   = dynamic(() => import("@/components/VinylHeroPlayer"));
-const HeroVideoPlayer   = dynamic(() => import("@/components/HeroVideoPlayer"));
-const HeroAlbumPlayer   = dynamic(() => import("@/components/HeroAlbumPlayer"));
-const HeroLiveThumbs    = dynamic(() => import("@/components/HeroLiveThumbs"));
-const TourList          = dynamic(() => import("@/components/TourList"));
-const TourMap           = dynamic(() => import("@/components/TourMap"));
-const BehindTheScenes   = dynamic(() => import("@/components/BehindTheScenes"));
-const ProximityNotify   = dynamic(() => import("@/components/ProximityNotify"));
-const HomeMerch         = dynamic(() => import("@/components/HomeMerch"));
-const FeaturedTrack     = dynamic(() => import("@/components/FeaturedTrack"));
+const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"));
+const HeroVideoPlayer = dynamic(() => import("@/components/HeroVideoPlayer"));
+const HeroAlbumPlayer = dynamic(() => import("@/components/HeroAlbumPlayer"));
+const HeroLiveThumbs = dynamic(() => import("@/components/HeroLiveThumbs"));
+const TourList = dynamic(() => import("@/components/TourList"));
+const TourMap = dynamic(() => import("@/components/TourMap"));
+const BehindTheScenes = dynamic(() => import("@/components/BehindTheScenes"));
+const ProximityNotify = dynamic(() => import("@/components/ProximityNotify"));
+const HomeMerch = dynamic(() => import("@/components/HomeMerch"));
+const FeaturedTrack = dynamic(() => import("@/components/FeaturedTrack"));
 
 
 
 const FALLBACK_STATS = [
- { number: "40+", label: "Years Performing" },
- { number: "#1", label: "Billboard Charts" },
- { number: "200+", label: "Shows per Year" },
- { number: "5,000+", label: "Songs Written" },
+  { number: "40+", label: "Years Performing" },
+  { number: "#1", label: "Billboard Charts" },
+  { number: "200+", label: "Shows per Year" },
+  { number: "5,000+", label: "Songs Written" },
 ];
 
 const FALLBACK_MEMBERS = [
- { name: "Adam Heisler", role: "Lead Vocals • Guitars • Bass", color: "#851DEF" },
- { name: "Richard Hofherr", role: "Guitars • Keys • Vocals", color: "#3b82f6" },
- { name: "Nick Cox", role: "Guitars • Vocals", color: "#06b6d4" },
- { name: "Mark Kennetz", role: "Bass • Vocals", color: "#851DEF" },
- { name: "Frankie Harchut", role: "Drums", color: "#3b82f6" },
+  { name: "Adam Heisler", role: "Lead Vocals • Guitars • Bass", color: "#851DEF" },
+  { name: "Richard Hofherr", role: "Guitars • Keys • Vocals", color: "#3b82f6" },
+  { name: "Nick Cox", role: "Guitars • Vocals", color: "#06b6d4" },
+  { name: "Mark Kennetz", role: "Bass • Vocals", color: "#851DEF" },
+  { name: "Frankie Harchut", role: "Drums", color: "#3b82f6" },
 ];
 
 const FALLBACK_SHOWS = [
- { 
-   day: "Wed", 
-   date: "July 1", 
-   venue: "Arlington Hts Frontier Days", 
-   city: "Arlington Hts", 
-   state: "IL", 
-   time: "8:00pm", 
-   info: "Outdoor All-Age Festival",
-   mapUrl: "https://maps.apple.com/?address=Arlington+Heights,+IL",
-   websiteUrl: "",
-   startDate: "2026-07-01",
-   allAges: true
- },
+  {
+    day: "Wed",
+    date: "July 1",
+    venue: "Arlington Hts Frontier Days",
+    city: "Arlington Hts",
+    state: "IL",
+    time: "8:00pm",
+    info: "Outdoor All-Age Festival",
+    mapUrl: "https://maps.apple.com/?address=Arlington+Heights,+IL",
+    websiteUrl: "",
+    startDate: "2026-07-01",
+    allAges: true
+  },
 ];
 
 // ISR: regenerate every 60s — page is pre-rendered & cached
@@ -68,12 +68,12 @@ export default async function Home() {
     sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } }).catch(err => { console.error("Error fetching settings:", err); return null; }),
   ]);
 
-  const members = (membersData as SanityBandMember[]).length > 0 
+  const members = (membersData as SanityBandMember[]).length > 0
     ? (membersData as SanityBandMember[]).map(m => ({
-        name: m.name,
-        role: m.role,
-        color: m.name === "Adam Heisler" ? "#851DEF" : "#3b82f6"
-      }))
+      name: m.name,
+      role: m.role,
+      color: m.name === "Adam Heisler" ? "#851DEF" : "#3b82f6"
+    }))
     : FALLBACK_MEMBERS;
 
   const formatShowDate = (isoDate: string) => {
@@ -142,60 +142,60 @@ export default async function Home() {
   const release = settings?.latestRelease;
   const btsVideos = settings?.btsVideos;
 
- return (
- <>
-  <LiveStatusSign />
+  return (
+    <>
+      <LiveStatusSign />
 
-  {/* ====== HERO ====== */}
-  <section className="relative w-full p-[25px]" id="hero">
-    {/* Hero Card — no top padding/rounding so video reaches the very top */}
-    <div id="hero-card" className="relative w-full h-[calc(100vh-50px)] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[var(--color-bg-surface)] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
-
-
+      {/* ====== HERO ====== */}
+      <section className="relative w-full p-[25px]" id="hero">
+        {/* Hero Card — no top padding/rounding so video reaches the very top */}
+        <div id="hero-card" className="relative w-full h-[calc(100vh-50px)] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[var(--color-bg-surface)] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
 
 
 
 
 
 
-      {/* ── Hero Video + Vinyl Player (client component, synced) ── */}
-      <HeroVideoPlayer>
-        <HeroLiveThumbs />
-      </HeroVideoPlayer>
-
-    </div>
-
-  </section>
-
-  {/* Global Announcement Banner */}
-  {settings?.announcement?.isActive && settings.announcement.text && (!settings.announcement.expiresAt || new Date(settings.announcement.expiresAt) > now) && (
-    <AnnouncementBanner 
-      text={settings.announcement.text}
-      link={settings.announcement.link}
-      linkText={settings.announcement.linkText}
-      inline={true}
-    />
-  )}
-
- {/* ====== TOUR LIST (full — same as /tour page) ====== */}
- <section id="tour">
-    <TourList initialShows={upcomingShows} />
-  </section>
 
 
-  {/* ====== PROXIMITY NOTIFY ====== */}
-  <ProximityNotify nextShow={upcomingShows.find(s => s.city) || upcomingShows[0]} />
+          {/* ── Hero Video + Vinyl Player (client component, synced) ── */}
+          <HeroVideoPlayer>
+            <HeroLiveThumbs />
+          </HeroVideoPlayer>
 
- {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
- <HomeMerch />
+        </div>
+
+      </section>
+
+      {/* Global Announcement Banner */}
+      {settings?.announcement?.isActive && settings.announcement.text && (!settings.announcement.expiresAt || new Date(settings.announcement.expiresAt) > now) && (
+        <AnnouncementBanner
+          text={settings.announcement.text}
+          link={settings.announcement.link}
+          linkText={settings.announcement.linkText}
+          inline={true}
+        />
+      )}
+
+      {/* ====== TOUR LIST (full — same as /tour page) ====== */}
+      <section id="tour">
+        <TourList initialShows={upcomingShows} />
+      </section>
+
+
+      {/* ====== PROXIMITY NOTIFY ====== */}
+      <ProximityNotify nextShow={upcomingShows.find(s => s.city) || upcomingShows[0]} />
+
+      {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
+      <HomeMerch />
 
 
 
 
- {/* ====== VIDEOS (removed) ====== */}
+      {/* ====== VIDEOS (removed) ====== */}
 
- {/* ====== BEHIND THE SCENES (removed) ====== */}
+      {/* ====== BEHIND THE SCENES (removed) ====== */}
 
- </>
- );
+    </>
+  );
 }
