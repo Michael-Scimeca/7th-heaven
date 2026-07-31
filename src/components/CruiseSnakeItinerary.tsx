@@ -403,9 +403,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     } catch {}
   };
 
-  // Canvas height: last node Y + card height (560px) to prevent cutoff
+  // Canvas height: last node Y + card height (450px) so card bottom sits flush at container padding boundary
   const lastNodeY = (itinerary.length - 1) * STEP_H + 50;
-  const totalH = lastNodeY + 560;
+  const totalH = lastNodeY + 450;
 
   /* ── Node positions dynamically computed based on layoutMode ── */
   const nodes = itinerary.map((_, i) => {

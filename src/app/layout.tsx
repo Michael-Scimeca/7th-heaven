@@ -150,21 +150,21 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} suppressHydrationWarning>
-      <head>
+      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable} preloading`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}
-        <script
+        <Script
+          id="band-jsonld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(bandLd) }}
         />
-        {/* Blocking script: runs synchronously during HTML parse (before hydration).
-            Removes .preloading immediately for return visitors so there's zero
-            flash of hidden content on cached page loads. Must be in <head> —
-            React 18 does not allow dangerouslySetInnerHTML <script> in <body>. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("7h_preloader_shown")==="true"){setTimeout(function(){document.body.classList.remove("preloading")},80)}}catch(e){}` }} />
-      </head>
-      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable} preloading`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
+        {/* Preloader check script */}
+        <Script
+          id="preloader-check"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("7h_preloader_shown")==="true"){document.body.classList.remove("preloading")}}catch(e){}` }}
+        />
 
         <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
           if (window.location.search.includes('bypass=true')) {

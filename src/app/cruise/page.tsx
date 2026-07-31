@@ -581,14 +581,27 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
   return (
     <div className="min-h-screen overflow-x-hidden max-w-full bg-white text-black pt-[88px]">
-      {/* ── SECTION 1: HERO (SOLID BLACK BACKGROUND) ── */}
-      <section className="relative flex flex-col justify-center overflow-hidden pt-[34px] pb-16 bg-black text-white">
-        <div className="absolute inset-0 bg-black" />
+      {/* ── SECTION 1: HERO (BACKGROUND VIDEO — +120px HEIGHT) ── */}
+      <section className="relative flex flex-col justify-center overflow-hidden pt-20 pb-20 bg-black text-white min-h-[480px] md:min-h-[580px]">
+        {/* Cruise Hero Video Background Overlay */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover opacity-55 scale-105"
+            poster="/images/cruise-hero.png"
+          >
+            <source src="/movie/cruise.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/60" />
+        </div>
 
         {/* Hero Text */}
-        <div className="relative z-10 text-center px-[32px] max-w-5xl mx-auto mb-10">
+        <div className="relative z-10 text-center px-[32px] max-w-5xl mx-auto mb-2">
           {/* Cruise Line & Booking Center Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/50 text-cyan-300 text-xs font-black uppercase tracking-[0.25em] mb-6 shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/50 text-cyan-300 text-xs font-black uppercase tracking-[0.25em] mb-4 shadow-[0_0_20px_rgba(6,182,212,0.4)]">
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
             ROYAL CARIBBEAN INTERNATIONAL · OFFICIAL GROUP CRUISE
           </div>
@@ -615,7 +628,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {transitionDone && (<>
 
       {/* ── SECTION 2: CABINS & PRICING ── */}
-      <section id="pricing" className="py-16 site-container relative z-20">
+      <section id="pricing" className="pt-6 pb-16 site-container relative z-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
@@ -2023,8 +2036,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
             </div>
 
-            {/* Full-Width 4-Column Bento Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-xs text-white/80 grid-flow-dense">
+            {/* Full-Width 4-Column Uniform Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs text-white/80">
               {(barTab === "bars"
                 ? [
                     { name: "Lime & Coconut Bar", img: "/images/venues/lime_coconut.png", tag: "Poolside" },
@@ -2071,17 +2084,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     { name: "Royal Theater Mainstage", img: "/images/venues/broadway.png", tag: "Main Theater" },
                   ]
               ).map((item, idx) => {
-                const isFeatured = idx === 0 || idx === 7 || idx === 14;
                 const isCyan = barTab === "bars";
                 return (
-                  <div key={idx} className={`relative rounded-2xl overflow-hidden group border border-black/10 ${isFeatured ? 'col-span-2 h-44 md:h-52' : 'h-36 md:h-40'}`}>
+                  <div key={idx} className="relative rounded-2xl overflow-hidden group border border-black/10 h-48 md:h-56 shadow-sm">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-3.5 flex flex-col justify-end">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                       <span className={`text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-0.5 rounded-full font-bold self-start mb-1.5 ${
                         isCyan ? 'text-cyan-300 bg-cyan-500/30' : 'text-purple-300 bg-purple-500/30'
                       }`}>{item.tag}</span>
-                      <p className="font-extrabold text-white text-sm md:text-base leading-snug">{item.name}</p>
+                      <p className="font-extrabold text-white text-base md:text-lg leading-snug">{item.name}</p>
                     </div>
                   </div>
                 );
@@ -2094,7 +2106,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </section>
 
       {/* ── SECTION 5: FAQS & HISTORY ── */}
-      <section id="faqs" className="py-20 site-container">
+      <section id="faqs" className="pt-20 pb-10 site-container">
           <div className="text-left w-full mb-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Cruise FAQs <span className="accent-gradient-text">& Travel History</span>
@@ -2105,7 +2117,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* FAQs List */}
-          <div className="space-y-2 mb-16 text-left max-w-4xl">
+          <div className="space-y-2 mb-0 text-left max-w-4xl">
             {FAQS_EXTENDED.map((faq, i) => (
               <div key={i} className="border border-black/10 bg-black/[0.03] rounded-xl overflow-hidden shadow-xs">
                 <button 
@@ -2124,14 +2136,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
             ))}
           </div>
-
-          {/* Cruise History Section with 6 Interactive Layout Modes */}
-          <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
-            <CruiseHistoryTimeline history={CRUISE_HISTORY} />
-          </React.Suspense>
-
-
         </section>
+
+        {/* Cruise History Section with 6 Interactive Layout Modes */}
+        <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
+          <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+        </React.Suspense>
       </>)}
     </div>
     );

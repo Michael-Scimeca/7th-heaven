@@ -481,7 +481,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning, updateShipPosition]);
 
   return (
-    <div className="border-t border-white/10 pt-16 mt-16 text-left">
+    <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip border-t border-cyan-500/20 shadow-2xl">
       {/* Section Header */}
       <div className="text-center max-w-4xl mx-auto mb-16 px-4">
         <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
@@ -734,10 +734,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           style={{ width: 'clamp(200px, 24vw, 380px)' }}
                         >
                           <div
-                            className={`bg-[var(--color-bg-surface)]/90 backdrop-blur-xl rounded-2xl md:rounded-3xl transition-all duration-300 ${
+                            className={`bg-[#0a1937]/90 backdrop-blur-xl rounded-2xl md:rounded-3xl transition-all duration-300 ${
                               isReached
-                                ? 'border border-cyan-400/70 -translate-y-1'
-                                : 'border border-white/10 opacity-60'
+                                ? 'border border-cyan-400/70 -translate-y-1 shadow-[0_10px_30px_rgba(6,182,212,0.25)]'
+                                : 'border border-white/15 opacity-80'
                             }`}
                             style={{ padding: 'clamp(0.75rem, 1.5vw, 1.5rem)' }}
                           >
