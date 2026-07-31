@@ -1157,14 +1157,15 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               width: '640px',
             };
           } else {
-            // Wide Screen Sweep (default) — shifted 32px from section edge
+            // Wide Screen Sweep (default) — shifted 32px from section edge (wider on mobile)
             cardStyle = {
               ...cardStyle,
               ...(node.isLeft
                 ? { left: '32px' }
                 : { right: '32px' }
               ),
-              width: 'min(620px, 42vw)',
+              width: isMobile ? 'calc(100vw - 64px)' : 'min(620px, 42vw)',
+              maxWidth: isMobile ? 'calc(100vw - 64px)' : '620px',
             };
           }
 
