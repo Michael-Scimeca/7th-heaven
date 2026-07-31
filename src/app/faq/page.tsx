@@ -161,32 +161,31 @@ export default function FAQPage() {
   }, [activeTab, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[112px] pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#f0f2f5] pt-[112px] pb-24 relative overflow-hidden text-black">
       {/* Decorative Background Elements */}
-      <div className="absolute top-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-[var(--color-accent)]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] rounded-full bg-emerald-500/5 blur-[150px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="site-container max-w-4xl mx-auto relative z-10">
         
         {/* Page Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-[var(--color-accent)]/10 border border-[#8a1cfc]/20 rounded-full px-4 py-1.5 mb-4 text-[var(--color-accent-soft)] text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-full px-4 py-1.5 mb-4 text-purple-700 text-xs font-bold uppercase tracking-wider">
             <SparklesIcon />
             Support Center
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight uppercase mb-4">
-            Frequently Asked <span className="text-[#8a1cfc]">Questions</span>
+          <h1 className="text-4xl sm:text-5xl font-black text-black tracking-tight uppercase mb-4">
+            Frequently Asked <span className="text-purple-600">Questions</span>
           </h1>
-          <p className="text-white/60 text-base max-w-xl mx-auto">
+          <p className="text-black/60 text-base max-w-xl mx-auto font-medium">
             Got questions about tickets, shipping, our cruise community, or the fan portal? We have answers.
           </p>
         </div>
 
         {/* Search Bar */}
         <div className="relative mb-10 group">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#8a1cfc] to-emerald-500 rounded-2xl opacity-10 group-focus-within:opacity-20 blur-lg transition duration-300" />
-          <div className="relative bg-[var(--color-bg-surface)] border border-white/5 group-focus-within:border-[#8a1cfc]/40 rounded-2xl p-1.5 flex items-center transition duration-200">
-            <div className="pl-4 pr-2 text-white/40">
+          <div className="relative bg-white border border-black/15 group-focus-within:border-purple-500 rounded-2xl p-1.5 flex items-center transition duration-200 shadow-sm">
+            <div className="pl-4 pr-2 text-black/40">
               <SearchIcon />
             </div>
             <input
@@ -194,12 +193,12 @@ export default function FAQPage() {
               placeholder="Search questions, keywords, or topics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent border-none outline-none w-full text-white placeholder-white/35 py-3 text-sm focus:ring-0 focus:outline-none"
+              className="bg-transparent border-none outline-none w-full text-black placeholder:text-black/40 py-3 text-sm focus:ring-0 focus:outline-none"
             />
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery("")}
-                className="text-white/40 hover:text-white px-3 py-1.5 text-xs font-semibold rounded-lg bg-white/5 hover:bg-white/10 transition"
+                className="text-black/50 hover:text-black px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 transition"
               >
                 Clear
               </button>
@@ -218,8 +217,8 @@ export default function FAQPage() {
                 onClick={() => setActiveTab(cat.id)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition duration-200 border ${
                   isActive 
-                    ? "bg-[var(--color-accent)] border-[#8a1cfc] text-white shadow-lg shadow-[#8a1cfc]/20" 
-                    : "bg-[var(--color-bg-surface)] border-white/5 text-white/60 hover:text-white hover:border-white/10"
+                    ? "bg-purple-600 border-purple-600 text-white shadow-md" 
+                    : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 shadow-xs"
                 }`}
               >
                 <span className={isActive ? "text-white" : cat.color}>
@@ -239,21 +238,21 @@ export default function FAQPage() {
               return (
                 <div 
                   key={faq.id}
-                  className={`bg-[var(--color-bg-surface)] border rounded-2xl overflow-hidden transition-all duration-300 ${
+                  className={`bg-white border rounded-2xl overflow-hidden transition-all duration-300 shadow-sm ${
                     isExpanded 
-                      ? "border-[#8a1cfc]/30 shadow-md shadow-[#8a1cfc]/5" 
-                      : "border-white/5 hover:border-white/10"
+                      ? "border-purple-500/40 shadow-md" 
+                      : "border-black/10 hover:border-black/20"
                   }`}
                 >
                   <button
                     onClick={() => toggleExpand(faq.id)}
                     className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none"
                   >
-                    <span className="font-extrabold text-sm sm:text-base text-white/90 group-hover:text-white transition duration-200">
+                    <span className="font-extrabold text-sm sm:text-base text-black transition duration-200">
                       {faq.question}
                     </span>
-                    <div className={`p-1.5 rounded-lg bg-white/5 text-white/40 transform transition-transform duration-200 ${
-                      isExpanded ? "rotate-180 text-[#8a1cfc]" : ""
+                    <div className={`p-1.5 rounded-lg bg-gray-100 text-black/50 transform transition-transform duration-200 ${
+                      isExpanded ? "rotate-180 text-purple-600" : ""
                     }`}>
                       <ChevronDownIcon />
                     </div>
@@ -262,10 +261,10 @@ export default function FAQPage() {
                   {/* Expanded Answer with height transition */}
                   <div 
                     className={`transition-all duration-300 ease-in-out ${
-                      isExpanded ? "max-h-[300px] border-t border-white/5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+                      isExpanded ? "max-h-[300px] border-t border-black/10 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
                     } overflow-hidden`}
                   >
-                    <div className="p-5 sm:p-6 text-sm text-white/60 leading-relaxed bg-[var(--color-bg-surface)]/40">
+                    <div className="p-5 sm:p-6 text-sm text-black/70 leading-relaxed bg-gray-50/50">
                       {faq.answer}
                     </div>
                   </div>
@@ -273,12 +272,12 @@ export default function FAQPage() {
               );
             })
           ) : (
-            <div className="text-center py-16 bg-[var(--color-bg-surface)] border border-white/5 rounded-3xl p-8">
-              <span className="text-white/20 inline-block mb-4 scale-150">
+            <div className="text-center py-16 bg-white border border-black/10 rounded-3xl p-8 shadow-sm">
+              <span className="text-black/20 inline-block mb-4 scale-150">
                 <HelpIcon />
               </span>
-              <h3 className="text-white font-extrabold text-lg mb-1">No matches found</h3>
-              <p className="text-white/40 text-sm max-w-xs mx-auto">
+              <h3 className="text-black font-extrabold text-lg mb-1">No matches found</h3>
+              <p className="text-black/50 text-sm max-w-xs mx-auto">
                 We couldn't find any FAQs matching "{searchQuery}". Try using different terms or browse standard categories.
               </p>
             </div>
@@ -286,16 +285,16 @@ export default function FAQPage() {
         </div>
 
         {/* Live Support Banner */}
-        <div className="mt-16 bg-gradient-to-r from-[#8a1cfc]/10 to-emerald-500/10 border border-[#8a1cfc]/20 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="mt-16 bg-white border border-black/10 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
           <div>
-            <h4 className="text-white font-extrabold text-lg mb-1">Still need help?</h4>
-            <p className="text-white/60 text-sm">
+            <h4 className="text-black font-extrabold text-lg mb-1">Still need help?</h4>
+            <p className="text-black/60 text-sm font-medium">
               Can't find the answer you are looking for? Reach out to our direct support.
             </p>
           </div>
           <a
             href="/contact"
-            className="px-6 py-3 rounded-full bg-[var(--color-accent)] hover:bg-[#9d47ff] text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-lg shadow-[#8a1cfc]/20"
+            className="px-6 py-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
           >
             Contact Us
           </a>

@@ -371,53 +371,53 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
   if (isLoading) {
     return (
-      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center">
-        <div className="w-6 h-6 border-2 border-white/10 border-t-[var(--color-accent)] rounded-full animate-spin" />
-        <p className="text-xs font-bold text-white/20 uppercase tracking-widest mt-3">Loading chat...</p>
+      <div className="bg-white border border-black/10 rounded-2xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-md">
+        <div className="w-6 h-6 border-2 border-black/10 border-t-[var(--color-accent)] rounded-full animate-spin" />
+        <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
     );
   }
 
   if (!chatEnabled) {
     return (
-      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl flex flex-col h-[320px] overflow-hidden relative group">
-        <div className="bg-black/40 px-5 py-4 border-b border-white/5 flex items-center justify-between z-10 relative">
+      <div className="bg-white border border-black/10 rounded-2xl flex flex-col h-[320px] overflow-hidden relative group shadow-md text-black">
+        <div className="bg-gray-50 px-5 py-4 border-b border-black/10 flex items-center justify-between z-10 relative">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-lg opacity-50">
+            <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-lg opacity-50">
               💬
             </div>
             <div>
-              <h3 className="font-bold text-white text-sm tracking-wide">Passenger Lounge</h3>
-              <span className="text-[var(--font-size-3xs)] text-white/40 font-bold uppercase tracking-wider">Chat Temporarily Disabled</span>
+              <h3 className="font-bold text-black text-sm tracking-wide">Passenger Lounge</h3>
+              <span className="text-[var(--font-size-3xs)] text-black/40 font-bold uppercase tracking-wider">Chat Temporarily Disabled</span>
             </div>
           </div>
         </div>
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <span className="text-3xl mb-2 opacity-40">🔒</span>
-          <h4 className="text-xs font-bold uppercase tracking-widest text-white/60 mb-1">Chat is Currently Offline</h4>
-          <p className="text-xs text-white/30 max-w-[260px]">The lounge chat has been temporarily paused by crew moderators.</p>
+          <h4 className="text-xs font-bold uppercase tracking-widest text-black/60 mb-1">Chat is Currently Offline</h4>
+          <p className="text-xs text-black/40 max-w-[260px]">The lounge chat has been temporarily paused by crew moderators.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="border border-white/10 rounded-2xl p-3 flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden">
-      <div className="py-2 px-1 border-b border-white/10 flex items-center justify-between z-10 relative">
+    <div className="bg-white border border-black/10 rounded-2xl p-3 shadow-md flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden text-black">
+      <div className="py-2 px-1 border-b border-black/10 flex items-center justify-between z-10 relative">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-xs shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-xs shadow-md text-white">
             💬
           </div>
           <div>
-            <h3 className="font-black text-white text-xs tracking-wide flex items-center gap-1.5">
+            <h3 className="font-black text-black text-xs tracking-wide flex items-center gap-1.5">
               Passenger Lounge
-              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 px-1.5 py-0.5 rounded">
+              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-700 bg-cyan-50 border border-cyan-200 px-1.5 py-0.5 rounded">
                 LIVE
               </span>
             </h3>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]" />
-              <span className="text-[var(--font-size-3xs)] font-bold text-emerald-400 uppercase tracking-widest">Cruisers Online</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-xs" />
+              <span className="text-[var(--font-size-3xs)] font-bold text-emerald-700 uppercase tracking-widest">Cruisers Online</span>
             </div>
           </div>
         </div>
@@ -425,13 +425,13 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
           {isCrewOrAdmin && (
             <button
               onClick={() => setIsEditingPin(!isEditingPin)}
-              className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 px-2 py-1 rounded transition-all cursor-pointer"
+              className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 px-2 py-1 rounded transition-all cursor-pointer"
             >
               {pinnedMessage ? '✏️ Edit Pin' : '📌 Add Pin'}
             </button>
           )}
           {messages.length > 0 && (
-            <span className="min-w-[26px] h-[26px] flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-[var(--font-size-2xs)] font-black px-2 shadow-[0_0_12px_rgba(217,70,239,0.5)] border border-purple-400/40">
+            <span className="min-w-[26px] h-[26px] flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-[var(--font-size-2xs)] font-black px-2 shadow-sm border border-purple-400/40">
               {messages.length > 99 ? '99+' : messages.length}
             </span>
           )}

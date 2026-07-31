@@ -256,7 +256,7 @@ function MerchDashboard() {
   const claimedPickups = pickupQueue.filter(o => o.claimed);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[95px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[123px]" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Header — sits below global nav */}
       <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">

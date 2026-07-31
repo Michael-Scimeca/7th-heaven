@@ -19,9 +19,9 @@ function PassengersWidget() {
     <div className="p-2 relative overflow-hidden group">
       <div className="flex justify-between items-end mb-5 relative z-10">
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/50 mb-1">Community</h2>
           <div className="flex items-center gap-2">
-            <span className="text-white font-black text-2xl italic tracking-wide">{totalFans}</span>
+            <span className="text-black font-black text-2xl italic tracking-wide">{totalFans}</span>
             <span className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Cruise Members Onboard</span>
           </div>
         </div>
@@ -32,18 +32,18 @@ function PassengersWidget() {
           {avatars.map((initials, i) => {
             const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-amber-500', 'bg-violet-500', 'bg-pink-500'];
             return (
-              <div key={i} className={`w-10 h-10 rounded-full border-2 border-[#050508] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10-i}]`}>
+              <div key={i} className={`w-10 h-10 rounded-full border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10-i}]`}>
                 <span className="text-xs font-black text-white/90 tracking-widest">{initials}</span>
               </div>
             );
           })}
-          <div className="w-10 h-10 rounded-full border-2 border-[#050508] bg-[var(--color-accent)]/20 flex items-center justify-center shadow-lg text-[var(--color-accent)] font-bold text-xs relative z-0">
+          <div className="w-10 h-10 rounded-full border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md text-[var(--color-accent)] font-bold text-xs relative z-0">
             +{totalFans - avatars.length}
           </div>
         </div>
       </div>
       
-      <p className="text-white/30 text-xs leading-relaxed relative z-10 border-t border-white/5 pt-4">
+      <p className="text-black/60 text-xs leading-relaxed relative z-10 border-t border-black/10 pt-4">
         Join the official 7th Heaven cruise community. See who else is sailing, coordinate shore excursions, and make new friends!
       </p>
     </div>
@@ -382,36 +382,36 @@ export default function CruiseDashboard() {
     }
   };
 
-  if (isLoggedIn === undefined) return <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center">Loading...</div>;
+  if (isLoggedIn === undefined) return <div className="min-h-screen bg-[#f0f2f5] text-black flex items-center justify-center">Loading...</div>;
 
   if (showAuth) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
-        {/* Subtle space-like background elements */}
+      <div className="min-h-screen bg-[#f0f2f5] text-black pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
+        {/* Subtle background elements */}
         <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
             <span className="text-5xl block mb-4 animate-[bounce_2s_infinite]">🚢</span>
-            <h1 className="text-2xl font-black uppercase tracking-widest text-white">Cruise Hub</h1>
-            <p className="text-xs text-cyan-400 font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
+            <h1 className="text-2xl font-black uppercase tracking-widest text-black">Cruise Hub</h1>
+            <p className="text-xs text-cyan-600 font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
           </div>
 
-          <div className="bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+          <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-xl">
             {verifyingPin ? (
               <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
                 <div className="text-center mb-6">
                   <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
-                  <h3 className="font-bold text-white text-lg uppercase tracking-wider mb-2">Verify Your Email</h3>
-                  <p className="text-white/60 text-sm leading-relaxed">
-                    We've sent a 6-digit verification PIN to <strong className="text-cyan-400">{email}</strong>. Enter it below to activate your account.
+                  <h3 className="font-bold text-black text-lg uppercase tracking-wider mb-2">Verify Your Email</h3>
+                  <p className="text-black/60 text-sm leading-relaxed">
+                    We've sent a 6-digit verification PIN to <strong className="text-cyan-600">{email}</strong>. Enter it below to activate your account.
                   </p>
                 </div>
 
                 <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">6-Digit Verification PIN</label>
+                    <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">6-Digit Verification PIN</label>
                     <input
                       type="text"
                       required
@@ -419,18 +419,18 @@ export default function CruiseDashboard() {
                       maxLength={6}
                       value={pinInput}
                       onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
-                      className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-center text-lg font-black tracking-[0.3em] text-white focus:border-cyan-400/50 outline-none transition-all"
+                      className="w-full bg-white border border-black/15 rounded-xl px-4 py-3 text-center text-lg font-black tracking-[0.3em] text-black focus:border-cyan-500 outline-none transition-all"
                     />
                   </div>
 
-                  {authError && <p className="text-rose-400 text-xs mt-2 text-center">{authError}</p>}
+                  {authError && <p className="text-rose-500 text-xs mt-2 text-center font-bold">{authError}</p>}
 
-                  <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-lg shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                    {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
+                  <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
                   </button>
 
                   <div className="text-center mt-4">
-                    <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover:text-white/60 text-2xs font-bold uppercase tracking-widest transition-all cursor-pointer">
+                    <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-black/40 hover:text-black text-2xs font-bold uppercase tracking-widest transition-all cursor-pointer">
                       ← Cancel and Back
                     </button>
                   </div>
@@ -439,22 +439,22 @@ export default function CruiseDashboard() {
             ) : regSuccess ? (
               <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
                 <span className="text-4xl block mb-4">📧</span>
-                <h3 className="font-bold text-white text-lg uppercase tracking-wider mb-2">Check Your Email</h3>
-                <p className="text-white/60 text-sm leading-relaxed mb-6">
-                  We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
+                <h3 className="font-bold text-black text-lg uppercase tracking-wider mb-2">Check Your Email</h3>
+                <p className="text-black/60 text-sm leading-relaxed mb-6">
+                  We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
                 </p>
-                <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
+                <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
                   Go to Log In
                 </button>
               </div>
             ) : (
               <>
                 {/* Tabs */}
-                <div className="flex border-b border-white/10">
-                  <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
+                <div className="flex border-b border-black/10">
+                  <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Log In
                   </button>
-                  <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
+                  <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Register
                   </button>
                 </div>
@@ -462,45 +462,45 @@ export default function CruiseDashboard() {
                 <div className="p-6 md:p-8">
                   {authTab === 'login' ? (
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
-                      <p className="text-white/50 text-xs mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
+                      <p className="text-black/50 text-xs mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address</label>
-                        <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address</label>
+                        <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 rounded-xl px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-all" />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Password</label>
-                        <input type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Password</label>
+                        <input type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 rounded-xl px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-all" />
                       </div>
 
-                      {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
+                      {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
 
-                      <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-lg shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Access Cruise Hub →"}
+                      <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                        {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Access Cruise Hub →"}
                       </button>
                     </form>
                   ) : (
                     <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                      <p className="text-white/50 text-xs mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
+                      <p className="text-black/50 text-xs mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
-                        <input type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
+                        <input type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 rounded-xl px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-all" />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address *</label>
-                        <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address *</label>
+                        <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 rounded-xl px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-all" />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Phone Number *</label>
-                        <input type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Phone Number *</label>
+                        <input type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 rounded-xl px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-all" />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Choose Password *</label>
-                        <input type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Choose Password *</label>
+                        <input type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 rounded-xl px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-all" />
                       </div>
 
-                      {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
+                      {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
 
-                      <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-lg shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                      <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                         {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
                       </button>
                     </form>
@@ -511,7 +511,7 @@ export default function CruiseDashboard() {
           </div>
           
           <div className="text-center mt-6">
-            <Link href="/cruise" className="text-white/40 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-all">
+            <Link href="/cruise" className="text-black/40 hover:text-black text-xs font-bold uppercase tracking-widest transition-all">
               ← Back to Cruise Information
             </Link>
           </div>
@@ -521,18 +521,18 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-28 md:pt-32 pb-16 px-4 md:px-8 overflow-x-hidden w-full max-w-full">
+    <div className="min-h-screen bg-[#f0f2f5] text-black pt-28 md:pt-32 pb-16 px-4 md:px-8 overflow-x-hidden w-full max-w-full">
       <div className="site-container overflow-x-hidden">
-        <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <header className="mb-8 border-b border-black/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <div className="flex items-center gap-4 mb-4">
               <span className="text-3xl md:text-4xl">🚢</span>
               <div>
-                <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white">Cruise Hub</h1>
+                <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-black">Cruise Hub</h1>
                 <p className="text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1">Passenger Area</p>
               </div>
             </div>
-            <p className="text-white/60 text-base md:text-lg max-w-xl">Welcome aboard, <strong className="text-white">{effectiveMember?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
+            <p className="text-black/60 text-base md:text-lg max-w-xl">Welcome aboard, <strong className="text-black">{effectiveMember?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
           </div>
 
           <div className="shrink-0">
@@ -541,16 +541,16 @@ export default function CruiseDashboard() {
         </header>
 
         {(announcement || isAdmin) && (
-          <div className="relative overflow-hidden mb-8 p-4 group">
+          <div className="relative overflow-hidden mb-8 p-4 bg-white border border-black/10 rounded-2xl shadow-md group">
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm">
+                <div className="w-8 h-8 rounded-full bg-cyan-100 text-cyan-700 flex items-center justify-center text-sm">
                   <span className="animate-pulse">🔔</span>
                 </div>
-                <h3 className="text-lg font-black italic tracking-wider text-white uppercase">Captain's Log</h3>
-                <span className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400/80 px-2 py-1 rounded">Priority Update</span>
+                <h3 className="text-lg font-black italic tracking-wider text-black uppercase">Captain's Log</h3>
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-700 bg-cyan-50 px-2 py-1 rounded border border-cyan-200">Priority Update</span>
                 {isAdmin && !isEditingAnnouncement && (
-                  <button onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-400 hover:text-cyan-300 uppercase tracking-widest cursor-pointer transition-colors px-2.5 py-1 rounded bg-cyan-500/10">
+                  <button onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-700 hover:text-cyan-800 uppercase tracking-widest cursor-pointer transition-colors px-2.5 py-1 rounded bg-cyan-50 border border-cyan-200">
                     ✏️ Edit Announcement
                   </button>
                 )}
@@ -562,24 +562,24 @@ export default function CruiseDashboard() {
                     value={announcementInput}
                     onChange={e => setAnnouncementInput(e.target.value)}
                     placeholder="Type news/announcements here (HTML formatting allowed)..."
-                    className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white focus:border-cyan-400/50 outline-none h-32 resize-none transition-all"
+                    className="w-full bg-white border border-black/15 rounded-xl p-4 text-sm text-black focus:border-cyan-500 outline-none h-32 resize-none transition-all"
                   />
                   <div className="flex gap-3 justify-end">
-                    <button onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
+                    <button onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-black/80 text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
                       Cancel
                     </button>
-                    <button onClick={handleSaveAnnouncement} className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
+                    <button onClick={handleSaveAnnouncement} className="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
                       Save Announcement
                     </button>
                   </div>
                 </div>
               ) : sanitizedAnnouncement ? (
                 <div 
-                  className="text-white/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
+                  className="text-black/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-600 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-black [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-black"
                   dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
                 />
               ) : (
-                <p className="text-white/30 text-sm italic">No priority news announcements posted yet.</p>
+                <p className="text-black/40 text-sm italic">No priority news announcements posted yet.</p>
               )}
             </div>
           </div>
@@ -591,25 +591,25 @@ export default function CruiseDashboard() {
             {/* 1. Priority Status & Cabin Booking Details */}
             <BookingManager email={effectiveMember?.email} />
 
-            {/* 2. Cruise Information & Guidelines (Borderless & transparent background) */}
-            <div className="p-2 relative overflow-hidden group h-fit">
+            {/* 2. Cruise Information & Guidelines */}
+            <div className="p-6 bg-white border border-black/10 rounded-2xl shadow-md h-fit">
               <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-black/10">
                   <span className="text-3xl">📋</span>
                   <div>
-                    <h2 className="text-lg md:text-xl font-black uppercase tracking-wider text-white">Cruise Information & Guidelines</h2>
-                    <p className="text-xs text-cyan-400 font-bold uppercase tracking-widest mt-0.5">Cruiser Welcome Pack</p>
+                    <h2 className="text-lg md:text-xl font-black uppercase tracking-wider text-black">Cruise Information & Guidelines</h2>
+                    <p className="text-xs text-cyan-700 font-bold uppercase tracking-widest mt-0.5">Cruiser Welcome Pack</p>
                   </div>
                 </div>
-                <div className="space-y-4 text-white/90 text-sm md:text-base leading-relaxed tracking-wide">
+                <div className="space-y-4 text-black/80 text-sm md:text-base leading-relaxed tracking-wide">
                   <p>
                     Welcome to the official 7th Heaven Cruise Passenger Portal! We are absolutely thrilled to have you join us for this one-of-a-kind rock-and-roll voyage. This portal is your exclusive gateway to everything happening during our journey, designed to keep you connected with the band, the crew, and your fellow passengers from the moment you book until we return to port.
                   </p>
                   <p>
-                    As we prepare to embark, make sure you review the official <Link href="/cruise" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-500/30 hover:decoration-cyan-400 font-bold transition-all">travel check-list</Link> and itinerary details. From shipboard safety drills to themed concert nights, staying informed ensures you won't miss a single beat of the action. Keep an eye on the Captain's Log and priority updates above for any real-time adjustments or exciting announcements from the band.
+                    As we prepare to embark, make sure you review the official <Link href="/cruise" className="text-cyan-600 hover:text-cyan-700 underline underline-offset-4 font-bold transition-all">travel check-list</Link> and itinerary details. From shipboard safety drills to themed concert nights, staying informed ensures you won't miss a single beat of the action. Keep an eye on the Captain's Log and priority updates above for any real-time adjustments or exciting announcements from the band.
                   </p>
                   <p>
-                    Onboard entertainment is the heart of the 7th Heaven cruise experience. We have a stellar lineup of main stage concert performances, intimate acoustic lounge sets, Q&A sessions, and exclusive deck parties scheduled throughout the trip. Be sure to check the <a href="#itinerary" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-500/30 hover:decoration-cyan-400 font-bold transition-all">official itinerary schedule</a> below to plan your days and nights around these highlight events.
+                    Onboard entertainment is the heart of the 7th Heaven cruise experience. We have a stellar lineup of main stage concert performances, intimate acoustic lounge sets, Q&A sessions, and exclusive deck parties scheduled throughout the trip. Be sure to check the <a href="#itinerary" className="text-cyan-600 hover:text-cyan-700 underline underline-offset-4 font-bold transition-all">official itinerary schedule</a> below to plan your days and nights around these highlight events.
                   </p>
                   <p>
                     Beyond the music, this cruise offers incredible opportunities to explore beautiful tropical destinations, coordinate group excursions, and participate in fun community activities. Whether you are relaxing by the pool, dining with friends, or exploring local ports of call, there is always something exciting to do with the 7th Heaven community.

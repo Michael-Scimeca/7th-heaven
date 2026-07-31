@@ -2658,7 +2658,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     setBannerUpdating(false);
   };
 
-  if (isLoading) return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;
+  if (isLoading) return <div className="min-h-screen bg-[#f0f2f5]" />;
 
   const activeProduct = shopifyProducts.find(p => p.id === selectedProductId) || shopifyProducts[0];
   const pName = activeProduct?.title || '7TH HEAVEN HOODIE 2026';
@@ -2667,10 +2667,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] text-white font-sans selection:bg-[var(--color-accent-pink)]/30 pt-20">
+    <div className="min-h-screen bg-[#f0f2f5] text-black font-sans selection:bg-[var(--color-accent-pink)]/30 pt-20">
       
       {/* ─── EXACT HEADER LAYOUT ─── */}
-      <header className="border-b border-white/[0.04] bg-[var(--color-bg-deep)]/50">
+      <header className="border-b border-black/10 bg-[#f0f2f5]/50">
         <div className="site-container py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center text-xl font-bold border border-purple-500 relative">
@@ -2682,7 +2682,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <span className="text-xl font-bold italic tracking-tight">{displayName}</span>
                 <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-black uppercase tracking-widest rounded flex items-center gap-1">🇮🇹 Crew</span>
               </div>
-              <span className="text-xs text-white/40">{email}</span>
+              <span className="text-xs text-black/40">{email}</span>
             </div>
           </div>
         </div>
@@ -2692,36 +2692,36 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       <div className="site-container py-8 space-y-6">
 
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
-        <div className="bg-[var(--color-bg-card)]/80 border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300">
+        <div className="bg-white/80 border border-black/10 rounded-2xl overflow-hidden shadow-md transition-all duration-300">
            {/* Accordion Toggle Header */}
            <div 
              onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
-             className="p-5 border-b border-white/[0.05] flex items-center justify-between bg-[var(--color-bg-elevated)] cursor-pointer select-none hover:bg-[#1f1f2a] transition-all group"
+             className="p-5 border-b border-black/10 flex items-center justify-between bg-gray-50 cursor-pointer select-none hover:bg-gray-100 transition-all group"
            >
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎥</div>
                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                     <div>
-                       <h3 className="text-sm font-black italic tracking-wide text-white">
+                       <h3 className="text-sm font-black italic tracking-widetext-black">
                           Live Broadcast & Feed Center
                        </h3>
-                       <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">
+                       <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">
                           Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls
                        </p>
                     </div>
                     
                     {/* Live/Offline status pill button in the feed container */}
-                    <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-white/5 border-white/10 text-white/40'}`}>
+                    <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-gray-50 border-black/10 text-black/40'}`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
                       <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
                     </div>
                  </div>
               </div>
               <div className="flex items-center gap-3">
-                 <span className="text-xs font-bold text-white/40 uppercase tracking-wider hidden sm:inline">
+                 <span className="text-xs font-bold text-black/40 uppercase tracking-wider hidden sm:inline">
                    {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
                  </span>
-                 <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
+                 <div className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
                     ▼
                  </div>
               </div>
@@ -2731,11 +2731,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
            {!isBroadcastPanelCollapsed && (
               <div className="p-6 space-y-6 bg-black/40">
                 {/* Switch Feed and Fan page links moved from header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-white/5 bg-[var(--color-bg-card)]/60">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-black/10 bg-white/60">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-white/50 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
+                    <span className="text-xs text-black/50 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
                     <select 
-                      className="bg-[var(--color-bg-elevated)] border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-purple-500 hover:bg-white/5 transition-colors cursor-pointer"
+                      className="bg-gray-50 border border-black/10 rounded-lg px-3 py-1.5 text-xs text-black outline-none focus:border-purple-500 hover:bg-gray-100 transition-colors cursor-pointer"
                       onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
@@ -2748,7 +2748,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <Link
                     href={`/live/${defaultMemberId || memberSlug}`}
                     target="_blank"
-                    className="px-4 py-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 self-start sm:self-auto"
+                    className="px-4 py-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:text-black text-xs font-bold uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 self-start sm:self-auto"
                   >
                     <span>See Fan Feed Page</span>
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -2757,9 +2757,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   </Link>
                 </div>
 
-                <div className="flex items-center gap-2 text-white/50 text-sm uppercase tracking-widest font-black">
+                <div className="flex items-center gap-2 text-black/50 text-sm uppercase tracking-widest font-black">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                  Crew Broadcast <span className="text-white/20 px-2">·</span> <span className="text-xs">{viewerCount} viewers</span>
+                  Crew Broadcast <span className="text-black/25 px-2">·</span> <span className="text-xs">{viewerCount} viewers</span>
                 </div>
 
         {/* Callout Link - Only visible when stream is LIVE */}
@@ -2775,7 +2775,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </p>
             </div>
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/5 hover:bg-white/15 text-emerald-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded border border-emerald-500/20 hover:border-emerald-500/50 transition-colors">
+              <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-gray-50 hover:bg-white/15 text-emerald-300 hover:text-black text-xs font-bold uppercase tracking-widest rounded border border-emerald-500/20 hover:border-emerald-500/50 transition-colors">
                 Open <span className="ml-0.5">→</span>
               </Link>
               <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-xs font-black uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-all cursor-pointer">
@@ -2786,10 +2786,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         )}
 
         {/* ─── VIDEO + CHAT GRID (Exactly like the old one) ─── */}
-        <div className="flex bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl h-[600px]">
+        <div className="flex bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md h-[600px]">
           
           {/* VIDEO PLAYER (Left side) */}
-          <div className="flex-1 relative bg-black group min-w-0">
+          <div className="flex-1 relative bg-[#f0f2f5] group min-w-0">
             {(userId && isLive) ? (
               <LiveKitStream 
                 room={`live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`} 
@@ -2803,15 +2803,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 className="absolute inset-0 z-0" 
               />
             ) : (
-              <div className="absolute inset-0 bg-[var(--color-bg-surface)] flex flex-col items-center justify-center border border-white/5">
-                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20">
+              <div className="absolute inset-0 bg-white flex flex-col items-center justify-center border border-black/10">
+                <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-black/25">
                     <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
                     <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)"/>
                   </svg>
                 </div>
-                <h3 className="text-white/40 font-bold tracking-widest uppercase text-sm mb-1">Camera Standby</h3>
-                <p className="text-white/20 text-xs text-center max-w-[200px]">Click GO LIVE above to start your camera and begin broadcasting.</p>
+                <h3 className="text-black/40 font-bold tracking-widest uppercase text-sm mb-1">Camera Standby</h3>
+                <p className="text-black/25 text-xs text-center max-w-[200px]">Click GO LIVE above to start your camera and begin broadcasting.</p>
               </div>
             )}
             
@@ -2837,12 +2837,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="absolute top-4 left-4 flex gap-2 z-20">
                <div className="px-3 py-1 bg-red-600 rounded-full flex items-center gap-1.5 shadow-lg shadow-red-600/30">
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                  <span className="text-xs font-black text-white uppercase tracking-widest">Live</span>
+                  <span className="text-xs font-black text-black uppercase tracking-widest">Live</span>
                </div>
-               <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-full flex items-center gap-1.5 text-white/90">
+               <div className="px-3 py-1 bg-black/60 backdrop-blur border border-black/10 rounded-full flex items-center gap-1.5 text-black/90">
                   <span className="text-xs font-medium">👁 {viewerCount}</span>
                </div>
-               <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-full flex items-center gap-1.5 text-white/90">
+               <div className="px-3 py-1 bg-black/60 backdrop-blur border border-black/10 rounded-full flex items-center gap-1.5 text-black/90">
                   <span className="text-xs font-medium">⏱ {formatTime(elapsed)}</span>
                </div>
             </div>
@@ -2854,7 +2854,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button 
                 onClick={attemptEndStream}
                 disabled={toggling}
-                className="shrink-0 px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest shadow-xl transition-all disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-white pointer-events-auto"
+                className="shrink-0 px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest shadow-xl transition-all disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-black pointer-events-auto"
               >
                 {toggling ? '...' : '● End Stream'}
               </button>
@@ -2867,7 +2867,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button 
                 onClick={attemptEndStream}
                 disabled={toggling}
-                className="px-10 py-4 rounded-full text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(236,72,153,0.5)] transition-all disabled:opacity-50 bg-[var(--color-accent-pink)] text-white hover:brightness-110 hover:scale-105 hover:shadow-[0_0_50px_rgba(236,72,153,0.7)] flex items-center gap-3"
+                className="px-10 py-4 rounded-full text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(236,72,153,0.5)] transition-all disabled:opacity-50 bg-[var(--color-accent-pink)] text-black hover:brightness-110 hover:scale-105 hover:shadow-[0_0_50px_rgba(236,72,153,0.7)] flex items-center gap-3"
               >
                 <span className="w-3 h-3 bg-white rounded-full drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
                 {toggling ? 'Starting...' : 'Go Live'}
@@ -2877,10 +2877,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           </div>
 
           {/* CHAT PANEL (Right side) */}
-          <div className="w-[400px] bg-[var(--color-bg-surface)] border-l border-white/[0.05] flex flex-col shrink-0">
-             <div className="p-4 border-b border-white/[0.05] flex items-center justify-between shrink-0">
-                 <span className="text-xs font-black uppercase tracking-widest text-white/80">💭 Live Chat</span>
-                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-white/40">
+          <div className="w-[400px] bg-white border-l border-black/10 flex flex-col shrink-0">
+             <div className="p-4 border-b border-black/10 flex items-center justify-between shrink-0">
+                 <span className="text-xs font-black uppercase tracking-widest text-black/80">💭 Live Chat</span>
+                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-black/40">
                    <div className="flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-emerald-500" /> {viewerCount} online
                    </div>
@@ -2895,7 +2895,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  <div className="flex items-start gap-2.5 pr-6">
                    <span className="text-sm shrink-0 mt-0.5">📌</span>
                    <div className="min-w-0 flex-1">
-                     <p className="text-white/90 text-sm leading-snug font-medium">
+                     <p className="text-black/90 text-sm leading-snug font-medium">
                        {activePinned.text}
                      </p>
                      <p className="text-emerald-400/80 text-xs mt-1 font-bold uppercase tracking-widest">
@@ -2905,7 +2905,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  </div>
                  <button 
                   onClick={() => { setActivePinned(null); localStorage.setItem('7h_global_pinned', 'null'); }} 
-                  className="absolute top-3 right-3 text-white/30 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-3 right-3 text-black/30 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
                   title="Unpin Message"
                  >
                     ×
@@ -2979,12 +2979,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 </span>
                              )}
                           </div>
-                          <p className="text-sm text-white/90 leading-snug break-words" style={{ textDecoration: isUserBanned ? 'line-through' : 'none', opacity: isUserBanned ? 0.5 : 1 }}>{p.text}</p>
+                          <p className="text-sm text-black/90 leading-snug break-words" style={{ textDecoration: isUserBanned ? 'line-through' : 'none', opacity: isUserBanned ? 0.5 : 1 }}>{p.text}</p>
                        </div>
 
                        {/* Moderation Actions */}
                        {p.account?.role !== 'crew' && p.account?.role !== 'admin' && (
-                         <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[var(--color-bg-card)]/95 border border-white/10 rounded-lg p-1 shadow-lg z-20">
+                         <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-white/95 border border-black/10 rounded-lg p-1 shadow-lg z-20">
                            <button
                              onClick={() => handleWarn(username)}
                              title={isUserWarned ? "Unwarn User" : "Warn User"}
@@ -3002,7 +3002,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                            <button
                              onClick={() => handleDeleteMsg(p.id)}
                              title="Delete Message"
-                             className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-white/10 text-white/40 hover:scale-105 transition-all cursor-pointer"
+                             className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-gray-100 text-black/40 hover:scale-105 transition-all cursor-pointer"
                            >
                              🗑
                            </button>
@@ -3020,7 +3020,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 })}
              </div>
 
-             <div className="p-4 bg-[var(--color-bg-card)] border-t border-white/[0.05] space-y-3 shrink-0">
+             <div className="p-4 bg-white border-t border-black/10 space-y-3 shrink-0">
                 {/* Pin message input */}
                 <div className="relative">
                    <input 
@@ -3028,13 +3028,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                      onChange={e => setGlobalPinText(e.target.value)}
                      onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
                      placeholder="Pin a message to all fans..."
-                     className="w-full bg-emerald-500/[0.06] border border-emerald-500/20 rounded-full px-5 py-2.5 pr-28 text-sm text-white placeholder:text-emerald-400/40 outline-none focus:border-emerald-500/50 transition-colors"
+                     className="w-full bg-emerald-500/[0.06] border border-emerald-500/20 rounded-full px-5 py-2.5 pr-28 text-sm text-black placeholder:text-emerald-400/40 outline-none focus:border-emerald-500/50 transition-colors"
                    />
                    <div className="absolute right-2 top-1.5 bottom-1.5 flex items-center z-10">
                       <button 
                         onClick={handleGlobalPinBox} 
                         disabled={!globalPinText.trim()} 
-                        className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest text-xs rounded-full transition-colors disabled:opacity-30 disabled:bg-white/10 disabled:text-white/30"
+                        className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest text-xs rounded-full transition-colors disabled:opacity-30 disabled:bg-gray-100 disabled:text-black/30"
                       >
                         📌 PIN
                       </button>
@@ -3043,12 +3043,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 {/* Chat message input */}
                 <div className="relative">
                    {showEmojiPicker && (
-                     <div className="absolute bottom-full right-0 mb-2 p-2 bg-[var(--color-bg-elevated)] border border-white/10 rounded-xl shadow-2xl flex flex-wrap gap-1 w-64 z-50">
+                     <div className="absolute bottom-full right-0 mb-2 p-2 bg-gray-50 border border-black/10 rounded-xl shadow-md flex flex-wrap gap-1 w-64 z-50">
                        {COMMON_EMOJIS.map(em => (
                          <button
                            key={em}
                            onClick={() => { setContent(prev => prev + em); setShowEmojiPicker(false); }}
-                           className="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded text-lg transition-colors"
+                           className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-lg transition-colors"
                          >
                            {em}
                          </button>
@@ -3060,17 +3060,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                      onChange={e => setContent(e.target.value)}
                      onKeyDown={e => e.key === 'Enter' && handlePost()}
                      placeholder="Type a message..."
-                     className="w-full bg-[var(--color-bg-elevated)] border border-white/5 rounded-full px-5 py-2.5 pr-24 text-xs text-white placeholder:text-white/30 outline-none focus:border-[#ec4899]/50 transition-colors"
+                     className="w-full bg-gray-50 border border-black/10 rounded-full px-5 py-2.5 pr-24 text-xs text-black placeholder:text-black/30 outline-none focus:border-[#ec4899]/50 transition-colors"
                    />
                    <div className="absolute right-2 top-2 bottom-2 flex items-center gap-1">
                       <button 
                         onClick={() => setShowEmojiPicker(!showEmojiPicker)} 
-                        className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors text-white/50 hover:text-white"
+                        className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-black/50 hover:text-black"
                         title="Add Emoji"
                       >
                          😊
                       </button>
-                      <button onClick={handlePost} disabled={!content.trim() || posting} className="w-9 h-9 bg-[#2a2a35] hover:bg-[var(--color-accent-pink)] text-white rounded-full flex items-center justify-center transition-colors disabled:opacity-50" title="Send Chat">
+                      <button onClick={handlePost} disabled={!content.trim() || posting} className="w-9 h-9 bg-[#2a2a35] hover:bg-[var(--color-accent-pink)] text-black rounded-full flex items-center justify-center transition-colors disabled:opacity-50" title="Send Chat">
                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                       </button>
                    </div>
@@ -3083,12 +3083,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         <div className="grid grid-cols-1 xl:grid-cols-2 w-full gap-6 mt-6">
            
            {/* FLASH MERCH DROP */}
-           <div className="flex-1 bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
-              <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
+           <div className="flex-1 bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md">
+              <div className="p-4 border-b border-black/10 flex items-center gap-3 bg-gray-50">
                  <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛍️</div>
                  <div>
-                    <h3 className="text-sm font-black italic tracking-wide text-white">Flash Merch Drop</h3>
-                    <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Limited time, limited stock</p>
+                    <h3 className="text-sm font-black italic tracking-widetext-black">Flash Merch Drop</h3>
+                    <p className="text-xs font-bold text-black/40 uppercase tracking-widest">Limited time, limited stock</p>
                  </div>
               </div>
               <div className="p-4">
@@ -3100,16 +3100,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                              <span className="text-xs font-black uppercase tracking-widest text-emerald-400">Flash Sale Active</span>
                           </div>
-                          <span className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
+                          <span className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
                        </div>
 
                        {/* Countdown timer */}
-                       <div className="bg-black/40 border border-white/5 rounded-xl p-4 text-center">
-                          <p className="text-xs font-black tracking-widest text-white/30 uppercase mb-1">Time Remaining</p>
+                       <div className="bg-black/40 border border-black/10 rounded-xl p-4 text-center">
+                          <p className="text-xs font-black tracking-widest text-black/30 uppercase mb-1">Time Remaining</p>
                           <p className="text-3xl font-black font-mono text-[var(--color-accent-pink)] tracking-wider animate-pulse">
                              {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
                           </p>
-                          <div className="w-full bg-white/5 h-1.5 rounded-full mt-3 overflow-hidden">
+                          <div className="w-full bg-gray-50 h-1.5 rounded-full mt-3 overflow-hidden">
                              <div 
                                 className="h-full bg-gradient-to-r from-[#ec4899] to-pink-500 transition-all duration-1000"
                                 style={{ width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%` }}
@@ -3119,13 +3119,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                        {/* Product List */}
                        <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                          <p className="text-xs font-black tracking-widest uppercase text-white/30">Active Products</p>
+                          <p className="text-xs font-black tracking-widest uppercase text-black/30">Active Products</p>
                           {activeDrop.products.map(p => (
-                             <div key={p.id} className="flex gap-3 p-2.5 bg-[var(--color-bg-elevated)] rounded-xl border border-white/5 items-center justify-between">
-                                <img src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                             <div key={p.id} className="flex gap-3 p-2.5 bg-gray-50 rounded-xl border border-black/10 items-center justify-between">
+                                <img src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-[#f0f2f5] object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                                 <div className="flex-1 min-w-0">
-                                   <p className="text-xs font-bold truncate text-white" title={p.title}>{p.title}</p>
-                                   <p className="text-[var(--font-size-3xs)] text-white/40 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                   <p className="text-xs font-bold truncatetext-black" title={p.title}>{p.title}</p>
+                                   <p className="text-[var(--font-size-3xs)] text-black/40 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                                 </div>
                                 <div className="shrink-0 text-right">
                                    <p className="text-xs font-black text-[var(--color-accent-pink)] font-mono">${p.flashPrice}</p>
@@ -3154,13 +3154,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[var(--font-size-4xs)] text-white/40 hover:text-[var(--color-accent-pink)] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-[#ec4899]/30 bg-white/[0.02] hover:bg-[var(--color-accent-pink)]/5 px-2 py-0.5 rounded"
+                                className="text-[var(--font-size-4xs)] text-black/40 hover:text-[var(--color-accent-pink)] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-black/10 hover:border-[#ec4899]/30 bg-white/[0.02] hover:bg-[var(--color-accent-pink)]/5 px-2 py-0.5 rounded"
                                 title="Go to Shopify Products Admin"
                              >
                                 Shopify Admin ↗
                              </a>
                           </div>
-                          <button onClick={() => window.location.reload()} className="text-white/30 hover:text-white flex items-center gap-1">↻ Refresh</button>
+                          <button onClick={() => window.location.reload()} className="text-black/30 hover:text-black flex items-center gap-1">↻ Refresh</button>
                        </div>
                        
                        <div className="mb-4">
@@ -3172,10 +3172,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                    e.target.value = "";
                                 }
                              }}
-                             className="w-full bg-black border border-[#ec4899]/30 rounded-xl p-3 text-white font-bold text-sm outline-none focus:border-[#ec4899] cursor-pointer appearance-none"
+                             className="w-full bg-[#f0f2f5] border border-[#ec4899]/30 rounded-xl p-3 text-black font-bold text-sm outline-none focus:border-[#ec4899] cursor-pointer appearance-none"
                              style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem top 50%', backgroundSize: '0.65rem auto' }}
                           >
-                             <option value="" className="text-white/40">✚ Select product to add to Flash Drop...</option>
+                             <option value="" className="text-black/40">✚ Select product to add to Flash Drop...</option>
                              {shopifyProducts.map(p => (
                                 <option key={p.id} value={p.id} disabled={selectedProducts.some(sp => sp.id === p.id)}>
                                    {p.title} — ${p.variants?.edges?.[0]?.node?.price?.amount} ({(p.quantityAvailable || 0)} in stock)
@@ -3185,27 +3185,27 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                        </div>
                        
                        <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
-                          <p className="text-xs font-black tracking-widest uppercase text-white/30 mb-2">Selected Products & Flash Sale Prices</p>
+                          <p className="text-xs font-black tracking-widest uppercase text-black/30 mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
-                             <div className="text-center py-6 bg-[var(--color-bg-elevated)]/50 border border-white/5 rounded-xl text-white/30 italic text-xs">
+                             <div className="text-center py-6 bg-gray-50/50 border border-black/10 rounded-xl text-black/30 italic text-xs">
                                No products selected yet. Select a product above.
                              </div>
                           ) : (
                              selectedProducts.map(p => (
-                                <div key={p.id} className="flex gap-4 p-3 bg-[var(--color-bg-elevated)] rounded-xl border border-white/5 items-center justify-between">
-                                   <img src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                                <div key={p.id} className="flex gap-4 p-3 bg-gray-50 rounded-xl border border-black/10 items-center justify-between">
+                                   <img src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-[#f0f2f5] object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                                    <div className="flex-1 min-w-0">
-                                      <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
-                                      <p className="text-[var(--font-size-3xs)] text-white/40 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                      <p className="text-xs font-bold truncate pr-2text-black" title={p.title}>{p.title}</p>
+                                      <p className="text-[var(--font-size-3xs)] text-black/40 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                                    </div>
                                    <div className="flex items-center gap-2 shrink-0">
-                                      <div className="flex items-center bg-black/60 border border-white/10 rounded-lg px-2 py-1 max-w-[90px]">
-                                         <span className="text-white/40 text-[var(--font-size-3xs)] mr-1">$</span>
+                                      <div className="flex items-center bg-black/60 border border-black/10 rounded-lg px-2 py-1 max-w-[90px]">
+                                         <span className="text-black/40 text-[var(--font-size-3xs)] mr-1">$</span>
                                          <input 
                                             type="text" 
                                             value={p.flashPrice} 
                                             onChange={e => updateProductFlashPrice(p.id, e.target.value)} 
-                                            className="bg-transparent text-white font-mono font-black text-xs outline-none w-full text-right" 
+                                            className="bg-transparent text-black font-mono font-black text-xs outline-none w-full text-right" 
                                             placeholder="Price"
                                          />
                                       </div>
@@ -3224,18 +3224,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                        <div className="grid grid-cols-2 gap-4 mb-4">
                          <div>
-                           <p className="text-xs font-black tracking-widest uppercase text-white/30 mb-2">Total Products</p>
-                           <div className="w-full bg-[var(--color-bg-elevated)] border border-white/10 rounded-lg p-2.5 text-center text-xs font-bold font-mono">{selectedProducts.length}</div>
+                           <p className="text-xs font-black tracking-widest uppercase text-black/30 mb-2">Total Products</p>
+                           <div className="w-full bg-gray-50 border border-black/10 rounded-lg p-2.5 text-center text-xs font-bold font-mono">{selectedProducts.length}</div>
                          </div>
                          <div>
-                            <p className="text-xs font-black tracking-widest uppercase text-white/30 mb-2">Duration</p>
+                            <p className="text-xs font-black tracking-widest uppercase text-black/30 mb-2">Duration</p>
                             <div className="grid grid-cols-4 gap-1">
                               {['2m', '5m', '10m', '15m'].map((d) => (
                                 <button 
                                   key={d}
                                   type="button"
                                   onClick={() => setDropDurationStr(d)}
-                                  className={`text-center py-2 rounded border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-[var(--color-accent-pink)]/20 border-[#ec4899] text-[var(--color-accent-pink)]' : 'bg-[var(--color-bg-elevated)] border-white/10 text-white/40 hover:bg-white/5'}`}
+                                  className={`text-center py-2 rounded border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-[var(--color-accent-pink)]/20 border-[#ec4899] text-[var(--color-accent-pink)]' : 'bg-gray-50 border-black/10 text-black/40 hover:bg-gray-100'}`}
                                 >
                                   {d}
                                 </button>
@@ -3245,17 +3245,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                        </div>
 
                        <label className="flex items-center gap-2 mb-4 cursor-pointer group">
-                         <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-[var(--color-accent-pink)] border-[#ec4899]' : 'border-white/20 group-hover:border-white/40 bg-black'}`}>
-                           {globalDrop && <span className="text-white text-[var(--font-size-3xs)] font-bold">✓</span>}
+                         <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-[var(--color-accent-pink)] border-[#ec4899]' : 'border-black/15 group-hover:border-white/40 bg-black'}`}>
+                           {globalDrop && <span className="text-black text-[var(--font-size-3xs)] font-bold">✓</span>}
                          </div>
                          <input type="checkbox" className="hidden" checked={globalDrop} onChange={e => setGlobalDrop(e.target.checked)} />
-                         <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
+                         <span className="text-xs font-bold text-black/60 group-hover:text-black transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
                        </label>
 
                        <button 
                          type="button"
                          onClick={launchFlashDrop}
-                         className="w-full py-4 bg-gradient-to-r from-[#ec4899] to-pink-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all"
+                         className="w-full py-4 bg-gradient-to-r from-[#ec4899] to-pink-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all"
                        >
                           🔥 Launch Flash Drop
                        </button>
@@ -3277,13 +3277,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
            </div>
 
            {/* LIVE RAFFLE (Rebuilt as requested) */}
-           <div className="flex-1 bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col">
-              <div className="p-4 border-b border-white/[0.05] flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-[var(--color-bg-elevated)]">
+           <div className="flex-1 bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md flex flex-col">
+              <div className="p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50">
                  <div className="flex items-center gap-3">
                      <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xl">🎟️</div>
                      <div>
-                        <h3 className="text-sm font-black italic tracking-wide text-white">Live Event Raffle</h3>
-                        <p className="text-xs font-bold text-white/40 uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
+                        <h3 className="text-sm font-black italic tracking-widetext-black">Live Event Raffle</h3>
+                        <p className="text-xs font-bold text-black/40 uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
                      </div>
                   </div>
                   {raffleStatus !== 'idle' && (
@@ -3319,7 +3319,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                  value={item.name}
                                  onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                  placeholder="e.g. VIP Meet & Greet Pass"
-                                 className={`w-full bg-[var(--color-bg-elevated)] border rounded-md px-3 py-2 text-xs text-white outline-none transition-colors ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.1)]' : 'border-white/10 focus:border-[#a78bfa]'}`}
+                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-black outline-none transition-colors ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.1)]' : 'border-black/10 focus:border-[#a78bfa]'}`}
                                />
                             </div>
 
@@ -3332,7 +3332,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                  value={item.min || ''}
                                  onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                 className={`w-full bg-[var(--color-bg-elevated)] border rounded-md px-3 py-2 text-xs text-amber-400 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50' : 'border-white/10 focus:border-amber-500'}`}
+                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-amber-400 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50' : 'border-black/10 focus:border-amber-500'}`}
                                />
                                {/* Floating counter during active raffle */}
                                {idx === activeQueueIndex && raffleStatus !== 'idle' && (
@@ -3351,7 +3351,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                  value={item.qty || ''}
                                  onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                 className={`w-full bg-[var(--color-bg-elevated)] border rounded-md px-3 py-2 text-xs text-white outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50' : 'border-white/10 focus:border-[#a78bfa]'}`}
+                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-black outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50' : 'border-black/10 focus:border-[#a78bfa]'}`}
                                />
                             </div>
 
@@ -3366,7 +3366,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   ? 'border-amber-500 text-amber-500 hover:bg-amber-500/10' 
                                   : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                     ? 'border-amber-500/50 bg-amber-500/20 text-amber-500' 
-                                    : 'border-white/10 text-white/30 opacity-30 shadow-none' 
+                                    : 'border-black/10 text-black/30 opacity-30 shadow-none' 
                                 }`}
                               >
                                 {idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'Running' : 'Start'}
@@ -3389,7 +3389,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                          type="button"
                          onClick={addQueueItem}
                          disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                         className="w-full py-2 border border-dashed border-white/20 text-white/40 text-xs font-bold uppercase tracking-widest rounded-md hover:border-white/40 hover:text-white/80 transition-colors disabled:opacity-30"
+                         className="w-full py-2 border border-dashed border-black/15 text-black/40 text-xs font-bold uppercase tracking-widest rounded-md hover:border-white/40 hover:text-black/80 transition-colors disabled:opacity-30"
                        >
                          + Add Another Raffle To Queue
                        </button>
@@ -3398,12 +3398,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                    {raffleStatus === 'open' && (
                       <div className="mt-2 text-center p-3 border border-amber-500/20 bg-amber-500/5 rounded-xl">
-                         <p className="text-lg font-black text-white italic mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
+                         <p className="text-lg font-black text-black italic mb-1">{raffleEntrants.length} <span className="text-xs text-black/50">/ {raffleMinEntrants}</span></p>
                          <p className="text-xs font-bold text-amber-500 uppercase tracking-widest mt-0.5">Fan entries collected</p>
                          <div className="flex flex-col gap-2 mt-4 px-2">
                           <div className="flex gap-2">
-                             <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
-                             <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
+                             <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-black/10 rounded-lg text-xs font-bold text-black uppercase tracking-widest transition-colors">+ Fake Entry</button>
+                             <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-black/10 rounded-lg text-xs font-bold text-black uppercase tracking-widest transition-colors">+ Multi Fake</button>
                           </div>
                           <button 
                             type="button"
@@ -3428,9 +3428,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                            {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
                          </button>
                       ) : (
-                         <div className="bg-[var(--color-bg-elevated)] border border-amber-500/30 rounded-xl p-4 text-center">
+                         <div className="bg-gray-50 border border-amber-500/30 rounded-xl p-4 text-center">
                            <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(245,158,11,0.5)]">🎉</div>
-                           <h4 className="text-lg font-black text-white italic">Winner Selected</h4>
+                           <h4 className="text-lg font-black text-black italic">Winner Selected</h4>
                            <div className="flex flex-col gap-2 justify-center mt-3">
                              {drawnWinners.map((w, i) => (
                                 <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/30">
@@ -3440,7 +3440,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                              ))}
                            </div>
                            {raffleAutoRestartCountdown !== null && (
-                              <p className="text-xs font-bold text-white/40 mt-3 pt-3 border-t border-white/10">
+                              <p className="text-xs font-bold text-black/40 mt-3 pt-3 border-t border-black/10">
                                 Next raffle auto-starts in <span className="text-amber-500 font-mono text-xs">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
                               </p>
                            )}
@@ -3452,12 +3452,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           </div>
 
         {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
-        <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-           <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
+        <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
+           <div className="p-4 border-b border-black/10 flex items-center gap-3 bg-gray-50">
               <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
-                  <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+                  <h3 className="text-sm font-black italic tracking-widetext-black">Chat Moderation & Policies</h3>
+                  <p className="text-xs font-bold text-black/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
                </div>
             </div>
             
@@ -3465,7 +3465,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                <div className="flex flex-col lg:flex-row gap-6 items-start">
                   <div className="flex-1 min-w-0 w-full space-y-2">
                      <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
-                     <p className="text-white/40 text-xs leading-relaxed font-sans font-semibold">
+                     <p className="text-black/40 text-xs leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                      </p>
 
@@ -3475,7 +3475,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           value={newCustomWord}
                           onChange={e => setNewCustomWord(e.target.value)}
                           placeholder="e.g. ticket-scalper"
-                          className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
+                          className="flex-1 bg-black/60 border border-black/10 rounded-xl px-4 py-2.5 text-xs text-black outline-none focus:border-[#ec4899]/50 font-bold"
                         />
                         <button
                           type="submit"
@@ -3487,23 +3487,23 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   </div>
 
                   <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                     <p className="text-xs font-black uppercase tracking-widest text-white/40">Active Custom Filters</p>
+                     <p className="text-xs font-black uppercase tracking-widest text-black/40">Active Custom Filters</p>
                      {customWords.length === 0 ? (
-                        <div className="text-center py-6 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
-                           <p className="text-white/20 text-xs italic">No custom keywords configured.</p>
+                        <div className="text-center py-6 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
+                           <p className="text-black/25 text-xs italic">No custom keywords configured.</p>
                         </div>
                      ) : (
                         <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
                            {customWords.map(word => (
                               <span
                                 key={word}
-                                className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-white/80"
+                                className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-gray-50 border border-black/10 rounded-xl text-xs font-bold text-black/80"
                               >
                                  <span>{word}</span>
                                  <button
                                    type="button"
                                    onClick={() => handleRemoveCustomWord(word)}
-                                   className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors"
+                                   className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-gray-100 text-black/40 hover:text-black transition-colors"
                                  >
                                     &times;
                                  </button>
@@ -3517,13 +3517,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
          </div>
 
         {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-        <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-           <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[var(--color-bg-elevated)]">
+        <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
+           <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-xl">📊</div>
                  <div>
-                    <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
-                    <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
+                    <h3 className="text-sm font-black italic tracking-widetext-black">Live Stream Performance & Chat Analytics</h3>
+                    <p className="text-xs font-bold text-black/40 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
                  </div>
               </div>
               {isLive && (
@@ -3540,10 +3540,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  <div className="p-4 bg-gradient-to-br from-[#291e34] to-[#0c0c11] border border-purple-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-purple-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-xl pointer-events-none" />
                     <p className="text-2xs font-black uppercase tracking-widest text-purple-400">🛍️ Store Sales Revenue</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">
+                    <p className="text-2xl font-black mt-2 text-black font-mono">
                       ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                     </p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">
+                    <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">
                       {orders.filter(o => o.source === 'Store').length} purchases
                     </p>
                  </div>
@@ -3552,10 +3552,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  <div className="p-4 bg-gradient-to-br from-[#341e29] to-[#0c0c11] border border-pink-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-pink-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-pink-500/5 rounded-full blur-xl pointer-events-none" />
                     <p className="text-2xs font-black uppercase tracking-widest text-pink-400">⚡ Flash Drop Sales</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">
+                    <p className="text-2xl font-black mt-2 text-black font-mono">
                       ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                     </p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">
+                    <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">
                       {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
                     </p>
                  </div>
@@ -3564,18 +3564,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  <div className="p-4 bg-gradient-to-br from-[#292212] to-[#0c0c11] border border-amber-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-amber-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl pointer-events-none" />
                     <p className="text-2xs font-black uppercase tracking-widest text-amber-500">🏆 Raffle Claims</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">
+                    <p className="text-2xl font-black mt-2 text-black font-mono">
                       {orders.filter(o => o.source === 'Raffle').length}
                     </p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">prizes claimed by fans</p>
+                    <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">prizes claimed by fans</p>
                  </div>
 
                  {/* viewers card */}
                  <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border border-emerald-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
                     <p className="text-2xs font-black uppercase tracking-widest text-emerald-400">👁️ Live Viewers</p>
-                    <p className="text-2xl font-black mt-2 text-white font-mono">{viewerCount}</p>
-                    <p className="text-3xs font-bold text-white/30 uppercase tracking-wider mt-1.5">{isLive ? "Watching live right now" : "Offline"}</p>
+                    <p className="text-2xl font-black mt-2 text-black font-mono">{viewerCount}</p>
+                    <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">{isLive ? "Watching live right now" : "Offline"}</p>
                  </div>
 
               </div>
@@ -3599,16 +3599,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
             return (
               <>
-                <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
+                <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
                    <div 
                      onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                     className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[var(--color-bg-elevated)] cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
+                     className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50 cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
                    >
                       <div className="flex items-center gap-3">
                          <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">📅</div>
                          <div>
-                            <h3 className="text-sm font-black italic tracking-wide text-white">Your Work Schedule</h3>
-                            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
+                            <h3 className="text-sm font-black italic tracking-widetext-black">Your Work Schedule</h3>
+                            <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
                          </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -3634,7 +3634,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         </span>
                       </div>
                       
-                      <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}>
+                      <div className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}>
                         ▼
                       </div>
                    </div>
@@ -3646,7 +3646,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                          <span className="text-lg mt-0.5">🗓️</span>
                          <div>
                            <p className="text-xs font-bold text-purple-300">Sync with Google & Apple Calendar</p>
-                           <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
+                           <p className="text-[var(--font-size-3xs)] text-black/50 mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
                          </div>
                        </div>
                        <button
@@ -3663,14 +3663,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                      </div>
   
                       {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
-                      <div className="grid grid-cols-2 gap-2 bg-black/25 p-1 border border-white/5 rounded-xl mb-6 shrink-0 font-sans">
+                      <div className="grid grid-cols-2 gap-2 bg-black/25 p-1 border border-black/10 rounded-xl mb-6 shrink-0 font-sans">
                         <button
                           type="button"
                           onClick={() => setActiveScheduleTab('my_schedule')}
                           className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 ${
                             activeScheduleTab === 'my_schedule'
                               ? 'bg-amber-500 text-black shadow-sm font-bold'
-                              : 'bg-transparent text-white/50 hover:text-white'
+                              : 'bg-transparent text-black/50 hover:text-black'
                           }`}
                         >
                           📅 My Shift Schedule ({activeShifts.length})
@@ -3681,7 +3681,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 ${
                             activeScheduleTab === 'tour_events'
                               ? 'bg-amber-500 text-black shadow-sm font-bold'
-                              : 'bg-transparent text-white/50 hover:text-white'
+                              : 'bg-transparent text-black/50 hover:text-black'
                           }`}
                         >
                           🎸 Band Tour Events ({tourDates.length})
@@ -3690,8 +3690,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                       {activeScheduleTab === 'my_schedule' ? (
                         activeShifts.length === 0 ? (
-                          <div className="text-center py-8 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
-                             <p className="text-white/30 text-xs italic">You have no upcoming work shifts scheduled.</p>
+                          <div className="text-center py-8 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
+                             <p className="text-black/30 text-xs italic">You have no upcoming work shifts scheduled.</p>
                           </div>
                         ) : (
                           <div className="flex flex-col gap-3 font-sans">
@@ -3707,7 +3707,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   className={`p-4 rounded-xl transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
                                     shift.approvalStatus === 'pending'
                                       ? 'bg-gradient-to-r from-yellow-500/[0.03] to-black/50 border border-yellow-500/40 shadow-[0_0_15px_rgba(245,158,11,0.05)] hover:border-yellow-500/60'
-                                      : 'bg-black/40 border border-white/10 hover:border-white/20'
+                                      : 'bg-black/40 border border-black/10 hover:border-black/15'
                                   }`}
                                 >
                                   {/* Date & Time Column */}
@@ -3718,10 +3718,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                         : 'bg-amber-500/10 border-amber-500/20'
                                     }`}>
                                       <span className={`text-[var(--font-size-4xs)] font-black uppercase tracking-wider ${shift.approvalStatus === 'pending' ? 'text-yellow-400' : 'text-amber-400'}`}>{month}</span>
-                                      <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                      <span className="text-base font-black text-black leading-none mt-0.5">{dayNum}</span>
                                     </div>
                                     <div className="flex flex-col">
-                                      <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
+                                      <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
                                       <span className="text-xs font-black text-amber-400 mt-0.5">Call Time: {shift.time}</span>
                                     </div>
                                   </div>
@@ -3747,7 +3747,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                            );
                                          }
                                          return (
-                                           <span className="text-[var(--font-size-2xs)] font-black text-white/80">
+                                           <span className="text-[var(--font-size-2xs)] font-black text-black/80">
                                              📍 {shift.location}
                                            </span>
                                          );
@@ -3783,14 +3783,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                                 setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
                                                 setIsEmailModalOpen(true);
                                               }}
-                                              className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                              className="px-2 py-0.5 bg-gray-100 hover:bg-white/20 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
                                             >
                                               ✉️ Email Admin
                                             </button>
                                             <button
                                               type="button"
                                               onClick={() => setRequestingCoverageShift(shift)}
-                                              className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
+                                              className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
                                             >
                                               🙋 Request Swap
                                             </button>
@@ -3840,7 +3840,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                               setDecliningShiftId(shift.id);
                                               setIsDeclineModalOpen(true);
                                             }}
-                                            className="px-2 py-1 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer font-bold"
+                                            className="px-2 py-1 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer font-bold"
                                           >
                                             Decline Shift
                                           </button>
@@ -3851,7 +3851,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                               setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
                                               setIsEmailModalOpen(true);
                                             }}
-                                            className="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                            className="px-2.5 py-1 bg-gray-100 hover:bg-white/20 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
                                           >
                                             ✉️ Email Admin
                                           </button>
@@ -3862,11 +3862,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
      
                                   {/* Instructions/Notes Column */}
                                   {shift.notes || shift.declineReason ? (
-                                    <div className="flex-1 md:max-w-[45%] bg-white/[0.02] border border-white/[0.04] p-3 rounded-lg space-y-1">
+                                    <div className="flex-1 md:max-w-[45%] bg-white/[0.02] border border-black/10 p-3 rounded-lg space-y-1">
                                       {shift.notes && (
                                         <>
-                                          <p className="text-[var(--font-size-4xs)] text-white/40 font-bold uppercase tracking-wider">Instructions:</p>
-                                          <p className="text-xs text-white/60 leading-relaxed mt-0.5 italic">“{shift.notes}”</p>
+                                          <p className="text-[var(--font-size-4xs)] text-black/40 font-bold uppercase tracking-wider">Instructions:</p>
+                                          <p className="text-xs text-black/60 leading-relaxed mt-0.5 italic">“{shift.notes}”</p>
                                         </>
                                       )}
                                       {shift.declineReason && (
@@ -3878,7 +3878,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     </div>
                                   ) : (
                                     <div className="hidden md:block flex-1 md:max-w-[45%] text-right">
-                                      <span className="text-[var(--font-size-3xs)] text-white/20 italic">No special instructions</span>
+                                      <span className="text-[var(--font-size-3xs)] text-black/25 italic">No special instructions</span>
                                     </div>
                                   )}
                                 </div>
@@ -3888,8 +3888,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         )
                       ) : (
                         tourDates.length === 0 ? (
-                          <div className="text-center py-8 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
-                             <p className="text-white/30 text-xs italic">No band tour events or shows loaded.</p>
+                          <div className="text-center py-8 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
+                             <p className="text-black/30 text-xs italic">No band tour events or shows loaded.</p>
                           </div>
                         ) : (
                           <div className="flex flex-col gap-3 font-sans">
@@ -3912,7 +3912,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   className={`p-4 border rounded-xl transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
                                     userShift 
                                       ? 'bg-gradient-to-r from-amber-500/[0.03] to-black/40 border-amber-500/25 hover:border-amber-500/40 animate-[fadeIn_0.2s_ease-out]' 
-                                      : 'bg-black/40 border border-white/10 hover:border-white/20'
+                                      : 'bg-black/40 border border-black/10 hover:border-black/15'
                                   }`}
                                 >
                                   {/* Date Column */}
@@ -3920,18 +3920,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     <div className={`w-11 h-11 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${
                                       userShift 
                                         ? 'bg-amber-500/10 border-amber-500/30' 
-                                        : 'bg-white/5 border-white/10'
+                                        : 'bg-gray-50 border-black/10'
                                     }`}>
-                                      <span className={`text-[var(--font-size-4xs)] font-black uppercase tracking-wider ${userShift ? 'text-amber-400' : 'text-white/40'}`}>{month}</span>
-                                      <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                      <span className={`text-[var(--font-size-4xs)] font-black uppercase tracking-wider ${userShift ? 'text-amber-400' : 'text-black/40'}`}>{month}</span>
+                                      <span className="text-base font-black text-black leading-none mt-0.5">{dayNum}</span>
                                     </div>
                                     <div className="flex flex-col">
-                                      <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
+                                      <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
                                       {show.playTime ? (
                                         <>
                                           <span className="text-xs font-black text-rose-400 mt-0.5" title="Band Play Time">🎸 {show.playTime}</span>
                                           {show.time && (
-                                            <span className="text-[var(--font-size-4xs)] text-white/40 leading-none mt-0.5" title="Event Show Time">Event: {show.time}</span>
+                                            <span className="text-[var(--font-size-4xs)] text-black/40 leading-none mt-0.5" title="Event Show Time">Event: {show.time}</span>
                                           )}
                                         </>
                                       ) : (
@@ -3953,11 +3953,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                           📍 {show.venue} <span className="text-[var(--font-size-4xs)] text-cyan-500/80">ℹ️</span>
                                         </button>
                                       ) : (
-                                        <span className="text-[var(--font-size-2xs)] font-black text-white/80">
+                                        <span className="text-[var(--font-size-2xs)] font-black text-black/80">
                                           📍 {show.venue}
                                         </span>
                                       )}
-                                      <span className="text-[var(--font-size-3xs)] text-white/50">
+                                      <span className="text-[var(--font-size-3xs)] text-black/50">
                                         ({show.city || 'TBD'}{show.state ? `, ${show.state}` : ''})
                                       </span>
                                       <button
@@ -3969,7 +3969,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                       </button>
                                     </div>
                                     {show.notes && (
-                                      <p className="text-[var(--font-size-3xs)] text-white/40 italic mt-1 max-w-md truncate">“{show.notes}”</p>
+                                      <p className="text-[var(--font-size-3xs)] text-black/40 italic mt-1 max-w-md truncate">“{show.notes}”</p>
                                     )}
                                   </div>
 
@@ -4010,7 +4010,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                             <button
                                               type="button"
                                               onClick={() => handleRemoveAvailability(userAvail.id)}
-                                              className="p-1 rounded bg-white/5 hover:bg-rose-500 hover:text-black text-white/50 text-[var(--font-size-3xs)] transition-colors border-none cursor-pointer leading-none"
+                                              className="p-1 rounded bg-gray-50 hover:bg-rose-500 hover:text-black text-black/50 text-[var(--font-size-3xs)] transition-colors border-none cursor-pointer leading-none"
                                               title="Clear Availability"
                                             >
                                               ✕
@@ -4040,7 +4040,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                                   showToast('Failed to save availability', 'error', 'Error');
                                                 }
                                               }}
-                                              className="px-2 py-1 bg-white/5 hover:bg-emerald-500 hover:text-black text-white/60 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-white/10 hover:border-emerald-500/40"
+                                              className="px-2 py-1 bg-gray-50 hover:bg-emerald-500 hover:text-black text-black/60 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-black/10 hover:border-emerald-500/40"
                                             >
                                               🟢 Available
                                             </button>
@@ -4066,7 +4066,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                                   showToast('Failed to save availability', 'error', 'Error');
                                                 }
                                               }}
-                                              className="px-2 py-1 bg-white/5 hover:bg-rose-500 hover:text-white text-white/60 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-white/10 hover:border-rose-500/40"
+                                              className="px-2 py-1 bg-gray-50 hover:bg-rose-500 hover:text-black text-black/60 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-black/10 hover:border-rose-500/40"
                                             >
                                               🔴 Unavailable
                                             </button>
@@ -4086,13 +4086,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   
                 {/* Available Shift Coverage Requests */}
                 {coverageShifts.length > 0 && (
-                  <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-                    <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[var(--color-bg-elevated)]">
+                  <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
+                    <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl">🚨</div>
                         <div>
-                          <h3 className="text-sm font-black italic tracking-wide text-white">Available Shift Coverage Requests</h3>
-                          <p className="text-xs font-bold text-white/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
+                          <h3 className="text-sm font-black italic tracking-widetext-black">Available Shift Coverage Requests</h3>
+                          <p className="text-xs font-bold text-black/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
                         </div>
                       </div>
                       <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
@@ -4115,10 +4115,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
                               <div className="w-11 h-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
                                 <span className="text-[var(--font-size-4xs)] text-purple-400 font-black uppercase tracking-wider">{month}</span>
-                                <span className="text-base font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                <span className="text-base font-black text-black leading-none mt-0.5">{dayNum}</span>
                               </div>
                               <div className="flex flex-col">
-                                <span className="text-xs font-bold text-white/30 uppercase tracking-widest">{weekday}</span>
+                                <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
                                 <span className="text-xs font-black text-purple-400 mt-0.5">{shift.time}</span>
                               </div>
                             </div>
@@ -4144,7 +4144,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     );
                                   }
                                   return (
-                                    <span className="text-xs font-black text-white/80">
+                                    <span className="text-xs font-black text-black/80">
                                       📍 {shift.location}
                                     </span>
                                   );
@@ -4184,34 +4184,34 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           })()}
 
                 {/* ─── AVAILABILITY & BLACKOUTS CARD ─── */}
-                <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-                  <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[var(--color-bg-elevated)]">
+                <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
+                  <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-xl">🗓️</div>
                       <div>
-                        <h3 className="text-sm font-black italic tracking-wide text-white">Your Availability & Blackouts</h3>
-                        <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
+                        <h3 className="text-sm font-black italic tracking-widetext-black">Your Availability & Blackouts</h3>
+                        <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
                       </div>
                     </div>
                   </div>
                   <div className="p-6">
-                    <form onSubmit={handleAddAvailability} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end bg-black/20 p-4 border border-white/5 rounded-xl mb-6">
+                    <form onSubmit={handleAddAvailability} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end bg-black/20 p-4 border border-black/10 rounded-xl mb-6">
                       <div>
-                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/40 font-bold block mb-1.5">Date</label>
+                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Date</label>
                         <input
                           type="date"
                           required
                           value={availDate}
                           onChange={e => setAvailDate(e.target.value)}
-                          className="w-full px-3 py-2 bg-[var(--color-bg-surface)] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-bold"
+                          className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-bold"
                         />
                       </div>
                       <div>
-                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/40 font-bold block mb-1.5">Status</label>
+                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Status</label>
                         <select
                           value={availType}
                           onChange={e => setAvailType(e.target.value as any)}
-                          className="w-full px-3 py-2 bg-[var(--color-bg-surface)] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-bold cursor-pointer"
+                          className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-bold cursor-pointer"
                         >
                           <option value="unavailable">🚫 Unavailable / Blackout</option>
                           <option value="available">✓ Available</option>
@@ -4219,20 +4219,20 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       </div>
                       <div className="md:col-span-2 flex gap-3 items-end">
                         <div className="flex-1">
-                          <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/40 font-bold block mb-1.5">Comment / Note (Optional)</label>
+                          <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Comment / Note (Optional)</label>
                           <select
                             value={availNote}
                             onChange={e => setAvailNote(e.target.value)}
-                            className="w-full px-3 py-2 bg-[var(--color-bg-surface)] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-medium cursor-pointer"
+                            className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-medium cursor-pointer"
                           >
-                            <option value="" className="bg-[var(--color-bg-card)] text-white/50">Select note / reason...</option>
-                            <option value="Out of town" className="bg-[var(--color-bg-card)] text-white">Out of town</option>
-                            <option value="Family event" className="bg-[var(--color-bg-card)] text-white">Family event</option>
-                            <option value="Vacation / Time off" className="bg-[var(--color-bg-card)] text-white">Vacation / Time off</option>
-                            <option value="Medical appointment" className="bg-[var(--color-bg-card)] text-white">Medical appointment</option>
-                            <option value="Personal day" className="bg-[var(--color-bg-card)] text-white">Personal day</option>
-                            <option value="Work / Business conflict" className="bg-[var(--color-bg-card)] text-white">Work / Business conflict</option>
-                            <option value="Other" className="bg-[var(--color-bg-card)] text-white">Other</option>
+                            <option value="" className="bg-white text-black/50">Select note / reason...</option>
+                            <option value="Out of town" className="bg-whitetext-black">Out of town</option>
+                            <option value="Family event" className="bg-whitetext-black">Family event</option>
+                            <option value="Vacation / Time off" className="bg-whitetext-black">Vacation / Time off</option>
+                            <option value="Medical appointment" className="bg-whitetext-black">Medical appointment</option>
+                            <option value="Personal day" className="bg-whitetext-black">Personal day</option>
+                            <option value="Work / Business conflict" className="bg-whitetext-black">Work / Business conflict</option>
+                            <option value="Other" className="bg-whitetext-black">Other</option>
                           </select>
                         </div>
                         <button
@@ -4245,17 +4245,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </form>
 
                     {myAvailabilities.length === 0 ? (
-                      <div className="text-center py-6 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
-                        <p className="text-white/30 text-xs italic">No availability blocks configured yet.</p>
+                      <div className="text-center py-6 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
+                        <p className="text-black/30 text-xs italic">No availability blocks configured yet.</p>
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         {myAvailabilities
                           .sort((a, b) => a.date.localeCompare(b.date))
                           .map((item) => (
-                            <div key={item.id} className="p-3 bg-[var(--color-bg-surface)] border border-white/5 rounded-xl flex items-center justify-between gap-3 hover:border-white/10 transition-colors">
+                            <div key={item.id} className="p-3 bg-white border border-black/10 rounded-xl flex items-center justify-between gap-3 hover:border-black/10 transition-colors">
                               <div className="min-w-0">
-                                <span className="text-[var(--font-size-2xs)] font-black text-white block">
+                                <span className="text-[var(--font-size-2xs)] font-black text-black block">
                                   {new Date(item.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
                                 </span>
                                 <div className="flex items-center gap-1.5 mt-1">
@@ -4269,7 +4269,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     </span>
                                   )}
                                   {item.note && (
-                                    <span className="text-[9.5px] text-white/50 truncate max-w-[120px]" title={item.note}>
+                                    <span className="text-[9.5px] text-black/50 truncate max-w-[120px]" title={item.note}>
                                       • {item.note}
                                     </span>
                                   )}
@@ -4278,7 +4278,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               <button
                                 type="button"
                                 onClick={() => handleRemoveAvailability(item.id)}
-                                className="w-6 h-6 rounded bg-white/5 hover:bg-red-500 hover:text-white text-white/40 flex items-center justify-center cursor-pointer transition-colors border-none text-xs"
+                                className="w-6 h-6 rounded bg-gray-50 hover:bg-red-500 hover:text-black text-black/40 flex items-center justify-center cursor-pointer transition-colors border-none text-xs"
                                 title="Remove Block"
                               >
                                 ✕
@@ -4291,44 +4291,44 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </div>
 
                 {/* ─── TIME OFF REQUESTS CARD ─── */}
-                <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl mt-6">
-                  <div className="p-4 border-b border-white/[0.05] flex items-center justify-between bg-[var(--color-bg-elevated)]">
+                <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
+                  <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-xl">⏳</div>
                       <div>
-                        <h3 className="text-sm font-black italic tracking-wide text-white">Time-Off Requests</h3>
-                        <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
+                        <h3 className="text-sm font-black italic tracking-widetext-black">Time-Off Requests</h3>
+                        <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
                       </div>
                     </div>
                   </div>
                   <div className="p-6">
-                    <form onSubmit={handleAddTimeOffRequest} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end bg-black/20 p-4 border border-white/5 rounded-xl mb-6">
+                    <form onSubmit={handleAddTimeOffRequest} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end bg-black/20 p-4 border border-black/10 rounded-xl mb-6">
                       <div>
-                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/40 font-bold block mb-1.5">Request Date</label>
+                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Request Date</label>
                         <input
                           type="date"
                           required
                           value={timeOffDate}
                           onChange={e => setTimeOffDate(e.target.value)}
-                          className="w-full px-3 py-2 bg-[var(--color-bg-surface)] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-rose-500/50 transition-colors font-bold"
+                          className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-rose-500/50 transition-colors font-bold"
                         />
                       </div>
                       <div className="md:col-span-2 flex gap-3 items-end">
                         <div className="flex-1">
-                          <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/40 font-bold block mb-1.5">Reason for Time-off</label>
+                          <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Reason for Time-off</label>
                           <select
                             required
                             value={timeOffReason}
                             onChange={e => setTimeOffReason(e.target.value)}
-                            className="w-full px-3 py-2 bg-[var(--color-bg-surface)] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-rose-500/50 transition-colors font-medium cursor-pointer"
+                            className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-rose-500/50 transition-colors font-medium cursor-pointer"
                           >
-                            <option value="" className="bg-[var(--color-bg-card)] text-white/50">Select reason for time-off...</option>
-                            <option value="Family vacation" className="bg-[var(--color-bg-card)] text-white">Family vacation</option>
-                            <option value="Medical appointment" className="bg-[var(--color-bg-card)] text-white">Medical appointment</option>
-                            <option value="Personal / Family event" className="bg-[var(--color-bg-card)] text-white">Personal / Family event</option>
-                            <option value="Work / Business conflict" className="bg-[var(--color-bg-card)] text-white">Work / Business conflict</option>
-                            <option value="Emergency / Family matter" className="bg-[var(--color-bg-card)] text-white">Emergency / Family matter</option>
-                            <option value="Other" className="bg-[var(--color-bg-card)] text-white">Other</option>
+                            <option value="" className="bg-white text-black/50">Select reason for time-off...</option>
+                            <option value="Family vacation" className="bg-whitetext-black">Family vacation</option>
+                            <option value="Medical appointment" className="bg-whitetext-black">Medical appointment</option>
+                            <option value="Personal / Family event" className="bg-whitetext-black">Personal / Family event</option>
+                            <option value="Work / Business conflict" className="bg-whitetext-black">Work / Business conflict</option>
+                            <option value="Emergency / Family matter" className="bg-whitetext-black">Emergency / Family matter</option>
+                            <option value="Other" className="bg-whitetext-black">Other</option>
                           </select>
                         </div>
                         <button
@@ -4341,30 +4341,30 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </form>
 
                     {myTimeOffRequests.length === 0 ? (
-                      <div className="text-center py-6 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
-                        <p className="text-white/30 text-xs italic">No time-off requests submitted yet.</p>
+                      <div className="text-center py-6 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
+                        <p className="text-black/30 text-xs italic">No time-off requests submitted yet.</p>
                       </div>
                     ) : (
                       <div className="flex flex-col gap-3">
                         {myTimeOffRequests
                           .sort((a, b) => b.date.localeCompare(a.date))
                           .map((req) => (
-                            <div key={req.id} className="p-4 bg-[var(--color-bg-surface)] border border-white/5 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-white/10 transition-colors">
+                            <div key={req.id} className="p-4 bg-white border border-black/10 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-black/10 transition-colors">
                               <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-lg bg-rose-500/10 border border-rose-500/20 flex flex-col items-center justify-center text-center shrink-0">
                                   <span className="text-[7.5px] text-rose-400 font-black uppercase tracking-wider">
                                     {new Date(req.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}
                                   </span>
-                                  <span className="text-sm font-black text-white leading-none mt-0.5">
+                                  <span className="text-sm font-black text-black leading-none mt-0.5">
                                     {new Date(req.date + 'T12:00:00').getDate()}
                                   </span>
                                 </div>
                                 <div>
-                                  <span className="text-xs font-black text-white">
+                                  <span className="text-xs font-blacktext-black">
                                     {new Date(req.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
                                   </span>
-                                  <span className="text-xs text-white/50 block mt-0.5">
-                                    Reason: <span className="text-white/80 font-medium italic">“{req.reason}”</span>
+                                  <span className="text-xs text-black/50 block mt-0.5">
+                                    Reason: <span className="text-black/80 font-medium italic">“{req.reason}”</span>
                                   </span>
                                   {req.declineReason && (
                                     <span className="text-[var(--font-size-3xs)] text-rose-400/80 block mt-1">
@@ -4383,7 +4383,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     <button
                                       type="button"
                                       onClick={() => handleRemoveTimeOffRequest(req.id)}
-                                      className="px-2 py-0.5 bg-white/5 hover:bg-red-500 text-white/50 hover:text-white text-[var(--font-size-4xs)] font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                      className="px-2 py-0.5 bg-gray-50 hover:bg-red-500 text-black/50 hover:text-black text-[var(--font-size-4xs)] font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
                                     >
                                       Cancel
                                     </button>
@@ -4408,16 +4408,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
 
 {/* LIVE SETLIST & FAN LIKES */}
-           <div className={`xl:col-span-2 bg-[var(--color-bg-card)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'}`}>
+           <div className={`xl:col-span-2 bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'}`}>
               <div 
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-                className="p-4 border-b border-white/[0.05] flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-[var(--color-bg-elevated)] cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
+                className="p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50 cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
               >
                  <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎵</div>
                     <div>
-                       <h3 className="text-sm font-black italic tracking-wide text-white">Live Setlist & Fan Likes</h3>
-                       <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">
+                       <h3 className="text-sm font-black italic tracking-widetext-black">Live Setlist & Fan Likes</h3>
+                       <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">
                          Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                        </p>
                     </div>
@@ -4425,11 +4425,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  <div className="flex items-center gap-3 self-end md:self-auto">
                     <button 
                        onClick={(e) => { e.stopPropagation(); resetSetlistLikes(); }} 
-                       className="px-4 py-2 text-2xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold"
+                       className="px-4 py-2 text-2xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-gray-50 text-black/60 border-black/10 hover:bg-gray-100 hover:text-black font-sans font-bold"
                     >
                        Reset Likes
                     </button>
-                    <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}>
+                    <div className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}>
                       ▼
                     </div>
                  </div>
@@ -4446,18 +4446,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         className={`flex items-center justify-between p-2 rounded-lg border transition-all ${
                           song.isPlaying 
                             ? 'bg-purple-500/10 border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.12)]' 
-                            : 'bg-black/20 border-white/5 hover:border-white/10'
+                            : 'bg-black/20 border-black/10 hover:border-black/10'
                         }`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className={`text-xs ${song.isPlaying ? 'animate-bounce text-purple-400' : 'text-white/40'}`}>
+                          <span className={`text-xs ${song.isPlaying ? 'animate-bounce text-purple-400' : 'text-black/40'}`}>
                             {song.isPlaying ? '🔊' : '🎵'}
                           </span>
                           <div className="min-w-0">
-                            <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-purple-300' : 'text-white'}`}>
+                            <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-purple-300' : 'text-black'}`}>
                               {song.title}
                             </p>
-                            <p className="text-[var(--font-size-3xs)] font-semibold text-white/40 uppercase tracking-wider">
+                            <p className="text-[var(--font-size-3xs)] font-semibold text-black/40 uppercase tracking-wider">
                               ❤️ {song.likes} likes
                             </p>
                           </div>
@@ -4468,8 +4468,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             onClick={() => toggleSongPlaying(song.id)}
                             className={`px-2 py-1 rounded text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all ${
                               song.isPlaying
-                                ? 'bg-purple-500 text-white shadow-[0_0_8px_rgba(168,85,247,0.4)]'
-                                : 'bg-white/5 hover:bg-white/15 text-white/70 hover:text-white border border-white/10'
+                                ? 'bg-purple-500 text-black shadow-[0_0_8px_rgba(168,85,247,0.4)]'
+                                : 'bg-gray-50 hover:bg-white/15 text-black/70 hover:text-black border border-black/10'
                             }`}
                           >
                             {song.isPlaying ? 'Playing' : 'Set Active'}
@@ -4488,7 +4488,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  </div>
                  
                  {/* Add Song form */}
-                  <div className="pt-3 border-t border-white/5">
+                  <div className="pt-3 border-t border-black/10">
                     {isBulkImport ? (
                       <div className="space-y-2 animate-in fade-in duration-250">
                         <textarea
@@ -4496,18 +4496,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           value={newSongTitle}
                           onChange={e => setNewSongTitle(e.target.value)}
                           rows={4}
-                          className="w-full bg-[var(--color-bg-elevated)] border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-purple-500 transition-colors resize-none"
+                          className="w-full bg-gray-50 border border-black/10 rounded-lg px-3 py-2 text-xs text-black outline-none focus:border-purple-500 transition-colors resize-none"
                         />
                         <div className="flex justify-between items-center">
                           <button
                             onClick={() => { setIsBulkImport(false); setNewSongTitle(''); }}
-                            className="text-3xs uppercase font-black tracking-widest text-white/40 hover:text-white/60 transition-colors"
+                            className="text-3xs uppercase font-black tracking-widest text-black/40 hover:text-black/60 transition-colors"
                           >
                             Cancel
                           </button>
                           <button
                             onClick={() => addSongToSetlist(newSongTitle)}
-                            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-lg shadow-purple-500/20"
+                            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-black text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-lg shadow-purple-500/20"
                           >
                             Import Playlist
                           </button>
@@ -4522,11 +4522,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             value={newSongTitle}
                             onChange={e => setNewSongTitle(e.target.value)}
                             onKeyDown={e => e.key === 'Enter' && addSongToSetlist(newSongTitle)}
-                            className="flex-1 bg-[var(--color-bg-elevated)] border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-purple-500 transition-colors"
+                            className="flex-1 bg-gray-50 border border-black/10 rounded-lg px-3 py-2 text-xs text-black outline-none focus:border-purple-500 transition-colors"
                           />
                           <button
                             onClick={() => addSongToSetlist(newSongTitle)}
-                            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-lg shadow-purple-500/20"
+                            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-black text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-lg shadow-purple-500/20"
                           >
                             Add
                           </button>
@@ -4551,12 +4551,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* End Stream Modal */}
       {showEndModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
-          <div className="max-w-md w-full bg-[var(--color-bg-surface)] border border-white/10 p-8 shadow-2xl relative overflow-hidden">
+          <div className="max-w-md w-full bg-white border border-black/10 p-8 shadow-md relative overflow-hidden">
              {isSavingReplay && (
-                <div className="absolute inset-0 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
+                <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
                   <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
                   <h3 className="text-emerald-400 font-bold uppercase tracking-widest text-sm">Processing & Saving...</h3>
-                  <p className="text-white/40 text-xs mt-2">Compressing VOD to Gallery</p>
+                  <p className="text-black/40 text-xs mt-2">Compressing VOD to Gallery</p>
                 </div>
              )}
              
@@ -4564,8 +4564,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>
                </div>
-               <h2 className="text-2xl font-black italic tracking-tighter uppercase mb-2 text-white">End Broadcast?</h2>
-               <p className="text-sm text-white/60 leading-relaxed">
+               <h2 className="text-2xl font-black italic tracking-tighter uppercase mb-2text-black">End Broadcast?</h2>
+               <p className="text-sm text-black/60 leading-relaxed">
                  You are about to terminate the live broadcast to all fans. Are you sure you want to terminate the stream?
                </p>
              </div>
@@ -4573,13 +4573,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
              <div className="flex flex-col gap-3 relative z-10">
                <button 
                  onClick={confirmEndDiscard}
-                 className="w-full py-4 bg-red-500 hover:bg-red-400 text-white font-black uppercase tracking-[0.2em] text-xs transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg"
+                 className="w-full py-4 bg-red-500 hover:bg-red-400 text-black font-black uppercase tracking-[0.2em] text-xs transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg"
                >
                  End Broadcast
                </button>
                <button 
                  onClick={() => setShowEndModal(false)}
-                 className="w-full py-2 text-white/40 hover:text-white uppercase tracking-widest text-xs font-bold mt-2 transition-colors"
+                 className="w-full py-2 text-black/40 hover:text-black uppercase tracking-widest text-xs font-bold mt-2 transition-colors"
                >
                  Cancel, Keep Streaming
                </button>
@@ -4591,18 +4591,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── DECLINE REASON MODAL ─── */}
       {isDeclineModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="bg-[var(--color-bg-elevated)] border border-white/10 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
-            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2">
+          <div className="bg-gray-50 border border-black/10 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-md relative">
+            <h3 className="text-sm font-black italic tracking-wide text-black uppercase flex items-center gap-2">
               <span className="text-rose-500">✗</span> Decline Work Shift
             </h3>
-            <p className="text-xs text-white/50 leading-relaxed">
+            <p className="text-xs text-black/50 leading-relaxed">
               Please provide a reason for declining this shift. This will be saved to your shift history and shared with the planner/administrator to assist with scheduling.
             </p>
             <textarea
               value={declineReason}
               onChange={(e) => setDeclineReason(e.target.value)}
               placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
-              className="w-full min-h-[100px] bg-black/40 border border-white/10 text-white placeholder-white/30 rounded-xl p-3 text-sm focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-all resize-none"
+              className="w-full min-h-[100px] bg-black/40 border border-black/10 text-black placeholder-white/30 rounded-xl p-3 text-sm focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-all resize-none"
             />
             <div className="flex items-center justify-end gap-2.5 pt-2">
               <button
@@ -4612,7 +4612,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   setDecliningShiftId(null);
                   setDeclineReason('');
                 }}
-                className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white rounded-lg text-xs font-black uppercase tracking-wider transition-all"
+                className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-all"
               >
                 Cancel
               </button>
@@ -4627,7 +4627,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   setDecliningShiftId(null);
                   setDeclineReason('');
                 }}
-                className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-white/30 text-white rounded-lg text-xs font-black uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30 text-black rounded-lg text-xs font-black uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
               >
                 Submit Decline
               </button>
@@ -4639,37 +4639,37 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── EMAIL ADMIN MODAL ─── */}
       {isEmailModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="bg-[var(--color-bg-elevated)] border border-white/10 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
-            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2">
+          <div className="bg-gray-50 border border-black/10 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-md relative">
+            <h3 className="text-sm font-black italic tracking-wide text-black uppercase flex items-center gap-2">
               <span className="text-amber-500">📧</span> Email Administrators
             </h3>
             
             <div className="space-y-3">
               <div>
-                <label className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider block mb-1">From</label>
-                <div className="bg-black/35 border border-white/5 rounded-xl px-3.5 py-2 text-xs text-white/70">
-                  {displayName} <span className="text-white/35">({email})</span>
+                <label className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">From</label>
+                <div className="bg-black/35 border border-black/10 rounded-xl px-3.5 py-2 text-xs text-black/70">
+                  {displayName} <span className="text-black/35">({email})</span>
                 </div>
               </div>
               
               <div>
-                <label className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider block mb-1">Subject</label>
+                <label className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">Subject</label>
                 <input
                   type="text"
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
                   placeholder="Subject of your message..."
-                  className="w-full bg-black/40 border border-white/10 text-white placeholder-white/30 rounded-xl px-3.5 py-2 text-xs focus:border-amber-500/50 outline-none transition-all"
+                  className="w-full bg-black/40 border border-black/10 text-black placeholder-white/30 rounded-xl px-3.5 py-2 text-xs focus:border-amber-500/50 outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider block mb-1">Message</label>
+                <label className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">Message</label>
                 <textarea
                   value={emailMessage}
                   onChange={(e) => setEmailMessage(e.target.value)}
                   placeholder="Type your message to the administrators here..."
-                  className="w-full min-h-[120px] bg-black/40 border border-white/10 text-white placeholder-white/30 rounded-xl p-3 text-xs focus:border-amber-500/50 outline-none transition-all resize-none"
+                  className="w-full min-h-[120px] bg-black/40 border border-black/10 text-black placeholder-white/30 rounded-xl p-3 text-xs focus:border-amber-500/50 outline-none transition-all resize-none"
                 />
               </div>
             </div>
@@ -4682,7 +4682,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   setEmailSubject('');
                   setEmailMessage('');
                 }}
-                className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white rounded-lg text-xs font-black uppercase tracking-wider transition-all"
+                className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-all"
               >
                 Cancel
               </button>
@@ -4690,7 +4690,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 type="button"
                 disabled={isSendingEmail || !emailSubject.trim() || !emailMessage.trim()}
                 onClick={handleSendEmailToAdmins}
-                className="px-4 py-2 bg-amber-500 hover:bg-amber-400 disabled:bg-amber-500/30 disabled:text-white/30 text-black font-black rounded-lg text-xs uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-amber-500 hover:bg-amber-400 disabled:bg-amber-500/30 disabled:text-black/30 text-black font-black rounded-lg text-xs uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
               >
                 {isSendingEmail ? 'Sending...' : 'Send Message'}
               </button>
@@ -4701,7 +4701,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
       {/* 🔔 Premium Toast Notification */}
       {toast.visible && (
-        <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-[var(--color-bg-card)]/95 border border-white/10 p-4 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3 text-white">
+        <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-white/95 border border-black/10 p-4 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3text-black">
           <div className="flex-1 text-left font-sans">
             {toast.title && (
               <h4 className={`text-xs uppercase tracking-widest font-black mb-1 ${
@@ -4710,14 +4710,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 {toast.title}
               </h4>
             )}
-            <p className="text-xs text-white/70 leading-relaxed font-semibold">
+            <p className="text-xs text-black/70 leading-relaxed font-semibold">
               {toast.message}
             </p>
           </div>
           <button 
             type="button"
             onClick={() => setToast(prev => ({ ...prev, visible: false }))}
-            className="text-white/40 hover:text-white text-xs cursor-pointer border-none bg-transparent self-start font-sans"
+            className="text-black/40 hover:text-black text-xs cursor-pointer border-none bg-transparent self-start font-sans"
           >
             ✕
           </button>
@@ -4727,13 +4727,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── VENUE DETAILS POPUP MODAL ─── */}
       {selectedVenuePopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
-          <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl text-white font-sans flex flex-col">
+          <div className="bg-white border border-black/10 rounded-2xl w-full max-w-md p-6 relative shadow-md text-black font-sans flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/5 mb-4">
+            <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4">
               <div className="flex items-center gap-2.5">
                 <span className="text-xl">🏛️</span>
                 <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-white uppercase leading-none">
+                  <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
                     {selectedVenuePopup.name}
                   </h3>
                   <p className="text-[var(--font-size-4xs)] text-cyan-400 font-mono tracking-wider mt-1.5 uppercase leading-none">
@@ -4744,7 +4744,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button
                 type="button"
                 onClick={() => setSelectedVenuePopup(null)}
-                className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                className="text-black/40 hover:text-black transition-colors cursor-pointer border-none bg-transparent text-sm"
               >
                 ✕
               </button>
@@ -4754,7 +4754,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
               {/* Address */}
               <div>
-                <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/45 font-bold block mb-1">📍 Address</span>
+                <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">📍 Address</span>
                 <a 
                   href={`https://maps.google.com/?q=${encodeURIComponent(selectedVenuePopup.address)}`}
                   target="_blank"
@@ -4770,7 +4770,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="p-3 bg-cyan-950/15 border border-cyan-500/20 rounded-xl flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-cyan-400/70 font-bold block mb-0.5">📶 Backstage Wi-Fi</span>
-                    <span className="text-xs font-mono font-bold text-white select-all">{selectedVenuePopup.wifiPassword}</span>
+                    <span className="text-xs font-mono font-bold text-black select-all">{selectedVenuePopup.wifiPassword}</span>
                   </div>
                   <button
                     type="button"
@@ -4787,13 +4787,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* Two columns: Capacity and Contact */}
               <div className="grid grid-cols-2 gap-3.5">
-                <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl">
-                  <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/45 font-bold block mb-1">👥 Capacity</span>
-                  <span className="text-xs font-bold text-white font-mono">{selectedVenuePopup.capacity.toLocaleString()}</span>
+                <div className="bg-white/[0.02] border border-black/10 p-3 rounded-xl">
+                  <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">👥 Capacity</span>
+                  <span className="text-xs font-bold text-black font-mono">{selectedVenuePopup.capacity.toLocaleString()}</span>
                 </div>
-                <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl">
-                  <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/45 font-bold block mb-1">👤 Contact</span>
-                  <span className="text-xs font-bold text-white block truncate" title={selectedVenuePopup.contactPerson}>
+                <div className="bg-white/[0.02] border border-black/10 p-3 rounded-xl">
+                  <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">👤 Contact</span>
+                  <span className="text-xs font-bold text-black block truncate" title={selectedVenuePopup.contactPerson}>
                     {selectedVenuePopup.contactPerson.split(' (')[0]}
                   </span>
                   {selectedVenuePopup.contactPhone && (
@@ -4808,28 +4808,28 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* Stage Specs */}
-              <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl">
-                <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/45 font-bold block mb-1">🎸 Stage & Power Specs</span>
-                <p className="text-xs text-white/80 leading-relaxed font-medium">
+              <div className="bg-white/[0.02] border border-black/10 p-3 rounded-xl">
+                <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">🎸 Stage & Power Specs</span>
+                <p className="text-xs text-black/80 leading-relaxed font-medium">
                   {selectedVenuePopup.stageSpecs}
                 </p>
               </div>
 
               {/* Parking & Load-In Notes */}
-              <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl">
-                <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/45 font-bold block mb-1">🚛 Parking & Load-In Notes</span>
-                <p className="text-xs text-white/80 leading-relaxed font-medium">
+              <div className="bg-white/[0.02] border border-black/10 p-3 rounded-xl">
+                <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">🚛 Parking & Load-In Notes</span>
+                <p className="text-xs text-black/80 leading-relaxed font-medium">
                   {selectedVenuePopup.parkingNotes}
                 </p>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="mt-4 pt-4 border-t border-white/5 flex justify-end">
+            <div className="mt-4 pt-4 border-t border-black/10 flex justify-end">
               <button
                 type="button"
                 onClick={() => setSelectedVenuePopup(null)}
-                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-lg transition-colors border border-white/10 cursor-pointer"
+                className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-black text-xs font-bold rounded-lg transition-colors border border-black/10 cursor-pointer"
               >
                 Dismiss Details
               </button>
@@ -4841,13 +4841,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── GIG DISCUSS & LINEUP MODAL FOR CREW ─── */}
       {activeDiscussionDate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
-          <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl w-full max-w-lg p-6 relative shadow-2xl text-white font-sans flex flex-col max-h-[90vh]">
+          <div className="bg-white border border-black/10 rounded-2xl w-full max-w-lg p-6 relative shadow-md text-black font-sans flex flex-col max-h-[90vh]">
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/5 mb-4 shrink-0">
+            <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4 shrink-0">
               <div className="flex items-center gap-2.5">
                 <span className="text-xl">🎸</span>
                 <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-white uppercase leading-none">
+                  <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
                     Show Lineup & Gig Discuss
                   </h3>
                   <p className="text-[var(--font-size-4xs)] text-cyan-400 font-mono tracking-wider mt-1.5 uppercase leading-none">
@@ -4858,7 +4858,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button
                 type="button"
                 onClick={() => setActiveDiscussionDate(null)}
-                className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                className="text-black/40 hover:text-black transition-colors cursor-pointer border-none bg-transparent text-sm"
               >
                 ✕
               </button>
@@ -4868,11 +4868,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="flex-1 overflow-y-auto space-y-5 pr-1 py-1" data-lenis-prevent="true">
               {/* Lineup */}
               <div className="space-y-3">
-                <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/45 tracking-widest block border-b border-white/5 pb-1">Set Schedule Lineup</h4>
+                <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Set Schedule Lineup</h4>
                 {(() => {
                   const lineup = setLineups[activeDiscussionDate] || [];
                   if (lineup.length === 0) {
-                    return <p className="text-2xs text-white/35 italic">No lineup configured for this show date yet.</p>;
+                    return <p className="text-2xs text-black/35 italic">No lineup configured for this show date yet.</p>;
                   }
                   return lineup
                     .sort((a, b) => parseTimeToMinutes(a.startTime) - parseTimeToMinutes(b.startTime))
@@ -4881,8 +4881,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       const changeover = nextAct ? getChangeoverLabel(act.endTime, nextAct.startTime) : '';
                       return (
                         <div key={act.id} className="space-y-1.5">
-                          <div className="bg-black/30 border border-white/5 p-3 rounded-xl flex items-center justify-between">
-                            <span className="text-xs font-bold text-white">{act.actName}</span>
+                          <div className="bg-black/30 border border-black/10 p-3 rounded-xl flex items-center justify-between">
+                            <span className="text-xs font-boldtext-black">{act.actName}</span>
                             <span className="text-[var(--font-size-3xs)] text-amber-400 font-mono font-bold">⏱️ {act.startTime} - {act.endTime}</span>
                           </div>
                           {changeover && (
@@ -4900,7 +4900,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* Discussion Thread */}
               <div className="space-y-3">
-                <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/45 tracking-widest block border-b border-white/5 pb-1">Discussion Board</h4>
+                <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Discussion Board</h4>
                 {(() => {
                   const comments = gigComments.filter(c => c.date === activeDiscussionDate);
                   const rootComments = comments.filter(c => !c.parentId);
@@ -4919,21 +4919,21 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         {rootComments.map(c => {
                           const replies = repliesByParent[c.id] || [];
                           return (
-                            <div key={c.id} className="space-y-2 border-b border-white/5 pb-2.5 last:border-none">
+                            <div key={c.id} className="space-y-2 border-b border-black/10 pb-2.5 last:border-none">
                               <div className="flex items-start gap-2">
-                                <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center font-bold text-[var(--font-size-4xs)] uppercase shrink-0 text-white mt-0.5">
+                                <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center font-bold text-[var(--font-size-4xs)] uppercase shrink-0 text-black mt-0.5">
                                   {c.authorName[0]}
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center justify-between mb-0.5">
-                                    <span className="text-[var(--font-size-3xs)] font-bold text-white/80">{c.authorName}</span>
-                                    <span className="text-[7.5px] text-white/30 font-mono">{new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                    <span className="text-[var(--font-size-3xs)] font-bold text-black/80">{c.authorName}</span>
+                                    <span className="text-[7.5px] text-black/30 font-mono">{new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                   </div>
-                                  <p className="text-[var(--font-size-2xs)] text-white/60 leading-normal">{c.text}</p>
+                                  <p className="text-[var(--font-size-2xs)] text-black/60 leading-normal">{c.text}</p>
                                   <button
                                     type="button"
                                     onClick={() => setReplyingToCommentId(replyingToCommentId === c.id ? null : c.id)}
-                                    className="text-[var(--font-size-4xs)] font-black text-cyan-400 hover:text-white mt-1 border-none bg-transparent cursor-pointer"
+                                    className="text-[var(--font-size-4xs)] font-black text-cyan-400 hover:text-black mt-1 border-none bg-transparent cursor-pointer"
                                   >
                                     {replyingToCommentId === c.id ? 'Cancel Reply' : 'Reply'}
                                   </button>
@@ -4948,7 +4948,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     placeholder="Write a reply..."
                                     value={replyText}
                                     onChange={(e) => setReplyText(e.target.value)}
-                                    className="flex-1 px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none focus:border-cyan-500/50"
+                                    className="flex-1 px-2 py-1 bg-[#f0f2f5] border border-black/10 text-[var(--font-size-3xs)] text-black rounded outline-none focus:border-cyan-500/50"
                                   />
                                   <button
                                     type="button"
@@ -4981,16 +4981,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                               {/* Replies */}
                               {replies.map(r => (
-                                <div key={r.id} className="flex items-start gap-2 pl-7 mt-2 border-l border-white/5">
-                                  <div className="w-4 h-4 rounded-full bg-white/5 flex items-center justify-center font-bold text-[var(--font-size-5xs)] uppercase shrink-0 text-white/50 mt-0.5">
+                                <div key={r.id} className="flex items-start gap-2 pl-7 mt-2 border-l border-black/10">
+                                  <div className="w-4 h-4 rounded-full bg-gray-50 flex items-center justify-center font-bold text-[var(--font-size-5xs)] uppercase shrink-0 text-black/50 mt-0.5">
                                     {r.authorName[0]}
                                   </div>
                                   <div className="min-w-0 flex-1">
                                     <div className="flex items-center justify-between mb-0.5">
-                                      <span className="text-[9.5px] font-bold text-white/70">{r.authorName}</span>
-                                      <span className="text-[var(--font-size-5xs)] text-white/20 font-mono">{new Date(r.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                      <span className="text-[9.5px] font-bold text-black/70">{r.authorName}</span>
+                                      <span className="text-[var(--font-size-5xs)] text-black/25 font-mono">{new Date(r.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                     </div>
-                                    <p className="text-[var(--font-size-3xs)] text-white/50 leading-normal">{r.text}</p>
+                                    <p className="text-[var(--font-size-3xs)] text-black/50 leading-normal">{r.text}</p>
                                   </div>
                                 </div>
                               ))}
@@ -4998,7 +4998,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           );
                         })}
                         {comments.length === 0 && (
-                          <p className="text-2xs text-white/20 italic text-center py-6">No discussions yet. Start the conversation!</p>
+                          <p className="text-2xs text-black/25 italic text-center py-6">No discussions yet. Start the conversation!</p>
                         )}
                       </div>
 
@@ -5009,7 +5009,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           placeholder="Post a gig note..."
                           value={newCommentText}
                           onChange={(e) => setNewCommentText(e.target.value)}
-                          className="flex-1 px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-cyan-500/50"
+                          className="flex-1 px-3 py-2 bg-[#f0f2f5] border border-black/10 text-xs text-black rounded-lg outline-none focus:border-cyan-500/50"
                         />
                         <button
                           type="button"
@@ -5043,11 +5043,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             </div>
 
             {/* Footer */}
-            <div className="mt-4 pt-4 border-t border-white/5 flex justify-end shrink-0">
+            <div className="mt-4 pt-4 border-t border-black/10 flex justify-end shrink-0">
               <button
                 type="button"
                 onClick={() => setActiveDiscussionDate(null)}
-                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-lg transition-colors border border-white/10 cursor-pointer"
+                className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-black text-xs font-bold rounded-lg transition-colors border border-black/10 cursor-pointer"
               >
                 Close Specs
               </button>
@@ -5059,13 +5059,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── REQUEST COVERAGE / SWAP MODAL FOR CREW ─── */}
       {requestingCoverageShift && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
-          <div className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl text-white font-sans flex flex-col">
+          <div className="bg-white border border-black/10 rounded-2xl w-full max-w-md p-6 relative shadow-md text-black font-sans flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/5 mb-4 shrink-0">
+            <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4 shrink-0">
               <div className="flex items-center gap-2.5">
                 <span className="text-xl">🔄</span>
                 <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-white uppercase leading-none">
+                  <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
                     Request Coverage or Swap
                   </h3>
                   <p className="text-[var(--font-size-4xs)] text-purple-400 font-mono tracking-wider mt-1.5 uppercase leading-none">
@@ -5079,7 +5079,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId('');
                 }}
-                className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                className="text-black/40 hover:text-black transition-colors cursor-pointer border-none bg-transparent text-sm"
               >
                 ✕
               </button>
@@ -5087,19 +5087,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
             {/* Content Body */}
             <div className="space-y-4 font-sans">
-              <p className="text-xs text-white/60 leading-relaxed">
+              <p className="text-xs text-black/60 leading-relaxed">
                 Choose whether you want to post this to the general pool for any qualified colleague to claim, or propose a direct swap with a specific colleague.
               </p>
 
               {/* Selection Tabs / Modes */}
-              <div className="grid grid-cols-2 gap-2 bg-black/20 p-1 border border-white/5 rounded-lg">
+              <div className="grid grid-cols-2 gap-2 bg-black/20 p-1 border border-black/10 rounded-lg">
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('')}
                   className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border-none ${
                     !swapTargetColleagueId
-                      ? 'bg-purple-600 text-white shadow-sm'
-                      : 'bg-transparent text-white/50 hover:text-white'
+                      ? 'bg-purple-600 text-black shadow-sm'
+                      : 'bg-transparent text-black/50 hover:text-black'
                   }`}
                 >
                   General Coverage
@@ -5109,8 +5109,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
                   className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border-none ${
                     swapTargetColleagueId
-                      ? 'bg-purple-600 text-white shadow-sm'
-                      : 'bg-transparent text-white/50 hover:text-white'
+                      ? 'bg-purple-600 text-black shadow-sm'
+                      : 'bg-transparent text-black/50 hover:text-black'
                   }`}
                 >
                   Propose Direct Swap
@@ -5119,12 +5119,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* Direct Swap Colleague Selection */}
               {swapTargetColleagueId !== '' && (
-                <div className="space-y-2 bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl animate-[fadeIn_0.2s_ease-out]">
-                  <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-white/40 font-bold block">Select Colleague to Swap With</label>
+                <div className="space-y-2 bg-white/[0.02] border border-black/10 p-3 rounded-xl animate-[fadeIn_0.2s_ease-out]">
+                  <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block">Select Colleague to Swap With</label>
                   <select
                     value={swapTargetColleagueId === 'openshifts' ? '' : swapTargetColleagueId}
                     onChange={(e) => setSwapTargetColleagueId(e.target.value)}
-                    className="w-full px-3 py-2 bg-[var(--color-bg-surface)] border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
+                    className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
                   >
                     <option value="" disabled>— Select Colleague —</option>
                     {[
@@ -5156,14 +5156,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             </div>
 
             {/* Footer Buttons */}
-            <div className="mt-5 pt-4 border-t border-white/5 flex items-center justify-end gap-2.5 shrink-0">
+            <div className="mt-5 pt-4 border-t border-black/10 flex items-center justify-end gap-2.5 shrink-0">
               <button
                 type="button"
                 onClick={() => {
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId('');
                 }}
-                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-lg transition-colors border border-white/10 cursor-pointer"
+                className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-black text-xs font-bold rounded-lg transition-colors border border-black/10 cursor-pointer"
               >
                 Cancel
               </button>
@@ -5175,7 +5175,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId('');
                 }}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none"
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-black text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none"
               >
                 Submit Request
               </button>

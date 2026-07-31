@@ -237,18 +237,18 @@ export default function AdminLegalPage() {
   const active = SECTIONS.find((s) => s.id === selectedSection) || SECTIONS[0];
 
   return (
-    <div className="min-h-screen pt-[72px] bg-[var(--color-bg-deep)] text-white">
+    <div className="min-h-screen pt-[72px] bg-[#f0f2f5] text-black">
       <div className="site-container py-16">
         
         {/* Header */}
         <div className="mb-12">
-          <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4 px-5 py-1.5 border border-[rgba(133,29,239,0.3)] bg-[var(--color-accent)]/5 rounded-md">
+          <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4 px-5 py-1.5 border border-[rgba(133,29,239,0.3)] bg-[var(--color-accent)]/10 rounded-md">
             🔒 Legal Compliance & Audit Panel
           </span>
-          <h1 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight uppercase italic font-[var(--font-heading)] text-white">
+          <h1 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight uppercase italic font-[var(--font-heading)] text-black">
             Legal & Compliance <span className="gradient-text">Guide</span>
           </h1>
-          <p className="text-white/40 text-sm mt-2 max-w-2xl font-sans">
+          <p className="text-black/50 text-sm mt-2 max-w-2xl font-sans">
             A developer-facing compliance dashboard outlining legal obligations, TCPA mandates, e-commerce protections, and accessibility criteria to address prior to launching live.
           </p>
         </div>
@@ -267,49 +267,49 @@ export default function AdminLegalPage() {
                   className={`w-full flex items-center gap-4 p-4 border rounded-xl text-left transition-all duration-200 cursor-pointer ${
                     isSelected
                       ? `border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_4px_20px_rgba(133,29,239,0.1)]`
-                      : `border-white/10 hover:border-white/25 hover:bg-white/[0.02]`
+                      : `border-black/10 bg-white hover:border-black/20 hover:bg-white/80`
                   }`}
                 >
-                  <div className={`p-2 rounded-lg bg-white/5 ${sec.color}`}>
+                  <div className={`p-2 rounded-lg bg-black/5 ${sec.color}`}>
                     {sec.icon}
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white leading-tight">{sec.title}</h3>
-                    <p className="text-[var(--font-size-2xs)] text-white/40 mt-1 line-clamp-1">{sec.subtitle}</p>
+                    <h3 className="text-sm font-bold text-black leading-tight">{sec.title}</h3>
+                    <p className="text-[var(--font-size-2xs)] text-black/40 mt-1 line-clamp-1">{sec.subtitle}</p>
                   </div>
                 </button>
               );
             })}
             
             {/* Disclaimer notice */}
-            <div className="mt-8 p-4 bg-white/[0.01] border border-white/5 rounded-xl">
-              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/30 block mb-1">Legal Disclaimer</span>
-              <p className="text-[var(--font-size-3xs)] leading-relaxed text-white/40">
+            <div className="mt-8 p-4 bg-white border border-black/5 rounded-xl">
+              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/30 block mb-1">Legal Disclaimer</span>
+              <p className="text-[var(--font-size-3xs)] leading-relaxed text-black/50">
                 This dashboard serves as a general checklist of legal frameworks. It is not formal legal advice. Consult with an attorney or copyright expert before publishing live streaming services or bulk SMS campaigns.
               </p>
             </div>
           </div>
 
           {/* Right Detailed Panel */}
-          <div className={`border rounded-2xl p-8 lg:p-10 transition-all duration-300 ${active.bgColor} ${active.borderColor}`}>
+          <div className={`border rounded-2xl p-8 lg:p-10 transition-all duration-300 bg-white ${active.borderColor}`}>
             
             {/* Header info */}
-            <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
-              <div className={`p-3.5 rounded-2xl bg-white/5 ${active.color}`}>
+            <div className="flex items-center gap-4 mb-6 pb-6 border-b border-black/10">
+              <div className={`p-3.5 rounded-2xl bg-black/5 ${active.color}`}>
                 {active.icon}
               </div>
               <div>
-                <h2 className="text-xl lg:text-2xl font-black uppercase tracking-tight italic font-[var(--font-heading)] text-white">
+                <h2 className="text-xl lg:text-2xl font-black uppercase tracking-tight italic font-[var(--font-heading)] text-black">
                   {active.title}
                 </h2>
-                <p className="text-sm text-white/60 mt-1">{active.subtitle}</p>
+                <p className="text-sm text-black/50 mt-1">{active.subtitle}</p>
               </div>
             </div>
 
             {/* Explanation box */}
-            <div className="bg-black/40 border border-white/5 rounded-xl p-5 mb-8">
-              <span className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-2">⚖️ Compliance Context</span>
-              <p className="text-sm leading-relaxed text-white/80">{active.explanation}</p>
+            <div className="bg-[#f0f2f5] border border-black/5 rounded-xl p-5 mb-8">
+              <span className="text-xs font-bold uppercase tracking-wider text-black/40 block mb-2">⚖️ Compliance Context</span>
+              <p className="text-sm leading-relaxed text-black/70">{active.explanation}</p>
             </div>
 
             {/* Requirement Cards */}
@@ -317,22 +317,22 @@ export default function AdminLegalPage() {
               <h3 className="text-xs font-extrabold uppercase tracking-widest text-[var(--color-accent)] mb-3">Requirements & Action Checklist</h3>
               
               {active.requirements.map((req, index) => (
-                <div key={index} className="bg-[var(--color-bg-deep)]/85 border border-white/5 rounded-xl p-5 relative overflow-hidden">
+                <div key={index} className="bg-[#f8f9fa] border border-black/5 rounded-xl p-5 relative overflow-hidden">
                   
                   {/* Critical Warning Indicator */}
                   {req.isCritical && (
-                    <span className="absolute top-0 right-0 text-[var(--font-size-4xs)] font-black uppercase tracking-widest bg-rose-500/20 text-rose-400 px-3 py-1 border-b border-l border-rose-500/20 rounded-bl-lg">
+                    <span className="absolute top-0 right-0 text-[var(--font-size-4xs)] font-black uppercase tracking-widest bg-rose-500/15 text-rose-500 px-3 py-1 border-b border-l border-rose-500/20 rounded-bl-lg">
                       Critical
                     </span>
                   )}
 
-                  <h4 className="text-sm font-bold text-white pr-16">{req.title}</h4>
-                  <p className="text-xs text-white/50 mt-1.5 leading-relaxed">{req.description}</p>
+                  <h4 className="text-sm font-bold text-black pr-16">{req.title}</h4>
+                  <p className="text-xs text-black/50 mt-1.5 leading-relaxed">{req.description}</p>
                   
                   {/* Action Item details */}
-                  <div className="mt-4 pt-3.5 border-t border-white/5 flex items-start gap-2.5">
-                    <span className="text-xs text-emerald-400 font-bold shrink-0">🛠️ DEV ACTION:</span>
-                    <p className="text-xs text-white/70 italic leading-relaxed">{req.actionItem}</p>
+                  <div className="mt-4 pt-3.5 border-t border-black/5 flex items-start gap-2.5">
+                    <span className="text-xs text-emerald-600 font-bold shrink-0">🛠️ DEV ACTION:</span>
+                    <p className="text-xs text-black/60 italic leading-relaxed">{req.actionItem}</p>
                   </div>
                 </div>
               ))}

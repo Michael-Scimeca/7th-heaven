@@ -51,12 +51,16 @@ class MapErrorBoundary extends React.Component<
 function MapResizeTrigger({ isVisible }: { isVisible: boolean }) {
   const map = useMap();
   useEffect(() => {
-    if (isVisible) {
-      const timer = setTimeout(() => {
-        map.invalidateSize();
-      }, 150);
-      return () => clearTimeout(timer);
-    }
+    const triggerResize = () => {
+      map.invalidateSize();
+    };
+    triggerResize();
+    const t1 = setTimeout(triggerResize, 100);
+    const t2 = setTimeout(triggerResize, 500);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
   }, [isVisible, map]);
   return null;
 }
@@ -67,15 +71,11 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Delay rendering until next frame to ensure DOM is ready
-    const raf = requestAnimationFrame(() => {
-      setReady(true);
-      setMapKey("map-" + Math.random().toString());
-    });
-    return () => cancelAnimationFrame(raf);
+    setReady(true);
+    setMapKey("map-" + Math.random().toString());
   }, []);
 
-  if (!ready) return <div className="w-full h-[400px] bg-black/40 rounded-xl animate-pulse" />;
+  if (!ready) return <div className="w-full h-full min-h-[180px] bg-slate-100 rounded-xl animate-pulse" />;
 
   // Map locations to coordinates
   const getCoordinates = (city: string): [number, number] => {
@@ -90,34 +90,34 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
 
   const getColor = (city: string) => {
     const colors: Record<string, string> = {
-      'Chicago, IL': '#10b981', // Emerald
-      'Nashville, TN': '#f59e0b', // Amber
-      'Los Angeles, CA': '#a855f7', // Purple
-      'Dallas, TX': '#4285F4', // Blue
+      'Chicago, IL': '#059669', // Emerald
+      'Nashville, TN': '#d97706', // Amber
+      'Los Angeles, CA': '#7c3aed', // Purple
+      'Dallas, TX': '#2563eb', // Blue
     };
     return colors[city] || '#ec4899'; // Pink default
   };
 
   return (
     <MapErrorBoundary>
-      <div ref={containerRef} className="w-full h-[400px] rounded-xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+      <div ref={containerRef} className="w-full h-full min-h-[180px] rounded-xl overflow-hidden shadow-xs relative">
         <MapContainer 
           key={mapKey}
           center={[39.8283, -98.5795]} 
-          zoom={4} 
-          style={{ height: '100%', width: '100%', background: '#0f0f13' }}
+          zoom={3} 
+          style={{ height: '100%', width: '100%', minHeight: '180px', background: '#f8fafc' }}
           zoomControl={false}
           scrollWheelZoom={false}
-          dragging={false}
+          dragging={true}
           doubleClickZoom={false}
         >
           <MapResizeTrigger isVisible={isVisible} />
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
           
-          {locations.map((loc) => {
+          {locations && locations.map((loc) => {
             const coords = getCoordinates(loc.city);
             const color = getColor(loc.city);
             const radius = Math.max(8, loc.percentage / 1.5);
@@ -130,14 +130,14 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
                 pathOptions={{
                   color: color,
                   fillColor: color,
-                  fillOpacity: 0.6,
+                  fillOpacity: 0.7,
                   weight: 2,
                 }}
               >
                 <Tooltip direction="top" offset={[0, -10]} opacity={1} className="custom-tooltip">
                   <div className="font-sans">
-                    <p className="font-bold text-sm uppercase tracking-wider text-black m-0">{loc.city}</p>
-                    <p className="text-black/70 text-xs m-0">{loc.percentage}% of Traffic</p>
+                    <p className="font-bold text-xs uppercase tracking-wider text-black m-0">{loc.city}</p>
+                    <p className="text-black/70 text-[10px] font-mono m-0">{loc.percentage}% of Traffic</p>
                   </div>
                 </Tooltip>
               </CircleMarker>
@@ -146,20 +146,21 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
         </MapContainer>
         
         <style jsx global>{`
-          /* Overriding Leaflet styles to fit dark mode */
           .leaflet-container {
-            background-color: #0f0f13 !important;
+            background-color: #f8fafc !important;
             font-family: inherit;
+            height: 100% !important;
+            width: 100% !important;
           }
           .leaflet-tooltip.custom-tooltip {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             border-radius: 8px;
-            padding: 8px 12px;
+            padding: 6px 10px;
           }
           .leaflet-tooltip-top.custom-tooltip:before {
-            border-top-color: rgba(255, 255, 255, 0.95);
+            border-top-color: #ffffff;
           }
         `}</style>
       </div>

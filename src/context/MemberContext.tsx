@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import fakeLogins from "@/data/fake-logins.json";
 
 export interface Member {
@@ -72,7 +72,13 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  const [member, setMember] = useState<Member | null>(null);
  const [hydrated, setHydrated] = useState(false);
  const [isModalOpen, setIsModalOpen] = useState(false);
- const [modalMode, setModalMode] = useState<"login" | "signup" | "forgot">("login");
+ const [_modalMode, _setModalMode] = useState<"login" | "signup" | "forgot">("login");
+ const modalMode = _modalMode;
+ const setModalMode = (mode: "login" | "signup" | "forgot") => {
+   console.log(`%c[setModalMode] ${_modalMode} → ${mode}`, 'color: red; font-weight: bold');
+   console.trace('[setModalMode] called from:');
+   _setModalMode(mode);
+ };
  const [modalLoginRole, setModalLoginRole] = useState<"fan" | "crew" | "planner" | "cruise">("fan");
 
   // Load member and setup auth listener
@@ -211,15 +217,15 @@ export function MemberProvider({ children }: { children: ReactNode }) {
    }
   }, [member, hydrated]);
 
- const openModal = (mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" | "planner" | "cruise" = "fan") => {
-  setModalMode(mode);
+ const openModal = useCallback((mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" | "planner" | "cruise" = "fan") => {
+  _setModalMode(mode);
   setModalLoginRole(role);
   setIsModalOpen(true);
- };
- const closeModal = () => {
+ }, []);
+ const closeModal = useCallback(() => {
   setIsModalOpen(false);
   setModalLoginRole("fan"); // reset role on close
- };
+ }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
    // Check fake logins bypass

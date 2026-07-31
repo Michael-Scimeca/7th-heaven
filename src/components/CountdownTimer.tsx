@@ -74,14 +74,8 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
    );
   }
 
-  // Color transitions from white → accent purple as show approaches
-  // 14+ days = white, 0 days = full purple
   const urgency = Math.max(0, Math.min(1, 1 - timeLeft.totalDays / 14));
-  // Interpolate: white (255,255,255) → accent purple (133,29,239)
-  const r = Math.round(255 - urgency * (255 - 133));
-  const g = Math.round(255 - urgency * (255 - 29));
-  const b = Math.round(255 - urgency * (255 - 239));
-  const numberColor = `rgb(${r}, ${g}, ${b})`;
+  const numberColor = urgency > 0.5 ? '#9333ea' : '#000000';
 
   const units = [
    { label: "Days", value: timeLeft.days },
@@ -101,9 +95,9 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
        >
         {String(u.value).padStart(2, "0")}
        </span>
-       <span className={`uppercase tracking-wider ${compact ? 'text-[var(--font-size-5xs)] font-medium text-white/20 mt-0.5' : 'text-[var(--font-size-3xs)] font-extrabold text-white/35 mt-1.5 tracking-widest'}`}>{u.label}</span>
+       <span className={`uppercase tracking-wider ${compact ? 'text-[var(--font-size-5xs)] font-medium text-black/40 mt-0.5' : 'text-[var(--font-size-3xs)] font-extrabold text-black/50 mt-1.5 tracking-widest'}`}>{u.label}</span>
       </div>
-      {i < 3 && <span className={`text-white/20 font-light ${compact ? 'text-[var(--font-size-3xs)]' : 'text-3xl'}`}>:</span>}
+      {i < 3 && <span className={`text-black/30 font-bold ${compact ? 'text-[var(--font-size-3xs)]' : 'text-3xl'}`}>:</span>}
      </div>
     ))}
    </div>

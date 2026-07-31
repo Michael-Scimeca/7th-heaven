@@ -51,9 +51,9 @@ export default async function NewsPage() {
     : FALLBACK_NEWS;
 
   return (
-    <div className="pt-[95px]">
+    <div className="pt-[88px]">
       {/* ── BORDERLESS & BOXLESS SPLIT SHOWCASE HERO SECTION ── */}
-      <section className="relative py-16 md:py-24 overflow-hidden bg-[var(--color-bg-deep)]">
+      <section className="relative pt-[25px] pb-16 md:pb-24 overflow-hidden bg-[var(--color-bg-deep)]">
         {/* Background Concert Photo */}
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-30 transition-transform duration-1000 scale-105" 

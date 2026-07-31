@@ -158,9 +158,9 @@ export default function FansPage() {
   const approvedPhotos = isModerator ? photos.filter((p) => p.approved) : photos;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-[88px]">
       {/* ── HERO SECTION WITH BACKGROUND IMAGE ── */}
-      <section className="relative pt-[95px] pb-8 overflow-hidden flex flex-col justify-center border-b border-white/10" id="fan-wall">
+      <section className="relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center bg-black border-b border-white/10" id="fan-wall">
         {/* Hero Background Image & Gradient Overlay */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -174,7 +174,7 @@ export default function FansPage() {
 
 
 
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[var(--color-bg-primary)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(133,29,239,0.25)_0%,transparent_70%)]" />
         </div>
 
@@ -249,7 +249,7 @@ export default function FansPage() {
       </section>
 
       {/* ── PHOTO GRID & MODERATION SECTION (FULL BLEED) ── */}
-      <section className="py-8 w-full max-w-none">
+      <section className="py-0 w-full max-w-none">
 
         {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
         {isModerator && pendingPhotos.length > 0 && (
@@ -259,14 +259,14 @@ export default function FansPage() {
                 🛡️
               </span>
               <div>
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="text-lg font-bold text-black">
                   Pending Review Queue
                 </h3>
-                <p className="text-2xs text-purple-300/60 uppercase tracking-widest font-bold">
+                <p className="text-2xs text-black/60 uppercase tracking-widest font-bold">
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
-              <span className="ml-auto bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs px-3 py-1 font-mono rounded-full font-bold">
+              <span className="ml-auto bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs px-3 py-1 font-mono rounded-full font-black">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -280,9 +280,9 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="group relative bg-[var(--color-bg-surface)] border border-white/10 rounded-xl overflow-hidden shadow-xl hover:border-purple-500/50 transition-colors"
+                    className="group relative bg-[var(--color-bg-surface)] border border-black/10 rounded-xl overflow-hidden shadow-md hover:border-[var(--color-accent)]/50 transition-colors"
                   >
-                    <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
+                    <div className="aspect-[4/3] bg-black/5 relative overflow-hidden">
                       {isVideo ? (
                         <video
                           src={photo.src}
@@ -303,34 +303,34 @@ export default function FansPage() {
                         {photo.date || "Pending"}
                       </div>
                     </div>
-                    <div className="p-4 flex flex-col gap-1.5">
-                      <div className="flex items-center gap-2 text-sm font-bold truncate">
-                        <span className="text-purple-400">@</span>
+                    <div className="p-4 flex flex-col gap-1.5 text-black">
+                      <div className="flex items-center gap-2 text-sm font-bold truncate text-black">
+                        <span className="text-[var(--color-accent)]">@</span>
                         {photo.name}
                       </div>
                       {photo.venue && (
-                        <p className="text-2xs font-bold tracking-widest uppercase text-white/40 truncate">
+                        <p className="text-2xs font-bold tracking-widest uppercase text-black/60 truncate">
                           📍 {photo.venue}
                         </p>
                       )}
                       {photo.caption && (
-                        <p className="text-sm text-white/70 italic border-l-2 border-purple-500/30 pl-3 mt-2">
+                        <p className="text-sm text-black/80 italic border-l-2 border-[var(--color-accent)]/30 pl-3 mt-2">
                           "{photo.caption}"
                         </p>
                       )}
                     </div>
-                    <div className="grid grid-cols-2 border-t border-white/10 divide-x divide-white/10">
+                    <div className="grid grid-cols-2 border-t border-black/10 divide-x divide-black/10">
                       <button
                         onClick={() => handleRejectPhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
+                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-black/50 hover:text-red-600 hover:bg-red-500/10 transition-colors cursor-pointer"
                       >
                         Reject & Delete
                       </button>
                       <button
                         onClick={() => handleApprovePhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-purple-600 hover:bg-purple-500 transition-all cursor-pointer shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 transition-all cursor-pointer shadow-[0_0_15px_rgba(133,29,239,0.3)]"
                       >
                         Safe & Approve
                       </button>
@@ -394,7 +394,7 @@ export default function FansPage() {
 
         {/* Photo Feed Grid - Full Bleed 0 Gap */}
         {approvedPhotos.length > 1 ? (
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-3 gap-0 space-y-0 w-full border-t border-white/10">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-3 gap-0 space-y-0 w-full border-t border-black/10">
             {approvedPhotos.slice(1).map((photo) => {
               const isVideo =
                 photo.type === "video" ||
@@ -403,11 +403,11 @@ export default function FansPage() {
               return (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid flex flex-col bg-black/40 border-b border-r border-white/10 overflow-hidden hover:bg-black/60 transition-all duration-300"
+                  className="break-inside-avoid flex flex-col bg-[var(--color-bg-surface)] border-b border-r border-black/10 overflow-hidden hover:bg-white transition-all duration-300"
                 >
-                  <div className="p-4 flex items-center justify-between border-b border-white/5 bg-black/30">
+                  <div className="pl-8 pr-4 py-4 flex items-center justify-between border-b border-black/5 bg-black/[0.02]">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center font-bold text-xs text-white tracking-widest">
+                      <div className="w-8 h-8 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center font-bold text-xs text-[var(--color-accent)] tracking-widest">
                         {photo.name
                           ? photo.name
                               .split(" ")
@@ -419,11 +419,11 @@ export default function FansPage() {
                           : "FP"}
                       </div>
                       <div>
-                        <p className="text-white text-sm font-bold leading-tight">
+                        <p className="text-black text-sm font-bold leading-tight">
                           {photo.name}
                         </p>
                         {(photo.venue || photo.city) && (
-                          <p className="text-[var(--color-accent)] text-2xs uppercase tracking-widest font-bold mt-0.5">
+                          <p className="text-[var(--color-accent)] text-2xs uppercase tracking-widest font-extrabold mt-0.5">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}
@@ -432,11 +432,11 @@ export default function FansPage() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-0.5">
-                      <span className="text-white/30 text-[0.65rem] uppercase tracking-widest font-bold">
+                      <span className="text-black/50 text-[0.65rem] uppercase tracking-widest font-bold">
                         {isVideo ? "Video" : "Photo"}
                       </span>
                       {photo.date && (
-                        <span className="text-white/30 text-[0.65rem]">{photo.date}</span>
+                        <span className="text-black/50 text-[0.65rem] font-medium">{photo.date}</span>
                       )}
                     </div>
                   </div>
@@ -468,8 +468,8 @@ export default function FansPage() {
                     </div>
                   </div>
                   {photo.caption && (
-                    <div className="p-4 bg-white/[0.02]">
-                      <p className="text-white/80 text-sm leading-relaxed font-medium">
+                    <div className="pl-8 pr-4 py-4 bg-black/[0.02] border-t border-black/5">
+                      <p className="text-black/80 text-sm leading-relaxed font-medium">
                         &ldquo;{photo.caption}&rdquo;
                       </p>
                     </div>

@@ -23,10 +23,10 @@ const CATEGORIES = [
     name: "Public Site",
     pages: [
       { path: "/", label: "Home" },
-      { path: "/bio", label: "Bio" },
+      { path: "/band", label: "Band" },
       { path: "/shows", label: "Shows" },
       { path: "/music", label: "Music" },
-      { path: "/video", label: "Video" },
+      { path: "/media", label: "Media" },
       { path: "/news", label: "News" },
       { path: "/members", label: "Members Directory" },
       { path: "/store", label: "Store" },
@@ -35,7 +35,6 @@ const CATEGORIES = [
       { path: "/book", label: "Book Band" },
       { path: "/faq", label: "FAQ" },
       { path: "/returns", label: "Returns & Refunds" },
-      { path: "/marketing", label: "Marketing Portal" },
     ]
   },
   {
@@ -116,25 +115,25 @@ export function PageNav() {
   return (
     <div className="fixed bottom-8 left-8 z-[9999] font-sans" ref={menuRef}>
       {isOpen && (
-        <div className="absolute bottom-full mb-4 left-0 w-[300px] bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border border-[var(--color-accent)]/40 rounded-2xl shadow-[0_0_50px_rgba(133,29,239,0.3)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col" style={{ maxHeight: 'min(80vh, 600px)' }}>
+        <div className="absolute bottom-full mb-4 left-0 w-[300px] bg-white border border-purple-300 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.25)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden" style={{ maxHeight: 'min(80vh, 600px)' }}>
           {/* Header — fixed, never scrolls */}
-          <div className="p-4 border-b border-white/10 bg-[var(--color-accent)]/10 rounded-t-2xl shrink-0">
-            <h3 className="text-[var(--color-accent)] text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          <div className="p-4 border-b border-purple-100 bg-purple-50 shrink-0">
+            <h3 className="text-purple-900 text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
               Dev Navigator
             </h3>
-            <p className="text-white/60 text-xs mt-1 tracking-wide">Jump to any page instantly</p>
+            <p className="text-black/70 text-xs mt-1 font-semibold tracking-wide">Jump to any page instantly</p>
           </div>
 
           {/* Scrollable list — grows to fill remaining height */}
           <div
             ref={listRef}
-            className="p-2 flex flex-col gap-3 overflow-y-scroll rounded-b-2xl"
+            className="p-2 flex flex-col gap-3 overflow-y-scroll rounded-b-2xl bg-white"
             style={{ overscrollBehavior: 'contain' }}
           >
             {CATEGORIES.map((category) => (
               <div key={category.name} className="flex flex-col gap-1">
-                <h4 className="text-xs font-black uppercase tracking-[0.15em] text-[var(--color-accent)]/80 pl-2 mt-1 mb-1">{category.name}</h4>
+                <h4 className="text-xs font-black uppercase tracking-[0.15em] text-purple-950 pl-2 mt-2 mb-1 border-b border-purple-100 pb-1">{category.name}</h4>
                 {category.pages.map((page) => {
                   const isActive = pathname === page.path;
                   return (
@@ -150,12 +149,12 @@ export function PageNav() {
                       }}
                       className={`px-3 py-2 rounded-xl transition-all flex items-center justify-between group ${
                         isActive 
-                          ? "bg-[var(--color-accent)] text-white shadow-lg shadow-[var(--color-accent)]/20" 
-                          : "text-white/60 hover:bg-white/10 hover:text-white"
+                          ? "bg-purple-600 text-white font-black shadow-md" 
+                          : "text-black font-extrabold hover:bg-purple-50 hover:text-purple-900"
                       }`}
                     >
                       <span className="text-sm font-bold tracking-wide">{page.label}</span>
-                      <span className={`font-mono text-xs ${isActive ? 'text-white/80' : 'text-white/30 group-hover:text-white/50'}`}>
+                      <span className={`font-mono text-xs ${isActive ? 'text-white/90 font-bold' : 'text-black/40 group-hover:text-purple-800 font-semibold'}`}>
                         {page.path}
                       </span>
                     </Link>

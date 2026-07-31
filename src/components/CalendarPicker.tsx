@@ -84,84 +84,101 @@ export function CalendarPicker({
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-6 rounded-2xl w-full">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-[var(--color-bg-surface)] border border-black/10 p-6 rounded-2xl w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-white font-bold tracking-widest uppercase text-sm">{label} {required && <span className="text-[var(--color-accent)]">*</span>}</h3>
-          <p className="text-white/40 text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
-        </div>
-        <div className="flex items-center gap-4 text-white font-bold bg-white/5 rounded-full px-4 py-1.5 relative">
-          <button type="button" onClick={handlePrevMonth} className="hover:text-[var(--color-accent)] transition-colors cursor-pointer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          </button>
-          <button type="button" onClick={() => setShowMonthPicker(!showMonthPicker)} className="w-28 text-center text-base tracking-wider uppercase hover:text-[var(--color-accent)] transition-colors cursor-pointer">
-            {currentMonth.toLocaleString("default", { month: "long", year: "numeric" })}
-          </button>
-          <button type="button" onClick={handleNextMonth} className="hover:text-[var(--color-accent)] transition-colors cursor-pointer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </button>
-
-          {showMonthPicker && (
-            <div className="absolute z-50 top-full mt-3 right-0 w-64 bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
-              <div className="flex items-center justify-between mb-3">
-                <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear() - 1, currentMonth.getMonth(), 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <span className="text-sm font-bold text-white">{currentMonth.getFullYear()}</span>
-                <button type="button" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear() + 1, currentMonth.getMonth(), 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                {monthNames.map((m, i) => {
-                  const isCurrent = currentMonth.getMonth() === i;
-                  const isPast = new Date(currentMonth.getFullYear(), i + 1, 0) < new Date();
-                  return (
-                    <button
-                      key={m} type="button" disabled={isPast}
-                      onClick={() => { setCurrentMonth(new Date(currentMonth.getFullYear(), i, 1)); setShowMonthPicker(false); }}
-                      className={`py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${isPast ? 'text-white/10 cursor-not-allowed' : isCurrent ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(133,29,239,0.3)]' : 'text-white/60 hover:bg-white/10 cursor-pointer'}`}
-                    >
-                      {m}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+          <h3 className="text-black font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-[var(--color-accent)]">*</span>}</h3>
+          <p className="text-black/50 text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
         </div>
       </div>
 
       {/* Legend */}
       {blockedDates.length > 0 && (
         <div className="flex items-center gap-5 mb-4 text-xs uppercase tracking-widest font-bold">
-          <span className="flex items-center gap-1.5 text-white/30"><span className="w-3 h-3 rounded bg-white/[0.02] border border-white/5 inline-block" /> Available</span>
-          <span className="flex items-center gap-1.5 text-rose-400/60"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
+          <span className="flex items-center gap-1.5 text-black/50"><span className="w-3 h-3 rounded bg-black/[0.04] border border-black/10 inline-block" /> Available</span>
+          <span className="flex items-center gap-1.5 text-rose-600"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1.5fr] gap-8">
         <div>
+          {/* Month & Year Selection Bar */}
+          <div className="flex items-center justify-between bg-black/[0.03] border border-black/10 p-3 rounded-xl mb-4">
+            <button
+              type="button"
+              onClick={handlePrevMonth}
+              className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-all cursor-pointer shadow-sm"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+              <span>Prev</span>
+            </button>
+
+            <div className="flex items-center gap-2">
+              {/* Month Select Dropdown */}
+              <select
+                value={currentMonth.getMonth()}
+                onChange={(e) => {
+                  const newMonth = parseInt(e.target.value, 10);
+                  setCurrentMonth(new Date(currentMonth.getFullYear(), newMonth, 1));
+                }}
+                className="bg-white border border-black/15 text-black font-extrabold text-sm py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-[var(--color-accent)] shadow-sm"
+              >
+                {[
+                  "January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"
+                ].map((name, idx) => (
+                  <option key={name} value={idx}>{name}</option>
+                ))}
+              </select>
+
+              {/* Year Select Dropdown */}
+              <select
+                value={currentMonth.getFullYear()}
+                onChange={(e) => {
+                  const newYear = parseInt(e.target.value, 10);
+                  setCurrentMonth(new Date(newYear, currentMonth.getMonth(), 1));
+                }}
+                className="bg-white border border-black/15 text-black font-extrabold text-sm py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-[var(--color-accent)] shadow-sm"
+              >
+                {[2026, 2027, 2028].map(yr => (
+                  <option key={yr} value={yr}>{yr}</option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleNextMonth}
+              className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-all cursor-pointer shadow-sm"
+            >
+              <span>Next</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
           <div className="grid grid-cols-7 mb-4">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
-              <div key={day} className="text-center text-xs font-bold uppercase tracking-widest text-white/30">{day}</div>
+              <div key={day} className="text-center text-xs font-bold uppercase tracking-widest text-black/50">{day}</div>
             ))}
           </div>
           <div className="grid grid-cols-7 gap-2">
             {emptyDays.map(i => (
-              <div key={`empty-${i}`} className="h-12 border border-transparent"></div>
+              <div key={`empty-${i}`} className="h-12 w-full" />
             ))}
             {daysInMonth.map(date => {
               const dateString = date.toISOString().split("T")[0];
               const slotsForDay = slots.filter(s => s.date === dateString);
               const isSelected = slotsForDay.length > 0;
-              const cutoffDate = new Date();
-              cutoffDate.setDate(cutoffDate.getDate() + 1);
-              cutoffDate.setHours(23, 59, 59, 999);
-              const isTooSoon = date < cutoffDate;
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              const isPastDate = date < today;
               const isBlocked = blockedSet.has(dateString);
               
               return (
                 <button
                   key={dateString}
                   type="button"
-                  disabled={isTooSoon || isBlocked}
+                  disabled={isPastDate || isBlocked}
                   onClick={() => {
                     if (isSelected) {
                       // Already selected, deselect (remove all slots for this date)
@@ -187,14 +204,12 @@ export function CalendarPicker({
                   }}
                   title={isBlocked ? "This date is already booked" : undefined}
                   className={`h-12 w-full flex items-center justify-center rounded-xl font-bold text-base transition-all relative
-                    ${(isTooSoon || isBlocked) ? "cursor-not-allowed" : "cursor-pointer"}
+                    ${(isPastDate || isBlocked) ? "cursor-not-allowed opacity-25" : "cursor-pointer"}
                     ${isBlocked
-                      ? "bg-rose-500/10 border border-rose-500/20 text-rose-400/40 line-through"
+                      ? "bg-rose-500/10 border border-rose-500/20 text-rose-500 line-through"
                       : isSelected 
-                        ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(133,29,239,0.4)]" 
-                        : isTooSoon
-                          ? "opacity-20 text-white"
-                          : "bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/50 hover:bg-white/10 text-white"}
+                        ? "bg-[var(--color-accent)] text-white shadow-md scale-105" 
+                        : "bg-black/[0.04] border border-black/10 hover:border-[var(--color-accent)]/60 hover:bg-black/10 text-black"}
                   `}
                 >
                   {date.getDate()}
@@ -212,52 +227,97 @@ export function CalendarPicker({
           </div>
         </div>
 
-        <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-6">
-          <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-4">
+        <div className="border-t lg:border-t-0 lg:border-l border-black/10 pt-6 lg:pt-0 lg:pl-6">
+          <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-black/50 mb-4">
             Booking Window
           </h4>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            {/* Show Start Time */}
             <div>
-              <label className="text-xs font-bold uppercase tracking-widest text-white/50 block mb-2">Start Time</label>
+              <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show start?</label>
               <div className="relative">
                 <select 
                   value={startTime} 
                   onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-white font-bold tracking-wider py-4 px-5 rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
-                  <option value="" disabled className="bg-[var(--color-bg-surface)]">Select Start Time</option>
+                  <option value="" disabled className="bg-white text-black">Select Show Start Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
-                    <option key={time} value={time} className="bg-[var(--color-bg-surface)]">{time}</option>
+                    <option key={time} value={time} className="bg-white text-black">{time}</option>
                   ))}
                 </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/50">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
               </div>
             </div>
+
+            {/* Show Finish Time */}
             <div>
-              <label className="text-xs font-bold uppercase tracking-widest text-white/50 block mb-2">End Time</label>
+              <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show finish?</label>
               <div className="relative">
                 <select 
                   value={endTime} 
                   onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/10 text-white font-bold tracking-wider py-4 px-5 rounded-xl outline-none focus:border-white/30 transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
-                  <option value="" disabled className="bg-[var(--color-bg-surface)]">Select End Time</option>
-                  {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(time => (
-                    <option key={time} value={time} className="bg-[var(--color-bg-surface)]">{time}</option>
+                  <option value="" disabled className="bg-white text-black">Select Show Finish Time</option>
+                  {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
+                    <option key={time} value={time} className="bg-white text-black">{time}</option>
                   ))}
                 </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/50">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-black/10 pt-2" />
+
+            {/* Band Start Time */}
+            <div>
+              <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band go on?</label>
+              <div className="relative">
+                <select 
+                  value={startTime} 
+                  onChange={(e) => onStartTimeChange(e.target.value)}
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                >
+                  <option value="" disabled className="bg-white text-black">Select Band Start Time</option>
+                  {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
+                    <option key={time} value={time} className="bg-white text-black">{time}</option>
+                  ))}
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/50">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Band Finish Time */}
+            <div>
+              <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band finish?</label>
+              <div className="relative">
+                <select 
+                  value={endTime} 
+                  onChange={(e) => onEndTimeChange(e.target.value)}
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                >
+                  <option value="" disabled className="bg-white text-black">Select Band Finish Time</option>
+                  {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
+                    <option key={time} value={time} className="bg-white text-black">{time}</option>
+                  ))}
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/50">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-6">
-          <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-4">
+        <div className="border-t lg:border-t-0 lg:border-l border-black/10 pt-6 lg:pt-0 lg:pl-6">
+          <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-black/50 mb-4">
             Event Format
           </h4>
           <div className="flex flex-col gap-3">
@@ -275,14 +335,14 @@ export function CalendarPicker({
                      onClick={() => onSelectType && onSelectType(type.id)}
                      className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex gap-4 items-center group
                        ${isSelected 
-                         ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(133,29,239,0.2)]" 
-                         : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.05]"}
+                         ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-sm" 
+                         : "border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]"}
                      `}
                    >
                      <span className="text-2xl drop-shadow-md">{type.icon}</span>
                      <div>
-                       <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-[var(--color-accent)]" : "text-white"}`}>{type.label}</span>
-                       <span className="text-xs text-white/40 block leading-tight">{type.desc}</span>
+                       <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-[var(--color-accent)]" : "text-black"}`}>{type.label}</span>
+                       <span className="text-xs text-black/50 block leading-tight">{type.desc}</span>
                      </div>
                    </button>
                    {type.id === "custom" && isSelected && (
@@ -293,7 +353,7 @@ export function CalendarPicker({
                          value={customDetails || ""}
                          onChange={(e) => onCustomDetailsChange?.(e.target.value)}
                          autoFocus
-                         className="w-full bg-white/[0.01] border border-[var(--color-accent)]/30 text-white text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-[var(--color-accent)] transition-all [color-scheme:dark] placeholder:text-white/20"
+                         className="w-full bg-black/[0.04] border border-[var(--color-accent)]/40 text-black text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-[var(--color-accent)] transition-all placeholder:text-black/40"
                        />
                      </div>
                    )}

@@ -60,12 +60,19 @@ const FALLBACK_SHOWS = [
 // ISR: regenerate every 60s — page is pre-rendered & cached
 export const revalidate = 60;
 
+const fetchWithTimeout = <T,>(promise: Promise<T>, fallback: T, timeoutMs = 1200): Promise<T> => {
+  return Promise.race([
+    promise.catch(() => fallback),
+    new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs))
+  ]);
+};
+
 export default async function Home() {
-  // Use sanityClient.fetch directly — avoids draftMode() call that forces dynamic rendering
+  // Use sanityClient.fetch with 1.2s max timeout — guarantees fast render even if Sanity API is slow
   const [membersData, showsData, settings] = await Promise.all([
-    sanityClient.fetch<SanityBandMember[]>(queries.allBandMembers, {}, { next: { revalidate: 60, tags: ['sanity:members'] } }).catch(err => { console.error("Error fetching members:", err); return [] as SanityBandMember[]; }),
-    sanityClient.fetch<SanityTourDate[]>(queries.allTourDates, {}, { next: { revalidate: 60, tags: ['sanity:shows'] } }).catch(err => { console.error("Error fetching shows:", err); return [] as SanityTourDate[]; }),
-    sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } }).catch(err => { console.error("Error fetching settings:", err); return null; }),
+    fetchWithTimeout(sanityClient.fetch<SanityBandMember[]>(queries.allBandMembers, {}, { next: { revalidate: 60, tags: ['sanity:members'] } }), [] as SanityBandMember[]),
+    fetchWithTimeout(sanityClient.fetch<SanityTourDate[]>(queries.allTourDates, {}, { next: { revalidate: 60, tags: ['sanity:shows'] } }), [] as SanityTourDate[]),
+    fetchWithTimeout(sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } }), null),
   ]);
 
   const members = (membersData as SanityBandMember[]).length > 0
@@ -147,24 +154,14 @@ export default async function Home() {
       <LiveStatusSign />
 
       {/* ====== HERO ====== */}
-      <section className="relative w-full p-[25px]" id="hero">
-        {/* Hero Card — no top padding/rounding so video reaches the very top */}
-        <div id="hero-card" className="relative w-full h-[calc(100vh-50px)] rounded-[32px] md:rounded-[40px] overflow-hidden bg-[var(--color-bg-surface)] shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between p-[25px] pt-[104px]">
-
-
-
-
-
-
-
-
+      <section className="relative w-full p-0" id="hero">
+        {/* Full-bleed Hero Section — no outer box/card border or rounded corners */}
+        <div id="hero-card" className="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between p-0 pt-[95px]">
           {/* ── Hero Video + Vinyl Player (client component, synced) ── */}
           <HeroVideoPlayer>
             <HeroLiveThumbs />
           </HeroVideoPlayer>
-
         </div>
-
       </section>
 
       {/* Global Announcement Banner */}

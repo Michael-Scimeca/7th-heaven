@@ -188,25 +188,13 @@ function getShowTags(show: any): string[] {
 }
 
 function getShowIcon(show: any): string {
- const info = show.info || '';
- const lower = info.toLowerCase();
- const rawTags = show.tags || [];
- const hasTag = (t: string) => rawTags.map((x: string) => x.toLowerCase()).includes(t.toLowerCase());
-
- if (lower.includes("unplugged") || hasTag("unplugged")) return "🪕";
- if (lower.includes("outdoor") || lower.includes("beer garden") || hasTag("outdoor")) return "🌿";
- if (lower.includes("casino") || hasTag("casino")) return "🎰";
- if (lower.includes("festival") || lower.includes("fest") || hasTag("festival")) return "🎪";
- if (lower.includes("tv") || lower.includes("wgn") || lower.includes("news") || hasTag("tv appearance")) return "📺";
- if (lower.includes("fundraiser") || lower.includes("gala") || lower.includes("rescue") || hasTag("fundraiser") || hasTag("gala")) return "🎗️";
- if (lower.includes("cruise") || hasTag("cruise")) return "🚢";
- return "🎸";
+ return "";
 }
 
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none bg-[rgba(255,255,255,0.05)] border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-semibold uppercase tracking-wider text-white/70 cursor-pointer transition-all duration-200 focus:outline-none hover:text-white/90";
+const selectClass = "appearance-none bg-white border border-black/15 rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-black cursor-pointer transition-all duration-200 focus:outline-none hover:bg-gray-50";
 const activeSelect = "!border-[var(--color-accent)] !text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -928,35 +916,18 @@ ${filterLine}
     `}} />
 
     {/* Table */}
-    <section className="py-12 relative" ref={tableRef} id="tour-table-container">
-      {/* Purple gradient pinned to the top of this section */}
-      <div className="absolute inset-x-0 bottom-0 h-[600px] pointer-events-none z-0" style={{ background: "linear-gradient(to top, rgb(65 40 163 / 65%) 0%, rgb(134 46 234 / 40%) 25%, rgba(80, 40, 0, 0.15) 55%, transparent 100%)" }} />
-      <div className="site-container relative z-10">
-
-      {/* Section Heading */}
-      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-       <button
-         onClick={() => setIsFontCustomizerOpen(true)}
-         className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-4 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-1.5 cursor-pointer text-white/80 hover:text-white w-fit"
-       >
-         ⚙️ Font Settings
-       </button>
-      </div>
+    <section className="pt-0 pb-12 relative" ref={tableRef} id="tour-table-container">
+      <div className="w-full px-4 sm:px-8 md:px-12 relative z-10">
 
      {!hideMap && (
-      <div className="mb-8 relative" style={{
-        maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
-        maskComposite: 'intersect',
-        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
-        WebkitMaskComposite: 'source-in',
-      }}>
-       <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
+      <div className="mb-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black shadow-2xl overflow-hidden">
+        <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
       </div>
      )}
 
      {/* Up Next — Neon Glow / Festival */}
      {upNext && (
-      <div className="mb-0" style={{ marginTop: '-80px', position: 'relative', zIndex: 10 }}>
+      <div className="my-6 relative z-10">
        <div className="relative overflow-hidden">
 
          <div className="relative z-10 py-6 md:py-8 flex flex-col md:flex-row justify-between items-end gap-6">
@@ -964,57 +935,57 @@ ${filterLine}
            <div className="relative flex flex-col justify-between min-h-[140px]">
              {/* UP NEXT label */}
              <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
-               <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
-               <span className={daysLabel === "Happening Now" ? "text-red-500 font-extrabold" : "text-[var(--color-accent)]"}>
+               <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-purple-600 animate-pulse"}`} />
+               <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : "text-purple-600 font-extrabold"}>
                  {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
                </span>
                {daysLabel && daysLabel !== "Happening Now" && (
                  <>
-                   <span className="text-white/20">·</span>
-                   <span className="text-[var(--color-accent)]">{daysLabel}</span>
+                   <span className="text-black/30">·</span>
+                   <span className="text-purple-600 font-extrabold">{daysLabel}</span>
                  </>
                )}
              </div>
 
              {/* Venue name */}
-             <h3 className="font-[var(--font-heading)] text-[2.2rem] md:text-[3rem] font-extrabold text-white leading-[1] mb-4 uppercase whitespace-nowrap">
+             <h3 className="font-[var(--font-heading)] text-[2.2rem] md:text-[3rem] font-black text-black leading-[1] mb-4 uppercase whitespace-nowrap">
                {upNext.venue}
              </h3>
 
              {/* Date + Location + Time */}
-              <div className="flex items-center gap-2 text-[0.85rem] text-white/70 font-medium">
+              <div className="flex items-center gap-2 text-[0.85rem] text-black/80 font-bold">
                 <span>
                   {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
                 </span>
                  {upNext.city && (
                    <>
-                     <span className="text-white/20">·</span>
-                     <span>📍 {upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
+                     <span className="text-black/30">·</span>
+                     <span>{upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
                    </>
                  )}
                  {upNext.playTime ? (
                    <>
-                     <span className="text-white/20">·</span>
-                     <span className="text-rose-400 font-extrabold">Plays: {upNext.playTime}</span>
+                     <span className="text-black/30">·</span>
+                     <span className="text-rose-600 font-extrabold">Plays: {upNext.playTime}</span>
                      {upNext.time && (
                        <>
-                         <span className="text-white/20">·</span>
-                         <span className="text-white/40">Event: {upNext.time}</span>
+                         <span className="text-black/30">·</span>
+                         <span className="text-black/50">Event: {upNext.time}</span>
                        </>
                      )}
                    </>
                  ) : (
                    upNext.time && (
                      <>
-                       <span className="text-white/20">·</span>
-                       <span className="text-white/50">{upNext.time}</span>
+                       <span className="text-black/30">·</span>
+                       <span className="text-black/60">{upNext.time}</span>
                      </>
                    )
                  )}
               </div>
               {upNext.info && (
-                <p className="mt-3 text-[0.7rem] font-bold uppercase tracking-[0.15em] text-[var(--color-accent)]/70">
-                  {getShowIcon(upNext)} {upNext.info}
+                <p className="mt-3 text-[0.7rem] font-extrabold uppercase tracking-[0.15em] text-purple-700">
+                  {upNext.info}
                 </p>
               )}
            </div>
@@ -1025,40 +996,40 @@ ${filterLine}
                targetTime={upNext.playTime || upNext.time} 
                className="justify-start md:justify-end gap-4 md:gap-5"
              />
-             <div className="flex gap-3 items-center w-full">
+             <div className="flex gap-6 items-center flex-wrap">
                 {upNext.mapUrl && (
-                   <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex flex-row items-center justify-center gap-1 whitespace-nowrap text-[0.62rem] font-bold uppercase tracking-normal py-3 px-1 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg" id="upnext-map">
-                     <span className="mr-0.5">📍</span><span>Directions</span>
+                   <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-purple-700 underline underline-offset-4 decoration-purple-500/50 hover:text-purple-900 hover:decoration-purple-700 transition-all p-0 bg-transparent border-none" id="upnext-map">
+                     <span>Directions</span>
                    </a>
                 )}
                 {upNext.websiteUrl && (
-                   <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex flex-row items-center justify-center gap-1 whitespace-nowrap text-[0.62rem] font-bold uppercase tracking-normal py-3 px-1 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg" id="upnext-website">
+                   <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-purple-700 underline underline-offset-4 decoration-purple-500/50 hover:text-purple-900 hover:decoration-purple-700 transition-all p-0 bg-transparent border-none" id="upnext-website">
                      Website
                    </a>
                 )}
-                <div className="flex-1 relative calendar-dropdown-container">
+                <div className="relative calendar-dropdown-container">
                   <button
                     onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                    className="w-full flex flex-row items-center justify-center gap-1 whitespace-nowrap text-[0.62rem] font-bold uppercase tracking-normal py-3 px-1 text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer"
+                    className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-purple-700 underline underline-offset-4 decoration-purple-500/50 hover:text-purple-900 hover:decoration-purple-700 transition-all p-0 bg-transparent border-none cursor-pointer"
                     id="upnext-calendar-btn"
                   >
-                    <span className="mr-0.5">📅</span><span>Add to Calendar</span>
+                    <span>Add to Calendar</span>
                   </button>
                  {activeCalDropdownId === 'upnext' && (
-                   <div className="absolute right-0 bottom-full mb-2 bg-[var(--color-bg-deep)] border border-[var(--color-accent)]/30 rounded-lg py-2 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[170px] backdrop-blur-md">
-                     <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Calendar</a>
-                     <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Apple / iCal</a>
-                     <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
-                     <button 
-                        onClick={() => {
-                          setActiveCalDropdownId(null);
-                          document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
-                        }}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2.5 cursor-pointer"
-                      >
-                        💬 SMS / Text Alerts
-                      </button>
-                   </div>
+                    <div className="absolute right-0 bottom-full mb-2 bg-white border border-black/15 rounded-xl py-2 shadow-xl z-50 min-w-[170px] text-black">
+                      <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full">Google Calendar</a>
+                      <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full">Apple / iCal</a>
+                      <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full">Outlook</a>
+                      <button 
+                         onClick={() => {
+                           setActiveCalDropdownId(null);
+                           document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
+                         }}
+                         className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2.5 cursor-pointer"
+                       >
+                         SMS / Text Alerts
+                       </button>
+                    </div>
                  )}
                </div>
              </div>
@@ -1094,9 +1065,12 @@ ${filterLine}
         <button
           onClick={handlePrintTourList}
           title="Print tour list"
-          className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-4 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-1.5 cursor-pointer text-white/80 hover:text-white whitespace-nowrap"
+          className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-3.5 py-2 bg-gray-100 border border-black/15 hover:bg-gray-200 transition-all flex items-center gap-2 cursor-pointer text-black whitespace-nowrap shadow-xs"
         >
-          🖨️ Print
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zM17 9V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          <span>Print</span>
         </button>
         {hasActiveFilters && (
          <button
@@ -1112,31 +1086,31 @@ ${filterLine}
      {/* Sentinel — detects when sticky sort bar locks in */}
      <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
 
-     <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-4 -mx-6 px-6 bg-[rgba(17,17,24,0.95)] backdrop-blur-md items-center relative rounded-2xl`}>
-      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Day</span>
+     <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 px-6 bg-white/95 backdrop-blur-xl border border-black/10 shadow-md rounded-2xl items-center relative text-black`}>
+      <span className="text-[0.65rem] font-black uppercase tracking-widest text-black">Day</span>
       <div className="relative">
        <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
         <option value="All">Month</option>
         {months.map((m) => <option key={m} value={m}>{m}</option>)}
        </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-black/50 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
       <div className="relative">
-       <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/30 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-       <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[rgba(255,255,255,0.05)] border-0 rounded-lg pl-8 pr-7 py-1.5 text-[0.65rem] text-white placeholder-white/30 focus:outline-none transition-colors" id="tour-search" />
-       {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-[0.6rem] cursor-pointer">✕</button>)}
+       <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-black/40 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+       <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-white border border-black/15 rounded-lg pl-8 pr-7 py-2 text-[0.65rem] text-black placeholder:text-black/40 focus:outline-none focus:border-purple-600 transition-colors font-semibold" id="tour-search" />
+       {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-black/40 hover:text-black text-[0.6rem] cursor-pointer">✕</button>)}
       </div>
       <div className="relative">
        <select value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
         <option value="All">City</option>
         {locationOptions.map(({ city, count }) => <option key={city} value={city}>{city} ({count})</option>)}
        </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-black/50 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </div>
-      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">Time</span>
+      <span className="text-[0.65rem] font-black uppercase tracking-widest text-black">Time</span>
 
-      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)] text-center">Map/Cal</span>
-      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-[var(--color-text-muted)] text-right">Website</span>
+      <span className="text-[0.65rem] font-black uppercase tracking-widest text-black text-center">Map/Cal</span>
+      <span className="text-[0.65rem] font-black uppercase tracking-widest text-black text-right">Website</span>
       {member?.role === 'admin' && (
          <div className="text-right" />
        )}
@@ -1165,24 +1139,24 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
          >
            {/* Desktop Row Layout */}
            <div
-            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3 items-center text-sm text-[var(--color-text-secondary)] transition-all duration-300 ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-black transition-all duration-300 ${isHighlighted ? "bg-purple-100 shadow-[0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
-             <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
-             <span className="text-white/95 font-medium">{show.date}</span>
-             <span className="font-bold text-white">{show.venue}</span>
-             <span className="text-white/90">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+             <span className="font-[var(--font-heading)] font-extrabold text-xs uppercase text-purple-700">{show.day}</span>
+             <span className="text-black font-bold">{show.date}</span>
+             <span className="font-black text-black">{show.venue}</span>
+             <span className="text-black/80 font-medium">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
              <span className="flex items-center gap-2 flex-wrap text-left">
                   {show.playTime ? (
                     <div className="flex flex-col gap-0.5">
-                      <span className="text-rose-400 font-extrabold text-[0.8rem] whitespace-nowrap">Plays: {show.playTime}</span>
-                      {show.time && <span className="text-white/50 text-[var(--font-size-3xs)] whitespace-nowrap">Starts: {show.time}</span>}
+                      <span className="text-rose-600 font-extrabold text-[0.8rem] whitespace-nowrap">Plays: {show.playTime}</span>
+                      {show.time && <span className="text-black/50 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Starts: {show.time}</span>}
                     </div>
                   ) : (
-                    <span className="text-white/95 font-medium whitespace-nowrap">{show.time}</span>
+                    <span className="text-black font-bold whitespace-nowrap">{show.time}</span>
                   )}
                   {isShowToday(show) && (
-                    <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-400 ml-1.5 whitespace-nowrap animate-pulse">
+                    <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
                       {getCountdownString(show)}
                     </span>
                   )}
@@ -1195,10 +1169,10 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                         onClick={() => handleToggleNotification(show)}
                         disabled={subscribingId === show._id}
                         title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                        className={`w-6 h-6 flex items-center justify-center rounded-md transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer border shrink-0 ${
+                        className={`w-6 h-6 flex items-center justify-center rounded-md transition-all duration-300 shadow-xs cursor-pointer border shrink-0 ${
                           subscribedShowIds.includes(show._id)
-                            ? "bg-purple-600/20 border-purple-500/40 text-purple-400 hover:bg-purple-600/30"
-                            : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
+                            ? "bg-purple-100 border-purple-300 text-purple-700 hover:bg-purple-200"
+                            : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
                         }`}
                       >
                         {subscribingId === show._id ? (
@@ -1214,31 +1188,33 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                         )}
                       </button>
                     )}
-                    {show.mapUrl && (() => {
-                     const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
-                     const showType = getShowType(show.info || '');
-                     const cfg = typeConfig[showType] || typeConfig.full;
-                     return (
-                      <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-6 h-6 flex items-center justify-center rounded-md text-black hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.3)]">
-                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                      </a>
-                     );
-                    })()}
-                    <div className="relative calendar-dropdown-container">
-                      <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="w-6 h-6 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20 transition-all duration-300 shadow-[0_2px_6px_rgba(0,0,0,0.2)] cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                     <div className="w-7 h-7 flex items-center justify-center shrink-0">
+                       {show.mapUrl ? (() => {
+                        const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
+                        const showType = getShowType(show.info || '');
+                        const cfg = typeConfig[showType] || typeConfig.full;
+                        return (
+                         <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ color: cfg.color }} className="flex items-center justify-center p-1 text-black hover:opacity-75 transition-opacity">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                         </a>
+                        );
+                       })() : null}
+                     </div>
+                     <div className="w-7 h-7 flex items-center justify-center relative calendar-dropdown-container shrink-0">
+                      <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-black/80 hover:text-black transition-colors cursor-pointer bg-transparent border-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                       </button>
                       {activeCalDropdownId === rowId && (
-                        <div className="absolute right-0 mt-2 bg-[var(--color-bg-deep)] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md">
-                          <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">Google Cal</a>
-                          <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">iCal / Apple</a>
-                          <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full font-sans">Outlook</a>
+                        <div className="absolute right-0 mt-2 bg-white border border-black/15 rounded-xl py-1.5 shadow-xl z-50 min-w-[150px] text-black">
+                          <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Google Cal</a>
+                          <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">iCal / Apple</a>
+                          <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Outlook</a>
                           <button
                             onClick={() => {
                               setActiveCalDropdownId(null);
                               document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                             }}
-                            className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
+                            className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
                           >
                             💬 SMS / Text Alerts
                           </button>
@@ -1294,16 +1270,16 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
              <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
                <div className="flex items-baseline gap-2">
                  <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
-                 <span className="text-white font-bold text-base">{show.date}</span>
+                 <span className="text-black font-bold text-base">{show.date}</span>
                </div>
                <div className="flex flex-col items-end gap-1">
                  {show.time && (
-                   <span className="text-white/85 text-xs font-semibold px-2 py-0.5 bg-white/5 border border-white/10 rounded">
+                   <span className="text-black/85 text-xs font-semibold px-2 py-0.5 bg-black/5 border border-black/10 rounded">
                      {show.playTime ? `Plays: ${show.playTime} (Starts: ${show.time})` : show.time}
                    </span>
                  )}
                  {isShowToday(show) && (
-                   <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-400 animate-pulse">
+                   <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-600 animate-pulse">
                      {getCountdownString(show)}
                    </span>
                  )}
@@ -1312,10 +1288,10 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
 
              {/* Details: Venue & Location */}
              <div>
-               <h4 className="text-lg font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
+               <h4 className="text-lg font-black text-black leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
                {show.city && (
-                 <p className="text-xs text-white/50 flex items-center gap-1 mt-1">
-                   📍 {show.city}{show.state ? `, ${show.state}` : ""}
+                 <p className="text-xs text-black/60 flex items-center gap-1 mt-1 font-semibold">
+                   {show.city}{show.state ? `, ${show.state}` : ""}
                  </p>
                )}
              </div>

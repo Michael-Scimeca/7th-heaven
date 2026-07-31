@@ -70,7 +70,7 @@ function VideoCard({ v, style = "default" }: { v: typeof VIDEOS[0]; style?: stri
   );
 }
 
-export default function VideoLayoutDemo() {
+export default function MediaLayoutDemo() {
   const [active, setActive] = useState<Layout>("A");
   const [cat, setCat] = useState("Official Music Videos");
 
@@ -175,7 +175,7 @@ export default function VideoLayoutDemo() {
         <div className="site-container py-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
-              <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-2 block">Video Gallery</span>
+              <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-2 block">Media Gallery</span>
               <h1 className="text-4xl font-black italic uppercase tracking-tighter text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>Watch 7th Heaven</h1>
             </div>
             <CatNav active={cat} set={setCat} />
@@ -206,7 +206,7 @@ export default function VideoLayoutDemo() {
           <section className="border-b border-white/5 py-16">
             <div className="site-container">
               <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-3 block">Complete Library</span>
-              <h1 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>Videos</h1>
+              <h1 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>Media</h1>
               <p className="text-white/30 text-sm">{VIDEOS.length} videos across {CATS.length} categories</p>
             </div>
           </section>
@@ -282,11 +282,10 @@ export default function VideoLayoutDemo() {
         </div>
       )}
 
-      {/* ═══ G — Horizontal Split Cinema Feed (50/50 Real-Estate Split) ═══ */}
+      {/* ═══ G — Horizontal Split Cinema Feed ═══ */}
       {active === "G" && (
         <div className="site-container py-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left 6-col Sticky Hero Player */}
             <div className="lg:col-span-6 lg:sticky lg:top-[90px]">
               <div className="relative aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10 group cursor-pointer">
                 <img src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -303,7 +302,6 @@ export default function VideoLayoutDemo() {
                 </div>
               </div>
             </div>
-            {/* Right 6-col Vertical Scroll Stream */}
             <div className="lg:col-span-6 space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <h3 className="text-sm font-black uppercase tracking-wider text-white">Up Next & Related</h3>
@@ -327,13 +325,13 @@ export default function VideoLayoutDemo() {
         </div>
       )}
 
-      {/* ═══ H — Compact Minimalist Data Grid (6 columns) ═══ */}
+      {/* ═══ H — Compact Minimalist Data Grid ═══ */}
       {active === "H" && (
         <div className="site-container py-8">
           <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
             <div>
               <span className="text-2xs font-black uppercase tracking-widest text-[var(--color-accent)]">Ultra-Dense Grid</span>
-              <h1 className="text-3xl font-black uppercase tracking-tight text-white">All 7th Heaven Videos</h1>
+              <h1 className="text-3xl font-black uppercase tracking-tight text-white">All 7th Heaven Media</h1>
             </div>
             <CatNav active={cat} set={setCat} />
           </div>
@@ -360,10 +358,9 @@ export default function VideoLayoutDemo() {
         <div className="site-container py-10">
           <div className="mb-8">
             <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] block mb-1">Editorial Spread</span>
-            <h1 className="text-4xl font-black uppercase tracking-tight text-white">Video Showcase</h1>
+            <h1 className="text-4xl font-black uppercase tracking-tight text-white">Media Showcase</h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-            {/* Big 8-col Hero */}
             <div className="md:col-span-8 relative aspect-[16/10] rounded-3xl overflow-hidden bg-black border border-white/10 group cursor-pointer">
               <img src={thumb(VIDEOS[0].id)} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -373,7 +370,6 @@ export default function VideoLayoutDemo() {
                 <p className="text-sm text-white/60 mt-2 max-w-lg">{VIDEOS[0].year} · Directed by 7th Heaven Crew · {VIDEOS[0].views} views</p>
               </div>
             </div>
-            {/* 4-col Side Stack */}
             <div className="md:col-span-4 flex flex-col gap-4">
               {VIDEOS.slice(1, 3).map((v) => (
                 <div key={v.id+v.title+"I"} className="flex-1 relative rounded-2xl overflow-hidden bg-black border border-white/10 group cursor-pointer min-h-[160px]">
@@ -387,7 +383,6 @@ export default function VideoLayoutDemo() {
               ))}
             </div>
           </div>
-          {/* Bottom 4-col Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
             {VIDEOS.slice(3, 7).map((v) => (
               <VideoCard key={v.id+v.title+"Ibot"} v={v} />
@@ -432,7 +427,7 @@ export default function VideoLayoutDemo() {
         <div className="site-container py-12">
           <div className="mb-10 text-center">
             <span className="text-2xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] block mb-1">Discography History</span>
-            <h1 className="text-4xl font-black uppercase text-white">Chronological Video Archive</h1>
+            <h1 className="text-4xl font-black uppercase text-white">Chronological Media Archive</h1>
           </div>
           <div className="relative border-l-2 border-white/10 pl-6 md:pl-10 space-y-12 ml-4">
             {[2025, 2021, 2020, 2019].map((yr) => (
@@ -464,7 +459,6 @@ export default function VideoLayoutDemo() {
               </div>
               <CatNav active={cat} set={setCat} />
             </div>
-            {/* Primary Cinema Screen */}
             <div className="relative aspect-[21/9] rounded-2xl overflow-hidden mb-6 bg-black border border-white/10">
               <img src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -481,7 +475,6 @@ export default function VideoLayoutDemo() {
                 <span className="text-xs font-mono font-bold bg-white/10 border border-white/20 px-3 py-1 rounded-full text-white">{featured.duration}</span>
               </div>
             </div>
-            {/* Bottom 4-card Stream Selection */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {VIDEOS.slice(0, 4).map((v, i) => (
                 <div key={v.id+v.title+"L"} className={`p-2 rounded-xl border transition-all cursor-pointer ${i === 0 ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]" : "bg-white/5 border-white/10 hover:border-white/30"}`}>
@@ -500,7 +493,6 @@ export default function VideoLayoutDemo() {
       {active === "M" && (
         <div className="site-container py-8">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Left 240px Category Sidebar */}
             <div className="w-full lg:w-[240px] shrink-0 bg-white/[0.02] border border-white/10 rounded-2xl p-4 h-fit">
               <h3 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)] mb-3">Categories</h3>
               <div className="flex flex-col gap-1.5">
@@ -511,7 +503,6 @@ export default function VideoLayoutDemo() {
                 ))}
               </div>
             </div>
-            {/* Right Row Carousels */}
             <div className="flex-1 min-w-0 space-y-8">
               {CATS.map((category) => (
                 <div key={category+"M"}>
@@ -562,7 +553,7 @@ export default function VideoLayoutDemo() {
         <div className="site-container py-12">
           <div className="text-center max-w-xl mx-auto mb-10">
             <span className="text-2xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] block mb-1">Reels & Clips</span>
-            <h1 className="text-4xl font-black uppercase text-white">Short Video Feed</h1>
+            <h1 className="text-4xl font-black uppercase text-white">Short Media Feed</h1>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-6 snap-x custom-scrollbar">
             {VIDEOS.concat(VIDEOS).map((v, i) => (

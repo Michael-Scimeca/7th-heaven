@@ -233,16 +233,16 @@ export default function LiveHubPage() {
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen pt-[95px] pb-24 w-full" style={{ background: "var(--color-bg-primary)" }}>
+    <section className="min-h-screen pt-[88px] pb-24 w-full" style={{ background: "var(--color-bg-primary)" }}>
       <div className="w-full px-0">
 
 
         {/* ── HEADER ── */}
-        <div className="w-full px-6 md:px-12 mb-10">
+        <div className="w-full px-6 md:px-12 pt-[21px] mb-10">
 
           {/* Title row */}
           <div className="text-left mb-10">
-            <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tight text-left">
+            <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tight text-left leading-none">
               Live <span className="gradient-text">Stream Hub</span>
             </h1>
             <p className="text-white/40 mt-3 text-lg text-left">
@@ -481,18 +481,18 @@ export default function LiveHubPage() {
               </Link>
 
               {/* Card meta */}
-              <div className="p-6 flex items-center justify-between relative bg-black/50 border-none">
+              <div className="p-6 flex items-center justify-between relative bg-white border-b border-black/10 text-black">
                 {/* Avatar badge */}
                 <div
-                  className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ring-4"
+                  className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ring-4 ring-white shadow-md"
                   style={{ background: room.gradient }}
                 >
                   {room.member}
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-bold text-white/90 mb-1">{room.title}</h3>
-                  <p className="text-sm text-white/40">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
+                  <h3 className="text-lg font-black text-black mb-1">{room.title}</h3>
+                  <p className="text-sm text-black/60 font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
                 </div>
 
                 <button
@@ -500,8 +500,7 @@ export default function LiveHubPage() {
                     const slug = room.name.replace(/^live_/, "");
                     navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                   }}
-                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all hover:scale-105"
-                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}
+                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all hover:scale-105 bg-black/5 border border-black/15 text-black hover:bg-black/10 cursor-pointer"
                 >
                   COPY LINK
                 </button>

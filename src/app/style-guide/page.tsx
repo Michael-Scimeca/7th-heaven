@@ -95,11 +95,11 @@ const AdminMap = dynamic(() => import("@/components/AdminMap"), { ssr: false });
    ───────────────────────────────────────────── */
 
 const bgScale = [
-  { token: "--color-bg-primary", label: "Primary", hex: "#000000" },
-  { token: "--color-bg-deep", label: "Deep", hex: "#050508" },
-  { token: "--color-bg-surface", label: "Surface", hex: "#0b0b12" },
-  { token: "--color-bg-card", label: "Card", hex: "#111116" },
-  { token: "--color-bg-elevated", label: "Elevated", hex: "#181820" },
+  { token: "--color-bg-primary", label: "Primary", hex: "#f5f8ff" },
+  { token: "--color-bg-deep", label: "Deep", hex: "#eef3fc" },
+  { token: "--color-bg-surface", label: "Surface", hex: "#f5f8ff" },
+  { token: "--color-bg-card", label: "Card", hex: "#eaf0fa" },
+  { token: "--color-bg-elevated", label: "Elevated", hex: "#f5f8ff" },
 ];
 
 const accentColors = [
@@ -118,10 +118,10 @@ const accentColors = [
 ];
 
 const textColors = [
-  { token: "--color-text-primary", label: "Primary", hex: "#FFFEFE" },
-  { token: "--color-text-secondary", label: "Secondary", hex: "#a0a0b8" },
-  { token: "--color-text-muted", label: "Muted", hex: "#6b6b80" },
-  { token: "--color-text-disabled", label: "Disabled", hex: "#4a4a5a" },
+  { token: "--color-text-primary", label: "Primary", hex: "#000000" },
+  { token: "--color-text-secondary", label: "Secondary", hex: "#333333" },
+  { token: "--color-text-muted", label: "Muted", hex: "#666666" },
+  { token: "--color-text-disabled", label: "Disabled", hex: "#999999" },
 ];
 
 const brandColors = [
@@ -258,9 +258,9 @@ export default function StyleGuidePage() {
       {/* Hero Banner */}
       <div className="py-20 bg-gradient-to-b from-[var(--color-accent)]/10 to-transparent">
         <div className="site-container">
-          <p className="text-eyebrow mb-4">Design System</p>
-          <h1 className="heading-hero text-white mb-4">7th Heaven</h1>
-          <p className="text-body max-w-2xl">
+          <p className="text-eyebrow mb-4 text-[var(--color-accent)] font-bold">Design System</p>
+          <h1 className="heading-hero text-black mb-4">7th Heaven</h1>
+          <p className="text-body max-w-2xl text-black/70">
             Single source of truth for all design tokens. Every color, font size, shadow, and spacing value
             used across the site is defined in{" "}
             <code className="text-[var(--color-accent)] font-mono text-sm">globals.css @theme</code> and
@@ -273,17 +273,17 @@ export default function StyleGuidePage() {
       {/* ═══ COLORS ═══ */}
       <Section title="Color Palette" id="colors">
         {/* Dark Background Scale */}
-        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
-          Background Scale <span className="text-white/30 text-sm">(5 semantic levels)</span>
+        <h3 className="text-lg font-bold text-black mb-4 uppercase tracking-wider">
+          Background Scale <span className="text-black/40 text-sm">(5 semantic levels)</span>
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-12">
           {bgScale.map((c) => (
-            <Swatch key={c.token} {...c} />
+            <Swatch key={c.token} {...c} textOnDark={false} />
           ))}
         </div>
 
         {/* Accent Colors */}
-        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
+        <h3 className="text-lg font-bold text-black mb-4 uppercase tracking-wider">
           Accent Colors
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
@@ -293,15 +293,15 @@ export default function StyleGuidePage() {
         </div>
 
         {/* Text Colors */}
-        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
+        <h3 className="text-lg font-bold text-black mb-4 uppercase tracking-wider">
           Text Colors
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
           {textColors.map((c) => (
-            <div key={c.token} className="flex items-center gap-3 p-4 bg-[var(--color-bg-surface)] rounded-xl border border-white/5">
+            <div key={c.token} className="flex items-center gap-3 p-4 bg-[var(--color-bg-card)] rounded-xl border border-black/10">
               <span style={{ color: c.hex }} className="text-xl font-bold">Aa</span>
               <div>
-                <div className="text-[var(--font-size-3xs)] text-white/70 font-bold">{c.label}</div>
+                <div className="text-[var(--font-size-3xs)] text-black/70 font-bold">{c.label}</div>
                 <TokenBadge token={c.token} />
               </div>
             </div>
@@ -309,7 +309,7 @@ export default function StyleGuidePage() {
         </div>
 
         {/* Brand Colors */}
-        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">
+        <h3 className="text-lg font-bold text-black mb-4 uppercase tracking-wider">
           Brand / Third-Party
         </h3>
         <div className="grid grid-cols-3 gap-4">
@@ -327,7 +327,7 @@ export default function StyleGuidePage() {
           {fontSizes.map((f) => (
             <div
               key={f.token}
-              className="flex items-baseline gap-4 py-3 border-b border-white/5 group hover:bg-white/[0.02] px-4 -mx-4 rounded-lg transition-colors"
+              className="flex items-baseline gap-4 py-3 border-b border-black/10 group hover:bg-black/[0.02] px-4 -mx-4 rounded-lg transition-colors"
             >
               <div className="w-16 shrink-0">
                 <span className="text-[var(--font-size-3xs)] font-bold text-[var(--color-accent)] uppercase">
@@ -336,23 +336,23 @@ export default function StyleGuidePage() {
               </div>
               <span
                 style={{ fontSize: `var(${f.token})` }}
-                className="text-white font-semibold leading-tight"
+                className="text-black font-semibold leading-tight"
               >
                 The quick brown fox
               </span>
               <div className="ml-auto flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <TokenBadge token={f.token} />
-                <span className="text-[var(--font-size-4xs)] text-white/30">{f.note}</span>
+                <span className="text-[var(--font-size-4xs)] text-black/40">{f.note}</span>
               </div>
             </div>
           ))}
         </div>
 
         {/* Heading Hierarchy */}
-        <h3 className="text-lg font-bold text-white mb-6 mt-16 uppercase tracking-wider">
-          Heading Hierarchy <span className="text-white/30 text-sm">(h1–h6)</span>
+        <h3 className="text-lg font-bold text-black mb-6 mt-16 uppercase tracking-wider">
+          Heading Hierarchy <span className="text-black/40 text-sm">(h1–h6)</span>
         </h3>
-        <div className="space-y-6 bg-[var(--color-bg-surface)] p-8 rounded-2xl border border-white/5">
+        <div className="space-y-6 bg-[var(--color-bg-card)] p-8 rounded-2xl border border-black/10 text-black">
           <div>
             <h1>Heading 1 — The Stage Is Set</h1>
             <TokenBadge token="--font-size-5xl" />
@@ -380,27 +380,27 @@ export default function StyleGuidePage() {
         </div>
 
         {/* Utility Classes */}
-        <h3 className="text-lg font-bold text-white mb-6 mt-16 uppercase tracking-wider">
+        <h3 className="text-lg font-bold text-black mb-6 mt-16 uppercase tracking-wider">
           Typography Utilities
         </h3>
         <div className="space-y-8">
           <div>
-            <div className="heading-hero text-white mb-2">heading-hero</div>
+            <div className="heading-hero text-black mb-2">heading-hero</div>
             <TokenBadge token="@utility heading-hero" />
             <FileBadge path="globals.css" />
           </div>
           <div>
-            <div className="heading-section text-white mb-2">heading-section</div>
+            <div className="heading-section text-black mb-2">heading-section</div>
             <TokenBadge token="@utility heading-section" />
           </div>
           <div>
-            <div className="heading-card text-white mb-2">heading-card</div>
+            <div className="heading-card text-black mb-2">heading-card</div>
             <TokenBadge token="@utility heading-card" />
           </div>
           <div>
-            <p className="text-body mb-2">
+            <p className="text-body mb-2 text-black/80">
               Body text — This is the standard paragraph style used throughout the site.
-              It uses Barlow at 1rem with 1.7 line-height and 65% white opacity.
+              It uses Barlow at 1rem with 1.7 line-height and dark text color.
             </p>
             <TokenBadge token="@utility text-body" />
           </div>
@@ -411,17 +411,17 @@ export default function StyleGuidePage() {
         </div>
 
         {/* Inline elements */}
-        <h3 className="text-lg font-bold text-white mb-6 mt-16 uppercase tracking-wider">
+        <h3 className="text-lg font-bold text-black mb-6 mt-16 uppercase tracking-wider">
           Inline Elements
         </h3>
-        <div className="bg-[var(--color-bg-surface)] p-8 rounded-2xl border border-white/5 space-y-4 text-body">
-          <p>Regular paragraph with <strong className="text-white font-bold">bold text</strong> and <em className="italic text-white/80">italic text</em>.</p>
-          <p>Links look like <a href="#" className="text-[var(--color-accent)] underline underline-offset-2 hover:text-[var(--color-accent-hover)]">this hyperlink style</a>.</p>
-          <p>Inline <code className="text-[var(--color-accent-cyan)] bg-white/5 px-1.5 py-0.5 rounded-md text-sm font-mono">code</code> for technical references.</p>
-          <blockquote className="border-l-2 border-[var(--color-accent)] pl-4 italic text-white/60">
+        <div className="bg-[var(--color-bg-card)] p-8 rounded-2xl border border-black/10 space-y-4 text-body text-black">
+          <p>Regular paragraph with <strong className="text-black font-bold">bold text</strong> and <em className="italic text-black/80">italic text</em>.</p>
+          <p>Links look like <a href="#" className="text-[var(--color-accent)] underline underline-offset-2 hover:text-[var(--color-accent-hover)] font-bold">this hyperlink style</a>.</p>
+          <p>Inline <code className="text-[var(--color-accent)] bg-black/5 px-1.5 py-0.5 rounded-md text-sm font-mono font-bold">code</code> for technical references.</p>
+          <blockquote className="border-l-2 border-[var(--color-accent)] pl-4 italic text-black/70">
             &ldquo;Pull quote — The music never stops when you&apos;re on the 7th Heaven cruise.&rdquo;
           </blockquote>
-          <ul className="list-disc list-inside space-y-1 text-white/60">
+          <ul className="list-disc list-inside space-y-1 text-black/80">
             <li>Unordered list item one</li>
             <li>Unordered list item two
               <ul className="list-disc list-inside ml-4 mt-1">
@@ -429,23 +429,23 @@ export default function StyleGuidePage() {
               </ul>
             </li>
           </ul>
-          <ol className="list-decimal list-inside space-y-1 text-white/60">
+          <ol className="list-decimal list-inside space-y-1 text-black/80">
             <li>Ordered list item one</li>
             <li>Ordered list item two</li>
           </ol>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/10">
-                <th className="text-left py-2 text-white/60 font-bold">Column A</th>
-                <th className="text-left py-2 text-white/60 font-bold">Column B</th>
-                <th className="text-left py-2 text-white/60 font-bold">Column C</th>
+              <tr className="border-b border-black/10">
+                <th className="text-left py-2 text-black/70 font-bold">Column A</th>
+                <th className="text-left py-2 text-black/70 font-bold">Column B</th>
+                <th className="text-left py-2 text-black/70 font-bold">Column C</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-white/5">
-                <td className="py-2 text-white/50">Data 1</td>
-                <td className="py-2 text-white/50">Data 2</td>
-                <td className="py-2 text-white/50">Data 3</td>
+              <tr className="border-b border-black/5">
+                <td className="py-2 text-black/60">Data 1</td>
+                <td className="py-2 text-black/60">Data 2</td>
+                <td className="py-2 text-black/60">Data 3</td>
               </tr>
             </tbody>
           </table>
@@ -920,7 +920,7 @@ export default function StyleGuidePage() {
           <FileBadge path="src/components/CalendarPicker.tsx" />
         </h3>
         <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
-          <CalendarPicker selectedDate="2026-08-15" onSelectDate={() => {}} bookingSlots={[]} />
+          <CalendarPicker slots={[]} onChangeSlots={() => {}} startTime="7:00 PM" onStartTimeChange={() => {}} endTime="10:00 PM" onEndTimeChange={() => {}} label="Select Dates" />
         </div>
 
         {/* Tour Map */}

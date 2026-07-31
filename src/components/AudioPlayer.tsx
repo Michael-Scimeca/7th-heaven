@@ -142,29 +142,29 @@ export default function AudioPlayerSection() {
   const holidayCds = albums.filter(a => a.title.toLowerCase().includes('christmas') || a.title.toLowerCase().includes('holiday')).sort((a, b) => parseInt(b.year) - parseInt(a.year));
 
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
-    <div className="mb-8">
-      <h3 className="text-2xs font-bold tracking-[0.2em] uppercase text-white/40 mb-3">{title}</h3>
-      <ul className="flex flex-col gap-2">
+    <div className="mb-4">
+      <h3 className="text-2xs font-bold tracking-[0.2em] uppercase text-black/50 mb-1.5">{title}</h3>
+      <ul className="flex flex-col gap-0.5">
       {categoryAlbums.map((album) => {
         const originalIdx = albums.findIndex(a => a.id === album.id);
         return (
           <li key={album.id}>
            <button 
-           onClick={() => { setActiveAlbumIndex(originalIdx); setActiveTrackIndex(0); setSearchQuery(""); setIsPlaying(false); sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
-           className={`w-full flex items-center justify-between text-left group transition-all gap-3 overflow-hidden p-2 rounded-lg ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30' : 'hover:bg-white/5'}`}
+           onClick={() => { setActiveAlbumIndex(originalIdx); setActiveTrackIndex(0); setSearchQuery(""); setIsPlaying(false); }}
+           className={`w-full flex items-center justify-between text-left group transition-all gap-2.5 overflow-hidden py-1 px-1.5 rounded-md ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30' : 'hover:bg-black/5'}`}
            >
-           <div className="flex items-center gap-3 min-w-0 flex-1 pr-2">
+           <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
            {album.image && (
-           <div className="relative w-8 h-8 shrink-0 bg-white/5 border border-white/5 shadow-md rounded overflow-hidden">
-           <Image src={album.image} alt={album.title} fill sizes="32px" style={{ objectFit: 'cover' }} />
+           <div className="relative w-7 h-7 shrink-0 bg-black/5 border border-black/10 shadow-sm rounded overflow-hidden">
+           <Image src={album.image} alt={album.title} fill sizes="28px" style={{ objectFit: 'cover' }} />
            </div>
            )}
-           <span className={`text-xs font-bold uppercase tracking-wider leading-snug truncate ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-[#a0a0b8] group-hover:text-white'}`}>
+           <span className={`text-[11px] font-extrabold uppercase tracking-wider leading-tight truncate ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-black/80 group-hover:text-black'}`}>
            {album.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
            </span>
            </div>
            {album.year && (
-             <span className={`text-[0.6rem] font-bold font-mono tracking-widest shrink-0 ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-white/20 group-hover:text-white/40'} transition-colors`}>
+             <span className={`text-[0.6rem] font-bold font-mono tracking-widest shrink-0 ${originalIdx === activeAlbumIndex ? 'text-[var(--color-accent)]' : 'text-black/50 group-hover:text-black'} transition-colors`}>
                {album.year}
              </span>
            )}
@@ -295,11 +295,11 @@ export default function AudioPlayerSection() {
     : [];
 
   return (
-  <section ref={sectionRef} className="" id="music-player-section">
-  <div className="flex flex-col lg:flex-row lg:items-start bg-transparent border-none">
+  <section ref={sectionRef} className="border-b border-black/10 flex-1 h-full min-h-0 flex flex-col justify-between relative w-full bg-[#f5f8ff] overflow-hidden" id="music-player-section">
+  <div className="flex-1 min-h-0 flex flex-col lg:flex-row lg:items-stretch bg-transparent overflow-hidden">
   
   {/* --- SIDEBAR --- */}
-  <div className="w-full lg:w-[320px] bg-transparent border-r border-white/5 p-6 flex flex-col shrink-0 relative z-10 hidden lg:flex">
+  <div className="w-full lg:w-[320px] bg-transparent border-r border-black/10 pt-10 pl-8 pr-6 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden">
     {/* Fast Search Input */}
     <div className="relative mb-6">
       <input
@@ -307,20 +307,20 @@ export default function AudioPlayerSection() {
         placeholder="Search 700+ songs..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 pl-9 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)] transition-all"
+        className="w-full bg-black/[0.04] border border-black/15 rounded-xl px-4 py-2.5 pl-9 text-xs text-black placeholder-black/40 focus:outline-none focus:border-[var(--color-accent)] transition-all font-bold"
       />
-      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-xs">🔍</span>
+      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 text-xs">🔍</span>
       {searchQuery && (
         <button
           onClick={() => setSearchQuery("")}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 hover:text-black text-xs cursor-pointer"
         >
           ✕
         </button>
       )}
     </div>
 
-   <div className="flex-1 pr-2 overflow-y-auto max-h-[calc(100vh-220px)] custom-scrollbar">
+   <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="flex-1 pr-3 pb-8 overflow-y-auto custom-scrollbar min-h-0">
      {renderAlbumList(originalCds, "Original CD's")}
      {renderAlbumList(medleyCds, "Medley CD's")}
      {renderAlbumList(coverCds, "Cover CD's")}
@@ -328,162 +328,227 @@ export default function AudioPlayerSection() {
    </div>
   </div>
 
-  {/* --- MAIN AREA --- */}
-  <div className="flex-1 relative flex flex-col bg-transparent lg:sticky lg:top-[72px] lg:self-start lg:max-h-[calc(100vh-72px)]">
-  
-    {/* Player Panel Frame */}
-    <div className="flex-1 min-h-0 flex flex-col w-full">
+  {/* --- MAIN AREA (MIDDLE SECTION) --- */}
+  <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
     
-    {/* Panel Header */}
-    <div className="flex items-center justify-between px-8 py-3 border-b border-white/5 bg-transparent">
-      <div className="flex items-center gap-4 flex-1">
-        {/* Mobile Search input */}
-        <div className="relative flex-1 max-w-xs lg:hidden">
-          <input
-            type="text"
-            placeholder="Search 700+ songs..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5 pl-8 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]"
-          />
-          <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-white/40 text-xs">🔍</span>
+    {/* Tracklist */}
+    <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="flex-1 overflow-y-auto px-0 pt-0 pb-8 custom-scrollbar h-full min-h-0">
+    {searchQuery.trim() ? (
+      searchResults.length > 0 ? (
+        searchResults.map(({ track, trackIdx, album, albumIdx }) => {
+          const isActive = albumIdx === activeAlbumIndex && trackIdx === activeTrackIndex;
+          const cleanName = cleanTitle(track.title);
+          return (
+            <div
+              key={`${albumIdx}-${trackIdx}`}
+              className={`group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-all select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-black/5'}`}
+              onClick={() => {
+                setActiveAlbumIndex(albumIdx);
+                setActiveTrackIndex(trackIdx);
+                setIsPlaying(true);
+              }}
+            >
+              <div className="flex items-center gap-4 min-w-0">
+                <span className="text-2xs font-bold uppercase tracking-widest text-[var(--color-accent)] shrink-0">
+                  {album.title.split(' ')[0]}
+                </span>
+                <span className={`text-sm font-bold truncate ${isActive ? 'text-[var(--color-accent)]' : 'text-black/80 group-hover:text-black'}`}>
+                  {cleanName}
+                </span>
+              </div>
+              <span className="text-2xs text-black/50 font-mono font-bold">
+                {getDummyDuration(track.title, trackIdx)}
+              </span>
+            </div>
+          );
+        })
+      ) : (
+        <div className="p-8 text-center text-black/50 text-xs font-bold uppercase tracking-widest">
+          No songs found matching &ldquo;{searchQuery}&rdquo;
         </div>
+      )
+    ) : (
+      activeAlbum?.tracks.map((track, idx) => {
+      const isActive = idx === activeTrackIndex;
+      const trackNumber = String(idx + 1).padStart(2, '0');
+      const cleanName = cleanTitle(track.title);
+      
+      return (
+      <div 
+      key={idx}
+      className={`group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-all select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-black/5'}`}
+      onClick={() => {
+      if (isActive) togglePlay();
+      else {
+      setActiveTrackIndex(idx);
+      setIsPlaying(true);
+      }
+      }}
+      >
+      <div className="flex items-center gap-5">
+      <span className={`text-xs font-bold tracking-widest w-6 text-left ${isActive ? 'text-[var(--color-accent)]' : 'text-black/50'}`}>
+      {trackNumber}
+      </span>
+         <span className={`text-sm font-bold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? 'text-[var(--color-accent)]' : 'text-black/80 group-hover:text-black transition-colors'}`}>
+           {cleanName}
+         </span>
+      </div>
+      
+      {/* Display duration */}
+      <span className={`text-xs font-bold tracking-widest mr-2 ${isActive ? 'text-[var(--color-accent)]' : 'text-black/50'}`}>
+        {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
+      </span>
+    
+      </div>
+      );
+      })
+    )}
+    </div>
 
-        {(activeAlbum?.spotifyUrl || activeAlbum?.appleMusicUrl) ? (
-          <div className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] whitespace-nowrap flex items-center">
-            <span>AVAILABLE ON </span>
-            {activeAlbum.spotifyUrl && (
-              <a 
-                href={activeAlbum.spotifyUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ml-2"
-              >
-                SPOTIFY
-              </a>
-            )}
-            {activeAlbum.spotifyUrl && activeAlbum.appleMusicUrl && (
-              <span className="mx-2">OR</span>
-            )}
-            {activeAlbum.appleMusicUrl && (
-              <a 
-                href={activeAlbum.appleMusicUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className={`text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer ${!activeAlbum.spotifyUrl ? 'ml-2' : ''}`}
-              >
-                APPLE MUSIC
-              </a>
+    {/* --- PLAY CONTROLS STRIP (MIDDLE SECTION ONLY) --- */}
+    <div className="bg-[#0b0b0f] border-t border-white/10 h-[50px] flex items-center pr-4 md:pr-8 pl-0 gap-4 relative w-full shrink-0 z-20 shadow-md">
+      
+      {/* Album Cover & Play Button Overlay */}
+      <div 
+        className="relative w-[50px] h-[50px] shrink-0 cursor-pointer group shadow-[4px_0_15px_rgba(0,0,0,0.5)] z-20"
+        onClick={togglePlay}
+      >
+        {activeAlbum?.image ? (
+          <Image src={activeAlbum.image} alt="Cover" fill sizes="50px" style={{ objectFit: 'cover' }} className="transition-transform group-hover:scale-105" />
+        ) : (
+          <div className="w-full h-full bg-[var(--color-bg-card)]" />
+        )}
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100">
+          <div className="w-7 h-7 rounded-full border border-white flex items-center justify-center bg-black/30 backdrop-blur-sm shadow-lg transform group-hover:scale-110 transition-transform">
+            {isPlaying ? (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            ) : (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white ml-[1px]"><path d="M8 5v14l11-7z"/></svg>
             )}
           </div>
-        ) : null}
+        </div>
+       </div>
+
+       {/* Song Title */}
+       <div className="min-w-0 max-w-[160px] shrink-0 hidden md:block">
+         <p className="text-xs font-bold text-white truncate leading-tight">{activeTrack?.title?.replace(/^\d+\s*/, '').replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
+         <p className="text-[10px] text-white/40 truncate leading-tight">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
+       </div>
+
+      {/* Prev / Next Controls */}
+      <div className="flex items-center gap-3 shrink-0 ml-2">
+        <button className="text-white/50 hover:text-white transition-colors" onClick={handlePrev}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
+        </button>
+        
+        {/* Play / Pause */}
+        <button className="text-white hover:scale-110 transition-transform" onClick={togglePlay}>
+          {isPlaying ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          )}
+        </button>
+
+        <button className="text-white/50 hover:text-white transition-colors" onClick={handleNext}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+        </button>
       </div>
+
+       {/* Current Time */}
+       <div className="text-xs font-mono font-bold tracking-wider text-white ml-2 hidden sm:block">
+         {formatTime(currentTime)}
+       </div>
+
+      {/* Progress Bar */}
+       <div className="relative flex-1 h-[3px] bg-white/10 group mx-3 hidden sm:block max-w-[800px]">
+         <input 
+           type="range" 
+           min="0" 
+           max={duration || 100} 
+           value={currentTime} 
+           onChange={handleSeek}
+           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+         />
+         <div 
+           className="absolute top-0 left-0 h-full bg-[var(--color-accent)] pointer-events-none transition-colors"
+           style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+         >
+           {/* Indicator Dot */}
+           <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.4)]" />
+         </div>
+       </div>
+       
+       {/* Full Time */}
+       <div className="text-xs font-mono font-bold tracking-wider text-white mr-2 hidden sm:block">
+         {duration ? formatTime(duration) : getDummyDuration(activeTrack?.title || '', activeTrackIndex)}
+       </div>
+
+      {/* Right Controls (Volume) */}
+      <div className="flex items-center gap-4 shrink-0 ml-auto">
+    
+        {/* Volume */}
+        <div className="flex items-center gap-2.5 w-[90px] hidden md:flex">
+          <svg 
+            width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
+            className="text-white/50 shrink-0 cursor-pointer hover:text-white transition-colors"
+            onClick={toggleMute}
+          >
+            {volume === 0 ? (
+              <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></>
+            ) : volume < 0.5 ? (
+              <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></>
+            ) : (
+              <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></>
+            )}
+          </svg>
+          <div className="relative flex-1 h-[3px] bg-white/20">
+            <input 
+              type="range" 
+              min="0" 
+              max="1" 
+              step="0.05"
+              value={volume} 
+              onChange={(e) => setVolume(Number(e.target.value))}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+            />
+            <div 
+              className="absolute top-0 left-0 h-full bg-[var(--color-accent)] pointer-events-none"
+              style={{ width: `${volume * 100}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-   {/* Tracklist & Credits Wrapper */}
-   <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
-     
-     {/* Tracklist */}
-     <div className="flex-1 overflow-y-auto px-0 pt-0 custom-scrollbar">
-     {searchQuery.trim() ? (
-       searchResults.length > 0 ? (
-         searchResults.map(({ track, trackIdx, album, albumIdx }) => {
-           const isActive = albumIdx === activeAlbumIndex && trackIdx === activeTrackIndex;
-           const cleanName = cleanTitle(track.title);
-           return (
-             <div
-               key={`${albumIdx}-${trackIdx}`}
-               className={`group flex items-center justify-between px-8 py-4 cursor-pointer transition-all select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-white/5'}`}
-               onClick={() => {
-                 setActiveAlbumIndex(albumIdx);
-                 setActiveTrackIndex(trackIdx);
-                 setIsPlaying(true);
-               }}
-             >
-               <div className="flex items-center gap-4 min-w-0">
-                 <span className="text-2xs font-bold uppercase tracking-widest text-[var(--color-accent)] shrink-0">
-                   {album.title.split(' ')[0]}
-                 </span>
-                 <span className={`text-sm font-semibold truncate ${isActive ? 'text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
-                   {cleanName}
-                 </span>
-               </div>
-               <span className="text-2xs text-white/30 font-mono">
-                 {getDummyDuration(track.title, trackIdx)}
-               </span>
-             </div>
-           );
-         })
-       ) : (
-         <div className="p-8 text-center text-white/40 text-xs uppercase tracking-widest">
-           No songs found matching &ldquo;{searchQuery}&rdquo;
-         </div>
-       )
-     ) : (
-       activeAlbum?.tracks.map((track, idx) => {
-       const isActive = idx === activeTrackIndex;
-       const trackNumber = String(idx + 1).padStart(2, '0');
-       const cleanName = cleanTitle(track.title);
-       
-       return (
-       <div 
-       key={idx}
-       className={`group flex items-center justify-between px-8 py-5 cursor-pointer transition-all select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-white/5'}`}
-       onClick={() => {
-       if (isActive) togglePlay();
-       else {
-       setActiveTrackIndex(idx);
-       setIsPlaying(true);
-       }
-       }}
-       >
-       <div className="flex items-center gap-6">
-       <span className={`text-sm font-bold tracking-widest w-6 text-left ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
-       {trackNumber}
-       </span>
-          <span className={`text-base font-semibold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? 'text-[var(--color-accent)] drop-shadow-[0_0_8px_rgba(133,29,239,0.5)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
-            {cleanName}
-          </span>
-       </div>
-       
-       {/* Display duration */}
-       <span className={`text-sm font-bold tracking-widest mr-4 ${isActive ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>
-         {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
-       </span>
-     
-       </div>
-       );
-       })
-     )}
-     </div>
-
-    {/* Credits Sidebar */}
-    <div className="w-full lg:w-[350px] bg-transparent p-8 shrink-0 overflow-y-auto scrollbar-hide border-l border-white/5 hidden lg:flex lg:flex-col items-center relative overflow-hidden">
+  {/* --- CREDITS SIDEBAR --- */}
+  <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="w-full lg:w-[350px] bg-transparent pt-5 pl-6 pr-8 pb-8 shrink-0 overflow-y-auto custom-scrollbar border-l border-black/10 hidden lg:flex lg:flex-col items-center relative overflow-hidden self-stretch h-full">
       
       {/* Animated gradient orb */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[300px] h-[300px] rounded-full opacity-20 blur-[80px] animate-[orbPulse_8s_ease-in-out_infinite]"
+        <div className="w-[300px] h-[300px] rounded-full opacity-10 blur-[80px] animate-[orbPulse_8s_ease-in-out_infinite]"
           style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
         />
       </div>
 
       {/* Sound Wave Animation */}
-      <div className="relative z-[2] w-[180px] h-[60px] mb-6 flex items-center justify-center">
+      <div className="relative z-[2] w-[140px] h-[36px] mb-3 flex items-center justify-center">
         <SoundWaveCanvas isPlaying={isPlaying} />
       </div>
 
       {/* Album cover thumbnail container */}
-      <div className="relative z-[2] w-[120px] h-[120px] border border-white/5 rounded-sm mb-6 flex items-center justify-center bg-white/[0.02] overflow-hidden shrink-0">
+      <div className="relative z-[2] w-[100px] h-[100px] border border-black/15 rounded-sm mb-3 flex items-center justify-center bg-black/[0.02] overflow-hidden shrink-0 shadow-md">
         {activeAlbum?.image ? (
           <Image 
             src={activeAlbum.image} 
             alt={activeAlbum.title} 
             fill 
-            sizes="120px" 
+            sizes="100px" 
             style={{ objectFit: 'cover' }} 
           />
         ) : (
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-white/10">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-black/20">
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="12" r="3" />
           </svg>
@@ -491,9 +556,9 @@ export default function AudioPlayerSection() {
       </div>
 
       {/* Album Title */}
-      <span className="relative z-[2] text-xs uppercase tracking-[0.2em] text-white/40 text-center font-bold px-4 max-w-full">
+      <span className="relative z-[2] text-xs uppercase tracking-[0.2em] text-black/60 text-center font-black px-4 max-w-full">
         {activeAlbum ? (
-          <span className="block text-white truncate max-w-[220px] mb-1">
+          <span className="block text-black font-black text-sm truncate max-w-[220px]">
             {activeAlbum.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
           </span>
         ) : (
@@ -504,11 +569,11 @@ export default function AudioPlayerSection() {
       {/* Dynamic Content: Credits/Lineup OR No Credits Available */}
       {activeAlbum ? (
         (activeAlbum?.lineup?.length > 0 || activeAlbum?.credits?.length > 0) ? (
-          <div className="relative z-[2] w-full text-left mt-8 pt-6 border-t border-white/5">
+          <div className="relative z-[2] w-full text-left mt-4 pt-4 border-t border-black/10">
             {activeAlbum?.lineup?.length > 0 && (
-              <div className="mb-8">
-                <h3 className="text-sm font-bold tracking-wider text-white/40 uppercase mb-3">Line-Up</h3>
-                <ul className="flex flex-col gap-1.5 text-sm text-white/50">
+              <div className="mb-4">
+                <h3 className="text-xs font-black tracking-wider text-black/70 uppercase mb-1.5">Line-Up</h3>
+                <ul className="flex flex-col gap-1 text-xs font-semibold text-black/80">
                   {activeAlbum.lineup.map((line, i) => (
                     <li key={i}>{line}</li>
                   ))}
@@ -517,9 +582,9 @@ export default function AudioPlayerSection() {
             )}
 
             {activeAlbum?.credits?.length > 0 && (
-              <div className="mb-6">
-                <h3 className="text-sm font-bold tracking-wider text-white/40 uppercase mb-3">Credits</h3>
-                <ul className="flex flex-col gap-1.5 text-sm text-white/50">
+              <div className="mb-4">
+                <h3 className="text-xs font-black tracking-wider text-black/70 uppercase mb-1.5">Credits</h3>
+                <ul className="flex flex-col gap-1 text-xs font-semibold text-black/80">
                   {activeAlbum.credits.map((line, i) => (
                     <li key={i}>{line}</li>
                   ))}
@@ -531,14 +596,14 @@ export default function AudioPlayerSection() {
             {lyricsMap[activeAlbum?.id] && (
               <button
                 onClick={() => setShowLyrics(true)}
-                className="text-[var(--color-accent)] hover:text-white text-sm font-bold transition-colors cursor-pointer text-left mt-2 block"
+                className="text-[var(--color-accent)] hover:text-purple-700 text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
               >
                 Lyrics
               </button>
             )}
 
             {/* Buy / Stream Buttons */}
-            <div className="pt-4 border-t border-white/5 mt-6 flex flex-col gap-2">
+            <div className="pt-4 border-t border-black/10 mt-6 flex flex-col gap-2">
               {(activeAlbum?.paypalButtonId || activeAlbum?.storeUrl) && (
                 <a
                   href={activeAlbum?.paypalButtonId 
@@ -579,7 +644,7 @@ export default function AudioPlayerSection() {
             </div>
           </div>
         ) : (
-          <span className="relative z-[2] block text-[var(--font-size-3xs)] text-white/20 uppercase tracking-widest font-normal text-center mt-3">
+          <span className="relative z-[2] block text-[var(--font-size-3xs)] text-black/40 uppercase tracking-widest font-normal text-center mt-3">
             No Credits Available
           </span>
         )
@@ -591,9 +656,8 @@ export default function AudioPlayerSection() {
 
     </div>
   </div>
- </div>
 
- {/* Lyrics Modal */}
+  {/* Lyrics Modal */}
  {showLyrics && (() => {
    const lyricsData = lyricsMap[activeAlbum?.id];
    const activeTrack = activeAlbum?.tracks?.[activeTrackIndex];
@@ -630,148 +694,8 @@ export default function AudioPlayerSection() {
      </div>
    );
  })()}
-
- {/* --- PLAY CONTROLS STRIP --- */}
- <div className="bg-[#0b0b0f] border-t border-[var(--color-border)] h-[80px] flex items-center pr-4 md:pr-8 pl-0 gap-6 sticky bottom-0 left-0 right-0 z-[50]">
  
-   {/* Album Cover & Play Button Overlay */}
-   <div 
-     className="relative w-[80px] h-full shrink-0 cursor-pointer group shadow-[4px_0_15px_rgba(0,0,0,0.5)] z-20"
-     onClick={togglePlay}
-   >
-     {activeAlbum?.image ? (
-       <Image src={activeAlbum.image} alt="Cover" fill sizes="80px" style={{ objectFit: 'cover' }} className="transition-transform group-hover:scale-105" />
-     ) : (
-       <div className="w-full h-full bg-[var(--color-bg-card)]" />
-     )}
-     <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100">
-       <div className="w-10 h-10 rounded-full border border-white flex items-center justify-center bg-black/20 backdrop-blur-sm shadow-lg transform group-hover:scale-110 transition-transform">
-         {isPlaying ? (
-           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-white"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-         ) : (
-           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-white ml-[2px]"><path d="M8 5v14l11-7z"/></svg>
-         )}
-       </div>
-     </div>
-    </div>
-
-    {/* Song Title */}
-    <div className="min-w-0 max-w-[150px] shrink-0 hidden md:block">
-      <p className="text-sm font-bold text-white truncate">{activeTrack?.title?.replace(/^\d+\s*/, '').replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
-      <p className="text-xs text-white/40 truncate">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
-    </div>
-
-   {/* Prev / Next Controls */}
-   <div className="flex items-center gap-4 shrink-0 ml-4">
-     <button className="text-white/50 hover:text-white transition-colors" onClick={handlePrev}>
-       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
-     </button>
-     
-     {/* Play / Pause */}
-     <button className="text-white hover:scale-110 transition-transform" onClick={togglePlay}>
-       {isPlaying ? (
-         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-       ) : (
-         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-[2px]"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-       )}
-     </button>
-
-     <button className="text-white/50 hover:text-white transition-colors" onClick={handleNext}>
-       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
-     </button>
-   </div>
-
-    {/* Current Time */}
-    <div className="text-sm font-bold tracking-widest text-white ml-2 hidden sm:block">
-      {formatTime(currentTime)}
-    </div>
-
-   {/* Progress Bar */}
-    <div className="relative flex-1 h-[4px] bg-white/10 group mx-4 hidden sm:block max-w-[800px]">
-      <input 
-        type="range" 
-        min="0" 
-        max={duration || 100} 
-        value={currentTime} 
-        onChange={handleSeek}
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-      />
-      <div 
-        className="absolute top-0 left-0 h-full bg-[var(--color-accent)] pointer-events-none transition-colors"
-        style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-      >
-        {/* Indicator Dot */}
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3.5 h-3.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.3)]" />
-      </div>
-    </div>
-    
-    {/* Full Time */}
-    <div className="text-sm font-bold tracking-widest text-white mr-2 hidden sm:block">
-      {duration ? formatTime(duration) : getDummyDuration(activeTrack?.title || '', activeTrackIndex)}
-    </div>
-
-   {/* Right Controls (Shuffle & Volume) */}
-   <div className="flex items-center gap-6 shrink-0 ml-auto">
- 
-     {/* Volume */}
-     <div className="flex items-center gap-3 w-[100px] hidden md:flex">
-       <svg 
-         width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
-         className="text-white/50 shrink-0 cursor-pointer hover:text-white transition-colors"
-         onClick={toggleMute}
-       >
-         {volume === 0 ? (
-           <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></>
-         ) : volume < 0.5 ? (
-           <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></>
-         ) : (
-           <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></>
-         )}
-       </svg>
-       <div className="relative flex-1 h-1 bg-white/20 ">
-         <input 
-           type="range" 
-           min="0" 
-           max="1" 
-           step="0.05"
-           value={volume} 
-           onChange={(e) => setVolume(Number(e.target.value))}
-           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-         />
-         <div 
-           className="absolute top-0 left-0 h-full bg-[var(--color-accent)] pointer-events-none"
-           style={{ width: `${volume * 100}%` }}
-         />
-       </div>
-     </div>
-   </div>
- </div>
- 
- </div>
- </div>
-
- <style jsx global>{`
- .custom-scrollbar::-webkit-scrollbar {
- width: 4px;
- }
- .custom-scrollbar::-webkit-scrollbar-track {
- background: transparent;
- }
- .custom-scrollbar::-webkit-scrollbar-thumb {
- background: #851DEF;
- }
- .custom-scrollbar:hover::-webkit-scrollbar-thumb {
- background: #7c3aed;
- }
- @keyframes eqBar {
-  0% { transform: scaleY(0.3); opacity: 0.4; }
-  100% { transform: scaleY(1); opacity: 1; }
- }
- @keyframes orbPulse {
-  0%, 100% { transform: scale(0.8) rotate(0deg); opacity: 0.15; }
-  50% { transform: scale(1.2) rotate(180deg); opacity: 0.3; }
- }
- `}</style>
- </section>
+  {/* Close Top Flex container */}
+  </section>
  );
 }

@@ -884,8 +884,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     'registry',
     'crewcreation',
     'admincreation',
-    'bulkinvites',
-    'awardpicks'
+    'bulkinvites'
   ];
 
   const [sectionOrder, setSectionOrder] = useState<string[]>(() => {
@@ -2725,22 +2724,22 @@ try {
     const isWrongRole = isLoggedIn && member?.role !== 'admin';
 
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center px-6 relative overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-500 opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
+      <div className="min-h-screen bg-white text-black flex items-center justify-center px-6 relative overflow-hidden">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-500 opacity-[0.05] blur-[120px] rounded-full pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-2xl">
-            <div className="h-1 bg-gradient-to-r from-red-500 via-amber-500 to-red-500" />
+          <div className="bg-white border border-black/15 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="h-1.5 bg-gradient-to-r from-red-600 via-amber-500 to-red-600" />
 
             <div className="p-10">
               <div className="text-center mb-10">
                 <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </div>
-                <h1 className="text-2xl font-black tracking-tight">
-                  Admin <span className="text-red-500">Access</span>
+                <h1 className="text-2xl font-black tracking-tight text-black">
+                  Admin <span className="text-red-600">Access</span>
                 </h1>
-                <p className="text-[0.65rem] uppercase tracking-[0.2em] text-white/30 mt-2">
+                <p className="text-[0.65rem] uppercase tracking-[0.2em] text-black/60 font-black mt-2">
                   Restricted — Authorized personnel only
                 </p>
               </div>
@@ -2748,19 +2747,19 @@ try {
               {isWrongRole ? (
                 <div className="text-center">
                   <div className="p-5 bg-red-500/10 border border-red-500/20 rounded-xl mb-6">
-                    <p className="text-sm font-bold text-red-400 mb-1">Access Denied</p>
-                    <p className="text-[0.7rem] text-white/40">
-                      You&apos;re logged in as <strong className="text-white">{member?.name}</strong> ({member?.role}). 
+                    <p className="text-sm font-bold text-red-600 mb-1">Access Denied</p>
+                    <p className="text-[0.7rem] text-black/70 font-semibold">
+                      You&apos;re logged in as <strong className="text-black font-extrabold">{member?.name}</strong> ({member?.role}). 
                       Admin privileges are required to access this dashboard.
                     </p>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <Link href="/fans" className="text-[0.65rem] text-[var(--color-accent)] hover:text-white uppercase tracking-[0.15em] font-bold transition-colors">
+                    <Link href="/fans" className="text-[0.65rem] text-purple-700 hover:text-purple-900 uppercase tracking-[0.15em] font-black transition-colors">
                       ← Back to Fan Dashboard
                     </Link>
                     <button
                       onClick={() => logout()}
-                      className="text-[0.65rem] text-red-400 hover:text-red-300 uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer"
+                      className="text-[0.65rem] text-red-600 hover:text-red-800 uppercase tracking-[0.15em] font-black transition-colors cursor-pointer"
                     >
                       Sign Out & Switch Account
                     </button>
@@ -2769,7 +2768,7 @@ try {
               ) : (
                 <form onSubmit={handleAdminLogin} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
+                    <label className="text-[0.65rem] uppercase tracking-[0.15em] text-black/70 mb-2 block font-black">Email</label>
                     <input
                       type="email"
                       value={adminEmail}
@@ -2777,12 +2776,12 @@ try {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-red-500/50 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-black/15 rounded-xl text-sm font-semibold text-black placeholder:text-black/40 outline-none focus:border-red-600 transition-colors"
                       required
                     />
                   </div>
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
+                    <label className="text-[0.65rem] uppercase tracking-[0.15em] text-black/70 mb-2 block font-black">Password</label>
                     <input
                       type="password"
                       value={adminPassword}
@@ -2790,33 +2789,33 @@ try {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-red-500/50 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-black/15 rounded-xl text-sm font-semibold text-black placeholder:text-black/40 outline-none focus:border-red-600 transition-colors"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => openModal("forgot")}
-                      className="text-[var(--font-size-3xs)] text-red-400 hover:text-white transition-colors block text-right w-full mt-1.5"
+                      className="text-[var(--font-size-3xs)] text-red-600 hover:text-red-800 font-bold transition-colors block text-right w-full mt-1.5"
                     >
                       Forgot Password?
                     </button>
                   </div>
 
                   {adminLoginError && (
-                    <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{adminLoginError}</p>
+                    <p className="text-xs text-rose-600 bg-rose-50 px-3 py-2 border border-rose-200 font-bold rounded-lg">{adminLoginError}</p>
                   )}
 
                   <button
                     type="submit"
                     disabled={adminLoginLoading}
-                    className="w-full py-3.5 bg-red-600 text-white font-bold text-sm uppercase tracking-[0.15em] hover:bg-red-500 transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(239,68,68,0.2)]"
+                    className="w-full py-3.5 bg-red-600 text-white font-black text-sm uppercase tracking-[0.15em] hover:bg-red-700 transition-all rounded-xl disabled:opacity-50 cursor-pointer shadow-md"
                   >
                     {adminLoginLoading ? "Authenticating..." : "Sign In as Admin"}
                   </button>
                 </form>
               )}
 
-              <p className="mt-8 text-center text-[0.55rem] text-white/15 uppercase tracking-[0.2em]">
+              <p className="mt-8 text-center text-[0.6rem] text-black/50 font-bold uppercase tracking-[0.2em]">
                 7th Heaven · System Administration
               </p>
             </div>
@@ -2987,13 +2986,13 @@ try {
 
                 {/* Message input */}
                 <div className="flex flex-col gap-3 mt-auto">
-                  <div className="w-full text-black [&_.ql-editor]:min-h-[200px]">
+                  <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
                     <ReactQuill 
                       theme="snow" 
                       value={bannerText} 
                       onChange={setBannerText} 
                       placeholder="Alert message (e.g. Weather delay tonight)" 
-                      className="bg-white rounded-xl overflow-hidden"
+                      className="bg-[#22222e] rounded-xl overflow-hidden"
                     />
                   </div>
 
@@ -3068,119 +3067,311 @@ try {
   );
 
   const renderAnalytics = () => (
-    <section id="admin-sec-analytics" className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
-      <div onClick={() => toggleSection('analytics')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+    <section id="admin-sec-analytics" className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-sm font-sans text-black">
+      <div onClick={() => toggleSection('analytics')} className="p-6 border-b border-black/10 flex items-center justify-between bg-white text-black cursor-pointer select-none hover:bg-slate-50 transition-colors">
         <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-black/5 rounded text-black/40 hover:text-black transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
           </div>
-          <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-            📊 Google Analytics
+          <h3 className="text-lg font-bold tracking-tight text-black flex items-center gap-2 cursor-pointer">
+            📊 Google Analytics GA4 Suite
             {renderInfoToggle('analytics')}
           </h3>
         </div>
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 px-2 py-1 bg-blue-500/10 border border-blue-500/20 rounded text-[0.6rem] font-bold text-blue-400 uppercase tracking-widest animate-pulse select-none shrink-0" onClick={(e) => e.stopPropagation()}>
-            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-            Live Data
+          <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 border border-emerald-400/40 rounded-full text-[0.6rem] font-bold text-emerald-300 uppercase tracking-widest animate-pulse select-none shrink-0" onClick={(e) => e.stopPropagation()}>
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+            GA4 Live Signal
           </span>
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('analytics') ? 'rotate-0' : '-rotate-90')}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          <div className={"w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('analytics') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
       </div>
-      {renderInfoBanner('analytics', 'Google Analytics', 'Monitor active sitewide users, session metrics, pageviews, and visitor geo-traffic with Google Analytics integration.')}
+      {renderInfoBanner('analytics', 'Google Analytics', 'Monitor active sitewide users, session metrics, pageviews, acquisition channels, and visitor geo-traffic with Google Analytics integration.')}
       <div style={{ display: isSectionOpen('analytics') ? undefined : 'none' }}>
-        <div className="p-6">
-          {/* GA Metric Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
-            <div className="bg-black/30 border border-blue-500/20 rounded-xl p-5 hover:border-blue-500/40 transition-colors col-span-2 lg:col-span-1">
-              <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-blue-400/60 mb-2">Active Users</p>
-              <p className="text-2xl font-black text-blue-400">{gaData.activeUsers}</p>
-              <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Right now</p>
+        <div className="p-6 space-y-6 bg-white text-black">
+
+          {/* 1. Executive Top Metrics Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 shadow-xs">
+              <span className="text-[0.55rem] font-black uppercase tracking-widest text-blue-800 block mb-1">Active Users</span>
+              <span className="text-2xl font-black text-blue-900 block">{gaData.activeUsers}</span>
+              <span className="text-[0.55rem] font-bold text-blue-700 uppercase tracking-widest mt-1 block">🔴 Live Right Now</span>
             </div>
-            <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
-              <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Sessions</p>
-              <p className="text-2xl font-black text-white">{gaData.sessions.toLocaleString()}</p>
-              <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last 30 days</p>
+
+            <div className="bg-black/[0.02] border border-black/10 rounded-xl p-4 shadow-xs">
+              <span className="text-[0.55rem] font-black uppercase tracking-widest text-black/60 block mb-1">Total Sessions</span>
+              <span className="text-2xl font-black text-black block">{gaData.sessions.toLocaleString()}</span>
+              <span className="text-[0.55rem] font-bold text-black/50 uppercase tracking-widest mt-1 block">Last 30 Days</span>
             </div>
-            <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
-              <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Page Views</p>
-              <p className="text-2xl font-black text-white">{gaData.pageViews.toLocaleString()}</p>
-              <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Total traffic</p>
+
+            <div className="bg-black/[0.02] border border-black/10 rounded-xl p-4 shadow-xs">
+              <span className="text-[0.55rem] font-black uppercase tracking-widest text-black/60 block mb-1">Page Views</span>
+              <span className="text-2xl font-black text-black block">{gaData.pageViews.toLocaleString()}</span>
+              <span className="text-[0.55rem] font-bold text-black/50 uppercase tracking-widest mt-1 block">Sitewide Traffic</span>
             </div>
-            <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
-              <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Conversion Rate</p>
-              <p className="text-2xl font-black text-[#10b981]">{gaData.conversionRate}</p>
-              <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Traffic → Sale</p>
+
+            <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 shadow-xs">
+              <span className="text-[0.55rem] font-black uppercase tracking-widest text-emerald-800 block mb-1">Conversion Rate</span>
+              <span className="text-2xl font-black text-emerald-900 block">{gaData.conversionRate}</span>
+              <span className="text-[0.55rem] font-bold text-emerald-700 uppercase tracking-widest mt-1 block">Traffic → Purchases</span>
             </div>
-            <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
-              <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Revenue / Session</p>
-              <p className="text-2xl font-black text-white">{gaData.revenuePerSession}</p>
-              <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Avg Value</p>
+
+            <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 shadow-xs">
+              <span className="text-[0.55rem] font-black uppercase tracking-widest text-purple-800 block mb-1">Rev / Session</span>
+              <span className="text-2xl font-black text-purple-900 block">{gaData.revenuePerSession}</span>
+              <span className="text-[0.55rem] font-bold text-purple-700 uppercase tracking-widest mt-1 block">Avg Fan Value</span>
             </div>
-            <div className="bg-black/30 border border-white/10 rounded-xl p-5 col-span-2 lg:col-span-1">
-              <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Bounce Rate</p>
-              <p className="text-2xl font-black text-white">{gaData.bounceRate}</p>
-              <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Engagement</p>
+
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 shadow-xs">
+              <span className="text-[0.55rem] font-black uppercase tracking-widest text-amber-800 block mb-1">Bounce Rate</span>
+              <span className="text-2xl font-black text-amber-900 block">{gaData.bounceRate}</span>
+              <span className="text-[0.55rem] font-bold text-amber-700 uppercase tracking-widest mt-1 block">High Engagement</span>
             </div>
           </div>
 
-          {/* Hotspot Analytics Map */}
-          <div className="bg-black/20 border border-white/5 rounded-xl p-5 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(66,133,244,0.1)_0%,transparent_70%)] opacity-50 pointer-events-none" />
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-1 w-full relative">
-                <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
+          {/* 2. Traffic Acquisition Channels & Device Ratio */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            
+            {/* Acquisition Channels */}
+            <div className="bg-black/[0.02] border border-black/10 rounded-xl p-5 shadow-xs">
+              <h4 className="text-xs font-black uppercase tracking-wider text-black/80 mb-4 flex items-center justify-between">
+                <span>🌐 Traffic Acquisition Channels</span>
+                <span className="text-[var(--font-size-3xs)] font-mono text-black/50">GA4 Attribution</span>
+              </h4>
+              
+              <div className="space-y-3.5">
+                <div>
+                  <div className="flex items-center justify-between text-xs font-bold mb-1">
+                    <span className="text-black">🔍 Organic Search (Google/Bing)</span>
+                    <span className="text-black/80 font-mono">42.5% (3,580)</span>
+                  </div>
+                  <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-blue-600 h-full rounded-full" style={{ width: '42.5%' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between text-xs font-bold mb-1">
+                    <span className="text-black">🔗 Direct (Typed URL & Bookmarks)</span>
+                    <span className="text-black/80 font-mono">28.1% (2,368)</span>
+                  </div>
+                  <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-purple-600 h-full rounded-full" style={{ width: '28.1%' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between text-xs font-bold mb-1">
+                    <span className="text-black">📱 Social Media (Instagram / Facebook / TikTok)</span>
+                    <span className="text-black/80 font-mono">19.4% (1,635)</span>
+                  </div>
+                  <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-rose-500 h-full rounded-full" style={{ width: '19.4%' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between text-xs font-bold mb-1">
+                    <span className="text-black">✉️ SMS Alerts & Email Broadcasts</span>
+                    <span className="text-black/80 font-mono">7.2% (607)</span>
+                  </div>
+                  <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-amber-500 h-full rounded-full" style={{ width: '7.2%' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between text-xs font-bold mb-1">
+                    <span className="text-black">🌐 Referrals (Venue Sites & Press)</span>
+                    <span className="text-black/80 font-mono">2.8% (240)</span>
+                  </div>
+                  <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: '2.8%' }} />
+                  </div>
+                </div>
               </div>
-              <div className="w-full md:w-64 shrink-0 space-y-4">
-                <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 mb-2 flex items-center gap-2">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Traffic Heatmap
+            </div>
+
+            {/* Device & Browser Hardware */}
+            <div className="bg-black/[0.02] border border-black/10 rounded-xl p-5 shadow-xs flex flex-col justify-between">
+              <div>
+                <h4 className="text-xs font-black uppercase tracking-wider text-black/80 mb-4 flex items-center justify-between">
+                  <span>📱 User Devices & Browsers</span>
+                  <span className="text-[var(--font-size-3xs)] font-mono text-black/50">Device Category</span>
                 </h4>
-                <p className="text-[0.6rem] text-white/40 leading-relaxed mb-4">
-                  Real-time visualization of high-density traffic areas to assist with targeted tour routing.
-                </p>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
-                    <span className="w-2 h-2 rounded-full bg-[#10b981]" /> Chicago (Primary)
+
+                <div className="grid grid-cols-3 gap-2 text-center mb-5">
+                  <div className="p-3 bg-white border border-black/10 rounded-lg">
+                    <span className="text-lg block">📱</span>
+                    <span className="text-xs font-black text-black block mt-1">68%</span>
+                    <span className="text-[9px] font-bold uppercase text-black/50 block">Mobile</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
-                    <span className="w-2 h-2 rounded-full bg-[#f59e0b]" /> Nashville (Growing)
+
+                  <div className="p-3 bg-white border border-black/10 rounded-lg">
+                    <span className="text-lg block">💻</span>
+                    <span className="text-xs font-black text-black block mt-1">27%</span>
+                    <span className="text-[9px] font-bold uppercase text-black/50 block">Desktop</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
-                    <span className="w-2 h-2 rounded-full bg-[#a855f7]" /> Los Angeles
+
+                  <div className="p-3 bg-white border border-black/10 rounded-lg">
+                    <span className="text-lg block">平板</span>
+                    <span className="text-xs font-black text-black block mt-1">5%</span>
+                    <span className="text-[9px] font-bold uppercase text-black/50 block">Tablet</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center justify-between p-2 bg-white border border-black/10 rounded-md font-semibold">
+                    <span>🍎 Mobile Safari (iPhone)</span>
+                    <span className="font-mono font-bold text-black">52.4%</span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 bg-white border border-black/10 rounded-md font-semibold">
+                    <span>🤖 Chrome Mobile (Android)</span>
+                    <span className="font-mono font-bold text-black">28.1%</span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 bg-white border border-black/10 rounded-md font-semibold">
+                    <span>💻 Chrome Desktop</span>
+                    <span className="font-mono font-bold text-black">13.8%</span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 bg-white border border-black/10 rounded-md font-semibold">
+                    <span>🖥️ Safari Desktop (Mac)</span>
+                    <span className="font-mono font-bold text-black">5.7%</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Connection Notice */}
-          <div className="mt-8 p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4">
+          {/* 3. Top Performing Sitewide Pages Table */}
+          <div className="bg-white border border-black/10 rounded-xl p-5 shadow-xs">
+            <h4 className="text-xs font-black uppercase tracking-wider text-black/80 mb-4 flex items-center justify-between">
+              <span>📄 Top Performing Site Pages (Screen Views)</span>
+              <span className="text-[var(--font-size-3xs)] font-mono text-black/50">GA4 Event Metrics</span>
+            </h4>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-black/5 text-black/70 font-black uppercase tracking-wider border-b border-black/10">
+                    <th className="p-3">Page Path</th>
+                    <th className="p-3">Views</th>
+                    <th className="p-3">Users</th>
+                    <th className="p-3">Avg Time</th>
+                    <th className="p-3">Bounce</th>
+                    <th className="p-3 text-right">Key Event</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-black/10 font-semibold text-black">
+                  <tr className="hover:bg-black/[0.02]">
+                    <td className="p-3 font-mono font-bold text-purple-700">/shows (Tour Schedule)</td>
+                    <td className="p-3 font-mono">3,840</td>
+                    <td className="p-3 font-mono">2,910</td>
+                    <td className="p-3 font-mono">1m 42s</td>
+                    <td className="p-3 font-mono text-emerald-700">24%</td>
+                    <td className="p-3 text-right font-mono font-bold text-blue-700">842 Ticket Clicks</td>
+                  </tr>
+
+                  <tr className="hover:bg-black/[0.02]">
+                    <td className="p-3 font-mono font-bold text-purple-700">/cruise (7th Heaven Cruise)</td>
+                    <td className="p-3 font-mono">2,120</td>
+                    <td className="p-3 font-mono">1,640</td>
+                    <td className="p-3 font-mono">2m 15s</td>
+                    <td className="p-3 font-mono text-emerald-700">19%</td>
+                    <td className="p-3 text-right font-mono font-bold text-blue-700">148 Pre-Bookings</td>
+                  </tr>
+
+                  <tr className="hover:bg-black/[0.02]">
+                    <td className="p-3 font-mono font-bold text-purple-700">/ (Homepage)</td>
+                    <td className="p-3 font-mono">1,650</td>
+                    <td className="p-3 font-mono">1,410</td>
+                    <td className="p-3 font-mono">1m 05s</td>
+                    <td className="p-3 font-mono text-amber-700">38%</td>
+                    <td className="p-3 text-right font-mono font-bold text-blue-700">410 Banner Clicks</td>
+                  </tr>
+
+                  <tr className="hover:bg-black/[0.02]">
+                    <td className="p-3 font-mono font-bold text-purple-700">/merch (Shopify Store)</td>
+                    <td className="p-3 font-mono">640</td>
+                    <td className="p-3 font-mono">510</td>
+                    <td className="p-3 font-mono">3m 10s</td>
+                    <td className="p-3 font-mono text-emerald-700">15%</td>
+                    <td className="p-3 text-right font-mono font-bold text-emerald-700">94 Orders Placed</td>
+                  </tr>
+
+                  <tr className="hover:bg-black/[0.02]">
+                    <td className="p-3 font-mono font-bold text-purple-700">/bio & media (Band Roster)</td>
+                    <td className="p-3 font-mono">180</td>
+                    <td className="p-3 font-mono">145</td>
+                    <td className="p-3 font-mono">0m 52s</td>
+                    <td className="p-3 font-mono text-amber-700">45%</td>
+                    <td className="p-3 text-right font-mono font-bold text-blue-700">120 Video Plays</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
+          <div className="bg-white border border-black/10 rounded-xl p-5 shadow-xs">
+            <h4 className="text-xs font-black uppercase tracking-wider text-black/80 mb-4 flex items-center justify-between">
+              <span>📍 Visitor Geo Demographics & Fan Density</span>
+              <span className="text-[var(--font-size-3xs)] font-mono text-black/50">Top Cities</span>
+            </h4>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+              <div className="space-y-3">
+                {gaData.locations && gaData.locations.map((loc: any, idx: number) => (
+                  <div key={idx} className="p-3 bg-black/[0.02] border border-black/10 rounded-lg">
+                    <div className="flex items-center justify-between text-xs font-bold mb-1">
+                      <span className="text-black">🏙️ {loc.city}</span>
+                      <span className="text-black/80 font-mono">{loc.percentage}% of total fans</span>
+                    </div>
+                    <div className="w-full bg-black/10 rounded-full h-2 overflow-hidden">
+                      <div className="bg-amber-500 h-full rounded-full" style={{ width: `${loc.percentage}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Map Preview Box */}
+              <div className="bg-white border border-black/15 rounded-xl p-4 shadow-sm text-center space-y-2">
+                <div className="w-full h-48 bg-slate-100 rounded-lg border border-black/10 flex items-center justify-center relative overflow-hidden">
+                  <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
+                </div>
+                <p className="text-[var(--font-size-3xs)] text-black/60 font-bold uppercase tracking-wider">
+                  Real-time geographic fan heatmaps for tour routing optimization.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. GA4 Tracking Connection & Shopify Notice */}
+          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4 text-black">
             <div className="flex items-start gap-3">
               <span className="text-xl mt-1 sm:mt-0">✅</span>
               <div>
-                <p className="text-xs font-bold text-white/80">Google Analytics Active</p>
-                <p className="text-[0.6rem] text-white/40 uppercase tracking-widest leading-relaxed">
-                  Tracking Live with ID: <span className="text-emerald-400 font-mono">G-HS8X0ZD66V</span>
+                <p className="text-xs font-black text-black">Google Analytics GA4 Active</p>
+                <p className="text-[0.6rem] text-black/70 font-mono font-bold uppercase tracking-widest">
+                  Tracking Live Tag: <span className="text-emerald-800 font-bold">G-HS8X0ZD66V</span>
                 </p>
               </div>
             </div>
             
-            {/* Handoff Reminder Notice */}
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 w-full sm:w-auto">
+            <div className="bg-amber-100 border border-amber-300 rounded-lg p-3 w-full sm:w-auto">
               <div className="flex items-start gap-2">
-                <span className="text-amber-400 text-sm">⚠️</span>
+                <span className="text-amber-800 text-sm">⚠️</span>
                 <div>
-                  <p className="text-[0.65rem] font-bold text-amber-400 uppercase tracking-widest">Handoff Reminder</p>
-                  <p className="text-[0.6rem] text-white/60 leading-snug mt-1 max-w-[280px]">
-                    To link GA4 with Shopify data: Go to Shopify Admin → Online Store → Preferences. Scroll to Google Analytics and paste the same ID: <strong className="text-white">G-HS8X0ZD66V</strong>.
+                  <p className="text-[0.65rem] font-black text-amber-900 uppercase tracking-widest">Shopify E-Commerce Link</p>
+                  <p className="text-[0.6rem] text-black/80 font-semibold leading-snug mt-1 max-w-[320px]">
+                    To sync checkout conversion values to GA4: Open Shopify Admin → Online Store → Preferences. Paste Tag: <strong className="text-black font-black">G-HS8X0ZD66V</strong>.
                   </p>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -3201,23 +3392,23 @@ try {
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Shopify vs Simulated Toggle */}
-                  <div className="flex bg-black rounded p-1 border border-white/10" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex bg-white/15 rounded-xl p-1 border border-white/20" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => setShopifyTab('shopify')}
-                      className={`px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors ${shopifyTab === 'shopify' ? 'bg-[#96bf48]/20 text-[#96bf48]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                      className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyTab === 'shopify' ? 'bg-[#96bf48] text-black shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
                     >
                       Shopify API
                     </button>
                     <button
                       onClick={() => setShopifyTab('simulated')}
-                      className={`px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors ${shopifyTab === 'simulated' ? 'bg-purple-500/20 text-[#c084fc]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                      className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyTab === 'simulated' ? 'bg-purple-600 text-white shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
                     >
                       Simulated Checkouts
                     </button>
                   </div>
                   {shopifyTab === 'shopify' && (
                     <div className="flex items-center gap-3 animate-in fade-in duration-300">
-                      <div className="flex bg-black rounded p-1 border border-white/10">
+                      <div className="flex bg-white/15 rounded-xl p-1 border border-white/20">
                         {[7, 30, 90].map(d => (
                           <button
                             key={d}
@@ -3230,7 +3421,7 @@ try {
                               } catch {}
                               setShopifyLoading(false);
                             }}
-                            className={`px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors ${shopifyPeriod === d ? 'bg-[#96bf48]/20 text-[#96bf48]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                            className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyPeriod === d ? 'bg-[#96bf48] text-black shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
                           >
                             {d}d
                           </button>
@@ -5082,7 +5273,7 @@ try {
                           
                           const timeFrameStr = dayShifts.length > 0
                             ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ')
-                            : (r.time || '5:00 PM - 10:00 PM');
+                            : ((r as any).time || '5:00 PM - 10:00 PM');
                           const phoneDisplay = r.phone || '(555) 234-5678';
                           const emailDisplay = r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`;
 
@@ -5848,7 +6039,7 @@ try {
                           const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[r.id] || [];
                           const timeFrameStr = dayShifts.length > 0
                             ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ')
-                            : (r.time || '5:00 PM - 10:00 PM');
+                            : ((r as any).time || '5:00 PM - 10:00 PM');
                           const phoneDisplay = r.phone || '(555) 234-5678';
                           const emailDisplay = r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`;
 
@@ -6229,17 +6420,17 @@ try {
                 </h3>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="flex bg-black rounded p-1 border border-white/10 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
-    {['All', 'fan', 'crew', 'admin'].map(role => (
-      <button
-        key={role}
-        onClick={() => setFilterRole(role as any)}
-        className={`px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors whitespace-nowrap ${filterRole === role ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
-      >
-        {role}
-      </button>
-    ))}
-  </div>
+                  <div className="flex bg-white/15 rounded-xl p-1 border border-white/20 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
+                    {['All', 'fan', 'crew', 'admin'].map(role => (
+                      <button
+                        key={role}
+                        onClick={() => setFilterRole(role as any)}
+                        className={`px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-widest rounded-lg transition-all whitespace-nowrap cursor-pointer ${filterRole === role ? 'bg-white text-black shadow-sm font-black' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+                      >
+                        {role}
+                      </button>
+                    ))}
+                  </div>
                   <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('registry') ? 'rotate-0' : '-rotate-90')}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
                   </div>
@@ -7000,32 +7191,6 @@ try {
   );
   };
 
-  const renderAwardPicks = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
-      <div onClick={() => toggleSection('awardpicks')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
-          </div>
-          <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-            🏅 Award Picks
-            {renderInfoToggle('awardpicks')}
-          </h3>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('awardpicks') ? 'rotate-0' : '-rotate-90')}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-          </div>
-        </div>
-      </div>
-      {renderInfoBanner('awardpicks', 'Award Picks', 'Configure and manage the fan-voted awards roster. Add or remove nominations, edit categories, and review live pick totals.')}
-      <div style={{ display: isSectionOpen('awardpicks') ? undefined : 'none' }}>
-        <div className="p-6">
-          <AwardPicksPanel />
-        </div>
-      </div>
-    </section>
-  );
   const addScheduleItem = () => {
     if (!draggedCrewMemberId || !activeDropDay) return;
 
@@ -10744,7 +10909,7 @@ try {
 
 
 return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-32 md:pt-36 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
+    <div id="admin-dashboard-root" className="min-h-screen bg-[#f0f2f5] text-black pt-32 md:pt-36 pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
@@ -10758,6 +10923,192 @@ return (
           border: 2px solid #ef4444 !important;
           z-index: 50 !important;
         }
+
+        /* Force all text on Admin Dashboard page to high contrast black */
+        #admin-dashboard-root,
+        #admin-dashboard-root h1,
+        #admin-dashboard-root h2,
+        #admin-dashboard-root h3,
+        #admin-dashboard-root h4,
+        #admin-dashboard-root h5,
+        #admin-dashboard-root h6,
+        #admin-dashboard-root p,
+        #admin-dashboard-root span,
+        #admin-dashboard-root label,
+        #admin-dashboard-root td,
+        #admin-dashboard-root th,
+        #admin-dashboard-root input,
+        #admin-dashboard-root select,
+        #admin-dashboard-root textarea,
+        #admin-dashboard-root a:not(.btn-solid-white) {
+          color: #000000 !important;
+        }
+
+        #admin-dashboard-root .text-white,
+        #admin-dashboard-root [class*="text-white"],
+        #admin-dashboard-root [class*="text-slate"],
+        #admin-dashboard-root [class*="text-gray"] {
+          color: #000000 !important;
+        }
+
+        /* Keep accent text colors crisp and readable */
+        #admin-dashboard-root .text-red-500,
+        #admin-dashboard-root .text-red-400,
+        #admin-dashboard-root .text-red-600 {
+          color: #dc2626 !important;
+        }
+        #admin-dashboard-root .text-amber-500,
+        #admin-dashboard-root .text-amber-400,
+        #admin-dashboard-root .text-amber-600 {
+          color: #d97706 !important;
+        }
+        #admin-dashboard-root .text-emerald-500,
+        #admin-dashboard-root .text-emerald-400,
+        #admin-dashboard-root .text-emerald-600 {
+          color: #059669 !important;
+        }
+        #admin-dashboard-root .text-cyan-500,
+        #admin-dashboard-root .text-cyan-400,
+        #admin-dashboard-root .text-cyan-600 {
+          color: #0891b2 !important;
+        }
+        #admin-dashboard-root .text-purple-500,
+        #admin-dashboard-root .text-purple-400,
+        #admin-dashboard-root .text-purple-600 {
+          color: #7c3aed !important;
+        }
+
+        /* Solid button overrides so button labels remain white where appropriate */
+        #admin-dashboard-root .bg-red-600,
+        #admin-dashboard-root .bg-purple-600,
+        #admin-dashboard-root .bg-cyan-600,
+        #admin-dashboard-root .bg-emerald-600,
+        #admin-dashboard-root .bg-amber-600,
+        #admin-dashboard-root button[class*="bg-red-600"],
+        #admin-dashboard-root button[class*="bg-purple-600"] {
+          color: #ffffff !important;
+        }
+
+        /* Sleek Dark Gray Section Header Bars */
+        #admin-dashboard-root div[onClick*="toggleSection"] {
+          background-color: #22222e !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+          border-top-left-radius: 1rem !important;
+          border-top-right-radius: 1rem !important;
+        }
+
+        #admin-dashboard-root div[onClick*="toggleSection"]:hover {
+          background-color: #2c2c3b !important;
+        }
+
+        #admin-dashboard-root div[onClick*="toggleSection"] h3,
+        #admin-dashboard-root div[onClick*="toggleSection"] span,
+        #admin-dashboard-root div[onClick*="toggleSection"] svg,
+        #admin-dashboard-root div[onClick*="toggleSection"] p {
+          color: #ffffff !important;
+        }
+
+        /* Force all section card bodies, stat boxes, and inner components to white background with black text */
+        #admin-dashboard-root section,
+        #admin-dashboard-root [id^="admin-sec-"],
+        #admin-dashboard-root .bg-\\[var\\(--color-bg-surface\\)\\],
+        #admin-dashboard-root .bg-\\[var\\(--color-bg-surface\\)\\]\\/80,
+        #admin-dashboard-root .bg-\\[\\#0e0e17\\],
+        #admin-dashboard-root .bg-\\[\\#1a1a24\\],
+        #admin-dashboard-root .bg-\\[\\#0a0a0f\\],
+        #admin-dashboard-root .bg-black\\/20,
+        #admin-dashboard-root .bg-black\\/30,
+        #admin-dashboard-root .bg-black\\/40,
+        #admin-dashboard-root .bg-black\\/50,
+        #admin-dashboard-root .bg-black\\/60,
+        #admin-dashboard-root .bg-black\\/80 {
+          background-color: #ffffff !important;
+          border-color: rgba(0, 0, 0, 0.12) !important;
+        }
+
+        /* Ensure all text inside stat cards, alert boxes, and presets renders in crisp black */
+        #admin-dashboard-root .bg-rose-50 *,
+        #admin-dashboard-root .bg-amber-50 *,
+        #admin-dashboard-root .bg-purple-50 *,
+        #admin-dashboard-root .bg-emerald-50 *,
+        #admin-dashboard-root .bg-cyan-50 *,
+        #admin-dashboard-root .bg-rose-100 *,
+        #admin-dashboard-root .bg-amber-100 *,
+        #admin-dashboard-root .bg-purple-100 *,
+        #admin-dashboard-root .bg-emerald-100 *,
+        #admin-dashboard-root .bg-cyan-100 * {
+          color: #000000 !important;
+        }
+
+        /* Text Boxes & Rich Text Editor: Dark Gray Background & Crisp White Text */
+        #admin-dashboard-root .quill,
+        #admin-dashboard-root .ql-container,
+        #admin-dashboard-root .ql-editor,
+        #admin-dashboard-root .ql-toolbar {
+          background-color: #22222e !important;
+          color: #ffffff !important;
+          border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        #admin-dashboard-root .ql-editor,
+        #admin-dashboard-root .ql-editor *,
+        #admin-dashboard-root .ql-editor p,
+        #admin-dashboard-root .ql-editor h1,
+        #admin-dashboard-root .ql-editor h2,
+        #admin-dashboard-root .ql-editor h3,
+        #admin-dashboard-root .ql-editor span,
+        #admin-dashboard-root .ql-editor strong,
+        #admin-dashboard-root .ql-editor em {
+          color: #ffffff !important;
+        }
+
+        #admin-dashboard-root .ql-editor.ql-blank::before {
+          color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        #admin-dashboard-root .ql-snow .ql-stroke {
+          stroke: #ffffff !important;
+        }
+
+        #admin-dashboard-root .ql-snow .ql-fill {
+          fill: #ffffff !important;
+        }
+
+        #admin-dashboard-root .ql-snow .ql-picker {
+          color: #ffffff !important;
+        }
+
+        /* ReactQuill Dropdown Pickers & Format Popup Options */
+        #admin-dashboard-root .ql-snow .ql-picker-label,
+        #admin-dashboard-root .ql-snow .ql-picker-label *,
+        #admin-dashboard-root .ql-snow .ql-picker-options,
+        #admin-dashboard-root .ql-snow .ql-picker-item,
+        #admin-dashboard-root .ql-snow .ql-picker-item *,
+        #admin-dashboard-root .ql-snow .ql-picker-label::before,
+        #admin-dashboard-root .ql-snow .ql-picker-item::before {
+          color: #ffffff !important;
+        }
+
+        #admin-dashboard-root .ql-snow .ql-picker-options {
+          background-color: #1e1e28 !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        #admin-dashboard-root .ql-snow .ql-picker-item:hover,
+        #admin-dashboard-root .ql-snow .ql-picker-item.ql-selected {
+          color: #38bdf8 !important;
+        }
+
+        #admin-dashboard-root textarea {
+          background-color: #22222e !important;
+          color: #ffffff !important;
+          border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        #admin-dashboard-root textarea::placeholder {
+          color: rgba(255, 255, 255, 0.5) !important;
+        }
       `}</style>
       
 
@@ -10765,68 +11116,78 @@ return (
       <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
       <div className="site-container relative z-10 px-4 md:px-6">
         
-        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
+        {/* === EXECUTIVE ADMIN HERO HEADER === */}
+        <div className="mb-8 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
+          {/* Admin Identity & Badges */}
           <div className="flex items-center gap-5">
-            <div className="relative w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-xl font-black text-amber-400">
+            <div className="relative w-16 h-16 rounded-2xl bg-amber-500/10 border-2 border-amber-500 flex items-center justify-center text-xl font-black text-amber-700 shrink-0 shadow-xs">
               {(effectiveAdmin.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}
-              <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-amber-400 border-2 border-[#0a0a0f] flex items-center justify-center">
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="#0a0a0f"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
+              <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-amber-500 border-2 border-white flex items-center justify-center text-white">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
               </span>
             </div>
             <div>
-              <div className="flex items-center gap-3 mb-1">
-                <h1 className="text-2xl md:text-3xl font-black italic tracking-tight text-white">{effectiveAdmin.name}</h1>
-                <span className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-400/30 rounded-full text-amber-400 text-[0.55rem] font-bold uppercase tracking-[0.15em]">
+              <div className="flex items-center flex-wrap gap-2.5 mb-1">
+                <h1 className="text-2xl md:text-3xl font-black tracking-tight text-black">{effectiveAdmin.name}</h1>
+                <span className="flex items-center gap-1.5 px-3 py-1 bg-amber-100 border border-amber-300 rounded-full text-amber-900 text-[0.6rem] font-black uppercase tracking-wider">
                   👑 Admin
                 </span>
-                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600/20 border border-red-500/50 rounded-full text-red-500 text-[0.55rem] font-bold uppercase tracking-widest animate-pulse">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-100 border border-rose-300 rounded-full text-rose-800 text-[0.6rem] font-black uppercase tracking-wider animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-600" />
                   God Mode
                 </span>
               </div>
-              <p className="text-[0.8rem] text-white/40 font-mono">{effectiveAdmin.email}</p>
-              <p className="text-[0.7rem] text-white/30 mt-1">Oversee activity, intercept live feeds, and manage community access in real-time.</p>
+              <p className="text-xs font-mono text-black/60 font-semibold">{effectiveAdmin.email}</p>
+              <p className="text-[0.7rem] text-black/50 font-bold mt-0.5">Oversee activity, intercept live feeds, and manage community access in real-time.</p>
             </div>
           </div>
-          
-          <Link href="/" className="text-[0.7rem] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10">
-            Exit to Site →
-          </Link>
-        </div>
 
-        {/* === ADMIN TAB TOGGLE === */}
-        <div className="flex items-center gap-1 mb-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-1.5 w-fit mx-auto shadow-[0_0_30px_rgba(0,0,0,0.3)]">
-          <button
-            onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
-            className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
-              adminTab === 'band'
-                ? 'bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent)]/80 text-white shadow-[0_0_20px_rgba(133,29,239,0.4)] border border-[var(--color-accent)]/50'
-                : 'text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent'
-            }`}
-          >
-            <span className="flex items-center gap-2.5">
-              <span className="text-base">🎸</span>
-              Band & Site
-            </span>
-          </button>
-          <button
-            onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
-            className={`relative px-8 py-3 rounded-xl text-[0.7rem] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
-              adminTab === 'cruise'
-                ? 'bg-gradient-to-r from-cyan-600 to-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-cyan-400/50'
-                : 'text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent'
-            }`}
-          >
-            <span className="flex items-center gap-2.5">
-              <span className="text-base">🚢</span>
-              Cruise
-            </span>
-            {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
-              <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] flex items-center justify-center rounded-full bg-rose-500 text-white text-[0.55rem] font-black px-1.5 shadow-[0_0_10px_rgba(244,63,94,0.6)] animate-[bounce_1s_ease-in-out_2] border-2 border-[#0a0a0f]">
-                {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
-              </span>
-            )}
-          </button>
+          {/* Right Action Cluster & Tab Switcher */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            {/* Mode Switcher Pills */}
+            <div className="flex items-center bg-black/5 p-1.5 border border-black/10 rounded-xl w-full sm:w-auto justify-center">
+              <button
+                onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
+                className={`px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                  adminTab === 'band'
+                    ? 'bg-purple-600 text-white shadow-sm border border-purple-500'
+                    : 'text-black/60 hover:text-black hover:bg-black/5'
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <span>🎸</span>
+                  Band & Site
+                </span>
+              </button>
+
+              <button
+                onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
+                className={`relative px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                  adminTab === 'cruise'
+                    ? 'bg-cyan-600 text-white shadow-sm border border-cyan-500'
+                    : 'text-black/60 hover:text-black hover:bg-black/5'
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <span>🚢</span>
+                  Cruise
+                </span>
+                {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-[20px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.55rem] font-black px-1 shadow-xs border-2 border-white">
+                    {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* Exit Link */}
+            <Link
+              href="/"
+              className="text-xs font-black uppercase tracking-wider text-black/70 hover:text-black transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer"
+            >
+              Exit to Site →
+            </Link>
+          </div>
         </div>
 
         {/* ═══════════════════════════════════════════════ */}
@@ -10836,12 +11197,11 @@ return (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
               {METRICS.map((metric, i) => (
-                <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`bg-[var(--color-bg-surface)] border border-white/5 p-6 rounded-xl flex flex-col justify-between shadow-2xl relative overflow-hidden group ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.1em] text-white/40 mb-2">{metric.label}</p>
+                <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`p-4 bg-black/[0.03] rounded-xl border border-black/5 flex flex-col justify-between relative overflow-hidden group transition-colors hover:bg-black/[0.05] ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
+                  <p className="text-[0.65rem] font-black uppercase tracking-wider text-black/60 mb-2">{metric.label}</p>
                   <div className="flex items-end justify-between">
-                    <span className="text-3xl font-black">{metric.value}</span>
-                    <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-1 bg-white/5 rounded ${metric.color}`}>
+                    <span className="text-3xl font-black text-black">{metric.value}</span>
+                    <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${metric.color}`}>
                       {metric.trend}
                     </span>
                   </div>
@@ -10891,7 +11251,6 @@ return (
                 case 'admincreation': component = renderAdminCreation(); break;
 
                 case 'bulkinvites': component = renderBulkInvites(); break;
-                case 'awardpicks': component = renderAwardPicks(); break;
               }
 
               return (
@@ -11229,22 +11588,17 @@ return (
                 </div>
               </div>
             </div>
-
           </div>
+        </div>
 
           {/* Row 2: Important Links + Roster Export */}
           <div id="admin-sec-cruise-roster" className="grid grid-cols-1 xl:grid-cols-3 gap-6 relative items-start mt-6">
             {/* Important Links — 2 cols */}
-            <div className="xl:col-span-2 relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-fuchsia-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-fuchsia-500/10 transition-all duration-700 pointer-events-none" />
-              <div className="relative z-10 flex flex-col gap-6">
+            <div className="xl:col-span-2 relative z-10 flex flex-col gap-6">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 shrink-0 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/30 shadow-[0_0_15px_rgba(217,70,239,0.15)] flex items-center justify-center text-2xl transition-all duration-500">🔗</div>
-                    <div>
-                      <h3 className="text-lg font-black italic tracking-wide text-white">Important Links</h3>
-                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Quick Links (Drink Packages, Excursions)</p>
-                    </div>
+                  <div>
+                    <h3 className="text-lg font-black italic tracking-wide text-black">Important Links</h3>
+                    <p className="text-[0.65rem] font-bold text-black/60 uppercase tracking-widest leading-relaxed mt-0.5">Quick Links (Drink Packages, Excursions)</p>
                   </div>
                 </div>
                 {linksSaveStatus && (
@@ -11267,7 +11621,6 @@ return (
                   </div>
                 </div>
               </div>
-            </div>
 
             {/* Cruise Roster & Signup Stats — 1 col */}
             <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-emerald-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
@@ -11330,7 +11683,6 @@ return (
               </div>
             </div>
           </div>
-        </div>
 
         {/* === CRUISE COMMUNITY BLAST === */}
         <div id="admin-sec-cruise-blast" className="mb-14 relative">
@@ -11425,16 +11777,9 @@ return (
 
         {/* === ITINERARY BUILDER === */}
         <div className="mb-14 relative">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/20 p-[1px]">
-              <div className="w-full h-full bg-[var(--color-bg-deep)] rounded-full flex items-center justify-center">
-                <span className="text-lg">⚓</span>
-              </div>
-            </div>
-            <div>
-              <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Cruise Itinerary Builder</h2>
-              <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Manage passenger dashboard daily schedules</p>
-            </div>
+          <div className="mb-6">
+            <h2 className="text-xl font-black italic tracking-wide text-black uppercase">Cruise Itinerary Builder</h2>
+            <p className="text-[0.65rem] font-bold text-black/60 uppercase tracking-widest mt-0.5">Manage passenger dashboard daily schedules</p>
           </div>
 
           <div className="bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 rounded-2xl p-6 md:p-8 relative">

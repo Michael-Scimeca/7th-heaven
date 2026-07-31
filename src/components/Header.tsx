@@ -11,10 +11,10 @@ import { useTransition } from "@/context/TransitionContext";
 
 const leftNavLinks = [
   { href: "/news", label: "NEWS" },
-  { href: "/bio", label: "BAND" },
+  { href: "/band", label: "BAND" },
   { href: "/music", label: "MUSIC" },
   { href: "/store", label: "STORE" },
-  { href: "/video", label: "MEDIA" },
+  { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
 ];
 
@@ -184,12 +184,12 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-all duration-300 pointer-events-none pt-2 ${scrolled
-          ? "bg-black/95 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.9)]"
-          : "bg-transparent"
+          ? "bg-white/95 backdrop-blur-2xl shadow-md border-b border-black/10 text-black"
+          : "bg-white/90 backdrop-blur-xl border-b border-black/5 text-black"
         }`}
       suppressHydrationWarning
     >
-      <div className="w-full max-w-[1440px] mx-auto px-8">
+      <div className="w-full max-w-full px-8">
         <div
           id="nav-inner-card"
           suppressHydrationWarning
@@ -202,8 +202,8 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-              className={`text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider transition-colors duration-200 ${
-                  effectivePathname === link.href ? "text-white" : "text-white/80 hover:text-white"
+                className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 ${
+                  effectivePathname === link.href ? "text-[var(--color-accent)] font-extrabold" : "text-black hover:text-[var(--color-accent)]"
                 }`}
               >
                 {link.label}
@@ -224,7 +224,7 @@ export function Header() {
             className={`shrink-0 min-w-0 max-[1400px]:-ml-1.5 min-[1401px]:mx-4 relative ${mobileOpen ? "z-[10001]" : ""}`}
           >
             <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden">
-              <Logo className="w-full h-full text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]" />
+              <Logo className="w-full h-full text-black drop-shadow-sm" />
             </div>
           </Link>
 
@@ -234,7 +234,7 @@ export function Header() {
             {/* Live Stream link */}
             <Link
               href="/live"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
             >
               {/* Live / Offline badge — absolute above the text */}
               <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full shadow-[0_0_4px_rgba(239,68,68,0.4)] whitespace-nowrap font-sans scale-90">
@@ -247,7 +247,7 @@ export function Header() {
             {/* Cruise link */}
             <Link
               href="/cruise"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
             >
               CRUISE
               <CruiseWaveAnimation />
@@ -256,7 +256,7 @@ export function Header() {
             {/* Book Us link */}
             <Link
               href="/book"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
             >
               BOOK US
             </Link>
@@ -264,7 +264,7 @@ export function Header() {
             {/* Contact link */}
             <Link
               href="/contact"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-semibold uppercase tracking-wider text-white hover:text-purple-300 transition-colors py-1"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
             >
               CONTACT
             </Link>
@@ -272,7 +272,7 @@ export function Header() {
             {/* Cart Icon */}
             <Link
               href="/store"
-              className="text-white/80 hover:text-white transition-colors p-0.5 mx-0.5"
+              className="text-black/70 hover:text-black transition-colors p-0.5 mx-0.5"
               title="Cart / Store"
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -293,13 +293,13 @@ export function Header() {
                   {isAvatarUrl ? (
                     <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover rounded-full" />
                   ) : (
-                    <div className="w-full h-full rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm">
+                    <div className="w-full h-full rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm rounded-full">
                       {initials}
                     </div>
                   )}
 
                   {/* Overlapping Role Badge */}
-                  <span className={`absolute -bottom-1 -right-2 w-6 h-6 text-[var(--font-size-4xs)] font-black uppercase text-white rounded-full border-2 border-[#100320] flex items-center justify-center shadow-lg leading-none ${badgeBg}`}>
+                  <span className={`absolute -bottom-1 -right-2 w-6 h-6 text-[var(--font-size-4xs)] font-black uppercase text-white rounded-full border-2 border-white flex items-center justify-center shadow-lg leading-none ${badgeBg}`}>
                     {badgeText}
                   </span>
                 </Link>
@@ -318,7 +318,7 @@ export function Header() {
                       router.push("/");
                     }
                   }}
-                  className="text-white/60 hover:text-white transition-colors cursor-pointer p-1"
+                  className="text-black/70 hover:text-black transition-colors cursor-pointer p-1"
                   title="Sign Out"
                   id="header-sign-out"
                 >
@@ -341,7 +341,7 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — ONLY visible at <= 1400px (mutually exclusive with desktop nav) */}
             <button
-              className="flex min-[1401px]:hidden w-10 h-10 items-center justify-center relative cursor-pointer text-white hover:text-purple-300 transition-colors p-1"
+              className="flex min-[1401px]:hidden w-10 h-10 items-center justify-center relative cursor-pointer text-black hover:text-[var(--color-accent)] transition-colors p-1"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"
@@ -400,7 +400,7 @@ export function Header() {
               <Link href="/bio" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BAND</Link>
               <Link href="/music" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MUSIC</Link>
               <Link href="/store" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">STORE</Link>
-              <Link href="/video" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MEDIA</Link>
+              <Link href="/media" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MEDIA</Link>
               <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">FAN WALL</Link>
               <Link href="/live" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">LIVE</Link>
               <Link href="/cruise" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">CRUISE</Link>

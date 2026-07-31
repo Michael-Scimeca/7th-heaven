@@ -83,12 +83,16 @@ export default function LoginModal() {
          setLoginRole(r as any);
        }
      }
-   }, [setModalMode, openModal]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
   // Sync loginRole whenever modal opens (or modalLoginRole changes)
   useEffect(() => {
     setLoginRole(modalLoginRole as any);
   }, [modalLoginRole, isModalOpen]);
+
+  // DEBUG: Track modalMode changes
+  console.log('[LoginModal] render — modalMode:', modalMode, '| isModalOpen:', isModalOpen);
 
   if (!isModalOpen) return null;
 
@@ -410,14 +414,12 @@ export default function LoginModal() {
    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={closeModal} />
 
    {/* Modal */}
-   <div className="relative w-full max-w-2xl mx-4 bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
-    {/* Accent bar */}
-    <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
+   <div className="relative w-full max-w-2xl mx-4 bg-white border border-black/10 rounded-2xl overflow-hidden animate-[fadeIn_0.3s_ease]">
 
     {/* Close */}
     <button
      onClick={closeModal}
-     className="absolute top-4 right-4 text-white/30 hover:text-white text-xl transition-colors cursor-pointer"
+     className="absolute top-4 right-4 text-black/30 hover:text-black text-xl transition-colors cursor-pointer"
     >
      ✕
     </button>
@@ -449,14 +451,14 @@ export default function LoginModal() {
 
      {/* Prominent High-Contrast Tabs */}
      {modalMode !== "forgot" && (
-      <div className="grid grid-cols-2 gap-2 p-1.5 bg-white/[0.06] border border-white/15 rounded-xl mb-5 shadow-inner">
+      <div className="grid grid-cols-2 gap-2 p-1.5 bg-gray-100 border border-black/10 rounded-xl mb-5">
        <button
         type="button"
         onClick={() => { setModalMode("login"); setError(""); setAdminMode(false); }}
         className={`py-3 text-sm sm:text-base font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
          modalMode === "login"
           ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_20px_rgba(124,0,255,0.4)] scale-[1.02]"
-          : "text-white/50 hover:text-white hover:bg-white/5"
+          : "text-black/40 hover:text-black hover:bg-black/5"
         }`}
        >
         🔑 LOGIN
@@ -467,7 +469,7 @@ export default function LoginModal() {
         className={`py-3 text-sm sm:text-base font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
          modalMode === "signup"
           ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_20px_rgba(124,0,255,0.4)] scale-[1.02]"
-          : "text-white/50 hover:text-white hover:bg-white/5"
+          : "text-black/40 hover:text-black hover:bg-black/5"
         }`}
        >
         ✨ FAN SIGN UP
@@ -478,14 +480,14 @@ export default function LoginModal() {
      {/* Fan Membership Badge Header */}
      {modalMode === "signup" && (
       <div className="bg-purple-600/20 border border-purple-500/40 rounded-2xl p-4 mb-5 text-center shadow-[0_0_25px_rgba(147,51,234,0.25)]">
-       <p className="text-sm sm:text-base font-black uppercase tracking-[0.15em] text-white flex items-center justify-center flex-wrap gap-1.5">
+       <p className="text-sm sm:text-base font-black uppercase tracking-[0.15em] text-black flex items-center justify-center flex-wrap gap-1.5">
         <span>🎸</span> SIGN UP FOR FREE{" "}
         <span className="text-lg sm:text-xl font-black text-purple-300 bg-purple-950/80 border border-purple-400/50 px-3 py-0.5 rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.5)]">
          FAN
         </span>{" "}
         MEMBERSHIP
        </p>
-       <p className="text-xs text-white/60 mt-1.5 font-medium leading-relaxed">
+       <p className="text-xs text-black/50 mt-1.5 font-medium leading-relaxed">
         Get local show text alerts, VIP fan perks, song requests & live streams
        </p>
       </div>
@@ -494,14 +496,14 @@ export default function LoginModal() {
      {/* Role selector — Login only */}
      {modalMode === 'login' && !adminMode && (
       <div className="mb-5">
-       <div className="flex items-center justify-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-xl p-1.5 flex-wrap">
+       <div className="flex items-center justify-center gap-1.5 bg-gray-100 border border-black/10 rounded-xl p-1.5 flex-wrap">
         <button
          type="button"
          onClick={() => setLoginRole('fan')}
          className={`flex-1 py-2 px-3 text-xs sm:text-sm font-black uppercase tracking-[0.12em] rounded-lg transition-all cursor-pointer ${
           loginRole === 'fan'
            ? 'bg-[var(--color-accent)] text-white shadow-[0_0_14px_rgba(133,29,239,0.4)]'
-           : 'text-white/40 hover:text-white/70'
+           : 'text-black/40 hover:text-black/70'
          }`}
         >
          🎸 Fan
@@ -512,7 +514,7 @@ export default function LoginModal() {
          className={`flex-1 py-2 px-3 text-xs sm:text-sm font-black uppercase tracking-[0.12em] rounded-lg transition-all cursor-pointer ${
           loginRole === 'crew'
            ? 'bg-emerald-500 text-white shadow-[0_0_14px_rgba(16,185,129,0.4)]'
-           : 'text-white/40 hover:text-white/70'
+           : 'text-black/40 hover:text-black/70'
          }`}
         >
          🛡️ Crew
@@ -523,7 +525,7 @@ export default function LoginModal() {
          className={`flex-1 py-2 px-3 text-xs sm:text-sm font-black uppercase tracking-[0.12em] rounded-lg transition-all cursor-pointer ${
           loginRole === 'planner'
            ? 'bg-purple-600 text-white shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-           : 'text-white/40 hover:text-white/70'
+           : 'text-black/40 hover:text-black/70'
          }`}
         >
          📅 Planner
@@ -534,7 +536,7 @@ export default function LoginModal() {
          className={`flex-1 py-2 px-3 text-xs sm:text-sm font-black uppercase tracking-[0.12em] rounded-lg transition-all cursor-pointer ${
           loginRole === 'cruise'
            ? 'bg-sky-500 text-white shadow-[0_0_14px_rgba(56,189,248,0.4)]'
-           : 'text-white/40 hover:text-white/70'
+           : 'text-black/40 hover:text-black/70'
          }`}
         >
          🛳️ Cruise
@@ -545,7 +547,7 @@ export default function LoginModal() {
         <button
          type="button"
          onClick={() => { setAdminMode(true); setAdminError(''); setError(''); }}
-         className="text-xs uppercase tracking-widest font-black text-white/35 hover:text-red-400 transition-colors cursor-pointer border-none bg-transparent"
+         className="text-xs uppercase tracking-widest font-black text-black/35 hover:text-red-500 transition-colors cursor-pointer border-none bg-transparent"
         >
          🔐 Admin Login
         </button>
@@ -560,29 +562,29 @@ export default function LoginModal() {
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(239,68,68,0.08),transparent_60%)] pointer-events-none" />
             <div className="w-10 h-10 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center mx-auto mb-2 text-base">🔐</div>
             <h3 className="text-sm font-black text-red-400 uppercase tracking-widest">Admin Access</h3>
-            <p className="text-[var(--font-size-3xs)] text-white/30 mt-1">Restricted to authorized administrators only</p>
+            <p className="text-[var(--font-size-3xs)] text-black/30 mt-1">Restricted to authorized administrators only</p>
           </div>
 
           <div>
-            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Admin Email</label>
+            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-black/40 mb-1 block">Admin Email</label>
             <input
               type="email"
               value={adminEmail}
               onChange={(e) => setAdminEmail(e.target.value)}
               placeholder="admin@7thheaven.com"
               autoComplete="off"
-              className="w-full px-3 py-2.5 bg-white/[0.03] border border-red-500/20 focus:border-red-500/50 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-lg"
+              className="w-full px-3 py-2.5 bg-white border border-red-500/20 focus:border-red-500/50 text-sm text-black placeholder:text-black/30 outline-none transition-colors rounded-lg"
             />
           </div>
           <div>
-            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Password</label>
+            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-black/40 mb-1 block">Password</label>
             <input
               type="password"
               value={adminPassword}
               onChange={(e) => setAdminPassword(e.target.value)}
               placeholder="••••••••"
               autoComplete="current-password"
-              className="w-full px-3 py-2.5 bg-white/[0.03] border border-red-500/20 focus:border-red-500/50 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-lg"
+              className="w-full px-3 py-2.5 bg-white border border-red-500/20 focus:border-red-500/50 text-sm text-black placeholder:text-black/30 outline-none transition-colors rounded-lg"
             />
           </div>
 
@@ -614,7 +616,7 @@ export default function LoginModal() {
             <button
               type="button"
               onClick={() => { setAdminEmail('admin@7thheaven.com'); setAdminPassword('password123'); }}
-              className="w-full py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-red-400 hover:text-white transition-all cursor-pointer"
+              className="w-full py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-red-400 hover:text-black transition-all cursor-pointer"
             >
               🛠️ Dev: Auto-fill Admin
             </button>
@@ -623,7 +625,7 @@ export default function LoginModal() {
           <button
             type="button"
             onClick={() => { setAdminMode(false); setAdminEmail(''); setAdminPassword(''); setAdminError(''); }}
-            className="text-[var(--font-size-3xs)] text-white/30 hover:text-white/60 transition-colors uppercase tracking-widest text-center cursor-pointer border-none bg-transparent"
+            className="text-[var(--font-size-3xs)] text-black/30 hover:text-black/60 transition-colors uppercase tracking-widest text-center cursor-pointer border-none bg-transparent"
           >
             ← Back to Login
           </button>
@@ -635,9 +637,9 @@ export default function LoginModal() {
           🔑
          </div>
          <h3 className="text-lg font-bold">Verify Your Email</h3>
-         <p className="text-white/40 text-xs mt-1 leading-relaxed">
+         <p className="text-black/40 text-xs mt-1 leading-relaxed">
           We sent a 6-digit confirmation code to <br />
-          <strong className="text-white">{signUpPayload?.email}</strong>.
+          <strong className="text-black">{signUpPayload?.email}</strong>.
          </p>
         </div>
 
@@ -648,7 +650,7 @@ export default function LoginModal() {
             <button
               type="button"
               onClick={() => setPinCode(devUser.pin)}
-              className="w-full py-2.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-lg text-xs font-bold uppercase tracking-wider text-amber-300 hover:text-white transition-all cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-2.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-lg text-xs font-bold uppercase tracking-wider text-amber-300 hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               🛠️ Dev: Auto-fill PIN ({devUser.pin})
             </button>
@@ -656,13 +658,13 @@ export default function LoginModal() {
         })()}
 
         <div>
-         <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1 block text-center">Verification Code</label>
+         <label className="text-xs uppercase tracking-[0.15em] text-black/40 mb-1 block text-center">Verification Code</label>
          <input
           type="text"
           value={pinCode}
           onChange={(e) => setPinCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
           placeholder="000000"
-          className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-lg tracking-[0.4em] font-mono text-center text-white placeholder:text-white/10 outline-none focus:border-[var(--color-accent)] transition-colors"
+          className="w-full px-4 py-3 bg-white border border-black/10 text-lg tracking-[0.4em] font-mono text-center text-black placeholder:text-black/20 outline-none focus:border-[var(--color-accent)] transition-colors"
           maxLength={6}
           required
          />
@@ -702,7 +704,7 @@ export default function LoginModal() {
             }
             setLoading(false);
           }}
-          className="text-white/40 hover:text-white underline cursor-pointer"
+          className="text-black/40 hover:text-black underline cursor-pointer"
          >
           Resend Code
          </button>
@@ -714,7 +716,7 @@ export default function LoginModal() {
             setPinCode("");
             setError("");
           }}
-          className="text-white/40 hover:text-white underline cursor-pointer"
+          className="text-black/40 hover:text-black underline cursor-pointer"
          >
           Back to Sign Up
          </button>
@@ -726,13 +728,13 @@ export default function LoginModal() {
          📧
         </div>
         <h3 className="text-xl font-bold mb-4">Check Your Email</h3>
-        <p className="text-white/40 text-sm leading-relaxed mb-8">
-         We&apos;ve sent a verification link to <strong className="text-white">{email}</strong>.<br/>
+        <p className="text-black/40 text-sm leading-relaxed mb-8">
+         We&apos;ve sent a verification link to <strong className="text-black">{email}</strong>.<br/>
          Please click the link to confirm your account and join the 7th Heaven family.
         </p>
         <button 
          onClick={closeModal}
-         className="w-full py-3 border border-white/10 text-white font-bold text-sm uppercase tracking-widest hover:bg-white/5 transition-all cursor-pointer"
+         className="w-full py-3 border border-black/10 text-black font-bold text-sm uppercase tracking-widest hover:bg-black/5 transition-all cursor-pointer"
         >
          Got it, thanks
         </button>
@@ -756,25 +758,25 @@ export default function LoginModal() {
          {/* Name + Username — side by side */}
          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
            <div>
-            <label className="text-xs uppercase tracking-[0.15em] font-bold text-white/50 mb-1.5 block">Full Name {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
+            <label className="text-xs uppercase tracking-[0.15em] font-bold text-black/50 mb-1.5 block">Full Name {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
             <input
              type="text"
              value={name}
              onChange={(e) => setName(e.target.value)}
              placeholder="Your name"
              readOnly={isInviteFlow && !!name}
-             className={`w-full px-3.5 py-2.5 bg-white/[0.04] border border-white/15 text-base text-white placeholder:text-white/25 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+             className={`w-full px-3.5 py-2.5 bg-white border border-black/10 text-base text-black placeholder:text-black/30 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
            </div>
            <div>
-            <label className="text-xs uppercase tracking-[0.15em] font-bold text-white/50 mb-1.5 block">Username <span className="text-white/30 normal-case tracking-normal">(optional)</span></label>
+            <label className="text-xs uppercase tracking-[0.15em] font-bold text-black/50 mb-1.5 block">Username <span className="text-black/30 normal-case tracking-normal">(optional)</span></label>
             <input
              type="text"
              value={usernameField}
              onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
              placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
              maxLength={24}
-             className="w-full px-3.5 py-2.5 bg-white/[0.04] border border-white/15 text-base text-white placeholder:text-white/25 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+             className="w-full px-3.5 py-2.5 bg-white border border-black/10 text-base text-black placeholder:text-black/30 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
             />
            </div>
           </div>
@@ -799,7 +801,7 @@ export default function LoginModal() {
                wantNotifications ? 'left-[14px]' : 'left-0.5'
               }`} />
              </span>
-             <span className="text-xs text-white/70 leading-tight text-left">
+             <span className="text-xs text-black/60 leading-tight text-left">
               📍 Show alerts near me
              </span>
             </button>
@@ -819,7 +821,7 @@ export default function LoginModal() {
                wantNewsletter ? 'left-[14px]' : 'left-0.5'
               }`} />
              </span>
-             <span className="text-xs text-white/70 leading-tight text-left">
+             <span className="text-xs text-black/60 leading-tight text-left">
               📧 News & updates
              </span>
             </button>
@@ -828,13 +830,13 @@ export default function LoginModal() {
           {/* Zip code — only if opted in */}
           {wantNotifications && (
            <div>
-            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
+            <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-black/40 mb-1 block">Zip Code</label>
          <input
              type="text"
              value={zipCode}
              onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
              placeholder="e.g. 60601"
-             className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+             className="w-full px-3 py-2 bg-white border border-black/10 text-sm text-black placeholder:text-black/30 outline-none focus:border-[var(--color-accent)] transition-colors"
             />
            </div>
           )}
@@ -848,13 +850,13 @@ export default function LoginModal() {
         <div className="flex flex-col gap-3.5">
           {!forgotPinSent ? (
             <div>
-              <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Email Address</label>
+              <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-black/40 mb-1 block">Email Address</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+                className="w-full px-3 py-2 bg-white border border-black/10 text-sm text-black placeholder:text-black/30 outline-none focus:border-[var(--color-accent)] transition-colors"
                 required
               />
             </div>
@@ -864,25 +866,25 @@ export default function LoginModal() {
                 🔑 A verification code has been sent to <strong>{email}</strong>
               </div>
               <div>
-                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Verification PIN</label>
+                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-black/40 mb-1 block">Verification PIN</label>
                 <input
                   type="text"
                   maxLength={6}
                   value={forgotPinCode}
                   onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                   placeholder="123456"
-                  className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-black"
+                  className="w-full px-3 py-2 bg-white border border-black/10 text-sm text-black placeholder:text-black/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-black"
                   required
                 />
               </div>
               <div>
-                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">New Password</label>
+                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-black/40 mb-1 block">New Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+                  className="w-full px-3 py-2 bg-white border border-black/10 text-sm text-black placeholder:text-black/30 outline-none focus:border-[var(--color-accent)] transition-colors"
                   required
                 />
               </div>
@@ -895,7 +897,7 @@ export default function LoginModal() {
       {modalMode !== "forgot" && (
         <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-3.5' : 'flex flex-col gap-3'}>
           <div>
-           <label className="text-xs uppercase tracking-[0.15em] font-bold text-white/50 mb-1.5 block">Email {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
+           <label className="text-xs uppercase tracking-[0.15em] font-bold text-black/50 mb-1.5 block">Email {isInviteFlow && <span className="text-[var(--color-accent)]/60">✓ on file</span>}</label>
            <input
             type="email"
             value={email}
@@ -905,11 +907,11 @@ export default function LoginModal() {
             readOnly={isInviteFlow}
             data-lpignore="true"
             data-form-type="other"
-            className={`w-full px-3.5 py-2.5 bg-white/[0.04] border border-white/15 text-base text-white placeholder:text-white/25 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
+            className={`w-full px-3.5 py-2.5 bg-white border border-black/10 text-base text-black placeholder:text-black/30 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
            />
           </div>
           <div>
-           <label className="text-xs uppercase tracking-[0.15em] font-bold text-white/50 mb-1.5 block">Password</label>
+           <label className="text-xs uppercase tracking-[0.15em] font-bold text-black/50 mb-1.5 block">Password</label>
            <input
             type="password"
             value={password}
@@ -918,13 +920,13 @@ export default function LoginModal() {
             autoComplete="new-password"
             data-lpignore="true"
             data-form-type="other"
-            className="w-full px-3.5 py-2.5 bg-white/[0.04] border border-white/15 text-base text-white placeholder:text-white/25 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+            className="w-full px-3.5 py-2.5 bg-white border border-black/10 text-base text-black placeholder:text-black/30 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
            />
            {modalMode === "login" && (
             <button
              type="button"
              onClick={() => { setModalMode("forgot"); setError(""); setForgotPinSent(false); }}
-             className="text-xs font-bold text-[var(--color-accent)] hover:text-white transition-colors block text-right w-full mt-2"
+             className="text-xs font-bold text-[var(--color-accent)] hover:text-black transition-colors block text-right w-full mt-2"
             >
              Forgot Password?
             </button>
@@ -944,8 +946,8 @@ export default function LoginModal() {
          className="mt-0.5 w-3.5 h-3.5 rounded border-white/15 bg-white/[0.03] text-[var(--color-accent)] focus:ring-0 cursor-pointer accent-[var(--color-accent)]"
          onClick={(e) => e.stopPropagation()}
         />
-        <span className="text-[10.5px] font-semibold text-white/70 leading-tight">
-          I confirm that I am <span className="text-white font-bold">18 years of age or older</span>
+        <span className="text-[10.5px] font-semibold text-black/60 leading-tight">
+          I confirm that I am <span className="text-black font-bold">18 years of age or older</span>
         </span>
        </div>
       )}
@@ -962,8 +964,8 @@ export default function LoginModal() {
        {loading ? "..." : modalMode === "forgot" ? (forgotPinSent ? "Reset Password" : "Send Reset PIN") : modalMode === "login" ? "SIGN IN" : "JOIN AS FAN MEMBER"}
       </button>
       {modalMode === "signup" && (
-       <p className="text-xs text-white/35 text-center leading-relaxed">
-        By creating an account you confirm you are 18+ and agree to our <a href="/privacy" className="underline hover:text-white/60 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-white/60 transition-colors">Terms</a>.
+       <p className="text-xs text-black/35 text-center leading-relaxed">
+        By creating an account you confirm you are 18+ and agree to our <a href="/privacy" className="underline hover:text-black/60 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-black/60 transition-colors">Terms</a>.
        </p>
       )}
      </form>
@@ -973,30 +975,30 @@ export default function LoginModal() {
      {loginRole === 'fan' && modalMode !== "forgot" && (
       <>
        <div className="flex items-center gap-3 my-3">
-        <div className="flex-1 h-px bg-white/10" />
-        <span className="text-[var(--font-size-3xs)] uppercase tracking-widest text-white/30 font-bold">Or continue with</span>
-        <div className="flex-1 h-px bg-white/10" />
+        <div className="flex-1 h-px bg-black/10" />
+        <span className="text-[var(--font-size-3xs)] uppercase tracking-widest text-black/30 font-bold">Or continue with</span>
+        <div className="flex-1 h-px bg-black/10" />
        </div>
        
        <div className="grid grid-cols-3 gap-2">
         <button 
          type="button"
          onClick={() => handleOAuthLogin('google')}
-         className="flex items-center justify-center gap-2 py-2 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 rounded-lg transition-colors cursor-pointer"
+         className="flex items-center justify-center gap-2 py-2 bg-gray-50 hover:bg-gray-100 border-none rounded-lg transition-colors cursor-pointer"
         >
          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.409 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z"/><path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.108c1.96 3.96 6.047 6.632 10.763 6.632 3.211 0 6.081-1.12 8.08-3.231l-4.04-2.764Z"/><path fill="#4A90E2" d="M23.606 12.276c0-.82-.07-1.536-.25-2.228H12v4.61h6.58c-.315 1.554-1.145 2.71-2.26 3.518l4.04 2.764c2.464-2.366 3.246-6.062 3.246-8.664Z"/><path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.905 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z"/></svg>
         </button>
         <button 
          type="button"
          onClick={() => handleOAuthLogin('facebook')}
-         className="flex items-center justify-center gap-2 py-2 bg-[var(--color-brand-facebook)]/10 hover:bg-[var(--color-brand-facebook)]/20 border border-[#1877F2]/30 rounded-lg transition-colors cursor-pointer"
+         className="flex items-center justify-center gap-2 py-2 bg-gray-50 hover:bg-gray-100 border-none rounded-lg transition-colors cursor-pointer"
         >
          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         </button>
         <button 
          type="button"
          onClick={() => handleOAuthLogin('apple')}
-         className="flex items-center justify-center gap-2 py-2 bg-white hover:bg-gray-200 border border-transparent rounded-lg transition-colors cursor-pointer"
+         className="flex items-center justify-center gap-2 py-2 bg-gray-50 hover:bg-gray-100 border-none rounded-lg transition-colors cursor-pointer"
         >
          <svg width="20" height="20" viewBox="0 0 24 24" fill="black"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z"/></svg>
         </button>
@@ -1005,17 +1007,17 @@ export default function LoginModal() {
      )}
 
      {modalMode === "forgot" && (
-      <p className="text-center text-sm text-white/50 mt-4 font-medium">
-       <button type="button" onClick={() => { setModalMode("login"); setError(""); }} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer underline">
+      <p className="text-center text-sm text-black/50 mt-4 font-medium">
+       <button type="button" onClick={() => { setModalMode("login"); setError(""); }} className="text-[var(--color-accent)] hover:text-black font-bold transition-colors cursor-pointer underline">
         ← Back to Sign In
        </button>
       </p>
      )}
 
       {modalMode === "login" && (
-       <p className="text-center text-sm text-white/50 mt-4 font-medium">
+       <p className="text-center text-sm text-black/50 mt-4 font-medium">
         Don&apos;t have an account?{" "}
-        <button onClick={() => setModalMode("signup")} className="text-[var(--color-accent)] hover:text-white font-bold transition-colors cursor-pointer underline">
+        <button onClick={() => setModalMode("signup")} className="text-[var(--color-accent)] hover:text-black font-bold transition-colors cursor-pointer underline">
          Sign up free to become a fan member
         </button>
        </p>

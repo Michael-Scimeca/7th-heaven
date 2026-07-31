@@ -7,20 +7,20 @@ export const metadata: Metadata = {
 
 export default function ReturnsPage() {
   return (
-    <section className="py-32">
-      <div className="site-container max-w-[800px]">
-        <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-white">
-          Return & Refund <span className="gradient-text text-[#8a1cfc] bg-clip-text">Policy</span>
+    <section className="py-32 min-h-screen bg-[#f0f2f5] text-black">
+      <div className="site-container max-w-[900px] mx-auto">
+        <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-black">
+          Return & Refund <span className="text-purple-600">Policy</span>
         </h1>
-        <p className="text-sm text-white/30 uppercase tracking-[0.15em] font-bold mb-12">
+        <p className="text-sm text-black/50 uppercase tracking-[0.15em] font-bold mb-12">
           Last Updated: April 12, 2026
         </p>
 
-        <div className="prose-legal flex flex-col gap-10 text-white/60 text-base leading-relaxed">
+        <div className="prose-legal flex flex-col gap-10 text-black/80 text-base leading-relaxed">
           
           {/* Section 1 */}
           <div>
-            <h2 className="text-white text-lg font-bold mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
+            <h2 className="text-black text-lg font-bold mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
             <p>
               All merchandise purchases completed in person at our live concert venues and tour stops are <strong>final sale</strong>. 
               We do not accept returns, refunds, or size exchanges once a transaction is completed at our physical merch tables. 
@@ -31,7 +31,7 @@ export default function ReturnsPage() {
 
           {/* Section 2 */}
           <div>
-            <h2 className="text-white text-lg font-bold mb-3">2. Online Store Orders (Shipped to Home)</h2>
+            <h2 className="text-black text-lg font-bold mb-3">2. Online Store Orders (Shipped to Home)</h2>
             <p className="mb-3">
               For merchandise purchased directly through our online store (processed via the Shopify Storefront API) and shipped to your home:
             </p>
@@ -53,7 +53,7 @@ export default function ReturnsPage() {
 
           {/* Section 3 */}
           <div>
-            <h2 className="text-white text-lg font-bold mb-3">3. Merch Table Pickups (Pre-Ordered Online)</h2>
+            <h2 className="text-black text-lg font-bold mb-3">3. Merch Table Pickups (Pre-Ordered Online)</h2>
             <p className="mb-3">
               For orders pre-purchased online and designated for pickup at our concert merch tables:
             </p>
@@ -72,7 +72,7 @@ export default function ReturnsPage() {
 
           {/* Section 4 */}
           <div>
-            <h2 className="text-white text-lg font-bold mb-3">4. Ticket Sales & Special Experiences</h2>
+            <h2 className="text-black text-lg font-bold mb-3">4. Ticket Sales & Special Experiences</h2>
             <p>
               All ticket purchases for 7th Heaven events, ticketed movie screenings, and special fan experiences are non-refundable. 
               If an event is officially canceled or rescheduled, ticket holders will receive an automated notification detailing refund eligibility or ticket transfer options. 
@@ -82,22 +82,22 @@ export default function ReturnsPage() {
 
           {/* Section 5 */}
           <div>
-            <h2 className="text-white text-lg font-bold mb-3">5. Damaged or Defective Items</h2>
+            <h2 className="text-black text-lg font-bold mb-3">5. Damaged or Defective Items</h2>
             <p>
-              If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent-soft)] hover:underline">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
+              If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="text-purple-600 font-bold hover:underline">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
             </p>
           </div>
 
           {/* Section 6 */}
           <div>
-            <h2 className="text-white text-lg font-bold mb-3">6. Contact Information</h2>
+            <h2 className="text-black text-lg font-bold mb-3">6. Contact Information</h2>
             <p className="mb-2">
               If you have any questions about returns, exchanges, or refunds, please reach out to us:
             </p>
-            <div className="p-4 border border-white/5 bg-white/[0.02] rounded-xl">
-              <p className="text-white font-bold text-sm">7th Heaven Support</p>
-              <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent-soft)] hover:underline">info@7thheavenband.com</a></p>
-              <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent-soft)] hover:underline">7thheavenband.com</a></p>
+            <div className="p-6 border border-black/10 bg-white rounded-2xl shadow-sm">
+              <p className="text-black font-bold text-sm">7th Heaven Support</p>
+              <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-purple-600 font-bold hover:underline">info@7thheavenband.com</a></p>
+              <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-purple-600 font-bold hover:underline">7thheavenband.com</a></p>
             </div>
           </div>
 

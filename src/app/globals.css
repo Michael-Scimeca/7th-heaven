@@ -24,6 +24,8 @@ html.lenis, html.lenis body {
     ═══════════════════════════════════════════════════════ */
  --container-width: 1440px;
  --space-container: 32px;
+ --nav-height: 88px;
+ --page-top-offset: 120px; /* 88px header nav + 32px top gap */
 
  /* Breakpoints */
  --breakpoint-desk: 2000px;
@@ -31,21 +33,21 @@ html.lenis, html.lenis body {
  /* ═══════════════════════════════════════════════════════
     COLOR PALETTE — Dark Background Scale (5 levels)
     ═══════════════════════════════════════════════════════ */
- --color-bg-primary: #000000;        /* Page root */
- --color-bg-secondary: #000000;      /* Alias for primary (legacy compat) */
- --color-bg-deep: #050508;           /* Deep section backgrounds */
- --color-bg-surface: #0b0b12;        /* Default surface / panels */
- --color-bg-card: #111116;           /* Card & elevated element backgrounds */
- --color-bg-card-alpha: rgba(255, 255, 255, 0.03);  /* Translucent card */
- --color-bg-card-hover: rgba(255, 255, 255, 0.06);
- --color-bg-elevated: #181820;       /* Highest elevation: modals, popovers */
- --color-bg-glass: rgba(17, 17, 24, 0.7);
+ --color-bg-primary: #f5f8ff;        /* Page root */
+ --color-bg-secondary: #f5f8ff;      /* Alias for primary (legacy compat) */
+ --color-bg-deep: #eef3fc;           /* Deep section backgrounds */
+ --color-bg-surface: #f5f8ff;        /* Default surface / panels */
+ --color-bg-card: #eaf0fa;           /* Card & elevated element backgrounds */
+ --color-bg-card-alpha: rgba(0, 0, 0, 0.03);  /* Translucent card */
+ --color-bg-card-hover: rgba(0, 0, 0, 0.06);
+ --color-bg-elevated: #f5f8ff;       /* Highest elevation: modals, popovers */
+ --color-bg-glass: rgba(245, 248, 255, 0.85);
 
  /* ─── Text ─── */
- --color-text-primary: #FFFEFE;
- --color-text-secondary: #a0a0b8;
- --color-text-muted: #6b6b80;
- --color-text-disabled: #4a4a5a;
+ --color-text-primary: #000000;
+ --color-text-secondary: #333333;
+ --color-text-muted: #666666;
+ --color-text-disabled: #999999;
 
  /* ─── Brand Accent (Purple) ─── */
  --color-accent: #851DEF;
@@ -71,10 +73,10 @@ html.lenis, html.lenis body {
  --color-info: #3b82f6;
 
  /* ─── Borders ─── */
- --color-border: rgba(255, 255, 255, 0.06);
- --color-border-subtle: rgba(255, 255, 255, 0.04);
- --color-border-hover: rgba(133, 29, 239, 0.3);
- --color-border-strong: rgba(255, 255, 255, 0.15);
+ --color-border: rgba(0, 0, 0, 0.08);
+ --color-border-subtle: rgba(0, 0, 0, 0.05);
+ --color-border-hover: rgba(133, 29, 239, 0.4);
+ --color-border-strong: rgba(0, 0, 0, 0.2);
 
  /* ─── Brand / Third Party ─── */
  --color-brand-spotify: #1DB954;
@@ -520,21 +522,15 @@ body.preloading #page-content-wrapper {
 
 @utility site-container {
  width: 100%;
- max-width: 1440px;
+ max-width: 100% !important;
  margin-left: auto;
  margin-right: auto;
  padding-left: 32px !important;
  padding-right: 32px !important;
+}
 
- @media (min-width: 768px) {
-  padding-left: 32px !important;
-  padding-right: 32px !important;
- }
-
- @media (min-width: 1024px) {
-  padding-left: 32px !important;
-  padding-right: 32px !important;
- }
+@utility pt-page {
+ padding-top: var(--page-top-offset, 120px) !important;
 }
 
 /* Video grid: full bleed edge to edge */
@@ -619,24 +615,25 @@ html.tour-sort-stuck #tour-sort-bar {
   font-style: normal !important;
 }
 
-/* Sleek 5px dark scrollbar for dashboard panels */
+/* Sleek 8px visible scrollbar for panels */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 9999px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--color-accent);
   border-radius: 9999px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #6b21a8;
 }
 .custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  scrollbar-width: auto;
+  scrollbar-color: var(--color-accent) rgba(0, 0, 0, 0.06);
 }
 
 /* Prevent transition flash during window resize */

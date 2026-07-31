@@ -110,7 +110,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
   const pathname = usePathname();
   
   // Pages that require/benefit from heavy preloading (or forced via props/query)
-  const heavyPages = ["/", "/cruise", "/features", "/live", "/video"];
+  const heavyPages = ["/", "/cruise", "/features", "/live", "/media"];
   const requiresPreloader = heavyPages.includes(pathname) || forceShow;
 
   const [percent, setPercent] = useState(0);

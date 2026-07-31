@@ -46,28 +46,28 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
   return (
     <div className="relative">
-      <label className="text-base font-bold uppercase tracking-widest text-white/40 block mb-1.5">{label}</label>
+      <label className="text-base font-bold uppercase tracking-widest text-black/50 block mb-1.5">{label}</label>
       <button
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`w-full bg-white/[0.03] border ${value ? 'border-[var(--color-accent)]/40' : 'border-white/10'} px-4 py-3 rounded-xl text-lg text-left transition-all hover:border-[var(--color-accent)]/50 cursor-pointer flex items-center justify-between ${value ? 'text-white' : 'text-white/30'}`}
+        className={`w-full bg-black/[0.04] border ${value ? 'border-[var(--color-accent)]/60' : 'border-black/15'} px-4 py-3 rounded-xl text-lg text-left transition-all hover:border-[var(--color-accent)]/60 cursor-pointer flex items-center justify-between ${value ? 'text-black font-semibold' : 'text-black/40'}`}
       >
         {value ? new Date(value + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Pick a date…'}
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-40"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       </button>
       {showCal && (
-        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
+        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-white border border-black/15 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
           <div className="flex items-center justify-between mb-3">
-            <button type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-white/60 hover:text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
-            <button type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-white/50 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+            <button type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-black/70 hover:text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
+            <button type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
           </div>
           {showMonthGrid ? (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-white/40 hover:text-white text-base font-bold cursor-pointer">← {year - 1}</button>
-                <span className="text-xs font-bold text-white">{year}</span>
-                <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-white/40 hover:text-white text-base font-bold cursor-pointer">{year + 1} →</button>
+                <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-black/50 hover:text-black text-base font-bold cursor-pointer">← {year - 1}</button>
+                <span className="text-xs font-bold text-black">{year}</span>
+                <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-black/50 hover:text-black text-base font-bold cursor-pointer">{year + 1} →</button>
               </div>
               <div className="grid grid-cols-3 gap-1.5">
                 {mNames.map((m, i) => {
@@ -75,7 +75,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                   const isPast = new Date(year, i + 1, 0) < new Date();
                   return (
                     <button key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
-                      className={`py-2 rounded-lg text-base font-bold uppercase tracking-wider transition-all ${isPast ? 'text-white/10 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-white/50 hover:bg-white/10 cursor-pointer'}`}
+                      className={`py-2 rounded-lg text-base font-bold uppercase tracking-wider transition-all ${isPast ? 'text-black/20 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-black/60 hover:bg-black/5 cursor-pointer'}`}
                     >{m}</button>
                   );
                 })}
@@ -84,7 +84,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
           ) : (
             <>
           <div className="grid grid-cols-7 mb-1">
-            {['S','M','T','W','T','F','S'].map((d,i) => <div key={i} className="text-center text-lg font-bold text-white/25 uppercase">{d}</div>)}
+            {['S','M','T','W','T','F','S'].map((d,i) => <div key={i} className="text-center text-lg font-bold text-black/40 uppercase">{d}</div>)}
           </div>
           <div className="grid grid-cols-7 gap-1">
             {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
@@ -97,7 +97,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                 <button
                   key={ds} type="button" disabled={isPast}
                   onClick={() => { onChange(ds); setShowCal(false); }}
-                  className={`h-8 w-full rounded-lg text-xs font-bold transition-all ${isPast ? 'text-white/15 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.4)]' : 'text-white/70 hover:bg-white/10 cursor-pointer'}`}
+                  className={`h-8 w-full rounded-lg text-xs font-bold transition-all ${isPast ? 'text-black/20 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-md' : 'text-black/80 hover:bg-black/5 cursor-pointer'}`}
                 >
                   {i + 1}
                 </button>
@@ -105,7 +105,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
             })}
           </div>
           {value && (
-            <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-400/60 hover:text-rose-400 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
+            <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
           )}
           </>
           )}
@@ -117,28 +117,28 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
 const InputField = ({ label, required, ...props }: { label: string; required?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) => (
   <div>
-    <label className="text-base font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
+    <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
     <input {...props} required={required}
-      className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
+      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 rounded-xl text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
     />
   </div>
 );
 
 const SelectField = ({ label, options, required, ...props }: { label: string; options: string[]; required?: boolean } & React.SelectHTMLAttributes<HTMLSelectElement>) => (
   <div>
-    <label className="text-base font-bold uppercase tracking-[0.15em] text-white/30 block mb-2">{label}{required && " *"}</label>
+    <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
     <select {...props} required={required}
-      className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-lg text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
+      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 rounded-xl text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
     >
-      <option value="" className="bg-[var(--color-bg-surface)]">Select</option>
-      {options.map(o => <option key={o} value={o} className="bg-[var(--color-bg-surface)]">{o}</option>)}
+      <option value="" className="bg-white text-black">Select</option>
+      {options.map(o => <option key={o} value={o} className="bg-white text-black">{o}</option>)}
     </select>
   </div>
 );
 
 const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
   <div className="mb-2">
-    <label className="text-base font-bold uppercase tracking-[0.15em] text-white/30 block mb-3">{label}{required && " *"}</label>
+    <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-3">{label}{required && " *"}</label>
     <div className="flex flex-wrap gap-2">
       {options.map(o => (
         <button
@@ -147,8 +147,8 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           onClick={() => onChange({ target: { name, value: o } } as any)}
           className={`py-2 px-4 rounded-xl text-lg font-bold tracking-wide transition-all border
             ${value === o 
-              ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_15px_rgba(133,29,239,0.3)]" 
-              : "bg-white/[0.03] border-white/10 text-white/50 hover:bg-white/10 hover:border-white/30 hover:text-white"
+              ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-md" 
+              : "bg-black/[0.04] border-black/15 text-black/70 hover:bg-black/10 hover:border-black/30 hover:text-black"
             }
           `}
         >
@@ -744,39 +744,39 @@ function BookPageContent() {
   }
 
   return (
-    <div className="bg-[var(--color-bg-deep)] min-h-screen relative overflow-clip">
+    <div className="bg-[var(--color-bg-deep)] min-h-screen relative overflow-clip pt-[88px]">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
       
-      <section className="pt-32 pb-24 relative z-10" id="book-event">
+      <section className="pt-[25px] pb-24 relative z-10" id="book-event">
         <div className="site-container">
 
         {/* Signed-in Identity Block */}
         {isLoggedIn && member && (
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/10">
+          <div className="flex items-center justify-between mb-8 pb-6 border-b border-black/10">
             <div className="flex items-center gap-4">
               <div className="relative w-14 h-14 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-lg font-black text-[var(--color-accent)]">
                 {member.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'}
                 <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${
                   member.role === 'event_planner' ? 'bg-fuchsia-500' : 'bg-[var(--color-accent)]'
-                } border-2 border-[#050508] flex items-center justify-center`}>
-                  <span className="text-[var(--font-size-4xs)]">{member.role === 'event_planner' ? '📋' : '★'}</span>
+                } border-2 border-white flex items-center justify-center`}>
+                  <span className="text-[var(--font-size-4xs)] text-white">{member.role === 'event_planner' ? '📋' : '★'}</span>
                 </span>
               </div>
               <div className="text-left">
                 <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-black italic tracking-tight text-white">{member.name}</h2>
+                  <h2 className="text-xl font-black italic tracking-tight text-black">{member.name}</h2>
                   <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full ${
-                    member.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30'
+                    member.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-600 border-fuchsia-500/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30'
                   }`}>
                     {member.role === 'event_planner' ? '📋 Event Planner' : member.role === 'admin' ? '🛡️ Admin' : member.role === 'crew' ? '🛡️ Crew' : '★ Fan'}
                   </span>
                 </div>
-                <p className="text-base text-white/40 font-mono mt-0.5">{member.email}</p>
+                <p className="text-base text-black/50 font-mono mt-0.5">{member.email}</p>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-base text-emerald-400/80 bg-emerald-500/5 border border-emerald-500/20 px-4 py-2 rounded-xl">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <div className="hidden md:flex items-center gap-2 text-base text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-xl">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
               Account data auto-filled
             </div>
           </div>
@@ -789,14 +789,14 @@ function BookPageContent() {
             <div className="flex items-center justify-between gap-6 mb-8 py-2">
               <div className="flex items-center gap-5">
                 <div className="w-12 h-12 flex items-center justify-center shrink-0">
-                  <span className="text-lg font-black text-purple-400">{member?.name?.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() || '👋'}</span>
+                  <span className="text-lg font-black text-purple-600">{member?.name?.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() || '👋'}</span>
                 </div>
                 <div>
-                  <p className="text-white text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-400">{member?.name?.split(' ')[0]}</span></p>
-                  <p className="text-white/40 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
+                  <p className="text-black text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-600">{member?.name?.split(' ')[0]}</span></p>
+                  <p className="text-black/50 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
                 </div>
               </div>
-              <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
+              <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-md shrink-0">
                 My Dashboard →
               </Link>
             </div>
@@ -807,53 +807,15 @@ function BookPageContent() {
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 </div>
                 <div>
-                  <p className="text-white text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-400">Get Your Own Dashboard</span></p>
-                  <p className="text-white/40 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
+                  <p className="text-black text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-600">Get Your Own Dashboard</span></p>
+                  <p className="text-black/50 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
                 </div>
               </div>
-              <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] shrink-0">
+              <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-md shrink-0">
                 Planner Portal →
               </Link>
             </div>
           )
-        )}
-
-        {/* DEV: Auto-fill Test Button */}
-        {typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true' && (
-          <button
-            type="button"
-            onClick={() => {
-              setSelectedType('full_band');
-              setFormData({
-                name: 'Marcus Rivera',
-                email: 'marcus@riveraentertainment.com',
-                phone: '(312) 555-0187',
-                organization: 'Rivera Entertainment',
-                eventDate: '2026-06-14',
-                startTime: '7:00 PM',
-                endTime: '10:00 PM',
-                customEventType: '',
-                venueName: 'The Chicago Theatre',
-                venueCity: 'Chicago',
-                venueState: 'IL',
-                indoorOutdoor: 'Indoor',
-                expectedAttendance: '500',
-                budget: '$5,000 – $10,000',
-                setLength: 'Full Show (3-4 hours)',
-                soundSystem: 'Yes — full PA provided',
-                stageAvailable: 'Yes',
-                backlineProvided: 'No — band brings everything',
-                ageRestriction: '21+',
-                loadInTime: '3:00 PM',
-                details: 'Annual summer gala fundraiser. We need high-energy rock covers mixed with originals. VIP section stage-left. Green room required for band.',
-                hearAbout: 'Referred by a friend',
-                website: '',
-              });
-            }}
-            className="mb-6 px-4 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-base font-bold uppercase tracking-widest rounded-lg hover:bg-amber-500/20 transition-all cursor-pointer flex items-center gap-2"
-          >
-            ⚡ Dev: Auto-Fill Form
-          </button>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -889,7 +851,7 @@ function BookPageContent() {
           )}
 
           {/* Step 1: Event Schedule & Format */}
-          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+          <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
               <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">1</span>
               Event Schedule & Format
@@ -897,8 +859,8 @@ function BookPageContent() {
             <div className="mb-6 p-4 bg-purple-600/5 border border-purple-500/20 rounded-2xl flex items-start gap-3">
               <span className="text-xl mt-0.5">💡</span>
               <div>
-                <h4 className="text-sm font-bold text-white uppercase tracking-wider">Multi-Date Bookings Supported</h4>
-                <p className="text-white/40 text-sm mt-1">You can select **multiple dates** on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
+                <h4 className="text-sm font-bold text-black uppercase tracking-wider">Multi-Date Bookings Supported</h4>
+                <p className="text-black/60 text-sm mt-1">You can select **multiple dates** on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
               </div>
             </div>
             <div className="mb-6">
@@ -919,12 +881,12 @@ function BookPageContent() {
               />
 
               {/* Alternate Dates */}
-              <div className="mt-6 p-5 bg-white/[0.02] border border-white/10 rounded-xl">
+              <div className="mt-6 p-5 bg-black/[0.02] border border-black/10 rounded-xl">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-lg">📅</span>
                   <div>
-                    <h4 className="text-base font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
-                    <p className="text-base text-white/30">Increase your chances — we&apos;ll try your preferred date first</p>
+                    <h4 className="text-base font-bold uppercase tracking-widest text-black">Flexible? Add Backup Dates</h4>
+                    <p className="text-base text-black/50">Increase your chances — we&apos;ll try your preferred date first</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -933,17 +895,17 @@ function BookPageContent() {
                 </div>
                 {(altDate1 || altDate2) && (
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="text-base text-white/30 uppercase tracking-widest font-bold">Priority:</span>
+                    <span className="text-base text-black/50 uppercase tracking-widest font-bold">Priority:</span>
                     <span className="text-base bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
-                    {altDate1 && <span className="text-base bg-white/5 text-white/50 px-2 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
-                    {altDate2 && <span className="text-base bg-white/5 text-white/50 px-2 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                    {altDate1 && <span className="text-base bg-black/5 text-black/70 px-2 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                    {altDate2 && <span className="text-base bg-black/5 text-black/70 px-2 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
                   </div>
                 )}
               </div>
             </div>
             {/* Pricing hint per type */}
             {selectedType && (
-              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-base text-white/50 rounded-xl mb-4">
+              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-base text-black/60 rounded-xl mb-4">
                 <span className="text-[var(--color-accent)] font-bold">Pricing Guide:</span>{" "}
                 {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
                 {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
@@ -954,21 +916,21 @@ function BookPageContent() {
           </div>
 
           {/* Your Scheduled Shows (Full Width Grid) */}
-          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+          <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
             {bookingSlots.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed border-white/10 rounded-2xl bg-white/[0.01]">
+              <div className="text-center py-12 border-2 border-dashed border-black/15 rounded-2xl bg-black/[0.01]">
                 <span className="text-4xl block mb-4">📅</span>
-                <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
-                <p className="text-white/40 text-base max-w-md mx-auto">
+                <h4 className="text-lg font-bold text-black uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
+                <p className="text-black/50 text-base max-w-md mx-auto">
                   Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
                 </p>
               </div>
             ) : (
               <>
-                <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                <div className="flex items-center justify-between border-b border-black/10 pb-4 mb-6">
                   <div>
-                    <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
-                    <p className="text-base text-white/40 mt-1 uppercase">Configure individual times and formats for each show below</p>
+                    <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-black">Your Scheduled Shows</h4>
+                    <p className="text-base text-black/50 mt-1 uppercase">Configure individual times and formats for each show below</p>
                   </div>
                   <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/25">
                     {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
@@ -980,7 +942,7 @@ function BookPageContent() {
                     return (
                       <div 
                         key={slot.id} 
-                        className="bg-[var(--color-bg-surface)] border border-white/5 hover:border-[var(--color-accent)]/30 rounded-2xl p-6 relative group transition-all"
+                        className="bg-[var(--color-bg-surface)] border border-black/10 hover:border-[var(--color-accent)]/40 rounded-2xl p-6 relative group transition-all shadow-sm hover:shadow-md"
                       >
                         {/* Duplicate and Remove buttons */}
                         <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -993,7 +955,7 @@ function BookPageContent() {
                               };
                               setBookingSlots([...bookingSlots, newSlot]);
                             }}
-                            className="text-white/30 hover:text-[var(--color-accent)] transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg hover:bg-[var(--color-accent)]/10 border border-white/5 hover:border-[var(--color-accent)]/25"
+                            className="text-black/50 hover:text-[var(--color-accent)] transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-[var(--color-accent)]/10 border border-black/10 hover:border-[var(--color-accent)]/25"
                             title="Add another show on this date"
                           >
                             ➕ Add Another
@@ -1001,7 +963,7 @@ function BookPageContent() {
                           <button 
                             type="button" 
                             onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                            className="text-white/30 hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/25"
+                            className="text-black/50 hover:text-rose-600 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-black/10 hover:border-rose-500/25"
                             title="Remove this show"
                           >
                             ✕ Remove
@@ -1010,13 +972,13 @@ function BookPageContent() {
 
                         <div className="mb-4">
                           <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] block mb-1">Show #{index + 1}</span>
-                          <h5 className="text-base font-bold text-white tracking-wide">{formattedDate}</h5>
+                          <h5 className="text-base font-bold text-black tracking-wide">{formattedDate}</h5>
                         </div>
 
-                        <div className="space-y-3 mt-4 border-t border-white/5 pt-4">
+                        <div className="space-y-3 mt-4 border-t border-black/10 pt-4">
                           {/* Format */}
                           <div>
-                            <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Show Format</label>
+                            <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Show Format</label>
                             <div className="relative">
                               <select 
                                 value={slot.eventType}
@@ -1024,14 +986,14 @@ function BookPageContent() {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                               >
-                                <option value="full_band" className="bg-[var(--color-bg-deep)]">🎸 Full Band</option>
-                                <option value="unplugged" className="bg-[var(--color-bg-deep)]">🎤 Unplugged</option>
-                                <option value="private" className="bg-[var(--color-bg-deep)]">🎉 Private Event</option>
-                                <option value="custom" className="bg-[var(--color-bg-deep)]">✨ Custom Booking</option>
+                                <option value="full_band" className="bg-white text-black">🎸 Full Band</option>
+                                <option value="unplugged" className="bg-white text-black">🎤 Unplugged</option>
+                                <option value="private" className="bg-white text-black">🎉 Private Event</option>
+                                <option value="custom" className="bg-white text-black">✨ Custom Booking</option>
                               </select>
-                              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                               </div>
                             </div>
@@ -1044,7 +1006,7 @@ function BookPageContent() {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full mt-1.5 bg-[var(--color-bg-deep)] border border-[var(--color-accent)]/20 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                className="w-full mt-1.5 bg-black/[0.04] border border-[var(--color-accent)]/30 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
                               />
                             )}
                           </div>
@@ -1052,7 +1014,7 @@ function BookPageContent() {
                           {/* Times */}
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Start Time</label>
+                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Start Time</label>
                               <div className="relative">
                                 <select 
                                   value={slot.startTime}
@@ -1060,19 +1022,19 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                  className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                 >
                                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                    <option key={t} value={t} className="bg-[var(--color-bg-deep)]">{t}</option>
+                                    <option key={t} value={t} className="bg-white text-black">{t}</option>
                                   ))}
                                 </select>
-                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
                                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </div>
                               </div>
                             </div>
                             <div>
-                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 block mb-1.5">End Time</label>
+                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">End Time</label>
                               <div className="relative">
                                 <select 
                                   value={slot.endTime}
@@ -1080,13 +1042,13 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                  className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                 >
                                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(t => (
-                                    <option key={t} value={t} className="bg-[var(--color-bg-deep)]">{t}</option>
+                                    <option key={t} value={t} className="bg-white text-black">{t}</option>
                                   ))}
                                 </select>
-                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
                                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </div>
                               </div>
@@ -1095,9 +1057,9 @@ function BookPageContent() {
                         </div>
 
                         {/* Separate Contact/Venue details toggle buttons & form fields */}
-                        <div className="mt-4 pt-4 border-t border-white/5">
+                        <div className="mt-4 pt-4 border-t border-black/10">
                           <div className="mb-3">
-                            <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 block mb-2">Contact & Venue Details</label>
+                            <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-2">Contact & Venue Details</label>
                             <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 rounded-xl border border-white/5">
                               <button
                                 type="button"
@@ -1216,7 +1178,7 @@ function BookPageContent() {
                               
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Contact Name</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Name</label>
                                   <input 
                                     type="text"
                                     placeholder="e.g. Jane Doe"
@@ -1225,11 +1187,11 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
                                   />
                                 </div>
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Contact Email</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Email</label>
                                   <input 
                                     type="email"
                                     placeholder="e.g. jane@email.com"
@@ -1238,13 +1200,13 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
                                   />
                                 </div>
                               </div>
                               
                               <div>
-                                <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Venue Name</label>
+                                <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Venue Name</label>
                                 <input 
                                   type="text"
                                   placeholder="e.g. House of Blues"
@@ -1253,13 +1215,13 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                  className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
                                 />
                               </div>
                               
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">City</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">City</label>
                                   <input 
                                     type="text"
                                     placeholder="Chicago"
@@ -1268,11 +1230,11 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
                                   />
                                 </div>
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">State</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">State</label>
                                   <input 
                                     type="text"
                                     placeholder="IL"
@@ -1281,7 +1243,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
                                   />
                                 </div>
                               </div>
@@ -1289,14 +1251,14 @@ function BookPageContent() {
                           )}
                         </div>
 
-                        <div className="mt-4 pt-4 border-t border-white/5">
+                        <div className="mt-4 pt-4 border-t border-black/10">
                           <button
                             type="button"
                             onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)] hover:text-purple-300 transition-colors"
+                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)] hover:text-purple-600 transition-colors"
                           >
                             <span>📢 Tour Page Details {expandedMetadata[slot.id] ? "▼" : "▶"}</span>
-                            <span className="text-[var(--font-size-4xs)] text-white/30 lowercase font-normal">(optional: age limit, tickets, notes)</span>
+                            <span className="text-[var(--font-size-4xs)] text-black/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
                           </button>
                           
                           {expandedMetadata[slot.id] && (
@@ -1304,7 +1266,7 @@ function BookPageContent() {
                               {/* Age Restriction & Doors Time */}
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Age Limit</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Age Limit</label>
                                   <div className="relative">
                                     <select 
                                       value={slot.ageRestriction || "all_ages"}
@@ -1312,19 +1274,19 @@ function BookPageContent() {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                     >
-                                      <option value="all_ages" className="bg-[var(--color-bg-deep)]">All Ages</option>
-                                      <option value="21_plus" className="bg-[var(--color-bg-deep)]">21 & Over</option>
-                                      <option value="18_plus" className="bg-[var(--color-bg-deep)]">18 & Over</option>
+                                      <option value="all_ages" className="bg-white text-black">All Ages</option>
+                                      <option value="21_plus" className="bg-white text-black">21 & Over</option>
+                                      <option value="18_plus" className="bg-white text-black">18 & Over</option>
                                     </select>
-                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
                                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                     </div>
                                   </div>
                                 </div>
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Doors Time</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Doors Time</label>
                                   <div className="relative">
                                     <select 
                                       value={slot.doorsTime || ""}
@@ -1332,14 +1294,14 @@ function BookPageContent() {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                     >
-                                      <option value="" className="bg-[var(--color-bg-deep)]">Same as Start</option>
+                                      <option value="" className="bg-white text-black">Same as Start</option>
                                       {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                        <option key={t} value={t} className="bg-[var(--color-bg-deep)]">{t}</option>
+                                        <option key={t} value={t} className="bg-white text-black">{t}</option>
                                       ))}
                                     </select>
-                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
                                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                     </div>
                                   </div>
@@ -1349,7 +1311,7 @@ function BookPageContent() {
                               {/* Ticket Price & Link */}
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Cover / Price</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Cover / Price</label>
                                   <input 
                                     type="text"
                                     placeholder="e.g. Free, $15..."
@@ -1358,11 +1320,11 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
                                   />
                                 </div>
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Ticket Link</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Ticket Link</label>
                                   <input 
                                     type="text"
                                     placeholder="https://..."
@@ -1371,14 +1333,14 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20"
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
                                   />
                                 </div>
                               </div>
 
                               {/* Show Type Checkbox & Notes */}
                               <div className="space-y-2">
-                                <label className="flex items-center gap-2 text-xs text-white/60 cursor-pointer select-none">
+                                <label className="flex items-center gap-2 text-xs text-black/70 cursor-pointer select-none">
                                   <input 
                                     type="checkbox"
                                     checked={slot.isFestival || false}
@@ -1388,11 +1350,11 @@ function BookPageContent() {
                                     }}
                                     className="accent-[var(--color-accent)] cursor-pointer"
                                   />
-                                  <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider">This is a Festival / Fair show</span>
+                                  <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-black">This is a Festival / Fair show</span>
                                 </label>
                                 
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40 block mb-1">Public Notes (shown to fans)</label>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Public Notes (shown to fans)</label>
                                   <textarea 
                                     placeholder="e.g. All Age Outdoor Beer Garden show, unplugged set..."
                                     value={slot.notes || ""}
@@ -1401,7 +1363,7 @@ function BookPageContent() {
                                       setBookingSlots(updated);
                                     }}
                                     rows={2}
-                                    className="w-full bg-[var(--color-bg-deep)] border border-white/10 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-[var(--color-accent)] placeholder:text-white/20 resize-none [color-scheme:dark]"
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40 resize-none"
                                   />
                                 </div>
                               </div>
@@ -1417,7 +1379,7 @@ function BookPageContent() {
           </div>
 
           {/* Step 2: Contact Information */}
-          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+          <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative animate-[fade-in-up_0.15s_ease-out_both]">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
               <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">2</span>
               Contact Information
@@ -1431,7 +1393,7 @@ function BookPageContent() {
           </div>
 
           {/* Step 3: Venue Details */}
-          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+          <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative animate-[fade-in-up_0.15s_ease-out_both]">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
               <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">3</span>
               Venue Details
@@ -1449,7 +1411,7 @@ function BookPageContent() {
             <div className="flex flex-col gap-8">
 
             {/* Step 4: Technical & Logistics */}
-            <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
                 <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">4</span>
                 Technical & Logistics
@@ -1460,7 +1422,7 @@ function BookPageContent() {
               <RadioPillField label="Stage Available?" name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
               <RadioPillField label="Backline Provided?" name="backlineProvided" value={formData.backlineProvided} onChange={handleChange} options={["Yes — amps, drums, etc.", "Partial", "No — band brings everything", "Not sure"]} />
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-white/5 pt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-black/10 pt-8">
                 <div>
                    <InputField label="Expected Attendance" name="expectedAttendance" value={formData.expectedAttendance} onChange={handleChange} placeholder="~200 people" />
                 </div>
@@ -1469,12 +1431,12 @@ function BookPageContent() {
             </div>
 
             {/* Step 5: Additional Options */}
-            <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
                 <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">5</span>
                 Production & Extras
               </h2>
-              <p className="text-white/30 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
+              <p className="text-black/50 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
                   const isActive = addOns.includes(option.id);
@@ -1485,27 +1447,27 @@ function BookPageContent() {
                       onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
                       className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3 group
                         ${isActive
-                          ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-[0_0_15px_rgba(133,29,239,0.1)]'
-                          : 'border-white/5 bg-white/[0.01] hover:border-white/15 hover:bg-white/[0.03]'
+                          ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-sm'
+                          : 'border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]'
                         }`}
                     >
                       <span className="text-xl mt-0.5">{option.icon}</span>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className={`text-base font-bold block ${isActive ? 'text-[var(--color-accent)]' : 'text-white/80'}`}>{option.label}</span>
+                          <span className={`text-base font-bold block ${isActive ? 'text-[var(--color-accent)]' : 'text-black/80'}`}>{option.label}</span>
                           {isActive && (
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                           )}
                         </div>
-                        <span className="text-base text-white/30 block leading-snug">{option.desc}</span>
+                        <span className="text-base text-black/50 block leading-snug">{option.desc}</span>
                       </div>
                     </button>
                   );
                 })}
               </div>
               {addOns.length > 0 && (
-                <div className="mt-5 pt-4 border-t border-white/5 flex items-center gap-3 flex-wrap">
-                  <span className="text-base font-bold uppercase tracking-widest text-white/30">Selected:</span>
+                <div className="mt-5 pt-4 border-t border-black/10 flex items-center gap-3 flex-wrap">
+                  <span className="text-base font-bold uppercase tracking-widest text-black/50">Selected:</span>
                   {addOns.map(id => (
                     <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-accent)]/10 text-[var(--color-accent)] text-base font-bold rounded-full border border-[var(--color-accent)]/20">
                       {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
@@ -1517,22 +1479,22 @@ function BookPageContent() {
             </div>
 
             {/* Step 6: Notes & Questions */}
-            <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
                 <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">6</span>
                 Notes & Questions
               </h2>
-              <p className="text-white/30 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
+              <p className="text-black/50 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
               <textarea
                 name="details"
                 value={formData.details}
                 onChange={handleChange}
                 rows={5}
                 placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                className="w-full bg-white/[0.02] border border-white/10 text-white text-lg leading-relaxed px-5 py-4 rounded-2xl focus:border-[var(--color-accent)]/50 outline-none transition-all resize-none placeholder:text-white/15 [color-scheme:dark]"
+                className="w-full bg-black/[0.04] border border-black/15 text-black text-lg leading-relaxed px-5 py-4 rounded-2xl focus:border-[var(--color-accent)] outline-none transition-all resize-none placeholder:text-black/40"
               />
               {formData.details && (
-                <div className="mt-3 flex items-center gap-2 text-base text-emerald-400/60">
+                <div className="mt-3 flex items-center gap-2 text-base text-emerald-700">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   <span className="uppercase tracking-widest font-bold">Note attached to your booking</span>
                 </div>
@@ -1551,57 +1513,57 @@ function BookPageContent() {
           {/* Right Column: Sticky Summary Sidebar */}
           <div>
             <div className="sticky top-32">
-            <div className="bg-[var(--color-accent)]/[0.03] border border-[var(--color-accent)]/20 rounded-3xl p-6 shadow-[0_10px_40px_min(rgba(133,29,239,0.1),10%)]">
-               <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-white/60 mb-6 pb-4 border-b border-white/5">Booking Summary</h3>
+            <div className="bg-white border border-black/15 rounded-3xl p-6 shadow-xl">
+               <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-black/70 mb-6 pb-4 border-b border-black/10">Booking Summary</h3>
                
                <div className="flex flex-col gap-4 mb-8">
                   <div className="flex justify-between items-start">
-                     <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Date</span>
-                     <span className="text-base font-bold text-white text-right">
+                     <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Date</span>
+                     <span className="text-base font-bold text-black text-right">
                        {bookingSlots.length === 1 ? (
                          new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric'})
                        ) : bookingSlots.length > 1 ? (
                          `${bookingSlots.length} Shows Scheduled`
                        ) : (
-                         <span className="text-white/20">—</span>
+                         <span className="text-black/30">—</span>
                        )}
                      </span>
                   </div>
                   <div className="flex justify-between items-start">
-                     <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Time</span>
-                     <span className="text-base font-bold text-white text-right">
+                     <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Time</span>
+                     <span className="text-base font-bold text-black text-right">
                        {bookingSlots.length === 1 ? (
                          `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
                        ) : bookingSlots.length > 1 ? (
                          "Varies by show"
                        ) : (
-                         <span className="text-white/20">—</span>
+                         <span className="text-black/30">—</span>
                        )}
                      </span>
                   </div>
                   <div className="flex justify-between items-start">
-                     <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Format</span>
+                     <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Format</span>
                      <span className="text-base font-bold text-[var(--color-accent)] text-right">
                        {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="text-[var(--color-accent)]/30">—</span>}
                      </span>
                   </div>
-                  <div className="flex justify-between items-start pt-4 border-t border-white/5">
-                     <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Venue</span>
-                     <span className="text-base font-bold text-white text-right break-words max-w-[150px]">
-                       {formData.venueName ? formData.venueName : <span className="text-white/20">—</span>}
-                       {formData.venueCity && <span className="block text-base text-white/40 font-normal">{formData.venueCity}, {formData.venueState}</span>}
+                  <div className="flex justify-between items-start pt-4 border-t border-black/10">
+                     <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Venue</span>
+                     <span className="text-base font-bold text-black text-right break-words max-w-[150px]">
+                       {formData.venueName ? formData.venueName : <span className="text-black/30">—</span>}
+                       {formData.venueCity && <span className="block text-base text-black/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
                      </span>
                   </div>
                   {addOns.length > 0 && (
-                    <div className="flex justify-between items-start pt-4 border-t border-white/5">
-                      <span className="text-lg text-white/40 uppercase tracking-widest mt-1">Add-Ons</span>
+                    <div className="flex justify-between items-start pt-4 border-t border-black/10">
+                      <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Add-Ons</span>
                       <div className="text-right">
                         <span className="text-base font-bold text-[var(--color-accent)]">{addOns.length} selected</span>
                         <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
                           {addOns.slice(0, 3).map(id => (
-                            <span key={id} className="text-lg bg-[var(--color-accent)]/10 text-[var(--color-accent)]/70 px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
+                            <span key={id} className="text-lg bg-[var(--color-accent)]/10 text-[var(--color-accent)] px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
                           ))}
-                          {addOns.length > 3 && <span className="text-lg text-white/30 font-bold">+{addOns.length - 3} more</span>}
+                          {addOns.length > 3 && <span className="text-lg text-black/40 font-bold">+{addOns.length - 3} more</span>}
                         </div>
                       </div>
                     </div>
@@ -1614,12 +1576,12 @@ function BookPageContent() {
                {validationErrors.length > 0 && (
                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-4">
                    <div className="flex items-center gap-2 mb-2">
-                     <span className="text-red-400 text-sm">⚠</span>
-                     <span className="text-red-400 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
+                     <span className="text-red-600 text-sm">⚠</span>
+                     <span className="text-red-600 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
                    </div>
                    <ul className="space-y-1">
                      {validationErrors.map((err, i) => (
-                       <li key={i} className="text-red-300/80 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500/50">{err}</li>
+                       <li key={i} className="text-red-600 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500">{err}</li>
                      ))}
                    </ul>
                  </div>
@@ -1628,7 +1590,7 @@ function BookPageContent() {
                <button 
                 type="submit" 
                 disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 rounded-xl transition-all shadow-lg hover:shadow-[0_0_20px_rgba(133,29,239,0.3)] flex items-center justify-center gap-2"
+                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
                >
                  {submitting ? (
                    <>
@@ -1642,8 +1604,8 @@ function BookPageContent() {
                    </>
                  )}
                </button>
-               <p className="text-base text-white/30 text-center mt-4">
-                 By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="underline hover:text-white/50 transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-white/50 transition-colors">Terms</a>.
+               <p className="text-base text-black/50 text-center mt-4">
+                 By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-black transition-colors">Terms</a>.
                </p>
             </div>
             </div>
@@ -1651,38 +1613,6 @@ function BookPageContent() {
         </div>
       </form>
 
-
-
-        {/* Past Event Gallery */}
-        <div className="border-t border-white/10 pt-20 mb-20">
-          <div className="text-center mb-12">
-            <span className="inline-block text-lg font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 bg-[var(--color-accent)]/10 px-4 py-1.5 rounded-full border border-[var(--color-accent)]/20">See Us In Action</span>
-            <h2 className="text-[clamp(1.5rem,3vw,2.5rem)] font-extrabold text-white">Past <span className="gradient-text">Events</span></h2>
-            <p className="text-white/40 text-base mt-3 max-w-lg mx-auto">From packed festival stages to intimate cocktail hours — we bring the energy everywhere.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { img: '/images/events/festival.png', title: 'Summer Music Festival', venue: 'Millennium Park, Chicago', type: 'Full Band', guests: '5,000+' },
-              { img: '/images/events/wedding.png', title: 'Anderson Wedding Reception', venue: 'The Drake Hotel, Chicago', type: 'Private Event', guests: '250' },
-              { img: '/images/events/corporate.png', title: 'Annual Corporate Gala', venue: 'Four Seasons Ballroom, IL', type: 'Full Band', guests: '400' },
-              { img: '/images/events/bar.png', title: 'Friday Night Residency', venue: "Joe's Bar, Chicago", type: 'Full Band', guests: '300' },
-              { img: '/images/events/acoustic.png', title: 'Wine & Dine Series', venue: 'Vino & Vine, Naperville', type: 'Unplugged', guests: '60' },
-              { img: '/images/events/private-party.png', title: 'Luxury Pool Party', venue: 'Private Estate, Lake Forest', type: 'Private Event', guests: '150' },
-            ].map((event, i) => (
-              <div key={i} className="group relative rounded-2xl overflow-hidden border border-white/5 bg-[var(--color-bg-surface)]">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img src={event.img} alt={event.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <span className="inline-block text-base font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/20 px-2 py-0.5 rounded mb-2">{event.type}</span>
-                  <h3 className="text-white font-bold text-base mb-0.5">{event.title}</h3>
-                  <p className="text-white/40 text-lg">{event.venue} · {event.guests} guests</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
 
       </div>

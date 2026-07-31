@@ -452,6 +452,17 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       });
     });
 
+    // Auto-fit map bounds so all active location pins stay 100% inside the visual map screen with safety padding
+    if (filteredVenues.length > 0 && map) {
+      const bounds = L.latLngBounds(filteredVenues.map(v => [v.lat, v.lng]));
+      map.fitBounds(bounds, {
+        paddingTopLeft: [50, 70],
+        paddingBottomRight: [50, 60],
+        maxZoom: 12,
+        animate: true
+      });
+    }
+
     return () => {
       markersRef.current.forEach(m => m.marker.remove());
       markersRef.current = [];
@@ -508,7 +519,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, [onPinClick]);
 
   return (
-    <div className="relative w-full aspect-[21/12] overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]">
+    <div className="relative w-full aspect-[21/12] overflow-hidden border border-black/10 bg-black shadow-lg rounded-2xl">
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1]" />
       
       {/* Near Me Button */}
@@ -592,7 +603,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       </div>
 
       {!isLoaded && (
-        <div className="absolute inset-0 z-[2] flex items-center justify-center bg-[var(--color-bg-surface)]">
+        <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black">
           <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
         </div>
       )}

@@ -1029,7 +1029,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       </div>
 
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
-      <div ref={canvasRef} className={styles.canvas} style={{ height: totalH, maxWidth: SVG_W }}>
+      <div ref={canvasRef} className={styles.canvas} style={{ height: totalH, width: '100%', maxWidth: '100%' }}>
         {/* SVG — path + nodes */}
         <svg
           className={styles.svg}

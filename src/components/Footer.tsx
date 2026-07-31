@@ -35,7 +35,7 @@ const FALLBACK_ENDORSEMENTS = [
 
 const footerLinks = [
   { href: "/news", label: "News" },
-  { href: "/bio", label: "Band" },
+  { href: "/band", label: "Band" },
   { href: "/#music-player-section", label: "Music" },
   { href: "/media", label: "Media" },
   { href: "/contact", label: "Contact" },
@@ -96,7 +96,7 @@ export function Footer() {
 
   return (
     <footer
-      className="relative bg-black pt-24 pb-6 overflow-hidden"
+      className="relative text-black pt-8 pb-6 overflow-hidden"
       id="footer"
       suppressHydrationWarning
       style={{
@@ -110,15 +110,15 @@ export function Footer() {
         {/* Book The Band — Bold CTA (Planner only) */}
         {isPlanner && (
         <div className="mb-10">
-          <h2 className="font-[var(--font-heading)] text-[clamp(1.5rem,3vw,2.2rem)] font-black uppercase tracking-tight text-white mb-1">
+          <h2 className="font-[var(--font-heading)] text-[clamp(1.5rem,3vw,2.2rem)] font-black uppercase tracking-tight text-black mb-1">
             Book The Band
           </h2>
           <div className="w-20 h-[3px] bg-[var(--color-accent)] mb-8" />
 
-          <a href={`tel:${bookingPhone.replace(/-/g, '')}`} className="block font-[var(--font-heading)] text-[clamp(2.2rem,6vw,4rem)] font-extrabold italic text-white/90 hover:text-white transition-colors leading-[1.1] tracking-tight">
+          <a href={`tel:${bookingPhone.replace(/-/g, '')}`} className="block font-[var(--font-heading)] text-[clamp(2.2rem,6vw,4rem)] font-extrabold italic text-black/90 hover:text-black transition-colors leading-[1.1] tracking-tight">
             {bookingPhone}
           </a>
-          <a href={`mailto:${bookingEmail}`} className="block font-[var(--font-heading)] text-[clamp(2rem,5.5vw,3.5rem)] font-extrabold italic text-[var(--color-accent)] hover:text-white transition-colors leading-[1.1] tracking-tight">
+          <a href={`mailto:${bookingEmail}`} className="block font-[var(--font-heading)] text-[clamp(2rem,5.5vw,3.5rem)] font-extrabold italic text-[var(--color-accent)] hover:text-black transition-colors leading-[1.1] tracking-tight">
             {bookingEmail}
           </a>
         </div>
@@ -127,17 +127,17 @@ export function Footer() {
       </div>
 
       {/* SMS Text Alerts */}
-      <div className="site-container py-12" suppressHydrationWarning>
+      <div className="site-container pt-0 pb-2" suppressHydrationWarning>
         <div className="max-w-lg" suppressHydrationWarning>
           <div className="flex items-center gap-3 mb-1" suppressHydrationWarning>
             <span className="text-lg">📱</span>
-            <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-white">Text Alerts</h3>
+            <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-black">Text Alerts</h3>
           </div>
-          <p className="text-base text-white/40 mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
+          <p className="text-base text-black/60 mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
           {smsStatus === 'success' ? (
             <div className="flex items-center gap-3 px-5 py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
-              <span className="text-emerald-400 text-lg">✓</span>
-              <p className="text-sm font-bold text-emerald-400">You&apos;re subscribed! We&apos;ll text you when we&apos;re in your area.</p>
+              <span className="text-emerald-600 text-lg">✓</span>
+              <p className="text-sm font-bold text-emerald-600">You&apos;re subscribed! We&apos;ll text you when we&apos;re in your area.</p>
             </div>
           ) : (
             <form
@@ -166,7 +166,7 @@ export function Footer() {
                 placeholder="(555) 123-4567"
                 required
                 suppressHydrationWarning
-                className="flex-1 min-w-[140px] px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+                className="flex-1 min-w-[140px] px-4 py-3 bg-black/[0.04] border border-black/15 text-sm text-black placeholder:text-black/40 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
               />
               <input
                 type="text"
@@ -176,18 +176,18 @@ export function Footer() {
                 required
                 maxLength={5}
                 suppressHydrationWarning
-                className="w-24 px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+                className="w-24 px-4 py-3 bg-black/[0.04] border border-black/15 text-sm text-black placeholder:text-black/40 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
               />
               <select
                 value={smsDistance}
                 onChange={e => setSmsDistance(e.target.value)}
-                className="w-28 px-3 py-3 bg-white/[0.03] border border-white/10 text-sm text-white outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none"
-                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}
+                className="w-28 px-3 py-3 bg-black/[0.04] border border-black/15 text-sm text-black outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}
               >
-                <option value="25" className="bg-[var(--color-bg-card)] text-white">25 mi</option>
-                <option value="50" className="bg-[var(--color-bg-card)] text-white">50 mi</option>
-                <option value="100" className="bg-[var(--color-bg-card)] text-white">100 mi</option>
-                <option value="200" className="bg-[var(--color-bg-card)] text-white">200 mi</option>
+                <option value="25" className="bg-white text-black">25 mi</option>
+                <option value="50" className="bg-white text-black">50 mi</option>
+                <option value="100" className="bg-white text-black">100 mi</option>
+                <option value="200" className="bg-white text-black">200 mi</option>
               </select>
               <button
                 type="submit"
@@ -198,44 +198,35 @@ export function Footer() {
               </button>
             </form>
           )}
-          {smsStatus === 'error' && <p className="text-xs text-rose-400 mt-2">Something went wrong. Try again.</p>}
-          <p className="text-xs text-white/20 mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <a href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-white/40 transition-colors">Terms</a>.</p>
+          {smsStatus === 'error' && <p className="text-xs text-rose-500 mt-2">Something went wrong. Try again.</p>}
+          <p className="text-xs text-black/50 mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <a href="/privacy" className="underline hover:text-black transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-black transition-colors">Terms</a>.</p>
         </div>
       </div>
 
-      {/* Massive Typographic Footer Logo */}
-      <div className="relative mt-12 select-none pointer-events-none overflow-hidden max-h-[20vw]">
-        <h1 className="text-[18vw] leading-[0.8] font-black text-[#0d0d0d] uppercase tracking-[-0.02em] text-center whitespace-nowrap px-4 italic">
-          7th Heaven
-        </h1>
-      </div>
-
       {/* Endorsements */}
-      <div className="site-container py-16 text-center">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-white/20 mb-12">Official Gear Endorsements</p>
-        <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 px-4">
+      <div className="site-container py-8 text-left">
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-black/40 mb-8">Official Gear Endorsements</p>
+        <div className="flex flex-wrap justify-start items-center gap-x-8 gap-y-6">
           {endorsements.map((brand) => (
             <img
               key={brand.name}
               src={brand.logoPath}
               alt={brand.name}
-              className="h-[30px] md:h-[35px] w-auto max-h-[35px] object-contain transition-all duration-300 hover:brightness-100"
-              style={{ filter: 'invert(1) brightness(0.4)' }}
+              className="h-6 md:h-7 w-auto object-contain transition-all duration-300 hover:opacity-100 opacity-50 shrink-0"
+              style={{ filter: 'brightness(0)' }}
               loading="lazy"
-              onMouseEnter={(e) => { e.currentTarget.style.filter = 'invert(1) brightness(0.9)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.filter = 'invert(1) brightness(0.4)'; }}
             />
           ))}
         </div>
       </div>
 
       {/* Inline Links Row — MOVED TO BOTTOM */}
-      <div className="site-container py-6">
+      <div className="site-container pt-2 pb-1">
         <div className="flex flex-wrap items-center justify-between gap-4">
           {/* Nav Links */}
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap items-center gap-5">
             {footerLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-base font-semibold tracking-wide text-white/40 hover:text-white transition-colors">
+              <Link key={link.href} href={link.href} className="text-[13px] font-semibold tracking-wide text-black/60 hover:text-black transition-colors">
                 {link.label}
               </Link>
             ))}
@@ -247,11 +238,11 @@ export function Footer() {
                   openModal('login');
                 }
               }}
-              className="text-base font-semibold tracking-wide text-white/40 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
+              className="text-[13px] font-semibold tracking-wide text-black/60 hover:text-black transition-colors cursor-pointer bg-transparent border-none"
             >
               Crew Login
             </button>
-            <Link href="/planner?login=true" className="text-base font-semibold tracking-wide text-white/40 hover:text-white transition-colors">
+            <Link href="/planner?login=true" className="text-[13px] font-semibold tracking-wide text-black/60 hover:text-black transition-colors">
               Planner Login
             </Link>
           </div>
@@ -260,11 +251,11 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-1">
             {socialLinks.map((link, i) => (
               <span key={link.name} className="flex items-center">
-                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-base font-semibold tracking-wide text-white/40 hover:text-white transition-colors">
+                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold tracking-wide text-black/60 hover:text-black transition-colors">
                   {link.name}
                 </a>
                 {i < socialLinks.length - 1 && (
-                  <span className="text-[var(--color-accent)] mx-3 text-base font-bold">/</span>
+                  <span className="text-[var(--color-accent)] mx-1.5 text-[13px] font-bold">/</span>
                 )}
               </span>
             ))}
@@ -273,18 +264,17 @@ export function Footer() {
       </div>
 
       {/* Legal Bottom */}
-      <div className="site-container pt-6 pb-4 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 text-sm font-semibold tracking-wide text-white/40 mt-4 md:mt-0">
-          <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-          <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
-          <Link href="/returns" className="hover:text-white transition-colors">Returns</Link>
-          <Link href="/marketing" className="hover:text-[var(--color-accent)] transition-colors">Press Kit</Link>
+      <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex flex-wrap justify-center md:justify-start gap-5 text-[13px] font-semibold tracking-wide text-black/60 mt-1 md:mt-0">
+          <Link href="/privacy" className="hover:text-black transition-colors">Privacy</Link>
+          <Link href="/terms" className="hover:text-black transition-colors">Terms</Link>
+          <Link href="/returns" className="hover:text-black transition-colors">Returns</Link>
           <Link href="/sitemap" className="hover:text-[var(--color-accent)] transition-colors">Sitemap</Link>
           <Link href="/demo/proximity" className="hover:text-[var(--color-accent)] transition-colors">Dev Demo</Link>
           <Link href="/admin?login=true" className="hover:text-[var(--color-accent)] transition-colors">Admin</Link>
           <Link href="/planner?login=true" className="hover:text-[var(--color-accent)] transition-colors">Planner</Link>
         </div>
-        <p className="text-sm font-medium tracking-wide text-white/30">
+        <p className="text-[13px] font-medium tracking-wide text-black/40">
           Designed & Developed by NTD Records © {new Date().getFullYear()}
         </p>
       </div>

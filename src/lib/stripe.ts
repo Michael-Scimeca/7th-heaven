@@ -12,7 +12,7 @@ export function getStripe(): Stripe {
     if (!key) {
       throw new Error("STRIPE_SECRET_KEY is not set");
     }
-    _stripe = new Stripe(key, { apiVersion: "2026-05-27.dahlia" });
+    _stripe = new Stripe(key, { apiVersion: "2026-06-24.dahlia" as any });
   }
   return _stripe;
 }

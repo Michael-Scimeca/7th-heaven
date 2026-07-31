@@ -11,9 +11,8 @@ import dynamic from "next/dynamic";
 
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
   ssr: false,
-  loading: () => <p className="text-white/40 animate-pulse">Loading upload form...</p>,
+  loading: () => <p className="text-black/40 animate-pulse">Loading upload form...</p>,
 });
-import PickAwardsSection from "@/components/PickAwardsSection";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
 
@@ -335,10 +334,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
   if (!isLoggedIn && !devBypass && !isDemoMode) {
     return (
-      <section className="py-48 min-h-screen flex items-center justify-center">
+      <section className="py-48 min-h-screen bg-[#f0f2f5] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-black italic tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
-          <p className="text-white/40 mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
+          <p className="text-black/40 mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
           <button onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white text-sm font-bold uppercase tracking-widest hover:brightness-110 shadow-[0_0_15px_rgba(133,29,239,0.3)]">
             Login to Access
           </button>
@@ -348,8 +347,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   }
 
   return (
-    <section className="py-32 min-h-screen bg-[#050505] border-t border-white/5">
-      <div className="site-container">
+    <section className="pt-[88px] pb-32 min-h-screen bg-[#f0f2f5] border-t border-black/10">
+      <div className="site-container pt-[25px]">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (
           <div className="mb-8 flex items-start gap-3 px-5 py-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
@@ -361,7 +360,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
         {/* Account Identity Header */}
-        <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
+        <div className="flex items-center justify-between mb-10 pb-6 border-b border-black/10">
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black text-[var(--color-accent)] overflow-hidden shrink-0">
               {(effectiveMember?.avatar || member?.avatar) && ((effectiveMember?.avatar || member?.avatar).startsWith('http') || (effectiveMember?.avatar || member?.avatar).startsWith('/') || (effectiveMember?.avatar || member?.avatar).startsWith('data:')) ? (
@@ -378,7 +377,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 effectiveMember?.role === 'crew' ? 'bg-emerald-400' :
                 effectiveMember?.role === 'event_planner' ? 'bg-fuchsia-500' :
                 ((dashboardView === 'cruise' || effectiveMember?.signup_source === 'cruise_member_signup') ? 'bg-cyan-400 text-black' : 'bg-[var(--color-accent)]')
-              } border-2 border-[var(--color-bg-primary)] flex items-center justify-center`}>
+              } border-2 border-white flex items-center justify-center`}>
                 <span className="text-[var(--font-size-3xs)]">
                   {effectiveMember?.role === 'admin' ? '🛡️' :
                    effectiveMember?.role === 'crew' ? '🛡️' :
@@ -468,11 +467,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   );
                 })()}
               </div>
-              <p className="text-base text-white/40 font-mono mt-1">{effectiveMember?.email}</p>
+              <p className="text-base text-black/40 font-mono mt-1">{effectiveMember?.email}</p>
             </div>
           </div>
-          <Link href="/fan-photo-wall" className="hidden md:flex flex-col items-end px-6 py-3 bg-white/[0.02] hover:bg-white/5 border border-white/10 transition-colors">
-            <span className="text-white text-sm font-bold uppercase tracking-widest leading-none">View Public Gallery</span>
+          <Link href="/fan-photo-wall" className="hidden md:flex flex-col items-end px-6 py-3 bg-white/[0.02] hover:bg-black/5 border border-black/10 transition-colors">
+            <span className="text-black text-sm font-bold uppercase tracking-widest leading-none">View Public Gallery</span>
             <span className="text-[var(--color-accent)] text-xs uppercase tracking-widest mt-1">Global Fan Wall →</span>
           </Link>
         </div>
@@ -480,11 +479,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* Cruise Hub Toggle */}
         {isCruiser && (
           <div className="flex justify-center mb-8 -mt-2">
-            <div className="bg-white/[0.03] border border-white/10 rounded-full p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-black/[0.03] border border-black/10 rounded-full p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               <button
                 onClick={() => setDashboardView('fan')}
                 className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                  dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(133,29,239,0.4)]' : 'text-white/40 hover:text-white'
+                  dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-black shadow-[0_0_15px_rgba(133,29,239,0.4)]' : 'text-black/40 hover:text-black'
                 }`}
               >
                 Fan Dashboard
@@ -492,7 +491,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <button
                 onClick={() => setDashboardView('cruise')}
                 className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                  dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40 hover:text-cyan-400'
+                  dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-black/40 hover:text-cyan-400'
                 }`}
               >
                 🚢 Cruise Hub
@@ -504,16 +503,16 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {dashboardView === 'cruise' ? (
           <div>
             {/* Cruise Header */}
-            <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <header className="mb-8 border-b border-black/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div>
                 <div className="flex items-center gap-4 mb-4">
                   <span className="text-4xl">🚢</span>
                   <div>
-                    <h1 className="text-3xl font-black uppercase tracking-widest text-white">Cruise Hub</h1>
+                    <h1 className="text-3xl font-black uppercase tracking-widest text-black">Cruise Hub</h1>
                     <p className="text-[var(--color-accent)] font-bold text-sm tracking-widest uppercase mt-1">Passenger Area</p>
                   </div>
                 </div>
-                <p className="text-white/60 text-lg max-w-xl">Welcome aboard, <strong className="text-white">{member?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
+                <p className="text-black/60 text-lg max-w-xl">Welcome aboard, <strong className="text-black">{member?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
               </div>
               <div className="shrink-0">
                 <EmbarkationCountdown />
@@ -522,7 +521,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {/* Captain's Log */}
             {cruiseAnnouncement && (
-              <div className="relative overflow-hidden bg-gradient-to-br from-cyan-950/40 to-[#0a0a0f] border border-cyan-500/30 rounded-2xl mb-8 shadow-[0_0_40px_rgba(6,182,212,0.1)]">
+              <div className="relative overflow-hidden bg-gradient-to-br from-cyan-50 to-[#0a0a0f] border border-cyan-500/30 rounded-2xl mb-8 shadow-md">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500" />
                 <div className="p-6 md:p-8 relative z-10">
@@ -530,11 +529,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)]">
                       <span className="animate-pulse">🔔</span>
                     </div>
-                    <h3 className="text-lg font-black italic tracking-wider text-white uppercase">Captain&apos;s Log</h3>
+                    <h3 className="text-lg font-black italic tracking-wider text-black uppercase">Captain&apos;s Log</h3>
                     <span className="ml-auto text-xs font-bold tracking-[0.2em] uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
-                    className="text-white/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold"
+                    className="text-black/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold"
                     dangerouslySetInnerHTML={{ __html: typeof window !== 'undefined' ? DOMPurify.sanitize(cruiseAnnouncement) : cruiseAnnouncement }}
                   />
                 </div>
@@ -552,26 +551,26 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                 {cruiseItinerary.length > 0 && (
                   <div>
-                    <h2 className="text-xl font-black italic tracking-wide text-white uppercase mb-6 flex items-center gap-3">
-                      <span className="text-[var(--color-accent)]">⚓</span> Official Itinerary <span className="text-xs font-bold text-white/30 tracking-widest not-italic ml-2 uppercase">Subject to Change</span>
+                    <h2 className="text-xl font-black italic tracking-wide text-black uppercase mb-6 flex items-center gap-3">
+                      <span className="text-[var(--color-accent)]">⚓</span> Official Itinerary <span className="text-xs font-bold text-black/30 tracking-widest not-italic ml-2 uppercase">Subject to Change</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {cruiseItinerary.map(day => (
-                        <div key={day.id} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
+                        <div key={day.id} className="bg-white border border-black/10 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
                           <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 transition-all duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
                               <span className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
-                              <span className="text-xs font-bold text-white/40 uppercase tracking-widest">{day.location}</span>
+                              <span className="text-xs font-bold text-black/40 uppercase tracking-widest">{day.location}</span>
                             </div>
-                            <h3 className="text-lg font-black uppercase tracking-wide text-white mb-2">{day.theme}</h3>
-                            <ul className="space-y-4 mt-5 border-t border-white/5 pt-5">
+                            <h3 className="text-lg font-black uppercase tracking-wide text-black mb-2">{day.theme}</h3>
+                            <ul className="space-y-4 mt-5 border-t border-black/10 pt-5">
                               {day.events.map(ev => (
                                 <li key={ev.id} className="flex items-start gap-4">
                                   <span className="font-mono text-xs font-bold tracking-wider mt-0.5" style={{ color: day.colorTheme }}>{ev.time}</span>
                                   <div>
-                                    <strong className="block text-white text-sm tracking-wide">{ev.title}</strong>
-                                    <span className="text-white/40 text-xs">{ev.subtitle}</span>
+                                    <strong className="block text-black text-sm tracking-wide">{ev.title}</strong>
+                                    <span className="text-black/40 text-xs">{ev.subtitle}</span>
                                   </div>
                                 </li>
                               ))}
@@ -588,13 +587,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-1">
                 <div className="sticky top-32 flex flex-col gap-6">
                   {/* Passengers Widget */}
-                  <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
+                  <div className="bg-white border border-black/10 rounded-2xl p-6 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-all duration-500 pointer-events-none" />
                     <div className="flex justify-between items-end mb-5 relative z-10">
                       <div>
-                        <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
+                        <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/40 mb-1">Community</h2>
                         <div className="flex items-center gap-2">
-                          <span className="text-white font-black text-2xl italic tracking-wide">412</span>
+                          <span className="text-black font-black text-2xl italic tracking-wide">412</span>
                           <span className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Fans Onboard</span>
                         </div>
                       </div>
@@ -605,7 +604,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-amber-500', 'bg-violet-500', 'bg-pink-500'];
                           return (
                             <div key={i} className={`w-10 h-10 rounded-full border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
-                              <span className="text-xs font-black text-white/90 tracking-widest">{initials}</span>
+                              <span className="text-xs font-black text-black/90 tracking-widest">{initials}</span>
                             </div>
                           );
                         })}
@@ -614,7 +613,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </div>
                       </div>
                     </div>
-                    <p className="text-white/30 text-xs leading-relaxed relative z-10 border-t border-white/5 pt-4">
+                    <p className="text-black/30 text-xs leading-relaxed relative z-10 border-t border-black/10 pt-4">
                       Join the official 7th Heaven cruise community. See who else is sailing, coordinate shore excursions, and make new friends!
                     </p>
                   </div>
@@ -631,37 +630,37 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             <div className="space-y-3">
               {liveFeeds.map((feed) => (
                 <Link key={feed.room} href={`/live/${feed.room}`} className="block relative overflow-hidden group">
-                  <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-red-600/20 via-red-500/10 to-red-600/20 border border-red-500/40 rounded-xl hover:border-red-500/60 transition-all">
+                  <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-red-50 via-red-50 to-red-50 border border-red-500/40 rounded-xl hover:border-red-500/60 transition-all">
                     <div className="flex items-center gap-4">
                       <span className="relative flex h-4 w-4">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
                         <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
                       </span>
                       <div>
-                        <p className="text-sm font-black text-white uppercase tracking-wide">🎥 {feed.host} is LIVE {feed.title ? `— ${feed.title}` : ''}</p>
+                        <p className="text-sm font-black text-black uppercase tracking-wide">🎥 {feed.host} is LIVE {feed.title ? `— ${feed.title}` : ''}</p>
                         <p className="text-xs text-red-300/70 mt-0.5">
                           {feed.viewers > 0 ? `${feed.viewers} watching · ` : ''}Watch the backstage feed before it ends
                         </p>
                       </div>
                     </div>
-                    <span className="px-4 py-2 bg-red-500 text-white text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-white group-hover:text-red-600 transition-all shadow-[0_0_15px_rgba(239,68,68,0.4)]">Watch Now →</span>
+                    <span className="px-4 py-2 bg-red-500 text-black text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-gray-100 group-hover:text-red-600 transition-all shadow-[0_0_15px_rgba(239,68,68,0.4)]">Watch Now →</span>
                   </div>
                 </Link>
               ))}
             </div>
           ) : (
             <Link href="/live" className="block group">
-              <div className="flex items-center justify-between px-6 py-4 bg-white/[0.02] border border-white/5 rounded-xl hover:border-white/10 transition-all">
+              <div className="flex items-center justify-between px-6 py-4 bg-white/[0.02] border border-black/10 rounded-xl hover:border-black/10 transition-all">
                 <div className="flex items-center gap-4">
                   <span className="relative flex h-4 w-4">
                     <span className="relative inline-flex rounded-full h-4 w-4 bg-white/20" />
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-white/40 uppercase tracking-wide">📡 Backstage is Quiet</p>
-                    <p className="text-xs text-white/20 mt-0.5">No crew feeds are live right now — check back during the next show</p>
+                    <p className="text-sm font-bold text-black/40 uppercase tracking-wide">📡 Backstage is Quiet</p>
+                    <p className="text-xs text-black/25 mt-0.5">No crew feeds are live right now — check back during the next show</p>
                   </div>
                 </div>
-                <span className="px-4 py-2 bg-white/5 text-white/30 text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-white/10 group-hover:text-white/50 transition-all border border-white/5">Live Hub →</span>
+                <span className="px-4 py-2 bg-black/5 text-black/30 text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-black/5 group-hover:text-black/50 transition-all border border-black/10">Live Hub →</span>
               </div>
             </Link>
           )}
@@ -683,7 +682,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               }
 
               return (
-                <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? 'border-emerald-500/20 opacity-60' : 'border-yellow-500/30'} rounded-2xl p-6 relative overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]`}>
+                <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? 'border-emerald-500/20 opacity-60' : 'border-yellow-500/30'} rounded-2xl p-6 relative overflow-hidden group shadow-md`}>
                   <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                     <span className="text-8xl">🏆</span>
                   </div>
@@ -698,10 +697,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           RAFFLE WINNER
                         </span>
                       )}
-                      <h3 className="text-2xl font-black text-white italic tracking-tight mb-2">
+                      <h3 className="text-2xl font-black text-black italic tracking-tight mb-2">
                         {win.title.replace('You Won the Raffle!', '').trim() || 'Prize Claim'}
                       </h3>
-                      <p className="text-white/50 text-sm max-w-[280px] leading-relaxed mb-6">
+                      <p className="text-black/50 text-sm max-w-[280px] leading-relaxed mb-6">
                         {win.desc.split('. Your PIN')[0]}
                       </p>
                     </div>
@@ -715,17 +714,17 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           </div>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-white/40 uppercase font-black tracking-[0.2em] mb-1">Claim PIN</p>
+                          <p className="text-xs text-black/40 uppercase font-black tracking-[0.2em] mb-1">Claim PIN</p>
                           <p className={`text-3xl font-black ${isClaimed ? 'text-emerald-400 line-through' : 'text-yellow-500'} font-mono tracking-[0.3em]`}>{pin}</p>
                         </div>
                       </div>
                     )}
                   </div>
-                  <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between relative z-10">
-                    <p className="text-xs text-white/30 font-bold uppercase tracking-widest">
+                  <div className="mt-6 pt-6 border-t border-black/10 flex items-center justify-between relative z-10">
+                    <p className="text-xs text-black/30 font-bold uppercase tracking-widest">
                       {isClaimed ? 'Prize handed off successfully' : 'Show this at the merch table'}
                     </p>
-                    <button className={`text-xs ${isClaimed ? 'text-emerald-400' : 'text-yellow-500'} font-black uppercase tracking-widest hover:text-white transition-colors`}>
+                    <button className={`text-xs ${isClaimed ? 'text-emerald-400' : 'text-yellow-500'} font-black uppercase tracking-widest hover:text-black transition-colors`}>
                       {isClaimed ? 'Completed ✓' : 'Full Details →'}
                     </button>
                   </div>
@@ -740,7 +739,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           const isHappeningNow = nextShow && countdown.status === 'live';
           const isEnded = nextShow && countdown.status === 'ended';
           return (
-        <div className={`mb-8 p-6 bg-gradient-to-br from-[#0c0c1a] to-[#0a0a14] border ${isHappeningNow ? 'border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.1)]' : 'border-[var(--color-accent)]/20'} rounded-2xl relative overflow-hidden`}>
+        <div className={`mb-8 p-6 bg-gradient-to-br from-gray-50 to-white border ${isHappeningNow ? 'border-emerald-500/30 shadow-md' : 'border-[var(--color-accent)]/20'} rounded-2xl relative overflow-hidden`}>
           <div className={`absolute -right-16 -top-16 w-48 h-48 ${isHappeningNow ? 'bg-emerald-500/8' : 'bg-[var(--color-accent)]/5'} blur-[80px] rounded-full`} />
           <div className="relative z-10">
             {isHappeningNow ? (
@@ -749,7 +748,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 Happening Now
               </span>
             ) : isEnded ? (
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-white/40 bg-white/5 px-3 py-1 rounded-full border border-white/10">🎵 Show Completed</span>
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-black/40 bg-black/5 px-3 py-1 rounded-full border border-black/10">🎵 Show Completed</span>
             ) : (
               <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">🎵 Next Show</span>
             )}
@@ -758,8 +757,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <>
                 <div className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-4 ${isHappeningNow ? 'border border-emerald-500/20 bg-emerald-500/[0.03] rounded-xl p-4 -mx-1' : ''}`}>
                   <div>
-                    <h3 className="text-2xl font-black text-white mb-1">{nextShow.venue}</h3>
-                    <p className="text-white/40 text-sm">{nextShow.city}, {nextShow.state} · {nextShow.date ? new Date(nextShow.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : 'TBA'}{nextShow.time ? ` · ${nextShow.time}` : ''}</p>
+                    <h3 className="text-2xl font-black text-black mb-1">{nextShow.venue}</h3>
+                    <p className="text-black/40 text-sm">{nextShow.city}, {nextShow.state} · {nextShow.date ? new Date(nextShow.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : 'TBA'}{nextShow.time ? ` · ${nextShow.time}` : ''}</p>
                   </div>
                   {isHappeningNow ? (
                     <div className="flex items-center gap-3 px-5 py-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl shadow-[0_0_25px_rgba(16,185,129,0.15)]">
@@ -770,31 +769,31 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       <span className="text-emerald-400 text-sm font-black uppercase tracking-widest">Happening Now</span>
                     </div>
                   ) : isEnded ? (
-                    <div className="flex items-center gap-3 px-5 py-3 bg-white/[0.02] border border-white/10 rounded-xl">
-                      <span className="text-white/40 text-sm font-black uppercase tracking-widest">Thanks for coming!</span>
+                    <div className="flex items-center gap-3 px-5 py-3 bg-white/[0.02] border border-black/10 rounded-xl">
+                      <span className="text-black/40 text-sm font-black uppercase tracking-widest">Thanks for coming!</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-3">
                       {[{ v: countdown.days, l: 'Days' }, { v: countdown.hours, l: 'Hrs' }, { v: countdown.mins, l: 'Min' }, { v: countdown.secs, l: 'Sec' }].map((u, i) => (
                         <div key={i} className="flex flex-col items-center">
-                          <span className="text-2xl md:text-3xl font-black text-white tabular-nums bg-white/[0.04] border border-white/10 rounded-lg w-14 h-14 flex items-center justify-center">{String(u.v).padStart(2, '0')}</span>
-                          <span className="text-2xs uppercase tracking-widest text-white/30 font-bold mt-1">{u.l}</span>
+                          <span className="text-2xl md:text-3xl font-black text-black tabular-nums bg-black/[0.03] border border-black/10 rounded-lg w-14 h-14 flex items-center justify-center">{String(u.v).padStart(2, '0')}</span>
+                          <span className="text-2xs uppercase tracking-widest text-black/30 font-bold mt-1">{u.l}</span>
                         </div>
                       ))}
                     </div>
                   )}
                 </div>
                 {nextShow.ticketLink && !isHappeningNow && !isEnded && (
-                  <a href={nextShow.ticketLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-4 px-6 py-2.5 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all shadow-[0_0_15px_rgba(133,29,239,0.3)]">Get Tickets →</a>
+                  <a href={nextShow.ticketLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-4 px-6 py-2.5 bg-[var(--color-accent)] text-black text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all shadow-[0_0_15px_rgba(133,29,239,0.3)]">Get Tickets →</a>
                 )}
               </>
               );
             })() : (
-              <div className="mt-4 py-8 flex flex-col items-center border border-white/5 bg-white/[0.02] rounded-xl border-dashed">
+              <div className="mt-4 py-8 flex flex-col items-center border border-black/10 bg-white/[0.02] rounded-xl border-dashed">
                 <span className="text-3xl mb-2 opacity-30">🎸</span>
-                <p className="text-sm text-white/50 font-bold">No upcoming shows scheduled yet.</p>
-                <p className="text-xs text-white/25 mt-1 uppercase tracking-widest font-bold">Check back soon — new dates drop regularly</p>
-                <Link href="/#tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">View Tour Page →</Link>
+                <p className="text-sm text-black/50 font-bold">No upcoming shows scheduled yet.</p>
+                <p className="text-xs text-black/30 mt-1 uppercase tracking-widest font-bold">Check back soon — new dates drop regularly</p>
+                <Link href="/#tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">View Tour Page →</Link>
               </div>
             )}
           </div>
@@ -803,22 +802,22 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         })()}
 
         {/* 📍 Upcoming Shows */}
-        <div className="mb-8 p-6 bg-[var(--color-bg-surface)]/80 border border-white/5 rounded-2xl">
+        <div className="mb-8 p-6 bg-white/80 border border-black/10 rounded-2xl">
             <div className="flex items-center justify-between mb-4">
               <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-emerald-400">📍 Upcoming Shows</span>
-              <Link href="/#tour" className="text-xs text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">All Dates →</Link>
+              <Link href="/#tour" className="text-xs text-black/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">All Dates →</Link>
             </div>
             {shows.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {shows.slice(0, 3).map((show: any, i: number) => (
-                <div key={i} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-xl hover:border-emerald-500/30 transition-all group">
+                <div key={i} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-black/10 rounded-xl hover:border-emerald-500/30 transition-all group">
                   <div className="flex flex-col items-center justify-center w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-lg shrink-0">
                     <span className="text-xs font-black text-emerald-400 uppercase">{show.date ? new Date(show.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }) : ''}</span>
-                    <span className="text-lg font-black text-white leading-none">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
+                    <span className="text-lg font-black text-black leading-none">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-white truncate group-hover:text-emerald-400 transition-colors">{show.venue}</p>
-                    <p className="text-xs text-white/40">{show.city}, {show.state}</p>
+                    <p className="text-sm font-bold text-black truncate group-hover:text-emerald-400 transition-colors">{show.venue}</p>
+                    <p className="text-xs text-black/40">{show.city}, {show.state}</p>
                   </div>
                   {show.isSoldOut ? (
                     <span className="text-2xs font-black uppercase tracking-widest text-red-400 bg-red-500/10 px-2 py-1 rounded border border-red-500/20">Sold Out</span>
@@ -829,10 +828,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               ))}
             </div>
           ) : (
-            <div className="py-6 flex flex-col items-center border border-white/5 bg-white/[0.02] rounded-xl border-dashed">
+            <div className="py-6 flex flex-col items-center border border-black/10 bg-white/[0.02] rounded-xl border-dashed">
               <span className="text-2xl mb-2 opacity-20">📍</span>
-              <p className="text-sm text-white/40 font-bold">No shows on the horizon yet.</p>
-              <p className="text-xs text-white/20 mt-1">Follow us for announcements on new dates!</p>
+              <p className="text-sm text-black/40 font-bold">No shows on the horizon yet.</p>
+              <p className="text-xs text-black/25 mt-1">Follow us for announcements on new dates!</p>
             </div>
           )}
         </div>
@@ -843,12 +842,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         </div>
 
         {/* 🔔 Specific Show Alerts */}
-        <div className="mb-8 p-6 bg-[var(--color-bg-surface)]/80 border border-white/5 rounded-2xl">
+        <div className="mb-8 p-6 bg-white/80 border border-black/10 rounded-2xl">
           <div className="flex items-center justify-between mb-4">
             <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-purple-400">
               🔔 Subscribed Show Alerts
             </span>
-            <span className="text-2xs font-bold text-white/30 uppercase tracking-widest">Specific Tour Dates</span>
+            <span className="text-2xs font-bold text-black/30 uppercase tracking-widest">Specific Tour Dates</span>
           </div>
 
           {loadingAlerts ? (
@@ -858,21 +857,21 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           ) : subscribedShows.length > 0 ? (
             <div className="space-y-3">
               {subscribedShows.map((sub: any) => (
-                <div key={sub.id} className="flex items-center justify-between gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-xl hover:border-purple-500/30 transition-all group">
+                <div key={sub.id} className="flex items-center justify-between gap-4 p-4 bg-white/[0.02] border border-black/10 rounded-xl hover:border-purple-500/30 transition-all group">
                   <div className="flex items-center gap-4 min-w-0">
                     <div className="flex flex-col items-center justify-center w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-lg shrink-0 text-purple-400 font-bold text-xs uppercase">
                       🔔
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-bold text-white truncate">{sub.venueName}</p>
-                      <p className="text-xs text-white/40">
+                      <p className="text-sm font-bold text-black truncate">{sub.venueName}</p>
+                      <p className="text-xs text-black/40">
                         {sub.showDate ? sub.showDate : "Upcoming Date"}{sub.city ? ` · ${sub.city}, ${sub.state}` : ""}
                       </p>
                     </div>
                   </div>
                   <button
                     onClick={() => handleUnsubscribeShow(sub.showId)}
-                    className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-2xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer"
+                    className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-2xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer"
                   >
                     Cancel Alert
                   </button>
@@ -880,11 +879,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               ))}
             </div>
           ) : (
-            <div className="py-8 flex flex-col items-center border border-white/5 bg-white/[0.02] rounded-xl border-dashed">
+            <div className="py-8 flex flex-col items-center border border-black/10 bg-white/[0.02] rounded-xl border-dashed">
               <span className="text-2xl mb-2 opacity-20">🔔</span>
-              <p className="text-sm text-white/40 font-bold">You aren&apos;t tracking any specific shows yet.</p>
-              <p className="text-xs text-white/20 mt-1">Click the bell icon on the tour page to get date alerts.</p>
-              <Link href="/#tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">Find Shows →</Link>
+              <p className="text-sm text-black/40 font-bold">You aren&apos;t tracking any specific shows yet.</p>
+              <p className="text-xs text-black/25 mt-1">Click the bell icon on the tour page to get date alerts.</p>
+              <Link href="/#tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">Find Shows →</Link>
             </div>
           )}
         </div>
@@ -902,8 +901,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-xs font-black uppercase tracking-[0.2em] text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">Limited Spots</span>
                     </div>
-                    <h3 className="text-lg font-black text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
-                    <p className="text-white/40 text-sm max-w-lg leading-relaxed">
+                    <h3 className="text-lg font-black text-black uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
+                    <p className="text-black/40 text-sm max-w-lg leading-relaxed">
                       7 nights, 3 islands, 6 live shows. Sign up for the cruise and unlock your <span className="text-cyan-400 font-bold">Cruise Hub</span> right here on your dashboard.
                     </p>
                   </div>
@@ -918,43 +917,43 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
         {/* 📲 Live Alert SMS Opt-In */}
         {liveAlertsEnabled && (
-        <div className="mb-8 p-6 bg-gradient-to-br from-[#0c0c1a] to-[#0a0a14] border border-rose-500/20 rounded-2xl relative overflow-hidden">
+        <div className="mb-8 p-6 bg-gradient-to-br from-gray-50 to-white border border-rose-500/20 rounded-2xl relative overflow-hidden">
           <div className="absolute -right-20 -top-20 w-56 h-56 bg-rose-500/5 blur-[80px] rounded-full" />
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-4">
               <span className="text-xs font-black uppercase tracking-[0.2em] text-rose-400 bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/20">📲 Live Stream Alerts</span>
             </div>
-            <h3 className="text-xl font-black text-white mb-1">Never Miss a Live Feed</h3>
-            <p className="text-white/40 text-sm mb-5 max-w-md">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
+            <h3 className="text-xl font-black text-black mb-1">Never Miss a Live Feed</h3>
+            <p className="text-black/40 text-sm mb-5 max-w-md">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
 
             {liveAlertSubscribed ? (
               <div className="flex items-center gap-4 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                 <span className="text-2xl">✅</span>
                 <div>
                   <p className="text-sm font-bold text-emerald-400">Live Alerts Active</p>
-                  <p className="text-sm text-white/40">We&apos;ll text <span className="text-white/60 font-mono">({liveAlertPhone.slice(0,3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
+                  <p className="text-sm text-black/40">We&apos;ll text <span className="text-black/60 font-mono">({liveAlertPhone.slice(0,3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
                 </div>
                 <button
                   onClick={() => { localStorage.removeItem('7h_live_alert_phone'); setLiveAlertSubscribed(false); setLiveAlertStatus('idle'); setLiveAlertPhone(''); }}
-                  className="ml-auto text-xs text-white/30 hover:text-red-400 uppercase tracking-widest font-bold transition-colors cursor-pointer"
+                  className="ml-auto text-xs text-black/30 hover:text-red-400 uppercase tracking-widest font-bold transition-colors cursor-pointer"
                 >Unsubscribe</button>
               </div>
             ) : (
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <div className="flex-1 flex items-center bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 focus-within:border-rose-500/40 transition-all">
-                  <span className="text-white/30 text-sm mr-2">📱</span>
+                <div className="flex-1 flex items-center bg-black/[0.03] border border-black/10 rounded-xl px-4 py-3 focus-within:border-rose-500/40 transition-all">
+                  <span className="text-black/30 text-sm mr-2">📱</span>
                   <input
                     type="tel"
                     placeholder="(312) 555-0199"
                     value={liveAlertPhone}
                     onChange={(e) => setLiveAlertPhone(e.target.value)}
-                    className="bg-transparent outline-none text-white text-sm flex-1 placeholder:text-white/20 font-mono"
+                    className="bg-transparent outline-none text-black text-sm flex-1 placeholder:text-black/25 font-mono"
                   />
                 </div>
                 <button
                   onClick={handleLiveAlertSubscribe}
                   disabled={liveAlertStatus === 'saving'}
-                  className="px-6 py-3 bg-rose-500 hover:bg-rose-400 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 shadow-[0_0_20px_rgba(244,63,94,0.3)] hover:shadow-[0_0_30px_rgba(244,63,94,0.5)] cursor-pointer"
+                  className="px-6 py-3 bg-rose-500 hover:bg-rose-400 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 shadow-[0_0_20px_rgba(244,63,94,0.3)] hover:shadow-[0_0_30px_rgba(244,63,94,0.5)] cursor-pointer"
                 >
                   {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me 🔔'}
                 </button>
@@ -963,7 +962,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {liveAlertStatus === 'error' && (
               <p className="text-red-400 text-sm mt-3 font-bold">Something went wrong — please try again.</p>
             )}
-            <p className="text-white/15 text-xs mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
+            <p className="text-black/20 text-xs mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
           </div>
         </div>
         )}
@@ -972,73 +971,16 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
 
-        {/* Prize Wallet */}
-        <div className="mb-8 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border border-[var(--color-accent)]/30 rounded-2xl relative overflow-hidden shadow-[0_0_40px_rgba(168,85,247,0.15)] group">
-         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
-         <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
-          <div className="flex items-center gap-3">
-           <span className="text-2xl">🎟️</span>
-           <h2 className="text-xl font-black italic tracking-tight">
-            Prize <span className="gradient-text">Wallet</span>
-           </h2>
-          </div>
-          <span className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Claim PINs</span>
-         </div>
-         <div className="relative z-10">
-          {(() => {
-           const stored = typeof window !== "undefined" ? localStorage.getItem("vip_inbox_messages") : null;
-           const messages = stored ? JSON.parse(stored) : [];
-           if (messages.length === 0) {
-            return (
-             <div className="py-6 flex flex-col items-center border border-white/5 bg-white/5 rounded-xl border-dashed">
-              <p className="text-sm text-white/50 font-bold">Your wallet is currently empty.</p>
-              <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
-             </div>
-            );
-           }
-           return (
-            <div className="flex flex-col gap-3">
-             {messages.map((msg: any) => {
-              const pinMatch = msg.desc.match(/PIN:\s*(\d+)/i);
-              const pin = pinMatch ? pinMatch[1] : null;
-              return (
-               <div key={msg.id} className={`p-4 rounded-xl border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-md ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
-                <div className="flex items-center gap-4 w-full">
-                 <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : 'bg-white/5 border border-white/10'}`}>{msg.icon}</div>
-                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                   <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
-                   {msg.isNew && <span className="text-2xs font-black uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
-                  </div>
-                  <p className="text-xs text-white/60 max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                  <p className="text-2xs uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
-                 </div>
-                </div>
-                {pin && (
-                 <div className="flex flex-col sm:flex-row items-center gap-3 px-5 py-2 border border-dashed border-yellow-400/50 rounded-xl bg-yellow-400/5 w-full sm:w-auto mt-2 sm:mt-0">
-                  <span className="text-2xs uppercase tracking-[0.2em] text-yellow-500/80 font-bold whitespace-nowrap">Show this PIN</span>
-                  <span className="font-mono text-2xl font-black text-yellow-400 tracking-[0.25em] drop-shadow-[0_0_10px_rgba(250,204,21,0.6)]">{pin}</span>
-                 </div>
-                )}
-               </div>
-              );
-             })}
-            </div>
-           );
-          })()}
-         </div>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-8">
 
             {/* Tour Memories Gallery & Upload */}
-            <div className="space-y-6 pt-4 border-t border-white/5">
+            <div className="space-y-6 pt-4 border-t border-black/10">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-2xl font-black italic tracking-tight">Tour Memories</h3>
-                <Link href="/fan-photo-wall" className="text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">Global Fan Wall →</Link>
+                <Link href="/fan-photo-wall" className="text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">Global Fan Wall →</Link>
               </div>
               
               {/* Photo Gallery Grid */}
@@ -1047,7 +989,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   {myPhotos.map(photo => {
                     const isVideo = photo.type === "video" || photo.src.endsWith(".mp4") || photo.src.endsWith(".mov");
                     return (
-                      <div key={photo.id} className={`relative aspect-square rounded-xl overflow-hidden group border bg-black/20 ${photo.rejected ? 'border-red-500/40' : 'border-white/10'}`}>
+                      <div key={photo.id} className={`relative aspect-square rounded-xl overflow-hidden group border bg-black/20 ${photo.rejected ? 'border-red-500/40' : 'border-black/10'}`}>
                         {isVideo ? (
                           <video src={photo.src} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" autoPlay loop muted playsInline />
                         ) : (
@@ -1057,11 +999,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         {/* Status Badge */}
                         <div className="absolute top-2 right-2 z-10">
                           {photo.approved ? (
-                            <span className="px-2 py-0.5 bg-emerald-500 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
+                            <span className="px-2 py-0.5 bg-emerald-500 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
                               Live
                             </span>
                           ) : photo.rejected ? (
-                            <span className="px-2 py-0.5 bg-red-500 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
+                            <span className="px-2 py-0.5 bg-red-500 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
                               Declined
                             </span>
                           ) : (
@@ -1084,12 +1026,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 </p>
                               </div>
                             </div>
-                            <p className="text-2xs font-mono text-white/30 truncate mt-auto">{photo.venue || 'Live Event'}</p>
+                            <p className="text-2xs font-mono text-black/30 truncate mt-auto">{photo.venue || 'Live Event'}</p>
                           </div>
                         ) : (
                           /* Hover overlay for approved/pending */
                           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                            <p className="text-sm font-bold text-white truncate">{photo.venue || 'Live Event'}</p>
+                            <p className="text-sm font-bold text-black truncate">{photo.venue || 'Live Event'}</p>
                             <p className={`text-xs font-black uppercase tracking-widest mt-0.5 ${photo.approved ? 'text-emerald-400' : 'text-amber-400'}`}>
                               {photo.approved ? 'Live on wall' : 'In Review'}
                             </p>
@@ -1104,9 +1046,6 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <FanUploadForm />
             </div>
 
-            {/* Pick Awards (LIVE from Supabase) */}
-            <PickAwardsSection userId={effectiveMember?.id} />
-
           </div>
 
           {/* Right Column / Sidebar */}
@@ -1116,8 +1055,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             <ProfilePhotoUploader />
             
             {/* VIP Inbox */}
-            <div className="bg-[var(--color-bg-surface)]/80 border border-white/5 p-6 flex flex-col justify-between hover:border-white/10 transition-colors">
-              <div className="mb-6 border-b border-white/10 pb-4">
+            <div className="bg-white/80 border border-black/10 p-6 flex flex-col justify-between hover:border-black/10 transition-colors">
+              <div className="mb-6 border-b border-black/10 pb-4">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#3b82f6]">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -1131,15 +1070,15 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               
               <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
                 {inboxMessages.map((msg, i) => (
-                  <div key={msg.id || i} className={`group cursor-pointer p-3 -mx-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
+                  <div key={msg.id || i} className={`group cursor-pointer p-3 -mx-3 rounded-xl hover:bg-black/5 transition-colors border border-transparent hover:border-black/10 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
                     <div className="flex items-start gap-3">
                       <div className={`w-8 h-8 rounded-full ${msg.color === 'yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
                         <span className="text-[var(--font-size-3xs)]">{msg.icon}</span>
                       </div>
                       <div>
-                        <p className={`text-sm font-bold text-white transition-colors ${msg.color === 'yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
-                        <p className="text-sm text-white/50 leading-relaxed mt-1">{msg.desc}</p>
-                        <p className={`text-xs font-bold tracking-widest uppercase mt-2 ${msg.isNew ? 'text-[var(--color-accent)]' : 'text-white/30'}`}>{msg.time}</p>
+                        <p className={`text-sm font-bold text-black transition-colors ${msg.color === 'yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
+                        <p className="text-sm text-black/50 leading-relaxed mt-1">{msg.desc}</p>
+                        <p className={`text-xs font-bold tracking-widest uppercase mt-2 ${msg.isNew ? 'text-[var(--color-accent)]' : 'text-black/30'}`}>{msg.time}</p>
                       </div>
                     </div>
                   </div>
@@ -1149,8 +1088,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 {inboxMessages.length === 0 && (
                   <div className="py-8 flex flex-col items-center">
                     <span className="text-2xl opacity-20 mb-2">📬</span>
-                    <p className="text-white/30 text-sm font-bold">No messages yet.</p>
-                    <p className="text-white/20 text-xs mt-1">Raffle wins, alerts & updates will appear here.</p>
+                    <p className="text-black/30 text-sm font-bold">No messages yet.</p>
+                    <p className="text-black/25 text-xs mt-1">Raffle wins, alerts & updates will appear here.</p>
                   </div>
                 )}
               </div>
@@ -1163,24 +1102,24 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
         {/* 🛍️ Merch Quick Shop */}
         {merch.length > 0 && (
-          <div className="mt-8 p-6 bg-[var(--color-bg-surface)]/80 border border-white/5 rounded-2xl">
+          <div className="mt-8 p-6 bg-white/80 border border-black/10 rounded-2xl">
             <div className="flex items-center justify-between mb-5">
               <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-fuchsia-400">🛍️ Quick Shop</span>
-              <Link href="/store" className="text-xs text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">Full Store →</Link>
+              <Link href="/store" className="text-xs text-black/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">Full Store →</Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {merch.map((item: any) => (
-                <div key={item.id} className="bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden hover:border-fuchsia-500/30 transition-all group">
+                <div key={item.id} className="bg-white/[0.02] border border-black/10 rounded-xl overflow-hidden hover:border-fuchsia-500/30 transition-all group">
                   {item.image && (
                     <div className="aspect-square bg-black/40 overflow-hidden">
                       <img src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
                     </div>
                   )}
                   <div className="p-4">
-                    <p className="text-sm font-bold text-white truncate">{item.title}</p>
+                    <p className="text-sm font-bold text-black truncate">{item.title}</p>
                     <div className="flex items-center justify-between mt-2">
                       <span className="text-lg font-black text-fuchsia-400">${parseFloat(item.price).toFixed(0)}</span>
-                      <Link href={`/store`} className="text-xs font-black uppercase tracking-widest text-white/50 bg-white/5 px-3 py-1.5 rounded border border-white/10 hover:bg-fuchsia-500 hover:text-white hover:border-fuchsia-500 transition-all">Buy Now</Link>
+                      <Link href={`/store`} className="text-xs font-black uppercase tracking-widest text-black/50 bg-black/5 px-3 py-1.5 rounded border border-black/10 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-all">Buy Now</Link>
                     </div>
                   </div>
                 </div>

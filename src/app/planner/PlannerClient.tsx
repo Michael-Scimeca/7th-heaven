@@ -101,27 +101,27 @@ export default function PlannerClient() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-24 pb-16">
-        <div className="max-w-2xl mx-auto px-6">
+      <div className="min-h-screen bg-[#f0f2f5] text-black pt-24 pb-16">
+        <div className="site-container max-w-2xl mx-auto">
 
           {/* Sign In / Create Account Card */}
-          <div className="bg-[var(--color-bg-surface)] border border-white/15 rounded-2xl overflow-hidden mb-10 shadow-2xl">
+          <div className="bg-white border border-black/15 rounded-2xl overflow-hidden mb-10 shadow-2xl">
             <div className="h-1 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-500" />
             <div className="p-8 md:p-10">
               <div className="text-center mb-6">
                 <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Planner <span className="text-purple-400">Portal</span></h2>
-                <p className="text-sm text-white/50 mt-1.5 font-medium">Sign in to manage your event bookings, contracts, and show logistics</p>
+                <p className="text-sm text-black/60 mt-1.5 font-medium">Sign in to manage your event bookings, contracts, and show logistics</p>
               </div>
 
               {/* Prominent Tabs */}
-              <div className="grid grid-cols-2 gap-2 p-1.5 bg-white/[0.06] border border-white/15 rounded-xl mb-6 shadow-inner max-w-sm mx-auto">
+              <div className="grid grid-cols-2 gap-2 p-1.5 bg-gray-100 border border-black/15 rounded-xl mb-6 shadow-inner max-w-sm mx-auto">
                 <button
                   type="button"
                   onClick={() => { setMode('login'); setLoginErr(''); }}
                   className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
                     mode === 'login'
                       ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)] scale-[1.02]"
-                      : "text-white/50 hover:text-white hover:bg-white/5"
+                      : "text-black/60 hover:text-black hover:bg-gray-100"
                   }`}
                 >
                   🔑 LOGIN
@@ -132,7 +132,7 @@ export default function PlannerClient() {
                   className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
                     mode === 'signup'
                       ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)] scale-[1.02]"
-                      : "text-white/50 hover:text-white hover:bg-white/5"
+                      : "text-black/60 hover:text-black hover:bg-gray-100"
                   }`}
                 >
                   ✨ CREATE ACCOUNT
@@ -142,36 +142,36 @@ export default function PlannerClient() {
               <form onSubmit={handleLogin} className="flex flex-col gap-4 max-w-sm mx-auto">
                 {mode === 'signup' && (
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/60 mb-1.5 block font-bold">Full Name</label>
+                    <label className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Full Name</label>
                     <input
                       type="text"
                       value={name}
                       onChange={e => setName(e.target.value)}
                       placeholder="e.g. Sarah Mitchell"
-                      className="w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-xl text-base text-white placeholder:text-white/25 outline-none focus:border-purple-500 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-black/15 rounded-xl text-base text-black placeholder:text-black/40 outline-none focus:border-purple-500 transition-colors"
                       required
                     />
                   </div>
                 )}
                 <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/60 mb-1.5 block font-bold">Email</label>
+                  <label className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Email</label>
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="planner@company.com"
-                    className="w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-xl text-base text-white placeholder:text-white/25 outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-black/15 rounded-xl text-base text-black placeholder:text-black/40 outline-none focus:border-purple-500 transition-colors"
                     required
                   />
                 </div>
                 <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/60 mb-1.5 block font-bold">Password</label>
+                  <label className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Password</label>
                   <input
                     type="password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-xl text-base text-white placeholder:text-white/25 outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-black/15 rounded-xl text-base text-black placeholder:text-black/40 outline-none focus:border-purple-500 transition-colors"
                     required
                   />
                 </div>
@@ -180,7 +180,7 @@ export default function PlannerClient() {
                   <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-center">
                     <span className="text-xl block mb-2">📧</span>
                     <p className="text-sm font-bold text-emerald-400 uppercase tracking-widest mb-1">Check Your Email</p>
-                    <p className="text-xs text-white/40 leading-relaxed">We&apos;ve sent a verification link to <strong className="text-white">{email}</strong>. Please confirm to access your dashboard.</p>
+                    <p className="text-xs text-black/50 leading-relaxed">We&apos;ve sent a verification link to <strong className="text-black">{email}</strong>. Please confirm to access your dashboard.</p>
                   </div>
                 ) : (
                   <>
@@ -199,14 +199,14 @@ export default function PlannerClient() {
           </div>
 
           {/* Book Now Hero */}
-          <div className="relative bg-gradient-to-br from-[#12101f] to-[#0a0a12] border border-white/5 rounded-3xl p-12 text-center overflow-hidden">
+          <div className="relative bg-white border border-black/10 rounded-3xl p-12 text-center overflow-hidden">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="relative">
               <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-purple-600/10 border border-purple-600/20 flex items-center justify-center">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               </div>
               <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className="text-purple-400">7th Heaven</span></h2>
-              <p className="text-white/40 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we&apos;ll get back to you within 24 hours.</p>
+              <p className="text-black/50 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we&apos;ll get back to you within 24 hours.</p>
               <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-2xl transition-all shadow-[0_0_40px_rgba(147,51,234,0.3)] hover:shadow-[0_0_60px_rgba(147,51,234,0.5)]">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Book Now
@@ -221,10 +221,10 @@ export default function PlannerClient() {
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item, i) => (
-              <div key={i} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-5 text-center">
+              <div key={i} className="bg-white border border-black/10 rounded-2xl p-5 text-center">
                 <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black text-purple-400">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
-                <p className="text-xs text-white/30 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-black/40 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -237,26 +237,26 @@ export default function PlannerClient() {
   if (!booking) {
     const initials = member?.name ? member.name.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() : '📋';
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-24 pb-16">
-        <div className="max-w-2xl mx-auto px-6">
+      <div className="min-h-screen bg-[#f0f2f5] text-black pt-24 pb-16">
+        <div className="site-container max-w-2xl mx-auto">
           {/* Planner Identity */}
           <div className="flex items-center gap-4 mb-12">
             <div className="w-14 h-14 rounded-full bg-purple-600/20 border-2 border-purple-500 flex items-center justify-center text-lg font-black text-purple-400">{initials}</div>
             <div>
               <h1 className="text-xl font-black tracking-tight">{member?.name || 'Event Planner'}</h1>
-              <p className="text-xs text-white/30">{member?.email || 'Planner Portal'}</p>
+              <p className="text-xs text-black/40">{member?.email || 'Planner Portal'}</p>
             </div>
           </div>
 
           {/* Book Now Hero */}
-          <div className="relative bg-gradient-to-br from-[#12101f] to-[#0a0a12] border border-white/5 rounded-3xl p-12 text-center overflow-hidden">
+          <div className="relative bg-white border border-black/10 rounded-3xl p-12 text-center overflow-hidden">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="relative">
               <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-purple-600/10 border border-purple-600/20 flex items-center justify-center">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               </div>
               <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className="text-purple-400">7th Heaven</span></h2>
-              <p className="text-white/40 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we'll get back to you within 24 hours.</p>
+              <p className="text-black/50 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we'll get back to you within 24 hours.</p>
               <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-2xl transition-all shadow-[0_0_40px_rgba(147,51,234,0.3)] hover:shadow-[0_0_60px_rgba(147,51,234,0.5)]">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Book Now
@@ -271,10 +271,10 @@ export default function PlannerClient() {
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item, i) => (
-              <div key={i} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-5 text-center">
+              <div key={i} className="bg-white border border-black/10 rounded-2xl p-5 text-center">
                 <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black text-purple-400">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
-                <p className="text-xs text-white/30 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-black/40 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -305,35 +305,35 @@ export default function PlannerClient() {
   const initials = member?.name ? member.name.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() : 'PL';
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-24 pb-16">
-      <div className="max-w-[1400px] mx-auto px-6">
+    <div className="min-h-screen bg-[#f0f2f5] text-black pt-24 pb-16">
+        <div className="site-container max-w-[1400px] mx-auto">
         <div className="flex gap-8">
           {/* LEFT SIDEBAR */}
           <div className="w-[220px] shrink-0 hidden lg:block">
-            <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 sticky top-24">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-8">Booking Status</h3>
+            <div className="bg-white border border-black/10 rounded-2xl p-6 sticky top-24">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-black/50 mb-8">Booking Status</h3>
               <div className="relative pl-5">
                 <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-purple-500 via-purple-500/30 to-white/5" />
                 <div className="flex flex-col gap-10">
                   {statusSteps.map((step, i) => (
                     <div key={i} className="flex items-center gap-4 relative">
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(147,51,234,0.5)]' : 'bg-[var(--color-bg-surface)] border-white/10'}`}>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(147,51,234,0.5)]' : 'bg-white border-black/10'}`}>
                         {step.active && <div className="w-2 h-2 rounded-full bg-white" />}
                       </div>
-                      <span className={`text-sm font-semibold ${step.active ? 'text-white' : 'text-white/25'}`}>{step.label}</span>
+                      <span className={`text-sm font-semibold ${step.active ? 'text-black' : 'text-black/40'}`}>{step.label}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="mt-10 pt-6 border-t border-white/5">
-                <p className="text-xs uppercase tracking-widest text-white/20 font-bold mb-2">Booking ID</p>
+              <div className="mt-10 pt-6 border-t border-black/10">
+                <p className="text-xs uppercase tracking-widest text-black/30 font-bold mb-2">Booking ID</p>
                 <p className="text-sm font-mono text-purple-400">{booking.id}</p>
               </div>
               <div className="mt-6">
-                <p className="text-xs uppercase tracking-widest text-white/20 font-bold mb-2">Planner</p>
+                <p className="text-xs uppercase tracking-widest text-black/30 font-bold mb-2">Planner</p>
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-[var(--font-size-3xs)] font-bold">{initials}</div>
-                  <span className="text-xs text-white/60">{member?.name || 'Planner'}</span>
+                  <span className="text-xs text-black/70">{member?.name || 'Planner'}</span>
                 </div>
               </div>
             </div>
@@ -342,13 +342,13 @@ export default function PlannerClient() {
           {/* MAIN */}
           <div className="flex-1 min-w-0">
             {/* Hero Card */}
-            <div className="bg-gradient-to-br from-[#12101f] to-[#0a0a12] border border-white/5 rounded-3xl p-8 mb-6 relative overflow-hidden">
+            <div className="bg-white border border-black/10 rounded-3xl p-8 mb-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5 rounded-full blur-[80px]" />
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
                     <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${statusColor}`}>{statusLabel}</span>
-                    <span className="text-xs text-white/20 font-mono">{booking.id}</span>
+                    <span className="text-xs text-black/30 font-mono">{booking.id}</span>
                   </div>
                   <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all">+ New Booking</Link>
                 </div>
@@ -356,7 +356,7 @@ export default function PlannerClient() {
                   <h1 className="text-3xl font-black tracking-tight">{booking.eventName}</h1>
                 </div>
                 <p className="text-purple-400 text-sm font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
-                <p className="text-white/25 text-xs mb-6">Booked by <span className="text-white/50 font-semibold">{member?.name}</span></p>
+                <p className="text-black/40 text-xs mb-6">Booked by <span className="text-black/60 font-semibold">{member?.name}</span></p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {[
                     { label: "Date", value: booking.date },
@@ -365,8 +365,8 @@ export default function PlannerClient() {
                     { label: "City", value: `${booking.venueCity}, ${booking.venueState}` },
                   ].map((item, i) => (
                     <div key={i}>
-                      <p className="text-xs uppercase tracking-widest text-white/25 font-bold mb-1">{item.label}</p>
-                      <p className="text-sm font-bold text-white">{item.value}</p>
+                      <p className="text-xs uppercase tracking-widest text-black/40 font-bold mb-1">{item.label}</p>
+                      <p className="text-sm font-bold text-black">{item.value}</p>
                     </div>
                   ))}
                 </div>
@@ -376,13 +376,13 @@ export default function PlannerClient() {
             {/* 3-Column Tools */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Notes */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6">
+              <div className="bg-white border border-black/10 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold">Event Notes</h3></div>
                   {notesSaved && <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">✓ Saved</span>}
                 </div>
                 <textarea value={notes} onChange={e=>{setNotes(e.target.value);setNotesSaved(false);}} placeholder="Parking info, green room needs, AV contact..." rows={5}
-                  className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 rounded-xl text-xs text-white placeholder:text-white/15 outline-none focus:border-purple-500/50 resize-none transition-colors" />
+                  className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 rounded-xl text-xs text-black placeholder:text-black/30 outline-none focus:border-purple-500/50 resize-none transition-colors" />
                 <button onClick={async()=>{setNotesSaving(true);try{await fetch('/api/booking',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({bookingId:booking.id,notes})});setNotesSaved(true);setTimeout(()=>setNotesSaved(false),3000);}catch{}setNotesSaving(false);}} disabled={notesSaving}
                   className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}
@@ -390,10 +390,10 @@ export default function PlannerClient() {
               </div>
 
               {/* Checklist — editable */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6">
+              <div className="bg-white border border-black/10 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold">Readiness</h3></div>
-                  <span className={`text-xs font-bold ${pct===100?'text-emerald-400':'text-white/40'}`}>{done}/{checklist.length}</span>
+                  <span className={`text-xs font-bold ${pct===100?'text-emerald-400':'text-black/50'}`}>{done}/{checklist.length}</span>
                 </div>
                 <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4">
                   <div className={`h-full rounded-full transition-all ${pct===100?'bg-emerald-500':pct>=50?'bg-amber-500':'bg-rose-500'}`} style={{width:`${pct}%`}} />
@@ -408,10 +408,10 @@ export default function PlannerClient() {
                     const fieldKey = fieldMap[item.label] || '';
                     const isEditing = editField === i;
                     return (
-                    <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done?'bg-emerald-500/5 border-emerald-500/10':'bg-white/[0.01] border-white/5'}`}>
+                    <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done?'bg-emerald-500/5 border-emerald-500/10':'bg-gray-50 border-black/10'}`}>
                       <span className="text-xs shrink-0">{item.done ? '✅' : '⬜'}</span>
                       <div className="flex-1 min-w-0">
-                        <span className={`text-xs font-semibold ${item.done?'text-white/60':'text-white/30'}`}>{item.label}</span>
+                        <span className={`text-xs font-semibold ${item.done?'text-black/70':'text-black/40'}`}>{item.label}</span>
                         {isEditing ? (
                           <div className="flex gap-1.5 mt-1">
                             <input
@@ -419,10 +419,10 @@ export default function PlannerClient() {
                               defaultValue={item.val || ''}
                               autoFocus
                               onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({...booking, [fieldKey]: v} as Booking); setEditField(null); } }}}
-                              className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-2 py-1 rounded text-sm text-white focus:border-purple-500 outline-none"
+                              className="flex-1 bg-[#f0f2f5] border border-black/10 px-2 py-1 rounded text-sm text-black focus:border-purple-500 outline-none"
                             />
                             <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({...booking, [fieldKey]: input.value} as Booking); setEditField(null); } }} className="text-2xs text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
-                            <button type="button" onClick={() => setEditField(null)} className="text-2xs text-white/30 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
+                            <button type="button" onClick={() => setEditField(null)} className="text-2xs text-black/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
                           </div>
                         ) : (
                           item.done && item.val && <p className="text-xs text-emerald-400/60 truncate">{item.val}</p>
@@ -430,7 +430,7 @@ export default function PlannerClient() {
                       </div>
                       {!isEditing && (
                         item.done ? (
-                          <button type="button" onClick={() => setEditField(i)} className="text-2xs font-bold text-white/20 hover:text-purple-400 uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
+                          <button type="button" onClick={() => setEditField(i)} className="text-2xs font-bold text-black/30 hover:text-purple-400 uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
                         ) : (
                           <button type="button" onClick={() => setEditField(i)} className="text-2xs font-bold text-amber-400/50 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/15 shrink-0 hover:bg-amber-500/20 cursor-pointer transition-all">NEEDED</button>
                         )
@@ -448,7 +448,7 @@ export default function PlannerClient() {
               </div>
 
               {/* Quick Actions */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6">
+              <div className="bg-white border border-black/10 rounded-2xl p-6">
                 <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-sm font-bold">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
@@ -456,11 +456,11 @@ export default function PlannerClient() {
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&startTime=${encodeURIComponent(booking.startTime)}&endTime=${encodeURIComponent(booking.endTime)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-white/[0.03] border-white/10 text-white/60 hover:bg-white/10 hover:text-white">
+                    className="w-full py-3 px-4 flex items-center gap-3 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-gray-50 border-black/10 text-black/70 hover:bg-gray-100 hover:text-black">
                     <span>✏️</span> Edit Logistics
                   </Link>
                   <a href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking ${booking.id}] Question about ${booking.eventName}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nRe: ${booking.eventName}\nBooking ID: ${booking.id}\nDate: ${booking.date}\nVenue: ${booking.venueName}\n\nMy question:\n\n`)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-white/[0.03] border-white/10 text-white/60 hover:bg-white/10 hover:text-white">
+                    className="w-full py-3 px-4 flex items-center gap-3 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-gray-50 border-black/10 text-black/70 hover:bg-gray-100 hover:text-black">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
                   <button onClick={()=>{if(confirm('Cancel this booking?')){fetch('/api/booking',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({bookingId:booking.id,status:'cancelled'})}).then(()=>{setBooking(prev=>prev?{...prev,status:'cancelled'}:prev);});}}}
@@ -477,7 +477,7 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-base">📜</span>
                   <h3 className="text-sm font-bold">Past Events</h3>
-                  <span className="text-xs font-bold text-white/25 bg-white/5 px-2 py-0.5 rounded">{pastBookings.length} events</span>
+                  <span className="text-xs font-bold text-black/40 bg-white/5 px-2 py-0.5 rounded">{pastBookings.length} events</span>
                 </div>
                 <div className="flex flex-col gap-3">
                   {pastBookings.map((pb, i) => {
@@ -487,11 +487,11 @@ export default function PlannerClient() {
                       ? { dot:'bg-emerald-500', text:'text-emerald-400', bg:'bg-emerald-500/5', border:'border-emerald-500/15' }
                       : { dot:'bg-purple-500', text:'text-purple-400', bg:'bg-purple-500/5', border:'border-purple-500/15' };
                     return (
-                      <div key={i} className="bg-[var(--color-bg-surface)] border border-white/5 hover:border-white/10 rounded-xl p-4 flex items-center gap-4 transition-all group">
+                      <div key={i} className="bg-white border border-black/10 hover:border-black/10 rounded-xl p-4 flex items-center gap-4 transition-all group">
                         <div className={`w-2.5 h-2.5 rounded-full ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-bold text-white/80 truncate">{pb.eventName}</h4>
-                          <div className="flex items-center gap-3 text-xs text-white/30 mt-0.5">
+                          <h4 className="text-sm font-bold text-black truncate">{pb.eventName}</h4>
+                          <div className="flex items-center gap-3 text-xs text-black/40 mt-0.5">
                             <span>📅 {pb.date}</span><span>📍 {pb.venueName}</span><span className="font-mono">{pb.id}</span>
                           </div>
                         </div>

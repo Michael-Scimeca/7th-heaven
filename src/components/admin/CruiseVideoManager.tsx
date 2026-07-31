@@ -135,63 +135,43 @@ export default function CruiseVideoManager() {
   };
 
   return (
-    <div className="bg-[#0b0b14] border border-white/10 rounded-3xl p-6 md:p-8 text-left space-y-8 shadow-2xl">
+    <div className="bg-white border border-black/10 rounded-2xl p-6 md:p-8 text-left space-y-8 shadow-xs text-black font-sans">
       {/* Toast Notification */}
       {toast && (
-        <div className="fixed top-20 right-6 z-50 bg-cyan-500 text-black px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-wider shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="fixed top-20 right-6 z-50 bg-cyan-600 text-white px-5 py-3 rounded-2xl font-black text-xs uppercase tracking-wider shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
           {toast}
         </div>
       )}
 
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
-        <div>
-          <span className="text-xs font-black text-cyan-400 uppercase tracking-widest block mb-1">
-            🎬 Admin Media Manager
-          </span>
-          <h2 className="text-2xl font-black text-white uppercase tracking-tight">
-            Cruise Ship Video Uploads
-          </h2>
-          <p className="text-white/40 text-xs mt-1">
-            Upload and manage official ship tour videos, venue walkthroughs, and promotional clips for fans on the Cruise page.
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={fetchVideos}
-          className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
-        >
-          🔄 Refresh Videos
-        </button>
-      </div>
+
 
       {/* Form & Upload Area */}
-      <form onSubmit={handleAddVideo} className="bg-black/40 border border-white/10 p-6 rounded-2xl space-y-4">
-        <h3 className="text-sm font-black uppercase text-white tracking-wide mb-3 flex items-center gap-2">
+      <form onSubmit={handleAddVideo} className="bg-black/[0.02] border border-black/10 p-6 rounded-2xl space-y-4">
+        <h3 className="text-sm font-black uppercase text-black tracking-wide mb-3 flex items-center gap-2">
           <span>➕ Add / Upload New Cruise Video</span>
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Title */}
           <div>
-            <label className="block text-2xs font-bold text-white/70 uppercase mb-1">Video Title *</label>
+            <label className="block text-2xs font-bold text-black/70 uppercase mb-1">Video Title *</label>
             <input
               type="text"
               required
               placeholder="e.g. Star of the Seas Promenade Tour"
               value={title}
               onChange={e => setTitle(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-white/20 focus:outline-none focus:border-cyan-400"
+              className="w-full bg-white border border-black/20 rounded-xl px-4 py-2.5 text-xs text-black placeholder-black/40 focus:outline-none focus:border-cyan-600"
             />
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-2xs font-bold text-white/70 uppercase mb-1">Category</label>
+            <label className="block text-2xs font-bold text-black/70 uppercase mb-1">Category</label>
             <select
               value={category}
               onChange={e => setCategory(e.target.value)}
-              className="w-full bg-[#121220] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-400"
+              className="w-full bg-white border border-black/20 rounded-xl px-4 py-2.5 text-xs text-black focus:outline-none focus:border-cyan-600"
             >
               {CATEGORIES.map(cat => (
                 <option key={cat} value={cat}>{cat}</option>
@@ -201,7 +181,7 @@ export default function CruiseVideoManager() {
 
           {/* Video File / URL Input */}
           <div className="md:col-span-2">
-            <label className="block text-2xs font-bold text-white/70 uppercase mb-1">
+            <label className="block text-2xs font-bold text-black/70 uppercase mb-1">
               Video Source (Direct File URL or Select Local File) *
             </label>
             <div className="flex flex-col sm:flex-row gap-3">
@@ -211,9 +191,9 @@ export default function CruiseVideoManager() {
                 placeholder="https://... or /movie/ship-tour.mp4"
                 value={videoUrl}
                 onChange={e => setVideoUrl(e.target.value)}
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-white/20 focus:outline-none focus:border-cyan-400"
+                className="flex-1 bg-white border border-black/20 rounded-xl px-4 py-2.5 text-xs text-black placeholder-black/40 focus:outline-none focus:border-cyan-600"
               />
-              <label className="px-4 py-2.5 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer transition-all shrink-0 text-center flex items-center justify-center gap-1.5">
+              <label className="px-4 py-2.5 bg-cyan-50 hover:bg-cyan-100 border border-cyan-300 text-cyan-900 font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer transition-all shrink-0 text-center flex items-center justify-center gap-1.5">
                 <span>📁 Browse Video File</span>
                 <input
                   type="file"
@@ -227,37 +207,37 @@ export default function CruiseVideoManager() {
 
           {/* Thumbnail Poster Image URL */}
           <div>
-            <label className="block text-2xs font-bold text-white/70 uppercase mb-1">Thumbnail Poster Image URL</label>
+            <label className="block text-2xs font-bold text-black/70 uppercase mb-1">Thumbnail Poster Image URL</label>
             <input
               type="text"
               placeholder="/images/cruise-hero.png"
               value={posterUrl}
               onChange={e => setPosterUrl(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-white/20 focus:outline-none focus:border-cyan-400"
+              className="w-full bg-white border border-black/20 rounded-xl px-4 py-2.5 text-xs text-black placeholder-black/40 focus:outline-none focus:border-cyan-600"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-2xs font-bold text-white/70 uppercase mb-1">Short Description</label>
+            <label className="block text-2xs font-bold text-black/70 uppercase mb-1">Short Description</label>
             <input
               type="text"
               placeholder="Highlights of the AquaDome, suites, and pool deck."
               value={description}
               onChange={e => setDescription(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-white/20 focus:outline-none focus:border-cyan-400"
+              className="w-full bg-white border border-black/20 rounded-xl px-4 py-2.5 text-xs text-black placeholder-black/40 focus:outline-none focus:border-cyan-600"
             />
           </div>
         </div>
 
         {/* Options & Submit */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-3 border-t border-white/5">
-          <label className="flex items-center gap-2 cursor-pointer text-xs text-white/80 font-bold">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-3 border-t border-black/10">
+          <label className="flex items-center gap-2 cursor-pointer text-xs text-black/80 font-bold">
             <input
               type="checkbox"
               checked={featured}
               onChange={e => setFeatured(e.target.checked)}
-              className="accent-cyan-400 w-4 h-4 rounded cursor-pointer"
+              className="accent-cyan-600 w-4 h-4 rounded cursor-pointer"
             />
             <span>⭐ Feature this video on top of the Cruise Page</span>
           </label>
@@ -265,7 +245,7 @@ export default function CruiseVideoManager() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full sm:w-auto px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)] cursor-pointer"
+            className="w-full sm:w-auto px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-xs cursor-pointer"
           >
             {submitting ? 'Uploading...' : '💾 Save & Publish Video'}
           </button>
@@ -274,14 +254,14 @@ export default function CruiseVideoManager() {
 
       {/* Videos List Grid */}
       <div>
-        <h3 className="text-sm font-black uppercase text-white tracking-wide mb-4">
+        <h3 className="text-sm font-black uppercase text-black tracking-wide mb-4">
           Published Cruise Videos ({videos.length})
         </h3>
 
         {loading ? (
-          <div className="text-center py-12 text-white/40 text-xs">Loading cruise videos...</div>
+          <div className="text-center py-12 text-black/40 text-xs">Loading cruise videos...</div>
         ) : videos.length === 0 ? (
-          <div className="text-center py-12 bg-white/[0.02] border border-white/5 rounded-2xl text-white/40 text-xs">
+          <div className="text-center py-12 bg-black/[0.02] border border-black/10 rounded-2xl text-black/40 text-xs">
             No cruise videos uploaded yet. Use the form above to add your first ship video!
           </div>
         ) : (
@@ -289,21 +269,21 @@ export default function CruiseVideoManager() {
             {videos.map(vid => (
               <div
                 key={vid.id}
-                className="bg-black/50 border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-cyan-500/40 transition-all duration-300"
+                className="bg-white border border-black/10 rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-cyan-600 transition-all duration-300 shadow-xs"
               >
                 {/* Thumbnail Preview */}
-                <div className="relative aspect-video bg-black/80 overflow-hidden group">
+                <div className="relative aspect-video bg-slate-100 overflow-hidden group">
                   {vid.poster ? (
                     <img src={vid.poster} alt={vid.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-cyan-950/30 text-cyan-400 text-3xl">🎬</div>
+                    <div className="w-full h-full flex items-center justify-center bg-cyan-50 text-cyan-800 text-3xl">🎬</div>
                   )}
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <button
                       type="button"
                       onClick={() => setPreviewModalVideo(vid)}
-                      className="w-12 h-12 rounded-full bg-cyan-500/90 text-black font-black text-lg flex items-center justify-center pl-1 shadow-[0_0_20px_rgba(6,182,212,0.6)] group-hover:scale-110 transition-all cursor-pointer"
+                      className="w-12 h-12 rounded-full bg-cyan-600 text-white font-black text-lg flex items-center justify-center pl-1 shadow-md group-hover:scale-110 transition-all cursor-pointer"
                     >
                       ▶
                     </button>
@@ -314,7 +294,7 @@ export default function CruiseVideoManager() {
                       ⭐ Featured
                     </span>
                   )}
-                  <span className="absolute bottom-2 left-2 bg-black/80 text-cyan-300 text-[var(--font-size-3xs)] font-bold uppercase px-2.5 py-0.5 rounded border border-cyan-500/30">
+                  <span className="absolute bottom-2 left-2 bg-white/90 text-cyan-900 text-[var(--font-size-3xs)] font-bold uppercase px-2.5 py-0.5 rounded border border-black/10">
                     {vid.category}
                   </span>
                 </div>
@@ -322,18 +302,18 @@ export default function CruiseVideoManager() {
                 {/* Details */}
                 <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
                   <div>
-                    <h4 className="font-extrabold text-white text-sm line-clamp-1">{vid.title}</h4>
+                    <h4 className="font-extrabold text-black text-sm line-clamp-1">{vid.title}</h4>
                     {vid.description && (
-                      <p className="text-white/50 text-xs line-clamp-2 mt-1">{vid.description}</p>
+                      <p className="text-black/60 text-xs line-clamp-2 mt-1">{vid.description}</p>
                     )}
                   </div>
 
-                  <div className="flex justify-between items-center pt-2 border-t border-white/5 text-2xs text-white/40">
+                  <div className="flex justify-between items-center pt-2 border-t border-black/10 text-2xs text-black/50">
                     <span className="truncate max-w-[180px] font-mono">{vid.url}</span>
                     <button
                       type="button"
                       onClick={() => handleDeleteVideo(vid.id)}
-                      className="text-red-400 hover:text-red-300 font-bold uppercase tracking-wider text-2xs bg-red-500/10 hover:bg-red-500/20 px-2.5 py-1 rounded-lg transition-all cursor-pointer"
+                      className="text-red-700 hover:text-red-800 font-bold uppercase tracking-wider text-2xs bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg transition-all cursor-pointer"
                     >
                       🗑️ Delete
                     </button>
@@ -347,19 +327,19 @@ export default function CruiseVideoManager() {
 
       {/* Video Modal Preview */}
       {previewModalVideo && (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="relative w-full max-w-4xl bg-[#0b0b14] border border-cyan-400 rounded-3xl p-4 overflow-hidden shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="relative w-full max-w-4xl bg-white border border-black/15 rounded-2xl p-4 overflow-hidden shadow-2xl text-black">
             <div className="flex justify-between items-center mb-3 px-2">
-              <h3 className="text-white font-extrabold text-sm">{previewModalVideo.title}</h3>
+              <h3 className="text-black font-extrabold text-sm">{previewModalVideo.title}</h3>
               <button
                 type="button"
                 onClick={() => setPreviewModalVideo(null)}
-                className="text-white/60 hover:text-white font-bold text-xs uppercase tracking-wider bg-white/10 px-3 py-1 rounded-xl cursor-pointer"
+                className="text-black/60 hover:text-black font-bold text-xs uppercase tracking-wider bg-black/5 hover:bg-black/10 px-3 py-1 rounded-xl cursor-pointer"
               >
                 ✕ Close
               </button>
             </div>
-            <div className="aspect-video w-full rounded-2xl overflow-hidden bg-black">
+            <div className="aspect-video w-full rounded-xl overflow-hidden bg-black">
               <video
                 src={previewModalVideo.url}
                 controls

@@ -363,13 +363,6 @@ export default function CruisePage() {
       return;
     }
 
-    // Validate DOB Guest 1
-    if (!formData.dob1) {
-      setFormError('Guest 1 Date of Birth is required.');
-      setSignupStatus("error");
-      return;
-    }
-
     // Validate guest emails for active additional guests
     const activeGuests = guests.filter(g => g.active);
     for (let i = 0; i < guests.length; i++) {
@@ -377,11 +370,6 @@ export default function CruisePage() {
       if (g.active) {
         if (!g.name) {
           setFormError(`Please enter a name for Guest ${i + 2}.`);
-          setSignupStatus("error");
-          return;
-        }
-        if (!g.dob) {
-          setFormError(`Please enter Guest ${i + 2} Date of Birth.`);
           setSignupStatus("error");
           return;
         }
@@ -592,44 +580,31 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   const progress = Math.min((totalGuests / GOAL) * 100, 100);
 
   return (
-    <div className="min-h-screen overflow-x-hidden max-w-full">
-      {/* ── SECTION 1: HERO ── */}
-      <section className="relative flex flex-col justify-center overflow-hidden pt-[95px] pb-16">
-        <div className="absolute inset-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-            poster="/images/cruise-hero.png"
-          >
-            <source src="/movie/cruise.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-[var(--color-bg-primary)]" />
-        </div>
+    <div className="min-h-screen overflow-x-hidden max-w-full bg-white text-black pt-[88px]">
+      {/* ── SECTION 1: HERO (SOLID BLACK BACKGROUND) ── */}
+      <section className="relative flex flex-col justify-center overflow-hidden pt-[34px] pb-16 bg-black text-white">
+        <div className="absolute inset-0 bg-black" />
 
         {/* Hero Text */}
         <div className="relative z-10 text-center px-[32px] max-w-5xl mx-auto mb-10">
           {/* Cruise Line & Booking Center Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/40 text-cyan-300 text-xs font-black uppercase tracking-[0.25em] mb-6 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/50 text-cyan-300 text-xs font-black uppercase tracking-[0.25em] mb-6 shadow-[0_0_20px_rgba(6,182,212,0.4)]">
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
             ROYAL CARIBBEAN INTERNATIONAL · OFFICIAL GROUP CRUISE
           </div>
 
           {/* Main Title: Cruise Name */}
-          <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+          <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-md leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
             7TH HEAVEN <span className="accent-gradient-text">FAN CRUISE</span>
           </h1>
 
           {/* Cruise Ship Names Subtitle */}
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm font-extrabold uppercase tracking-widest text-white/70">
-            <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/15 text-cyan-300">
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm font-extrabold uppercase tracking-widest text-white/90">
+            <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/20 text-cyan-300 font-black backdrop-blur-sm">
               🚢 STAR OF THE SEAS (2027)
             </span>
-            <span className="text-white/30">•</span>
-            <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/15 text-amber-300">
+            <span className="text-white/40">•</span>
+            <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/20 text-amber-300 font-black backdrop-blur-sm">
               🚢 LEGEND OF THE SEAS (2028)
             </span>
           </div>
@@ -642,10 +617,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {/* ── SECTION 2: CABINS & PRICING ── */}
       <section id="pricing" className="py-16 site-container relative z-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
             </h2>
-            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+            <p className="text-black/60 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
               Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms.
             </p>
 
@@ -656,8 +631,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 onClick={() => setActivePriceYear(2027)}
                 className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                   activePriceYear === 2027
-                    ? "bg-cyan-500 text-black font-black"
-                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white"
+                    ? "bg-cyan-600 text-white font-black shadow-md"
+                    : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
                 }`}
               >
                 2027 Star of the Seas (7-Night)
@@ -667,8 +642,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 onClick={() => setActivePriceYear(2028)}
                 className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                   activePriceYear === 2028
-                    ? "bg-amber-500 text-black font-black"
-                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white"
+                    ? "bg-amber-600 text-white font-black shadow-md"
+                    : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
                 }`}
               >
                 2028 Legend of the Seas (8-Night)
@@ -677,49 +652,49 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Cancellation & Policy Guidelines — 3-Column Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-left border-b border-white/10 pb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-left border-b border-black/10 pb-12">
             {/* Merged Column 1: Booking Policy & Best Rate Guarantee */}
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">⚠️</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
+                <h3 className="text-lg font-black uppercase text-black tracking-wide">Booking Policy & Best Rate Guarantee</h3>
               </div>
-              <p className="text-sm font-black text-amber-400 uppercase tracking-widest mb-4">
+              <p className="text-sm font-black text-amber-700 uppercase tracking-widest mb-4">
                 Book through us to participate & lock in best rates
               </p>
-              <p className="text-base text-white/80 leading-relaxed mb-4">
+              <p className="text-base text-black/80 leading-relaxed mb-4">
                 To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong>must</strong> be placed under our official group booking.
               </p>
-              <ul className="space-y-3 text-base text-white/80 leading-relaxed mb-6">
+              <ul className="space-y-3 text-base text-black/80 leading-relaxed mb-6">
                 <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span className="text-cyan-700 font-bold shrink-0">✓</span>
                   <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span className="text-cyan-700 font-bold shrink-0">✓</span>
                   <span>We match rates & automatically re-roll your room if prices drop before final payment!</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">💡</span>
+                  <span className="text-cyan-700 font-bold shrink-0">💡</span>
                   <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold shrink-0">✓</span>
+                  <span className="text-cyan-700 font-bold shrink-0">✓</span>
                   <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-amber-400 font-bold shrink-0">⚠️</span>
+                  <span className="text-amber-700 font-bold shrink-0">⚠️</span>
                   <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.</span>
                 </li>
               </ul>
-              <div className="pt-3 border-t border-white/10 space-y-2">
-                <p className="text-base text-white/80">
-                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-white underline font-bold transition-all">info@NTDVacations.com</a>
+              <div className="pt-3 border-t border-black/10 space-y-2">
+                <p className="text-base text-black/80">
+                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-black underline font-bold transition-all">info@NTDVacations.com</a>
                 </p>
-                <p className="text-base text-white/80">
+                <p className="text-base text-black/80">
                   💳 <strong>Deposit:</strong> $250 per person to secure cabin.
                 </p>
-                <p className="text-base text-white/80">
+                <p className="text-base text-black/80">
                   📅 <strong>Final Payment:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
                 </p>
               </div>
@@ -729,20 +704,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">🛂</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Requirements</h3>
+                <h3 className="text-lg font-black uppercase text-black tracking-wide">Passport Requirements</h3>
               </div>
-              <p className="text-sm font-black text-amber-300 uppercase tracking-widest mb-4">
+              <p className="text-sm font-black text-amber-700 uppercase tracking-widest mb-4">
                 Essential travel document guidelines
               </p>
-              <div className="space-y-4 text-base text-white/80 leading-relaxed">
+              <div className="space-y-4 text-base text-black/80 leading-relaxed">
                 <p>
-                  A physical passport book valid for 6 months post-cruise is <strong className="text-white font-extrabold animate-pulse inline-block">highly recommended</strong> for all travelers.
+                  A physical passport book valid for 6 months post-cruise is <strong className="text-black font-extrabold underline inline-block">highly recommended</strong> for all travelers.
                 </p>
                 <p>
                   For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
                 </p>
                 <p>
-                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-extrabold underline hover:text-white animate-pulse inline-block">travel.state.gov</a> to ensure compliance.
+                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-700 font-extrabold underline hover:text-black inline-block">travel.state.gov</a> to ensure compliance.
                 </p>
               </div>
             </div>
@@ -751,16 +726,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <div className="bg-transparent border-0 p-4 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">📅</span>
-                <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
+                <h3 className="text-lg font-black uppercase text-black tracking-wide">Cancellation Policy</h3>
               </div>
-              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
+              <p className="text-sm font-black text-purple-700 uppercase tracking-widest mb-4">
                 Refund terms before booking
               </p>
-              <div className="space-y-4 text-base text-white/80 leading-relaxed">
+              <div className="space-y-4 text-base text-black/80 leading-relaxed">
                 <div>
-                  <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Group Rate Rooms:</h4>
+                  <h4 className="font-extrabold text-black uppercase tracking-wider text-xs mb-1">Group Rate Rooms:</h4>
                   {activePriceYear === 2027 ? (
-                    <ul className="list-disc pl-5 space-y-1 text-base text-white/80">
+                    <ul className="list-disc pl-5 space-y-1 text-base text-black/80">
                       <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
                       <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
                       <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
@@ -769,7 +744,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <li>After Dec 10, 2026: <strong>No refund</strong></li>
                     </ul>
                   ) : (
-                    <ul className="list-disc pl-5 space-y-1 text-base text-white/80">
+                    <ul className="list-disc pl-5 space-y-1 text-base text-black/80">
                       <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
                       <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
                       <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
@@ -780,8 +755,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   )}
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Prevailing Rate:</h4>
-                  <p className="text-base text-white/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
+                  <h4 className="font-extrabold text-black uppercase tracking-wider text-xs mb-1">Prevailing Rate:</h4>
+                  <p className="text-base text-black/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
                 </div>
               </div>
             </div>
@@ -793,8 +768,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <div className="bg-transparent p-0 relative text-left">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
                 <div>
-                  <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">Exclusive Group Deal</span>
-                  <h3 className="text-2xl md:text-3xl font-black uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
+                  <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-700">Exclusive Group Deal</span>
+                  <h3 className="text-2xl md:text-3xl font-black uppercase text-black mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
                 </div>
               </div>
 
@@ -823,7 +798,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div
                     key={idx}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:border-cyan-500/50"
+                    className="bg-black/[0.03] border border-black/10 rounded-2xl overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:border-cyan-600/50 shadow-sm"
                   >
                     <div>
                       {room.image && (
@@ -835,31 +810,31 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           <span className="text-xl">{room.icon}</span>
                           <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
-                            room.status === "soldout" ? "bg-red-500/10 text-red-400 border border-red-500/20" :
-                            room.status === "warning" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
-                            "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                            room.status === "soldout" ? "bg-red-500/10 text-red-600 border border-red-500/20" :
+                            room.status === "warning" ? "bg-amber-500/10 text-amber-700 border border-amber-500/20" :
+                            "bg-cyan-500/10 text-cyan-700 border border-cyan-500/20"
                           }`}>{room.badge}</span>
                         </div>
-                        <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
-                        <h4 className="text-base font-extrabold text-white uppercase tracking-tight text-left">{room.title}</h4>
+                        <span className="text-[var(--font-size-3xs)] font-bold text-black/50 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
+                        <h4 className="text-base font-extrabold text-black uppercase tracking-tight text-left">{room.title}</h4>
                       </div>
                     </div>
 
                     <div className="px-5 pb-5 pt-0 text-left">
                       {room.price === "Prevailing" ? (
-                        <p className="text-2xs text-white/40 italic font-medium">Prevailing Rates Only</p>
+                        <p className="text-2xs text-black/50 italic font-medium">Prevailing Rates Only</p>
                       ) : (
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-xl font-black text-white">{room.price}</span>
-                          <span className="text-[var(--font-size-3xs)] text-white/40 uppercase font-semibold">USD pp</span>
+                          <span className="text-xl font-black text-black">{room.price}</span>
+                          <span className="text-[var(--font-size-3xs)] text-black/50 uppercase font-semibold">USD pp</span>
                         </div>
                       )}
                       {room.inclusions && (
-                        <span className="text-[var(--font-size-3xs)] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
+                        <span className="text-[var(--font-size-3xs)] text-cyan-700 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                       )}
                       <button 
                         type="button"
-                        className="mt-3 w-full py-2.5 px-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 group-hover:text-white font-black text-2xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.15)]"
+                        className="mt-3 w-full py-2.5 px-4 rounded-xl bg-cyan-600 text-white font-black text-2xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
                       >
                         <span>Select & Book Cabin</span>
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -875,8 +850,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div className="bg-transparent p-0 relative text-left">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-2">
                   <div>
-                    <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Variable Market Pricing</span>
-                    <h3 className="text-xl md:text-3xl font-black uppercase text-white mt-1">Prevailing Rate Cabins (2027)</h3>
+                    <span className="text-xs font-black uppercase tracking-[0.25em] text-purple-700">Variable Market Pricing</span>
+                    <h3 className="text-xl md:text-3xl font-black uppercase text-black mt-1">Prevailing Rate Cabins (2027)</h3>
                   </div>
                 </div>
 
@@ -894,14 +869,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div
                         key={idx}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className={`rounded-2xl overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative ${
+                        className={`rounded-2xl overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative shadow-sm ${
                           isYo
-                            ? 'bg-purple-950/40 border-2 border-purple-500 shadow-[0_0_30px_rgba(168,85,247,0.3)]'
-                            : 'bg-white/5 border border-white/10 hover:border-white/20'
+                            ? 'bg-purple-100 border-2 border-purple-600 shadow-md'
+                            : 'bg-black/[0.03] border border-black/10 hover:border-black/20'
                         }`}
                       >
                         {isYo && (
-                          <div className="absolute top-3 right-3 bg-purple-600 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-lg flex items-center gap-1 border border-purple-400 z-10">
+                          <div className="absolute top-3 right-3 bg-purple-700 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border border-purple-500 z-10">
                             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                             RECOMMENDED
                           </div>
@@ -916,26 +891,26 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               <span className="text-2xl">{room.icon}</span>
                               <span className={`text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${
-                                isYo ? 'bg-purple-500/30 text-purple-200 border border-purple-400/40' : 'text-white/40'
+                                isYo ? 'bg-purple-200 text-purple-900 border border-purple-300' : 'bg-black/5 text-black/70 border border-black/10'
                               }`}>{room.label}</span>
                             </div>
-                            <span className={`text-[var(--font-size-3xs)] font-bold uppercase tracking-widest ${isYo ? 'text-purple-300' : 'text-white/30'}`}>{room.code} Category</span>
-                            <h4 className={`text-base font-extrabold uppercase tracking-tight mt-0.5 text-left ${isYo ? 'text-purple-200' : 'text-white'}`}>{room.title}</h4>
+                            <span className="text-[var(--font-size-3xs)] font-bold text-black/60 uppercase tracking-widest block">{room.code} Category</span>
+                            <h4 className="text-base font-black text-black uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                           </div>
                         </div>
 
                         <div className="px-5 pb-5 pt-0 text-left">
                           <div className="flex items-baseline gap-1.5">
-                            <span className={`text-xl font-black ${isYo ? 'text-purple-300' : 'text-white'}`}>{room.price}</span>
-                            <span className="text-2xs text-white/40">USD pp</span>
+                            <span className="text-xl font-black text-black">{room.price}</span>
+                            <span className="text-2xs text-black/60 font-bold">USD pp</span>
                           </div>
-                          <span className="text-[var(--font-size-4xs)] text-white/20 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
+                          <span className="text-[var(--font-size-4xs)] text-black/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                           <button 
                             type="button"
-                            className={`mt-4 w-full py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                            className={`mt-4 w-full py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${
                               isYo
-                                ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] border border-purple-400'
-                                : 'bg-[var(--color-accent)]/15 hover:bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/30 text-purple-300 group-hover:text-white shadow-[0_0_12px_rgba(133,29,239,0.15)]'
+                                ? 'bg-purple-700 hover:bg-purple-800 text-white border border-purple-600'
+                                : 'bg-purple-600 hover:bg-purple-700 text-white border border-purple-500'
                             }`}
                           >
                             <span>Select Prevailing Rate</span>
@@ -954,20 +929,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Stateroom Suite Class Perks */}
           <div className="pt-16">
-            <div className="text-center max-w-3xl mx-auto mb-12">
+            <div className="text-left w-full mb-10">
               <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 px-4 py-1 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20">
                 Accommodations Guide
               </span>
-              <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                 Stateroom Catalog & Suite Perks
               </h3>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
               {/* Stateroom Categories Tab Column */}
-              <div className="lg:col-span-1 bg-white/[0.02] border border-white/5 p-6 rounded-3xl flex flex-col justify-between">
+              <div className="lg:col-span-1 bg-black/[0.03] border border-black/10 p-6 rounded-3xl flex flex-col justify-between shadow-sm">
                 <div>
-                  <h3 className="text-base font-black uppercase text-white tracking-widest mb-6 border-b border-white/5 pb-3">Stateroom Categories</h3>
+                  <h3 className="text-base font-black uppercase text-black tracking-widest mb-6 border-b border-black/10 pb-3">Stateroom Categories</h3>
                   <div className="flex flex-col gap-2.5">
                     {[
                       { id: "suites", label: "👑 Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
@@ -982,20 +957,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${
                           stateroomTab === tab.id
                             ? "bg-[var(--color-accent)]/10 border-[var(--color-accent)]/50"
-                            : "bg-black/20 border-white/5 hover:border-white/10"
+                            : "bg-white border-black/10 hover:border-black/20"
                         }`}
                       >
-                        <h4 className="text-sm font-extrabold text-white uppercase tracking-wider">{tab.label}</h4>
-                        <p className="text-xs text-white/60 mt-1 leading-relaxed">{tab.desc}</p>
+                        <h4 className="text-sm font-extrabold text-black uppercase tracking-wider">{tab.label}</h4>
+                        <p className="text-xs text-black/70 mt-1 leading-relaxed">{tab.desc}</p>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-8 bg-black/40 border border-white/5 p-5 rounded-2xl">
-                  <h4 className="text-xs font-black uppercase text-white tracking-widest mb-3">Available layouts:</h4>
+                <div className="mt-8 bg-black/5 border border-black/10 p-5 rounded-2xl">
+                  <h4 className="text-xs font-black uppercase text-black tracking-widest mb-3">Available layouts:</h4>
                   {stateroomTab === "suites" && (
-                    <div className="space-y-2 text-sm text-white/80 font-medium">
+                    <div className="space-y-2 text-sm text-black/80 font-medium">
                       <p>• Ultimate Family Townhouse</p>
                       <p>• Royal Loft Suite</p>
                       <p>• Owner&apos;s Suite</p>
@@ -1005,7 +980,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
                   )}
                   {stateroomTab === "balcony" && (
-                    <div className="space-y-2 text-sm text-white/80 font-medium">
+                    <div className="space-y-2 text-sm text-black/80 font-medium">
                       <p>• Infinite Ocean View Balcony</p>
                       <p>• Infinite Central Park Balcony</p>
                       <p>• Ocean View Balcony</p>
@@ -1014,13 +989,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
                   )}
                   {stateroomTab === "ocean" && (
-                    <div className="space-y-2 text-sm text-white/80 font-medium">
+                    <div className="space-y-2 text-sm text-black/80 font-medium">
                       <p>• Panoramic Ocean View</p>
                       <p>• Ocean View</p>
                     </div>
                   )}
                   {stateroomTab === "interior" && (
-                    <div className="space-y-2 text-sm text-white/80 font-medium">
+                    <div className="space-y-2 text-sm text-black/80 font-medium">
                       <p>• Interior</p>
                       <p>• Spacious Interior</p>
                       <p>• Central Park View Interior</p>
@@ -1031,14 +1006,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
 
               {/* Suite Class Benefits Column (Span 2) */}
-              <div className="lg:col-span-2 bg-[var(--color-bg-surface)] border border-cyan-500/20 p-6 md:p-8 rounded-3xl flex flex-col justify-between">
+              <div className="lg:col-span-2 bg-black/[0.03] border border-cyan-500/30 p-6 md:p-8 rounded-3xl flex flex-col justify-between shadow-sm">
                 <div>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-black/10">
                     <div>
                       <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">VIP Experiences</span>
-                      <h3 className="text-2xl md:text-3xl font-black uppercase text-white mt-1">Suite Class Perks</h3>
+                      <h3 className="text-2xl md:text-3xl font-black uppercase text-black mt-1">Suite Class Perks</h3>
                     </div>
-                    <div className="flex gap-1.5 bg-black/40 p-1.5 rounded-xl border border-white/5">
+                    <div className="flex gap-1.5 bg-black/5 p-1.5 rounded-xl border border-black/10">
                       {(["sea", "sky", "star"] as const).map(perk => (
                         <button
                           key={perk}
@@ -1046,8 +1021,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           onClick={() => setSuiteTab(perk)}
                           className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                             suiteTab === perk
-                              ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(133,29,239,0.4)]"
-                              : "bg-transparent text-white/40 hover:text-white"
+                              ? "bg-[var(--color-accent)] text-white shadow-md"
+                              : "bg-transparent text-black/60 hover:text-black"
                           }`}
                         >
                           {perk} Class
@@ -1057,7 +1032,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
 
                   {/* Benefits List */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 text-sm md:text-base text-white/90 font-medium leading-relaxed">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 text-sm md:text-base text-black/90 font-medium leading-relaxed">
                     {suiteTab === "sea" && [
                       "Dedicated check-in line",
                       "Priority boarding",
@@ -1069,7 +1044,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       "Lavazza Espresso coffee machine"
                     ].map((perk, idx) => (
                       <div key={idx} className="flex items-center gap-2.5">
-                        <span className="text-purple-400 font-black text-base shrink-0">✓</span>
+                        <span className="text-purple-700 font-black text-base shrink-0">✓</span>
                         <span>{perk}</span>
                       </div>
                     ))}
@@ -1091,7 +1066,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       "Lavazza Espresso coffee machine"
                     ].map((perk, idx) => (
                       <div key={idx} className="flex items-center gap-2.5">
-                        <span className="text-cyan-400 font-black text-base shrink-0">✓</span>
+                        <span className="text-cyan-700 font-black text-base shrink-0">✓</span>
                         <span>{perk}</span>
                       </div>
                     ))}
@@ -1118,7 +1093,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       "In-suite coffee machine"
                     ].map((perk, idx) => (
                       <div key={idx} className="flex items-center gap-2.5">
-                        <span className="text-amber-400 font-black text-base shrink-0">✓</span>
+                        <span className="text-amber-700 font-black text-base shrink-0">✓</span>
                         <span>{perk}</span>
                       </div>
                     ))}
@@ -1126,7 +1101,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
 
                 {/* Disclaimers & Notes */}
-                <div className="mt-8 border-t border-white/10 pt-4 text-xs text-white/50 space-y-1.5 leading-relaxed">
+                <div className="mt-8 border-t border-black/10 pt-4 text-xs text-black/60 space-y-1.5 leading-relaxed font-semibold">
                   {suiteTab === "sea" && (
                     <>
                       <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
@@ -1154,83 +1129,75 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
         </section>
 
-
-
       {/* ── OFFICIAL BOOKING FORM ── */}
       <section id="book-now" className="py-16 site-container relative z-20">
         <div id="signup" className="relative z-10">
           <div>
+            {/* Section Header */}
+            <div className="mb-8 text-left">
+              <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1 text-black" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                Official <span className="accent-gradient-text">Booking Form</span> & Reservation Portal
+              </h2>
+              <p className="text-black/60 text-sm font-semibold">
+                Secure your cabin reservation directly under the 7th Heaven group rate. <strong className="text-cyan-700">Group ID: 3325680</strong>
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
               <div className="lg:col-span-2 text-left">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-                  <div>
-                    <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-                      Official <span className="accent-gradient-text">Booking Form</span>
-                    </h2>
-                    <p className="text-white/40 text-sm">
-                      Secure your cabin reservation directly under the 7th Heaven group rate. <strong className="text-cyan-400">Group ID: 3325680</strong>
-                    </p>
-                  </div>
-                </div>
-
                 <form onSubmit={handleSignup} className="space-y-6">
-                  <div className="booking-form-card bg-white/[0.02] border border-white/10 rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                  <div className="booking-form-card bg-black/[0.02] border border-black/10 rounded-3xl overflow-hidden shadow-sm">
                     {/* Header Banner representing the PDF top section */}
-                    <div className="booking-header-banner border-b border-white/10 p-5 text-center">
-                      <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
-                      <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
-                      <p className="text-[var(--font-size-3xs)] text-white/40 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
+                    <div className="booking-header-banner border-b border-black/10 p-5 text-center bg-black/5">
+                      <h2 className="text-sm font-black uppercase tracking-wider text-black">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                      <p className="text-xs text-cyan-700 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                      <p className="text-[var(--font-size-3xs)] text-black/60 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
                     </div>
 
                     {/* GUEST 1 (Primary Booker) */}
-                    <div className="booking-section-container border-b border-white/15 bg-white/[0.02]">
-                      <div className="booking-section-header bg-white/[0.08] px-5 py-3 border-b border-white/15 flex items-center justify-between">
-                        <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                        <span className="text-xs font-extrabold uppercase tracking-widest text-purple-100 bg-purple-600 px-3 py-1 rounded-full shadow-md border border-purple-400">Primary</span>
+                    <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
+                      <div className="booking-section-header bg-black/[0.05] px-5 py-3 border-b border-black/10 flex items-center justify-between">
+                        <span className="text-sm font-black uppercase tracking-wider text-black">Guest 1 (Primary Booker)</span>
+                        <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border border-purple-400">Primary</span>
                       </div>
                       <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                         {/* Name */}
-                        <div className="booking-cell border-b md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                          <input type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
-                        </div>
-                        {/* DOB */}
-                        <div className="booking-cell border-b border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Date of Birth *</label>
-                          <input type="text" required placeholder="MM/DD/YYYY" value={formData.dob1} onChange={e => setFormData({...formData, dob1: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
+                        <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
+                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                          <input type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                         </div>
                         {/* Phone */}
-                        <div className="booking-cell border-b md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Phone Number *</label>
-                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({...formData, phone: formatPhoneDisplay(e.target.value)})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
+                        <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number *</label>
+                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({...formData, phone: formatPhoneDisplay(e.target.value)})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                         </div>
                         {/* Email */}
-                        <div className="booking-cell border-b border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Email Address *</label>
-                          <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
+                        <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address *</label>
+                          <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                         </div>
                         {/* T-Shirt Size */}
-                        <div className="booking-cell md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all relative">
-                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                          <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none">
-                            {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[var(--color-bg-surface)] text-white font-bold">{sz}</option>)}
+                        <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
+                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                          <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
+                            {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
                           </select>
                         </div>
                         {/* Crown & Anchor */}
-                        <div className="booking-cell p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                          <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({...formData, crownAnchor1: e.target.value})} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
+                        <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                          <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({...formData, crownAnchor1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                         </div>
                       </div>
 
                       {/* Customization toggles mirroring the Guest 1 page elements */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 border-t border-white/15">
-                        <div className="booking-cell border-b md:border-b-0 md:border-r border-white/15 p-4 flex flex-col justify-between">
-                          <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 border-t border-black/10">
+                        <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-4 flex flex-col justify-between">
+                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</label>
                           <div className="flex gap-3">
                             {["yes", "no"].map(opt => (
                               <button key={opt} type="button" onClick={() => setFormData(f => ({...f, insurance: opt}))}
-                                className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-md ${formData.insurance === opt ? "bg-cyan-500 border-cyan-400 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "bg-white/10 border-white/20 text-white/80 hover:text-white hover:bg-white/20"}`}>
+                                className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
                                 {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                               </button>
                             ))}
@@ -1238,11 +1205,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
 
                         <div className="booking-cell p-4 flex flex-col justify-between">
-                          <label className="booking-label block text-xs font-black text-purple-300 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</label>
+                          <label className="booking-label block text-xs font-black text-purple-700 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</label>
                           <div className="flex gap-3">
                             {["yes", "no"].map(opt => (
                               <button key={opt} type="button" onClick={() => setFormData(f => ({...f, prepaidGratuities: opt}))}
-                                className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-md ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]" : "bg-white/10 border-white/20 text-white/80 hover:text-white hover:bg-white/20"}`}>
+                                className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
                                 {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                               </button>
                             ))}
@@ -1255,17 +1222,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     {guests.map((g, i) => {
                       const guestNum = i + 2;
                       return (
-                        <div key={i} className={`booking-section-container border-b border-white/15 transition-all duration-300 ${g.active ? "bg-white/[0.02] opacity-100" : "bg-black/20 opacity-60 print:booking-inactive"}`}>
+                        <div key={i} className={`booking-section-container border-b border-black/10 transition-all duration-300 ${g.active ? "bg-black/[0.01] opacity-100" : "bg-black/[0.03] opacity-80 print:booking-inactive"}`}>
                           {/* Section Header with checkbox activator */}
-                          <div className="booking-section-header bg-white/[0.06] px-5 py-3 border-b border-white/15 flex items-center gap-3">
+                          <div className="booking-section-header bg-black/[0.05] px-5 py-3 border-b border-black/10 flex items-center gap-3">
                             <input 
                               type="checkbox" 
                               id={`guest-active-${guestNum}`} 
                               checked={g.active} 
                               onChange={e => toggleGuestActive(i, e.target.checked)} 
-                              className="no-print w-5 h-5 rounded border-white/30 bg-white/10 accent-cyan-400 cursor-pointer" 
+                              className="no-print w-5 h-5 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" 
                             />
-                            <label htmlFor={`guest-active-${guestNum}`} className="text-sm font-black uppercase tracking-wider text-white cursor-pointer select-none">
+                            <label htmlFor={`guest-active-${guestNum}`} className="text-sm font-black uppercase tracking-wider text-black cursor-pointer select-none">
                               Include Guest {guestNum} in Cabin Reservation
                             </label>
                           </div>
@@ -1273,40 +1240,35 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {g.active ? (
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                               {/* Name */}
-                              <div className="booking-cell border-b md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                                <input type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
-                              </div>
-                              {/* DOB */}
-                              <div className="booking-cell border-b border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Date of Birth *</label>
-                                <input type="text" required placeholder="MM/DD/YYYY" value={g.dob} onChange={e => updateGuest(i, "dob", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
+                              <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
+                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                                <input type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                               {/* Phone */}
-                              <div className="booking-cell border-b md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
-                                <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
+                              <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
+                                <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                               {/* Email */}
-                              <div className="booking-cell border-b border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
-                                <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
+                              <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
+                                <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                               {/* T-Shirt Size */}
-                              <div className="booking-cell md:border-r border-white/15 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all relative">
-                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                                <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none">
-                                  {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[var(--color-bg-surface)] text-white font-bold">{sz}</option>)}
+                              <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
+                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                                <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
+                                  {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
                                 </select>
                               </div>
                               {/* Crown & Anchor */}
-                              <div className="booking-cell p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-all">
-                                <label className="booking-label block text-xs font-black text-cyan-300 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                                <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white/[0.05] border border-white/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/[0.08]" />
+                              <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                                <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                             </div>
                           ) : (
-                            <div className="py-6 text-center text-white/25 text-2xs font-bold uppercase tracking-widest no-print select-none">
+                            <div className="py-6 text-center text-black/50 text-xs font-black uppercase tracking-widest no-print select-none">
                               No Passenger Registered in Slot {guestNum}
                             </div>
                           )}
@@ -1315,75 +1277,75 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     })}
 
                     {/* CABIN CATEGORY SELECTION */}
-                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
-                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10">
-                        <span className="text-xs font-black uppercase tracking-wider text-white">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
+                    <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
+                      <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10">
+                        <span className="text-xs font-black uppercase tracking-wider text-black">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
                       </div>
-                      <div className="p-3.5 focus-within:bg-cyan-500/5 transition-all">
+                      <div className="p-3.5 focus-within:bg-cyan-500/10 transition-all">
                         <select value={formData.cabinPreference} onChange={e => setFormData(f => ({...f, cabinPreference: e.target.value}))} required
-                          className="booking-input w-full bg-transparent text-sm text-white focus:outline-none cursor-pointer appearance-none py-1">
-                          <option value="" disabled className="bg-[var(--color-bg-surface)]">-- Select Cabin Category --</option>
-                          <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-[var(--color-bg-surface)]">
-                            <option value="group_n5" className="bg-[var(--color-bg-surface)]">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
-                            <option value="group_if" className="bg-[var(--color-bg-surface)]">IF - Infinite Central Park ($2,033.27 pp) - 2 Left</option>
-                            <option value="group_d4" className="bg-[var(--color-bg-surface)]">D4 - Ocean View Balcony ($2,433.27 pp) - 10 Left</option>
-                            <option value="group_d2" className="bg-[var(--color-bg-surface)]">D2 - Ocean View Balcony ($2,483.27 pp) - 11 Left</option>
-                            <option value="group_i1" className="bg-[var(--color-bg-surface)]">I1 - Infinite Ocean View Balcony ($2,583.27 pp) - 5 Left</option>
+                          className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-sm font-bold text-black focus:outline-none cursor-pointer appearance-none">
+                          <option value="" disabled className="bg-white text-black">-- Select Cabin Category --</option>
+                          <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-white text-black font-black">
+                            <option value="group_n5" className="bg-white text-black font-semibold">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
+                            <option value="group_if" className="bg-white text-black font-semibold">IF - Infinite Central Park ($2,033.27 pp) - 2 Left</option>
+                            <option value="group_d4" className="bg-white text-black font-semibold">D4 - Ocean View Balcony ($2,433.27 pp) - 10 Left</option>
+                            <option value="group_d2" className="bg-white text-black font-semibold">D2 - Ocean View Balcony ($2,483.27 pp) - 11 Left</option>
+                            <option value="group_i1" className="bg-white text-black font-semibold">I1 - Infinite Ocean View Balcony ($2,583.27 pp) - 5 Left</option>
                           </optgroup>
-                          <optgroup label="Prevailing Rates (Gratuities NOT Included, Taxes & Fees Included)" className="bg-[var(--color-bg-surface)]">
-                            <option value="prev_zi" className="bg-[var(--color-bg-surface)]">ZI - Inside GTY ($1,430.77 pp)</option>
-                            <option value="prev_yo" className="bg-[var(--color-bg-surface)] text-purple-300 font-bold">🟣 YO - Ocean View GTY ($1,691.27 pp) ★ FEATURED</option>
-                            <option value="prev_if" className="bg-[var(--color-bg-surface)]">IF - Infinite Central Park ($1,907.27 pp)</option>
-                            <option value="prev_xb" className="bg-[var(--color-bg-surface)]">XB - Oceanview Balcony GTY ($1,903.77 pp) - 8 Left</option>
-                            <option value="prev_i1" className="bg-[var(--color-bg-surface)]">I1 - Infinite Ocean View Balcony ($2,237.77 pp)</option>
-                            <option value="prev_jy" className="bg-[var(--color-bg-surface)]">JY - Sky Junior Suite ($5,157.77 pp)</option>
+                          <optgroup label="Prevailing Rates (Gratuities NOT Included, Taxes & Fees Included)" className="bg-white text-black font-black">
+                            <option value="prev_zi" className="bg-white text-black font-semibold">ZI - Inside GTY ($1,430.77 pp)</option>
+                            <option value="prev_yo" className="bg-purple-100 text-purple-950 font-black">🟣 YO - Ocean View GTY ($1,691.27 pp) ★ FEATURED</option>
+                            <option value="prev_if" className="bg-white text-black font-semibold">IF - Infinite Central Park ($1,907.27 pp)</option>
+                            <option value="prev_xb" className="bg-white text-black font-semibold">XB - Oceanview Balcony GTY ($1,903.77 pp) - 8 Left</option>
+                            <option value="prev_i1" className="bg-white text-black font-semibold">I1 - Infinite Ocean View Balcony ($2,237.77 pp)</option>
+                            <option value="prev_jy" className="bg-white text-black font-semibold">JY - Sky Junior Suite ($5,157.77 pp)</option>
                           </optgroup>
                         </select>
                       </div>
                     </div>
 
                     {/* PAYMENT DETAILS */}
-                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
-                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10 flex items-center justify-between">
-                        <span className="text-xs font-black uppercase tracking-wider text-white">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
-                        <span className="no-print text-[var(--font-size-4xs)] font-black uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
+                    <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
+                      <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10 flex items-center justify-between">
+                        <span className="text-xs font-black uppercase tracking-wider text-black">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
+                        <span className="no-print text-[var(--font-size-4xs)] font-black uppercase bg-emerald-500/20 text-emerald-800 border border-emerald-500/40 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
                       </div>
-                      <div className="p-4 text-2xs text-white/45 leading-relaxed border-b border-white/5">
+                      <div className="p-4 text-xs text-black/70 font-semibold leading-relaxed border-b border-black/10">
                         A $250.00 per-person deposit is required to secure your cabin under our group code. Payments are mock-processed for staging.
                       </div>
 
                       {/* Card 1 */}
-                      <div className="p-4 border-b border-white/10">
-                        <span className="text-[var(--font-size-3xs)] font-black text-cyan-400 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
-                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
-                          <div className="booking-cell border-b md:border-r border-white/10 p-3">
-                            <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
-                            <input type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({...formData, cardName1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                      <div className="p-4 border-b border-black/10">
+                        <span className="text-[var(--font-size-3xs)] font-black text-cyan-700 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
+                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+                            <input type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({...formData, cardName1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
-                          <div className="booking-cell border-b border-white/10 p-3">
-                            <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Credit Card Number *</label>
-                            <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({...formData, cardNumber1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                          <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
+                            <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({...formData, cardNumber1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
-                          <div className="booking-cell md:border-r border-white/10 p-3">
+                          <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
                             <div className="grid grid-cols-3 gap-2">
                               <div>
-                                <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Exp. Date *</label>
-                                <input type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({...formData, cardExpiry1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
+                                <input type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({...formData, cardExpiry1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                               <div>
-                                <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">3 Digit *</label>
-                                <input type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({...formData, cardCvv1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
+                                <input type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({...formData, cardCvv1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                               <div>
-                                <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Billing Zip *</label>
-                                <input type="text" required placeholder="Billing Zip" value={formData.cardZip1} onChange={e => setFormData({...formData, cardZip1: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
+                                <input type="text" required placeholder="Billing Zip" value={formData.cardZip1} onChange={e => setFormData({...formData, cardZip1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                             </div>
                           </div>
                           <div className="booking-cell p-3 flex flex-col justify-end">
-                            <div className="flex justify-between items-center bg-black/40 p-2 rounded-xl border border-white/5">
-                              <span className="booking-label text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest">Amount to Charge</span>
-                              <input type="text" required value={formData.cardAmount1} onChange={e => setFormData({...formData, cardAmount1: e.target.value})} className="booking-input w-24 bg-transparent border-none text-right text-sm font-black text-white outline-none" />
+                            <div className="flex justify-between items-center bg-black/5 p-3 rounded-xl border border-black/15">
+                              <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
+                              <input type="text" required value={formData.cardAmount1} onChange={e => setFormData({...formData, cardAmount1: e.target.value})} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
                             </div>
                           </div>
                         </div>
@@ -1391,52 +1353,52 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                       {/* Card 2 Split Option */}
                       {guests.filter(g => g.active).length > 0 && (
-                        <div className="p-4 border-b border-white/10 no-print">
+                        <div className="p-4 border-b border-black/10 no-print">
                           <label className="flex items-center gap-3 cursor-pointer group">
                             <input 
                               type="checkbox" 
                               checked={formData.splitPayment} 
                               onChange={e => setFormData({...formData, splitPayment: e.target.checked})} 
-                              className="w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" 
+                              className="w-4 h-4 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" 
                             />
-                            <span className="text-2xs font-bold uppercase tracking-widest text-cyan-400 group-hover:text-cyan-300">Split deposit payment between Card 1 and Card 2</span>
+                            <span className="text-2xs font-bold uppercase tracking-widest text-cyan-700 group-hover:text-cyan-800">Split deposit payment between Card 1 and Card 2</span>
                           </label>
                         </div>
                       )}
 
                       {/* Card 2 Details */}
                       {formData.splitPayment && guests.filter(g => g.active).length > 0 && (
-                        <div className="p-4 bg-white/[0.01]">
-                          <span className="text-[var(--font-size-3xs)] font-black text-purple-400 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
-                          <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
-                            <div className="booking-cell border-b md:border-r border-white/10 p-3">
-                              <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
-                              <input type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({...formData, cardName2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                        <div className="p-4 bg-black/[0.01]">
+                          <span className="text-[var(--font-size-3xs)] font-black text-purple-700 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
+                          <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                              <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+                              <input type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({...formData, cardName2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                             </div>
-                            <div className="booking-cell border-b border-white/10 p-3">
-                              <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Credit Card Number *</label>
-                              <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({...formData, cardNumber2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white focus:outline-none" />
+                            <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                              <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
+                              <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({...formData, cardNumber2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                             </div>
-                            <div className="booking-cell md:border-r border-white/10 p-3">
+                            <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
                               <div className="grid grid-cols-3 gap-2">
                                 <div>
-                                  <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Exp. Date *</label>
-                                  <input type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({...formData, cardExpiry2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                  <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
+                                  <input type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({...formData, cardExpiry2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 <div>
-                                  <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">3 Digit *</label>
-                                  <input type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({...formData, cardCvv2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                  <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
+                                  <input type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({...formData, cardCvv2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 <div>
-                                  <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Billing Zip *</label>
-                                  <input type="text" required placeholder="Billing Zip" value={formData.cardZip2} onChange={e => setFormData({...formData, cardZip2: e.target.value})} className="booking-input w-full bg-transparent text-sm text-white text-center focus:outline-none" />
+                                  <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
+                                  <input type="text" required placeholder="Billing Zip" value={formData.cardZip2} onChange={e => setFormData({...formData, cardZip2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                               </div>
                             </div>
                             <div className="booking-cell p-3 flex flex-col justify-end">
-                              <div className="flex justify-between items-center bg-black/40 p-2 rounded-xl border border-white/5">
-                                <span className="booking-label text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest">Amount to Charge</span>
-                                <input type="text" required value={formData.cardAmount2} onChange={e => setFormData({...formData, cardAmount2: e.target.value})} className="booking-input w-24 bg-transparent border-none text-right text-sm font-black text-white outline-none" />
+                              <div className="flex justify-between items-center bg-black/5 p-3 rounded-xl border border-black/15">
+                                <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
+                                <input type="text" required value={formData.cardAmount2} onChange={e => setFormData({...formData, cardAmount2: e.target.value})} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
                               </div>
                             </div>
                           </div>
@@ -1445,42 +1407,42 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
 
                     {/* NOTES & CONSENT */}
-                    <div className="booking-section-container border-b border-white/10 bg-white/[0.01]">
-                      <div className="booking-section-header bg-white/[0.03] px-4 py-2 border-b border-white/10">
-                        <span className="text-xs font-black uppercase tracking-wider text-white">ADDITIONAL NOTES & DIGITIAL SIGNATURE</span>
+                    <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
+                      <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10">
+                        <span className="text-xs font-black uppercase tracking-wider text-black">ADDITIONAL NOTES & DIGITIAL SIGNATURE</span>
                       </div>
                       
-                      <div className="p-4 border-b border-white/10">
+                      <div className="p-4 border-b border-black/10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
-                            <input type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({...f, howHeard: e.target.value}))} className="booking-input w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
+                            <input type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({...f, howHeard: e.target.value}))} className="booking-input w-full bg-white border border-black/15 rounded-xl px-4 py-2 text-sm text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none transition-colors font-semibold" />
                           </div>
                           <div>
-                            <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
-                            <textarea placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2} className="booking-input w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:border-[var(--color-accent)] focus:outline-none resize-none" />
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
+                            <textarea placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2} className="booking-input w-full bg-white border border-black/15 rounded-xl px-4 py-2 text-xs text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none resize-none font-semibold" />
                           </div>
                         </div>
                       </div>
 
                       {/* SIGNATURE FIELDS */}
-                      <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-t border-black/10">
                         {/* E-Signature */}
-                        <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 p-3 focus-within:border-cyan-500/50 focus-within:bg-cyan-500/5 transition-all">
-                          <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
+                        <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-3.5 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                          <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
                           <input 
                             type="text" 
                             required 
                             placeholder="Type legal name to sign" 
                             value={signature} 
                             onChange={e => setSignature(e.target.value)} 
-                            className="booking-signature-input signature-font w-full bg-transparent text-lg text-cyan-400 placeholder:text-white/10 focus:outline-none py-0.5" 
+                            className="booking-signature-input signature-font w-full bg-white border border-black/15 rounded-lg px-3 text-lg font-black text-cyan-700 placeholder:text-black/30 focus:outline-none py-1" 
                           />
                         </div>
                         {/* Signature Date */}
-                        <div className="booking-cell p-3 bg-white/[0.005]">
-                          <label className="booking-label block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Date Signed</label>
-                          <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-transparent text-sm text-white/50 focus:outline-none cursor-not-allowed" />
+                        <div className="booking-cell p-3.5 bg-black/[0.02]">
+                          <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date Signed</label>
+                          <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/5 border border-black/10 rounded-lg px-3 text-sm font-bold text-black/80 focus:outline-none cursor-not-allowed py-1" />
                         </div>
                       </div>
                     </div>
@@ -1490,16 +1452,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div className="space-y-4 no-print mt-4">
                     <label className="flex items-center gap-3 cursor-pointer group">
                       <input type="checkbox" checked={formData.anonymous} onChange={e => setFormData(f => ({...f, anonymous: e.target.checked}))}
-                        className="w-4 h-4 rounded border-white/20 bg-white/5 accent-[var(--color-accent)] cursor-pointer" />
-                      <span className="text-xs text-white/40 group-hover:text-white/60 transition-colors">Keep my name anonymous on the public roster list</span>
+                        className="w-4 h-4 rounded border-black/20 bg-white accent-[var(--color-accent)] cursor-pointer" />
+                      <span className="text-xs text-black/70 font-semibold group-hover:text-black transition-colors">Keep my name anonymous on the public roster list</span>
                     </label>
 
                     <label className="flex items-center gap-3 cursor-pointer group">
                       <input type="checkbox" checked={formData.joinCommunity} onChange={e => setFormData(f => ({...f, joinCommunity: e.target.checked}))}
-                        className="w-4 h-4 rounded border-white/20 bg-white/5 accent-cyan-400 cursor-pointer" />
+                        className="w-4 h-4 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" />
                       <div className="flex-1">
-                        <p className="text-xs text-white/65 group-hover:text-white transition-colors font-bold">Join the 7th Heaven Cruise Community</p>
-                        <p className="text-[var(--font-size-3xs)] text-white/30">Get early access to deck plans, song request polls, and pre-cruise passenger chat rooms.</p>
+                        <p className="text-xs text-black font-extrabold transition-colors">Join the 7th Heaven Cruise Community</p>
+                        <p className="text-[var(--font-size-3xs)] text-black/60 font-semibold">Get early access to deck plans, song request polls, and pre-cruise passenger chat rooms.</p>
                       </div>
                     </label>
 
@@ -1510,96 +1472,95 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                       <button type="submit" disabled={signupStatus === "submitting"}
-                        className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-xs py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] disabled:opacity-70 cursor-pointer">
+                        className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl transition-all shadow-md disabled:opacity-70 cursor-pointer">
                         {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
                       </button>
                       
                       <button type="button" onClick={() => window.print()}
-                        className="w-full border border-cyan-500/30 hover:border-cyan-500/60 bg-cyan-500/10 text-cyan-400 font-bold uppercase tracking-widest text-xs py-4 rounded-xl transition-all hover:bg-cyan-500/25 cursor-pointer text-center">
+                        className="w-full border border-cyan-600 bg-cyan-600 hover:bg-cyan-700 text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl transition-all shadow-md cursor-pointer text-center">
                         🖨️ Print / Save Booking Form
                       </button>
                     </div>
 
-                    <p className="text-[var(--font-size-3xs)] text-white/25 text-center leading-relaxed">
-                      By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="text-white/40 underline hover:text-white/60 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-white/40 underline hover:text-white/60 transition-colors">Terms of Service</a>. You'll receive a confirmation email.
+                    <p className="text-[var(--font-size-3xs)] text-black/60 font-semibold text-center leading-relaxed">
+                      By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="text-black font-bold underline hover:text-black/80 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-black font-bold underline hover:text-black/80 transition-colors">Terms of Service</a>. You'll receive a confirmation email.
                     </p>
-                    {signupStatus === "error" && <p className="text-rose-400 text-xs text-center">{formError || 'Something went wrong. Try again.'}</p>}
+                    {signupStatus === "error" && <p className="text-rose-600 text-xs font-bold text-center">{formError || 'Something went wrong. Try again.'}</p>}
                   </div>
                 </form>
               </div>
 
             {/* Sidebar Column: NTD Vacations Contacts & Payment Portal */}
-            <div className="lg:col-span-1 text-left space-y-8">
+            <div className="lg:col-span-1 text-left space-y-8 w-full">
               {/* Online Payment Portal Link */}
-              <div className="bg-[var(--color-bg-surface)] border border-purple-500/20 p-6 rounded-2xl text-left relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-[60px]" />
+              <div className="p-0 border-0 bg-transparent text-left relative w-full">
                 <span className="text-3xl block mb-2">💳</span>
-                <h4 className="text-sm font-black text-white uppercase tracking-wider">Already Booked?</h4>
-                <p className="text-2xs text-white/40 mt-1 leading-normal">
+                <h4 className="text-sm font-black text-black uppercase tracking-wider">Already Booked?</h4>
+                <p className="text-2xs text-black/70 font-semibold mt-1 leading-normal">
                   Submit additional payments, modify balances, or authorize custom charges directly with the Royal Caribbean processor.
                 </p>
                 <a 
                   href="https://www.chicagomusiccruise.com/payment.html" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="inline-block mt-4 px-4 py-2 bg-purple-500 hover:bg-purple-400 text-white font-black uppercase tracking-wider text-2xs rounded-lg transition-all"
+                  className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-2xs rounded-xl transition-all shadow-md cursor-pointer"
                 >
                   Go to Payment Portal
                 </a>
               </div>
 
               {/* Travel coordinators list */}
-              <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-6">
-                <h3 className="text-sm font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Travel Coordinators</h3>
+              <div className="p-0 border-0 bg-transparent space-y-6 w-full">
+                <h3 className="text-sm font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Travel Coordinators</h3>
                 <div className="space-y-6">
                   {[
                     { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
                     { name: "Mary Grivas", role: "Excursions / Hotels & Air", phone: "(877) 683-9753 ext 5", email: "Mary@NTDVacations.com" },
                     { name: "Alan McRae", role: "Schedules & Logistics", phone: "(877) 683-9753 ext 5", email: "alan@NTDVacations.com" },
                   ].map((coord, idx) => (
-                    <div key={idx} className="leading-normal pb-4 border-b border-white/5 last:border-0 last:pb-0">
-                      <h4 className="text-lg font-black text-white">{coord.name}</h4>
-                      <p className="text-xs text-white/50 font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
-                      <p className="text-sm text-white/70 font-mono mt-1">{coord.phone}</p>
-                      <a href={`mailto:${coord.email}`} className="text-base md:text-lg text-cyan-400 font-black hover:underline block mt-1 tracking-wide">{coord.email}</a>
+                    <div key={idx} className="leading-normal pb-4 border-b border-black/10 last:border-0 last:pb-0">
+                      <h4 className="text-lg font-black text-black">{coord.name}</h4>
+                      <p className="text-xs text-black/60 font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
+                      <p className="text-sm text-black/80 font-mono mt-1 font-bold">{coord.phone}</p>
+                      <a href={`mailto:${coord.email}`} className="text-base md:text-lg text-cyan-700 font-black hover:underline block mt-1 tracking-wide">{coord.email}</a>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Voyage Interest Tracker */}
-              <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-4">
-                <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Voyage Tracker</h3>
+              <div className="p-0 border-0 bg-transparent space-y-4 w-full">
+                <h3 className="text-xs font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Voyage Tracker</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-center">
-                    <p className="text-3xl font-black text-white">{signupCount}</p>
-                    <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Cabins</p>
+                  <div className="p-2 text-left">
+                    <p className="text-3xl font-black text-black">{signupCount}</p>
+                    <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-black/50 mt-1">Cabins</p>
                   </div>
-                  <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-center">
-                    <p className="text-3xl font-black text-white">{totalGuests}</p>
-                    <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Passengers</p>
+                  <div className="p-2 text-left">
+                    <p className="text-3xl font-black text-black">{totalGuests}</p>
+                    <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-black/50 mt-1">Passengers</p>
                   </div>
                 </div>
               </div>
 
               {/* Who's Booked */}
               {joinedFans.length > 0 && (
-                <div className="bg-white/[0.03] border border-white/5 p-6 rounded-3xl space-y-4">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-white border-b border-white/5 pb-3">Who&apos;s Booked</h3>
+                <div className="p-0 border-0 bg-transparent space-y-4 w-full">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Who&apos;s Booked</h3>
                   <div className="flex items-center mb-4">
-                    <div className="flex -space-x-2">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       {joinedFans.slice(0, 8).map((fan, i) => (
                         <div
                           key={i}
-                          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-[#0d0d14] shrink-0 relative z-[1] hover:z-10 hover:scale-110 transition-transform cursor-default"
-                          style={{ backgroundColor: fan.anonymous ? '#374151' : AVATAR_COLORS[i % AVATAR_COLORS.length], zIndex: 8 - i }}
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 shadow-xs transition-transform hover:scale-110"
+                          style={{ backgroundColor: fan.anonymous ? '#374151' : AVATAR_COLORS[i % AVATAR_COLORS.length] }}
                           title={fan.anonymous ? 'Anonymous Fan' : fan.name}
                         >
                           {fan.anonymous ? '?' : fan.name.charAt(0).toUpperCase()}
                         </div>
                       ))}
                       {joinedFans.length > 8 && (
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white/60 bg-white/10 border-2 border-[#0d0d14] shrink-0">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-black/70 bg-black/10 shrink-0">
                           +{joinedFans.length - 8}
                         </div>
                       )}
@@ -1607,10 +1568,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
                   <div className="flex flex-wrap gap-x-1 gap-y-0.5">
                     {joinedFans.map((fan, i) => (
-                      <span key={i} className="text-2xs text-white/40">
+                      <span key={i} className="text-2xs text-black/60 font-semibold">
                         {fan.anonymous ? 'Anonymous' : fan.name.split(' ')[0]}
-                        {fan.guest_count > 1 && <span className="text-white/20"> +{fan.guest_count - 1}</span>}
-                        {i < joinedFans.length - 1 && <span className="text-white/15 mx-0.5">·</span>}
+                        {fan.guest_count > 1 && <span className="text-black/40"> +{fan.guest_count - 1}</span>}
+                        {i < joinedFans.length - 1 && <span className="text-black/20 mx-0.5">·</span>}
                       </span>
                     ))}
                   </div>
@@ -1626,28 +1587,63 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
       {/* ── FEATURED HEADLINE ARTISTS ── */}
       <section id="artists" className="pt-16 pb-12 site-container">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400">Headline Musical Acts</span>
-          <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+        <div className="text-left w-full mb-10">
+          <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-700">Headline Musical Acts</span>
+          <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none mt-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
             Featured <span className="accent-gradient-text">Artists</span>
           </h2>
-          <p className="text-white/45 mt-3 text-xs md:text-sm leading-relaxed">
+          <p className="text-black/60 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
             Meet the headlining bands performing live concert sets, acoustic pool jams, and theater shows throughout the voyage.
           </p>
         </div>
 
         {/* Bands/Artists Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           {BANDS_DATA.map((band, idx) => (
-            <div key={idx} className="bg-transparent border-0 p-4 text-left flex flex-col justify-between relative overflow-hidden">
-              <div>
-                <span className="text-4xl block mb-4">{band.logo}</span>
-                <h3 className="text-xl font-black uppercase text-white tracking-wide">{band.name}</h3>
-                <p className="text-white/50 text-xs md:text-sm mt-3 leading-relaxed">{band.desc}</p>
-              </div>
-              <div className="mt-8 pt-4 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between">
-                <a href={band.website} target="_blank" rel="noopener noreferrer" className="text-xs text-cyan-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline">Visit Band Site →</a>
-                <a href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request" className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-widest hover:text-white transition-all">Booking Inquiries</a>
+            <div key={idx} className="relative rounded-3xl overflow-hidden group border border-black/10 shadow-lg aspect-[4/5] bg-black">
+              {band.photo ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img 
+                  src={band.photo} 
+                  alt={band.name} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90" 
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-neutral-800 to-black flex items-center justify-center text-5xl">
+                  {band.logo}
+                </div>
+              )}
+              
+              {/* Bottom Gradient Overlay matching user screenshot */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-6 flex flex-col justify-end text-left">
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-none">
+                  {band.name}
+                </h3>
+                {band.role && (
+                  <p className="text-purple-400 font-bold text-lg md:text-xl lg:text-2xl tracking-wide mt-1.5">
+                    {band.role}
+                  </p>
+                )}
+                <p className="text-white/70 text-xs mt-2 line-clamp-2 leading-relaxed font-medium">
+                  {band.desc}
+                </p>
+
+                <div className="mt-4 pt-3 border-t border-white/15 flex items-center justify-between">
+                  <a 
+                    href={band.website} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-xs text-cyan-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline"
+                  >
+                    Visit Site →
+                  </a>
+                  <a 
+                    href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request" 
+                    className="text-[var(--font-size-3xs)] text-white/50 uppercase tracking-widest hover:text-white transition-all font-bold"
+                  >
+                    Inquiries
+                  </a>
+                </div>
               </div>
             </div>
           ))}
@@ -1655,12 +1651,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       </section>
 
       {/* ── SECTION 1: ITINERARIES & DATES ── */}
-      <section id="itinerary" className="py-20 site-container">
+      {/* ── SECTION: ITINERARY TIMELINE ── */}
+      <section id="itinerary" className="py-20 w-full max-w-full px-4 md:px-12 overflow-x-clip">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
-            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+            <p className="text-black/60 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
               Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
             </p>
 
@@ -1671,8 +1668,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 onClick={() => setActiveItinYear(2027)}
                 className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                   activeItinYear === 2027
-                    ? "bg-cyan-500 text-black font-black"
-                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white"
+                    ? "bg-cyan-600 text-white font-black shadow-md"
+                    : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
                 }`}
               >
                 2027 Star of the Seas (7-Night)
@@ -1682,8 +1679,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 onClick={() => setActiveItinYear(2028)}
                 className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                   activeItinYear === 2028
-                    ? "bg-amber-500 text-black font-black"
-                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white"
+                    ? "bg-amber-600 text-white font-black shadow-md"
+                    : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
                 }`}
               >
                 2028 Legend of the Seas (8-Night)
@@ -1703,8 +1700,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* Ports of Call Section */}
           <div>
             <div className="text-center md:text-left mb-10">
-              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400">Destination Explorer</span>
-              <h3 className="text-2xl md:text-3xl font-black uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-700">Destination Explorer</span>
+              <h3 className="text-2xl md:text-3xl font-black uppercase italic text-black tracking-tight mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                 Ports of Call Catalog
               </h3>
             </div>
@@ -1713,17 +1710,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "grid" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
                 {PORTS_DATA.map((port, idx) => (
-                  <div key={idx} className="bg-[var(--color-bg-surface)] border-none rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 shadow-lg">
+                  <div key={idx} className="bg-black/[0.03] border border-black/10 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 shadow-sm">
                     <div className="h-48 w-full relative overflow-hidden bg-black/60">
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/30 z-10" />
                       {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                      <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border-none rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400">
+                      <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border-none rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300">
                         Port Call #{idx + 1}
                       </span>
                     </div>
-                    <div className="p-6 relative z-20 -mt-8">
-                      <h4 className="text-base font-extrabold text-white uppercase tracking-tight mb-2 group-hover:text-cyan-300 transition-colors">{port.name}</h4>
-                      <p className="text-white/50 text-xs leading-relaxed">{port.desc}</p>
+                    <div className="p-6 relative z-20 -mt-8 bg-white border-t border-black/10">
+                      <h4 className="text-base font-extrabold text-black uppercase tracking-tight mb-2 group-hover:text-cyan-700 transition-colors">{port.name}</h4>
+                      <p className="text-black/70 text-xs leading-relaxed font-semibold">{port.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -1879,44 +1876,44 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
       {/* ── SECTION 4: SHIP EXPLORER ── */}
       <section id="ship-explorer" className="py-20 site-container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+          <div className="text-left w-full mb-10">
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
             </h2>
-            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+            <p className="text-black/60 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
               Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.
             </p>
           </div>
 
           {/* Specs & Dimensions */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 text-left">
             {[
               { label: "Gross Tonnage", value: "248,663 GT", icon: "⚖️" },
               { label: "Total Length", value: "1,196.9 Feet", icon: "📐" },
               { label: "Total Width", value: "159.1 Feet", icon: "↔️" },
               { label: "Decks Tall", value: "20 Decks", icon: "🏢" },
             ].map((stat, idx) => (
-              <div key={idx} className="bg-transparent p-4 transition-colors">
+              <div key={idx} className="bg-transparent border-0 p-0 text-left">
                 <span className="text-3xl block mb-2">{stat.icon}</span>
-                <span className="text-[var(--font-size-3xs)] text-white/40 font-black uppercase tracking-wider block">{stat.label}</span>
-                <span className="text-lg md:text-xl font-black text-white mt-1 block">{stat.value}</span>
+                <span className="text-[var(--font-size-3xs)] text-black/60 font-black uppercase tracking-wider block">{stat.label}</span>
+                <span className="text-lg md:text-xl font-black text-black mt-1 block">{stat.value}</span>
               </div>
             ))}
           </div>
 
           {/* Dining Tab Section */}
           <div className="bg-transparent p-0 text-left mb-16">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-black/10">
               <div>
-                <h3 className="text-xl font-black uppercase text-white">Dining Explorer Guide</h3>
-                <p className="text-xs text-white/40 mt-1">Discover included food spots and premium specialty restaurants.</p>
+                <h3 className="text-xl font-black uppercase text-black">Dining Explorer Guide</h3>
+                <p className="text-xs text-black/60 font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
               </div>
-              <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 shrink-0 self-center">
+              <div className="flex bg-black/5 p-1 rounded-xl border border-black/10 shrink-0 self-center">
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("included")}
                   className={`px-4 py-2 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
-                    foodTypeTab === "included" ? "bg-cyan-500 text-black font-black" : "bg-transparent text-white/40 hover:text-white"
+                    foodTypeTab === "included" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
                   }`}
                 >
                   Included (Free)
@@ -1925,7 +1922,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   type="button"
                   onClick={() => setFoodTypeTab("paid")}
                   className={`px-4 py-2 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
-                    foodTypeTab === "paid" ? "bg-cyan-500 text-black font-black" : "bg-transparent text-white/40 hover:text-white"
+                    foodTypeTab === "paid" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
                   }`}
                 >
                   Specialty (With Fee)
@@ -1978,12 +1975,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               ).map((food, idx) => {
                 const isFeatured = idx === 0 || idx === 7 || idx === 14;
                 return (
-                  <div key={idx} className={`relative rounded-2xl overflow-hidden group border border-white/10 ${isFeatured ? 'col-span-2 h-44 md:h-52' : 'h-36'}`}>
+                  <div key={idx} className={`relative rounded-2xl overflow-hidden group border border-black/10 ${isFeatured ? 'col-span-2 h-64 md:h-80' : 'h-52 md:h-64'}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-3.5 flex flex-col justify-end">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/30 backdrop-blur-md px-2 py-0.5 rounded-full font-bold self-start mb-1">{food.tag}</span>
-                      <p className="font-extrabold text-white text-sm leading-snug">{food.name}</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/30 backdrop-blur-md px-2 py-0.5 rounded-full font-bold self-start mb-1.5">{food.tag}</span>
+                      <p className="font-extrabold text-white text-base md:text-lg leading-snug">{food.name}</p>
                     </div>
                   </div>
                 );
@@ -1997,31 +1994,31 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* ── BARS & ENTERTAINMENT SEGMENTED TABS SECTION (Option 2) ── */}
           <div className="mt-20">
             {/* Segmented Tab Header */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-4 border-b border-black/10">
               <div>
-                <h3 className="text-xl font-black uppercase text-white">Bars & Entertainment Explorer</h3>
-                <p className="text-xs text-white/40 mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
+                <h3 className="text-xl font-black uppercase text-black">Bars & Entertainment Explorer</h3>
+                <p className="text-xs text-black/60 font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
               </div>
-              <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10 shrink-0">
+              <div className="flex bg-black/5 p-1 rounded-2xl border border-black/10 shrink-0">
                 <button
                   type="button"
                   onClick={() => setBarTab("bars")}
                   className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
-                    barTab === "bars" ? "bg-cyan-500 text-black font-black shadow-lg shadow-cyan-500/25 scale-105" : "text-white/50 hover:text-white"
+                    barTab === "bars" ? "bg-cyan-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
                   }`}
                 >
                   <span>🍸 Bars & Clubs</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "bars" ? "bg-black/20 text-black" : "bg-white/10 text-cyan-400"}`}>20</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "bars" ? "bg-white/20 text-white" : "bg-black/10 text-cyan-700"}`}>20</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setBarTab("entertainment")}
                   className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
-                    barTab === "entertainment" ? "bg-purple-500 text-white font-black shadow-lg shadow-purple-500/25 scale-105" : "text-white/50 hover:text-white"
+                    barTab === "entertainment" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
                   }`}
                 >
                   <span>🎭 Entertainment</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-400"}`}>20</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-black/10 text-purple-700"}`}>20</span>
                 </button>
               </div>
             </div>
@@ -2077,7 +2074,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 const isFeatured = idx === 0 || idx === 7 || idx === 14;
                 const isCyan = barTab === "bars";
                 return (
-                  <div key={idx} className={`relative rounded-2xl overflow-hidden group border border-white/10 ${isFeatured ? 'col-span-2 h-44 md:h-52' : 'h-36 md:h-40'}`}>
+                  <div key={idx} className={`relative rounded-2xl overflow-hidden group border border-black/10 ${isFeatured ? 'col-span-2 h-44 md:h-52' : 'h-36 md:h-40'}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-3.5 flex flex-col justify-end">
@@ -2098,30 +2095,30 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
       {/* ── SECTION 5: FAQS & HISTORY ── */}
       <section id="faqs" className="py-20 site-container">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+          <div className="text-left w-full mb-10">
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Cruise FAQs <span className="accent-gradient-text">& Travel History</span>
             </h2>
-            <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+            <p className="text-black/60 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
               Find answers to important passport requirements, dining configurations, and explore our 25-year cruising history timeline.
             </p>
           </div>
 
           {/* FAQs List */}
-          <div className="space-y-4 mb-16 text-left">
+          <div className="space-y-2 mb-16 text-left max-w-4xl">
             {FAQS_EXTENDED.map((faq, i) => (
-              <div key={i} className="border border-white/5 bg-black/10 rounded-2xl overflow-hidden">
+              <div key={i} className="border border-black/10 bg-black/[0.03] rounded-xl overflow-hidden shadow-xs">
                 <button 
                   type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between p-5 text-left hover:bg-white/[0.02] transition-colors cursor-pointer border-none bg-transparent"
+                  className="w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-black/5 transition-colors cursor-pointer border-none bg-transparent"
                 >
-                  <span className="font-bold text-sm md:text-base text-white pr-4">{faq.q}</span>
-                  <span className={`text-white/30 text-lg transition-transform ${openFaq === i ? 'rotate-45' : ''}`}>+</span>
+                  <span className="font-extrabold text-xs md:text-sm text-black pr-4">{faq.q}</span>
+                  <span className={`text-black/70 text-sm transition-transform font-black shrink-0 ${openFaq === i ? 'rotate-45 text-rose-600' : ''}`}>+</span>
                 </button>
                 {openFaq === i && (
-                  <div className="px-5 pb-5 -mt-1">
-                    <p className="text-xs md:text-sm text-white/40 leading-relaxed">{faq.a}</p>
+                  <div className="px-4 py-3 border-t border-black/5 bg-white">
+                    <p className="text-xs md:text-sm text-black/80 font-medium leading-relaxed">{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -2129,11 +2126,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Cruise History Section with 6 Interactive Layout Modes */}
-          {/* TEMPORARILY REMOVED FOR ISOLATION TESTING
-          <React.Suspense fallback={null}>
+          <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
             <CruiseHistoryTimeline history={CRUISE_HISTORY} />
           </React.Suspense>
-          */}
 
 
         </section>

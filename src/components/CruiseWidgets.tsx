@@ -36,10 +36,10 @@ export function EmbarkationCountdown() {
 
   return (
     <div className="flex flex-wrap items-center gap-4 bg-transparent border-none p-4 relative overflow-hidden">
-      <div className="flex items-center gap-4 border-r border-white/10 pr-6 shrink-0 z-10">
+      <div className="flex items-center gap-4 border-r border-black/10 pr-6 shrink-0 z-10">
         <span className="text-4xl animate-bounce">🛳️</span>
         <div>
-          <h2 className="text-white font-black italic tracking-wide text-lg">Embarkation</h2>
+          <h2 className="text-black font-black italic tracking-wide text-lg">Embarkation</h2>
           <p className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Port of Miami</p>
         </div>
       </div>
@@ -47,10 +47,10 @@ export function EmbarkationCountdown() {
       <div className="flex items-center gap-4 z-10">
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
-            <div className="bg-black/30 border-none rounded-lg w-12 h-14 flex items-center justify-center text-white font-mono font-bold text-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-white border border-black/10 rounded-xl w-14 h-16 flex items-center justify-center text-black font-mono font-black text-2xl shadow-md">
               {value.toString().padStart(2, '0')}
             </div>
-            <span className="text-xs font-bold text-white/40 uppercase tracking-widest mt-2">{unit}</span>
+            <span className="text-xs font-bold text-black/60 uppercase tracking-widest mt-2">{unit}</span>
           </div>
         ))}
       </div>
@@ -486,19 +486,19 @@ export function BookingManager({ email }: { email?: string }) {
   );
 
   return (
-    <div className="p-2 relative overflow-hidden flex flex-col justify-between">
+    <div className="p-6 bg-white border border-black/10 rounded-2xl shadow-md text-black relative overflow-hidden flex flex-col justify-between">
        <div>
          <div className="flex justify-between items-center mb-6 relative z-10">
            <div>
-             <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40">Priority Status</h2>
+             <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/50">Priority Status</h2>
              <div className="flex items-center gap-3 mt-1">
-               <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]" />
-               <span className="text-emerald-400 font-bold tracking-widest uppercase text-xs">Registered</span>
+               <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-md" />
+               <span className="text-emerald-700 font-bold tracking-widest uppercase text-xs">Registered</span>
              </div>
            </div>
 
            {!isEditing && (
-             <button onClick={() => setIsEditing(true)} className="text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors cursor-pointer">
+             <button onClick={() => setIsEditing(true)} className="text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-black transition-colors cursor-pointer">
                Edit Info
              </button>
            )}
@@ -510,14 +510,14 @@ export function BookingManager({ email }: { email?: string }) {
            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
              {/* Left Column: Cabin Image Preview */}
              <div className="md:col-span-2 flex flex-col justify-start">
-               <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+               <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
                  <img 
                    src={booking?.cabin_image || '/images/cruise/d1_ocean_view_balcony.jpg'} 
                    alt="Selected Cabin" 
                    className="w-full h-full object-cover" 
                  />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-[2px] border border-cyan-500/20">
+                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-black/60 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
                      Cabin Room Preview
                    </span>
                  </div>
@@ -526,23 +526,23 @@ export function BookingManager({ email }: { email?: string }) {
 
              {/* Right Column: Edit Form */}
              <div className="md:col-span-3 space-y-4">
-               <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-white/5 pb-2">Edit Booking & Guest Info</h3>
+               <h3 className="text-xs font-bold text-cyan-700 uppercase tracking-widest border-b border-black/10 pb-2">Edit Booking & Guest Info</h3>
                <div>
-                 <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Party Size</label>
+                 <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Party Size</label>
                  <input 
                    type="number" min="1" max="10"
                    value={formData.guest_count} 
                    onChange={e => setFormData({...formData, guest_count: parseInt(e.target.value) || 1})}
-                   className="w-full bg-[var(--color-bg-surface)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                   className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[var(--color-accent)]" 
                  />
                </div>
                <div>
-                 <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number</label>
+                 <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Phone Number</label>
                  <input 
                    type="text" 
                    value={formData.phone} 
                    onChange={e => setFormData({...formData, phone: e.target.value})}
-                   className="w-full bg-[var(--color-bg-surface)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                   className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[var(--color-accent)]" 
                  />
                </div>
                <div className="flex items-center gap-2">
@@ -553,13 +553,13 @@ export function BookingManager({ email }: { email?: string }) {
                    onChange={e => setFormData({...formData, anonymous: e.target.checked})}
                    className="accent-[var(--color-accent)] cursor-pointer"
                  />
-                 <label htmlFor="anon-check" className="text-xs font-bold text-white/60 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
+                 <label htmlFor="anon-check" className="text-xs font-bold text-black/70 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
                </div>
                
-               <div className="pt-2 border-t border-white/5">
+               <div className="pt-2 border-t border-black/10">
                  <div className="flex justify-between items-center mb-2">
-                   <label className="block text-xs font-bold text-white/40 uppercase tracking-widest">Additional Guests</label>
-                   <button onClick={() => setFormData({...formData, guests: [...formData.guests, {name: '', type: 'adult'}]})} className="text-xs font-bold text-[var(--color-accent)] hover:text-white uppercase tracking-widest cursor-pointer">+ Add Guest</button>
+                   <label className="block text-xs font-bold text-black/50 uppercase tracking-widest">Additional Guests</label>
+                   <button onClick={() => setFormData({...formData, guests: [...formData.guests, {name: '', type: 'adult'}]})} className="text-xs font-bold text-[var(--color-accent)] hover:text-black uppercase tracking-widest cursor-pointer">+ Add Guest</button>
                  </div>
                  <div className="space-y-2">
                    {formData.guests.map((g: any, i: number) => (
@@ -571,7 +571,7 @@ export function BookingManager({ email }: { email?: string }) {
                            newGuests[i].name = e.target.value;
                            setFormData({...formData, guests: newGuests});
                          }}
-                         className="flex-1 bg-[var(--color-bg-surface)] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)]" 
+                         className="flex-1 bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)]" 
                        />
                        <select 
                          value={g.type || 'adult'} 
@@ -580,7 +580,7 @@ export function BookingManager({ email }: { email?: string }) {
                            newGuests[i].type = e.target.value;
                            setFormData({...formData, guests: newGuests});
                          }}
-                         className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
+                         className="bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
                        >
                          <option value="adult">Adult</option>
                          <option value="child">Child</option>
@@ -590,7 +590,7 @@ export function BookingManager({ email }: { email?: string }) {
                            const newGuests = formData.guests.filter((_, idx) => idx !== i);
                            setFormData({...formData, guests: newGuests});
                          }}
-                         className="text-white/40 hover:text-red-400 px-1 cursor-pointer"
+                         className="text-black/40 hover:text-red-600 px-1 cursor-pointer"
                        >
                          ✕
                        </button>
@@ -598,11 +598,11 @@ export function BookingManager({ email }: { email?: string }) {
                    ))}
                  </div>
                </div>
-               <div className="flex gap-2 mt-4 pt-2 border-t border-white/5">
-                 <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-[var(--color-accent)]/80 transition-all cursor-pointer">
+               <div className="flex gap-2 mt-4 pt-2 border-t border-black/10">
+                 <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all cursor-pointer">
                    {saveStatus || 'Save'}
                  </button>
-                 <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-white/5 text-white/60 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-all cursor-pointer">
+                 <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-100 text-black/70 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-all cursor-pointer">
                    Cancel
                  </button>
                </div>
@@ -616,14 +616,14 @@ export function BookingManager({ email }: { email?: string }) {
               {/* Left Column: Cabin Image Preview */}
               {booking.cabin_image && (
                 <div className="md:col-span-2 flex flex-col justify-start">
-                  <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                  <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
                     <img 
                       src={booking.cabin_image} 
                       alt="Selected Cabin" 
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                      <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-[2px] border border-cyan-500/20">
+                      <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-black/60 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
                         Cabin Room Preview
                       </span>
                     </div>
@@ -633,71 +633,71 @@ export function BookingManager({ email }: { email?: string }) {
 
               {/* Right Column: Details List */}
               <div className={booking.cabin_image ? "md:col-span-3 space-y-3" : "md:col-span-5 space-y-3"}>
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Passenger Name</span>
-                  <span className="text-sm font-bold text-white">{booking.name}</span>
+                <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Passenger Name</span>
+                  <span className="text-sm font-bold text-black">{booking.name}</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Ship & Voyage</span>
-                  <span className="text-xs font-bold text-cyan-300">Royal Caribbean · Icon of the Seas</span>
+                <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Ship & Voyage</span>
+                  <span className="text-xs font-bold text-cyan-700">Royal Caribbean · Icon of the Seas</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Sailing Dates</span>
-                  <span className="text-xs font-bold text-white">Jan 18 – Jan 25, 2026 (7 Nights)</span>
+                <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Sailing Dates</span>
+                  <span className="text-xs font-bold text-black">Jan 18 – Jan 25, 2026 (7 Nights)</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Departure Port</span>
-                  <span className="text-xs font-medium text-white/80">Port of Miami, FL (Terminal A)</span>
+                <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Departure Port</span>
+                  <span className="text-xs font-medium text-black/80">Port of Miami, FL (Terminal A)</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Party Size</span>
-                  <span className="text-sm font-black text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-white/40 ml-1">Guests</span></span>
+                <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Party Size</span>
+                  <span className="text-sm font-black text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-black/50 ml-1">Guests</span></span>
                 </div>
                 
                 {booking.cabin_preference && (
-                  <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                    <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Selected Cabin</span>
-                    <span className="text-sm font-bold text-cyan-300">{booking.cabin_preference}</span>
+                  <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                    <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Selected Cabin</span>
+                    <span className="text-sm font-bold text-cyan-700">{booking.cabin_preference}</span>
                   </div>
                 )}
 
                 {/* Travel Readiness Checklist Badges */}
-                <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3 my-3">
-                  <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
+                <div className="bg-gray-50 border border-black/10 rounded-xl p-3 my-3">
+                  <span className="text-[var(--font-size-3xs)] font-bold text-black/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
                   <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-                    <div className="flex items-center gap-1.5 text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
+                    <div className="flex items-center gap-1.5 text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-1 rounded">
                       <span>✓</span> Passport Verified
                     </div>
-                    <div className="flex items-center gap-1.5 text-purple-300 font-bold bg-purple-500/10 border border-purple-500/20 px-2 py-1 rounded">
+                    <div className="flex items-center gap-1.5 text-purple-800 font-bold bg-purple-50 border border-purple-200 px-2 py-1 rounded">
                       <span>🎸</span> Band VIP Pass Included
                     </div>
-                    <div className="flex items-center gap-1.5 text-cyan-300 font-medium bg-cyan-500/10 border border-cyan-500/20 px-2 py-1 rounded">
+                    <div className="flex items-center gap-1.5 text-cyan-800 font-medium bg-cyan-50 border border-cyan-200 px-2 py-1 rounded">
                       <span>📅</span> Check-in: 45 Days Prior
                     </div>
-                    <div className="flex items-center gap-1.5 text-amber-300 font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
+                    <div className="flex items-center gap-1.5 text-amber-800 font-medium bg-amber-50 border border-amber-200 px-2 py-1 rounded">
                       <span>🏷️</span> Luggage Tags: Dec 1st
                     </div>
                   </div>
                 </div>
 
                 {/* Payment Breakdown: Total Fare, Paid & Owed */}
-                <div className="bg-black/40 border border-white/10 rounded-xl p-4 space-y-2.5 my-3 shadow-inner">
+                <div className="bg-gray-50 border border-black/10 rounded-xl p-4 space-y-2.5 my-3 shadow-sm">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-white/50 uppercase tracking-wider">Total Cruise Fare</span>
-                    <span className="font-bold text-white">{booking.total_fare || "$1,550.00"}</span>
+                    <span className="font-bold text-black/60 uppercase tracking-wider">Total Cruise Fare</span>
+                    <span className="font-bold text-black">{booking.total_fare || "$1,550.00"}</span>
                   </div>
-                  <div className="flex justify-between items-center text-xs border-t border-white/5 pt-2">
-                    <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
+                  <div className="flex justify-between items-center text-xs border-t border-black/10 pt-2">
+                    <span className="font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">
                       <span>✓</span> Amount Paid
                     </span>
-                    <span className="text-emerald-400 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
+                    <span className="text-emerald-700 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
                   </div>
-                  <div className="flex justify-between items-center text-xs border-t border-white/5 pt-2">
-                    <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
+                  <div className="flex justify-between items-center text-xs border-t border-black/10 pt-2">
+                    <span className="font-bold text-rose-600 uppercase tracking-wider flex items-center gap-1">
                       <span>⏳</span> Balance Owed
                     </span>
                     <div className="flex items-center gap-2">
-                      <span className="text-rose-400 font-black text-sm">{booking.balance_due || "$350.00"}</span>
+                      <span className="text-rose-600 font-black text-sm">{booking.balance_due || "$350.00"}</span>
                       {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
                         <button 
                           onClick={() => setIsPayModalOpen(true)}
@@ -1058,15 +1058,15 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-fuchsia-500/20 rounded-2xl p-6 shadow-[0_0_30px_rgba(217,70,239,0.05)] relative overflow-hidden group">
+    <div className="bg-white border border-black/10 rounded-2xl p-6 shadow-md text-black relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
       
       <div className="flex justify-between items-end mb-6 relative z-10">
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-fuchsia-400 mb-1">Quick Access</h2>
-          <p className="text-white font-bold text-lg">Important Links</p>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-fuchsia-700 mb-1">Quick Access</h2>
+          <p className="text-black font-bold text-lg">Important Links</p>
         </div>
       </div>
 
@@ -1077,15 +1077,15 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-between p-3 rounded-xl bg-black/40 border border-white/5 hover:bg-white/5 hover:border-fuchsia-500/30 transition-all text-left group/item"
+            className="w-full flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-black/10 hover:bg-gray-100 hover:border-fuchsia-500/40 transition-all text-left group/item"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
-              <span className="text-sm font-medium text-white/90 group-hover/item:text-white transition-colors">
+              <span className="text-sm font-medium text-black group-hover/item:text-fuchsia-700 transition-colors">
                 {link.title}
               </span>
             </div>
-            <span className="text-fuchsia-400 opacity-0 group-hover/item:opacity-100 transition-opacity -translate-x-2 group-hover/item:translate-x-0 duration-300">
+            <span className="text-fuchsia-700 opacity-0 group-hover/item:opacity-100 transition-opacity -translate-x-2 group-hover/item:translate-x-0 duration-300">
               →
             </span>
           </a>
