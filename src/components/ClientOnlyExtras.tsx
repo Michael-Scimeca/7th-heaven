@@ -12,15 +12,6 @@ const DirectMessageChat = dynamic(
   { ssr: false }
 );
 
-const DevGuideLine = dynamic(
-  () => import("@/components/DevGuideLine"),
-  { ssr: false }
-);
-
 export default function ClientOnlyExtras() {
-  return (
-    <>
-      <DevGuideLine />
-    </>
-  );
+  return null;
 }

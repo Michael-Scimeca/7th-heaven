@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 export default function DevGuideLine() {
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(false);
   const [topPos, setTopPos] = useState(122);
   const [showVerticalGuides, setShowVerticalGuides] = useState(true);
 
