@@ -1097,7 +1097,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const cardContent = (
             <div className="group">
               {dayImage && (
-                <div className="relative aspect-[21/9] -mx-[28px] -mt-[24px] w-[calc(100%+56px)] rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
+                <div className="relative aspect-[21/9] w-full rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
                   <img 
                     src={dayImage} 
                     alt={day.theme} 
@@ -1105,19 +1105,21 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   />
                 </div>
               )}
-              {/* Card content header */}
-              <h3 className={styles.cardTitle}>{day.theme}</h3>
-              <ul className={styles.eventsList}>
-                {day.events.map(ev => (
-                  <li key={ev.id} className={styles.eventItem}>
-                    <span className={styles.eventTime} style={{ color: themeColor }}>{ev.time}</span>
-                    <div>
-                      <div className={styles.eventTitle}>{ev.title}</div>
-                      {ev.subtitle && <div className={styles.eventSubtitle}>{ev.subtitle}</div>}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {/* Card content header & events list with generous 32px inner padding */}
+              <div className="px-8 pb-6 pt-2">
+                <h3 className={styles.cardTitle}>{day.theme}</h3>
+                <ul className={styles.eventsList}>
+                  {day.events.map(ev => (
+                    <li key={ev.id} className={styles.eventItem}>
+                      <span className={styles.eventTime} style={{ color: themeColor }}>{ev.time}</span>
+                      <div>
+                        <div className={styles.eventTitle}>{ev.title}</div>
+                        {ev.subtitle && <div className={styles.eventSubtitle}>{ev.subtitle}</div>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           );
 
