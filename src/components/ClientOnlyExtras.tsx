@@ -16,7 +16,6 @@ export default function ClientOnlyExtras() {
   return (
     <>
       <DirectMessageChat />
-      <DevPerformancePanel />
     </>
   );
 }
