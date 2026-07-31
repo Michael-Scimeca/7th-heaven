@@ -91,9 +91,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
   const [cardWidth, setCardWidth] = useState<number>(355);
-  const [imageHeight, setImageHeight] = useState<number>(480);
+  const [imageHeight, setImageHeight] = useState<number>(430);
   const [imageScale, setImageScale] = useState<number>(1.15);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(16);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(24);
   const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(11);
@@ -139,9 +139,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const applyPreset = (preset: "default" | "compact" | "giant" | "grounded") => {
     if (preset === "default") {
       setCardWidth(355);
-      setImageHeight(480);
+      setImageHeight(430);
       setImageScale(1.15);
-      setImageOffsetY(16);
+      setImageOffsetY(24);
       setFocalScale(1.28);
       setGap(24);
       setParallaxDepth(0.14);
@@ -359,7 +359,7 @@ lerpSpeed: ${lerpSpeed}`;
   };
 
   return (
-    <div className="w-full max-w-full overflow-visible min-h-[calc(100vh-180px)] flex flex-col justify-end select-none font-sans relative bg-black pt-16 md:pt-24 pb-0">
+    <div className="w-full max-w-full overflow-visible min-h-[calc(100vh-180px)] flex flex-col justify-end select-none font-sans relative bg-black pt-20 md:pt-28 pb-0">
       
       {/* ── FLOATING LIVE STAGE & SLIDER UI TUNER CONTROLS ── */}
       <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end">
