@@ -453,27 +453,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         });
       }
 
-      // Mobile Lenis + GSAP ScrollTrigger Scrub — fills bright cyan line as you scroll down
-      if (mobilePathRef.current && mobileContainerRef.current) {
-        const pathLen = mobilePathRef.current.getTotalLength() || 3000;
-        setMobilePathLength(pathLen);
-        gsap.fromTo(
-          mobilePathRef.current,
-          { strokeDashoffset: pathLen, strokeDasharray: pathLen },
-          {
-            strokeDashoffset: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: mobileContainerRef.current,
-              start: `top ${startPct}%`,
-              end: `bottom ${endPct}%`,
-              scrub: 0.5,
-              onUpdate: (self) => {
-                setMobileProgress(self.progress);
-              },
-            },
-          }
-        );
+      // Mobile Lenis + GSAP ScrollTrigger Scrub — updates mobileProgress on scroll
+      if (mobileContainerRef.current) {
+        ScrollTrigger.create({
+          trigger: mobileContainerRef.current,
+          start: `top 70%`,
+          end: `bottom 60%`,
+          scrub: 0.2,
+          onUpdate: (self) => {
+            setMobileProgress(self.progress);
+          },
+        });
       }
       setTimeout(() => ScrollTrigger.refresh(), 150);
     });
@@ -799,6 +789,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           />
           {/* Scroll progress bright cyan fill line */}
           <path
+            ref={mobilePathRef}
             d={`M 3 0 V ${Math.max(20, (mobileProgress || 0) * (mobileSvgSize.h || 3000))}`}
             fill="none"
             stroke="#06b6d4"
