@@ -2136,6 +2136,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             ))}
           </div>
         </section>
+
+        {/* Cruise History Timeline Section */}
+        <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
+          <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+        </React.Suspense>
       </>)}
     </div>
     );
