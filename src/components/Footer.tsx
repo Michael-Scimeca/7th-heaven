@@ -213,13 +213,13 @@ export function Footer() {
       {/* Endorsements */}
       <div className="site-container py-16 text-center">
         <p className="text-xs font-black uppercase tracking-[0.3em] text-white/20 mb-12">Official Gear Endorsements</p>
-        <div className="flex flex-wrap justify-center items-center gap-x-14 gap-y-10 px-4">
+        <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-6 px-4">
           {endorsements.map((brand) => (
             <img
               key={brand.name}
               src={brand.logoPath}
               alt={brand.name}
-              className="h-6 md:h-8 w-auto transition-all duration-300 hover:brightness-100"
+              className="h-4 md:h-5 w-auto max-h-5 object-contain transition-all duration-300 hover:brightness-100"
               style={{ filter: 'invert(1) brightness(0.4)' }}
               loading="lazy"
               onMouseEnter={(e) => { e.currentTarget.style.filter = 'invert(1) brightness(0.9)'; }}
