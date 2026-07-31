@@ -149,7 +149,7 @@
     background: rgba(10, 25, 55, 0.85);
     border: 1px solid rgba(56, 189, 248, 0.25);
     border-radius: 28px;
-    padding: 32px 36px;
+    padding: 32px 0px;
     width: min(600px, 44vw);
     max-width: 600px;
     overflow: hidden;

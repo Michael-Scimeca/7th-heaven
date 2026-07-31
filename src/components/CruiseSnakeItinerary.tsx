@@ -1097,7 +1097,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const cardContent = (
             <div className="group">
               {dayImage && (
-                <div className="relative aspect-[21/9] -mx-[36px] -mt-[32px] w-[calc(100%+72px)] rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
+                <div className="relative aspect-[21/9] w-full -mt-[32px] rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
                   <img 
                     src={dayImage} 
                     alt={day.theme} 
@@ -1239,12 +1239,16 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
           return (
             <React.Fragment key={`node-group-${i}`}>
+              {/* Day Badge — aligned flush with 32px margin */}
               <div
                 style={{
                   position: 'absolute',
-                  left: `clamp(140px, ${(node.x / SVG_W) * 100}%, calc(100% - 140px))`,
+                  ...(node.isLeft
+                    ? { left: '32px' }
+                    : { right: '32px', left: 'auto' }
+                  ),
                   top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
-                  transform: 'translateX(-50%)',
+                  transform: 'none',
                   zIndex: 35,
                   pointerEvents: 'none',
                   color: themeColor,
@@ -1258,13 +1262,17 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               >
                 <span>{isSea ? '🌊' : '📍'}</span> {formatNodeBadgeText(day, i)}
               </div>
+              {/* Circle Video Node — aligned flush with 32px margin */}
               <div
                 key={`node-ring-${i}`}
                 style={{
                   position: 'absolute',
-                  left: `${(node.x / SVG_W) * 100}%`,
+                  ...(node.isLeft
+                    ? { left: '32px' }
+                    : { right: '32px', left: 'auto' }
+                  ),
                   top: `${(node.y / totalH) * 100}%`,
-                  transform: 'translate(-50%, -50%)',
+                  transform: node.isLeft ? 'translate(0, -50%)' : 'translate(0, -50%)',
                   width: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
                   height: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
                   borderRadius: '50%',
