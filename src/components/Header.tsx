@@ -221,7 +221,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 max-[1400px]:-ml-[20px] min-[1401px]:mx-4 min-[1401px]:ml-0 relative ${mobileOpen ? "z-[10001]" : ""}`}
+            className={`shrink-0 min-w-0 max-[1400px]:-ml-[20px] min-[1401px]:absolute min-[1401px]:left-1/2 min-[1401px]:-translate-x-1/2 min-[1401px]:top-1/2 min-[1401px]:-translate-y-1/2 relative ${mobileOpen ? "z-[10001]" : ""}`}
           >
             <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden">
               <Logo className="w-full h-full text-black drop-shadow-sm" />
