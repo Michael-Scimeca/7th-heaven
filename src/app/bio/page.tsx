@@ -97,7 +97,10 @@ export default async function BioPage() {
  const performedWith = settings?.performedWith?.length ? settings.performedWith : FALLBACK_PERFORMED_WITH;
 
   return (
-    <div className="pt-[95px] h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end bg-black overflow-x-hidden w-full max-w-full">
+    <div
+      className="pt-[95px] h-[100vh] min-h-[calc(100vh-95px)] flex flex-col justify-end bg-black overflow-x-hidden w-full max-w-full"
+      style={{ height: "100vh" }}
+    >
       {/* Full Screen Bio Parallax Slider */}
       <section className="w-full max-w-full h-full overflow-visible bg-black pt-0 pb-0 flex-1 flex flex-col justify-end">
         <BioParallaxSlider members={members} />
