@@ -93,7 +93,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [cardWidth, setCardWidth] = useState<number>(355);
   const [imageHeight, setImageHeight] = useState<number>(500);
   const [imageScale, setImageScale] = useState<number>(1.15);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(36);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(85);
   const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(11);
@@ -141,7 +141,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       setCardWidth(355);
       setImageHeight(500);
       setImageScale(1.15);
-      setImageOffsetY(36);
+      setImageOffsetY(85);
       setFocalScale(1.28);
       setGap(24);
       setParallaxDepth(0.14);
@@ -432,7 +432,7 @@ lerpSpeed: ${lerpSpeed}`;
                   <span>Photo Y-Offset (Up/Down)</span>
                   <span className="text-[var(--color-accent)]">{imageOffsetY}px</span>
                 </div>
-                <input type="range" min="-80" max="80" step="2" value={imageOffsetY} onChange={e => setImageOffsetY(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
+                <input type="range" min="-80" max="160" step="2" value={imageOffsetY} onChange={e => setImageOffsetY(Number(e.target.value))} className="w-full accent-[var(--color-accent)] cursor-pointer" />
               </div>
 
               {/* Focal Scale */}
