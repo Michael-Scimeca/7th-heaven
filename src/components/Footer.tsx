@@ -235,7 +235,7 @@ export function Footer() {
           {/* Nav Links */}
           <div className="flex flex-wrap items-center gap-6">
             {footerLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+              <Link key={link.href} href={link.href} className="text-base font-semibold tracking-wide text-white/40 hover:text-white transition-colors">
                 {link.label}
               </Link>
             ))}
@@ -247,11 +247,11 @@ export function Footer() {
                   openModal('login');
                 }
               }}
-              className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
+              className="text-base font-semibold tracking-wide text-white/40 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
             >
               Crew Login
             </button>
-            <Link href="/planner?login=true" className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+            <Link href="/planner?login=true" className="text-base font-semibold tracking-wide text-white/40 hover:text-white transition-colors">
               Planner Login
             </Link>
           </div>
@@ -260,7 +260,7 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-1">
             {socialLinks.map((link, i) => (
               <span key={link.name} className="flex items-center">
-                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-base font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-colors">
+                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-base font-semibold tracking-wide text-white/40 hover:text-white transition-colors">
                   {link.name}
                 </a>
                 {i < socialLinks.length - 1 && (
