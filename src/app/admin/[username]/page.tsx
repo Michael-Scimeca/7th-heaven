@@ -114,7 +114,7 @@ function parseCruiseNotes(notes: string): ParsedCruiseNotes | null {
 }
 
 const STATIC_CREW = [
-  { id: 'abbie', name: 'Abbie Janssen', role: 'VIP HOST', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
+  { id: 'abbie', name: 'Abbie Janssen', role: 'STAGE MANAGER', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
   { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: '/images/crew/al.png', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
   { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/andrea.png', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
   { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: '/images/crew/arjun.png', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
@@ -10746,17 +10746,17 @@ try {
                                   className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
                                 />
                                 <div className="flex flex-wrap gap-1 mt-1.5">
-                                  {["UNLOADING", "BAND SETUP", "AUDIO MIX", "CAMERA", "SERVER", "CHEF", "TEAR DOWN", "MANAGER"].map(preset => (
+                                  {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => (
                                     <button
                                       key={preset}
                                       type="button"
                                       onClick={() => {
                                         setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: preset } : item));
                                       }}
-                                      className={`px-1.5 py-0.5 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider border transition-all cursor-pointer ${
+                                      className={`px-2 py-0.5 rounded-full text-[8.5px] font-black uppercase tracking-wider border transition-all cursor-pointer ${
                                         tf.role.toUpperCase() === preset 
-                                          ? 'bg-amber-500 text-black border-amber-500 font-black' 
-                                          : 'bg-white/5 border-white/10 text-white/60 hover:text-white hover:bg-white/10'
+                                          ? 'bg-amber-500 text-black border-amber-500 shadow-xs' 
+                                          : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
                                       }`}
                                     >
                                       {preset}
@@ -11047,15 +11047,18 @@ try {
                                         <option value="LIGHTS">💡 Lights</option>
                                         <option value="CAMERA">🎥 Camera</option>
                                         <option value="UNLOADING">🚚 Unload</option>
-                                        <option value="SERVER">🍽️ Server</option>
-                                        <option value="CHEF">👨‍🍳 Chef</option>
-                                        <option value="LINE COOK">🍳 Cook</option>
-                                        <option value="MANAGER">💼 Mngr</option>
-                                        <option value="BUSSER">🧹 Busser</option>
+                                        <option value="STAGE HAND">🎸 Stage Hand</option>
+                                        <option value="AUDIO MIX">🎛️ Audio Mix</option>
+                                        <option value="LIGHTS">💡 Lights</option>
+                                        <option value="EQUIPMENT SETUP">🔌 Equip Setup</option>
+                                        <option value="TEAR DOWN">📦 Tear Down</option>
+                                        <option value="MERCH">👕 Merch</option>
+                                        <option value="TOUR MANAGER">📋 Tour Mngr</option>
+                                        <option value="SOUND ENGINEER">🎧 Sound Eng</option>
+                                        <option value="VIP HOST">⭐ VIP Host</option>
                                         {setting.role && ![
-                                          "BAND SETUP", "MERCH TABLE", "STAGE HAND", "TEAR DOWN",
-                                          "AUDIO MIX", "LIGHTS", "CAMERA", "UNLOADING",
-                                          "SERVER", "CHEF", "LINE COOK", "MANAGER", "BUSSER"
+                                          "STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP",
+                                          "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "VIP HOST"
                                         ].includes(setting.role.toUpperCase()) && (
                                           <option value={setting.role}>{setting.role.slice(0,6)}</option>
                                         )}
