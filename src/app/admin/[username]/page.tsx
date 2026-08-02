@@ -8771,7 +8771,7 @@ try {
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleCellClick(day.dateStr, 'openshifts', 'STAGE HAND');
+                              handleCellClick(day.dateStr, 'openshifts', 'SERVER');
                             }}
                             className="w-full py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
                           >
@@ -8779,6 +8779,82 @@ try {
                             <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5">
                               Add Crew Member
                             </span>
+                          </div>
+
+                          {/* Bottom Row: Split in 2 */}
+                          <div className="flex gap-1 w-full relative">
+                            {/* Left Box: Add Crew Group */}
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setCellGroupPopover(prev => prev === `openshifts_group_${day.dateStr}` ? null : `openshifts_group_${day.dateStr}`);
+                              }}
+                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
+                            >
+                              <span className="text-[10px] text-emerald-400 font-bold group-hover:text-emerald-300 transition-colors">+</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
+                                Add Crew Group
+                              </span>
+                            </div>
+
+                            {/* Right Box: Create Group */}
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setCreateGroupForDate(day.dateStr);
+                                const initialSettings: any = {};
+                                crewMembers.filter(m => m.id !== 'openshifts').forEach(m => {
+                                  initialSettings[m.id] = {
+                                    active: false,
+                                    role: m.role || 'SERVER',
+                                    startHour: 17.0,
+                                    endHour: 22.0
+                                  };
+                                });
+                                setNewGroupMemberSettings(initialSettings);
+                                setNewGroupNameInput('');
+                                setIsCreateGroupModalOpen(true);
+                              }}
+                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
+                            >
+                              <span className="text-[10px] text-emerald-400 font-bold group-hover:text-emerald-300 transition-colors">+</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
+                                Create Group
+                              </span>
+                            </div>
+
+                            {/* Saved groups list popover when Add Crew Group is clicked */}
+                            {cellGroupPopover === `openshifts_group_${day.dateStr}` && (
+                              <div 
+                                data-group-popover-cell 
+                                className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl shadow-xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <div className="text-[9px] text-[var(--muted-text)] uppercase tracking-widest font-black px-2 py-1 border-b border-[var(--border-color)] mb-1">
+                                  Select Crew Group
+                                </div>
+                                {crewGroups.length === 0 ? (
+                                  <span className="text-[9px] text-[var(--muted-text)] opacity-60 italic px-2 py-0.5">No saved groups</span>
+                                ) : (
+                                  crewGroups.map((g, gIdx) => (
+                                    <button
+                                      key={gIdx}
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddGroupToDay(day.dateStr, g);
+                                        setCellGroupPopover(null);
+                                      }}
+                                      className="w-full text-left px-2 py-1 rounded hover:bg-emerald-500/10 text-[9px] text-emerald-400 font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
+                                      title={`Apply Group: ${g.name}`}
+                                    >
+                                      <span className="text-[10px] font-mono text-emerald-400">+</span>
+                                      <span>{g.name}</span>
+                                    </button>
+                                  ))
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </td>
