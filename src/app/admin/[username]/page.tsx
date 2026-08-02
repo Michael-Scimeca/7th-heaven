@@ -639,8 +639,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       const hasShifts = updated.some(s => s.date === showDate);
       if (!hasShifts) {
         const defaultRoles = [
-          { role: 'BAND EQUIPMENT', startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM' },
-          { role: 'UNLOADING', startHour: 15.0, endHour: 20.0, time: '3:00 PM - 8:00 PM' },
+          { role: 'EQUIPMENT SETUP', startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM' },
+          { role: 'TEAR DOWN', startHour: 15.0, endHour: 20.0, time: '3:00 PM - 8:00 PM' },
           { role: 'CAMERA', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM' },
           { role: 'AUDIO MIX', startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM' }
         ];
@@ -751,16 +751,30 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         if (hasStaleMock) {
           localStorage.removeItem('7h_crew_schedules');
         } else if (parsed && parsed.length > 0) {
+          const roleMap: Record<string, string> = {
+            'SERVER': 'STAGE HAND',
+            'CHEF': 'EQUIPMENT SETUP',
+            'LINE COOK': 'TEAR DOWN',
+            'MANAGER': 'TOUR MANAGER',
+            'BUSSER': 'STAGE HAND',
+            'UNLOADING': 'TEAR DOWN',
+            'BAND EQUIPMENT': 'EQUIPMENT SETUP',
+            'VIP HOST': 'STAGE MANAGER',
+            'POSITION': 'EVENT SUPPORT'
+          };
           return parsed.map((item: any) => {
+            const currentRole = item.role ? item.role.toUpperCase() : 'STAGE HAND';
+            const cleanRole = roleMap[currentRole] || currentRole;
             if (item.startHour === undefined || item.endHour === undefined) {
               const p = parseTimeString(item.time);
               return {
                 ...item,
+                role: cleanRole,
                 startHour: p.startHour,
                 endHour: p.endHour
               };
             }
-            return item;
+            return { ...item, role: cleanRole };
           });
         }
       }
@@ -2285,7 +2299,21 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             if (hasStaleMock) {
               localStorage.removeItem('7h_crew_schedules');
             } else {
-              currentSchedules = parsed;
+              const roleMap: Record<string, string> = {
+                'SERVER': 'STAGE HAND',
+                'CHEF': 'EQUIPMENT SETUP',
+                'LINE COOK': 'TEAR DOWN',
+                'MANAGER': 'TOUR MANAGER',
+                'BUSSER': 'STAGE HAND',
+                'UNLOADING': 'TEAR DOWN',
+                'BAND EQUIPMENT': 'EQUIPMENT SETUP',
+                'VIP HOST': 'STAGE MANAGER',
+                'POSITION': 'EVENT SUPPORT'
+              };
+              currentSchedules = parsed.map((item: any) => {
+                const currentRole = item.role ? item.role.toUpperCase() : 'STAGE HAND';
+                return { ...item, role: roleMap[currentRole] || currentRole };
+              });
             }
           }
           if (currentSchedules.length === 0) {
@@ -4035,64 +4063,65 @@ try {
                 {bookings.length === 0 ? (
                   <div className="p-12 text-center text-white/30 font-mono text-xs">No booking requests received yet.</div>
                 ) : (
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-black/5 text-black/60 font-black text-[0.65rem] uppercase tracking-widest border-b-2 border-black/25">
-                        <th className="p-4 font-black">ID</th>
-                        <th className="p-4 font-black">Client</th>
-                        <th className="p-4 font-black">Event Type</th>
-                        <th className="p-4 font-black">Date</th>
-                        <th className="p-4 font-black">Venue</th>
-                        <th className="p-4 font-black">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {bookings.slice().reverse().map((b: any) => (
-                        <React.Fragment key={b.bookingId}>
-                        <tr className="border-b border-black/20 hover:bg-black/5 transition-colors">
-                          <td className="p-4 font-mono text-[0.75rem] text-cyan-600 font-black cursor-pointer hover:underline" onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}>
-                            {expandedBooking === b.bookingId ? '▼' : '▶'} {b.bookingId}
-                          </td>
-                          <td className="p-4">
-                            <div className="font-bold text-sm text-black">{b.name}</div>
-                            <div className="text-[0.65rem] text-black/60 font-mono">{b.email}</div>
-                          </td>
-                          <td className="p-4 text-sm text-black/80 font-medium capitalize">{b.eventType?.replace('_', ' ')}</td>
-                          <td className="p-4 text-sm text-black/80 font-mono font-medium">{b.eventDate}</td>
-                          <td className="p-4">
-                            <div className="text-sm text-black/80 font-medium truncate max-w-[150px]">{b.venueName || '–'}</div>
-                            <div className="text-[0.6rem] text-black/50">{b.venueCity}, {b.venueState}</div>
-                          </td>
-                          <td className="p-4">
-                            <div className="flex items-center gap-2">
-                              <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${
-                                b.status === 'pending' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
-                                : b.status === 'confirmed' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                              }`}>{b.status}</span>
-                              {b.status === 'pending' && (
-                                <div className="flex gap-1 ml-1">
-                                  <button
-                                    onClick={async () => {
-                                      if (!confirm(`Approve booking ${b.bookingId}?`)) return;
-                                      const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'confirmed' }) });
-                                      if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
-                                    }}
-                                    className="px-2 py-0.5 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-black border border-emerald-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
-                                  >✓</button>
-                                  <button
-                                    onClick={async () => {
-                                      if (!confirm(`Reject booking ${b.bookingId}?`)) return;
-                                      const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'cancelled' }) });
-                                      if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
-                                    }}
-                                    className="px-2 py-0.5 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-black border border-rose-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
-                                  >✕</button>
-                                </div>
-                              )}
-                            </div>
-                          </td>
+                  <div className="w-full overflow-x-auto">
+                    <table className="w-full text-left border-collapse min-w-full">
+                      <thead>
+                        <tr className="bg-black/20 text-[var(--muted-text)] font-black text-[0.65rem] uppercase tracking-widest border-b border-[var(--border-color)]">
+                          <th className="p-4 font-black border-b border-[var(--border-color)]">ID</th>
+                          <th className="p-4 font-black border-b border-[var(--border-color)]">Client</th>
+                          <th className="p-4 font-black border-b border-[var(--border-color)]">Event Type</th>
+                          <th className="p-4 font-black border-b border-[var(--border-color)]">Date</th>
+                          <th className="p-4 font-black border-b border-[var(--border-color)]">Venue</th>
+                          <th className="p-4 font-black border-b border-[var(--border-color)]">Status</th>
                         </tr>
+                      </thead>
+                      <tbody>
+                        {bookings.slice().reverse().map((b: any) => (
+                          <React.Fragment key={b.bookingId}>
+                          <tr className="border-b border-[var(--border-color)] hover:bg-white/[0.03] transition-colors">
+                            <td className="p-4 border-b border-[var(--border-color)] font-mono text-[0.75rem] text-cyan-400 font-black cursor-pointer hover:underline" onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}>
+                              {expandedBooking === b.bookingId ? '▼' : '▶'} {b.bookingId}
+                            </td>
+                            <td className="p-4 border-b border-[var(--border-color)]">
+                              <div className="font-bold text-sm text-[var(--text-color)]">{b.name}</div>
+                              <div className="text-[0.65rem] text-[var(--muted-text)] font-mono">{b.email}</div>
+                            </td>
+                            <td className="p-4 border-b border-[var(--border-color)] text-sm text-[var(--text-color)] font-medium capitalize">{b.eventType?.replace('_', ' ')}</td>
+                            <td className="p-4 border-b border-[var(--border-color)] text-sm text-[var(--text-color)] font-mono font-medium">{b.eventDate}</td>
+                            <td className="p-4 border-b border-[var(--border-color)]">
+                              <div className="text-sm text-[var(--text-color)] font-medium truncate max-w-[180px]">{b.venueName || '–'}</div>
+                              <div className="text-[0.6rem] text-[var(--muted-text)]">{b.venueCity}, {b.venueState}</div>
+                            </td>
+                            <td className="p-4 border-b border-[var(--border-color)]">
+                              <div className="flex items-center gap-2">
+                                <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${
+                                  b.status === 'pending' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                  : b.status === 'confirmed' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                                  : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                                }`}>{b.status}</span>
+                                {b.status === 'pending' && (
+                                  <div className="flex gap-1 ml-1">
+                                    <button
+                                      onClick={async () => {
+                                        if (!confirm(`Approve booking ${b.bookingId}?`)) return;
+                                        const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'confirmed' }) });
+                                        if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
+                                      }}
+                                      className="px-2 py-0.5 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-black border border-emerald-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
+                                    >✓</button>
+                                    <button
+                                      onClick={async () => {
+                                        if (!confirm(`Reject booking ${b.bookingId}?`)) return;
+                                        const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'cancelled' }) });
+                                        if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
+                                      }}
+                                      className="px-2 py-0.5 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-black border border-rose-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
+                                    >✕</button>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
                         {expandedBooking === b.bookingId && (
                           <tr>
                             <td colSpan={6} className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
@@ -4141,10 +4170,11 @@ try {
                       ))}
                     </tbody>
                   </table>
-                )}
-              </div>
-              </div>
-            </section>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
   );
 
   const renderPlanners = () => (
@@ -7804,23 +7834,23 @@ try {
     
     // Look for static crew
     const staticCrew = [
-      { id: 'abbie', name: 'Abbie Janssen', role: 'SERVER', maxHours: 40, avatar: '/images/crew/abbie.png' },
-      { id: 'al', name: 'Al Hollie', role: 'SERVER', maxHours: 32, avatar: '/images/crew/al.png' },
-      { id: 'andrea', name: 'Andrea Kinzinger', role: 'CHEF', maxHours: 40, avatar: '/images/crew/andrea.png' },
-      { id: 'arjun', name: 'Arjun Patel', role: 'SERVER', maxHours: 32, avatar: '/images/crew/arjun.png' },
-      { id: 'chris', name: 'Chris Loxely', role: 'SERVER', maxHours: 40, avatar: '/images/crew/chris.png' },
-      { id: 'daniel', name: 'Daniel Kim', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png' },
-      { id: 'dave_croke', name: 'Dave Croke', role: 'LINE COOK', maxHours: 32, avatar: '/images/crew/dave_croke.png' },
-      { id: 'dave_maas', name: 'Dave Maas', role: 'CHEF', maxHours: 24, avatar: '/images/crew/dave_maas.png' },
-      { id: 'david_xu', name: 'David Xu', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/david_xu.png' },
-      { id: 'emily', name: 'Emily Hafften', role: 'SERVER', maxHours: 32, avatar: '/images/crew/emily.png' },
-      { id: 'emma', name: 'Emma Smid', role: 'LINE COOK', maxHours: 40, avatar: '/images/crew/emma.png' },
-      { id: 'erin', name: 'Erin Eagan', role: 'POSITION', maxHours: 40, avatar: '/images/crew/erin.png' },
-      { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png' },
+      { id: 'abbie', name: 'Abbie Janssen', role: 'STAGE MANAGER', maxHours: 40, avatar: '/images/crew/abbie.png' },
+      { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: '/images/crew/al.png' },
+      { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/andrea.png' },
+      { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: '/images/crew/arjun.png' },
+      { id: 'chris', name: 'Chris Loxely', role: 'LIGHTS', maxHours: 40, avatar: '/images/crew/chris.png' },
+      { id: 'daniel', name: 'Daniel Kim', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png' },
+      { id: 'dave_croke', name: 'Dave Croke', role: 'EQUIPMENT SETUP', maxHours: 32, avatar: '/images/crew/dave_croke.png' },
+      { id: 'dave_maas', name: 'Dave Maas', role: 'TEAR DOWN', maxHours: 24, avatar: '/images/crew/dave_maas.png' },
+      { id: 'david_xu', name: 'David Xu', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/david_xu.png' },
+      { id: 'emily', name: 'Emily Hafften', role: 'MERCH', maxHours: 32, avatar: '/images/crew/emily.png' },
+      { id: 'emma', name: 'Emma Smid', role: 'PHOTOGRAPHER', maxHours: 40, avatar: '/images/crew/emma.png' },
+      { id: 'erin', name: 'Erin Eagan', role: 'EVENT SUPPORT', maxHours: 40, avatar: '/images/crew/erin.png' },
+      { id: 'francesca', name: 'Francesca Troast', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/francesca.png' },
       { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff' },
-      { id: 'sammy', name: 'Sammy D', role: 'SERVER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff' },
-      { id: 'ryan', name: 'Ryan K', role: 'BUSSER', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff' },
-      { id: 'tony', name: 'Tony M', role: 'LINE COOK', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff' }
+      { id: 'sammy', name: 'Sammy D', role: 'BAND MEMBER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff' },
+      { id: 'ryan', name: 'Ryan K', role: 'STAGE HAND', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff' },
+      { id: 'tony', name: 'Tony M', role: 'EQUIPMENT SETUP', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff' }
     ];
 
     const foundStatic = staticCrew.find(sc => sc.id === crewId);
