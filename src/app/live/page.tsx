@@ -518,18 +518,18 @@ export default function LiveHubPage() {
                 <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Live Stream Alerts</span>
               </div>
               <div className="max-w-xl">
-                <h2 className="text-2xl sm:text-3xl font-black text-white italic tracking-tight mb-3">Never Miss a Live Feed</h2>
-                <p className="text-sm text-white/50 mb-8 leading-relaxed">
+                <h2 className="text-2xl sm:text-3xl font-black text-black italic tracking-tight mb-3">Never Miss a Live Feed</h2>
+                <p className="text-sm text-black/50 mb-8 leading-relaxed">
                   Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.
                 </p>
                 <form onSubmit={e => { e.preventDefault(); alert("You are now subscribed to Live Stream Alerts!"); }}
                   className="flex flex-col sm:flex-row gap-3 items-center w-full">
                   <div className="relative flex-1 w-full">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <span className="text-white/20 text-sm">📱</span>
+                      <span className="text-black/30 text-sm">📱</span>
                     </div>
                     <input type="tel" placeholder="(312) 555-0199"
-                      className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-white/20 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
+                      className="w-full bg-white border border-black/10 rounded-xl py-3.5 pl-12 pr-4 text-black placeholder:text-black/30 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
                     />
                   </div>
                   <button type="submit"
@@ -537,7 +537,7 @@ export default function LiveHubPage() {
                     ALERT ME 🔔
                   </button>
                 </form>
-                <p className="text-xs text-white/20 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
+                <p className="text-xs text-black/30 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
               </div>
             </div>
           </div>

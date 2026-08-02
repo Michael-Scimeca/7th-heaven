@@ -784,7 +784,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   )}
                 </div>
                 {nextShow.ticketLink && !isHappeningNow && !isEnded && (
-                  <a href={nextShow.ticketLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-4 px-6 py-2.5 bg-[var(--color-accent)] text-black text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all shadow-[0_0_15px_rgba(133,29,239,0.3)]">Get Tickets →</a>
+                  <a href={nextShow.ticketLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-4 px-6 py-2.5 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all shadow-[0_0_15px_rgba(133,29,239,0.3)]">Get Tickets →</a>
                 )}
               </>
               );
@@ -836,13 +836,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           )}
         </div>
 
-        {/* 📍 Proximity Alerts & Who's Going */}
-        <div className="mb-8">
-          <ProximityPanel />
-        </div>
+        {/* 📍 Proximity Alerts & 🔔 Show Alerts — 50/50 Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div>
+            <ProximityPanel />
+          </div>
 
-        {/* 🔔 Specific Show Alerts */}
-        <div className="mb-8 p-6 bg-white/80 border border-black/10 rounded-2xl">
+          <div className="p-6 bg-white/80 border border-black/10 rounded-2xl">
           <div className="flex items-center justify-between mb-4">
             <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-purple-400">
               🔔 Subscribed Show Alerts
@@ -886,6 +886,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <Link href="/#tour" className="mt-3 text-xs text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">Find Shows →</Link>
             </div>
           )}
+          </div>
         </div>
 
         {/* 🚢 Cruise Promo Banner — only if cruise window is active and user hasn't signed up */}
@@ -1051,9 +1052,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           {/* Right Column / Sidebar */}
           <div className="space-y-8">
 
-            {/* Profile Photo Uploader Card */}
-            <ProfilePhotoUploader />
-            
+
+
             {/* VIP Inbox */}
             <div className="bg-white/80 border border-black/10 p-6 flex flex-col justify-between hover:border-black/10 transition-colors">
               <div className="mb-6 border-b border-black/10 pb-4">

@@ -9,38 +9,45 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+import { cleanWysiwygHtml } from '@/lib/wysiwyg-cleaner';
+
 export async function POST(req: NextRequest) {
   const authError = await requireAdmin(req);
   if (authError) return authError;
 
   try {
     const { subject, body } = await req.json();
+    const cleanBody = cleanWysiwygHtml(body);
 
-    if (!subject || !body) {
+    if (!subject || !cleanBody) {
       return NextResponse.json({ error: 'Subject and body are required' }, { status: 400 });
     }
 
-    // Fetch all cruise signups
-    const { data: signups, error } = await supabase
-      .from('cruise_signups')
-      .select('name, email');
+    // Fetch all cruise signups & unsubscribed preferences
+    const [{ data: signups, error }, { data: unsubscribedRecords }] = await Promise.all([
+      supabase.from('cruise_signups').select('name, email'),
+      supabase.from('newsletter_subscribers').select('email').eq('subscribed', false),
+    ]);
 
     if (error) {
       throw error;
     }
 
-    if (!signups || signups.length === 0) {
-      return NextResponse.json({ error: 'No cruise signups found' }, { status: 404 });
+    const unsubscribedSet = new Set((unsubscribedRecords || []).map(u => u.email.toLowerCase().trim()));
+    const eligibleSignups = (signups || []).filter(s => s.email && !unsubscribedSet.has(s.email.toLowerCase().trim()));
+
+    if (eligibleSignups.length === 0) {
+      return NextResponse.json({ error: 'No eligible subscribers found', sent: 0 }, { status: 404 });
     }
 
-    const html = cruiseCommunityBlast({ subject, body });
+    const html = cruiseCommunityBlast({ subject, body: cleanBody });
 
     // Send to all signups
     let sent = 0;
     let failed = 0;
     const errors: string[] = [];
 
-    for (const signup of signups) {
+    for (const signup of eligibleSignups) {
       try {
         // Replace {{email}} placeholder for unsubscribe link
         const personalizedHtml = html.replace(/\{\{email\}\}/g, encodeURIComponent(signup.email));

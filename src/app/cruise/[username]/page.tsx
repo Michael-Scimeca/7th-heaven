@@ -10,11 +10,15 @@ import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/co
 import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
 import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
+import dynamic from "next/dynamic";
+import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
+import 'react-quill-new/dist/quill.snow.css';
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 function PassengersWidget() {
   const avatars = ['JD', 'SL', 'MT', 'AB', 'RC', 'KW'];
   const totalFans = 412;
-  
+
   return (
     <div className="p-2 relative overflow-hidden group">
       <div className="flex justify-between items-end mb-5 relative z-10">
@@ -26,13 +30,13 @@ function PassengersWidget() {
           </div>
         </div>
       </div>
-
-      <div className="flex items-center relative z-10 mb-4">
+      
+      <div className="flex items-center relative z-10">
         <div className="flex -space-x-3">
           {avatars.map((initials, i) => {
             const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-amber-500', 'bg-violet-500', 'bg-pink-500'];
             return (
-              <div key={i} className={`w-10 h-10 rounded-full border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10-i}]`}>
+              <div key={i} className={`w-10 h-10 rounded-full border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
                 <span className="text-xs font-black text-white/90 tracking-widest">{initials}</span>
               </div>
             );
@@ -42,10 +46,6 @@ function PassengersWidget() {
           </div>
         </div>
       </div>
-      
-      <p className="text-black/60 text-xs leading-relaxed relative z-10 border-t border-black/10 pt-4">
-        Join the official 7th Heaven cruise community. See who else is sailing, coordinate shore excursions, and make new friends!
-      </p>
     </div>
   );
 }
@@ -67,12 +67,14 @@ export default function CruiseDashboard() {
   }, [isLoggedIn, member, urlUsername, router, isDemoMode]);
 
   const [announcement, setAnnouncement] = useState<string | null>(null);
+  const [announcementTitle, setAnnouncementTitle] = useState<string>('');
+  const [announcementTitleInput, setAnnouncementTitleInput] = useState<string>('');
   const [isEditingAnnouncement, setIsEditingAnnouncement] = useState(false);
   const [announcementInput, setAnnouncementInput] = useState('');
 
   type ItineraryEvent = { id: string; time: string; title: string; subtitle: string; };
   type ItineraryDay = { id: string; dayLabel: string; location: string; theme: string; events: ItineraryEvent[]; colorTheme: string; };
-  
+
   const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     {
       id: "day1",
@@ -222,7 +224,7 @@ export default function CruiseDashboard() {
           let actualData = data;
           let attempts = 0;
           while (typeof actualData === 'string' && attempts < 3) {
-            try { actualData = JSON.parse(actualData); } catch(e) { break; }
+            try { actualData = JSON.parse(actualData); } catch (e) { break; }
             attempts++;
           }
           if (Array.isArray(actualData) && actualData.length > 0) {
@@ -241,27 +243,88 @@ export default function CruiseDashboard() {
           let actualData = data;
           let attempts = 0;
           while (typeof actualData === 'string' && attempts < 3) {
-            try { actualData = JSON.parse(actualData); } catch(e) { break; }
+            try { actualData = JSON.parse(actualData); } catch (e) { break; }
             attempts++;
           }
-          
+
           if (actualData?.message) {
             setAnnouncement(actualData.message);
             setAnnouncementInput(actualData.message);
+            const subj = actualData?.subject || actualData?.title || '';
+            setAnnouncementTitle(subj);
+            setAnnouncementTitleInput(subj);
           } else {
             setAnnouncement(null); // Ensure it clears if empty
             setAnnouncementInput('');
+            setAnnouncementTitle('');
+            setAnnouncementTitleInput('');
           }
         })
-        .catch(() => {});
+        .catch(() => { });
+
+      fetch(`/api/cruise/guidelines?t=${Date.now()}`, { cache: 'no-store' })
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+          if (data?.title) {
+            setGuidelines(data);
+            setGuidelinesTitleInput(data.title || "Cruise Information & Guidelines");
+            setGuidelinesSubtitleInput(data.subtitle || "Cruiser Welcome Pack");
+            setGuidelinesContentInput(data.content || "");
+          }
+        })
+        .catch(() => { });
     }
   }, [showAuth]);
+
+  const [guidelines, setGuidelines] = useState<{ title: string; subtitle: string; content: string }>({
+    title: "Cruise Information & Guidelines",
+    subtitle: "Cruiser Welcome Pack",
+    content: `<p>Welcome to the official 7th Heaven Cruise Passenger Portal! We are absolutely thrilled to have you join us for this one-of-a-kind rock-and-roll voyage. This portal is your exclusive gateway to everything happening during our journey, designed to keep you connected with the band, the crew, and your fellow passengers from the moment you book until we return to port.</p><p>As we prepare to embark, make sure you review the official <a href="/cruise">travel check-list</a> and itinerary details. From shipboard safety drills to themed concert nights, staying informed ensures you won't miss a single beat of the action. Keep an eye on the Captain's Log and priority updates above for any real-time adjustments or exciting announcements from the band.</p><p>Onboard entertainment is the heart of the 7th Heaven cruise experience. We have a stellar lineup of main stage concert performances, intimate acoustic lounge sets, Q&A sessions, and exclusive deck parties scheduled throughout the trip. Be sure to check the <a href="#itinerary">official itinerary schedule</a> below to plan your days and nights around these highlight events.</p><p>Beyond the music, this cruise offers incredible opportunities to explore beautiful tropical destinations, coordinate group excursions, and participate in fun community activities. Whether you are relaxing by the pool, dining with friends, or exploring local ports of call, there is always something exciting to do with the 7th Heaven community.</p><p>Lastly, don't forget to use the Passenger Lounge Chat on the right to introduce yourself, coordinate plans, and share your excitement! Connecting with other fans before and during the cruise is a huge part of what makes this trip so special. We can't wait to see you onboard and rock the high seas together!</p>`
+  });
+  const [isEditingGuidelines, setIsEditingGuidelines] = useState(false);
+  const [guidelinesTitleInput, setGuidelinesTitleInput] = useState('');
+  const [guidelinesSubtitleInput, setGuidelinesSubtitleInput] = useState('');
+  const [guidelinesContentInput, setGuidelinesContentInput] = useState('');
+  const [sanitizedGuidelinesContent, setSanitizedGuidelinesContent] = useState('');
+
+  useEffect(() => {
+    if (guidelines.content && typeof window !== 'undefined') {
+      const clean = cleanWysiwygHtml(guidelines.content);
+      setSanitizedGuidelinesContent(DOMPurify.sanitize(clean));
+    }
+  }, [guidelines.content]);
+
+  const handleSaveGuidelines = async () => {
+    try {
+      const cleanContent = cleanWysiwygHtml(guidelinesContentInput);
+      const res = await fetch('/api/cruise/guidelines', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: guidelinesTitleInput,
+          subtitle: guidelinesSubtitleInput,
+          content: cleanContent
+        })
+      });
+      if (res.ok) {
+        setGuidelines({
+          title: guidelinesTitleInput,
+          subtitle: guidelinesSubtitleInput,
+          content: cleanContent
+        });
+        setIsEditingGuidelines(false);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const [sanitizedAnnouncement, setSanitizedAnnouncement] = useState<string | null>(null);
 
   useEffect(() => {
     if (announcement && typeof window !== 'undefined') {
-      setSanitizedAnnouncement(DOMPurify.sanitize(announcement));
+      const clean = cleanWysiwygHtml(announcement);
+      setSanitizedAnnouncement(DOMPurify.sanitize(clean));
     } else {
       setSanitizedAnnouncement(null);
     }
@@ -371,10 +434,11 @@ export default function CruiseDashboard() {
       const res = await fetch('/api/cruise/announcement', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: announcementInput })
+        body: JSON.stringify({ message: announcementInput, subject: announcementTitleInput })
       });
       if (res.ok) {
         setAnnouncement(announcementInput || null);
+        setAnnouncementTitle(announcementTitleInput || '');
         setIsEditingAnnouncement(false);
       }
     } catch (err) {
@@ -509,7 +573,7 @@ export default function CruiseDashboard() {
               </>
             )}
           </div>
-          
+
           <div className="text-center mt-6">
             <Link href="/cruise" className="text-black/40 hover:text-black text-xs font-bold uppercase tracking-widest transition-all">
               ← Back to Cruise Information
@@ -521,15 +585,15 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] text-black pt-28 md:pt-32 pb-16 px-4 md:px-8 overflow-x-hidden w-full max-w-full">
+    <div className="min-h-screen bg-[#f0f2f5] text-black pt-[122px] pb-0 overflow-x-hidden w-full max-w-full">
       <div className="site-container overflow-x-hidden">
         <header className="mb-8 border-b border-black/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
-            <div className="flex items-center gap-4 mb-4">
-              <span className="text-3xl md:text-4xl">🚢</span>
+            <div className="flex items-start gap-4 mb-4">
+              <span className="text-3xl md:text-4xl leading-none">🚢</span>
               <div>
-                <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-black">Cruise Hub</h1>
-                <p className="text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1">Passenger Area</p>
+                <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-black leading-none">Cruise Hub</h1>
+                <p className="text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Passenger Area</p>
               </div>
             </div>
             <p className="text-black/60 text-base md:text-lg max-w-xl">Welcome aboard, <strong className="text-black">{effectiveMember?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
@@ -543,12 +607,16 @@ export default function CruiseDashboard() {
         {(announcement || isAdmin) && (
           <div className="relative overflow-hidden mb-8 p-4 bg-white border border-black/10 rounded-2xl shadow-md group">
             <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-8 rounded-full bg-cyan-100 text-cyan-700 flex items-center justify-center text-sm">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-cyan-100 text-cyan-700 flex items-center justify-center text-sm shrink-0 mt-0.5">
                   <span className="animate-pulse">🔔</span>
                 </div>
-                <h3 className="text-lg font-black italic tracking-wider text-black uppercase">Captain's Log</h3>
-                <span className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-700 bg-cyan-50 px-2 py-1 rounded border border-cyan-200">Priority Update</span>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[9px] font-black tracking-[0.15em] uppercase text-cyan-700 bg-cyan-50 px-1.5 py-0.5 rounded border border-cyan-200">Priority Update</span>
+                  </div>
+                  <h3 className="text-lg font-black tracking-wide text-black uppercase">{announcementTitle || "Cruise Notice"}</h3>
+                </div>
                 {isAdmin && !isEditingAnnouncement && (
                   <button onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-700 hover:text-cyan-800 uppercase tracking-widest cursor-pointer transition-colors px-2.5 py-1 rounded bg-cyan-50 border border-cyan-200">
                     ✏️ Edit Announcement
@@ -557,13 +625,26 @@ export default function CruiseDashboard() {
               </div>
 
               {isEditingAnnouncement ? (
-                <div className="space-y-4">
-                  <textarea
-                    value={announcementInput}
-                    onChange={e => setAnnouncementInput(e.target.value)}
-                    placeholder="Type news/announcements here (HTML formatting allowed)..."
-                    className="w-full bg-white border border-black/15 rounded-xl p-4 text-sm text-black focus:border-cyan-500 outline-none h-32 resize-none transition-all"
-                  />
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-[10px] font-bold text-black/50 uppercase tracking-widest block mb-1">Notice Header Title / Subject</label>
+                    <input
+                      type="text"
+                      value={announcementTitleInput}
+                      onChange={e => setAnnouncementTitleInput(e.target.value)}
+                      placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
+                      className="w-full bg-white border border-black/15 rounded-xl px-3.5 py-2 text-xs text-black focus:border-cyan-500 outline-none font-bold transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-black/50 uppercase tracking-widest block mb-1">Notice Content</label>
+                    <textarea
+                      value={announcementInput}
+                      onChange={e => setAnnouncementInput(e.target.value)}
+                      placeholder="Type news/announcements here (HTML formatting allowed)..."
+                      className="w-full bg-white border border-black/15 rounded-xl p-3.5 text-sm text-black focus:border-cyan-500 outline-none h-32 resize-none transition-all"
+                    />
+                  </div>
                   <div className="flex gap-3 justify-end">
                     <button onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-black/80 text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
                       Cancel
@@ -574,7 +655,7 @@ export default function CruiseDashboard() {
                   </div>
                 </div>
               ) : sanitizedAnnouncement ? (
-                <div 
+                <div
                   className="text-black/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-600 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-black [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-black"
                   dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
                 />
@@ -585,41 +666,79 @@ export default function CruiseDashboard() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 items-start">
           {/* Main Content Column (Left 2 Cols) */}
-          <div className="lg:col-span-2 flex flex-col gap-8">
-            {/* 1. Priority Status & Cabin Booking Details */}
-            <BookingManager email={effectiveMember?.email} />
-
-            {/* 2. Cruise Information & Guidelines */}
-            <div className="p-6 bg-white border border-black/10 rounded-2xl shadow-md h-fit">
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-black/10">
+          <div className="lg:col-span-2 flex flex-col gap-8 min-w-0 max-w-full">
+            {/* 1. Cruise Information & Guidelines */}
+            <div className="p-6 bg-white border border-black/10 rounded-2xl shadow-md h-fit min-w-0 max-w-full overflow-hidden">
+              <div className="relative z-10 min-w-0 max-w-full">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-black/10 flex-wrap">
                   <span className="text-3xl">📋</span>
                   <div>
-                    <h2 className="text-lg md:text-xl font-black uppercase tracking-wider text-black">Cruise Information & Guidelines</h2>
-                    <p className="text-xs text-cyan-700 font-bold uppercase tracking-widest mt-0.5">Cruiser Welcome Pack</p>
+                    <h2 className="text-lg md:text-xl font-black uppercase tracking-wider text-black">{guidelines.title}</h2>
+                    <p className="text-xs text-cyan-700 font-bold uppercase tracking-widest mt-0.5">{guidelines.subtitle}</p>
                   </div>
+                  {isAdmin && !isEditingGuidelines && (
+                    <button
+                      onClick={() => {
+                        setGuidelinesTitleInput(guidelines.title);
+                        setGuidelinesSubtitleInput(guidelines.subtitle);
+                        setGuidelinesContentInput(guidelines.content);
+                        setIsEditingGuidelines(true);
+                      }}
+                      className="ml-auto text-xs font-bold text-cyan-700 hover:text-cyan-800 uppercase tracking-widest cursor-pointer transition-colors px-2.5 py-1 rounded bg-cyan-50 border border-cyan-200"
+                    >
+                      ✏️ Edit Guidelines
+                    </button>
+                  )}
                 </div>
-                <div className="space-y-4 text-black/80 text-sm md:text-base leading-relaxed tracking-wide">
-                  <p>
-                    Welcome to the official 7th Heaven Cruise Passenger Portal! We are absolutely thrilled to have you join us for this one-of-a-kind rock-and-roll voyage. This portal is your exclusive gateway to everything happening during our journey, designed to keep you connected with the band, the crew, and your fellow passengers from the moment you book until we return to port.
-                  </p>
-                  <p>
-                    As we prepare to embark, make sure you review the official <Link href="/cruise" className="text-cyan-600 hover:text-cyan-700 underline underline-offset-4 font-bold transition-all">travel check-list</Link> and itinerary details. From shipboard safety drills to themed concert nights, staying informed ensures you won't miss a single beat of the action. Keep an eye on the Captain's Log and priority updates above for any real-time adjustments or exciting announcements from the band.
-                  </p>
-                  <p>
-                    Onboard entertainment is the heart of the 7th Heaven cruise experience. We have a stellar lineup of main stage concert performances, intimate acoustic lounge sets, Q&A sessions, and exclusive deck parties scheduled throughout the trip. Be sure to check the <a href="#itinerary" className="text-cyan-600 hover:text-cyan-700 underline underline-offset-4 font-bold transition-all">official itinerary schedule</a> below to plan your days and nights around these highlight events.
-                  </p>
-                  <p>
-                    Beyond the music, this cruise offers incredible opportunities to explore beautiful tropical destinations, coordinate group excursions, and participate in fun community activities. Whether you are relaxing by the pool, dining with friends, or exploring local ports of call, there is always something exciting to do with the 7th Heaven community.
-                  </p>
-                  <p>
-                    Lastly, don't forget to use the Passenger Lounge Chat on the right to introduce yourself, coordinate plans, and share your excitement! Connecting with other fans before and during the cruise is a huge part of what makes this trip so special. We can't wait to see you onboard and rock the high seas together!
-                  </p>
-                </div>
+
+                {isEditingGuidelines ? (
+                  <div className="space-y-4 min-w-0 max-w-full">
+                    <div>
+                      <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Section Title</label>
+                      <input
+                        type="text"
+                        value={guidelinesTitleInput}
+                        onChange={e => setGuidelinesTitleInput(e.target.value)}
+                        className="w-full bg-white border border-black/15 rounded-xl px-4 py-2 text-sm text-black focus:border-cyan-500 outline-none font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Subtitle / Badge</label>
+                      <input
+                        type="text"
+                        value={guidelinesSubtitleInput}
+                        onChange={e => setGuidelinesSubtitleInput(e.target.value)}
+                        className="w-full bg-white border border-black/15 rounded-xl px-4 py-2 text-xs text-cyan-700 focus:border-cyan-500 outline-none font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</label>
+                      <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-white rounded-xl overflow-hidden" />
+                      </div>
+                    </div>
+                    <div className="flex gap-3 justify-end">
+                      <button onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-black/80 text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
+                        Cancel
+                      </button>
+                      <button onClick={handleSaveGuidelines} className="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
+                        Save Guidelines
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className="space-y-4 text-black/80 text-sm md:text-base leading-relaxed tracking-wide min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]:text-cyan-600 [&_a]:hover:text-cyan-700 [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-bold [&_p]:text-black/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-black [&_h1]:font-bold [&_h2]:text-black [&_h2]:font-bold [&_h3]:text-black [&_h3]:font-bold [&_strong]:text-black [&_span]:text-black/80 [&_li]:text-black/80 [&_div]:text-black/80"
+                    dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || guidelines.content }}
+                  />
+                )}
               </div>
             </div>
+
+            {/* 2. Priority Status & Cabin Booking Details */}
+            <BookingManager email={effectiveMember?.email} />
 
             {/* 3. Important Links */}
             <ImportantLinksWidget />
@@ -628,15 +747,15 @@ export default function CruiseDashboard() {
           {/* Right Sidebar Column (1 Col) */}
           <div className="lg:col-span-1">
             <div className="flex flex-col gap-6">
-              <PassengersWidget />
               <CruiseChat memberOverride={effectiveMember} />
+              <PassengersWidget />
             </div>
           </div>
         </div>
-
-        {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
-        <CruiseSnakeItinerary itinerary={itinerary} />
       </div>
+
+      {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
+      <CruiseSnakeItinerary itinerary={itinerary} />
     </div>
   );
 }

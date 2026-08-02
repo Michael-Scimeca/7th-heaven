@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function ReturnsPage() {
   return (
-    <section className="py-32 min-h-screen bg-[#f0f2f5] text-black">
-      <div className="site-container max-w-[900px] mx-auto">
+    <section className="pt-[var(--page-top-offset)] pb-24 min-h-screen bg-[#f0f2f5] text-black">
+      <div className="site-container mx-auto">
         <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-black">
           Return & Refund <span className="text-purple-600">Policy</span>
         </h1>
@@ -72,25 +72,15 @@ export default function ReturnsPage() {
 
           {/* Section 4 */}
           <div>
-            <h2 className="text-black text-lg font-bold mb-3">4. Ticket Sales & Special Experiences</h2>
-            <p>
-              All ticket purchases for 7th Heaven events, ticketed movie screenings, and special fan experiences are non-refundable. 
-              If an event is officially canceled or rescheduled, ticket holders will receive an automated notification detailing refund eligibility or ticket transfer options. 
-              Deposits and contracts for private event bookings booked via our Event Planner panel are governed by their respective individual booking contracts.
-            </p>
-          </div>
-
-          {/* Section 5 */}
-          <div>
-            <h2 className="text-black text-lg font-bold mb-3">5. Damaged or Defective Items</h2>
+            <h2 className="text-black text-lg font-bold mb-3">4. Damaged or Defective Items</h2>
             <p>
               If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="text-purple-600 font-bold hover:underline">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
             </p>
           </div>
 
-          {/* Section 6 */}
+          {/* Section 5 */}
           <div>
-            <h2 className="text-black text-lg font-bold mb-3">6. Contact Information</h2>
+            <h2 className="text-black text-lg font-bold mb-3">5. Contact Information</h2>
             <p className="mb-2">
               If you have any questions about returns, exchanges, or refunds, please reach out to us:
             </p>

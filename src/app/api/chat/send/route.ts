@@ -77,7 +77,7 @@ const BLOCKED_TERMS = [
   'porn', 'xxx',
 
   // Political / divisive
-  'trump', 'biden', 'obama', 'maga',
+  'trump', 'biden', 'obama', 'maga', 'tds', 'sleepy joe', 'sleeply joe',
   'democrat', 'republican', 'gop',
   'liberal', 'conservative',
   'communist', 'socialism', 'socialist',

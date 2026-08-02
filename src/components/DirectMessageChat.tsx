@@ -165,21 +165,25 @@ export default function DirectMessageChat() {
                     }`}
                   >
                     {/* Sender tag */}
-                    <span className="text-[7.5px] font-black uppercase tracking-widest text-white/25 mb-1 block">
-                      {isAdminMsg ? "Admin" : "You"}
-                    </span>
+                    <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
+                      <span className={`text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none ${
+                        isAdminMsg ? 'text-amber-800 bg-amber-500/20 border-amber-500/40' : 'text-purple-900 bg-purple-500/20 border-purple-500/35'
+                      }`}>
+                        {isAdminMsg ? 'ADMIN' : 'YOU'}
+                      </span>
+                    </div>
                     {/* Text bubble */}
                     <div
-                      className={`p-2.5 rounded-lg text-xs leading-relaxed ${
+                      className={`p-2.5 rounded-2xl text-xs leading-relaxed font-bold !text-white shadow-sm ${
                         isAdminMsg
-                          ? "bg-white/[0.04] text-white/90 border border-white/5 rounded-tl-none"
-                          : "bg-[var(--color-accent)]/80 text-white rounded-tr-none shadow-[0_0_12px_rgba(133,29,239,0.15)]"
+                          ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 rounded-tl-xs"
+                          : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
                       }`}
                     >
                       {msg.text}
                     </div>
                     {/* Timestamp */}
-                    <span className="text-[6.5px] text-white/20 mt-1 font-mono">
+                    <span className="text-[10px] !text-gray-700 font-sans font-bold leading-none mt-1 tracking-tight">
                       {new Date(msg.timestamp).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -195,18 +199,18 @@ export default function DirectMessageChat() {
           {/* Form Input */}
           <form
             onSubmit={handleSendMessage}
-            className="p-2 border-t border-white/5 bg-black/40 flex items-center gap-1.5"
+            className="p-2 border-t border-black/10 bg-white flex items-center gap-1.5"
           >
             <input
               type="text"
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 bg-white/[0.03] border border-white/10 hover:border-white/15 focus:border-[var(--color-accent)] outline-none rounded px-2.5 py-1.5 text-xs text-white placeholder:text-white/20 transition-all font-medium"
+              className="flex-1 !bg-white border border-black/15 outline-none rounded-xl px-3 py-1.5 text-xs !text-black placeholder:!text-black/50 transition-all font-medium focus:border-cyan-600"
             />
             <button
               type="submit"
-              className="p-1.5 rounded bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white flex items-center justify-center cursor-pointer transition-colors shadow"
+              className="p-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center cursor-pointer transition-colors shadow"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
             </button>

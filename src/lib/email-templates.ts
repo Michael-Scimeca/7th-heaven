@@ -928,35 +928,33 @@ export function newAccountAdminAlert(data: {
 // ═══════════════════════════════════════════════
 export function cruiseCommunityBlast(data: { subject: string; body: string }) {
   const btnCruise = `display:inline-block;background-color:#06b6d4;background:#06b6d4;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
+  const formattedBody = (data.body || '').replace(/<a /gi, '<a style="color:#06b6d4;text-decoration:underline;font-weight:700;" ');
 
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark only"><meta name="supported-color-schemes" content="dark only"></head>
-<body style="margin:0;padding:0;background-color:#050508;background:#050508;color:#ffffff;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#050508;background:#050508;padding:40px 16px;">
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background-color:#f8fafc;background:#f8fafc;color:#0f172a;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc;background:#f8fafc;padding:40px 16px;">
 <tr><td align="center">
 <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;">
 <!-- Cruise Header -->
 <tr><td style="background-color:#06b6d4;background:linear-gradient(135deg,#0e7490,#06b6d4,#0891b2);padding:24px 40px;text-align:center;border-radius:16px 16px 0 0;">
-<p style="margin:0 0 4px;font-size:28px;">🚢</p>
-<p style="margin:0 0 4px;color:#fff;font-size:18px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN CRUISE</p>
-<p style="margin:0;color:rgba(255,255,255,0.6);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;">Community Update</p>
+<p style="margin:0 0 4px;font-size:28px;line-height:1.2;">🚢</p>
+<p style="margin:0 0 4px;color:#ffffff !important;font-size:18px;font-weight:900;letter-spacing:4px;text-transform:uppercase;line-height:1.4;">7TH HEAVEN CRUISE</p>
+<p style="margin:0;color:rgba(255,255,255,0.85) !important;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;line-height:1.4;">Community Update</p>
 </td></tr>
 <!-- Body -->
-<tr><td style="background-color:#0a0a0f;background:#0a0a0f;padding:40px 32px;border-left:1px solid rgba(6,182,212,0.15);border-right:1px solid rgba(6,182,212,0.15);">
-<h1 style="margin:0 0 24px;color:#fff;font-size:24px;font-weight:900;text-align:center;letter-spacing:-0.5px;">${sanitize(data.subject).replace('🚢 ', '')}</h1>
-<div style="color:rgba(255,255,255,0.75);font-size:15px;line-height:1.7;margin-bottom:32px;">${data.body}</div>
-<div style="text-align:center;margin-bottom:24px;">
+<tr><td style="background-color:#ffffff;background:#ffffff;padding:40px 32px;border:1px solid #e2e8f0;border-top:none;">
+<h1 style="margin:0 0 24px;color:#0f172a;font-size:24px;font-weight:900;text-align:center;letter-spacing:-0.5px;">${sanitize(data.subject).replace('🚢 ', '')}</h1>
+<div style="color:#334155;font-size:15px;line-height:1.7;margin-bottom:32px;">${formattedBody}</div>
+<div style="text-align:center;margin-bottom:0px;">
   <a href="https://7thheavenband.com/cruise/dashboard" style="${btnCruise}">Open Cruise Hub</a>
-</div>
-<div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:12px;padding:16px;text-align:center;">
-  <p style="margin:0;color:rgba(255,255,255,0.5);font-size:12px;line-height:1.6;">Know someone who'd love to sail with us?<br/><a href="https://7thheavenband.com/cruise" style="color:#06b6d4;text-decoration:underline;font-weight:700;">Share the Cruise Page</a> — the more fans, the better rate we get!</p>
 </div>
 </td></tr>
 <!-- Footer -->
-<tr><td style="background-color:#08080c;background:#08080c;padding:24px 32px;text-align:center;border:1px solid rgba(6,182,212,0.1);border-top:none;border-radius:0 0 16px 16px;">
-<p style="margin:0 0 8px;color:#444;font-size:11px;">© ${new Date().getFullYear()} 7th Heaven — All rights reserved</p>
-<p style="margin:0 0 8px;color:#06b6d4;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7thheavenband.com/cruise</p>
-<p style="margin:0 0 6px;color:#333;font-size:10px;">7th Heaven · Chicago, IL 60601</p>
-<p style="margin:0;font-size:10px;"><a href="https://7thheavenband.com/api/newsletter/unsubscribe?email={{email}}" style="color:#555;text-decoration:underline;">Unsubscribe</a> · <a href="https://7thheavenband.com/privacy" style="color:#555;text-decoration:underline;">Privacy Policy</a></p>
+<tr><td style="background-color:#f1f5f9;background:#f1f5f9;padding:24px 32px;text-align:center;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 16px 16px;">
+<p style="margin:0 0 8px;color:#64748b;font-size:11px;">© ${new Date().getFullYear()} 7th Heaven — All rights reserved</p>
+<p style="margin:0 0 8px;color:#0891b2;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7thheavenband.com/cruise</p>
+<p style="margin:0 0 6px;color:#94a3b8;font-size:10px;">7th Heaven · Chicago, IL 60601</p>
+<p style="margin:0;font-size:10px;"><a href="https://7thheavenband.com/api/newsletter/unsubscribe?email={{email}}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a> · <a href="https://7thheavenband.com/privacy" style="color:#64748b;text-decoration:underline;">Privacy Policy</a></p>
 </td></tr>
 </table></td></tr></table></body></html>`;
 }

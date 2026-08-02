@@ -1625,7 +1625,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   /* ── Handle user message ── */
   // ── Pre-send content rules ──
   const CONTENT_RULES: { pattern: RegExp; reason: string }[] = [
-    { pattern: /\b(maga|trump|biden|vote|republican|democrat|election|political|gop|dnc|roe v wade|abortion)\b/i, reason: '🚫 Political content isn\'t allowed in this chat.' },
+    { pattern: /\b(maga|trump|biden|obama|tds|sleepy joe|sleeply joe|vote|republican|democrat|election|political|gop|dnc|roe v wade|abortion)\b/i, reason: '🚫 Political content isn\'t allowed in this chat.' },
     { pattern: /\b(nigger|nigga|faggot|kike|spic|chink|tranny|retard|cunt)\b/i, reason: '🚫 Hate speech isn\'t allowed here.' },
     { pattern: /\b(onlyfans|pornhub|xvideos|sex|nude|nsfw|xxx)\b/i, reason: '🔞 Adult content isn\'t allowed here.' },
     { pattern: /\b(follow me|check my (bio|link|profile)|discord\.gg|t\.me\/|bit\.ly|giveaway|free (nitro|robux|gift))\b/i, reason: '📢 Spam links or promotions aren\'t allowed.' },
@@ -3152,131 +3152,56 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         const isBanned = msg.account && bannedUsers.has(msg.account.id);
                         const flagEntry = flaggedMsgs.find(f => f.msg.id === msg.id || (f.msg.account?.id === msg.account?.id && f.msg.text === msg.text));
 
+                        const initials = (msg.account?.displayName || 'FN').substring(0, 2).toUpperCase();
+                        const timeStr = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '08:52 PM';
+
                         return (
                           <div
                             key={msg.id}
-                            className="msg-new flex items-start gap-2.5 py-2 px-3 rounded-xl mb-2 group shadow-2xs"
-                            style={{
-                              background: isBanned
-                                ? 'rgba(239,68,68,0.06)'
-                                : isFlagged
-                                  ? 'rgba(239,68,68,0.04)'
-                                  : isCrew
-                                    ? 'rgba(138,28,252,0.08)'
-                                    : isUser
-                                      ? 'rgba(139,92,246,0.12)'
-                                      : 'rgba(0,0,0,0.03)',
-                              border: isBanned
-                                ? '1px solid rgba(239,68,68,0.25)'
-                                : isFlagged
-                                  ? '1px solid rgba(239,68,68,0.15)'
-                                  : isCrew
-                                    ? '1px solid rgba(138,28,252,0.2)'
-                                    : isUser
-                                      ? '1px solid rgba(139,92,246,0.25)'
-                                      : '1px solid rgba(0,0,0,0.06)',
-                              opacity: isBanned ? 0.55 : 1,
-                            }}
+                            className="msg-new flex items-start gap-2.5 py-1 px-1 mb-1.5 group"
                           >
                             {/* Avatar */}
-                            <div
-                              className="w-6 h-6 rounded-full flex items-center justify-center text-black font-black shrink-0 mt-0.5"
-                              style={{ background: msg.account.color, fontSize: 9 }}
-                            >
-                              {msg.account.avatar}
+                            <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black mt-0.5 bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-500 text-white shadow-xs">
+                              {initials}
                             </div>
 
                             <div className="flex-1 min-w-0">
-                              {/* Name row */}
-                              <div className="flex items-center flex-wrap gap-1.5 mb-0.5">
-                                <span
-                                  className="text-xs font-black leading-none"
-                                  style={{ color: msg.account.color }}
-                                >
-                                  {msg.account.displayName}
+                              {/* Header row */}
+                              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                <span className="text-xs font-extrabold !text-purple-800">
+                                  {msg.account?.displayName || 'Fan'}
                                 </span>
 
-                                {isCrew && (
-                                  <span
-                                    className="px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider leading-none"
-                                    style={{
-                                      background: 'rgba(138,28,252,0.25)',
-                                      border: '1px solid rgba(138,28,252,0.4)',
-                                      color: '#c084fc',
-                                      fontSize: 9,
-                                    }}
-                                  >
-                                    {msg.account.badge} CREW
-                                  </span>
-                                )}
+                                <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-purple-900 bg-purple-500/20 border-purple-500/35">
+                                  {isCrew ? 'CREW' : isUser ? 'YOU' : 'FAN'}
+                                </span>
 
-                                {!isCrew && msg.account.tier && (
-                                  <span className="text-black/25 leading-none" style={{ fontSize: 9 }}>
-                                    {msg.account.tier}
-                                  </span>
-                                )}
-
-                                {isUser && (
-                                  <span
-                                    className="px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider leading-none"
-                                    style={{
-                                      background: 'rgba(139,92,246,0.25)',
-                                      border: '1px solid rgba(139,92,246,0.4)',
-                                      color: '#a78bfa',
-                                      fontSize: 9,
-                                    }}
-                                  >
-                                    You
-                                  </span>
-                                )}
-
-                                {/* Admin: flagged / banned badges */}
                                 {showAdminPanel && isBanned && (
-                                  <span className="px-1.5 py-0.5 rounded font-black uppercase leading-none"
-                                    style={{ background: 'rgba(239,68,68,0.25)', border: '1px solid rgba(239,68,68,0.4)', color: '#fca5a5', fontSize: 9 }}>
+                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-red-800 bg-red-500/20 border-red-500/35">
                                     🚫 BANNED
                                   </span>
                                 )}
                                 {showAdminPanel && isFlagged && !isBanned && (
-                                  <span className="px-1.5 py-0.5 rounded font-black uppercase leading-none"
-                                    style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5', fontSize: 9 }}>
+                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-amber-800 bg-amber-500/20 border-amber-500/35">
                                     ⚩ FLAGGED
                                   </span>
                                 )}
-                              </div>
 
-                              {/* Message text */}
-                              <div
-                                className="mt-1 inline-block px-3 py-2 rounded-2xl rounded-tl-sm break-words"
-                                style={{
-                                  background: isCrew
-                                    ? 'rgba(138,28,252,0.1)'
-                                    : isUser
-                                      ? 'rgba(139,92,246,0.1)'
-                                      : 'rgba(0,0,0,0.04)',
-                                  border: isCrew
-                                    ? '1px solid rgba(138,28,252,0.2)'
-                                    : isUser
-                                      ? '1px solid rgba(139,92,246,0.2)'
-                                      : '1px solid rgba(0,0,0,0.08)',
-                                  textDecoration: isBanned ? 'line-through' : 'none',
-                                  opacity: isBanned ? 0.5 : 1,
-                                }}
-                              >
-                                <p className="text-black/85 leading-snug" style={{ fontSize: 13 }}>
-                                  {msg.text}
-                                </p>
-                              </div>
-
-                              {/* Flag reason tag — shown in admin mode */}
-                              {showAdminPanel && isFlagged && flagEntry && !isBanned && (
-                                <span
-                                  className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 rounded"
-                                  style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5', fontSize: 10, fontWeight: 700 }}
-                                >
-                                  {flagEntry.reason}
+                                <span className="text-[10px] !text-gray-700 font-sans font-bold leading-none ml-auto tracking-tight">
+                                  {timeStr}
                                 </span>
-                              )}
+                              </div>
+
+                              {/* Message bubble */}
+                              <div
+                                className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm !text-white font-bold rounded-2xl rounded-tl-xs ${
+                                  isCrew
+                                    ? 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 border-purple-400/50'
+                                    : 'bg-cyan-500 border-cyan-400/50'
+                                }`}
+                              >
+                                {msg.text}
+                              </div>
                             </div>
                           </div>
                         );
@@ -3328,62 +3253,45 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </div>
                     )}
 
-                    <div className="flex items-center gap-2">
-                      {/* Emoji toggle */}
-
-                      <button
-                        onClick={() => setShowEmojiPicker(v => !v)}
-                        className="w-9 h-9 flex items-center justify-center rounded-xl text-lg transition-all shrink-0"
-                        style={{
-                          background: showEmojiPicker ? 'rgba(168,85,247,0.2)' : 'rgba(0,0,0,0.04)',
-                          border: showEmojiPicker ? '1px solid rgba(168,85,247,0.4)' : '1px solid rgba(0,0,0,0.08)',
-                        }}
-                      >
-                        😊
-                      </button>
-
-                      {/* Input */}
+                    <form onSubmit={e => { e.preventDefault(); handleSend(); }} className="relative flex items-center">
                       <input
                         ref={inputRef}
                         type="text"
                         value={userMessage}
                         onChange={e => setUserMessage(e.target.value)}
                         onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
-                        placeholder="Send a message..."
+                        placeholder="Type a message... use @admin to ask a question"
                         maxLength={200}
-                        className="flex-1 rounded-xl px-3 py-2 text-sm text-black placeholder-black/40 outline-none transition-all"
-                        style={{
-                          background: 'rgba(0,0,0,0.03)',
-                          border: '1px solid rgba(0,0,0,0.08)',
-                        }}
-                        onFocus={e => e.target.style.borderColor = 'rgba(168,85,247,0.4)'}
-                        onBlur={e => e.target.style.borderColor = 'rgba(0,0,0,0.08)'}
+                        className="w-full !bg-white border border-black/15 rounded-xl pl-3.5 pr-28 py-2.5 text-xs !text-black font-medium outline-none focus:border-purple-500 focus:!bg-white transition-all placeholder:!text-black/50 shadow-sm"
                       />
-
-                      {/* Send */}
-                      <button
-                        onClick={handleSend}
-                        disabled={!userMessage.trim()}
-                        className="w-9 h-9 flex items-center justify-center rounded-xl shrink-0 transition-all"
-                        style={{
-                          background: userMessage.trim() ? '#8a1cfc' : 'rgba(0,0,0,0.04)',
-                          border: '1px solid transparent',
-                          opacity: userMessage.trim() ? 1 : 0.4,
-                          boxShadow: userMessage.trim() ? '0 0 12px rgba(138,28,252,0.4)' : 'none',
-                        }}
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <line x1="22" y1="2" x2="11" y2="13" />
-                          <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                        </svg>
-                      </button>
-                    </div>
+                      <div className="absolute right-1.5 flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setShowEmojiPicker(v => !v)}
+                          className="w-7 h-7 rounded-lg bg-black/5 hover:bg-black/10 text-black flex items-center justify-center text-sm transition-all cursor-pointer"
+                        >
+                          😀
+                        </button>
+                        <button
+                          type="button"
+                          className="px-2 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 font-bold text-xs border border-amber-500/30 transition-all cursor-pointer"
+                        >
+                          @
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={!userMessage.trim()}
+                          className="w-7 h-7 rounded-lg bg-purple-600 hover:bg-purple-500 text-white flex items-center justify-center transition-all shadow-[0_0_10px_rgba(138,28,252,0.3)] disabled:opacity-30 disabled:hover:bg-purple-600 cursor-pointer"
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                      </div>
+                    </form>
 
                     {/* Chat Rules Helper Text */}
-                    <div className="mt-2 mb-1 px-1 flex justify-center">
-                      <p className="text-[var(--font-size-3xs)] uppercase tracking-widest text-black/30 font-bold text-center">
-                        Keep it rated PG-13 • No political statements
-                      </p>
+                    <div className="flex items-center justify-between text-[10px] font-bold !text-gray-700 uppercase tracking-wider mt-2 px-1">
+                      <span>KEEP IT RATED PG-13 · NO POLITICS</span>
+                      <span className="!text-gray-700 font-bold lowercase tracking-normal">tag @admin for help</span>
                     </div>
                   </div>
                 </>

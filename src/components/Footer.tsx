@@ -40,6 +40,8 @@ const footerLinks = [
   { href: "/media", label: "Media" },
   { href: "/contact", label: "Contact" },
   { href: "/faq", label: "FAQ" },
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms of Service" },
 ];
 
 const FALLBACK_SOCIAL_LINKS = [
@@ -166,9 +168,9 @@ export function Footer() {
                 placeholder="(555) 123-4567"
                 required
                 suppressHydrationWarning
-                className="flex-1 min-w-0 px-4 py-3 bg-black/[0.04] border border-black/15 text-sm text-black placeholder:text-black/40 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+                className="flex-1 min-w-[175px] sm:min-w-[190px] px-4 py-3 bg-black/[0.04] border border-black/15 text-sm text-black placeholder:text-black/40 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
               />
-              <div className="flex gap-2.5 w-full sm:w-auto">
+              <div className="flex gap-2 w-full sm:w-auto shrink-0">
                 <input
                   type="text"
                   value={smsZip}
@@ -177,13 +179,13 @@ export function Footer() {
                   required
                   maxLength={5}
                   suppressHydrationWarning
-                  className="flex-1 sm:w-28 px-4 py-3 bg-black/[0.04] border border-black/15 text-sm text-black placeholder:text-black/40 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+                  className="w-24 sm:w-28 px-3 py-3 bg-black/[0.04] border border-black/15 text-sm text-black placeholder:text-black/40 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
                 />
                 <select
                   value={smsDistance}
                   onChange={e => setSmsDistance(e.target.value)}
-                  className="w-28 px-3 py-3 bg-black/[0.04] border border-black/15 text-sm text-black outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none shrink-0"
-                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}
+                  className="w-24 sm:w-24 px-2.5 py-3 bg-black/[0.04] border border-black/15 text-sm text-black outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none shrink-0"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}
                 >
                   <option value="25" className="bg-white text-black">25 mi</option>
                   <option value="50" className="bg-white text-black">50 mi</option>

@@ -161,12 +161,12 @@ export default function FAQPage() {
   }, [activeTab, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] pt-[112px] pb-24 relative overflow-hidden text-black">
+    <div className="min-h-screen bg-[#f0f2f5] pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-black">
       {/* Decorative Background Elements */}
       <div className="absolute top-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] rounded-full bg-emerald-500/5 blur-[150px] pointer-events-none" />
 
-      <div className="site-container max-w-4xl mx-auto relative z-10">
+      <div className="site-container mx-auto relative z-10">
         
         {/* Page Header */}
         <div className="text-center mb-12">

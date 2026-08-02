@@ -88,6 +88,8 @@ html.lenis, html.lenis body {
     ═══════════════════════════════════════════════════════ */
  --font-heading: var(--font-rockstar);
  --font-body: var(--font-barlow);
+ --font-sans: var(--font-barlow), "Barlow", system-ui, sans-serif;
+ --font-mono: var(--font-barlow), "Barlow", ui-monospace, monospace;
 
  /* Micro sizes (dashboard labels, badges, metadata) */
  --font-size-5xs: 0.4375rem;  /* 7px — micro labels */
@@ -619,6 +621,73 @@ html.tour-sort-stuck #tour-sort-bar {
 .ql-editor.ql-blank::before {
   color: rgba(255, 255, 255, 0.3) !important;
   font-style: normal !important;
+}
+
+/* ==========================================================
+   Guidelines WYSIWYG Editor: Light Theme (Matches Live Card)
+   ========================================================== */
+.guidelines-wysiwyg-editor .ql-toolbar.ql-snow {
+  background-color: #f8fafc !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  border-top-left-radius: 0.75rem !important;
+  border-top-right-radius: 0.75rem !important;
+}
+
+.guidelines-wysiwyg-editor .ql-container.ql-snow {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  border-bottom-left-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
+}
+
+.guidelines-wysiwyg-editor .ql-stroke {
+  stroke: #334155 !important;
+}
+
+.guidelines-wysiwyg-editor .ql-fill {
+  fill: #334155 !important;
+}
+
+.guidelines-wysiwyg-editor .ql-picker,
+.guidelines-wysiwyg-editor .ql-picker-label,
+.guidelines-wysiwyg-editor .ql-picker-label::before,
+.guidelines-wysiwyg-editor .ql-picker-item,
+.guidelines-wysiwyg-editor .ql-picker-item::before {
+  color: #000000 !important;
+}
+
+.guidelines-wysiwyg-editor .ql-picker-options {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.guidelines-wysiwyg-editor .ql-editor {
+  background-color: #ffffff !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+
+.guidelines-wysiwyg-editor .ql-editor,
+.guidelines-wysiwyg-editor .ql-editor *,
+.guidelines-wysiwyg-editor .ql-editor p,
+.guidelines-wysiwyg-editor .ql-editor h1,
+.guidelines-wysiwyg-editor .ql-editor h2,
+.guidelines-wysiwyg-editor .ql-editor h3,
+.guidelines-wysiwyg-editor .ql-editor span,
+.guidelines-wysiwyg-editor .ql-editor strong,
+.guidelines-wysiwyg-editor .ql-editor em {
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+
+.guidelines-wysiwyg-editor .ql-editor a,
+.guidelines-wysiwyg-editor .ql-editor a * {
+  color: #0891b2 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
+  font-weight: 700 !important;
+}
+
+.guidelines-wysiwyg-editor .ql-editor.ql-blank::before {
+  color: rgba(0, 0, 0, 0.4) !important;
 }
 
 /* Sleek 8px visible scrollbar for panels */

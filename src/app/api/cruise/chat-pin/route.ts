@@ -15,6 +15,8 @@ export async function GET() {
     supabaseAdmin.from('site_settings').select('value').eq('key', 'cruise_announcement').single(),
   ]);
 
+  const stripHtml = (str: string | null) => str ? str.replace(/<[^>]*>/g, '').trim() : null;
+
   let effectivePin = pinResult.data?.value || null;
   if (!effectivePin && annResult.data?.value) {
     try {
@@ -27,7 +29,7 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    pin: effectivePin,
+    pin: stripHtml(effectivePin),
     chatEnabled: enabledResult.data?.value !== 'false', // default to true
   });
 }
@@ -37,13 +39,16 @@ export async function POST(req: Request) {
 
   // Handle pin update
   if (body.pin !== undefined) {
+    const stripHtml = (str: string | null) => str ? str.replace(/<[^>]*>/g, '').trim() : null;
+    const cleanPin = stripHtml(body.pin) || '';
+
     await supabaseAdmin.from('site_settings').upsert(
-      { key: 'cruise_chat_pin', value: body.pin || '' },
+      { key: 'cruise_chat_pin', value: cleanPin },
       { onConflict: 'key' }
     );
     // Also sync to cruise_announcement key for consistency across all widgets
     await supabaseAdmin.from('site_settings').upsert(
-      { key: 'cruise_announcement', value: JSON.stringify({ message: body.pin || '', timestamp: new Date().toISOString() }) },
+      { key: 'cruise_announcement', value: JSON.stringify({ message: cleanPin, timestamp: new Date().toISOString() }) },
       { onConflict: 'key' }
     );
 
@@ -52,7 +57,7 @@ export async function POST(req: Request) {
     await channel.send({
       type: 'broadcast',
       event: 'pin_update',
-      payload: { pin: body.pin || null }
+      payload: { pin: cleanPin || null }
     });
     await supabaseAdmin.removeChannel(channel);
   }

@@ -563,8 +563,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           </div>
         </div>
 
-        {/* ─── OFFICIAL PROFILE & SCHEDULING PHOTO UPLOADER ─────── */}
-        <ProfilePhotoUploader />
+
 
         {/* ─── MAIN GRID: Chat Feed (wide) + Notes (narrow) ─── */}
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-5">

@@ -27,17 +27,22 @@ export async function GET(request: Request) {
 
     const decodedEmail = decodeURIComponent(email).toLowerCase().trim();
 
-    const { error } = await supabase
+    // 1. Upsert unsubscribed status in newsletter_subscribers so preference is persisted globally
+    await supabase
       .from('newsletter_subscribers')
-      .update({ subscribed: false, unsubscribed_at: new Date().toISOString() })
-      .eq('email', decodedEmail);
+      .upsert(
+        { email: decodedEmail, subscribed: false, unsubscribed_at: new Date().toISOString() },
+        { onConflict: 'email' }
+      );
 
-    if (error) {
-      console.error('Unsubscribe error:', error);
-      return new Response(unsubscribePage('Something went wrong. Please try again.', false), {
-        status: 500,
-        headers: { 'Content-Type': 'text/html' },
-      });
+    // 2. Mark unsubscribed in cruise_signups if applicable
+    try {
+      await supabase
+        .from('cruise_signups')
+        .update({ unsubscribed: true })
+        .eq('email', decodedEmail);
+    } catch (_e) {
+      // Ignore if table/column does not exist
     }
 
     return new Response(unsubscribePage(decodedEmail, true), {
@@ -62,12 +67,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
-    const { error } = await supabase
-      .from('newsletter_subscribers')
-      .update({ subscribed: false, unsubscribed_at: new Date().toISOString() })
-      .eq('email', email.toLowerCase().trim());
+    const cleanEmail = email.toLowerCase().trim();
 
-    if (error) throw error;
+    await supabase
+      .from('newsletter_subscribers')
+      .upsert(
+        { email: cleanEmail, subscribed: false, unsubscribed_at: new Date().toISOString() },
+        { onConflict: 'email' }
+      );
+
+    try {
+      await supabase
+        .from('cruise_signups')
+        .update({ unsubscribed: true })
+        .eq('email', cleanEmail);
+    } catch (_e) {
+      // Ignore
+    }
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

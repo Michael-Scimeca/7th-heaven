@@ -216,15 +216,17 @@ export function Header() {
             href="/"
             id="header-logo"
             onClick={(e) => {
+              setMobileOpen(false);
               if (pathname === "/") {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 max-[1400px]:-ml-[25px] min-[1401px]:mx-8 relative ${mobileOpen ? "z-[10001]" : ""}`}
+            className={`shrink-0 min-w-0 max-[1400px]:-ml-[25px] min-[1401px]:mx-8 relative cursor-pointer ${mobileOpen ? "z-[10001]" : ""}`}
+            title="7th Heaven — Go to Home Page"
           >
             <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden">
-              <Logo className="w-full h-full text-black drop-shadow-sm" />
+              <Logo className="w-full h-full text-black drop-shadow-sm hover:opacity-85 transition-opacity" />
             </div>
           </Link>
 
@@ -403,7 +405,7 @@ export function Header() {
             <div className="fixed inset-0 bg-[#0c021a] z-[9999] pointer-events-auto flex flex-col justify-start items-start pl-8 pt-28 pb-12 gap-3 font-[family-name:var(--font-rockstar)] overflow-y-auto">
 
               <Link href="/news" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">NEWS</Link>
-              <Link href="/bio" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BAND</Link>
+              <Link href="/band" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BAND</Link>
               <Link href="/music" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MUSIC</Link>
               <Link href="/store" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">STORE</Link>
               <Link href="/media" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MEDIA</Link>

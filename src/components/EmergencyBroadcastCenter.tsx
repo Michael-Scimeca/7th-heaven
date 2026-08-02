@@ -108,53 +108,53 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
   };
 
   return (
-    <div className="p-6 bg-white border-t border-black/10 space-y-6 text-black font-sans">
+    <div className="p-5 bg-white border-t border-black/10 space-y-4 text-black font-sans">
       
       {/* Top Banner & Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-xl flex items-center justify-between shadow-xs">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2.5">
+        <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-800 block">Target Audience</span>
-            <span className="text-sm font-black text-black">{recipientCount.toLocaleString()} Subscribers</span>
+            <span className="text-[8px] font-black uppercase tracking-wider text-rose-800 block">Target Audience</span>
+            <span className="text-[11px] font-black text-black">{recipientCount.toLocaleString()} Subscribers</span>
           </div>
-          <span className="text-xl">📢</span>
+          <span className="text-sm">📢</span>
         </div>
 
-        <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-amber-800 block">SMS Length & Segments</span>
-            <span className="text-sm font-black text-black">{smsLength} Chars ({smsSegments} Segments)</span>
+            <span className="text-[8px] font-black uppercase tracking-wider text-amber-800 block">SMS Length & Segments</span>
+            <span className="text-[11px] font-black text-black">{smsLength} Chars ({smsSegments} Segments)</span>
           </div>
-          <span className="text-xl">📱</span>
+          <span className="text-sm">📱</span>
         </div>
 
-        <div className="p-3.5 bg-purple-50 border border-purple-200 rounded-xl flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-purple-50 border border-purple-200 rounded-xl flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-purple-800 block">Twilio SMS Rate</span>
-            <span className="text-sm font-black text-black">${estimatedSmsCost.toFixed(2)} (${smsRatePerSegment}/msg)</span>
+            <span className="text-[8px] font-black uppercase tracking-wider text-purple-800 block">Twilio SMS Rate</span>
+            <span className="text-[11px] font-black text-black">${estimatedSmsCost.toFixed(2)} (${smsRatePerSegment}/msg)</span>
           </div>
-          <span className="text-xl">💳</span>
+          <span className="text-sm">💳</span>
         </div>
 
-        <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-emerald-800 block">Total Est. Campaign Cost</span>
-            <span className="text-base font-black text-emerald-800">${totalEstimatedCost.toFixed(2)}</span>
+            <span className="text-[8px] font-black uppercase tracking-wider text-emerald-800 block">Total Est. Campaign Cost</span>
+            <span className="text-[11px] font-black text-emerald-800">${totalEstimatedCost.toFixed(2)}</span>
           </div>
-          <span className="text-xl">💵</span>
+          <span className="text-sm">💵</span>
         </div>
       </div>
 
       {/* Preset Alert Type Selector */}
       <div>
-        <label className="text-xs font-black text-black/70 uppercase tracking-wider block mb-2">
+        <label className="text-[10px] font-black text-black/70 uppercase tracking-wider block mb-1.5">
           1. Quick Alert Presets
         </label>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           <button
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
-            className={`p-3 rounded-xl border text-xs font-black text-left transition-all cursor-pointer ${
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
               alertType === "cancellation"
                 ? "bg-rose-600 border-rose-600 text-white shadow-md"
                 : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
@@ -166,7 +166,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("time_change")}
-            className={`p-3 rounded-xl border text-xs font-black text-left transition-all cursor-pointer ${
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
               alertType === "time_change"
                 ? "bg-amber-600 border-amber-600 text-white shadow-md"
                 : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
@@ -178,7 +178,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
-            className={`p-3 rounded-xl border text-xs font-black text-left transition-all cursor-pointer ${
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
               alertType === "venue_change"
                 ? "bg-purple-600 border-purple-600 text-white shadow-md"
                 : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
@@ -190,7 +190,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("announcement")}
-            className={`p-3 rounded-xl border text-xs font-black text-left transition-all cursor-pointer ${
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
               alertType === "announcement"
                 ? "bg-cyan-600 border-cyan-600 text-white shadow-md"
                 : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
@@ -202,16 +202,16 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
       </div>
 
       {/* Show & Audience Selector Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Target Show Selector */}
         <div>
-          <label className="text-xs font-black text-black/70 uppercase tracking-wider block mb-2">
+          <label className="text-[10px] font-black text-black/70 uppercase tracking-wider block mb-1.5">
             2. Target Show Date / Venue
           </label>
           <select
             value={selectedShowDate}
             onChange={(e) => setSelectedShowDate(e.target.value)}
-            className="w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-xs font-bold text-black focus:outline-none focus:border-amber-600 cursor-pointer"
+            className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-[11px] font-bold text-black focus:outline-none focus:border-amber-600 cursor-pointer"
           >
             {tourDates.map((s, idx) => (
               <option key={idx} value={s.date} className="bg-white text-black font-semibold">
@@ -223,13 +223,13 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
         {/* Target Audience Selector */}
         <div>
-          <label className="text-xs font-black text-black/70 uppercase tracking-wider block mb-2">
+          <label className="text-[10px] font-black text-black/70 uppercase tracking-wider block mb-1.5">
             3. Target Audience
           </label>
           <select
             value={targetAudience}
             onChange={(e) => setTargetAudience(e.target.value as any)}
-            className="w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-xs font-bold text-black focus:outline-none focus:border-amber-600 cursor-pointer"
+            className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-[11px] font-bold text-black focus:outline-none focus:border-amber-600 cursor-pointer"
           >
             <option value="all_fans" className="bg-white text-black font-semibold">📢 All Opted-In SMS & Email Fan Subscribers (1,482 Subscribers)</option>
             <option value="show_fans" className="bg-white text-black font-semibold">📍 Fans Registered for {selectedShow.venue} (284 Fans)</option>
@@ -240,51 +240,51 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
       {/* Notification Delivery Channels */}
       <div>
-        <label className="text-xs font-black text-black/70 uppercase tracking-wider block mb-2">
+        <label className="text-[10px] font-black text-black/70 uppercase tracking-wider block mb-1.5">
           4. Delivery Channels & Cost Estimator
         </label>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <div
             onClick={() => setSendSms(!sendSms)}
-            className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
               sendSms ? "bg-amber-100 border-amber-300 text-black shadow-xs" : "bg-black/5 border-black/10 text-black/60"
             }`}
           >
-            <div className="flex items-center gap-2.5">
-              <input type="checkbox" checked={sendSms} onChange={() => {}} className="accent-amber-600 w-4 h-4" />
+            <div className="flex items-center gap-2">
+              <input type="checkbox" checked={sendSms} onChange={() => {}} className="accent-amber-600 w-3.5 h-3.5" />
               <div>
-                <span className="text-xs font-black text-black block">📱 Twilio SMS Alert</span>
-                <span className="text-[var(--font-size-3xs)] text-black/70 font-mono font-bold">${estimatedSmsCost.toFixed(2)} total</span>
+                <span className="text-[10px] font-black text-black block">📱 Twilio SMS Alert</span>
+                <span className="text-[9px] text-black/70 font-mono font-bold">${estimatedSmsCost.toFixed(2)} total</span>
               </div>
             </div>
           </div>
 
           <div
             onClick={() => setSendEmail(!sendEmail)}
-            className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
               sendEmail ? "bg-purple-100 border-purple-300 text-black shadow-xs" : "bg-black/5 border-black/10 text-black/60"
             }`}
           >
-            <div className="flex items-center gap-2.5">
-              <input type="checkbox" checked={sendEmail} onChange={() => {}} className="accent-purple-600 w-4 h-4" />
+            <div className="flex items-center gap-2">
+              <input type="checkbox" checked={sendEmail} onChange={() => {}} className="accent-purple-600 w-3.5 h-3.5" />
               <div>
-                <span className="text-xs font-black text-black block">📧 Email Broadcast</span>
-                <span className="text-[var(--font-size-3xs)] text-black/70 font-mono font-bold">${estimatedEmailCost.toFixed(2)} total</span>
+                <span className="text-[10px] font-black text-black block">📧 Email Broadcast</span>
+                <span className="text-[9px] text-black/70 font-mono font-bold">${estimatedEmailCost.toFixed(2)} total</span>
               </div>
             </div>
           </div>
 
           <div
             onClick={() => setSendDashboardBanner(!sendDashboardBanner)}
-            className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
               sendDashboardBanner ? "bg-cyan-100 border-cyan-300 text-black shadow-xs" : "bg-black/5 border-black/10 text-black/60"
             }`}
           >
-            <div className="flex items-center gap-2.5">
-              <input type="checkbox" checked={sendDashboardBanner} onChange={() => {}} className="accent-cyan-600 w-4 h-4" />
+            <div className="flex items-center gap-2">
+              <input type="checkbox" checked={sendDashboardBanner} onChange={() => {}} className="accent-cyan-600 w-3.5 h-3.5" />
               <div>
-                <span className="text-xs font-black text-black block">🔔 Fan Wall Banner</span>
-                <span className="text-[var(--font-size-3xs)] text-black/70 font-mono font-bold">Free ($0.00)</span>
+                <span className="text-[10px] font-black text-black block">🔔 Fan Wall Banner</span>
+                <span className="text-[9px] text-black/70 font-mono font-bold">Free ($0.00)</span>
               </div>
             </div>
           </div>
@@ -292,11 +292,11 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
       </div>
 
       {/* Editable Message Text & Live iPhone SMS Preview */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Custom Message Inputs */}
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           <div>
-            <label className="text-xs font-black text-black/70 uppercase tracking-wider block mb-1">
+            <label className="text-[10px] font-black text-black/70 uppercase tracking-wider block mb-1">
               Message Title / Header
             </label>
             <input
@@ -304,46 +304,46 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
               value={customTitle !== "" ? customTitle : activeTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="e.g. 🚨 SHOW CANCELLED: Broken Oar"
-              className="w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-xs text-black font-bold placeholder:text-black/40 outline-none focus:border-amber-600"
+              className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-[11px] text-black font-bold placeholder:text-black/40 outline-none focus:border-amber-600"
             />
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-xs font-black text-black/70 uppercase tracking-wider">
+              <label className="text-[10px] font-black text-black/70 uppercase tracking-wider">
                 SMS & Alert Body Text
               </label>
-              <span className="text-[var(--font-size-3xs)] font-mono font-bold text-amber-900">
+              <span className="text-[9px] font-mono font-bold text-amber-900">
                 {smsLength} / 160 chars ({smsSegments} segment{smsSegments > 1 ? "s" : ""})
               </span>
             </div>
             <textarea
-              rows={4}
+              rows={3}
               value={customBody !== "" ? customBody : activeBody}
               onChange={(e) => setCustomBody(e.target.value)}
               placeholder="Write your emergency broadcast message text..."
-              className="w-full bg-white border border-black/15 rounded-xl p-3 text-xs text-black font-mono font-semibold placeholder:text-black/40 outline-none focus:border-amber-600 leading-relaxed resize-none"
+              className="w-full bg-white border border-black/15 rounded-lg p-2.5 text-[11px] text-black font-mono font-semibold placeholder:text-black/40 outline-none focus:border-amber-600 leading-relaxed resize-none"
             />
           </div>
         </div>
 
         {/* Live iPhone SMS Mockup Preview */}
-        <div className="bg-black/[0.03] border border-black/15 rounded-2xl p-4 flex flex-col justify-between shadow-xs">
-          <div className="flex items-center justify-between border-b border-black/10 pb-2 mb-3">
-            <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-amber-900 flex items-center gap-1.5">
+        <div className="bg-black/[0.03] border border-black/15 rounded-xl p-3 flex flex-col justify-between shadow-xs">
+          <div className="flex items-center justify-between border-b border-black/10 pb-1.5 mb-2.5">
+            <span className="text-[9px] font-black uppercase tracking-widest text-amber-900 flex items-center gap-1">
               <span>📱</span> Twilio Live SMS Preview
             </span>
-            <span className="text-[var(--font-size-4xs)] font-mono text-black/70 font-bold">Twilio Toll-Free # +1 (888) 7TH-BAND</span>
+            <span className="text-[8px] font-mono text-black/70 font-bold">Twilio Toll-Free # +1 (888) 7TH-BAND</span>
           </div>
 
           {/* SMS Bubble */}
-          <div className="p-3.5 bg-white border border-black/15 rounded-2xl text-xs leading-relaxed space-y-1.5 shadow-sm">
-            <span className="text-xs font-black text-rose-700 block">{activeTitle}</span>
-            <p className="text-black font-semibold text-xs leading-relaxed">{activeBody}</p>
-            <span className="text-[9px] text-black/60 block text-right font-mono font-bold pt-1">7th Heaven Emergency Alerts • Reply STOP to unsubscribe</span>
+          <div className="p-3 bg-white border border-black/15 rounded-xl text-[11px] leading-relaxed space-y-1 shadow-sm">
+            <span className="text-[11px] font-black text-rose-700 block">{activeTitle}</span>
+            <p className="text-black font-semibold text-[11px] leading-relaxed">{activeBody}</p>
+            <span className="text-[8px] text-black/60 block text-right font-mono font-bold pt-1">7th Heaven Emergency Alerts • Reply STOP to unsubscribe</span>
           </div>
 
-          <div className="mt-3 pt-2 border-t border-black/10 flex items-center justify-between text-[var(--font-size-3xs)] font-mono text-black/80 font-bold">
+          <div className="mt-2.5 pt-1.5 border-t border-black/10 flex items-center justify-between text-[9px] font-mono text-black/80 font-bold">
             <span>Estimated Cost: <strong className="text-emerald-900 font-black">${estimatedSmsCost.toFixed(2)}</strong></span>
             <span>Targeting {recipientCount.toLocaleString()} Fans</span>
           </div>
@@ -351,8 +351,8 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
       </div>
 
       {/* Dispatch CTA Button */}
-      <div className="pt-2 flex items-center justify-between gap-4 flex-wrap">
-        <div className="text-xs text-black/70 font-mono font-bold">
+      <div className="pt-1.5 flex items-center justify-between gap-3 flex-wrap">
+        <div className="text-[10px] text-black/70 font-mono font-bold">
           Ready to dispatch across <strong className="text-black font-black">{[sendSms && "SMS", sendEmail && "Email", sendDashboardBanner && "Banner"].filter(Boolean).join(", ")}</strong> to <strong className="text-black font-black">{recipientCount.toLocaleString()}</strong> recipients.
         </div>
 
@@ -360,11 +360,11 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           type="button"
           onClick={handleDispatch}
           disabled={isSending}
-          className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-2"
+          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-black text-[10px] uppercase tracking-widest rounded-lg transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
         >
           {isSending ? (
             <>
-              <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
               Dispatching Broadcast...
             </>
           ) : (
@@ -377,19 +377,19 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
       {/* Dispatch Result Feedback */}
       {dispatchResult && (
-        <div className={`p-4 rounded-xl border text-xs font-bold flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${
+        <div className={`p-3 rounded-lg border text-[10px] font-bold flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${
           dispatchResult.success ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300" : "bg-rose-500/15 border-rose-500/30 text-rose-300"
         }`}>
           <div>
-            <span className="block font-black uppercase text-sm mb-1">
+            <span className="block font-black uppercase text-[11px] mb-0.5">
               {dispatchResult.success ? "✅ Broadcast Dispatched Successfully!" : "❌ Dispatch Failed"}
             </span>
-            <p className="font-normal opacity-90">{dispatchResult.message || dispatchResult.error}</p>
+            <p className="font-normal opacity-90 text-[10px]">{dispatchResult.message || dispatchResult.error}</p>
           </div>
           <button
             type="button"
             onClick={() => setDispatchResult(null)}
-            className="text-white/40 hover:text-white cursor-pointer border-none bg-transparent text-sm"
+            className="text-white/40 hover:text-white cursor-pointer border-none bg-transparent text-[11px]"
           >
             ✕
           </button>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Logo from "@/components/Logo";
@@ -82,7 +83,6 @@ import PlannerDashboard from "@/components/PlannerDashboard";
 
 import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
-import CruiseVideoManager from "@/components/admin/CruiseVideoManager";
 import InviteChallengePanel from "@/components/admin/InviteChallengePanel";
 import ReferralProgramPanel from "@/components/admin/ReferralProgramPanel";
 import { RoleEmailDirectory } from "@/components/admin/RoleEmailDirectory";
@@ -592,7 +592,9 @@ export default function StyleGuidePage() {
           <FileBadge path="src/components/Logo.tsx" />
         </h3>
         <div className="bg-[var(--color-bg-surface)] p-8 rounded-2xl border border-white/5 mb-12 flex items-center justify-center">
-          <Logo className="h-16 text-white hover:text-[var(--color-accent)] transition-colors" />
+          <Link href="/">
+            <Logo className="h-16 text-white hover:text-[var(--color-accent)] transition-colors cursor-pointer" />
+          </Link>
         </div>
 
         {/* Header Navigation */}
@@ -1143,14 +1145,6 @@ export default function StyleGuidePage() {
           <BulkInvitePanel />
         </div>
 
-        {/* Cruise Video Manager */}
-        <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
-          <span>Cruise Video Manager</span>
-          <FileBadge path="src/components/admin/CruiseVideoManager.tsx" />
-        </h3>
-        <div className="bg-[var(--color-bg-surface)] p-6 rounded-2xl border border-white/5 mb-12">
-          <CruiseVideoManager />
-        </div>
 
         {/* Referral Program Panel */}
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">

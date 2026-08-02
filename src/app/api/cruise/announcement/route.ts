@@ -10,9 +10,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+import { cleanWysiwygHtml } from '@/lib/wysiwyg-cleaner';
+
 export async function POST(req: Request) {
   try {
-    const { message } = await req.json();
+    const { message, subject } = await req.json();
     
     // Explicitly handle empty messages or clear actions
     if (message === '' || message === null) {
@@ -21,12 +23,14 @@ export async function POST(req: Request) {
         console.error('Delete error:', deleteError);
         return NextResponse.json({ success: false, error: deleteError.message }, { status: 500 });
       }
-      return NextResponse.json({ success: true, message: '' });
+      return NextResponse.json({ success: true, message: '', subject: '' });
     }
+
+    const cleanMessage = cleanWysiwygHtml(message);
 
     const { error } = await supabase.from('site_settings').upsert({
       key: 'cruise_announcement',
-      value: JSON.stringify({ message, timestamp: new Date().toISOString() }),
+      value: JSON.stringify({ message: cleanMessage, subject: subject || '', timestamp: new Date().toISOString() }),
       updated_at: new Date().toISOString()
     }, { onConflict: 'key' });
 
@@ -55,6 +59,10 @@ export async function GET(req: Request) {
       } catch (e) { 
         break; 
       }
+    }
+
+    if (parsed && typeof parsed === 'object' && parsed.message) {
+      parsed.message = cleanWysiwygHtml(parsed.message);
     }
     
     return NextResponse.json(parsed || { message: '' });

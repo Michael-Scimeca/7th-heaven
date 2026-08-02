@@ -192,7 +192,7 @@ export default async function RootLayout({
                 <Footer />
                 <SanityLive />
                 {isDraftMode && <VisualEditing />}
-                
+                <PageNav />
                 <ClientOnlyExtras />
               </div>
             </SmoothScroll>

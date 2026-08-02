@@ -3,6 +3,44 @@
 import React, { useState, useRef } from "react";
 import { useMember } from "@/context/MemberContext";
 
+function compressImage(file: File, maxWidth = 300, maxHeight = 300): Promise<string> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(e.target?.result as string);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.82));
+      };
+      img.onerror = () => resolve(e.target?.result as string);
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = () => resolve("");
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function ProfilePhotoUploader({ compact = false }: { compact?: boolean }) {
   const { member, updateAvatar } = useMember();
   const [urlInput, setUrlInput] = useState("");
@@ -21,7 +59,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
   const isAvatarUrl = activeAvatar && (activeAvatar.startsWith("http") || activeAvatar.startsWith("/") || activeAvatar.startsWith("data:"));
   const initials = member?.name ? member.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) : "ME";
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -30,15 +68,9 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      setMessage({ text: "Image size must be under 5MB", type: "error" });
-      return;
-    }
-
     setIsUploading(true);
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const dataUrl = event.target?.result as string;
+    try {
+      const dataUrl = await compressImage(file);
       if (dataUrl) {
         setPreviewUrl(dataUrl);
         try {
@@ -47,13 +79,11 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         await updateAvatar(dataUrl);
         setMessage({ text: "Profile & scheduling photo updated!", type: "success" });
       }
+    } catch {
+      setMessage({ text: "Failed to process image file", type: "error" });
+    } finally {
       setIsUploading(false);
-    };
-    reader.onerror = () => {
-      setMessage({ text: "Failed to read image file", type: "error" });
-      setIsUploading(false);
-    };
-    reader.readAsDataURL(file);
+    }
   };
 
   const handleUrlSubmit = async (e: React.FormEvent) => {
