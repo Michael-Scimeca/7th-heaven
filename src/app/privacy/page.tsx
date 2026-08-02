@@ -7,20 +7,20 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
  return (
-  <section className="py-32 min-h-screen bg-[#f0f2f5] text-black">
+  <section className="py-32 min-h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
    <div className="site-container max-w-[900px] mx-auto">
-    <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-black">
+    <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-[var(--text-color)]">
      Privacy <span className="text-purple-600">Policy</span>
     </h1>
-    <p className="text-sm text-black/50 uppercase tracking-[0.15em] font-bold mb-12">
+    <p className="text-sm text-[var(--muted-text)] uppercase tracking-[0.15em] font-bold mb-12">
      Last Updated: April 12, 2026
     </p>
 
-    <div className="prose-legal flex flex-col gap-10 text-black/80 text-base leading-relaxed">
+    <div className="prose-legal flex flex-col gap-10 text-[var(--text-color)] text-base leading-relaxed">
 
      {/* 1 */}
      <div>
-      <h2 className="text-black text-lg font-bold mb-3">1. Introduction</h2>
+      <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">1. Introduction</h2>
       <p>
        7th Heaven (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) respects your privacy and is committed to protecting
        your personal information. This Privacy Policy explains how we collect, use, disclose, and

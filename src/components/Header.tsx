@@ -8,6 +8,7 @@ import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const leftNavLinks = [
   { href: "/news", label: "NEWS" },
@@ -184,8 +185,8 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-all duration-300 pointer-events-none pt-2 ${scrolled
-          ? "bg-white/95 backdrop-blur-2xl shadow-md border-b border-black/10 text-black"
-          : "bg-white/90 backdrop-blur-xl border-b border-black/5 text-black"
+          ? "bg-[var(--card-bg)] backdrop-blur-2xl shadow-md border-b border-[var(--border-color)] text-[var(--text-color)]"
+          : "bg-[var(--card-bg)] backdrop-blur-xl border-b border-[var(--border-color)] text-[var(--text-color)]"
         }`}
       suppressHydrationWarning
     >
@@ -283,6 +284,9 @@ export function Header() {
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
               </svg>
             </Link>
+
+            {/* Theme Toggle */}
+            <ThemeToggle />
 
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {isLoggedIn || isDemoPage ? (

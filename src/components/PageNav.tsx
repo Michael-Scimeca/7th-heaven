@@ -128,7 +128,7 @@ export function PageNav() {
           {/* Scrollable list — grows to fill remaining height */}
           <div
             ref={listRef}
-            className="p-2 flex flex-col gap-3 overflow-y-scroll rounded-b-2xl bg-white"
+            className="p-2 flex flex-col gap-3 overflow-y-scroll rounded-b-2xl bg-[var(--card-bg)] text-[var(--text-color)]"
             style={{ overscrollBehavior: 'contain' }}
           >
             {CATEGORIES.map((category) => (

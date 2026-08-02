@@ -161,7 +161,7 @@ export default function FAQPage() {
   }, [activeTab, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-black">
+    <div className="min-h-screen bg-[var(--bg-color)] pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-[var(--text-color)]">
       {/* Decorative Background Elements */}
       <div className="absolute top-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] rounded-full bg-emerald-500/5 blur-[150px] pointer-events-none" />
@@ -174,18 +174,18 @@ export default function FAQPage() {
             <SparklesIcon />
             Support Center
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black text-black tracking-tight uppercase mb-4">
+          <h1 className="text-4xl sm:text-5xl font-black text-[var(--text-color)] tracking-tight uppercase mb-4">
             Frequently Asked <span className="text-purple-600">Questions</span>
           </h1>
-          <p className="text-black/60 text-base max-w-xl mx-auto font-medium">
+          <p className="text-[var(--muted-text)] text-base max-w-xl mx-auto font-medium">
             Got questions about tickets, shipping, our cruise community, or the fan portal? We have answers.
           </p>
         </div>
 
         {/* Search Bar */}
         <div className="relative mb-10 group">
-          <div className="relative bg-white border border-black/15 group-focus-within:border-purple-500 rounded-2xl p-1.5 flex items-center transition duration-200 shadow-sm">
-            <div className="pl-4 pr-2 text-black/40">
+          <div className="relative bg-[var(--card-bg)] border border-[var(--border-color)] group-focus-within:border-purple-500 rounded-2xl p-1.5 flex items-center transition duration-200 shadow-sm">
+            <div className="pl-4 pr-2 text-[var(--muted-text)]">
               <SearchIcon />
             </div>
             <input
@@ -193,12 +193,12 @@ export default function FAQPage() {
               placeholder="Search questions, keywords, or topics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent border-none outline-none w-full text-black placeholder:text-black/40 py-3 text-sm focus:ring-0 focus:outline-none"
+              className="bg-transparent border-none outline-none w-full text-[var(--text-color)] placeholder:text-[var(--muted-text)] py-3 text-sm focus:ring-0 focus:outline-none"
             />
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery("")}
-                className="text-black/50 hover:text-black px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 transition"
+                className="text-[var(--muted-text)] hover:text-[var(--text-color)] px-3 py-1.5 text-xs font-semibold rounded-lg bg-[var(--card-bg)] transition"
               >
                 Clear
               </button>

@@ -7,20 +7,20 @@ export const metadata: Metadata = {
 
 export default function ReturnsPage() {
   return (
-    <section className="pt-[var(--page-top-offset)] pb-24 min-h-screen bg-[#f0f2f5] text-black">
+    <section className="pt-[var(--page-top-offset)] pb-24 min-h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
       <div className="site-container mx-auto">
-        <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-black">
+        <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-[var(--text-color)]">
           Return & Refund <span className="text-purple-600">Policy</span>
         </h1>
-        <p className="text-sm text-black/50 uppercase tracking-[0.15em] font-bold mb-12">
+        <p className="text-sm text-[var(--muted-text)] uppercase tracking-[0.15em] font-bold mb-12">
           Last Updated: April 12, 2026
         </p>
 
-        <div className="prose-legal flex flex-col gap-10 text-black/80 text-base leading-relaxed">
+        <div className="prose-legal flex flex-col gap-10 text-[var(--text-color)] text-base leading-relaxed">
           
           {/* Section 1 */}
           <div>
-            <h2 className="text-black text-lg font-bold mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
+            <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
             <p>
               All merchandise purchases completed in person at our live concert venues and tour stops are <strong>final sale</strong>. 
               We do not accept returns, refunds, or size exchanges once a transaction is completed at our physical merch tables. 

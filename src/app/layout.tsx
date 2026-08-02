@@ -150,6 +150,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} suppressHydrationWarning>
+      <head>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("7h_theme");if(t){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","light")}}catch(e){}`,
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable} preloading`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />

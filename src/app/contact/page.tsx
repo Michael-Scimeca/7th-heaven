@@ -21,15 +21,15 @@ export default async function ContactPage() {
  const contacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
 
  return (
- <div className="pt-[123px] min-h-[calc(100vh-88px)] flex flex-col justify-center bg-white text-black">
+ <div className="pt-[123px] min-h-[calc(100vh-88px)] flex flex-col justify-center bg-[var(--bg-color)] text-[var(--text-color)]">
  <section className="py-8 md:py-12 flex flex-col justify-center">
  <div className="site-container w-full flex flex-col justify-center">
  {/* Header */}
  <div className="mb-8 text-left">
- <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight text-left text-black">
+ <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight text-left text-[var(--text-color)]">
  Contact <span className="gradient-text">Info</span>
  </h1>
- <p className="text-sm md:text-base text-black/60 max-w-xl mt-2 text-left">
+ <p className="text-sm md:text-base text-[var(--muted-text)] max-w-xl mt-2 text-left">
  For booking, press inquiries, and production advance.
  </p>
  </div>
@@ -42,17 +42,17 @@ export default async function ContactPage() {
  <h3 className="font-[var(--font-heading)] text-2xl md:text-3xl font-black text-[var(--color-accent)] mb-2">
  {contact.category}
  </h3>
- {contact.company && <p className="text-base md:text-xl font-extrabold text-black mb-0.5">{contact.company}</p>}
- {contact.name && <p className="text-sm md:text-lg font-medium text-black/70">{contact.name}</p>}
+ {contact.company && <p className="text-base md:text-xl font-extrabold text-[var(--text-color)] mb-0.5">{contact.company}</p>}
+ {contact.name && <p className="text-sm md:text-lg font-medium text-[var(--muted-text)]">{contact.name}</p>}
  </div>
 
  <div className="flex flex-col gap-2 mt-4">
  {contact.email && (
- <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2.5 text-base md:text-xl font-bold text-black/80 hover:text-[var(--color-accent)] transition-colors duration-150">
+ <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2.5 text-base md:text-xl font-bold text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150">
  <span className="text-xl">📧</span> {contact.email}
  </a>
  )}
- <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-2.5 text-2xl md:text-4xl font-black text-black hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight">
+ <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-2.5 text-2xl md:text-4xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight">
  <span className="text-2xl">📞</span> {contact.phone}
  </a>
  </div>

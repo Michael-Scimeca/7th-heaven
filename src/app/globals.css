@@ -17,6 +17,54 @@ html.lenis, html.lenis body {
 /* =============================================
  7TH HEAVEN — Tailwind v4 Theme Configuration
  ============================================= */
+:root {
+  --bg-color: #f5f8ff;
+  --text-color: #000000;
+  --card-bg: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --muted-text: rgba(0, 0, 0, 0.6);
+  --accent-color: #851DEF;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0c021a;
+  --text-color: #ffffff;
+  --card-bg: #140828;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --muted-text: rgba(255, 255, 255, 0.6);
+  --accent-color: #a855f7;
+}
+
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-gray-50,
+[data-theme="dark"] .bg-slate-50 {
+  background-color: var(--card-bg) !important;
+}
+
+[data-theme="dark"] .bg-\[\#f0f2f5\],
+[data-theme="dark"] .bg-\[\#f5f8ff\] {
+  background-color: var(--bg-color) !important;
+}
+
+[data-theme="dark"] .text-black {
+  color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .text-black\/90,
+[data-theme="dark"] .text-black\/80,
+[data-theme="dark"] .text-black\/70,
+[data-theme="dark"] .text-black\/60,
+[data-theme="dark"] .text-black\/50,
+[data-theme="dark"] .text-black\/40 {
+  color: var(--muted-text) !important;
+}
+
+[data-theme="dark"] .border-black\/5,
+[data-theme="dark"] .border-black\/10,
+[data-theme="dark"] .border-black\/15,
+[data-theme="dark"] .border-black\/20 {
+  border-color: var(--border-color) !important;
+}
 
 @theme {
  /* ═══════════════════════════════════════════════════════
@@ -31,26 +79,26 @@ html.lenis, html.lenis body {
  --breakpoint-desk: 2000px;
 
  /* ═══════════════════════════════════════════════════════
-    COLOR PALETTE — Dark Background Scale (5 levels)
+    COLOR PALETTE — Semantic Custom Property Mapping
     ═══════════════════════════════════════════════════════ */
- --color-bg-primary: #f5f8ff;        /* Page root */
- --color-bg-secondary: #f5f8ff;      /* Alias for primary (legacy compat) */
- --color-bg-deep: #eef3fc;           /* Deep section backgrounds */
- --color-bg-surface: #f5f8ff;        /* Default surface / panels */
- --color-bg-card: #eaf0fa;           /* Card & elevated element backgrounds */
- --color-bg-card-alpha: rgba(0, 0, 0, 0.03);  /* Translucent card */
- --color-bg-card-hover: rgba(0, 0, 0, 0.06);
- --color-bg-elevated: #f5f8ff;       /* Highest elevation: modals, popovers */
- --color-bg-glass: rgba(245, 248, 255, 0.85);
+ --color-bg-primary: var(--bg-color);
+ --color-bg-secondary: var(--bg-color);
+ --color-bg-deep: var(--bg-color);
+ --color-bg-surface: var(--card-bg);
+ --color-bg-card: var(--card-bg);
+ --color-bg-card-alpha: var(--card-bg);
+ --color-bg-card-hover: var(--card-bg);
+ --color-bg-elevated: var(--card-bg);
+ --color-bg-glass: var(--card-bg);
 
  /* ─── Text ─── */
- --color-text-primary: #000000;
- --color-text-secondary: #333333;
- --color-text-muted: #666666;
+ --color-text-primary: var(--text-color);
+ --color-text-secondary: var(--text-color);
+ --color-text-muted: var(--muted-text);
  --color-text-disabled: #999999;
 
  /* ─── Brand Accent (Purple) ─── */
- --color-accent: #851DEF;
+ --color-accent: var(--accent-color);
  --color-accent-hover: #9d3cff;
  --color-accent-soft: #a855f7;
  --color-accent-fuchsia: #d946ef;
@@ -73,10 +121,10 @@ html.lenis, html.lenis body {
  --color-info: #3b82f6;
 
  /* ─── Borders ─── */
- --color-border: rgba(0, 0, 0, 0.08);
- --color-border-subtle: rgba(0, 0, 0, 0.05);
+ --color-border: var(--border-color);
+ --color-border-subtle: var(--border-color);
  --color-border-hover: rgba(133, 29, 239, 0.4);
- --color-border-strong: rgba(0, 0, 0, 0.2);
+ --color-border-strong: var(--border-color);
 
  /* ─── Brand / Third Party ─── */
  --color-brand-spotify: #1DB954;
@@ -286,8 +334,9 @@ html.lenis, html.lenis body {
  }
 
   body {
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
     font-family: var(--font-barlow), "Barlow", system-ui, sans-serif;
     font-weight: 400;
     line-height: 1.6;
