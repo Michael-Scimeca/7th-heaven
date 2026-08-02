@@ -189,7 +189,7 @@ const SidebarDateButton = React.memo(({
     <button
       type="button"
       onClick={() => show.date && onClick(show.date)}
-      className={`w-full text-left px-2 py-1.5 border-b border-slate-300/50 dark:border-white/10 flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${
+      className={`w-full text-left px-2 py-1.5 border-b border-[var(--border-color)] flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${
         isSelected
           ? 'bg-amber-500/15 ring-1 ring-amber-500/30 rounded-md border-b-transparent' 
           : isActiveWeek
