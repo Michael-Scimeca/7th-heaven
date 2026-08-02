@@ -8611,16 +8611,16 @@ try {
           data-lenis-prevent="true"
           data-lenis-prevent-wheel="true"
           data-lenis-prevent-touch="true"
-          className="w-full flex-1 min-h-0 overflow-auto border border-slate-300 rounded-xl bg-white shadow-sm relative"
+          className="w-full flex-1 min-h-0 overflow-auto border border-[var(--border-color)] rounded-xl bg-[var(--card-bg)] text-[var(--text-color)] shadow-sm relative"
           style={{ overscrollBehavior: "contain", touchAction: "pan-x pan-y" }}
         >
           <table
             style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${176 + filteredDays.length * 144}px` }}
-            className="w-full border-separate border-spacing-0 text-left select-none table-fixed bg-white"
+            className="w-full border-separate border-spacing-0 text-left select-none table-fixed bg-[var(--card-bg)] text-[var(--text-color)]"
           >
             <thead>
-              <tr className="border-b border-slate-300 bg-slate-100 text-slate-800 text-[10px] font-extrabold tracking-wider">
-                <th className="p-2 w-44 border-r border-slate-300 border-b border-slate-300 uppercase text-slate-800 font-extrabold text-[10px] wiw-sticky-corner">First Name</th>
+              <tr className="border-b border-[var(--border-color)] bg-[var(--card-bg)] text-[var(--text-color)] text-[10px] font-extrabold tracking-wider">
+                <th className="p-2 w-44 border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-extrabold text-[10px] wiw-sticky-corner bg-[var(--card-bg)]">First Name</th>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
@@ -8633,19 +8633,19 @@ try {
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`p-2 w-36 border-r border-slate-300 border-b border-slate-300 relative group wiw-sticky-header transition-all duration-200 cursor-pointer ${
+                      className={`p-2 w-36 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-all duration-200 cursor-pointer ${
                         (selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
-                          ? 'bg-amber-100! text-amber-900! font-black shadow-[inset_0_-3px_0_#f59e0b]' 
+                          ? 'bg-amber-500/20 text-amber-400 font-black shadow-[inset_0_-3px_0_#f59e0b]' 
                           : isNextShow
-                            ? 'bg-amber-50! text-amber-900! font-black border-x border-amber-300! shadow-[inset_0_1px_0_rgba(245,158,11,0.2)]'
-                            : 'text-slate-800! hover:bg-slate-200!'
+                            ? 'bg-amber-500/10 text-amber-400 font-black border-x border-amber-500/30 shadow-[inset_0_1px_0_rgba(245,158,11,0.2)]'
+                            : 'text-[var(--text-color)] hover:bg-[var(--bg-color)]'
                       }`}
                       title="Click to select date & stack working crew at top"
                     >
                       <div className="flex flex-col gap-1 w-full">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
-                            <span className="text-slate-900 font-black text-[10px]">{getDayLabelOverride(day.dateStr, idx)}</span>
+                            <span className="text-[var(--text-color)] font-black text-[10px]">{getDayLabelOverride(day.dateStr, idx)}</span>
                             {isNextShow && (
                               <span className="text-[9px] bg-amber-500 text-black px-1 py-0.5 rounded font-black uppercase tracking-widest scale-[0.85] origin-left select-none">
                                 NEXT
@@ -8659,7 +8659,7 @@ try {
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="p-0.5 hover:bg-amber-500/10 rounded text-amber-700 hover:text-amber-900 border-none bg-transparent cursor-pointer"
+                              className="p-0.5 hover:bg-amber-500/10 rounded text-amber-500 hover:text-amber-400 border-none bg-transparent cursor-pointer"
                               title="Alert assigned crew for this show"
                             >
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -8674,8 +8674,8 @@ try {
                               }}
                               className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${
                                 scheduleSortByDate === day.dateStr 
-                                  ? 'bg-amber-500/20 text-amber-800 font-extrabold' 
-                                  : 'text-slate-500 hover:text-black hover:bg-slate-200'
+                                  ? 'bg-amber-500/20 text-amber-400 font-extrabold' 
+                                  : 'text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]'
                               }`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}
                             >
@@ -8690,7 +8690,7 @@ try {
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 w-full text-[9px] font-bold uppercase text-amber-800 hover:text-black bg-amber-100 hover:bg-amber-200 border border-amber-300 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"
+                            className="mt-1 w-full text-[9px] font-bold uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             🎸 {dayShow.venue || dayShow.venue_name}
@@ -8705,15 +8705,15 @@ try {
             <tbody>
               {/* Row 1: OpenShifts */}
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
-                <tr className="border-b border-slate-300 bg-slate-50/80 hover:bg-slate-100 transition-colors">
-                  <td className="p-1 border-r border-b border-slate-300 align-middle wiw-sticky-col bg-slate-50">
+                <tr className="border-b border-[var(--border-color)] bg-[var(--card-bg)] hover:bg-[var(--bg-color)] transition-colors">
+                  <td className="p-1 border-r border-b border-[var(--border-color)] align-middle wiw-sticky-col bg-[var(--card-bg)]">
                     <div className="flex items-center gap-2 pl-1">
-                      <div className="w-6 h-6 rounded-full border border-emerald-600 bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold shrink-0 shadow-xs">
+                      <div className="w-6 h-6 rounded-full border border-emerald-600 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 shadow-xs">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
                       </div>
                       <div>
-                        <span className="text-xs font-black text-slate-900 block leading-tight">OpenShifts</span>
-                        <span className="text-[9px] text-slate-600 font-extrabold uppercase tracking-wider leading-none">Positions</span>
+                        <span className="text-xs font-black text-[var(--text-color)] block leading-tight">OpenShifts</span>
+                        <span className="text-[9px] text-[var(--muted-text)] font-extrabold uppercase tracking-wider leading-none">Positions</span>
                       </div>
                     </div>
                   </td>
@@ -8723,12 +8723,12 @@ try {
                     return (
                       <td
                         key={day.dateStr}
-                        className={`p-1 border-r border-b border-slate-300 align-top relative hover:bg-slate-100/60 transition-colors cursor-pointer ${
+                        className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer ${
                           isSelectedDay 
-                            ? 'bg-amber-100/60 border-x border-amber-300' 
+                            ? 'bg-amber-500/10 border-x border-amber-500/30' 
                             : isNextShow
-                              ? 'bg-amber-50/40 border-x border-amber-200'
-                              : 'bg-white'
+                              ? 'bg-amber-500/5 border-x border-amber-500/20'
+                              : 'bg-[var(--card-bg)]'
                         }`}
                         onDragOver={(e) => {
                           e.preventDefault();
@@ -8743,10 +8743,10 @@ try {
                               e.stopPropagation();
                               handleCellClick(day.dateStr, 'openshifts', 'SERVER');
                             }}
-                            className="w-full py-1 flex flex-col items-center justify-center border border-dashed border-emerald-400 hover:border-emerald-600 rounded bg-white hover:bg-emerald-50 transition-all cursor-pointer group shadow-2xs"
+                            className="w-full py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
                           >
-                            <span className="text-[10px] text-emerald-600 font-bold group-hover:text-emerald-800 transition-colors">+</span>
-                            <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-800 group-hover:text-emerald-900 transition-colors mt-0.5">
+                            <span className="text-[10px] text-emerald-400 font-bold group-hover:text-emerald-300 transition-colors">+</span>
+                            <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5">
                               Add Crew Member
                             </span>
                           </div>
@@ -8759,10 +8759,10 @@ try {
                                 e.stopPropagation();
                                 setCellGroupPopover(prev => prev === `openshifts_group_${day.dateStr}` ? null : `openshifts_group_${day.dateStr}`);
                               }}
-                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-400 hover:border-emerald-600 rounded bg-white hover:bg-emerald-50 transition-all cursor-pointer group shadow-2xs"
+                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
                             >
-                              <span className="text-[10px] text-emerald-600 font-bold group-hover:text-emerald-800 transition-colors">+</span>
-                              <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-800 group-hover:text-emerald-900 transition-colors mt-0.5 text-center leading-tight">
+                              <span className="text-[10px] text-emerald-400 font-bold group-hover:text-emerald-300 transition-colors">+</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
                                 Add Crew Group
                               </span>
                             </div>
@@ -8785,10 +8785,10 @@ try {
                                 setNewGroupNameInput('');
                                 setIsCreateGroupModalOpen(true);
                               }}
-                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-400 hover:border-emerald-600 rounded bg-white hover:bg-emerald-50 transition-all cursor-pointer group shadow-2xs"
+                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
                             >
-                              <span className="text-[10px] text-emerald-600 font-bold group-hover:text-emerald-800 transition-colors">+</span>
-                              <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-800 group-hover:text-emerald-900 transition-colors mt-0.5 text-center leading-tight">
+                              <span className="text-[10px] text-emerald-400 font-bold group-hover:text-emerald-300 transition-colors">+</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
                                 Create Group
                               </span>
                             </div>
@@ -8797,14 +8797,14 @@ try {
                             {cellGroupPopover === `openshifts_group_${day.dateStr}` && (
                               <div 
                                 data-group-popover-cell 
-                                className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-white border border-slate-300 rounded-xl shadow-xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
+                                className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl shadow-xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                <div className="text-[9px] text-slate-500 uppercase tracking-widest font-black px-2 py-1 border-b border-slate-200 mb-1">
+                                <div className="text-[9px] text-[var(--muted-text)] uppercase tracking-widest font-black px-2 py-1 border-b border-[var(--border-color)] mb-1">
                                   Select Crew Group
                                 </div>
                                 {crewGroups.length === 0 ? (
-                                  <span className="text-[9px] text-slate-400 italic px-2 py-0.5">No saved groups</span>
+                                  <span className="text-[9px] text-[var(--muted-text)] opacity-60 italic px-2 py-0.5">No saved groups</span>
                                 ) : (
                                   crewGroups.map((g, gIdx) => (
                                     <button
@@ -8815,10 +8815,10 @@ try {
                                         handleAddGroupToDay(day.dateStr, g);
                                         setCellGroupPopover(null);
                                       }}
-                                      className="w-full text-left px-2 py-1 rounded hover:bg-emerald-50 text-[9px] text-emerald-800 font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
+                                      className="w-full text-left px-2 py-1 rounded hover:bg-emerald-500/10 text-[9px] text-emerald-400 font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
                                       title={`Apply Group: ${g.name}`}
                                     >
-                                      <span className="text-[10px] font-mono text-emerald-600">+</span>
+                                      <span className="text-[10px] font-mono text-emerald-400">+</span>
                                       <span>{g.name}</span>
                                     </button>
                                   ))
@@ -8845,48 +8845,48 @@ try {
                   const isWorkingOnActiveDate = activeSortDate ? schedules.some(s => s.date === activeSortDate && s.crewId === member.id && !s.isTimeOff && s.crewId !== 'openshifts') : false;
 
                 return (
-                  <tr key={member.id} className={`border-b border-slate-300 transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-50/60' : 'hover:bg-slate-50'}`}>
-                    <td className={`p-2 border-r border-b border-slate-300 align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-50! shadow-[inset_3px_0_0_#10b981]' : 'bg-white'}`}>
+                  <tr key={member.id} className={`border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-[var(--bg-color)]'}`}>
+                    <td className={`p-2 border-r border-b border-[var(--border-color)] align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-[var(--card-bg)]'}`}>
                       <div className="flex items-center gap-2.5">
                         {hasExclamation && (
-                          <div className="absolute left-1 top-1/2 -translate-y-1/2 text-amber-600" title="Warning: Schedule issues">
+                          <div className="absolute left-1 top-1/2 -translate-y-1/2 text-amber-500" title="Warning: Schedule issues">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                           </div>
                         )}
                         <CrewAvatar member={member} />
                         <div className="min-w-0 wiw-tooltip-container flex-1">
                           <div className="flex items-center justify-between gap-1">
-                            <p className="text-[11px] font-black text-slate-900 truncate leading-tight">{member.name}</p>
+                            <p className="text-[11px] font-black text-[var(--text-color)] truncate leading-tight">{member.name}</p>
                             {isWorkingOnActiveDate && (
-                              <span className="text-[7.5px] font-black uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 shrink-0 shadow-2xs">
+                              <span className="text-[7.5px] font-black uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0 shadow-2xs">
                                 Working
                               </span>
                             )}
                           </div>
                           <div className="flex items-center gap-1 mt-0.5 flex-wrap">
                             {hoursStatus.status !== 'ok' ? (
-                              <span className="text-[9px] text-rose-600 font-extrabold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
+                              <span className="text-[9px] text-rose-500 font-extrabold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
                                 ⚠️ <span className="font-mono">{totalHours}h</span>
                               </span>
                             ) : (
-                              <span className="text-[9px] text-slate-600 font-bold font-mono leading-none">
+                              <span className="text-[9px] text-[var(--muted-text)] font-bold font-mono leading-none">
                                 {totalHours}h
                               </span>
                             )}
                             {renderRoleBadges(member.role)}
                           </div>
                           
-                          <div className="mt-1 text-[8px] text-slate-600 font-mono space-y-0.5 leading-tight font-medium">
-                            {member.phone && <div className="truncate text-slate-600" title={member.phone}>📞 {member.phone}</div>}
-                            {member.email && <div className="truncate text-slate-600" title={member.email}>✉️ {member.email}</div>}
+                          <div className="mt-1 text-[8px] text-[var(--muted-text)] font-mono space-y-0.5 leading-tight font-medium">
+                            {member.phone && <div className="truncate text-[var(--muted-text)]" title={member.phone}>📞 {member.phone}</div>}
+                            {member.email && <div className="truncate text-[var(--muted-text)]" title={member.email}>✉️ {member.email}</div>}
                           </div>
 
-                          <div className="wiw-tooltip bg-white text-black p-3 rounded-lg shadow-xl text-left border border-slate-300 w-52 leading-relaxed font-sans text-xs">
-                            <div className="font-bold text-black text-xs mb-0.5">{member.name}</div>
-                            <div className="text-amber-700 font-extrabold text-[9px] uppercase tracking-wider mb-2">
+                          <div className="wiw-tooltip bg-[var(--card-bg)] text-[var(--text-color)] p-3 rounded-lg shadow-xl text-left border border-[var(--border-color)] w-52 leading-relaxed font-sans text-xs">
+                            <div className="font-bold text-[var(--text-color)] text-xs mb-0.5">{member.name}</div>
+                            <div className="text-amber-500 font-extrabold text-[9px] uppercase tracking-wider mb-2">
                               Role: {member.role || 'Crew Member'}
                             </div>
-                            <div className="text-slate-600 text-[9px] space-y-1 border-t border-slate-200 pt-1.5 font-mono">
+                            <div className="text-[var(--muted-text)] text-[9px] space-y-1 border-t border-[var(--border-color)] pt-1.5 font-mono">
                               <div className="flex items-center gap-1.5">
                                 <span>✉️</span>
                                 <span className="truncate">{member.email || 'N/A'}</span>
@@ -8897,10 +8897,10 @@ try {
                               </div>
                             </div>
                             {hoursStatus.status !== 'ok' && (
-                              <div className="mt-2.5 pt-2 border-t border-slate-200 text-[9px] text-slate-600">
-                                <div className="font-bold text-slate-800">Hours Alert:</div>
+                              <div className="mt-2.5 pt-2 border-t border-[var(--border-color)] text-[9px] text-[var(--muted-text)]">
+                                <div className="font-bold text-[var(--text-color)]">Hours Alert:</div>
                                 <div>Scheduled: {totalHours}h (Max: {hoursStatus.maxHours}h)</div>
-                                <div className="text-rose-600 font-bold mt-0.5 flex items-center gap-1">
+                                <div className="text-rose-500 font-bold mt-0.5 flex items-center gap-1">
                                   <span>🚫</span> {hoursStatus.over} hours over max
                                 </div>
                               </div>
@@ -8917,12 +8917,12 @@ try {
                       return (
                         <td
                           key={day.dateStr}
-                          className={`p-1 border-r border-b border-slate-300 align-top relative hover:bg-slate-100/60 transition-colors cursor-pointer group ${
+                          className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer group ${
                             isSelectedDay 
-                              ? 'bg-amber-100/60 border-x border-amber-300' 
+                              ? 'bg-amber-500/10 border-x border-amber-500/30' 
                               : isNextShow
-                                ? 'bg-amber-50/40 border-x border-amber-200'
-                                : 'bg-white'
+                                ? 'bg-amber-500/5 border-x border-amber-500/20'
+                                : 'bg-[var(--card-bg)]'
                           }`}
                           onDragOver={(e) => {
                             e.preventDefault();
@@ -9090,16 +9090,16 @@ try {
     const renderTimelineGrid = () => {
       const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
       return (
-        <div className="flex flex-col flex-1 min-h-0 bg-[var(--color-bg-surface)] border border-white/5 rounded-xl p-4 shadow-2xl select-none">
+        <div className="flex flex-col flex-1 min-h-0 bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] rounded-xl p-4 shadow-2xl select-none">
           <div className="flex select-none">
             <div className="w-14 shrink-0" />
-            <div className="flex-1 grid grid-cols-7 gap-2 text-center pb-2 border-b border-white/10 mb-2">
+            <div className="flex-1 grid grid-cols-7 gap-2 text-center pb-2 border-b border-[var(--border-color)] mb-2">
               {filteredDays.map((day) => {
                 const count = (schedulesByDate[day.dateStr] || []).length;
                 return (
                   <div key={day.dateStr} className="min-w-0 flex flex-col items-center justify-start">
-                    <p className="text-[var(--font-size-3xs)] uppercase font-bold tracking-wider text-white/30">{day.dayName}</p>
-                    <p className="text-xs font-bold text-white/70 mt-0.5">{day.monthName} {day.dayOfMonth}</p>
+                    <p className="text-[var(--font-size-3xs)] uppercase font-bold tracking-wider text-[var(--muted-text)]">{day.dayName}</p>
+                    <p className="text-xs font-bold text-[var(--text-color)] mt-0.5">{day.monthName} {day.dayOfMonth}</p>
                     {(() => {
                       const dayShow = getDayShow(day.dateStr);
                       if (!dayShow) return null;
@@ -9124,7 +9124,7 @@ try {
           </div>
 
           <div className="flex relative">
-            <div className="w-14 shrink-0 h-[480px] relative flex flex-col justify-between text-[var(--font-size-4xs)] font-bold text-white/30 pr-2 pt-0.5 select-none z-10 pointer-events-none">
+            <div className="w-14 shrink-0 h-[480px] relative flex flex-col justify-between text-[var(--font-size-4xs)] font-bold text-[var(--muted-text)] pr-2 pt-0.5 select-none z-10 pointer-events-none">
               {hoursAxis.map((h) => (
                 <div key={h} className="h-0 flex items-center justify-end leading-none">
                   {formatHour(h)}
@@ -9132,7 +9132,7 @@ try {
               ))}
             </div>
 
-            <div className="flex-1 h-[480px] relative grid grid-cols-7 gap-2 bg-black/20 border border-white/5 rounded-xl overflow-hidden p-0">
+            <div className="flex-1 h-[480px] relative grid grid-cols-7 gap-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden p-0">
               <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                 {Array.from({ length: 17 }).map((_, idx) => (
                   <div 
