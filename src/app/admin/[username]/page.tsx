@@ -114,25 +114,25 @@ function parseCruiseNotes(notes: string): ParsedCruiseNotes | null {
 }
 
 const STATIC_CREW = [
-  { id: 'abbie', name: 'Abbie Janssen', role: 'SERVER', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
-  { id: 'al', name: 'Al Hollie', role: 'SERVER', maxHours: 32, avatar: '/images/crew/al.png', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
-  { id: 'andrea', name: 'Andrea Kinzinger', role: 'CHEF', maxHours: 40, avatar: '/images/crew/andrea.png', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
-  { id: 'arjun', name: 'Arjun Patel', role: 'SERVER', maxHours: 32, avatar: '/images/crew/arjun.png', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
-  { id: 'chris', name: 'Chris Loxely', role: 'SERVER', maxHours: 40, avatar: '/images/crew/chris.png', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
-  { id: 'daniel', name: 'Daniel Kim', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
-  { id: 'dave_croke', name: 'Dave Croke', role: 'LINE COOK', maxHours: 32, avatar: '/images/crew/dave_croke.png', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
-  { id: 'dave_maas', name: 'Dave Maas', role: 'CHEF', maxHours: 24, avatar: '/images/crew/dave_maas.png', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
-  { id: 'david_xu', name: 'David Xu', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/david_xu.png', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
-  { id: 'emily', name: 'Emily Hafften', role: 'SERVER', maxHours: 32, avatar: '/images/crew/emily.png', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
-  { id: 'emma', name: 'Emma Smid', role: 'LINE COOK', maxHours: 40, avatar: '/images/crew/emma.png', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
-  { id: 'erin', name: 'Erin Eagan', role: 'POSITION', maxHours: 40, avatar: '/images/crew/erin.png', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
-  { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
+  { id: 'abbie', name: 'Abbie Janssen', role: 'VIP HOST', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
+  { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: '/images/crew/al.png', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
+  { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/andrea.png', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
+  { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: '/images/crew/arjun.png', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
+  { id: 'chris', name: 'Chris Loxely', role: 'LIGHTS', maxHours: 40, avatar: '/images/crew/chris.png', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
+  { id: 'daniel', name: 'Daniel Kim', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
+  { id: 'dave_croke', name: 'Dave Croke', role: 'EQUIPMENT SETUP', maxHours: 32, avatar: '/images/crew/dave_croke.png', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
+  { id: 'dave_maas', name: 'Dave Maas', role: 'TEAR DOWN', maxHours: 24, avatar: '/images/crew/dave_maas.png', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
+  { id: 'david_xu', name: 'David Xu', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/david_xu.png', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
+  { id: 'emily', name: 'Emily Hafften', role: 'MERCH', maxHours: 32, avatar: '/images/crew/emily.png', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
+  { id: 'emma', name: 'Emma Smid', role: 'PHOTOGRAPHER', maxHours: 40, avatar: '/images/crew/emma.png', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
+  { id: 'erin', name: 'Erin Eagan', role: 'EVENT SUPPORT', maxHours: 40, avatar: '/images/crew/erin.png', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
+  { id: 'francesca', name: 'Francesca Troast', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/francesca.png', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
   { id: 'mary', name: 'Mary Grivas', role: 'ADMIN', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Mary+Grivas&background=f59e0b&color=fff', email: 'Marygrivas65@icloud.com', phone: '(630) 688-1725' },
   { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff', email: 'michael@7thheavenband.com', phone: '(555) 456-6543' },
-  { id: 'sammy', name: 'Sammy D', role: 'SERVER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', email: 'sammy@7thheavenband.com', phone: '(555) 567-5432' },
-  { id: 'ryan', name: 'Ryan K', role: 'BUSSER', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff', email: 'ryan@7thheavenband.com', phone: '(555) 678-4321' },
-  { id: 'tony', name: 'Tony M', role: 'LINE COOK', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff', email: 'tony@7thheavenband.com', phone: '(555) 789-3210' },
-  { id: 'marcus', name: 'Marcus Vance', role: 'UNLOADING', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Marcus+Vance&background=f97316&color=fff', email: 'marcus@7thheavenband.com', phone: '(555) 890-1235' },
+  { id: 'sammy', name: 'Sammy D', role: 'BAND MEMBER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', email: 'sammy@7thheavenband.com', phone: '(555) 567-5432' },
+  { id: 'ryan', name: 'Ryan K', role: 'STAGE HAND', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff', email: 'ryan@7thheavenband.com', phone: '(555) 678-4321' },
+  { id: 'tony', name: 'Tony M', role: 'EQUIPMENT SETUP', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff', email: 'tony@7thheavenband.com', phone: '(555) 789-3210' },
+  { id: 'marcus', name: 'Marcus Vance', role: 'TEAR DOWN', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Marcus+Vance&background=f97316&color=fff', email: 'marcus@7thheavenband.com', phone: '(555) 890-1235' },
   { id: 'colin', name: 'Colin Farrell', role: 'CAMERA', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Colin+Farrell&background=ec4899&color=fff', email: 'colin@7thheavenband.com', phone: '(555) 321-4321' }
 ];
 
@@ -365,23 +365,23 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [mounted, setMounted] = useState(false);
 
   const staticCrew = [
-    { id: 'abbie', name: 'Abbie Janssen', role: 'SERVER', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
-    { id: 'al', name: 'Al Hollie', role: 'SERVER', maxHours: 32, avatar: '/images/crew/al.png', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
-    { id: 'andrea', name: 'Andrea Kinzinger', role: 'CHEF', maxHours: 40, avatar: '/images/crew/andrea.png', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
-    { id: 'arjun', name: 'Arjun Patel', role: 'SERVER', maxHours: 32, avatar: '/images/crew/arjun.png', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
-    { id: 'chris', name: 'Chris Loxely', role: 'SERVER', maxHours: 40, avatar: '/images/crew/chris.png', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
-    { id: 'daniel', name: 'Daniel Kim', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
-    { id: 'dave_croke', name: 'Dave Croke', role: 'LINE COOK', maxHours: 32, avatar: '/images/crew/dave_croke.png', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
-    { id: 'dave_maas', name: 'Dave Maas', role: 'CHEF', maxHours: 24, avatar: '/images/crew/dave_maas.png', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
-    { id: 'david_xu', name: 'David Xu', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/david_xu.png', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
-    { id: 'emily', name: 'Emily Hafften', role: 'SERVER', maxHours: 32, avatar: '/images/crew/emily.png', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
-    { id: 'emma', name: 'Emma Smid', role: 'LINE COOK', maxHours: 40, avatar: '/images/crew/emma.png', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
-    { id: 'erin', name: 'Erin Eagan', role: 'POSITION', maxHours: 40, avatar: '/images/crew/erin.png', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
-    { id: 'francesca', name: 'Francesca Troast', role: 'MANAGER', maxHours: 40, avatar: '/images/crew/francesca.png', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
+    { id: 'abbie', name: 'Abbie Janssen', role: 'VIP HOST', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
+    { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: '/images/crew/al.png', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
+    { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/andrea.png', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
+    { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: '/images/crew/arjun.png', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
+    { id: 'chris', name: 'Chris Loxely', role: 'LIGHTS', maxHours: 40, avatar: '/images/crew/chris.png', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
+    { id: 'daniel', name: 'Daniel Kim', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
+    { id: 'dave_croke', name: 'Dave Croke', role: 'EQUIPMENT SETUP', maxHours: 32, avatar: '/images/crew/dave_croke.png', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
+    { id: 'dave_maas', name: 'Dave Maas', role: 'TEAR DOWN', maxHours: 24, avatar: '/images/crew/dave_maas.png', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
+    { id: 'david_xu', name: 'David Xu', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/david_xu.png', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
+    { id: 'emily', name: 'Emily Hafften', role: 'MERCH', maxHours: 32, avatar: '/images/crew/emily.png', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
+    { id: 'emma', name: 'Emma Smid', role: 'PHOTOGRAPHER', maxHours: 40, avatar: '/images/crew/emma.png', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
+    { id: 'erin', name: 'Erin Eagan', role: 'EVENT SUPPORT', maxHours: 40, avatar: '/images/crew/erin.png', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
+    { id: 'francesca', name: 'Francesca Troast', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/francesca.png', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
     { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff', email: 'michael@7thheavenband.com', phone: '(555) 456-6543' },
-    { id: 'sammy', name: 'Sammy D', role: 'SERVER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', email: 'sammy@7thheavenband.com', phone: '(555) 567-5432' },
-    { id: 'ryan', name: 'Ryan K', role: 'BUSSER', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff', email: 'ryan@7thheavenband.com', phone: '(555) 678-4321' },
-    { id: 'tony', name: 'Tony M', role: 'LINE COOK', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff', email: 'tony@7thheavenband.com', phone: '(555) 789-3210' }
+    { id: 'sammy', name: 'Sammy D', role: 'BAND MEMBER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', email: 'sammy@7thheavenband.com', phone: '(555) 567-5432' },
+    { id: 'ryan', name: 'Ryan K', role: 'STAGE HAND', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff', email: 'ryan@7thheavenband.com', phone: '(555) 678-4321' },
+    { id: 'tony', name: 'Tony M', role: 'EQUIPMENT SETUP', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff', email: 'tony@7thheavenband.com', phone: '(555) 789-3210' }
   ];
 
   const staticBand = [
@@ -767,16 +767,16 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       
       // Default Mock Example Data
       const defaultMocks = [
-        { id: 'mock_1', crewId: 'arjun', crewName: 'Arjun Patel', date: getMondayStr(0), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Lead server for VIP tables' },
-        { id: 'mock_2', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(1), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
-        { id: 'mock_3', crewId: 'al', crewName: 'Al Hollie', date: getMondayStr(2), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
-        { id: 'mock_4', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: getMondayStr(3), startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM', role: 'CHEF', location: 'The Chicago Theatre', notes: 'Kitchen lead' },
-        { id: 'mock_5', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(3), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Need 1 backup server', openSlots: 1 },
-        { id: 'mock_6', crewId: 'chris', crewName: 'Chris Loxely', date: getMondayStr(4), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
-        { id: 'mock_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: getMondayStr(4), startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'LINE COOK', location: 'The Chicago Theatre', notes: '' },
-        { id: 'mock_8', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(4), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
-        { id: 'mock_9', crewId: 'daniel', crewName: 'Daniel Kim', date: getMondayStr(5), startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'MANAGER', location: 'The Chicago Theatre', notes: 'Closing manager' },
-        { id: 'mock_10', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(6), startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Matinee show setup', openSlots: 2 }
+        { id: 'mock_1', crewId: 'arjun', crewName: 'Arjun Patel', date: getMondayStr(0), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SOUND ENGINEER', location: 'Mt. Prospect Fest', notes: 'Sound engineer & FOH mix' },
+        { id: 'mock_2', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(1), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'VIP HOST', location: 'Private Event', notes: 'VIP hospitality lead' },
+        { id: 'mock_3', crewId: 'al', crewName: 'Al Hollie', date: getMondayStr(2), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'STAGE HAND', location: 'Taste of Orland Park', notes: 'Stage setup & rigging' },
+        { id: 'mock_4', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: getMondayStr(3), startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM', role: 'TOUR MANAGER', location: 'Lake County Fair', notes: 'Tour logistics lead' },
+        { id: 'mock_5', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(3), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'STAGE HAND', location: 'Lake County Fair', notes: 'Need 1 backup stage hand', openSlots: 1 },
+        { id: 'mock_6', crewId: 'chris', crewName: 'Chris Loxely', date: getMondayStr(4), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'LIGHTS', location: 'Addison National Night Out', notes: 'Lighting rig controls' },
+        { id: 'mock_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: getMondayStr(4), startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'EQUIPMENT SETUP', location: 'Addison National Night Out', notes: 'Amplifier & drum setup' },
+        { id: 'mock_8', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(4), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'VIP HOST', location: 'Addison National Night Out', notes: '' },
+        { id: 'mock_9', crewId: 'daniel', crewName: 'Daniel Kim', date: getMondayStr(5), startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'TOUR MANAGER', location: 'St. Charles Fest', notes: 'Stage & tour manager' },
+        { id: 'mock_10', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(6), startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'AUDIO MIX', location: 'St. Charles Fest', notes: 'Matinee audio mix setup', openSlots: 2 }
       ];
       localStorage.setItem('7h_crew_schedules', JSON.stringify(defaultMocks));
       return defaultMocks;
@@ -2298,16 +2298,16 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             };
             // Default Mock Example Data
             currentSchedules = [
-              { id: 'mock_1', crewId: 'arjun', crewName: 'Arjun Patel', date: getMondayStr(0), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Lead server for VIP tables' },
-              { id: 'mock_2', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(1), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
-              { id: 'mock_3', crewId: 'al', crewName: 'Al Hollie', date: getMondayStr(2), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
-              { id: 'mock_4', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: getMondayStr(3), startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM', role: 'CHEF', location: 'The Chicago Theatre', notes: 'Kitchen lead' },
-              { id: 'mock_5', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(3), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Need 1 backup server', openSlots: 1 },
-              { id: 'mock_6', crewId: 'chris', crewName: 'Chris Loxely', date: getMondayStr(4), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
-              { id: 'mock_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: getMondayStr(4), startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'LINE COOK', location: 'The Chicago Theatre', notes: '' },
-              { id: 'mock_8', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(4), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: '' },
-              { id: 'mock_9', crewId: 'daniel', crewName: 'Daniel Kim', date: getMondayStr(5), startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'MANAGER', location: 'The Chicago Theatre', notes: 'Closing manager' },
-              { id: 'mock_10', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(6), startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'SERVER', location: 'The Chicago Theatre', notes: 'Matinee show setup', openSlots: 2 }
+              { id: 'mock_1', crewId: 'arjun', crewName: 'Arjun Patel', date: getMondayStr(0), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SOUND ENGINEER', location: 'Mt. Prospect Fest', notes: 'Sound engineer & FOH mix' },
+              { id: 'mock_2', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(1), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'VIP HOST', location: 'Private Event', notes: 'VIP hospitality lead' },
+              { id: 'mock_3', crewId: 'al', crewName: 'Al Hollie', date: getMondayStr(2), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'STAGE HAND', location: 'Taste of Orland Park', notes: 'Stage setup & rigging' },
+              { id: 'mock_4', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: getMondayStr(3), startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM', role: 'TOUR MANAGER', location: 'Lake County Fair', notes: 'Tour logistics lead' },
+              { id: 'mock_5', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(3), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'STAGE HAND', location: 'Lake County Fair', notes: 'Need 1 backup stage hand', openSlots: 1 },
+              { id: 'mock_6', crewId: 'chris', crewName: 'Chris Loxely', date: getMondayStr(4), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'LIGHTS', location: 'Addison National Night Out', notes: 'Lighting rig controls' },
+              { id: 'mock_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: getMondayStr(4), startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'EQUIPMENT SETUP', location: 'Addison National Night Out', notes: 'Amplifier & drum setup' },
+              { id: 'mock_8', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(4), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'VIP HOST', location: 'Addison National Night Out', notes: '' },
+              { id: 'mock_9', crewId: 'daniel', crewName: 'Daniel Kim', date: getMondayStr(5), startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'TOUR MANAGER', location: 'St. Charles Fest', notes: 'Stage & tour manager' },
+              { id: 'mock_10', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(6), startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'AUDIO MIX', location: 'St. Charles Fest', notes: 'Matinee audio mix setup', openSlots: 2 }
             ];
             localStorage.setItem('7h_crew_schedules', JSON.stringify(currentSchedules));
           }
