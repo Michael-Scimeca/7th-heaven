@@ -189,40 +189,40 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="🔍 Search email directory by name, email, or phone number..."
-          className="w-full bg-white border border-black/15 rounded-xl px-4 py-3 text-xs text-black font-semibold placeholder:text-black/40 outline-none focus:border-purple-600"
+          className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl px-4 py-3 text-xs text-[var(--text-color)] font-semibold placeholder:text-[var(--placeholder-color)] outline-none focus:border-purple-600"
         />
       </div>
 
       {/* Email Table */}
-      <div className="border border-black/10 rounded-2xl overflow-hidden bg-white shadow-xs">
+      <div className="border border-[var(--border-color)] rounded-2xl overflow-hidden bg-[var(--card-bg)] shadow-xs">
         <div className="max-h-[480px] overflow-y-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-black/5 border-b border-black/10 text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-black/70 sticky top-0 backdrop-blur-md z-10">
-                <th className="py-3 px-4">Name</th>
-                <th className="py-3 px-4">Email Address</th>
-                <th className="py-3 px-4">Role</th>
-                <th className="py-3 px-4">Phone Number</th>
-                <th className="py-3 px-4 text-right">Quick Action</th>
+              <tr className="bg-[var(--card-bg)] border-b-2 border-[var(--border-color)] text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-[var(--muted-text)] sticky top-0 backdrop-blur-md z-10">
+                <th className="py-3 px-4 border-b border-[var(--border-color)]">Name</th>
+                <th className="py-3 px-4 border-b border-[var(--border-color)]">Email Address</th>
+                <th className="py-3 px-4 border-b border-[var(--border-color)]">Role</th>
+                <th className="py-3 px-4 border-b border-[var(--border-color)]">Phone Number</th>
+                <th className="py-3 px-4 text-right border-b border-[var(--border-color)]">Quick Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/5 text-xs">
+            <tbody className="divide-y divide-[var(--border-color)] text-xs">
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-black/40 italic font-semibold">
+                  <td colSpan={5} className="py-8 text-center text-[var(--muted-text)] opacity-60 italic font-semibold">
                     No recipients found matching your search.
                   </td>
                 </tr>
               ) : (
                 filteredUsers.map(user => (
-                  <tr key={user.id} className="hover:bg-black/[0.02] transition-colors">
-                    <td className="py-3 px-4 font-bold text-black flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-purple-100 border border-purple-300 flex items-center justify-center text-purple-900 font-black text-[var(--font-size-3xs)]">
+                  <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-[var(--border-color)]">
+                    <td className="py-3 px-4 font-bold text-[var(--text-color)] flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-black text-[var(--font-size-3xs)]">
                         {user.name.charAt(0)}
                       </div>
                       <span>{user.name}</span>
                     </td>
-                    <td className="py-3 px-4 text-purple-900 font-mono text-xs font-extrabold select-all">
+                    <td className="py-3 px-4 text-purple-400 font-mono text-xs font-extrabold select-all">
                       {user.email}
                     </td>
                     <td className="py-3 px-4">
@@ -230,13 +230,13 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
                         {user.role}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-mono text-black/80 font-semibold">
+                    <td className="py-3 px-4 font-mono text-[var(--muted-text)] font-semibold">
                       {user.phone || "—"}
                     </td>
                     <td className="py-3 px-4 text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-black/5 hover:bg-black/10 border border-black/10 text-black font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[var(--card-bg)] hover:bg-[var(--bg-color)] border border-[var(--border-color)] text-[var(--text-color)] font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
                         ✉️ Email
                       </a>
