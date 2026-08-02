@@ -160,13 +160,13 @@ select::placeholder {
  --font-mono: var(--font-barlow), "Barlow", ui-monospace, monospace;
 
  /* Micro sizes (dashboard labels, badges, metadata) */
- --text-5xs: 0.35rem;   /* ~5.5px — micro labels & tag pills */
- --text-4xs: 0.4375rem; /* 7px — tiny badges */
- --text-3xs: 0.55rem;   /* 8.8px — small metadata */
+ --text-5xs: 0.65rem;   /* ~10.5px — micro labels & tag pills */
+ --text-4xs: 0.72rem;   /* ~11.5px — tiny badges */
+ --text-3xs: 0.8rem;    /* ~13px — small metadata */
 
- --font-size-5xs: 0.35rem;
- --font-size-4xs: 0.4375rem;
- --font-size-3xs: 0.55rem;
+ --font-size-5xs: 0.65rem;
+ --font-size-4xs: 0.72rem;
+ --font-size-3xs: 0.8rem;
 
  /* Standard scale */
  --text-2xs: 0.72rem;    /* ~11px */
