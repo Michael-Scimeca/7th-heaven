@@ -877,6 +877,123 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const isSectionOpen = (key: string) => !collapsedSections[key];
 
+  const handleGenerateTestData = () => {
+    const dates: string[] = [];
+    const today = new Date();
+    for (let i = 1; i <= 21; i++) {
+      const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+      dates.push(d.toISOString().split('T')[0]);
+    }
+
+    const testCrewList = crewMembers.filter(m => m.id !== 'openshifts');
+    if (testCrewList.length === 0) return;
+
+    const rolesList = ['SOUND ENGINEER', 'STAGE HAND', 'VIP HOST', 'TOUR MANAGER', 'LIGHTS', 'EQUIPMENT SETUP', 'AUDIO MIX', 'STAGE MANAGER'];
+    const locationsList = ['Mt. Prospect Fest', 'Taste of Orland Park', 'Lake County Fair', 'Addison National Night Out', 'St. Charles Fest', 'Summerfest Mainstage', 'Riverside Park Pavilion'];
+
+    const newTestShifts: any[] = [];
+    let testIdCounter = 1;
+
+    dates.forEach((dateStr, idx) => {
+      if (idx % 2 === 0) {
+        const crew1 = testCrewList[idx % testCrewList.length];
+        const role1 = rolesList[idx % rolesList.length];
+        newTestShifts.push({
+          id: `test_shift_${Date.now()}_${testIdCounter++}`,
+          crewId: crew1.id,
+          crewName: crew1.name,
+          date: dateStr,
+          startHour: 17.0,
+          endHour: 22.0,
+          time: '5:00 PM - 10:00 PM',
+          role: role1,
+          location: locationsList[idx % locationsList.length],
+          notes: '[TEST] Evening show setup & execution',
+          isTestData: true,
+          tags: ['[TEST]']
+        });
+      }
+
+      const dayOfWeek = new Date(dateStr + 'T12:00:00').getDay();
+      if (dayOfWeek === 5 || dayOfWeek === 6) {
+        const crew2 = testCrewList[(idx + 1) % testCrewList.length];
+        newTestShifts.push({
+          id: `test_shift_${Date.now()}_${testIdCounter++}`,
+          crewId: crew2.id,
+          crewName: crew2.name,
+          date: dateStr,
+          startHour: 18.0,
+          endHour: 23.5,
+          time: '6:00 PM - 11:30 PM',
+          role: 'LIGHTS',
+          location: locationsList[(idx + 1) % locationsList.length],
+          notes: '[TEST] Overlapping lighting & visual controls',
+          isTestData: true,
+          tags: ['[TEST]']
+        });
+
+        newTestShifts.push({
+          id: `test_shift_${Date.now()}_${testIdCounter++}`,
+          crewId: 'openshifts',
+          crewName: 'OpenShifts',
+          date: dateStr,
+          startHour: 12.0,
+          endHour: 17.0,
+          time: '12:00 PM - 5:00 PM',
+          role: 'STAGE HAND',
+          location: locationsList[(idx + 2) % locationsList.length],
+          notes: '[TEST] Needs coverage support for matinee load-in',
+          openSlots: 2,
+          isCoverageRequested: true,
+          isTestData: true,
+          tags: ['[TEST]']
+        });
+      }
+
+      if (idx === 3 || idx === 10) {
+        const busyCrew = testCrewList[0];
+        newTestShifts.push({
+          id: `test_shift_${Date.now()}_${testIdCounter++}`,
+          crewId: busyCrew.id,
+          crewName: busyCrew.name,
+          date: dateStr,
+          startHour: 10.0,
+          endHour: 14.0,
+          time: '10:00 AM - 2:00 PM',
+          role: 'EQUIPMENT SETUP',
+          location: 'VIP Morning Pavilion',
+          notes: '[TEST] (Back-to-back Edge Case) Morning setup before evening show',
+          isTestData: true,
+          tags: ['[TEST]']
+        });
+      }
+    });
+
+    const updatedSchedules = [...schedules, ...newTestShifts];
+    setSchedules(updatedSchedules);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('7h_crew_schedules', JSON.stringify(updatedSchedules));
+    }
+
+    const totalCreated = newTestShifts.length;
+    const uniqueCrewAssigned = new Set(newTestShifts.map(s => s.crewName)).size;
+    const startDate = dates[0];
+    const endDate = dates[dates.length - 1];
+
+    alert(`⚡ Test Schedule Data Generated Successfully!\n\n• Total Shifts Created: ${totalCreated}\n• Crew Members Assigned: ${uniqueCrewAssigned}\n• Date Range: ${startDate} to ${endDate}\n• Edge Cases: Overlapping weekend shifts, coverage requests, and back-to-back same-day shifts.\n\nAll test shifts are marked with [TEST] and can be purged anytime using "Purge Test Data 🧹".`);
+  };
+
+  const handlePurgeTestData = () => {
+    if (confirm("Are you sure you want to purge all seeded test schedule data ([TEST] shifts)? Real schedule entries will be preserved.")) {
+      const remaining = schedules.filter(s => !s.isTestData && !s.id.startsWith('test_shift_') && !(s.notes && s.notes.includes('[TEST]')));
+      setSchedules(remaining);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('7h_crew_schedules', JSON.stringify(remaining));
+      }
+      alert("🧹 Test schedule data purged successfully!");
+    }
+  };
+
   // ── Drag & Drop Sortable Sections State & Handlers ──
   const DEFAULT_SECTION_ORDER = [
     'bookings',
@@ -4871,122 +4988,7 @@ try {
       }
     };
 
-    const handleGenerateTestData = () => {
-      const dates: string[] = [];
-      const today = new Date();
-      for (let i = 1; i <= 21; i++) {
-        const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
-        dates.push(d.toISOString().split('T')[0]);
-      }
 
-      const testCrewList = crewMembers.filter(m => m.id !== 'openshifts');
-      if (testCrewList.length === 0) return;
-
-      const rolesList = ['SOUND ENGINEER', 'STAGE HAND', 'VIP HOST', 'TOUR MANAGER', 'LIGHTS', 'EQUIPMENT SETUP', 'AUDIO MIX', 'STAGE MANAGER'];
-      const locationsList = ['Mt. Prospect Fest', 'Taste of Orland Park', 'Lake County Fair', 'Addison National Night Out', 'St. Charles Fest', 'Summerfest Mainstage', 'Riverside Park Pavilion'];
-
-      const newTestShifts: any[] = [];
-      let testIdCounter = 1;
-
-      dates.forEach((dateStr, idx) => {
-        if (idx % 2 === 0) {
-          const crew1 = testCrewList[idx % testCrewList.length];
-          const role1 = rolesList[idx % rolesList.length];
-          newTestShifts.push({
-            id: `test_shift_${Date.now()}_${testIdCounter++}`,
-            crewId: crew1.id,
-            crewName: crew1.name,
-            date: dateStr,
-            startHour: 17.0,
-            endHour: 22.0,
-            time: '5:00 PM - 10:00 PM',
-            role: role1,
-            location: locationsList[idx % locationsList.length],
-            notes: '[TEST] Evening show setup & execution',
-            isTestData: true,
-            tags: ['[TEST]']
-          });
-        }
-
-        const dayOfWeek = new Date(dateStr + 'T12:00:00').getDay();
-        if (dayOfWeek === 5 || dayOfWeek === 6) {
-          const crew2 = testCrewList[(idx + 1) % testCrewList.length];
-          newTestShifts.push({
-            id: `test_shift_${Date.now()}_${testIdCounter++}`,
-            crewId: crew2.id,
-            crewName: crew2.name,
-            date: dateStr,
-            startHour: 18.0,
-            endHour: 23.5,
-            time: '6:00 PM - 11:30 PM',
-            role: 'LIGHTS',
-            location: locationsList[(idx + 1) % locationsList.length],
-            notes: '[TEST] Overlapping lighting & visual controls',
-            isTestData: true,
-            tags: ['[TEST]']
-          });
-
-          newTestShifts.push({
-            id: `test_shift_${Date.now()}_${testIdCounter++}`,
-            crewId: 'openshifts',
-            crewName: 'OpenShifts',
-            date: dateStr,
-            startHour: 12.0,
-            endHour: 17.0,
-            time: '12:00 PM - 5:00 PM',
-            role: 'STAGE HAND',
-            location: locationsList[(idx + 2) % locationsList.length],
-            notes: '[TEST] Needs coverage support for matinee load-in',
-            openSlots: 2,
-            isCoverageRequested: true,
-            isTestData: true,
-            tags: ['[TEST]']
-          });
-        }
-
-        if (idx === 3 || idx === 10) {
-          const busyCrew = testCrewList[0];
-          newTestShifts.push({
-            id: `test_shift_${Date.now()}_${testIdCounter++}`,
-            crewId: busyCrew.id,
-            crewName: busyCrew.name,
-            date: dateStr,
-            startHour: 10.0,
-            endHour: 14.0,
-            time: '10:00 AM - 2:00 PM',
-            role: 'EQUIPMENT SETUP',
-            location: 'VIP Morning Pavilion',
-            notes: '[TEST] (Back-to-back Edge Case) Morning setup before evening show',
-            isTestData: true,
-            tags: ['[TEST]']
-          });
-        }
-      });
-
-      const updatedSchedules = [...schedules, ...newTestShifts];
-      setSchedules(updatedSchedules);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('7h_crew_schedules', JSON.stringify(updatedSchedules));
-      }
-
-      const totalCreated = newTestShifts.length;
-      const uniqueCrewAssigned = new Set(newTestShifts.map(s => s.crewName)).size;
-      const startDate = dates[0];
-      const endDate = dates[dates.length - 1];
-
-      alert(`⚡ Test Schedule Data Generated Successfully!\n\n• Total Shifts Created: ${totalCreated}\n• Crew Members Assigned: ${uniqueCrewAssigned}\n• Date Range: ${startDate} to ${endDate}\n• Edge Cases: Overlapping weekend shifts, coverage requests, and back-to-back same-day shifts.\n\nAll test shifts are marked with [TEST] and can be purged anytime using "Purge Test Data 🧹".`);
-    };
-
-    const handlePurgeTestData = () => {
-      if (confirm("Are you sure you want to purge all seeded test schedule data ([TEST] shifts)? Real schedule entries will be preserved.")) {
-        const remaining = schedules.filter(s => !s.isTestData && !s.id.startsWith('test_shift_') && !(s.notes && s.notes.includes('[TEST]')));
-        setSchedules(remaining);
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('7h_crew_schedules', JSON.stringify(remaining));
-        }
-        alert("🧹 Test schedule data purged successfully!");
-      }
-    };
 
     const checkedRecipientsForPreview = allCrewCombined.filter(c => {
       const norm = c.phone ? normalizePhoneNumber(c.phone) : null;
