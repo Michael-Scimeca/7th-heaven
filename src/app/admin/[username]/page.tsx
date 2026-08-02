@@ -8422,11 +8422,11 @@ try {
                 </span>
               </div>
               {shift.tags && shift.tags.length > 0 && (
-                <div className="flex flex-wrap gap-0.5">
+                <div className="flex flex-wrap gap-0.5 mt-0.5">
                   {shift.tags.map((tag: string, idx: number) => (
                     <span 
                       key={idx}
-                      className="px-1.5 py-0.2 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider bg-black/20 text-white/80 border border-white/5"
+                      className="px-1 py-0.2 rounded-[2px] text-[5.5px] font-black uppercase tracking-wider leading-none bg-black/30 text-white/90 border border-white/10 select-none"
                     >
                       {tag}
                     </span>
@@ -8448,17 +8448,17 @@ try {
                 </span>
               ) : null}
 
-              <div className="mt-1.5 flex items-center justify-start gap-1 flex-wrap">
+              <div className="mt-1 flex items-center justify-start gap-0.5 flex-wrap">
                 {shift.tags && shift.tags.length > 0 && shift.tags.map((tag: string, idx: number) => (
                   <span 
                     key={idx}
-                    className="px-1.5 py-0.5 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider leading-none bg-black/30 text-white/80 border border-white/5"
+                    className="px-1 py-0.2 rounded-[2px] text-[5.5px] font-black uppercase tracking-wider leading-none bg-black/30 text-white/90 border border-white/10 select-none"
                   >
                     {tag}
                   </span>
                 ))}
                 {shift.isCoverageRequested && (
-                  <span className="px-1.5 py-0.5 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider leading-none bg-red-500/20 border border-red-500/35 text-red-300 animate-pulse">
+                  <span className="px-1 py-0.2 rounded-[2px] text-[5.5px] font-black uppercase tracking-wider leading-none bg-red-500/20 border border-red-500/35 text-red-300 animate-pulse">
                     ⏳ Coverage
                   </span>
                 )}
