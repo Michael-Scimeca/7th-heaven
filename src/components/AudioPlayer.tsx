@@ -307,7 +307,7 @@ export default function AudioPlayerSection() {
         placeholder="Search 700+ songs..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full bg-black/[0.04] border border-black/15 rounded-xl px-4 py-2.5 pl-9 text-xs text-black placeholder-black/40 focus:outline-none focus:border-[var(--color-accent)] transition-all font-bold"
+        className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 pl-9 text-xs text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-all font-bold"
       />
       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 text-xs">🔍</span>
       {searchQuery && (

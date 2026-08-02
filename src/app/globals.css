@@ -23,6 +23,7 @@ html.lenis, html.lenis body {
   --card-bg: #ffffff;
   --border-color: rgba(0, 0, 0, 0.08);
   --muted-text: rgba(0, 0, 0, 0.6);
+  --placeholder-color: rgba(0, 0, 0, 0.45);
   --accent-color: #851DEF;
 }
 
@@ -32,7 +33,26 @@ html.lenis, html.lenis body {
   --card-bg: #140828;
   --border-color: rgba(255, 255, 255, 0.12);
   --muted-text: rgba(255, 255, 255, 0.6);
+  --placeholder-color: rgba(255, 255, 255, 0.55);
   --accent-color: #a855f7;
+}
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: var(--placeholder-color);
+  opacity: 1;
+}
+
+[data-theme="dark"] ::placeholder,
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder,
+[data-theme="dark"] .placeholder-black\/40::placeholder,
+[data-theme="dark"] .placeholder-black\/50::placeholder,
+[data-theme="dark"] .placeholder\:text-black\/40::placeholder,
+[data-theme="dark"] .placeholder\:text-black\/50::placeholder {
+  color: var(--placeholder-color) !important;
+  opacity: 1 !important;
 }
 
 [data-theme="dark"] .bg-white,
