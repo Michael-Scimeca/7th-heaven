@@ -2248,72 +2248,32 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           setTourDates(freshTourDates);
           
           let currentSchedules = [];
-          const saved = localStorage.getItem('7h_crew_schedules');
-          if (saved) {
-            const parsed = JSON.parse(saved);
-            const hasStaleMock = parsed && parsed.some((item: any) => item.date && (item.date.startsWith('2023-') || item.date.startsWith('2025-')));
-            if (hasStaleMock) {
-              localStorage.removeItem('7h_crew_schedules');
-            } else {
-              const roleMap: Record<string, string> = {
-                'SERVER': 'STAGE HAND',
-                'CHEF': 'EQUIPMENT SETUP',
-                'LINE COOK': 'TEAR DOWN',
-                'MANAGER': 'TOUR MANAGER',
-                'BUSSER': 'STAGE HAND',
-                'UNLOADING': 'TEAR DOWN',
-                'BAND EQUIPMENT': 'EQUIPMENT SETUP',
-                'VIP HOST': 'STAGE MANAGER',
-                'POSITION': 'EVENT SUPPORT'
-              };
-              currentSchedules = parsed.map((item: any) => {
-                const currentRole = item.role ? item.role.toUpperCase() : 'STAGE HAND';
-                return { ...item, role: roleMap[currentRole] || currentRole };
-              });
-            }
-          }
-          if (currentSchedules.length === 0) {
-            const getMondayStr = (offsetDays: number = 0) => {
-              const d = new Date();
-              const day = d.getDay();
-              const diff = d.getDate() - day + (day === 0 ? -6 : 1) + offsetDays;
-              const target = new Date(d.getFullYear(), d.getMonth(), diff);
-              return target.toISOString().split('T')[0];
-            };
-            // Default Mock Example Data
-            currentSchedules = [
-              { id: 'mock_1', crewId: 'arjun', crewName: 'Arjun Patel', date: getMondayStr(0), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SOUND ENGINEER', location: 'Mt. Prospect Fest', notes: 'Sound engineer & FOH mix' },
-              { id: 'mock_2', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(1), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'VIP HOST', location: 'Private Event', notes: 'VIP hospitality lead' },
-              { id: 'mock_3', crewId: 'al', crewName: 'Al Hollie', date: getMondayStr(2), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'STAGE HAND', location: 'Taste of Orland Park', notes: 'Stage setup & rigging' },
-              { id: 'mock_4', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: getMondayStr(3), startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM', role: 'TOUR MANAGER', location: 'Lake County Fair', notes: 'Tour logistics lead' },
-              { id: 'mock_5', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(3), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'STAGE HAND', location: 'Lake County Fair', notes: 'Need 1 backup stage hand', openSlots: 1 },
-              { id: 'mock_6', crewId: 'chris', crewName: 'Chris Loxely', date: getMondayStr(4), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'LIGHTS', location: 'Addison National Night Out', notes: 'Lighting rig controls' },
-              { id: 'mock_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: getMondayStr(4), startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'EQUIPMENT SETUP', location: 'Addison National Night Out', notes: 'Amplifier & drum setup' },
-              { id: 'mock_8', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(4), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'VIP HOST', location: 'Addison National Night Out', notes: '' },
-              { id: 'mock_9', crewId: 'daniel', crewName: 'Daniel Kim', date: getMondayStr(5), startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'TOUR MANAGER', location: 'St. Charles Fest', notes: 'Stage & tour manager' },
-              { id: 'mock_10', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(6), startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'AUDIO MIX', location: 'St. Charles Fest', notes: 'Matinee audio mix setup', openSlots: 2 }
-            ];
-            localStorage.setItem('7h_crew_schedules', JSON.stringify(currentSchedules));
-          }
-          // Test seeding for July 22, 2026: assign some crew members
-          let assignedCount = 0;
-          currentSchedules = currentSchedules.map((s: any) => {
-            if (s.date === '2026-07-22' && s.crewId === 'openshifts') {
-              if (assignedCount === 0) {
-                assignedCount++;
-                return { ...s, crewId: 'arjun', crewName: 'Arjun Patel', openSlots: undefined };
-              } else if (assignedCount === 1) {
-                assignedCount++;
-                return { ...s, crewId: 'abbie', crewName: 'Abbie Janssen', openSlots: undefined };
-              } else if (assignedCount === 2) {
-                assignedCount++;
-                return { ...s, crewId: 'al', crewName: 'Al Hollie', openSlots: undefined };
+          const resetDone = localStorage.getItem('7h_fresh_start_reset_v3');
+          if (!resetDone) {
+            localStorage.setItem('7h_crew_schedules', '[]');
+            localStorage.setItem('7h_fresh_start_reset_v3', 'true');
+            currentSchedules = [];
+            setSchedules([]);
+          } else {
+            const saved = localStorage.getItem('7h_crew_schedules');
+            if (saved) {
+              try {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed)) {
+                  const hasMockData = parsed.some((item: any) => item.id && String(item.id).startsWith('mock_'));
+                  if (hasMockData) {
+                    localStorage.setItem('7h_crew_schedules', '[]');
+                    currentSchedules = [];
+                    setSchedules([]);
+                  } else {
+                    currentSchedules = parsed;
+                  }
+                }
+              } catch {
+                currentSchedules = [];
               }
             }
-            return s;
-          });
-          localStorage.setItem('7h_crew_schedules', JSON.stringify(currentSchedules));
-
+          }
           syncTourDatesToCalendar(freshTourDates, currentSchedules);
 
           const todayStr = new Date().toISOString().split('T')[0];
