@@ -10707,18 +10707,19 @@ try {
                     {/* Form Fields block */}
                     <div className="space-y-4 shrink-0 mt-2 pr-1">
                       {showFormDetails && (
-                        <div className="space-y-4">
+                        <div className="space-y-4 font-sans">
                           {dropTimeFrames.map((tf, index) => (
                             <div key={index} className="p-3.5 bg-black/40 border border-white/10 rounded-xl space-y-3 relative animate-[fadeIn_0.2s_ease]">
                               <div className="flex items-center justify-between">
-                                <span className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-amber-400 font-extrabold">Time Frame {index + 1}</span>
+                                <span className="text-xs uppercase tracking-wider text-amber-400 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
                                 {dropTimeFrames.length > 1 && (
                                   <button
                                     type="button"
                                     onClick={() => {
                                       setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
                                     }}
-                                    className="text-white/40 hover:text-red-400 text-[var(--font-size-3xs)] font-extrabold bg-transparent border-none cursor-pointer uppercase tracking-wider"
+                                    className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
+                                    style={{ fontSize: '10px' }}
                                   >
                                     Remove
                                   </button>
@@ -10727,7 +10728,7 @@ try {
 
                               <div className="grid grid-cols-2 gap-3">
                                 <div>
-                                  <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">Start Time</label>
+                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
                                   <select
                                     value={tf.startHour}
                                     onChange={(e) => {
@@ -10740,7 +10741,7 @@ try {
                                         return item;
                                       }));
                                     }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer"
+                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer font-sans"
                                   >
                                     {generateTimeOptions().slice(0, -1).map(opt => (
                                       <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -10749,14 +10750,14 @@ try {
                                 </div>
 
                                 <div>
-                                  <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold">End Time</label>
+                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
                                   <select
                                     value={tf.endHour}
                                     onChange={(e) => {
                                       const val = parseFloat(e.target.value);
                                       setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
                                     }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer"
+                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer font-sans"
                                   >
                                     {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
                                       <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -10766,7 +10767,7 @@ try {
                               </div>
 
                               <div className="space-y-1">
-                                <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold font-sans">Role / Duty</label>
+                                <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
                                 <input
                                   type="text"
                                   value={tf.role}
@@ -10785,7 +10786,7 @@ try {
                                       onClick={() => {
                                         setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: preset } : item));
                                       }}
-                                      className={`px-2 py-0.5 rounded-full text-[8.5px] font-black uppercase tracking-wider border transition-all cursor-pointer ${
+                                      className={`px-2 py-0.5 rounded-full text-[8.5px] font-black uppercase tracking-wider border transition-all cursor-pointer font-sans ${
                                         tf.role.toUpperCase() === preset 
                                           ? 'bg-amber-500 text-black border-amber-500 shadow-xs' 
                                           : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
@@ -10798,7 +10799,7 @@ try {
                               </div>
 
                               <div className="space-y-1">
-                                <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1 block font-bold font-sans">Tags</label>
+                                <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
                                 <div className="relative">
                                   <select
                                     value=""
@@ -10816,7 +10817,7 @@ try {
                                         return item;
                                       }));
                                     }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer appearance-none"
+                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer appearance-none font-sans"
                                   >
                                     <option value="">Select tags...</option>
                                     <option value="Overtime">⏰ Overtime</option>
@@ -10835,7 +10836,7 @@ try {
                                     {tf.tags.map(tag => (
                                       <span 
                                         key={tag}
-                                        className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-[var(--font-size-4xs)] tracking-wider px-2 py-0.5 rounded"
+                                        className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
                                       >
                                         {tag}
                                         <button
@@ -10848,7 +10849,7 @@ try {
                                               return item;
                                             }));
                                           }}
-                                          className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-[var(--font-size-4xs)]"
+                                          className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
                                         >
                                           ✕
                                         </button>
@@ -10864,9 +10865,10 @@ try {
                             <button
                               type="button"
                               onClick={() => {
-                                setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'SERVER', tags: [] }]);
+                                setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
                               }}
-                              className="w-full py-2 bg-amber-500/10 border border-dashed border-amber-500/30 hover:bg-amber-500/20 text-amber-400 rounded-lg text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                              className="w-full py-2 bg-amber-500/10 border border-dashed border-amber-500/30 hover:bg-amber-500/20 text-amber-400 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
+                              style={{ fontSize: '11px' }}
                             >
                               ➕ Add Time Frame ({dropTimeFrames.length}/3)
                             </button>
@@ -10875,18 +10877,18 @@ try {
                       )}
 
                     <div>
-                      <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Venue / Location</label>
+                      <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1.5 block font-semibold font-sans" style={{ fontSize: '10px' }}>Venue / Location</label>
                       <input
                         type="text"
                         value={dropLocation}
                         onChange={e => setDropLocation(e.target.value)}
                         placeholder="e.g. The Chicago Theatre"
-                        className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold"
+                        className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold font-sans"
                       />
 
                       {/* Tour Date Picker Dropdown */}
                       <div className="mt-2">
-                        <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Pick Tour Date</label>
+                        <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1.5 block font-semibold font-sans" style={{ fontSize: '10px' }}>Pick Tour Date</label>
                         <div className="relative">
                           <select
                             value={activeDropDay || ''}
