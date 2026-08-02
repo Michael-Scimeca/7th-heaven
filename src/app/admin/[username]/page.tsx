@@ -10294,8 +10294,8 @@ try {
                         />
                         
                         {Object.values(selectedCrewAssignments).some(a => a.active) && (
-                          <div className="flex items-center gap-2 animate-[fadeIn_0.15s_ease]">
-                            <span className="text-[var(--font-size-4xs)] text-white/40 font-bold uppercase tracking-wider mr-1">Time Mode:</span>
+                          <div className="flex items-center gap-2 animate-[fadeIn_0.15s_ease] text-[9px] font-sans">
+                            <span className="text-[9px] text-white/40 font-bold uppercase tracking-wider whitespace-nowrap shrink-0" style={{ fontSize: '9px' }}>Time Mode:</span>
                             <button
                               type="button"
                               onClick={() => {
@@ -10309,11 +10309,12 @@ try {
                                   return updated;
                                 });
                               }}
-                              className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-extrabold rounded transition-all cursor-pointer border ${
+                              className={`px-2 py-1 text-[9px] font-bold rounded transition-all cursor-pointer border whitespace-nowrap ${
                                 Object.entries(selectedCrewAssignments).filter(([_, a]) => a.active).every(([_, a]) => !a.customized)
                                   ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
                                   : 'bg-black/20 border-white/10 text-white/60 hover:text-white'
                               }`}
+                              style={{ fontSize: '9px' }}
                             >
                               🔗 Group Times
                             </button>
@@ -10334,11 +10335,12 @@ try {
                                   return updated;
                                 });
                               }}
-                              className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-extrabold rounded transition-all cursor-pointer border ${
+                              className={`px-2 py-1 text-[9px] font-bold rounded transition-all cursor-pointer border whitespace-nowrap ${
                                 Object.entries(selectedCrewAssignments).filter(([_, a]) => a.active).every(([_, a]) => a.customized)
                                   ? 'bg-sky-500/10 border-sky-500/30 text-sky-400'
                                   : 'bg-black/20 border-white/10 text-white/60 hover:text-white'
                               }`}
+                              style={{ fontSize: '9px' }}
                             >
                               ✏️ Set Separately
                             </button>
