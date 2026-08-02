@@ -9255,26 +9255,26 @@ try {
             position: sticky;
             top: 0;
             z-index: 30;
-            background-color: #f8fafc !important;
-            color: #000000 !important;
+            background-color: var(--card-bg) !important;
+            color: var(--text-color) !important;
           }
           .wiw-sticky-col {
             position: sticky;
             left: 0;
             z-index: 20;
-            background-color: #ffffff !important;
-            color: #000000 !important;
+            background-color: var(--card-bg) !important;
+            color: var(--text-color) !important;
           }
           .wiw-sticky-corner {
             position: sticky;
             top: 0;
             left: 0;
             z-index: 40;
-            background-color: #f1f5f9 !important;
-            color: #000000 !important;
+            background-color: var(--card-bg) !important;
+            color: var(--text-color) !important;
           }
           tr:hover .wiw-sticky-col {
-            background-color: #f8fafc !important;
+            background-color: var(--bg-color) !important;
           }
           .wiw-card {
             transition: all 0.15s ease-in-out;
