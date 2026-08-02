@@ -11675,21 +11675,21 @@ try {
             </div>
             <div>
               <div className="flex items-center flex-wrap gap-2.5 mb-1">
-                <h1 className="text-2xl md:text-3xl font-black tracking-tight text-black">{effectiveAdmin.name}</h1>
+                <h1 className="text-2xl md:text-3xl font-black tracking-tight text-[var(--text-color)]">{effectiveAdmin.name}</h1>
                 <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-wider ${
                   (member?.role || effectiveAdmin.role) === 'crew'
-                    ? 'bg-emerald-100 border border-emerald-300 text-emerald-900'
-                    : 'bg-amber-100 border border-amber-300 text-amber-900'
+                    ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 dark:text-emerald-300'
+                    : 'bg-amber-500/15 border border-amber-500/30 text-amber-400 dark:text-amber-300'
                 }`}>
                   {(member?.role || effectiveAdmin.role) === 'crew' ? '⚡ Crew' : '👑 Admin'}
                 </span>
-                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-100 border border-rose-300 rounded-full text-rose-800 text-[0.6rem] font-black uppercase tracking-wider animate-pulse">
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-600" />
+                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.6rem] font-black uppercase tracking-wider animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
                   God Mode
                 </span>
               </div>
-              <p className="text-xs font-mono text-black/60 font-semibold">{effectiveAdmin.email}</p>
-              <p className="text-[0.7rem] text-black/50 font-bold mt-0.5">
+              <p className="text-xs font-mono text-[var(--muted-text)] font-semibold">{effectiveAdmin.email}</p>
+              <p className="text-[0.7rem] text-[var(--muted-text)] font-bold mt-0.5">
                 {(member?.role || effectiveAdmin.role) === 'crew'
                   ? 'Manage setlists, live feeds, community updates, and crew tools.'
                   : 'Oversee activity, intercept live feeds, and manage community access in real-time.'}
@@ -11700,7 +11700,7 @@ try {
           {/* Right Action Cluster & Tab Switcher */}
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
             {/* Mode Switcher Pills */}
-            <div className="relative flex items-center bg-black/5 p-1 border border-black/10 rounded-full w-full sm:w-auto justify-center overflow-hidden">
+            <div className="relative flex items-center bg-[var(--card-bg)] p-1 border border-[var(--border-color)] rounded-full w-full sm:w-auto justify-center select-none shadow-sm">
               {/* Sliding background pill */}
               <div
                 className={`absolute top-1 bottom-1 rounded-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-md ${
@@ -11708,27 +11708,31 @@ try {
                     ? 'left-1 bg-purple-600'
                     : 'left-[calc(50%+2px)] bg-cyan-600'
                 }`}
-                style={{ width: 'calc(50% - 6px)' }}
+                style={{ width: 'calc(50% - 4px)' }}
               />
 
               <button
+                type="button"
                 onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
-                className="relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5"
-                style={{ color: adminTab === 'band' ? '#ffffff' : 'rgba(0,0,0,0.5)' }}
+                className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${
+                  adminTab === 'band' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
+                }`}
               >
                 <span>🎸</span>
-                Band & Site
+                <span>Band & Site</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
-                className="relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5"
-                style={{ color: adminTab === 'cruise' ? '#ffffff' : 'rgba(0,0,0,0.5)' }}
+                className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${
+                  adminTab === 'cruise' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
+                }`}
               >
                 <span>🚢</span>
-                Cruise
+                <span>Cruise</span>
                 {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
-                  <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.5rem] font-black px-1 shadow-xs border-2 border-white z-20">
+                  <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.55rem] font-black px-1 shadow-xs border border-white shrink-0 ml-0.5">
                     {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
                   </span>
                 )}
