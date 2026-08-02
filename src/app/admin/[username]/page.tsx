@@ -10358,7 +10358,7 @@ try {
                             return a.name.localeCompare(b.name);
                           })
                           .map((member) => {
-                            const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'SERVER', startHour: dropStartHour, endHour: dropEndHour };
+                            const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
                             
                             const overlaps = getOverlappingShifts(
                               member.id,
@@ -10390,7 +10390,7 @@ try {
                                           [member.id]: {
                                             active: checked,
                                             customized: false, // Collapse customization by default on check/uncheck
-                                            role: assignment.role || dropRole || member.role || 'SERVER',
+                                            role: assignment.role || dropRole || member.role || 'STAGE HAND',
                                             startHour: assignment.startHour || dropStartHour || 12,
                                             endHour: assignment.endHour || dropEndHour || 17,
                                             timeFrames: JSON.parse(JSON.stringify(dropTimeFrames))
@@ -10400,7 +10400,7 @@ try {
                                       className="rounded border-white/10 bg-black/40 text-amber-500 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer"
                                     />
                                     <div className="flex items-center gap-2">
-                                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[var(--font-size-4xs)] font-bold text-white uppercase overflow-hidden font-sans">
+                                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-4xs font-bold text-white uppercase overflow-hidden font-sans">
                                         {member.avatar ? (
                                           <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
                                         ) : (
@@ -10420,7 +10420,7 @@ try {
                                               {memberShifts.map((s, idx) => (
                                                 <span 
                                                   key={idx} 
-                                                  className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-[var(--font-size-4xs)] tracking-wider px-1.5 py-0.5 rounded select-none"
+                                                  className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
                                                 >
                                                   ⚡ {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
                                                 </span>
@@ -10446,11 +10446,11 @@ try {
                                           [member.id]: {
                                             ...prev[member.id],
                                             customized: !assignment.customized,
-                                            timeFrames: prev[member.id].timeFrames || [{ startHour: assignment.startHour || dropStartHour || 12, endHour: assignment.endHour || dropEndHour || 17, role: assignment.role || dropRole || 'SERVER' }]
+                                            timeFrames: prev[member.id].timeFrames || [{ startHour: assignment.startHour || dropStartHour || 12, endHour: assignment.endHour || dropEndHour || 17, role: assignment.role || dropRole || 'STAGE HAND' }]
                                           }
                                         }));
                                       }}
-                                      className="text-[var(--font-size-3xs)] font-bold text-[var(--color-accent)] hover:text-white transition-colors bg-transparent border-none p-1 cursor-pointer font-sans"
+                                      className="text-3xs font-bold text-[var(--color-accent)] hover:text-white transition-colors bg-transparent border-none p-1 cursor-pointer font-sans"
                                     >
                                       {assignment.customized ? "Collapse" : "✏️ Customize"}
                                     </button>
@@ -10460,7 +10460,7 @@ try {
                                 {/* Sub-form for customized timing/role details */}
                                 {assignment.active && assignment.customized && (
                                   <div className="mt-3 pt-3 border-t border-white/5 space-y-3 animate-[slideIn_0.15s_ease-out]">
-                                    {(assignment.timeFrames || [{ startHour: assignment.startHour || dropStartHour || 12, endHour: assignment.endHour || dropEndHour || 17, role: assignment.role || dropRole || 'SERVER', tags: [] }]).map((tf, tfIdx) => {
+                                    {(assignment.timeFrames || [{ startHour: assignment.startHour || dropStartHour || 12, endHour: assignment.endHour || dropEndHour || 17, role: assignment.role || dropRole || 'STAGE HAND', tags: [] }]).map((tf, tfIdx) => {
                                       return (
                                         <div key={tfIdx} className="p-2.5 bg-white/[0.02] border border-white/5 rounded-lg space-y-2 relative">
                                           <div className="flex items-center justify-between">
