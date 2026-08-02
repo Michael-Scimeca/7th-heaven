@@ -733,7 +733,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   };
 
   // Crew Schedule DND Calendar State
-  const [schedules, setSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; startHour: number; endHour: number; isTimeOff?: boolean; isDraft?: boolean; labelOverride?: string; openSlots?: number; isCoverageRequested?: boolean; tags?: string[] }[]>(() => {
+  const [schedules, setSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; startHour: number; endHour: number; isTimeOff?: boolean; isDraft?: boolean; labelOverride?: string; openSlots?: number; isCoverageRequested?: boolean; isTestData?: boolean; tags?: string[] }[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
       const resetDone = localStorage.getItem('7h_fresh_start_reset_v2');
