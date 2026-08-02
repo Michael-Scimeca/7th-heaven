@@ -11292,7 +11292,6 @@ try {
                             {openShifts.map(shift => (
                               <div key={shift.id} className="bg-emerald-500/[0.02] border border-dashed border-emerald-500/25 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-emerald-500/40 transition-colors">
                                 <div>
-                                  <span className="text-xs font-bold text-emerald-400 block">{shift.role}</span>
                                   <span className="text-[var(--font-size-4xs)] text-white/40 block mt-0.5">{shift.time}</span>
                                 </div>
                                 <button
@@ -11322,9 +11321,8 @@ try {
     );
   }
 
-
-return (
-    <div id="admin-dashboard-root" className="min-h-screen bg-[#f0f2f5] text-black pt-[122px] pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
+  return (
+    <div id="admin-dashboard-root" className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-[122px] pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
@@ -11339,8 +11337,12 @@ return (
           z-index: 50 !important;
         }
 
-        /* Force all text on Admin Dashboard page to high contrast black */
-        #admin-dashboard-root,
+        /* Dynamic Theme Variables for Admin Dashboard */
+        #admin-dashboard-root {
+          background-color: var(--bg-color) !important;
+          color: var(--text-color) !important;
+        }
+
         #admin-dashboard-root h1,
         #admin-dashboard-root h2,
         #admin-dashboard-root h3,
@@ -11348,22 +11350,14 @@ return (
         #admin-dashboard-root h5,
         #admin-dashboard-root h6,
         #admin-dashboard-root p,
-        #admin-dashboard-root span,
+        #admin-dashboard-root span:not(.badge-text),
         #admin-dashboard-root label,
         #admin-dashboard-root td,
         #admin-dashboard-root th,
         #admin-dashboard-root input,
         #admin-dashboard-root select,
-        #admin-dashboard-root textarea,
-        #admin-dashboard-root a:not(.btn-solid-white) {
-          color: #000000 !important;
-        }
-
-        #admin-dashboard-root .text-white,
-        #admin-dashboard-root [class*="text-white"],
-        #admin-dashboard-root [class*="text-slate"],
-        #admin-dashboard-root [class*="text-gray"] {
-          color: #000000 !important;
+        #admin-dashboard-root textarea {
+          color: var(--text-color);
         }
 
         /* Protect CruiseChat styling & Live SMS Preview from global admin text overrides */
@@ -11375,43 +11369,6 @@ return (
           background-color: #0d0e17 !important;
           color: #ffffff !important;
           border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        }
-        #admin-dashboard-root #cruise-chat-root .text-gray-700,
-        #admin-dashboard-root #cruise-chat-root [class*="text-gray-700"] {
-          color: #374151 !important;
-        }
-        #admin-dashboard-root #cruise-chat-root .text-cyan-700 {
-          color: #0e7490 !important;
-        }
-        #admin-dashboard-root #cruise-chat-root .text-emerald-700 {
-          color: #047857 !important;
-        }
-
-        /* Keep accent text colors crisp and readable */
-        #admin-dashboard-root .text-red-500,
-        #admin-dashboard-root .text-red-400,
-        #admin-dashboard-root .text-red-600 {
-          color: #dc2626 !important;
-        }
-        #admin-dashboard-root .text-amber-500,
-        #admin-dashboard-root .text-amber-400,
-        #admin-dashboard-root .text-amber-600 {
-          color: #d97706 !important;
-        }
-        #admin-dashboard-root .text-emerald-500,
-        #admin-dashboard-root .text-emerald-400,
-        #admin-dashboard-root .text-emerald-600 {
-          color: #059669 !important;
-        }
-        #admin-dashboard-root .text-cyan-500,
-        #admin-dashboard-root .text-cyan-400,
-        #admin-dashboard-root .text-cyan-600 {
-          color: #0891b2 !important;
-        }
-        #admin-dashboard-root .text-purple-500,
-        #admin-dashboard-root .text-purple-400,
-        #admin-dashboard-root .text-purple-600 {
-          color: #7c3aed !important;
         }
 
         /* Solid button overrides so button labels remain white where appropriate */
@@ -11425,26 +11382,40 @@ return (
           color: #ffffff !important;
         }
 
-        /* Sleek Dark Gray Section Header Bars */
+        /* Sleek Section Header Bars */
         #admin-dashboard-root div[onClick*="toggleSection"] {
-          background-color: #22222e !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+          background-color: var(--card-bg) !important;
+          border-bottom: 1px solid var(--border-color) !important;
           border-top-left-radius: 1rem !important;
           border-top-right-radius: 1rem !important;
         }
 
         #admin-dashboard-root div[onClick*="toggleSection"]:hover {
-          background-color: #2c2c3b !important;
+          filter: brightness(0.95);
         }
 
         #admin-dashboard-root div[onClick*="toggleSection"] h3,
         #admin-dashboard-root div[onClick*="toggleSection"] span,
         #admin-dashboard-root div[onClick*="toggleSection"] svg,
         #admin-dashboard-root div[onClick*="toggleSection"] p {
-          color: #ffffff !important;
+          color: var(--text-color) !important;
         }
 
-        /* Force all section card bodies, stat boxes, and inner components to white background with black text */
+        /* Force section card bodies and inner components to use card-bg theme variable */
+        #admin-dashboard-root section,
+        #admin-dashboard-root [id^="admin-sec-"] {
+          background-color: var(--card-bg) !important;
+          border-color: var(--border-color) !important;
+          color: var(--text-color) !important;
+        }
+
+        #admin-dashboard-root #admin-sec-cruise-command,
+        #admin-dashboard-root #admin-sec-cruise-roster,
+        #admin-dashboard-root #admin-sec-cruise-blast {
+          background-color: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+        } text */
         #admin-dashboard-root section,
         #admin-dashboard-root [id^="admin-sec-"],
         #admin-dashboard-root .bg-\\[var\\(--color-bg-surface\\)\\],
