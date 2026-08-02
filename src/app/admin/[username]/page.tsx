@@ -8567,10 +8567,6 @@ try {
               {shift.openSlots}
             </span>
           )}
-
-          {shift.notes && (
-            <div className="absolute top-0 right-0 w-0 h-0 border-t-[8px] border-r-[8px] border-t-transparent border-r-green-400" title={`Note: ${shift.notes}`} />
-          )}
         </div>
       );
     };
