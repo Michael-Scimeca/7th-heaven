@@ -736,21 +736,15 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [schedules, setSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; startHour: number; endHour: number; isTimeOff?: boolean; isDraft?: boolean; labelOverride?: string; openSlots?: number; isCoverageRequested?: boolean; tags?: string[] }[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
-      const getMondayStr = (offsetDays: number = 0) => {
-        const d = new Date();
-        const day = d.getDay();
-        const diff = d.getDate() - day + (day === 0 ? -6 : 1) + offsetDays;
-        const target = new Date(d.getFullYear(), d.getMonth(), diff);
-        return target.toISOString().split('T')[0];
-      };
-
       const saved = localStorage.getItem('7h_crew_schedules');
       if (saved) {
         const parsed = JSON.parse(saved);
-        const hasStaleMock = parsed && parsed.some((item: any) => item.date && (item.date.startsWith('2023-') || item.date.startsWith('2025-')));
-        if (hasStaleMock) {
-          localStorage.removeItem('7h_crew_schedules');
-        } else if (parsed && parsed.length > 0) {
+        if (parsed && Array.isArray(parsed) && parsed.length > 0) {
+          const hasMockData = parsed.some((item: any) => (item.id && String(item.id).startsWith('mock_')) || (item.date && (item.date.startsWith('2023-') || item.date.startsWith('2025-'))));
+          if (hasMockData) {
+            localStorage.setItem('7h_crew_schedules', '[]');
+            return [];
+          }
           const roleMap: Record<string, string> = {
             'SERVER': 'STAGE HAND',
             'CHEF': 'EQUIPMENT SETUP',
@@ -778,22 +772,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           });
         }
       }
-      
-      // Default Mock Example Data
-      const defaultMocks = [
-        { id: 'mock_1', crewId: 'arjun', crewName: 'Arjun Patel', date: getMondayStr(0), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SOUND ENGINEER', location: 'Mt. Prospect Fest', notes: 'Sound engineer & FOH mix' },
-        { id: 'mock_2', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(1), startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'VIP HOST', location: 'Private Event', notes: 'VIP hospitality lead' },
-        { id: 'mock_3', crewId: 'al', crewName: 'Al Hollie', date: getMondayStr(2), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'STAGE HAND', location: 'Taste of Orland Park', notes: 'Stage setup & rigging' },
-        { id: 'mock_4', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: getMondayStr(3), startHour: 16.0, endHour: 22.0, time: '4:00 PM - 10:00 PM', role: 'TOUR MANAGER', location: 'Lake County Fair', notes: 'Tour logistics lead' },
-        { id: 'mock_5', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(3), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'STAGE HAND', location: 'Lake County Fair', notes: 'Need 1 backup stage hand', openSlots: 1 },
-        { id: 'mock_6', crewId: 'chris', crewName: 'Chris Loxely', date: getMondayStr(4), startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'LIGHTS', location: 'Addison National Night Out', notes: 'Lighting rig controls' },
-        { id: 'mock_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: getMondayStr(4), startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'EQUIPMENT SETUP', location: 'Addison National Night Out', notes: 'Amplifier & drum setup' },
-        { id: 'mock_8', crewId: 'abbie', crewName: 'Abbie Janssen', date: getMondayStr(4), startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'VIP HOST', location: 'Addison National Night Out', notes: '' },
-        { id: 'mock_9', crewId: 'daniel', crewName: 'Daniel Kim', date: getMondayStr(5), startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'TOUR MANAGER', location: 'St. Charles Fest', notes: 'Stage & tour manager' },
-        { id: 'mock_10', crewId: 'openshifts', crewName: 'OpenShifts', date: getMondayStr(6), startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'AUDIO MIX', location: 'St. Charles Fest', notes: 'Matinee audio mix setup', openSlots: 2 }
-      ];
-      localStorage.setItem('7h_crew_schedules', JSON.stringify(defaultMocks));
-      return defaultMocks;
+      return [];
     } catch {
       return [];
     }
@@ -9650,6 +9629,25 @@ try {
                     title="Reset all search filters"
                   >
                     Clear All ✕
+                  </button>
+                )}
+
+                {/* 🗑️ Clear All Shifts / Start Fresh Button */}
+                {schedules.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (confirm("Are you sure you want to clear all shift timeframes and start fresh?")) {
+                        setSchedules([]);
+                        if (typeof window !== 'undefined') {
+                          localStorage.setItem('7h_crew_schedules', '[]');
+                        }
+                      }
+                    }}
+                    className="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-400 hover:text-red-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
+                    title="Clear all scheduled shift timeframes and start fresh"
+                  >
+                    🗑️ Clear All Shifts
                   </button>
                 )}
 
