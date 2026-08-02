@@ -8411,12 +8411,6 @@ try {
                 <span className="text-[9.5px] font-black tracking-tight text-white whitespace-nowrap">
                   {timeLabel}
                 </span>
-                <span
-                  style={{ backgroundColor: 'rgba(0,0,0,0.22)' }}
-                  className="px-1.5 py-0.5 rounded text-[7.5px] font-black uppercase tracking-wider leading-none text-white/90 shrink-0 select-none"
-                >
-                  {roleStyle.label}
-                </span>
               </div>
               {shift.tags && shift.tags.length > 0 && (
                 <div className="flex flex-wrap gap-0.5">
@@ -8446,12 +8440,6 @@ try {
               ) : null}
 
               <div className="mt-1.5 flex items-center justify-start gap-1 flex-wrap">
-                <span
-                  style={{ backgroundColor: roleStyle.tagBg }}
-                  className="px-1.5 py-0.5 rounded text-[7.5px] font-black uppercase tracking-wider leading-none text-white/90"
-                >
-                  {roleStyle.label}
-                </span>
                 {shift.tags && shift.tags.length > 0 && shift.tags.map((tag: string, idx: number) => (
                   <span 
                     key={idx}
