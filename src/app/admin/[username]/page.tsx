@@ -6126,7 +6126,7 @@ try {
 
             {/* Preset Roles Manager Modal */}
             {isManageRolesModalOpen && (
-              <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[9999] animate-[fadeIn_0.2s_ease-out] p-4">
+              <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[9999] animate-[fadeIn_0.2s_ease-out] p-4">
                 <div 
                   className="bg-[#0c0c0e] border border-white/10 rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl relative animate-[scaleIn_0.2s_ease-out]"
                   onClick={(e) => e.stopPropagation()}
@@ -10007,7 +10007,7 @@ try {
               const editingShift = schedules.find(s => s.id === editingShiftId);
               const showFormDetails = !!editingShiftId || Object.values(selectedCrewAssignments).some(a => a.active);
               return (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
+                <div className="fixed inset-0 bg-black/50 z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
                 {/* Backdrop Click Overlay */}
                 <div 
                   className="absolute inset-0 cursor-default" 
@@ -10979,7 +10979,7 @@ try {
 
             {/* 👥 Create Group Modal Pop-up */}
             {isCreateGroupModalOpen && (
-              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]">
+              <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]">
                 <div 
                   className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl w-full max-w-xl max-h-[85vh] shadow-2xl flex flex-col overflow-hidden animate-[scaleIn_0.25s_cubic-bezier(0.16,1,0.3,1)]"
                   onClick={(e) => e.stopPropagation()}
@@ -11218,7 +11218,7 @@ try {
               const openShifts = dayShifts.filter(s => s.crewId === 'openshifts');
               
               return (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
+                <div className="fixed inset-0 bg-black/50 z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
                   {/* Backdrop Click Overlay */}
                   <div 
                     className="absolute inset-0 cursor-default" 
