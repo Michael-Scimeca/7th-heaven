@@ -159,7 +159,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable} preloading`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
+      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}
@@ -167,12 +167,6 @@ export default async function RootLayout({
           id="band-jsonld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(bandLd) }}
-        />
-        {/* Preloader check script */}
-        <Script
-          id="preloader-check"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("7h_preloader_shown")==="true"){document.body.classList.remove("preloading")}}catch(e){}` }}
         />
 
         <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
@@ -183,7 +177,6 @@ export default async function RootLayout({
           }
         ` }} />
         <GrainOverlay />
-        <Preloader />
         <CursorFollower />
         <TransitionProvider>
           <Providers>

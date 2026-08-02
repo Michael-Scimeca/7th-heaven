@@ -450,19 +450,9 @@ select::placeholder {
 .overflow-x-auto { overflow-x: scroll !important; }
 .overflow-auto { overflow: scroll !important; }
 
-/* ── Preloader: Hide page content until loaded ──
-   Body starts with .preloading — page content is invisible.
-   When the preloader finishes, it removes the class and the page
-   smoothly fades in via CSS transition. This prevents any flash of
-   raw content (footer, sections) before the preloader appears. */
-body.preloading #page-content-wrapper {
-  opacity: 0 !important;
-  pointer-events: none;
-}
-
+/* Page wrapper instant visibility — no preloading or transition delays */
 #page-content-wrapper {
-  transition: opacity 0.5s ease-in-out;
-  transition-delay: 0.05s;
+  opacity: 1 !important;
 }
 
 /* Guarantee the content area between header and footer is ALWAYS at least
