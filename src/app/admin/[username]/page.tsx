@@ -5972,15 +5972,15 @@ try {
             {(sendSmsAlert || sendEmailAlert) && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-4 border-t border-white/5">
                 {/* Left Column: SMS Text Message Preview (50% Width) */}
-                <div className="bg-white border border-slate-300 rounded-2xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] rounded-2xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-                      <span className="text-xs font-black uppercase tracking-widest text-slate-800">📱 SMS TEXT MESSAGE PREVIEW</span>
-                      <span className="text-xs text-slate-500 font-mono">Plain SMS Text</span>
+                    <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+                      <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">📱 SMS TEXT MESSAGE PREVIEW</span>
+                      <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
                     </div>
 
-                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-slate-900 leading-relaxed font-sans whitespace-pre-wrap min-h-[160px]">
-                      {crewAlertMsg || '(No message text entered yet...)'}
+                    <div className="bg-[var(--bg-color)] border border-[var(--border-color)] rounded-xl p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[160px]">
+                      {crewAlertMsg ? crewAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
                     </div>
                   </div>
 
@@ -6539,15 +6539,15 @@ try {
             {/* FULL WIDTH 50/50 LIVE DISPATCH PREVIEW SECTION */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-2 border-t border-white/5">
               {/* Left Column: SMS Text Message Preview (50% Width) */}
-              <div className="bg-white border border-slate-300 rounded-2xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
+              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] rounded-2xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-                    <span className="text-xs font-black uppercase tracking-widest text-slate-800">📱 SMS TEXT MESSAGE PREVIEW</span>
-                    <span className="text-xs text-slate-500 font-mono">Plain SMS Text</span>
+                  <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+                    <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">📱 SMS TEXT MESSAGE PREVIEW</span>
+                    <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
                   </div>
 
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-slate-900 leading-relaxed font-sans whitespace-pre-wrap min-h-[120px]">
-                    {bandAlertMsg || '(No message text entered yet...)'}
+                  <div className="bg-[var(--bg-color)] border border-[var(--border-color)] rounded-xl p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[120px]">
+                    {bandAlertMsg ? bandAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
                   </div>
                 </div>
 
