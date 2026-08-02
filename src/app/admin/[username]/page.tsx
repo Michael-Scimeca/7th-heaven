@@ -736,40 +736,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [schedules, setSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; startHour: number; endHour: number; isTimeOff?: boolean; isDraft?: boolean; labelOverride?: string; openSlots?: number; isCoverageRequested?: boolean; tags?: string[] }[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
+      const resetDone = localStorage.getItem('7h_fresh_start_reset_v2');
+      if (!resetDone) {
+        localStorage.setItem('7h_crew_schedules', '[]');
+        localStorage.setItem('7h_fresh_start_reset_v2', 'true');
+        return [];
+      }
       const saved = localStorage.getItem('7h_crew_schedules');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed && Array.isArray(parsed) && parsed.length > 0) {
-          const hasMockData = parsed.some((item: any) => (item.id && String(item.id).startsWith('mock_')) || (item.date && (item.date.startsWith('2023-') || item.date.startsWith('2025-'))));
-          if (hasMockData) {
-            localStorage.setItem('7h_crew_schedules', '[]');
-            return [];
-          }
-          const roleMap: Record<string, string> = {
-            'SERVER': 'STAGE HAND',
-            'CHEF': 'EQUIPMENT SETUP',
-            'LINE COOK': 'TEAR DOWN',
-            'MANAGER': 'TOUR MANAGER',
-            'BUSSER': 'STAGE HAND',
-            'UNLOADING': 'TEAR DOWN',
-            'BAND EQUIPMENT': 'EQUIPMENT SETUP',
-            'VIP HOST': 'STAGE MANAGER',
-            'POSITION': 'EVENT SUPPORT'
-          };
-          return parsed.map((item: any) => {
-            const currentRole = item.role ? item.role.toUpperCase() : 'STAGE HAND';
-            const cleanRole = roleMap[currentRole] || currentRole;
-            if (item.startHour === undefined || item.endHour === undefined) {
-              const p = parseTimeString(item.time);
-              return {
-                ...item,
-                role: cleanRole,
-                startHour: p.startHour,
-                endHour: p.endHour
-              };
-            }
-            return { ...item, role: cleanRole };
-          });
+        if (parsed && Array.isArray(parsed)) {
+          return parsed;
         }
       }
       return [];
