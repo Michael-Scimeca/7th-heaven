@@ -4825,10 +4825,14 @@ try {
       const profileId = targetKey.replace(/^(main|group|preview):/, '');
       try {
         const val = editingDutyValue.trim();
+        // Fallback policy: if last custom role is removed, fallback to Unassigned or static default
+        const matchedStatic = STATIC_CREW.find(sc => sc.id === profileId);
+        const finalRole = val || (matchedStatic ? (matchedStatic.role || 'CREW') : 'Unassigned');
+
         // Save to localStorage so static and dynamic roles persist reliably
         if (typeof window !== 'undefined') {
           const savedDuties = JSON.parse(localStorage.getItem('7h_crew_duties') || '{}');
-          savedDuties[profileId] = val || null;
+          savedDuties[profileId] = finalRole;
           localStorage.setItem('7h_crew_duties', JSON.stringify(savedDuties));
         }
 
@@ -4836,23 +4840,23 @@ try {
         await fetch('/api/admin/crew-alert', {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ profileId, duty: val }),
+          body: JSON.stringify({ profileId, duty: finalRole }),
         });
 
         // Update local React state for immediate feedback
         setCrewAlertStats((prev: any) => {
-          if (!prev) return { recipients: [{ id: profileId, duty: val || null }] };
+          if (!prev) return { recipients: [{ id: profileId, duty: finalRole }] };
           const existing = prev.recipients || [];
           let found = false;
           const updatedRecipients = existing.map((item: any) => {
             if (item.id === profileId) {
               found = true;
-              return { ...item, duty: val || null };
+              return { ...item, duty: finalRole };
             }
             return item;
           });
           if (!found) {
-            updatedRecipients.push({ id: profileId, duty: val || null });
+            updatedRecipients.push({ id: profileId, duty: finalRole });
           }
           return {
             ...prev,
@@ -4864,6 +4868,123 @@ try {
         console.error("Failed to save role:", err);
       } finally {
         setSavingDuty(false);
+      }
+    };
+
+    const handleGenerateTestData = () => {
+      const dates: string[] = [];
+      const today = new Date();
+      for (let i = 1; i <= 21; i++) {
+        const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+        dates.push(d.toISOString().split('T')[0]);
+      }
+
+      const testCrewList = crewMembers.filter(m => m.id !== 'openshifts');
+      if (testCrewList.length === 0) return;
+
+      const rolesList = ['SOUND ENGINEER', 'STAGE HAND', 'VIP HOST', 'TOUR MANAGER', 'LIGHTS', 'EQUIPMENT SETUP', 'AUDIO MIX', 'STAGE MANAGER'];
+      const locationsList = ['Mt. Prospect Fest', 'Taste of Orland Park', 'Lake County Fair', 'Addison National Night Out', 'St. Charles Fest', 'Summerfest Mainstage', 'Riverside Park Pavilion'];
+
+      const newTestShifts: any[] = [];
+      let testIdCounter = 1;
+
+      dates.forEach((dateStr, idx) => {
+        if (idx % 2 === 0) {
+          const crew1 = testCrewList[idx % testCrewList.length];
+          const role1 = rolesList[idx % rolesList.length];
+          newTestShifts.push({
+            id: `test_shift_${Date.now()}_${testIdCounter++}`,
+            crewId: crew1.id,
+            crewName: crew1.name,
+            date: dateStr,
+            startHour: 17.0,
+            endHour: 22.0,
+            time: '5:00 PM - 10:00 PM',
+            role: role1,
+            location: locationsList[idx % locationsList.length],
+            notes: '[TEST] Evening show setup & execution',
+            isTestData: true,
+            tags: ['[TEST]']
+          });
+        }
+
+        const dayOfWeek = new Date(dateStr + 'T12:00:00').getDay();
+        if (dayOfWeek === 5 || dayOfWeek === 6) {
+          const crew2 = testCrewList[(idx + 1) % testCrewList.length];
+          newTestShifts.push({
+            id: `test_shift_${Date.now()}_${testIdCounter++}`,
+            crewId: crew2.id,
+            crewName: crew2.name,
+            date: dateStr,
+            startHour: 18.0,
+            endHour: 23.5,
+            time: '6:00 PM - 11:30 PM',
+            role: 'LIGHTS',
+            location: locationsList[(idx + 1) % locationsList.length],
+            notes: '[TEST] Overlapping lighting & visual controls',
+            isTestData: true,
+            tags: ['[TEST]']
+          });
+
+          newTestShifts.push({
+            id: `test_shift_${Date.now()}_${testIdCounter++}`,
+            crewId: 'openshifts',
+            crewName: 'OpenShifts',
+            date: dateStr,
+            startHour: 12.0,
+            endHour: 17.0,
+            time: '12:00 PM - 5:00 PM',
+            role: 'STAGE HAND',
+            location: locationsList[(idx + 2) % locationsList.length],
+            notes: '[TEST] Needs coverage support for matinee load-in',
+            openSlots: 2,
+            isCoverageRequested: true,
+            isTestData: true,
+            tags: ['[TEST]']
+          });
+        }
+
+        if (idx === 3 || idx === 10) {
+          const busyCrew = testCrewList[0];
+          newTestShifts.push({
+            id: `test_shift_${Date.now()}_${testIdCounter++}`,
+            crewId: busyCrew.id,
+            crewName: busyCrew.name,
+            date: dateStr,
+            startHour: 10.0,
+            endHour: 14.0,
+            time: '10:00 AM - 2:00 PM',
+            role: 'EQUIPMENT SETUP',
+            location: 'VIP Morning Pavilion',
+            notes: '[TEST] (Back-to-back Edge Case) Morning setup before evening show',
+            isTestData: true,
+            tags: ['[TEST]']
+          });
+        }
+      });
+
+      const updatedSchedules = [...schedules, ...newTestShifts];
+      setSchedules(updatedSchedules);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('7h_crew_schedules', JSON.stringify(updatedSchedules));
+      }
+
+      const totalCreated = newTestShifts.length;
+      const uniqueCrewAssigned = new Set(newTestShifts.map(s => s.crewName)).size;
+      const startDate = dates[0];
+      const endDate = dates[dates.length - 1];
+
+      alert(`⚡ Test Schedule Data Generated Successfully!\n\n• Total Shifts Created: ${totalCreated}\n• Crew Members Assigned: ${uniqueCrewAssigned}\n• Date Range: ${startDate} to ${endDate}\n• Edge Cases: Overlapping weekend shifts, coverage requests, and back-to-back same-day shifts.\n\nAll test shifts are marked with [TEST] and can be purged anytime using "Purge Test Data 🧹".`);
+    };
+
+    const handlePurgeTestData = () => {
+      if (confirm("Are you sure you want to purge all seeded test schedule data ([TEST] shifts)? Real schedule entries will be preserved.")) {
+        const remaining = schedules.filter(s => !s.isTestData && !s.id.startsWith('test_shift_') && !(s.notes && s.notes.includes('[TEST]')));
+        setSchedules(remaining);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('7h_crew_schedules', JSON.stringify(remaining));
+        }
+        alert("🧹 Test schedule data purged successfully!");
       }
     };
 
@@ -9581,6 +9702,28 @@ try {
                     title="Clear all scheduled shift timeframes and start fresh"
                   >
                     🗑️ Clear All Shifts
+                  </button>
+                )}
+
+                {/* ⚡ Generate Test Data Action */}
+                <button
+                  type="button"
+                  onClick={handleGenerateTestData}
+                  className="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 hover:text-amber-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
+                  title="Generate realistic test schedule data for 2-4 weeks with edge cases"
+                >
+                  ⚡ Generate Test Data
+                </button>
+
+                {/* 🧹 Purge Test Data Action */}
+                {schedules.some(s => s.isTestData || s.id.startsWith('test_shift_') || (s.notes && s.notes.includes('[TEST]'))) && (
+                  <button
+                    type="button"
+                    onClick={handlePurgeTestData}
+                    className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none animate-pulse"
+                    title="Purge all test schedule data ([TEST] shifts)"
+                  >
+                    🧹 Purge Test Data
                   </button>
                 )}
 
