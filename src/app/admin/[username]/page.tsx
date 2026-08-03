@@ -8422,11 +8422,11 @@ try {
                 </span>
               </div>
               {shift.tags && shift.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-0.5">
+                <div className="flex flex-wrap gap-0.5 mt-0.5">
                   {shift.tags.map((tag: string, idx: number) => (
                     <span 
                       key={idx}
-                      className="px-1.5 py-0.5 rounded text-[10.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/95 border border-white/15 select-none"
+                      className="px-1.5 py-0.2 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/95 border border-white/15 select-none"
                     >
                       {tag}
                     </span>
@@ -8443,16 +8443,16 @@ try {
               </span>
 
               {shift.location || shift.labelOverride ? (
-                <span className="text-[10.5px] font-bold opacity-90 truncate mt-0.5 block">
+                <span className="text-[8.5px] font-bold opacity-90 truncate mt-0.5 block">
                   {shift.labelOverride ? shift.labelOverride.replace(/^\d+[a|p]\s*-\s*\d+[a|p]\s*at\s*/i, '') : `📍 ${shift.location.split(',')[0]}`}
                 </span>
               ) : null}
 
-              <div className="mt-1 flex items-center justify-start gap-1 flex-wrap">
+              <div className="mt-1 flex items-center justify-start gap-0.5 flex-wrap">
                 {shift.tags && shift.tags.length > 0 && shift.tags.map((tag: string, idx: number) => (
                   <span 
                     key={idx}
-                    className="px-1.5 py-0.5 rounded text-[10.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/95 border border-white/15 select-none"
+                    className="px-1.5 py-0.2 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/95 border border-white/15 select-none"
                   >
                     {tag}
                   </span>
