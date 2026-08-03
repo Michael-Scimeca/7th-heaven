@@ -2320,20 +2320,36 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           setTourDates(freshTourDates);
           
           let currentSchedules = [];
-          const resetDone = localStorage.getItem('7h_fresh_start_reset_v4');
+          const resetDone = localStorage.getItem('7h_fresh_start_reset_v5');
+          const defaultShifts = [
+            // SUN 2 (Lake County Fair)
+            { id: 'sun2_1', crewId: 'abbie', crewName: 'Abbie Janssen', date: '2026-08-02', startHour: 16.0, endHour: 21.0, time: '4:00 PM - 9:00 PM', role: 'VIP HOST & HOSPITALITY', location: 'Lake County Fair', notes: 'VIP area lead & hospitality', tags: ['VIP', 'HOST'] },
+            { id: 'sun2_2', crewId: 'al', crewName: 'Al Hollie', date: '2026-08-02', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'STAGE HAND & RIGGING', location: 'Lake County Fair', notes: 'Matinee load-in & rigging', tags: ['RIGGING', 'MATINEE'] },
+            { id: 'sun2_3', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: '2026-08-02', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'TOUR MANAGER', location: 'Lake County Fair', notes: 'Tour logistics & artist care', tags: ['MANAGEMENT'] },
+            { id: 'sun2_4', crewId: 'arjun', crewName: 'Arjun Patel', date: '2026-08-02', startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SOUND ENGINEER', location: 'Lake County Fair', notes: 'FOH main audio mix', tags: ['AUDIO', 'FOH'] },
+            { id: 'sun2_5', crewId: 'chris', crewName: 'Chris Loxely', date: '2026-08-02', startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'LIGHTING DIRECTOR', location: 'Lake County Fair', notes: 'DMX visual lighting rig', tags: ['LIGHTS', 'PRODUCTION'] },
+            { id: 'sun2_6', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2026-08-02', startHour: 10.0, endHour: 14.0, time: '10:00 AM - 2:00 PM', role: 'EQUIPMENT SETUP', location: 'Lake County Fair', notes: 'Morning stage & amp setup', tags: ['SETUP', 'MORNING'] },
+            { id: 'sun2_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2026-08-02', startHour: 23.0, endHour: 26.0, time: '11:00 PM - 2:00 AM', role: 'TEAR DOWN & LOAD OUT', location: 'Lake County Fair', notes: 'Late night truck load out', tags: ['LOAD OUT', 'TEAR DOWN'] },
+            { id: 'sun2_8', crewId: 'daniel', crewName: 'Daniel Kim', date: '2026-08-02', startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'STAGE MANAGER', location: 'Lake County Fair', notes: 'Headliner stage management', tags: ['STAGE MGR'] },
+            { id: 'sun2_9', crewId: 'openshifts', crewName: 'OpenShifts', date: '2026-08-02', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'AUDIO MIX', location: 'Lake County Fair', notes: 'Matinee audio mix setup', openSlots: 2, tags: ['OPEN SHIFT'] },
+
+            // TUE 4 (Addison National Night Out) - 10 Crew Members
+            { id: 'tue4_1', crewId: 'abbie', crewName: 'Abbie Janssen', date: '2026-08-04', startHour: 16.0, endHour: 21.0, time: '4:00 PM - 9:00 PM', role: 'VIP HOST & HOSPITALITY', location: 'Addison National Night Out', notes: 'VIP area lead & hospitality', tags: ['VIP', 'HOST'] },
+            { id: 'tue4_2', crewId: 'al', crewName: 'Al Hollie', date: '2026-08-04', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'STAGE HAND & RIGGING', location: 'Addison National Night Out', notes: 'Matinee load-in & rigging', tags: ['RIGGING', 'STAGE'] },
+            { id: 'tue4_3', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: '2026-08-04', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'TOUR MANAGER', location: 'Addison National Night Out', notes: 'Tour logistics & artist care', tags: ['MANAGEMENT'] },
+            { id: 'tue4_4', crewId: 'arjun', crewName: 'Arjun Patel', date: '2026-08-04', startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'SOUND ENGINEER', location: 'Addison National Night Out', notes: 'Main stage FOH mix', tags: ['AUDIO', 'FOH'] },
+            { id: 'tue4_5', crewId: 'chris', crewName: 'Chris Loxely', date: '2026-08-04', startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'LIGHTING DIRECTOR', location: 'Addison National Night Out', notes: 'DMX visual lighting rig', tags: ['LIGHTS', 'DMX'] },
+            { id: 'tue4_6', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2026-08-04', startHour: 10.0, endHour: 14.0, time: '10:00 AM - 2:00 PM', role: 'EQUIPMENT SETUP', location: 'Addison National Night Out', notes: 'Morning stage & amp setup', tags: ['SETUP', 'MORNING'] },
+            { id: 'tue4_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2026-08-04', startHour: 23.0, endHour: 26.0, time: '11:00 PM - 2:00 AM', role: 'TEAR DOWN & LOAD OUT', location: 'Addison National Night Out', notes: 'Late night truck load out', tags: ['LOAD OUT', 'TEAR DOWN'] },
+            { id: 'tue4_8', crewId: 'daniel', crewName: 'Daniel Kim', date: '2026-08-04', startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'STAGE MANAGER', location: 'Addison National Night Out', notes: 'Headliner stage management', tags: ['STAGE MGR'] },
+            { id: 'tue4_9', crewId: 'elena', crewName: 'Elena Rostova', date: '2026-08-04', startHour: 15.0, endHour: 20.0, time: '3:00 PM - 8:00 PM', role: 'MERCH & TICKETING', location: 'Addison National Night Out', notes: 'Merch sales & booth manager', tags: ['MERCH'] },
+            { id: 'tue4_10', crewId: 'marcus', crewName: 'Marcus Vance', date: '2026-08-04', startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM', role: 'MONITOR ENGINEER', location: 'Addison National Night Out', notes: 'Monitor mix & IEM wireless', tags: ['IEM', 'AUDIO'] },
+            { id: 'tue4_11', crewId: 'openshifts', crewName: 'OpenShifts', date: '2026-08-04', startHour: 13.0, endHour: 18.0, time: '1:00 PM - 6:00 PM', role: 'STAGE HAND', location: 'Addison National Night Out', notes: 'Matinee coverage support', openSlots: 3, tags: ['COVERAGE'] }
+          ];
+
           if (!resetDone) {
-            localStorage.setItem('7h_fresh_start_reset_v4', 'true');
-            currentSchedules = [
-              { id: 'sun2_1', crewId: 'abbie', crewName: 'Abbie Janssen', date: '2026-08-02', startHour: 16.0, endHour: 21.0, time: '4:00 PM - 9:00 PM', role: 'VIP HOST & HOSPITALITY', location: 'Lake County Fair', notes: 'VIP area lead & hospitality', tags: ['VIP', 'HOST'] },
-              { id: 'sun2_2', crewId: 'al', crewName: 'Al Hollie', date: '2026-08-02', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'STAGE HAND & RIGGING', location: 'Lake County Fair', notes: 'Matinee load-in & rigging', tags: ['RIGGING', 'MATINEE'] },
-              { id: 'sun2_3', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: '2026-08-02', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'TOUR MANAGER', location: 'Lake County Fair', notes: 'Tour logistics & artist care', tags: ['MANAGEMENT'] },
-              { id: 'sun2_4', crewId: 'arjun', crewName: 'Arjun Patel', date: '2026-08-02', startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SOUND ENGINEER', location: 'Lake County Fair', notes: 'FOH main audio mix', tags: ['AUDIO', 'FOH'] },
-              { id: 'sun2_5', crewId: 'chris', crewName: 'Chris Loxely', date: '2026-08-02', startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'LIGHTING DIRECTOR', location: 'Lake County Fair', notes: 'DMX visual lighting rig', tags: ['LIGHTS', 'PRODUCTION'] },
-              { id: 'sun2_6', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2026-08-02', startHour: 10.0, endHour: 14.0, time: '10:00 AM - 2:00 PM', role: 'EQUIPMENT SETUP', location: 'Lake County Fair', notes: 'Morning stage & amp setup', tags: ['SETUP', 'MORNING'] },
-              { id: 'sun2_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2026-08-02', startHour: 23.0, endHour: 26.0, time: '11:00 PM - 2:00 AM', role: 'TEAR DOWN & LOAD OUT', location: 'Lake County Fair', notes: 'Late night truck load out', tags: ['LOAD OUT', 'TEAR DOWN'] },
-              { id: 'sun2_8', crewId: 'daniel', crewName: 'Daniel Kim', date: '2026-08-02', startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'STAGE MANAGER', location: 'Lake County Fair', notes: 'Headliner stage management', tags: ['STAGE MGR'] },
-              { id: 'sun2_9', crewId: 'openshifts', crewName: 'OpenShifts', date: '2026-08-02', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'AUDIO MIX', location: 'Lake County Fair', notes: 'Matinee audio mix setup', openSlots: 2, tags: ['OPEN SHIFT'] }
-            ];
+            localStorage.setItem('7h_fresh_start_reset_v5', 'true');
+            currentSchedules = defaultShifts;
             localStorage.setItem('7h_crew_schedules', JSON.stringify(currentSchedules));
             setSchedules(currentSchedules);
           } else {
@@ -2344,21 +2360,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                 if (Array.isArray(parsed) && parsed.length > 0) {
                   currentSchedules = parsed;
                 } else {
-                  currentSchedules = [
-                    { id: 'sun2_1', crewId: 'abbie', crewName: 'Abbie Janssen', date: '2026-08-02', startHour: 16.0, endHour: 21.0, time: '4:00 PM - 9:00 PM', role: 'VIP HOST & HOSPITALITY', location: 'Lake County Fair', notes: 'VIP area lead & hospitality', tags: ['VIP', 'HOST'] },
-                    { id: 'sun2_2', crewId: 'al', crewName: 'Al Hollie', date: '2026-08-02', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'STAGE HAND & RIGGING', location: 'Lake County Fair', notes: 'Matinee load-in & rigging', tags: ['RIGGING', 'MATINEE'] },
-                    { id: 'sun2_3', crewId: 'andrea', crewName: 'Andrea Kinzinger', date: '2026-08-02', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM', role: 'TOUR MANAGER', location: 'Lake County Fair', notes: 'Tour logistics & artist care', tags: ['MANAGEMENT'] },
-                    { id: 'sun2_4', crewId: 'arjun', crewName: 'Arjun Patel', date: '2026-08-02', startHour: 17.0, endHour: 22.0, time: '5:00 PM - 10:00 PM', role: 'SOUND ENGINEER', location: 'Lake County Fair', notes: 'FOH main audio mix', tags: ['AUDIO', 'FOH'] },
-                    { id: 'sun2_5', crewId: 'chris', crewName: 'Chris Loxely', date: '2026-08-02', startHour: 18.0, endHour: 23.5, time: '6:00 PM - 11:30 PM', role: 'LIGHTING DIRECTOR', location: 'Lake County Fair', notes: 'DMX visual lighting rig', tags: ['LIGHTS', 'PRODUCTION'] },
-                    { id: 'sun2_6', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2026-08-02', startHour: 10.0, endHour: 14.0, time: '10:00 AM - 2:00 PM', role: 'EQUIPMENT SETUP', location: 'Lake County Fair', notes: 'Morning stage & amp setup', tags: ['SETUP', 'MORNING'] },
-                    { id: 'sun2_7', crewId: 'dave_croke', crewName: 'Dave Croke', date: '2026-08-02', startHour: 23.0, endHour: 26.0, time: '11:00 PM - 2:00 AM', role: 'TEAR DOWN & LOAD OUT', location: 'Lake County Fair', notes: 'Late night truck load out', tags: ['LOAD OUT', 'TEAR DOWN'] },
-                    { id: 'sun2_8', crewId: 'daniel', crewName: 'Daniel Kim', date: '2026-08-02', startHour: 17.0, endHour: 24.0, time: '5:00 PM - 12:00 AM', role: 'STAGE MANAGER', location: 'Lake County Fair', notes: 'Headliner stage management', tags: ['STAGE MGR'] },
-                    { id: 'sun2_9', crewId: 'openshifts', crewName: 'OpenShifts', date: '2026-08-02', startHour: 12.0, endHour: 17.0, time: '12:00 PM - 5:00 PM', role: 'AUDIO MIX', location: 'Lake County Fair', notes: 'Matinee audio mix setup', openSlots: 2, tags: ['OPEN SHIFT'] }
-                  ];
+                  currentSchedules = defaultShifts;
                 }
               } catch {
-                currentSchedules = [];
+                currentSchedules = defaultShifts;
               }
+            } else {
+              currentSchedules = defaultShifts;
             }
           }
           syncTourDatesToCalendar(freshTourDates, currentSchedules);
