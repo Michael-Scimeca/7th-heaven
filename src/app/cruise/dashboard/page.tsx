@@ -162,7 +162,7 @@ export default function CruiseDashboardGate() {
           <p className="text-xs text-cyan-400 font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
         </div>
 
-        <div className="bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+        <div className="bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/10 overflow-hidden">
           {verifyingPin ? (
             <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
               <div className="text-center mb-6">
@@ -183,13 +183,13 @@ export default function CruiseDashboardGate() {
                     maxLength={6}
                     value={pinInput}
                     onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
-                    className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-center text-lg font-black tracking-[0.3em] text-white focus:border-cyan-400/50 outline-none transition-all"
+                    className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-center text-lg font-black tracking-[0.3em] text-white focus:border-cyan-400/50 outline-none transition-all"
                   />
                 </div>
 
                 {authError && <p className="text-rose-400 text-xs mt-2 text-center">{authError}</p>}
 
-                <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-lg shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-all shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                   {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
                 </button>
 
@@ -207,7 +207,7 @@ export default function CruiseDashboardGate() {
               <p className="text-white/60 text-sm leading-relaxed mb-6">
                 We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>
-              <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer">
+              <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs font-black uppercase tracking-widest transition-all cursor-pointer">
                 Go to Log In
               </button>
             </div>
@@ -229,16 +229,16 @@ export default function CruiseDashboardGate() {
                     <p className="text-white/50 text-xs mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address</label>
-                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
                     </div>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Password</label>
-                      <input type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
                     </div>
 
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
 
-                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-lg shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-all shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Access Cruise Hub →"}
                     </button>
                   </form>
@@ -247,24 +247,24 @@ export default function CruiseDashboardGate() {
                     <p className="text-white/50 text-xs mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
-                      <input type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
                     </div>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address *</label>
-                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
                     </div>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Phone Number *</label>
-                      <input type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
                     </div>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Choose Password *</label>
-                      <input type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
                     </div>
 
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
 
-                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs rounded-xl transition-all shadow-lg shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs transition-all shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
                     </button>
                   </form>

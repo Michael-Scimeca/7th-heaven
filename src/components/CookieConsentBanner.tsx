@@ -73,14 +73,14 @@ export default function CookieConsentBanner() {
       aria-modal="true"
       aria-label="Cookie consent"
     >
-      <div className="relative bg-[#0e0e1a]/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] overflow-hidden">
+      <div className="relative bg-[#0e0e1a]/95 backdrop-blur-xl border border-white/[0.08] shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] overflow-hidden">
         {/* Purple accent line */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent" />
 
         <div className="p-5 sm:p-6">
           {/* Header */}
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-9 h-9 rounded-xl bg-[var(--color-accent)]/15 flex items-center justify-center shrink-0 mt-0.5">
+            <div className="w-9 h-9 bg-[var(--color-accent)]/15 flex items-center justify-center shrink-0 mt-0.5">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
@@ -102,7 +102,7 @@ export default function CookieConsentBanner() {
 
           {/* Expandable custom preferences */}
           {expanded && (
-            <div className="mb-4 space-y-2 border border-white/[0.06] rounded-xl p-4 bg-white/[0.02]">
+            <div className="mb-4 space-y-2 border border-white/[0.06] p-4 bg-white/[0.02]">
               {/* Essential — always on */}
               <div className="flex items-center justify-between">
                 <div>
@@ -159,7 +159,7 @@ export default function CookieConsentBanner() {
             <button
               id="cookie-accept-all"
               onClick={acceptAll}
-              className="flex-1 min-w-[120px] bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5 rounded-xl transition-all duration-200 hover:shadow-[0_4px_20px_-4px_rgba(133,29,239,0.5)]"
+              className="flex-1 min-w-[120px] bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5 transition-all duration-200 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
             >
               Accept All
             </button>
@@ -168,7 +168,7 @@ export default function CookieConsentBanner() {
                 <button
                   id="cookie-reject-all"
                   onClick={rejectAll}
-                  className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1] text-white/60 hover:text-white text-sm font-semibold px-5 py-2.5 rounded-xl border border-white/[0.06] transition-all duration-200"
+                  className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1] text-white/60 hover:text-white text-sm font-semibold px-5 py-2.5 border border-white/[0.06] transition-all duration-200"
                 >
                   Reject All
                 </button>
@@ -184,7 +184,7 @@ export default function CookieConsentBanner() {
               <button
                 id="cookie-save-custom"
                 onClick={saveCustom}
-                className="flex-1 min-w-[120px] bg-white/[0.06] hover:bg-white/[0.1] text-white/70 hover:text-white text-sm font-semibold px-5 py-2.5 rounded-xl border border-white/[0.06] transition-all duration-200"
+                className="flex-1 min-w-[120px] bg-white/[0.06] hover:bg-white/[0.1] text-white/70 hover:text-white text-sm font-semibold px-5 py-2.5 border border-white/[0.06] transition-all duration-200"
               >
                 Save Preferences
               </button>

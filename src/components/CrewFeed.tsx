@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase-client";
 
 // ─── Tour schedule for LIVE NOW detection ───
 const tourDates = [
@@ -38,9 +38,9 @@ const typeConfig: Record<string, { color: string; label: string; icon: string }>
  text: { color: "#851DEF", label: "Update", icon: "✍️" },
  photo: { color: "#22c55e", label: "Photo", icon: "📸" },
  video: { color: "#ef4444", label: "Video", icon: "🎬" },
- setlist: { color: "#f59e0b", label: "Setlist", icon: "🎵" },
+ setlist: { color: "#9333ea", label: "Setlist", icon: "🎵" },
  crowd: { color: "#06b6d4", label: "Crowd", icon: "🤘" },
- announcement: { color: "#f59e0b", label: "Announcement", icon: "🚨" },
+ announcement: { color: "#9333ea", label: "Announcement", icon: "🚨" },
 };
 
 // ─── Mock posts (used when Supabase is not configured) ───
@@ -317,7 +317,7 @@ export default function CrewFeed() {
              <div className="flex items-center gap-2">
               <span className="text-base font-semibold text-white">{post.member_name}</span>
               {post.post_type === "announcement" && (
-               <span className="text-2xs font-bold uppercase tracking-[0.15em] px-2 py-0.5 bg-amber-500/20 text-amber-400 border border-amber-500/30">
+               <span className="text-2xs font-bold uppercase tracking-[0.15em] px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
                 Official
                </span>
               )}

@@ -24,9 +24,9 @@ const SECTIONS: ComplianceSection[] = [
     id: "sms",
     title: "SMS Marketing (TCPA & CTIA)",
     subtitle: "Federal regulations on text messaging and consumer contact",
-    color: "text-amber-400",
-    bgColor: "bg-amber-500/5",
-    borderColor: "border-amber-500/20",
+    color: "text-purple-300",
+    bgColor: "bg-purple-600/5",
+    borderColor: "border-purple-500/20",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
@@ -242,7 +242,7 @@ export default function AdminLegalPage() {
         
         {/* Header */}
         <div className="mb-12">
-          <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4 px-5 py-1.5 border border-[rgba(133,29,239,0.3)] bg-[var(--color-accent)]/10 rounded-md">
+          <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4 px-5 py-1.5 border border-[rgba(255,10,61,0.3)] bg-[var(--color-accent)]/10 rounded-md">
             🔒 Legal Compliance & Audit Panel
           </span>
           <h1 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight uppercase italic font-[var(--font-heading)] text-black">
@@ -264,9 +264,9 @@ export default function AdminLegalPage() {
                 <button
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
-                  className={`w-full flex items-center gap-4 p-4 border rounded-xl text-left transition-all duration-200 cursor-pointer ${
+                  className={`w-full flex items-center gap-4 p-4 border  text-left transition-all duration-200 cursor-pointer ${
                     isSelected
-                      ? `border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_4px_20px_rgba(133,29,239,0.1)]`
+                      ? `border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_4px_20px_rgba(255,10,61,0.1)]`
                       : `border-black/10 bg-white hover:border-black/20 hover:bg-white/80`
                   }`}
                 >
@@ -282,7 +282,7 @@ export default function AdminLegalPage() {
             })}
             
             {/* Disclaimer notice */}
-            <div className="mt-8 p-4 bg-white border border-black/5 rounded-xl">
+            <div className="mt-8 p-4 bg-white border border-black/5">
               <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/30 block mb-1">Legal Disclaimer</span>
               <p className="text-[var(--font-size-3xs)] leading-relaxed text-black/50">
                 This dashboard serves as a general checklist of legal frameworks. It is not formal legal advice. Consult with an attorney or copyright expert before publishing live streaming services or bulk SMS campaigns.
@@ -291,11 +291,11 @@ export default function AdminLegalPage() {
           </div>
 
           {/* Right Detailed Panel */}
-          <div className={`border rounded-2xl p-8 lg:p-10 transition-all duration-300 bg-white ${active.borderColor}`}>
+          <div className={`border  p-8 lg:p-10 transition-all duration-300 bg-white ${active.borderColor}`}>
             
             {/* Header info */}
             <div className="flex items-center gap-4 mb-6 pb-6 border-b border-black/10">
-              <div className={`p-3.5 rounded-2xl bg-black/5 ${active.color}`}>
+              <div className={`p-3.5  bg-black/5 ${active.color}`}>
                 {active.icon}
               </div>
               <div>
@@ -307,7 +307,7 @@ export default function AdminLegalPage() {
             </div>
 
             {/* Explanation box */}
-            <div className="bg-[#f0f2f5] border border-black/5 rounded-xl p-5 mb-8">
+            <div className="bg-[#f0f2f5] border border-black/5 p-5 mb-8">
               <span className="text-xs font-bold uppercase tracking-wider text-black/40 block mb-2">⚖️ Compliance Context</span>
               <p className="text-sm leading-relaxed text-black/70">{active.explanation}</p>
             </div>
@@ -317,7 +317,7 @@ export default function AdminLegalPage() {
               <h3 className="text-xs font-extrabold uppercase tracking-widest text-[var(--color-accent)] mb-3">Requirements & Action Checklist</h3>
               
               {active.requirements.map((req, index) => (
-                <div key={index} className="bg-[#f8f9fa] border border-black/5 rounded-xl p-5 relative overflow-hidden">
+                <div key={index} className="bg-[#f8f9fa] border border-black/5 p-5 relative overflow-hidden">
                   
                   {/* Critical Warning Indicator */}
                   {req.isCritical && (

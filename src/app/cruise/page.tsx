@@ -19,7 +19,7 @@ const CruiseVideoGallery    = dynamic(() => import("@/components/CruiseVideoGall
 const CruiseHistoryTimeline = dynamic(() => import("@/components/CruiseHistoryTimeline"), { ssr: false });
 
 function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
-  const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#f59e0b", "#ec4899", "#8b5cf6", "#64748b"];
+  const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#9333ea", "#ec4899", "#8b5cf6", "#64748b"];
   return itinData.map((day, i) => ({
     id: `day-${day.day}`,
     dayLabel: `Day ${day.day} · ${day.label}`,
@@ -109,13 +109,13 @@ const ITINERARY = [
 ];
 
 const ITIN_TYPE_ACCENT: Record<string, string> = {
-  island: "text-cyan-400", sea: "text-purple-400", depart: "text-amber-400",
+  island: "text-cyan-400", sea: "text-purple-400", depart: "text-purple-300",
 };
 const ITIN_TYPE_BAR: Record<string, string> = {
   island: "from-cyan-500 to-emerald-400", sea: "from-purple-500 to-[var(--color-accent)]", depart: "from-amber-500 to-orange-400",
 };
 const ITIN_CAT_DOT: Record<string, string> = {
-  band: "bg-[var(--color-accent)] shadow-[0_0_6px_rgba(133,29,239,0.8)]",
+  band: "bg-[var(--color-accent)] shadow-[0_0_6px_rgba(255,10,61,0.8)]",
   explore: "bg-cyan-400", food: "bg-emerald-400", ship: "bg-white/25",
 };
 const ITIN_CAT_TEXT: Record<string, string> = {
@@ -281,7 +281,7 @@ export default function CruisePage() {
   const [openPanel, setOpenPanel] = useState<number>(-1); // -1 = primary booker open by default
   const [primaryOpen, setPrimaryOpen] = useState(true);
 
-  const GUEST_COLORS = ["#3b82f6", "#06b6d4", "#f59e0b", "#10b981", "#ef4444", "#ec4899", "#8b5cf6", "#f97316"];
+  const GUEST_COLORS = ["#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ef4444", "#ec4899", "#8b5cf6", "#f97316"];
 
   const toggleGuestActive = (index: number, active: boolean) => {
     setGuests(prev => prev.map((g, i) => i === index ? { ...g, active } : g));
@@ -298,7 +298,7 @@ export default function CruisePage() {
   const [joinedFans, setJoinedFans] = useState<{name: string; guest_count: number; anonymous: boolean; created_at: string}[]>([]);
   const [totalGuests, setTotalGuests] = useState<number>(0);
 
-  const AVATAR_COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#f59e0b", "#10b981", "#ef4444", "#ec4899", "#8b5cf6"];
+  const AVATAR_COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ef4444", "#ec4899", "#8b5cf6"];
 
   useEffect(() => {
     const today = new Date();
@@ -628,7 +628,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               🚢 STAR OF THE SEAS (2027)
             </span>
             <span className="text-white/40">•</span>
-            <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/20 text-amber-300 font-black backdrop-blur-sm">
+            <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/20 text-purple-200 font-black backdrop-blur-sm">
               🚢 LEGEND OF THE SEAS (2028)
             </span>
           </div>
@@ -653,7 +653,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActivePriceYear(2027)}
-                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                   activePriceYear === 2027
                     ? "bg-cyan-600 text-white font-black shadow-md"
                     : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
@@ -664,9 +664,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActivePriceYear(2028)}
-                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                   activePriceYear === 2028
-                    ? "bg-amber-600 text-white font-black shadow-md"
+                    ? "bg-purple-700 text-white font-black shadow-md"
                     : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
                 }`}
               >
@@ -683,7 +683,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <span className="text-2xl">⚠️</span>
                 <h3 className="text-lg font-black uppercase text-black tracking-wide">Booking Policy & Best Rate Guarantee</h3>
               </div>
-              <p className="text-sm font-black text-amber-700 uppercase tracking-widest mb-4">
+              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
                 Book through us to participate & lock in best rates
               </p>
               <p className="text-base text-black/80 leading-relaxed mb-4">
@@ -707,7 +707,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-amber-700 font-bold shrink-0">⚠️</span>
+                  <span className="text-purple-400 font-bold shrink-0">⚠️</span>
                   <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.</span>
                 </li>
               </ul>
@@ -730,7 +730,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <span className="text-2xl">🛂</span>
                 <h3 className="text-lg font-black uppercase text-black tracking-wide">Passport Requirements</h3>
               </div>
-              <p className="text-sm font-black text-amber-700 uppercase tracking-widest mb-4">
+              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
                 Essential travel document guidelines
               </p>
               <div className="space-y-4 text-base text-black/80 leading-relaxed">
@@ -741,7 +741,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
                 </p>
                 <p>
-                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-amber-700 font-extrabold underline hover:text-black inline-block">travel.state.gov</a> to ensure compliance.
+                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-extrabold underline hover:text-black inline-block">travel.state.gov</a> to ensure compliance.
                 </p>
               </div>
             </div>
@@ -822,7 +822,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div
                     key={idx}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className="bg-black/[0.03] border border-black/10 rounded-2xl overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:border-cyan-600/50 shadow-sm"
+                    className="bg-black/[0.03] border border-black/10 overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:border-cyan-600/50 shadow-sm"
                   >
                     <div>
                       {room.image && (
@@ -835,7 +835,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <span className="text-xl">{room.icon}</span>
                           <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
                             room.status === "soldout" ? "bg-red-500/10 text-red-600 border border-red-500/20" :
-                            room.status === "warning" ? "bg-amber-500/10 text-amber-700 border border-amber-500/20" :
+                            room.status === "warning" ? "bg-purple-600/10 text-purple-400 border border-purple-500/20" :
                             "bg-cyan-500/10 text-cyan-700 border border-cyan-500/20"
                           }`}>{room.badge}</span>
                         </div>
@@ -858,7 +858,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       )}
                       <button 
                         type="button"
-                        className="mt-3 w-full py-2.5 px-4 rounded-xl bg-cyan-600 text-white font-black text-2xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
+                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 text-white font-black text-2xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
                       >
                         <span>Select & Book Cabin</span>
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -893,7 +893,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div
                         key={idx}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className={`rounded-2xl overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative shadow-sm ${
+                        className={` overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative shadow-sm ${
                           isYo
                             ? 'bg-purple-100 border-2 border-purple-600 shadow-md'
                             : 'bg-black/[0.03] border border-black/10 hover:border-black/20'
@@ -931,7 +931,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <span className="text-[var(--font-size-4xs)] text-black/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                           <button 
                             type="button"
-                            className={`mt-4 w-full py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${
+                            className={`mt-4 w-full py-2.5 px-4  font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${
                               isYo
                                 ? 'bg-purple-700 hover:bg-purple-800 text-white border border-purple-600'
                                 : 'bg-purple-600 hover:bg-purple-700 text-white border border-purple-500'
@@ -978,7 +978,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         key={tab.id}
                         type="button"
                         onClick={() => setStateroomTab(tab.id as any)}
-                        className={`w-full p-4 rounded-xl text-left border transition-all cursor-pointer ${
+                        className={`w-full p-4  text-left border transition-all cursor-pointer ${
                           stateroomTab === tab.id
                             ? "bg-[var(--color-accent)]/10 border-[var(--color-accent)]/50"
                             : "bg-white border-black/10 hover:border-black/20"
@@ -991,7 +991,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
                 </div>
 
-                <div className="mt-8 bg-black/5 border border-black/10 p-5 rounded-2xl">
+                <div className="mt-8 bg-black/5 border border-black/10 p-5">
                   <h4 className="text-xs font-black uppercase text-black tracking-widest mb-3">Available layouts:</h4>
                   {stateroomTab === "suites" && (
                     <div className="space-y-2 text-sm text-black/80 font-medium">
@@ -1037,7 +1037,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">VIP Experiences</span>
                       <h3 className="text-2xl md:text-3xl font-black uppercase text-black mt-1">Suite Class Perks</h3>
                     </div>
-                    <div className="flex gap-1.5 bg-black/5 p-1.5 rounded-xl border border-black/10">
+                    <div className="flex gap-1.5 bg-black/5 p-1.5 border border-black/10">
                       {(["sea", "sky", "star"] as const).map(perk => (
                         <button
                           key={perk}
@@ -1117,7 +1117,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       "In-suite coffee machine"
                     ].map((perk, idx) => (
                       <div key={idx} className="flex items-center gap-2.5">
-                        <span className="text-amber-700 font-black text-base shrink-0">✓</span>
+                        <span className="text-purple-400 font-black text-base shrink-0">✓</span>
                         <span>{perk}</span>
                       </div>
                     ))}
@@ -1188,29 +1188,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* Name */}
                         <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
                           <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                          <input type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                          <input type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                         </div>
                         {/* Phone */}
                         <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
                           <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number *</label>
-                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({...formData, phone: formatPhoneDisplay(e.target.value)})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({...formData, phone: formatPhoneDisplay(e.target.value)})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                         </div>
                         {/* Email */}
                         <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
                           <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address *</label>
-                          <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                          <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                         </div>
                         {/* T-Shirt Size */}
                         <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
                           <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                          <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
+                          <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
                             {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
                           </select>
                         </div>
                         {/* Crown & Anchor */}
                         <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
                           <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                          <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({...formData, crownAnchor1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                          <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({...formData, crownAnchor1: e.target.value})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                         </div>
                       </div>
 
@@ -1221,7 +1221,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="flex gap-3">
                             {["yes", "no"].map(opt => (
                               <button key={opt} type="button" onClick={() => setFormData(f => ({...f, insurance: opt}))}
-                                className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
+                                className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
                                 {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                               </button>
                             ))}
@@ -1233,7 +1233,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="flex gap-3">
                             {["yes", "no"].map(opt => (
                               <button key={opt} type="button" onClick={() => setFormData(f => ({...f, prepaidGratuities: opt}))}
-                                className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
+                                className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
                                 {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                               </button>
                             ))}
@@ -1266,29 +1266,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               {/* Name */}
                               <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
                                 <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                                <input type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                <input type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                               {/* Phone */}
                               <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
                                 <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
-                                <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                               {/* Email */}
                               <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
                                 <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
-                                <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                               {/* T-Shirt Size */}
                               <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
                                 <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                                <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
+                                <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
                                   {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
                                 </select>
                               </div>
                               {/* Crown & Anchor */}
                               <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
                                 <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                                <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                               </div>
                             </div>
                           ) : (
@@ -1307,7 +1307,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
                       <div className="p-3.5 focus-within:bg-cyan-500/10 transition-all">
                         <select value={formData.cabinPreference} onChange={e => setFormData(f => ({...f, cabinPreference: e.target.value}))} required
-                          className="booking-input w-full bg-white border border-black/15 rounded-xl px-3.5 py-2.5 text-sm font-bold text-black focus:outline-none cursor-pointer appearance-none">
+                          className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-sm font-bold text-black focus:outline-none cursor-pointer appearance-none">
                           <option value="" disabled className="bg-white text-black">-- Select Cabin Category --</option>
                           <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-white text-black font-black">
                             <option value="group_n5" className="bg-white text-black font-semibold">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
@@ -1342,15 +1342,15 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div className="p-4 border-b border-black/10">
                         <span className="text-[var(--font-size-3xs)] font-black text-cyan-700 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
                         <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                          <div className="booking-cell border border-black/10 p-3 bg-white">
                             <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
                             <input type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({...formData, cardName1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
-                          <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                          <div className="booking-cell border border-black/10 p-3 bg-white">
                             <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
                             <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({...formData, cardNumber1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
-                          <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                          <div className="booking-cell border border-black/10 p-3 bg-white">
                             <div className="grid grid-cols-3 gap-2">
                               <div>
                                 <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
@@ -1367,7 +1367,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             </div>
                           </div>
                           <div className="booking-cell p-3 flex flex-col justify-end">
-                            <div className="flex justify-between items-center bg-black/5 p-3 rounded-xl border border-black/15">
+                            <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
                               <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
                               <input type="text" required value={formData.cardAmount1} onChange={e => setFormData({...formData, cardAmount1: e.target.value})} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
                             </div>
@@ -1395,15 +1395,15 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="p-4 bg-black/[0.01]">
                           <span className="text-[var(--font-size-3xs)] font-black text-purple-700 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
                           <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                            <div className="booking-cell border border-black/10 p-3 bg-white">
                               <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
                               <input type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({...formData, cardName2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                             </div>
-                            <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                            <div className="booking-cell border border-black/10 p-3 bg-white">
                               <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
                               <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({...formData, cardNumber2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                             </div>
-                            <div className="booking-cell border border-black/10 rounded-xl p-3 bg-white">
+                            <div className="booking-cell border border-black/10 p-3 bg-white">
                               <div className="grid grid-cols-3 gap-2">
                                 <div>
                                   <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
@@ -1420,7 +1420,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               </div>
                             </div>
                             <div className="booking-cell p-3 flex flex-col justify-end">
-                              <div className="flex justify-between items-center bg-black/5 p-3 rounded-xl border border-black/15">
+                              <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
                                 <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
                                 <input type="text" required value={formData.cardAmount2} onChange={e => setFormData({...formData, cardAmount2: e.target.value})} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
                               </div>
@@ -1440,11 +1440,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
-                            <input type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({...f, howHeard: e.target.value}))} className="booking-input w-full bg-white border border-black/15 rounded-xl px-4 py-2 text-sm text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none transition-colors font-semibold" />
+                            <input type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({...f, howHeard: e.target.value}))} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-sm text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none transition-colors font-semibold" />
                           </div>
                           <div>
                             <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
-                            <textarea placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2} className="booking-input w-full bg-white border border-black/15 rounded-xl px-4 py-2 text-xs text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none resize-none font-semibold" />
+                            <textarea placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-xs text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none resize-none font-semibold" />
                           </div>
                         </div>
                       </div>
@@ -1496,12 +1496,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                       <button type="submit" disabled={signupStatus === "submitting"}
-                        className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl transition-all shadow-md disabled:opacity-70 cursor-pointer">
+                        className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md disabled:opacity-70 cursor-pointer">
                         {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
                       </button>
                       
                       <button type="button" onClick={() => window.print()}
-                        className="w-full border border-cyan-600 bg-cyan-600 hover:bg-cyan-700 text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl transition-all shadow-md cursor-pointer text-center">
+                        className="w-full border border-cyan-600 bg-cyan-600 hover:bg-cyan-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md cursor-pointer text-center">
                         🖨️ Print / Save Booking Form
                       </button>
                     </div>
@@ -1527,7 +1527,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   href="https://www.chicagomusiccruise.com/payment.html" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-2xs rounded-xl transition-all shadow-md cursor-pointer"
+                  className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-2xs transition-all shadow-md cursor-pointer"
                 >
                   Go to Payment Portal
                 </a>
@@ -1624,7 +1624,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         {/* Bands/Artists Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           {BANDS_DATA.map((band, idx) => (
-            <div key={idx} className="relative rounded-3xl overflow-hidden group border border-black/10 shadow-lg aspect-[4/5] bg-black">
+            <div key={idx} className="relative rounded-3xl overflow-hidden group border border-black/10 aspect-[4/5] bg-black">
               {band.photo ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img 
@@ -1644,7 +1644,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {band.name}
                 </h3>
                 {band.role && (
-                  <p className="text-purple-400 font-bold text-lg md:text-xl lg:text-2xl tracking-wide mt-1.5">
+                  <p className="text-[var(--color-accent)] font-bold text-lg md:text-xl lg:text-2xl tracking-wide mt-1.5">
                     {band.role}
                   </p>
                 )}
@@ -1690,7 +1690,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
-                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                   activeItinYear === 2027
                     ? "bg-cyan-600 text-white font-black shadow-md"
                     : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
@@ -1701,9 +1701,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
-                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                   activeItinYear === 2028
-                    ? "bg-amber-600 text-white font-black shadow-md"
+                    ? "bg-purple-700 text-white font-black shadow-md"
                     : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
                 }`}
               >
@@ -1755,7 +1755,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "spotlight" && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left animate-fadeIn">
                 {/* Main Featured Hero Card */}
-                <div className="lg:col-span-2 bg-[var(--color-bg-surface)] border-none rounded-3xl overflow-hidden relative shadow-lg">
+                <div className="lg:col-span-2 bg-[var(--color-bg-surface)] border-none rounded-3xl overflow-hidden relative">
                   <div className="h-72 md:h-96 w-full relative overflow-hidden bg-black">
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/40 to-transparent z-10" />
                     {PORTS_DATA[activeSpotlightPort].image && (
@@ -1776,7 +1776,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <button 
                         type="button" 
                         onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                        className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-xl transition-all cursor-pointer border-none"
+                        className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-all cursor-pointer border-none"
                       >
                         Book Cruise & Visit {PORTS_DATA[activeSpotlightPort].name.split(',')[0]}
                       </button>
@@ -1792,13 +1792,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       key={idx}
                       type="button"
                       onClick={() => setActiveSpotlightPort(idx)}
-                      className={`w-full p-4 rounded-2xl border-none text-left transition-all cursor-pointer flex items-center gap-4 ${
+                      className={`w-full p-4  border-none text-left transition-all cursor-pointer flex items-center gap-4 ${
                         activeSpotlightPort === idx
                           ? "bg-cyan-500/10 shadow-md"
                           : "bg-[var(--color-bg-deep)] hover:bg-white/5"
                       }`}
                     >
-                      <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-black">
+                      <div className="w-12 h-12 overflow-hidden shrink-0 bg-black">
                         {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover" />}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -1823,7 +1823,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     onClick={() => {
                       if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                     }}
-                    className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all"
+                    className="w-10 h-10 bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all"
                   >
                     ◀
                   </button>
@@ -1832,7 +1832,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     onClick={() => {
                       if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                     }}
-                    className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all"
+                    className="w-10 h-10 bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all"
                   >
                     ▶
                   </button>
@@ -1869,8 +1869,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "list" && (
               <div className="space-y-4 animate-fadeIn text-left max-w-5xl mx-auto">
                 {PORTS_DATA.map((port, idx) => (
-                  <div key={idx} className="bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/30 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-all duration-300 hover:bg-white/[0.02]">
-                    <div className="w-full md:w-48 h-32 md:h-28 rounded-xl overflow-hidden bg-black relative shrink-0">
+                  <div key={idx} className="bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/30 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-all duration-300 hover:bg-white/[0.02]">
+                    <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden bg-black relative shrink-0">
                       {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
                       <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[var(--font-size-4xs)] font-black text-cyan-400 uppercase">
                         Port #{idx + 1}
@@ -1885,7 +1885,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button
                       type="button"
                       onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                      className="shrink-0 px-4 py-2 bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                      className="shrink-0 px-4 py-2 bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 text-white text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
                     >
                       Book →
                     </button>
@@ -1932,7 +1932,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <h3 className="text-xl font-black uppercase text-black">Dining Explorer Guide</h3>
                 <p className="text-xs text-black/60 font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
               </div>
-              <div className="flex bg-black/5 p-1 rounded-xl border border-black/10 shrink-0 self-center">
+              <div className="flex bg-black/5 p-1 border border-black/10 shrink-0 self-center">
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("included")}
@@ -1998,7 +1998,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   ]
               ).map((food, idx) => {
                 return (
-                  <div key={idx} className="relative rounded-2xl overflow-hidden group border border-black/10 h-48 md:h-56">
+                  <div key={idx} className="relative overflow-hidden group border border-black/10 h-48 md:h-56">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
@@ -2022,11 +2022,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <h3 className="text-xl sm:text-2xl font-black uppercase text-black">Bars & Entertainment Explorer</h3>
                 <p className="text-xs text-black/60 font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
               </div>
-              <div className="flex bg-black/5 p-1 rounded-2xl border border-black/10 shrink-0 self-start lg:self-center max-w-full overflow-x-auto">
+              <div className="flex bg-black/5 p-1 border border-black/10 shrink-0 self-start lg:self-center max-w-full overflow-x-auto">
                 <button
                   type="button"
                   onClick={() => setBarTab("bars")}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
+                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
                     barTab === "bars" ? "bg-cyan-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
                   }`}
                 >
@@ -2036,7 +2036,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setBarTab("entertainment")}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
+                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
                     barTab === "entertainment" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
                   }`}
                 >
@@ -2096,7 +2096,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               ).map((item, idx) => {
                 const isCyan = barTab === "bars";
                 return (
-                  <div key={idx} className="relative rounded-2xl overflow-hidden group border border-black/10 h-48 md:h-56 shadow-sm">
+                  <div key={idx} className="relative overflow-hidden group border border-black/10 h-48 md:h-56 shadow-sm">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
@@ -2129,7 +2129,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* FAQs List */}
           <div className="space-y-2 mb-0 text-left max-w-4xl">
             {FAQS_EXTENDED.map((faq, i) => (
-              <div key={i} className="border border-black/10 bg-black/[0.03] rounded-xl overflow-hidden shadow-xs">
+              <div key={i} className="border border-black/10 bg-black/[0.03] overflow-hidden shadow-xs">
                 <button 
                   type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}

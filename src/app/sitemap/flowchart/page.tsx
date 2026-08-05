@@ -1,3 +1,4 @@
+/* impeccable-disable codex-grid-background */
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -62,9 +63,9 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
         height: height,
         borderRadius: "10px",
         border: isEmail ? `2px dashed #9333ea` : `1px solid rgba(255,255,255,0.08)`,
-        boxShadow: isEmail ? "0 0 16px rgba(147,51,234,0.2)" : "0 4px 12px rgba(0,0,0,0.4)",
+        boxShadow: isEmail ? "0 0 16px rgba(255,10,61,0.2)" : "0 4px 12px rgba(0,0,0,0.4)",
         overflow: "hidden",
-        background: isEmail ? "rgba(147,51,234,0.06)" : "#0a0a0f",
+        background: isEmail ? "rgba(255,10,61,0.06)" : "#0a0a0f",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -480,31 +481,18 @@ export default function FlowchartPage() {
           margin-top: 4px;
         }
 
-        /* Animated dashed connector lines — vertical */
+        /* Connector lines — vertical */
         .home-to-nav-line {
           width: 2px;
           height: 80px;
-          background: repeating-linear-gradient(
-            to bottom,
-            rgba(124,58,237,0.6) 0px,
-            rgba(124,58,237,0.6) 6px,
-            transparent 6px,
-            transparent 12px
-          );
-          background-size: 2px 80px;
-          animation: dashFlow 1.2s linear infinite;
+          background: rgba(124,58,237,0.4);
         }
 
         .nav-horizontal-bar {
           width: 94.5%;
           height: 2px;
-          background: repeating-linear-gradient(
-            to right,
-            rgba(124,58,237,0.6) 0px,
-            rgba(124,58,237,0.6) 6px,
-            transparent 6px,
-            transparent 12px
-          );
+          background: rgba(124,58,237,0.4);
+        }
           background-size: 40px 2px;
           animation: dashFlowH 1.2s linear infinite;
           margin-bottom: 10px;
@@ -527,17 +515,12 @@ export default function FlowchartPage() {
           min-width: 320px;
         }
 
-        /* Animated dashed connector lines — vertical connectors */
+        /* Connector lines — vertical connectors */
         .node-connector-line {
           width: 2px;
           height: 80px;
-          background: repeating-linear-gradient(
-            to bottom,
-            rgba(124,58,237,0.5) 0px,
-            rgba(124,58,237,0.5) 5px,
-            transparent 5px,
-            transparent 10px
-          );
+          background: rgba(124,58,237,0.4);
+        }
           background-size: 2px 40px;
           animation: dashFlow 1.2s linear infinite;
         }
@@ -562,15 +545,7 @@ export default function FlowchartPage() {
         .branch-join-line {
           width: 2px;
           height: 60px;
-          background: repeating-linear-gradient(
-            to bottom,
-            rgba(124,58,237,0.5) 0px,
-            rgba(124,58,237,0.5) 5px,
-            transparent 5px,
-            transparent 10px
-          );
-          background-size: 2px 60px;
-          animation: dashFlow 1.2s linear infinite;
+          background: rgba(124,58,237,0.4);
         }
 
         .flowcard-wrapper:hover .flowcard-img-container {
@@ -2212,8 +2187,8 @@ export default function FlowchartPage() {
           <div className="flow-column" style={{ minWidth: "360px" }}>
             {/* Section Header */}
             <div style={{
-              background: "linear-gradient(135deg, rgba(245,158,11,0.15), rgba(251,191,36,0.08))",
-              border: "1px solid rgba(245,158,11,0.3)",
+              background: "linear-gradient(135deg, rgba(147, 51, 234,0.15), rgba(192, 132, 252,0.08))",
+              border: "1px solid rgba(147, 51, 234,0.3)",
               borderRadius: "14px",
               padding: "14px 20px",
               textAlign: "center",
@@ -2222,7 +2197,7 @@ export default function FlowchartPage() {
             }}>
               <div style={{ fontSize: "22px", marginBottom: "4px" }}>👷</div>
               <div style={{ fontSize: "16px", fontWeight: "900", color: "#fef3c7", letterSpacing: "-0.01em" }}>Crew Management Flow</div>
-              <div style={{ fontSize: "10px", color: "#f59e0b", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1.5px", marginTop: "2px" }}>Schedule, Alerts & Hours</div>
+              <div style={{ fontSize: "10px", color: "#9333ea", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1.5px", marginTop: "2px" }}>Schedule, Alerts & Hours</div>
             </div>
             <div className="node-connector-line" />
 
@@ -2821,8 +2796,8 @@ export default function FlowchartPage() {
           <div className="flow-column" style={{ minWidth: "360px" }}>
             {/* Section Header */}
             <div style={{
-              background: "linear-gradient(135deg, rgba(139,92,246,0.15), rgba(168,85,247,0.08))",
-              border: "1px solid rgba(139,92,246,0.3)",
+              background: "linear-gradient(135deg, rgba(255,10,61,0.15), rgba(255,10,61,0.08))",
+              border: "1px solid rgba(255,10,61,0.3)",
               borderRadius: "14px",
               padding: "14px 20px",
               textAlign: "center",

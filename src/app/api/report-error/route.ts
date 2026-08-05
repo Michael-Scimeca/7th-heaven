@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email';
+import { ADMIN_ALERT_EMAIL } from '@/lib/role-config';
 
 export async function POST(request: Request) {
   try {
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
     `;
 
     const result = await sendEmail({
-      to: 'mikeyscimeca.dev@gmail.com',
+      to: ADMIN_ALERT_EMAIL || 'admin@7thheavenband.com',
       subject: '🚨 [7th Heaven] Application Error Detected',
       html: emailHtml,
     });

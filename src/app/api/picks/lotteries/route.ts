@@ -37,19 +37,18 @@ export async function GET(req: Request) {
       countMap[e.lottery_id] = (countMap[e.lottery_id] || 0) + 1;
     });
 
-    // If userId provided, get their entries
+    // If valid UUID userId provided, get their entries & picks
     let userEntries: string[] = [];
-    if (userId) {
+    let userPicks: any[] = [];
+    const isUUID = userId ? /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(userId) : false;
+
+    if (userId && isUUID) {
       const { data: entries } = await supabase
         .from("lottery_entries")
         .select("lottery_id")
         .eq("user_id", userId);
       userEntries = (entries || []).map((e: any) => e.lottery_id);
-    }
 
-    // Get user's pick data for eligibility
-    let userPicks: any[] = [];
-    if (userId) {
       const { data: picks } = await supabase
         .from("fan_picks")
         .select("*")

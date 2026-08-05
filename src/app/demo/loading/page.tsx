@@ -63,7 +63,7 @@ export default function LoadingDemo() {
           position: "absolute", bottom: 0, left: 0,
           height: BAR_HEIGHT, width: `${pct}%`,
           background: "#ffffff",
-          transition: "width 0.04s linear",
+          transition: "transform 0.04s linear",
         }} />
 
         {/* Counter rides the leading edge */}

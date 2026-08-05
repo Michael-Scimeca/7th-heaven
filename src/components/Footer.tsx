@@ -34,14 +34,7 @@ const FALLBACK_ENDORSEMENTS = [
 ];
 
 const footerLinks = [
-  { href: "/news", label: "News" },
-  { href: "/band", label: "Band" },
-  { href: "/#music-player-section", label: "Music" },
-  { href: "/media", label: "Media" },
-  { href: "/contact", label: "Contact" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/privacy", label: "Privacy Policy" },
-  { href: "/terms", label: "Terms of Service" },
+  { href: "/shows/past", label: "Past Shows" },
 ];
 
 const FALLBACK_SOCIAL_LINKS = [
@@ -196,7 +189,7 @@ export function Footer() {
               <button
                 type="submit"
                 disabled={smsStatus === 'sending'}
-                className="w-full sm:w-auto px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(133,29,239,0.2)] whitespace-nowrap"
+                className="w-full sm:w-auto px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap"
               >
                 {smsStatus === 'sending' ? '...' : '📱 Subscribe'}
               </button>
@@ -273,7 +266,7 @@ export function Footer() {
           <Link href="/privacy" className="hover:text-[var(--text-color)] transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-[var(--text-color)] transition-colors">Terms</Link>
           <Link href="/returns" className="hover:text-[var(--text-color)] transition-colors">Returns</Link>
-          <Link href="/sitemap" className="hover:text-[var(--color-accent)] transition-colors">Sitemap</Link>
+          <Link href="/sitemap/flowchart" className="hover:text-[var(--color-accent)] transition-colors">Flowchart Sitemap</Link>
           <Link href="/demo/proximity" className="hover:text-[var(--color-accent)] transition-colors">Dev Demo</Link>
           <Link href="/admin?login=true" className="hover:text-[var(--color-accent)] transition-colors">Admin</Link>
           <Link href="/planner?login=true" className="hover:text-[var(--color-accent)] transition-colors">Planner</Link>

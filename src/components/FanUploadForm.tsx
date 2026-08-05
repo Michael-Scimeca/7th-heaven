@@ -215,7 +215,7 @@ export default function FanUploadForm() {
   };
 
   return (
-    <div className="border border-black/10 bg-white p-6 lg:p-8 rounded-xl shadow-md text-black">
+    <div className="border border-black/10 bg-white p-6 lg:p-8 shadow-md text-black">
       <div className="flex items-center gap-3 mb-6">
         <span className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/50 flex flex-col items-center justify-center text-black">📸</span>
         <div>
@@ -226,7 +226,7 @@ export default function FanUploadForm() {
 
       {uploadSuccess ? (
         <div className="text-center py-8">
-          <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 flex items-center justify-center rounded-xl border border-[var(--color-accent)]/30">
+          <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 flex items-center justify-center border border-[var(--color-accent)]/30">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
           <h3 className="text-xl font-bold text-black mb-2">Moments Submitted!</h3>
@@ -249,7 +249,7 @@ export default function FanUploadForm() {
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
-                className={`relative w-full h-48 border border-black/15 rounded-xl cursor-pointer flex items-center justify-center overflow-hidden transition-all ${
+                className={`relative w-full h-48 border border-black/15  cursor-pointer flex items-center justify-center overflow-hidden transition-all ${
                   dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "hover:border-[var(--color-accent)]/50 bg-gray-50"
                 }`}
               >
@@ -280,7 +280,7 @@ export default function FanUploadForm() {
                   </div>
                 ) : (
                   <div className="text-center p-6 relative z-10 flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center mb-4 text-[var(--color-accent)] shadow-[0_0_30px_rgba(133,29,239,0.15)]">
+                    <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center mb-4 text-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.15)]">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                       </svg>
@@ -289,9 +289,9 @@ export default function FanUploadForm() {
                     <p className="text-xs text-black/40 uppercase tracking-[0.1em]">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
                   </div>
                 )}
-                {previews.length === 0 && !isScanning && <div className="absolute inset-0 border-[2px] border-dashed border-black/10 rounded-xl m-2 pointer-events-none" />}
+                {previews.length === 0 && !isScanning && <div className="absolute inset-0 border-[2px] border-dashed border-black/10 m-2 pointer-events-none" />}
                 {isScanning && (
-                  <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center z-30 rounded-xl">
+                  <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
                     <div className="w-10 h-10 border-2 border-emerald-400/30 border-t-emerald-500 rounded-full animate-spin mb-3" />
                     <p className="text-black font-black text-sm uppercase tracking-widest">Safety Scan</p>
                     <p className="text-emerald-600 text-xs uppercase tracking-widest mt-1">{scanStatus}</p>
@@ -301,7 +301,7 @@ export default function FanUploadForm() {
               </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 bg-gray-50 border border-black/10 p-4 rounded-xl">
+            <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 bg-gray-50 border border-black/10 p-4">
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Venue / Event <span className="text-[var(--color-accent)]">*</span></label>

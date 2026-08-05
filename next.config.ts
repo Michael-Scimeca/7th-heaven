@@ -3,7 +3,7 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
-  reactStrictMode: false,
+  reactStrictMode: true,
 
   allowedDevOrigins: ["*.trycloudflare.com", "*.loca.lt", "*.lhr.life", "*.tunnelmole.net", "10.0.0.189", "localhost:3000"],
   productionBrowserSourceMaps: false,
@@ -24,7 +24,6 @@ const nextConfig: NextConfig = {
       'node_modules/leaflet/**',
       'node_modules/react-leaflet/**',
       'node_modules/swiper/**',
-      'node_modules/gsap/**',
       'node_modules/lottie-web/**',
       'public/movie/**',
       'public/demos/**',

@@ -7,7 +7,7 @@ const PICK_META: Record<string, { name: string; rarity: string; color: string; i
   red:         { name: "Crimson Fire",    rarity: "Uncommon",  color: "#ef4444", img: "/images/picks/red.png" },
   black:       { name: "Stealth Black",   rarity: "Uncommon",  color: "#6b7280", img: "/images/picks/black.png" },
   silver:      { name: "Chrome Silver",   rarity: "Rare",      color: "#c0c0c0", img: "/images/picks/silver.png" },
-  gold:        { name: "24K Gold",        rarity: "Epic",      color: "#fbbf24", img: "/images/picks/gold.png" },
+  gold:        { name: "24K Gold",        rarity: "Epic",      color: "#c084fc", img: "/images/picks/gold.png" },
   holographic: { name: "Holographic",     rarity: "Legendary", color: "#ec4899", img: "/images/picks/holographic.png" },
 };
 
@@ -15,7 +15,7 @@ const RARITY_COLORS: Record<string, string> = {
   Common:    "text-white/40",
   Uncommon:  "text-green-400",
   Rare:      "text-blue-400",
-  Epic:      "text-yellow-400",
+  Epic:      "text-purple-300",
   Legendary: "text-pink-400",
 };
 
@@ -111,7 +111,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
   }));
 
   return (
-    <div className="mb-6 p-6 bg-white border border-black/10 rounded-xl shadow-md text-black">
+    <div className="mb-6 p-6 bg-white border border-black/10 shadow-md text-black">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-lg font-bold text-black">
           Pick <span className="gradient-text">Awards</span>
@@ -132,10 +132,10 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <button
                 key={pick.id}
                 onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
-                className={`relative p-3 border rounded-xl text-center transition-all ${
+                className={`relative p-3 border  text-center transition-all ${
                   pick.owned > 0
                     ? selectedPick === pick.id
-                      ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(133,29,239,0.2)] scale-105"
+                      ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
                       : "border-black/10 bg-gray-50 hover:border-black/25 hover:scale-[1.02] cursor-pointer"
                     : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
                 }`}
@@ -151,7 +151,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 <p className="text-xs font-bold text-black/80 truncate">{pick.name}</p>
                 <p className={`text-2xs font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
                 {pick.owned === 0 && (
-                  <div className="absolute inset-0 flex items-center justify-center rounded-xl overflow-hidden">
+                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                     <span className="text-xs font-bold text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded shadow-xs">Locked</span>
                   </div>
                 )}
@@ -227,7 +227,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       lottery.isEntered
                         ? "border-emerald-500/30 bg-emerald-500/5"
                         : lottery.isEligible
-                          ? "border-yellow-500/30 bg-yellow-500/5 hover:border-yellow-500/50"
+                          ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
                           : "border-black/10 bg-gray-50"
                     }`}
                   >
@@ -243,7 +243,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                           <button
                             onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
-                            className="px-4 py-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-600 font-bold text-xs uppercase tracking-[0.15em] rounded-lg hover:bg-yellow-500/30 transition-all cursor-pointer disabled:opacity-50 shadow-[0_0_10px_rgba(250,204,21,0.15)]"
+                            className="px-4 py-2 bg-purple-500/20 border border-purple-500/40 text-yellow-600 font-bold text-xs uppercase tracking-[0.15em] rounded-lg hover:bg-yellow-500/30 transition-all cursor-pointer disabled:opacity-50 shadow-[0_0_10px_rgba(250,204,21,0.15)]"
                           >
                             {enteringLottery === lottery.id ? "Entering..." : "Enter Lottery"}
                           </button>

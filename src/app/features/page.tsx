@@ -369,7 +369,7 @@ const FEATURES: FeatureCard[] = [
       "On account creation, a unique referral code (UUID-based) is generated and stored in the fan's profile record",
       "When anyone visits /fans?ref=[code] and signs up, the code is written to the new user's referred_by field in Supabase",
       "The leaderboard queries Supabase for a count of referrals grouped by referrer",
-      "QR codes are generated via the QR Server API and displayed as an inline <img> element",
+      "QR codes are generated via the QR Server API and displayed as an inline QR code image",
     ],
     tags: ["QR Code", "Live Leaderboard", "Supabase Tracking", "Zero Ad Cost"],
     category: ["fan"],
@@ -1171,9 +1171,9 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
     <>
       <button
         onClick={() => setExpanded(true)}
-        className={`relative w-full aspect-video rounded-xl overflow-hidden border-2 transition-all duration-300 cursor-pointer group ${
+        className={`relative w-full aspect-video  overflow-hidden border-2 transition-all duration-300 cursor-pointer group ${
           isPurple
-            ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(133,29,239,0.15)]"
+            ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
             : "border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
         }`}
       >
@@ -1190,7 +1190,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         <div className="absolute inset-0 flex items-center justify-center">
           <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
             isPurple
-              ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(133,29,239,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(133,29,239,0.7)]"
+              ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
               : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
           }`}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
@@ -1231,7 +1231,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
               </h3>
             </div>
             {/* Image */}
-            <div className={`rounded-2xl overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "border-white/15"}`}>
+            <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "border-white/15"}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}
@@ -1254,7 +1254,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
   const isPurple = !!f.highlight;
 
   return (
-    <div className={`group relative flex flex-col rounded-2xl border transition-all duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover:border-white/20"}`}>
+    <div className={`group relative flex flex-col  border transition-all duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover:border-white/20"}`}>
       {/* accent top line */}
       <div className={`h-px w-full ${isPurple ? "bg-gradient-to-r from-[#851DEF]/70 via-[#c084fc]/40 to-transparent" : "bg-gradient-to-r from-white/10 to-transparent"}`} />
 
@@ -1355,7 +1355,7 @@ export default function FeaturesPage() {
       <section className="relative pt-40 pb-28 px-6 md:px-12 lg:px-20 overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[600px] rounded-full bg-[var(--color-accent)] opacity-[0.10] blur-[140px]" />
-          <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "linear-gradient(rgba(133,29,239,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(133,29,239,0.6) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+          <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.6) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
 
         <div className="relative max-w-5xl mx-auto text-center">
@@ -1379,7 +1379,7 @@ export default function FeaturesPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(133,29,239,0.5)]">
+            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />Watch Live
             </Link>
             <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-all">Book The Band →</Link>
@@ -1420,11 +1420,11 @@ export default function FeaturesPage() {
             </div>
 
             {/* Outer chrome */}
-            <div className="rounded-2xl border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(133,29,239,0.12)]">
+            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-amber-500/60" />
+                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/live/live_michael</div>
                 <span className="text-white/20 text-xs">LIVE</span>
@@ -1447,7 +1447,7 @@ export default function FeaturesPage() {
                       <div className="w-8 h-8 rounded-full bg-white/80 mb-1" />
                       <div className="w-16 h-28 bg-gradient-to-b from-white/60 to-white/10 rounded-t-full" style={{ clipPath: "polygon(30% 0%, 70% 0%, 90% 100%, 10% 100%)" }} />
                       {/* Guitar */}
-                      <div className="absolute top-8 -right-8 w-20 h-4 bg-amber-600/60 rounded-full -rotate-12" />
+                      <div className="absolute top-8 -right-8 w-20 h-4 bg-purple-700/60 rounded-full -rotate-12" />
                     </div>
                     {/* Crowd silhouettes */}
                     <div className="absolute bottom-0 left-0 right-0 flex justify-around items-end px-4">
@@ -1474,7 +1474,7 @@ export default function FeaturesPage() {
                   {/* Floating emoji reactions */}
                   <div className="absolute inset-0 pointer-events-none overflow-hidden">
                     {["🔥", "🎸", "❤️", "🤘", "⚡", "🎶", "💜", "🔥"].map((e, i) => (
-                      <div key={i} className="absolute text-xl animate-bounce" style={{
+                      <div key={i} className="absolute text-xl animate-pulse" style={{
                         left: `${10 + i * 11}%`,
                         bottom: `${20 + (i % 3) * 15}%`,
                         animationDelay: `${i * 0.3}s`,
@@ -1530,7 +1530,7 @@ export default function FeaturesPage() {
                       { user: "MikeC", msg: "That guitar solo was 😭", color: "#f472b6" },
                       { user: "DaveS", msg: "When's the merch drop??", color: "#a78bfa" },
                       { user: "SarahT", msg: "I'm literally crying rn 💜", color: "#2dd4bf" },
-                      { user: "7thHeavenFan", msg: "Hype at 87%!! 🚀", color: "#fbbf24" },
+                      { user: "7thHeavenFan", msg: "Hype at 87%!! 🚀", color: "#c084fc" },
                     ].map((m, i) => (
                       <div key={i} className="flex items-start gap-1.5 animate-none">
                         <span className="text-xs font-black shrink-0" style={{ color: m.color }}>{m.user}</span>
@@ -1572,11 +1572,11 @@ export default function FeaturesPage() {
               <span className="text-white/20 text-sm">— what crew sees at /crew</span>
             </div>
 
-            <div className="rounded-2xl border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(133,29,239,0.10)]">
+            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.10)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-amber-500/60" />
+                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/crew</div>
               </div>
@@ -1586,7 +1586,7 @@ export default function FeaturesPage() {
                 {/* Col 1: Video preview + controls */}
                 <div className="flex flex-col gap-4">
                   {/* Camera preview */}
-                  <div className="rounded-xl overflow-hidden border border-white/10 relative aspect-video bg-gradient-to-br from-[#1a0533] via-[#0d0d1a] to-black">
+                  <div className="overflow-hidden border border-white/10 relative aspect-video bg-gradient-to-br from-[#1a0533] via-[#0d0d1a] to-black">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-[var(--color-accent)] opacity-20 blur-[40px] rounded-full" />
                     {/* Performer */}
                     <div className="absolute inset-0 flex items-center justify-center flex-col opacity-80">
@@ -1624,7 +1624,7 @@ export default function FeaturesPage() {
                       📹 Cam On
                     </button>
                   </div>
-                  <button className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all cursor-pointer">
+                  <button className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white text-sm font-black uppercase tracking-widest transition-all cursor-pointer">
                     ⏹ End Stream
                   </button>
                 </div>
@@ -1636,7 +1636,7 @@ export default function FeaturesPage() {
                     <span className="text-emerald-400 text-xs">Live · 1,247 online</span>
                   </div>
 
-                  <div className="flex-1 bg-black/30 rounded-xl border border-white/[0.06] overflow-hidden flex flex-col" style={{ minHeight: "260px" }}>
+                  <div className="flex-1 bg-black/30 border border-white/[0.06] overflow-hidden flex flex-col" style={{ minHeight: "260px" }}>
                     <div className="flex-1 p-3 flex flex-col gap-2 justify-end overflow-hidden">
                       {[
                         { user: "RockFan99", msg: "This song is 🔥🔥🔥", flag: false, color: "#c084fc" },
@@ -1686,7 +1686,7 @@ export default function FeaturesPage() {
                 <div className="flex flex-col gap-4">
 
                   {/* Raffle card */}
-                  <div className="bg-gradient-to-br from-[#851DEF]/15 to-black border border-[#851DEF]/30 rounded-xl p-4">
+                  <div className="bg-gradient-to-br from-[#851DEF]/15 to-black border border-[#851DEF]/30 p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">🎰</span>
                       <span className="text-white font-black text-sm uppercase tracking-wide">Raffle Engine</span>
@@ -1716,7 +1716,7 @@ export default function FeaturesPage() {
                     </div>
                   </div>
                   {/* Flash Drop card */}
-                  <div className="bg-gradient-to-br from-amber-500/10 to-black border border-amber-500/25 rounded-xl p-4">
+                  <div className="bg-gradient-to-br from-amber-500/10 to-black border border-purple-500/25 p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">🔥</span>
                       <span className="text-white font-black text-sm uppercase tracking-wide">Merch Flash Drop</span>
@@ -1729,13 +1729,13 @@ export default function FeaturesPage() {
                       </div>
                       <input readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
                     </div>
-                    <button className="w-full py-2.5 bg-amber-500/80 hover:bg-amber-500 rounded-lg text-black text-sm font-black uppercase tracking-widest transition-all cursor-pointer">
+                    <button className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black text-sm font-black uppercase tracking-widest transition-all cursor-pointer">
                       🔥 Launch Drop to All Viewers
                     </button>
                   </div>
 
                   {/* SMS blast mini */}
-                  <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl p-4">
+                  <div className="bg-white/[0.02] border border-white/[0.07] p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">📱</span>
                       <span className="text-white/70 font-black text-sm uppercase tracking-wide">SMS Fan Alert</span>
@@ -1764,11 +1764,11 @@ export default function FeaturesPage() {
               <span className="text-white/20 text-sm">— what admins see at /admin</span>
             </div>
 
-            <div className="rounded-2xl border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(133,29,239,0.08)]">
+            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.08)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-amber-500/60" />
+                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/admin</div>
                 <span className="text-blue-400 text-xs font-bold">🔐 Admin Only</span>
@@ -1792,8 +1792,8 @@ export default function FeaturesPage() {
                       <span className="text-red-400 text-xs font-bold">2 Streams Live</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                      <span className="text-amber-400 text-xs font-bold">3 Pending Bookings</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                      <span className="text-purple-300 text-xs font-bold">3 Pending Bookings</span>
                     </div>
                   </div>
                 </div>
@@ -1818,11 +1818,11 @@ export default function FeaturesPage() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {[
                       { label: "Total Fans", val: "2,847", icon: "👥", color: "#c084fc", trend: "+12 today", bar: 72 },
-                      { label: "Pending Bookings", val: "3", icon: "📋", color: "#fbbf24", trend: "2 new today", bar: 30 },
+                      { label: "Pending Bookings", val: "3", icon: "📋", color: "#c084fc", trend: "2 new today", bar: 30 },
                       { label: "Fan Photos", val: "134", icon: "📸", color: "#34d399", trend: "8 need review", bar: 55 },
                       { label: "Live Viewers", val: "1,891", icon: "📡", color: "#f87171", trend: "Peak right now", bar: 89 },
                     ].map(s => (
-                      <div key={s.label} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                      <div key={s.label} className="bg-[var(--color-bg-surface)] border border-white/5 p-4 flex flex-col gap-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xl">{s.icon}</span>
                           <span className="text-xs text-white/25 font-bold">{s.trend}</span>
@@ -1840,10 +1840,10 @@ export default function FeaturesPage() {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
                     {/* Col 1: Bookings */}
-                    <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-xl overflow-hidden">
+                    <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                         <span className="text-white/70 font-black text-xs uppercase tracking-widest">📋 Booking Requests</span>
-                        <span className="text-amber-400 text-xs font-bold px-2 py-0.5 bg-amber-500/10 rounded-full border border-amber-500/20">3 Pending</span>
+                        <span className="text-purple-300 text-xs font-bold px-2 py-0.5 bg-purple-600/10 rounded-full border border-purple-500/20">3 Pending</span>
                       </div>
                       <div className="divide-y divide-white/[0.04]">
                         {[
@@ -1880,10 +1880,10 @@ export default function FeaturesPage() {
                     </div>
 
                     {/* Col 2: Fan Photo Queue */}
-                    <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-xl overflow-hidden flex flex-col">
+                    <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden flex flex-col">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                         <span className="text-white/70 font-black text-xs uppercase tracking-widest">📸 Fan Photo Queue</span>
-                        <span className="text-amber-400 text-xs font-bold px-2 py-0.5 bg-amber-500/10 rounded-full border border-amber-500/20">8 Awaiting</span>
+                        <span className="text-purple-300 text-xs font-bold px-2 py-0.5 bg-purple-600/10 rounded-full border border-purple-500/20">8 Awaiting</span>
                       </div>
                       <div className="p-3 grid grid-cols-3 gap-2">
                         {[
@@ -1940,7 +1940,7 @@ export default function FeaturesPage() {
 
                     {/* Col 3: Live Monitor + SMS + Audit */}
                     <div className="flex flex-col gap-4">
-                      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-xl overflow-hidden">
+                      <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                         <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                           <span className="text-white/70 font-black text-xs uppercase tracking-widest">📡 Live Streams</span>
                           <span className="flex items-center gap-1 text-red-400 text-xs font-bold"><span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />2 Active</span>
@@ -1969,7 +1969,7 @@ export default function FeaturesPage() {
                         </div>
                       </div>
 
-                      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-xl p-4 flex flex-col gap-3">
+                      <div className="bg-[var(--color-bg-surface)] border border-white/5 p-4 flex flex-col gap-3">
                         <div className="flex items-center gap-2">
                           <span>📣</span>
                           <span className="text-white/70 font-black text-xs uppercase tracking-widest">SMS Blast</span>
@@ -1987,7 +1987,7 @@ export default function FeaturesPage() {
                         <div className="text-white/20 text-xs">Last blast: Dec 10 — 94% open rate</div>
                       </div>
 
-                      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-xl overflow-hidden">
+                      <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                         <div className="px-4 py-3 border-b border-white/[0.05]">
                           <span className="text-white/70 font-black text-xs uppercase tracking-widest">📝 Audit Log</span>
                         </div>
@@ -1998,7 +1998,7 @@ export default function FeaturesPage() {
                             { time: "14:11:09", action: "Photo approved: rockerdan92.jpg", color: "#34d399" },
                             { time: "14:09:33", action: "AI flagged: tay_rocks (NSFW 0.82)", color: "#f87171" },
                             { time: "14:02:17", action: "live_michael started · 0 viewers", color: "#60a5fa" },
-                            { time: "13:55:44", action: "admin login · 192.168.1.x", color: "#fbbf24" },
+                            { time: "13:55:44", action: "admin login · 192.168.1.x", color: "#c084fc" },
                           ].map((log, i) => (
                             <div key={i} className="flex gap-2 items-start">
                               <span className="text-white/20 shrink-0">{log.time}</span>
@@ -2043,10 +2043,10 @@ export default function FeaturesPage() {
               <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-sm font-black uppercase tracking-widest rounded-full">⭐ Profile & Show Countdown</span>
               <span className="text-white/20 text-sm">— personalized identity + next show timer</span>
             </div>
-            <div className="rounded-2xl border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(133,29,239,0.12)]">
+            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-amber-500/60" />
+                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
@@ -2061,10 +2061,10 @@ export default function FeaturesPage() {
               <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-sm font-black uppercase tracking-widest rounded-full">📍 Proximity Alerts & Shows</span>
               <span className="text-white/20 text-sm">— upcoming dates + location-based notifications</span>
             </div>
-            <div className="rounded-2xl border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
+            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-amber-500/60" />
+                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
@@ -2076,13 +2076,13 @@ export default function FeaturesPage() {
           {/* Screenshot 3: Lower — Memories + Referral */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm font-black uppercase tracking-widest rounded-full">🎸 Show Memories & Referrals</span>
+              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-sm font-black uppercase tracking-widest rounded-full">🎸 Show Memories & Referrals</span>
               <span className="text-white/20 text-sm">— post-show engagement + fan-to-fan growth</span>
             </div>
-            <div className="rounded-2xl border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(245,158,11,0.08)]">
+            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(147, 51, 234,0.08)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-amber-500/60" />
+                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
@@ -2093,7 +2093,7 @@ export default function FeaturesPage() {
 
           {/* CTA */}
           <div className="text-center mt-12">
-            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(133,29,239,0.5)]">
+            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               Try the Fan Dashboard →
             </Link>
           </div>
@@ -2118,7 +2118,7 @@ export default function FeaturesPage() {
           <div className="flex flex-wrap gap-3 mb-8">
             {[
               { color: "bg-emerald-500/15 border-emerald-500/30 text-emerald-400", dot: "bg-emerald-500", label: "Public — no login needed" },
-              { color: "bg-amber-500/15 border-amber-500/30 text-amber-400", dot: "bg-amber-500", label: "Login Required" },
+              { color: "bg-purple-600/15 border-purple-500/30 text-purple-300", dot: "bg-purple-600", label: "Login Required" },
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
               { color: "bg-white/5 border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview" },
             ].map(l => (
@@ -2221,7 +2221,7 @@ export default function FeaturesPage() {
           ].map((group) => {
             const accessStyles: Record<string, string> = {
               public: "bg-emerald-500/10 border-emerald-500/25 text-emerald-400",
-              login:  "bg-amber-500/10  border-amber-500/25  text-amber-400",
+              login:  "bg-purple-600/10  border-purple-500/25  text-purple-300",
               admin:  "bg-blue-500/10   border-blue-500/25   text-blue-400",
               dev:    "bg-white/5       border-white/10      text-white/30",
             };
@@ -2233,7 +2233,7 @@ export default function FeaturesPage() {
             };
             const accessDot: Record<string, string> = {
               public: "bg-emerald-500",
-              login:  "bg-amber-500",
+              login:  "bg-purple-600",
               admin:  "bg-blue-500",
               dev:    "bg-white/30",
             };
@@ -2246,7 +2246,7 @@ export default function FeaturesPage() {
                   <span className="text-white/20 text-sm font-normal normal-case">{group.pages.length} pages</span>
                 </h3>
 
-                <div className="rounded-xl border border-white/[0.07] overflow-hidden divide-y divide-white/[0.04]">
+                <div className="border border-white/[0.07] overflow-hidden divide-y divide-white/[0.04]">
                   {group.pages.map((page) => (
                     <Link
                       key={page.path}
@@ -2314,7 +2314,7 @@ export default function FeaturesPage() {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
                 <button key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-[0.1em] border transition-all cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(133,29,239,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-[0.1em] border transition-all cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
                   <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-black ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-white/5 text-white/30"}`}>{count}</span>
                 </button>
@@ -2338,7 +2338,7 @@ export default function FeaturesPage() {
           <p className="text-white/35 mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
-              <div key={i} className="flex items-start gap-4 p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-all cursor-default">
+              <div key={i} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-all cursor-default">
                 <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base font-black uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
@@ -2360,14 +2360,14 @@ export default function FeaturesPage() {
             </h2>
           </div>
           <p className="text-white/35 mb-4 max-w-2xl">
-            Every page on the site — click any row to open it directly. Pages marked <span className="text-emerald-400 font-bold">Public</span> are accessible without logging in. Pages marked <span className="text-amber-400 font-bold">Login Required</span> need an account.
+            Every page on the site — click any row to open it directly. Pages marked <span className="text-emerald-400 font-bold">Public</span> are accessible without logging in. Pages marked <span className="text-purple-300 font-bold">Login Required</span> need an account.
           </p>
 
           {/* Legend */}
           <div className="flex flex-wrap gap-3 mb-10">
             {[
               { color: "bg-emerald-500/15 border-emerald-500/30 text-emerald-400", dot: "bg-emerald-500", label: "Public — no login needed" },
-              { color: "bg-amber-500/15 border-amber-500/30 text-amber-400", dot: "bg-amber-500", label: "Login Required" },
+              { color: "bg-purple-600/15 border-purple-500/30 text-purple-300", dot: "bg-purple-600", label: "Login Required" },
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
               { color: "bg-white/5 border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview Page" },
             ].map(l => (
@@ -2469,7 +2469,7 @@ export default function FeaturesPage() {
           ].map((group) => {
             const accessStyles: Record<string, string> = {
               public: "bg-emerald-500/10 border-emerald-500/25 text-emerald-400",
-              login: "bg-amber-500/10 border-amber-500/25 text-amber-400",
+              login: "bg-purple-600/10 border-purple-500/25 text-purple-300",
               admin: "bg-blue-500/10 border-blue-500/25 text-blue-400",
               dev: "bg-white/5 border-white/10 text-white/30",
             };
@@ -2481,7 +2481,7 @@ export default function FeaturesPage() {
             };
             const accessDot: Record<string, string> = {
               public: "bg-emerald-500",
-              login: "bg-amber-500",
+              login: "bg-purple-600",
               admin: "bg-blue-500",
               dev: "bg-white/30",
             };
@@ -2494,7 +2494,7 @@ export default function FeaturesPage() {
                   <span className="text-white/20 text-sm font-normal normal-case">{group.pages.length} pages</span>
                 </h3>
 
-                <div className="rounded-xl border border-white/[0.07] overflow-hidden">
+                <div className="border border-white/[0.07] overflow-hidden">
                   {group.pages.map((page, pi) => (
                     <Link
                       key={page.path}
@@ -2549,7 +2549,7 @@ export default function FeaturesPage() {
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#851DEF]/8 to-transparent" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[400px] rounded-full bg-[var(--color-accent)] opacity-[0.07] blur-[130px]" />
-          <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(133,29,239,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(133,29,239,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+          <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
           <h2 className="text-6xl md:text-8xl font-black uppercase text-white mb-4 leading-none" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
@@ -2558,7 +2558,7 @@ export default function FeaturesPage() {
           <p className="text-white/40 text-2xl mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
           <p className="text-white/20 text-base mb-12">Questions? Reach out via the contact page.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/fans" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(133,29,239,0.5)]">Join as a Fan →</Link>
+            <Link href="/fans" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">Join as a Fan →</Link>
             <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">Watch Live</Link>
             <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">See Tour Dates</Link>
             <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">Book the Band</Link>

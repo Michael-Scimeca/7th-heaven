@@ -26,7 +26,7 @@ function formatMessageContent(content: string) {
           key={i}
           className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 rounded font-black text-xs border ${
             isAdminTag
-              ? 'bg-amber-500/25 text-amber-300 border-amber-500/40 shadow-[0_0_8px_rgba(245,158,11,0.4)]'
+              ? 'bg-purple-600/25 text-purple-200 border-purple-500/40 shadow-[0_0_8px_rgba(147, 51, 234,0.4)]'
               : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
           }`}
         >
@@ -355,12 +355,12 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
   const getAvatarGradient = (name: string) => {
     const gradients = [
-      'bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-500 text-white shadow-[0_0_12px_rgba(217,70,239,0.4)]',
-      'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-[0_0_12px_rgba(6,182,212,0.4)]',
-      'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white shadow-[0_0_12px_rgba(16,185,129,0.4)]',
-      'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black font-black shadow-[0_0_12px_rgba(245,158,11,0.4)]',
-      'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500 text-white shadow-[0_0_12px_rgba(236,72,153,0.4)]',
-      'bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.4)]',
+      'bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 text-white shadow-md',
+      'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-md',
+      'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white shadow-md',
+      'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black font-black shadow-md',
+      'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500 text-white shadow-md',
+      'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white shadow-md',
     ];
     let hash = 0;
     const str = name || 'user';
@@ -371,11 +371,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   };
 
   const getSenderNameColor = (name: string, role: string) => {
-    if (role === 'admin') return '!text-amber-700 font-extrabold';
+    if (role === 'admin') return '!text-purple-400 font-extrabold';
     if (role === 'crew') return '!text-emerald-700 font-extrabold';
-    if (role === 'planner') return '!text-fuchsia-700 font-extrabold';
+    if (role === 'planner') return '!text-[var(--color-accent)] font-extrabold';
     if (role === 'cruise') return '!text-cyan-700 font-extrabold';
-    const colors = ['!text-purple-700', '!text-cyan-700', '!text-pink-700', '!text-emerald-700', '!text-amber-700', '!text-indigo-700'];
+    const colors = ['!text-[var(--color-accent)]', '!text-cyan-700', '!text-pink-700', '!text-emerald-700', '!text-purple-400', '!text-indigo-700'];
     let hash = 0;
     const str = name || 'user';
     for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -383,16 +383,16 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   };
 
   const getRoleColor = (role: string) => {
-    if (role === "admin") return "text-amber-800 bg-amber-500/20 border-amber-500/40 font-extrabold";
+    if (role === "admin") return "text-purple-400 bg-purple-600/20 border-purple-500/40 font-extrabold";
     if (role === "crew") return "text-emerald-800 bg-emerald-500/20 border-emerald-500/40 font-extrabold";
-    if (role === "planner") return "text-fuchsia-800 bg-fuchsia-500/20 border-fuchsia-500/40 font-extrabold";
+    if (role === "planner") return "text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 font-extrabold";
     if (role === "cruise") return "text-cyan-800 bg-cyan-500/20 border-cyan-500/40 font-extrabold";
-    return "text-purple-900 bg-purple-500/20 border-purple-500/35 font-extrabold";
+    return "text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35 font-extrabold";
   };
 
   if (isLoading) {
     return (
-      <div className="bg-white border border-black/10 rounded-2xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-md">
+      <div className="bg-white border border-black/10 flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-md">
         <div className="w-6 h-6 border-2 border-black/10 border-t-[var(--color-accent)] rounded-full animate-spin" />
         <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
@@ -401,7 +401,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
   if (!chatEnabled) {
     return (
-      <div className="bg-white border border-black/10 rounded-2xl flex flex-col h-[320px] overflow-hidden relative group shadow-md text-black">
+      <div className="bg-white border border-black/10 flex flex-col h-[320px] overflow-hidden relative group shadow-md text-black">
         <div className="bg-gray-50 px-5 py-4 border-b border-black/10 flex items-center justify-between z-10 relative">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-lg opacity-50">
@@ -423,10 +423,10 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   }
 
   return (
-    <div id="cruise-chat-root" className="bg-white border border-black/10 rounded-2xl p-3 shadow-md flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden text-black">
+    <div id="cruise-chat-root" className="bg-white border border-black/10 p-3 shadow-md flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden text-black">
       <div className="py-2 px-1 border-b border-black/10 flex items-center justify-between z-10 relative">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-xs shadow-md text-white">
+          <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
             💬
           </div>
           <div>
@@ -445,10 +445,10 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
       </div>
 
       {member?.is_warned && (
-        <div className="bg-amber-500/15 border-b border-amber-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
-          <span className="text-amber-400 text-xs shrink-0">⚠️</span>
+        <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
+          <span className="text-purple-300 text-xs shrink-0">⚠️</span>
           <div className="flex-1">
-            <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-amber-400/80 mb-0.5">Warning Alert</h4>
+            <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-300/80 mb-0.5">Warning Alert</h4>
             <p className="text-amber-100/90 text-xs font-medium leading-relaxed">
               You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
             </p>
@@ -482,12 +482,12 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
               const isWarning = msg.content.includes('Warning') || msg.content.includes('warned');
               const isBan = msg.content.includes('banned');
               const bgClass = isWarning 
-                ? "bg-amber-500/10 border-amber-500/20 text-amber-200" 
+                ? "bg-purple-600/10 border-purple-500/20 text-purple-100" 
                 : isBan 
                 ? "bg-red-500/10 border-red-500/20 text-red-200" 
-                : "bg-purple-500/10 border-purple-500/20 text-purple-200";
+                : "bg-sky-500/10 border-sky-500/20 text-sky-200";
               return (
-                <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
+                <div key={msg.id} className={`flex items-center gap-2 p-2.5  border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
                   <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
                   <div className="flex-1 leading-relaxed">
                     {msg.content}
@@ -516,7 +516,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                       {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                     </span>
                     {hasAdminTag && (
-                      <span className="text-[8px] font-black uppercase tracking-widest text-amber-700 bg-amber-500/15 border border-amber-500/30 px-1 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
+                      <span className="text-[8px] font-black uppercase tracking-widest text-purple-400 bg-purple-600/15 border border-purple-500/30 px-1 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
                         👑 Question for Admin
                       </span>
                     )}
@@ -530,14 +530,14 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                           isSelf
                             ? 'bg-blue-600 border-blue-400/50 !text-white font-bold'
                             : hasAdminTag
-                            ? 'bg-amber-500 border-amber-300 !text-black font-black'
+                            ? 'bg-purple-600 border-purple-300 !text-black font-black'
                             : 'bg-cyan-500 border-cyan-300/50 !text-white font-bold hover:bg-cyan-400'
                         }`
-                      : `rounded-xl rounded-tl-xs ${
+                      : ` rounded-tl-xs ${
                           isSelf 
-                            ? 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 border-purple-400/50 !text-white shadow-[0_2px_10px_rgba(168,85,247,0.35)]'
+                            ? 'bg-sky-600 border-sky-400/50 !text-white shadow-md'
                             : hasAdminTag
-                            ? 'bg-gradient-to-r from-amber-950/50 via-yellow-950/40 to-black/80 border-amber-500/50 !text-amber-100 shadow-[0_2px_10px_rgba(245,158,11,0.2)]'
+                            ? 'bg-gradient-to-r from-amber-950/50 via-yellow-950/40 to-black/80 border-purple-500/50 !text-amber-100 shadow-xs'
                             : 'bg-cyan-600 border-cyan-400/40 !text-white font-bold shadow-sm hover:bg-cyan-500'
                         }`
                   }`}>
@@ -546,11 +546,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 </div>
 
                 {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                  <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-lg p-1 shadow-lg z-20">
+                  <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-lg p-1 z-20">
                     <button
                       onClick={() => handleWarn(msg.sender_name)}
                       title="Warn User"
-                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-amber-500/15 text-amber-500 hover:scale-105 transition-all cursor-pointer"
+                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-600/15 text-purple-400 hover:scale-105 transition-all cursor-pointer"
                     >
                       ⚠️
                     </button>
@@ -585,7 +585,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
       <div className="py-2.5 border-t border-white/10 relative">
         {showTagMenu && (
-          <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 rounded-xl p-2 shadow-2xl z-30 animate-[slideUp_0.15s_ease-out]">
+          <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
             <div className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 px-2 py-1 flex items-center justify-between">
               <span>Tag Admin / Crew Member</span>
               <button onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
@@ -610,7 +610,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         )}
 
         {showEmojiPicker && (
-          <div className="absolute bottom-full mb-2 right-0 bg-white border border-black/15 rounded-xl p-2.5 shadow-2xl z-30 animate-[slideUp_0.15s_ease-out] w-64">
+          <div className="absolute bottom-full mb-2 right-0 bg-white border border-black/15 p-2.5 z-30 animate-[slideUp_0.15s_ease-out] w-64">
             <div className="text-[10px] font-black uppercase tracking-wider text-black/40 mb-1.5 px-1 flex items-center justify-between">
               <span>Quick Emojis</span>
               <button type="button" onClick={() => setShowEmojiPicker(false)} className="text-black/30 hover:text-black text-xs font-bold">✕</button>
@@ -633,7 +633,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         )}
 
         {isArchived ? (
-          <div className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-4 py-3 text-sm text-white/40 text-center flex items-center justify-center gap-2">
+          <div className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white/40 text-center flex items-center justify-center gap-2">
             <span>🔒</span> This cruise chat has been archived.
           </div>
         ) : (
@@ -651,7 +651,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 }}
                 disabled={!member || isSending || member.is_banned}
                 placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
-                className="w-full !bg-white border border-black/15 rounded-xl pl-3.5 pr-28 py-2.5 text-xs !text-black font-medium outline-none focus:border-cyan-600 focus:!bg-white transition-all disabled:opacity-50 placeholder:!text-black/50 shadow-sm"
+                className="w-full !bg-white border border-black/15 pl-3.5 pr-28 py-2.5 text-xs !text-black font-medium outline-none focus:border-cyan-600 focus:!bg-white transition-all disabled:opacity-50 placeholder:!text-black/50 shadow-sm"
                 maxLength={500}
               />
               <div className="absolute right-1.5 flex items-center gap-1">
@@ -673,7 +673,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                     if (showEmojiPicker) setShowEmojiPicker(false);
                   }}
                   title="Tag Admin or Crew"
-                  className="px-2 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 font-bold text-xs border border-amber-500/30 transition-all cursor-pointer"
+                  className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 font-bold text-xs border border-purple-500/30 transition-all cursor-pointer"
                 >
                   @
                 </button>

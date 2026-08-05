@@ -124,12 +124,12 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
 
   const getRoleBadgeStyle = (role: string) => {
     switch (role) {
-      case "admin": return "bg-amber-500/20 text-amber-300 border-amber-500/30";
+      case "admin": return "bg-purple-600/20 text-purple-200 border-purple-500/30";
       case "crew": return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
       case "cruise": return "bg-sky-500/20 text-sky-300 border-sky-500/30";
       case "planner":
-      case "event_planner": return "bg-fuchsia-100 text-fuchsia-900 border-fuchsia-300";
-      default: return "bg-purple-100 text-purple-900 border-purple-300";
+      case "event_planner": return "bg-[var(--color-accent)] text-[var(--color-accent)] border-[var(--color-accent)]";
+      default: return "bg-[var(--color-accent)] text-[var(--color-accent)] border-[var(--color-accent)]";
     }
   };
 
@@ -145,14 +145,14 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer border flex items-center gap-2 ${
+              className={`px-3.5 py-2  text-xs font-black uppercase tracking-wider transition-all cursor-pointer border flex items-center gap-2 ${
                 activeTab === tab
-                  ? "bg-purple-600 border-purple-600 text-white shadow-md"
+                  ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
                   : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
               }`}
             >
               <span>
-                {tab === "all" ? "🌐 ALL" : tab === "crew" ? "👥 CREW" : tab === "fan" ? "⭐ FANS" : tab === "cruise" ? "🚢 CRUISE" : tab === "planner" ? "📋 PLANNERS" : "👑 ADMINS"}
+                {tab === "all" ? " ALL" : tab === "crew" ? " CREW" : tab === "fan" ? " FANS" : tab === "cruise" ? " CRUISE" : tab === "planner" ? " PLANNERS" : " ADMINS"}
               </span>
               <span className={`px-1.5 py-0.5 rounded-full text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-black/10 text-black'}`}>
                 {counts[tab]}
@@ -166,18 +166,18 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
           <button
             type="button"
             onClick={handleCopyEmails}
-            className="px-3.5 py-2 bg-purple-600 hover:bg-purple-700 border border-purple-600 text-white text-xs font-bold uppercase rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] border border-[var(--color-accent)] text-white text-xs font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
             title="Copy all email addresses for BCC email dispatch"
           >
-            <span>📋</span> {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
+            <span></span> {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
           </button>
 
           <button
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 bg-black/5 hover:bg-black/10 border border-black/15 text-black font-bold uppercase text-xs rounded-xl transition-all cursor-pointer flex items-center gap-1.5"
+            className="px-3.5 py-2 bg-black/5 hover:bg-black/10 border border-black/15 text-black font-bold uppercase text-xs transition-all cursor-pointer flex items-center gap-1.5"
           >
-            <span>📥</span> Export CSV
+            <span></span> Export CSV
           </button>
         </div>
       </div>
@@ -188,13 +188,13 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="🔍 Search email directory by name, email, or phone number..."
-          className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl px-4 py-3 text-xs text-[var(--text-color)] font-semibold placeholder:text-[var(--placeholder-color)] outline-none focus:border-purple-600"
+          placeholder=" Search email directory by name, email, or phone number..."
+          className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] px-4 py-3 text-xs text-[var(--text-color)] font-semibold placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)]"
         />
       </div>
 
       {/* Email Table */}
-      <div className="border border-[var(--border-color)] rounded-2xl overflow-hidden bg-[var(--card-bg)] shadow-xs">
+      <div className="border border-[var(--border-color)] overflow-hidden bg-[var(--card-bg)] shadow-xs">
         <div className="max-h-[480px] overflow-y-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -217,12 +217,12 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
                 filteredUsers.map(user => (
                   <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-[var(--border-color)]">
                     <td className="py-3 px-4 font-bold text-[var(--text-color)] flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-black text-[var(--font-size-3xs)]">
+                      <div className="w-7 h-7 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--color-accent)] font-black text-[var(--font-size-3xs)]">
                         {user.name.charAt(0)}
                       </div>
                       <span>{user.name}</span>
                     </td>
-                    <td className="py-3 px-4 text-purple-400 font-mono text-xs font-extrabold select-all">
+                    <td className="py-3 px-4 text-[var(--color-accent)] font-mono text-xs font-extrabold select-all">
                       {user.email}
                     </td>
                     <td className="py-3 px-4">
@@ -238,7 +238,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
                         href={`mailto:${user.email}`}
                         className="px-2.5 py-1 bg-[var(--card-bg)] hover:bg-[var(--bg-color)] border border-[var(--border-color)] text-[var(--text-color)] font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
-                        ✉️ Email
+                         Email
                       </a>
                     </td>
                   </tr>

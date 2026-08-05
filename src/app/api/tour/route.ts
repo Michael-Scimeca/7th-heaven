@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { sanityFetch } from "@/sanity/live";
 import { queries, SanityTourDate } from "@/lib/sanity";
 
+// Cache tour dates for 5 minutes — avoids a Sanity fetch on every page load
+export const revalidate = 300;
+
 export async function GET() {
   try {
     const { data: showsData } = await sanityFetch({ query: queries.allTourDates });
@@ -52,17 +55,17 @@ export async function GET() {
         const weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
         const newDay = weekdays[d.getDay()];
 
-        return {
-          ...s,
-          date: newDateStr,
-          day: newDay
-        };
+        return { ...s, date: newDateStr, day: newDay };
       });
 
-      return NextResponse.json(shifted);
+      return NextResponse.json(shifted, {
+        headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' }
+      });
     }
 
-    return NextResponse.json(deduplicated);
+    return NextResponse.json(deduplicated, {
+      headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' }
+    });
   } catch (error) {
     return NextResponse.json([], { status: 500 });
   }

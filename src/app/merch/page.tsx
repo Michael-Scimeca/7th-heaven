@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase-client';
 
 
 
@@ -233,18 +233,18 @@ function MerchDashboard() {
   // ─── Auth gates ──────────────────────────────────────────────────────────────
   if (!isDemo && (!isLoggedIn || !member)) return (
     <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-8 text-center max-w-sm w-full">
+      <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🔐</span>
         <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Login Required</h2>
         <p className="text-white/40 text-sm mb-6">Sign in with your merch team account.</p>
-        <button onClick={() => openModal()} className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-colors">Sign In</button>
+        <button onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors">Sign In</button>
       </div>
     </div>
   );
 
   if (!isDemo && !isMerch) return (
     <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="bg-[var(--color-bg-surface)] border border-red-500/20 rounded-2xl p-8 text-center max-w-sm w-full">
+      <div className="bg-[var(--color-bg-surface)] border border-red-500/20 p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🚫</span>
         <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Team Only</h2>
         <p className="text-white/40 text-sm">This page is only accessible to 7th Heaven merch staff.</p>
@@ -279,7 +279,7 @@ function MerchDashboard() {
       <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
 
         {/* Real-time Ticket/PIN Verification Scanner */}
-        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden">
           <div className="px-5 py-4 border-b border-white/10 flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-sm">🔍</div>
             <div>
@@ -295,11 +295,11 @@ function MerchDashboard() {
                 placeholder="Scan QR or enter PIN (e.g. PU-3501 or 3501)"
                 value={scanInput}
                 onChange={e => setScanInput(e.target.value)}
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:border-pink-500 focus:outline-none font-mono"
+                className="flex-1 bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-white/20 focus:border-pink-500 focus:outline-none font-mono"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-pink-500 hover:bg-pink-400 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all border-none cursor-pointer"
+                className="px-6 py-3 bg-pink-500 hover:bg-pink-400 text-white font-black text-xs uppercase tracking-widest transition-all border-none cursor-pointer"
               >
                 Verify Code
               </button>
@@ -308,7 +308,7 @@ function MerchDashboard() {
             {scanResult && (
               <div className="animate-in fade-in duration-250">
                 {scanResult.status === 'valid' && scanResult.order && (
-                  <div className="p-4 bg-emerald-500/15 border border-emerald-500/30 rounded-xl flex items-center gap-3">
+                  <div className="p-4 bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-3">
                     <span className="text-2xl">✅</span>
                     <div>
                       <p className="text-emerald-400 font-black text-sm uppercase tracking-wide">Valid Code - Hand Off Item</p>
@@ -327,7 +327,7 @@ function MerchDashboard() {
                 )}
 
                 {scanResult.status === 'already_claimed' && scanResult.order && (
-                  <div className="p-4 bg-red-500/15 border border-red-500/30 rounded-xl flex items-center gap-3">
+                  <div className="p-4 bg-red-500/15 border border-red-500/30 flex items-center gap-3">
                     <span className="text-2xl">⚠️</span>
                     <div>
                       <p className="text-red-400 font-black text-sm uppercase tracking-wide">Warning: Already Claimed!</p>
@@ -338,10 +338,10 @@ function MerchDashboard() {
                 )}
 
                 {scanResult.status === 'invalid' && (
-                  <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl flex items-center gap-3">
+                  <div className="p-4 bg-purple-500/10 border border-purple-500/30 flex items-center gap-3">
                     <span className="text-2xl">❌</span>
                     <div>
-                      <p className="text-yellow-500 font-black text-sm uppercase tracking-wide">Invalid Code</p>
+                      <p className="text-purple-400 font-black text-sm uppercase tracking-wide">Invalid Code</p>
                       <p className="text-white/60 text-xs mt-0.5">This code was not found in the purchase database.</p>
                     </div>
                   </div>
@@ -352,9 +352,9 @@ function MerchDashboard() {
         </div>
 
         {/* Raffle Winners — PIN display for visual matching */}
-        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden">
           <div className="px-5 py-4 border-b border-white/10 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-sm">🏆</div>
+            <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-sm">🏆</div>
             <div>
               <h2 className="text-white font-black text-sm uppercase tracking-wide">Raffle Winner PINs</h2>
               <p className="text-white/30 text-xs">Fan shows their PIN — match it here, then tap Award</p>
@@ -375,7 +375,7 @@ function MerchDashboard() {
                   <div key={win.pin} className={`p-5 flex items-center justify-between gap-4 transition-opacity ${awarded ? 'opacity-40' : ''}`}>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <p className="text-yellow-400 font-black text-sm">{win.winner}</p>
+                        <p className="text-purple-300 font-black text-sm">{win.winner}</p>
                         <span className="text-white/20 text-2xs font-mono">· {win.prize}</span>
                         {awarded && <span className="text-emerald-400 font-black text-2xs uppercase tracking-widest">✓ Awarded</span>}
                       </div>
@@ -385,10 +385,10 @@ function MerchDashboard() {
                           <div key={i} className={`w-10 h-13 min-h-[52px] flex items-center justify-center rounded-lg border-2 ${
                             awarded
                               ? 'bg-white/5 border-white/10'
-                              : 'bg-yellow-500/5 border-yellow-500/40 shadow-[0_0_12px_rgba(251,191,36,0.1)]'
+                              : 'bg-purple-500/5 border-purple-500/40 shadow-[0_0_12px_rgba(147,51,234,0.1)]'
                           }`}>
                             <span className={`font-black text-2xl tabular-nums ${
-                              awarded ? 'text-white/20' : 'text-yellow-400'
+                              awarded ? 'text-white/20' : 'text-purple-300'
                             }`}>{digit}</span>
                           </div>
                         ))}
@@ -397,10 +397,10 @@ function MerchDashboard() {
                     <button
                       onClick={() => awardPrize(win.pin)}
                       disabled={awarded}
-                      className={`shrink-0 px-5 py-3 font-black text-xs uppercase tracking-widest rounded-xl transition-all ${
+                      className={`shrink-0 px-5 py-3 font-black text-xs uppercase tracking-widest  transition-all ${
                         awarded
                           ? 'bg-white/5 text-white/20 cursor-not-allowed'
-                          : 'bg-yellow-500 hover:bg-yellow-400 text-black shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:scale-[1.03] active:scale-[0.97]'
+                          : 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:scale-[1.03] active:scale-[0.97]'
                       }`}
                     >
                       {awarded ? '✓ Done' : 'Award Prize'}
@@ -415,7 +415,7 @@ function MerchDashboard() {
         {/* Tabs — Pickup Queue only */}
         <div className="flex gap-2">
           <button
-            className="flex-1 py-2.5 font-black text-xs uppercase tracking-widest rounded-xl border bg-pink-500/20 border-pink-500/40 text-pink-400">
+            className="flex-1 py-2.5 font-black text-xs uppercase tracking-widest border bg-pink-500/20 border-pink-500/40 text-pink-400">
             🛍️ Pickup Queue {pendingPickups.length > 0 ? `(${pendingPickups.length})` : ''}
           </button>
         </div>
@@ -424,7 +424,7 @@ function MerchDashboard() {
         {tab === 'pickup' && (
           <div className="space-y-3">
             {pendingPickups.length === 0 && claimedPickups.length === 0 ? (
-              <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-10 text-center">
+              <div className="bg-[var(--color-bg-surface)] border border-white/10 p-10 text-center">
                 <span className="text-4xl block mb-3 opacity-30">🛍️</span>
                 <p className="text-white/30 text-sm">No pickup orders yet</p>
                 <p className="text-white/15 text-xs mt-1">Orders appear here when fans choose "pickup" during a flash sale</p>
@@ -432,7 +432,7 @@ function MerchDashboard() {
             ) : (
               <>
                 {pendingPickups.map(order => (
-                  <div key={order.id} className="bg-[var(--color-bg-surface)] border border-pink-500/30 rounded-2xl overflow-hidden">
+                  <div key={order.id} className="bg-[var(--color-bg-surface)] border border-pink-500/30 overflow-hidden">
                     <div className="px-5 py-3 bg-pink-500/5 border-b border-pink-500/20 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
@@ -454,7 +454,7 @@ function MerchDashboard() {
                         <p className="text-pink-400 font-black text-sm mt-1">${order.price}</p>
                       </div>
                       <button onClick={() => markClaimed(order.id)}
-                        className="shrink-0 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-colors">
+                        className="shrink-0 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-widest transition-colors">
                         ✓ Hand Off
                       </button>
                     </div>
@@ -464,7 +464,7 @@ function MerchDashboard() {
                   <div className="space-y-2">
                     <p className="text-white/20 text-xs font-black uppercase tracking-widest px-1">Completed</p>
                     {claimedPickups.map(order => (
-                      <div key={order.id} className="bg-[var(--color-bg-surface)] border border-white/5 rounded-xl px-5 py-3 flex items-center justify-between opacity-50">
+                      <div key={order.id} className="bg-[var(--color-bg-surface)] border border-white/5 px-5 py-3 flex items-center justify-between opacity-50">
                         <div>
                           <p className="text-white text-sm font-bold">{order.item}</p>
                           {(order.size || order.color) && (

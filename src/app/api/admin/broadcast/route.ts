@@ -1,12 +1,17 @@
 import { NextResponse } from 'next/server';
-import { protectAction, sanitizeInput } from '@/lib/security';
+import { sanitizeInput } from '@/lib/security';
+import { requireAdmin, applyRateLimit, getClientIp } from '@/lib/api-utils';
 
 export async function POST(req: Request) {
   try {
-    const authResult = await protectAction('broadcast_alert', req);
-    if (!authResult.success) {
-      return NextResponse.json({ error: authResult.error || 'Unauthorized' }, { status: authResult.status || 401 });
-    }
+    // Auth first — must be an admin session (Supabase cookie + profiles.role check)
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
+
+    // Rate limit — even admins shouldn't blast more than twice per hour
+    const ip = await getClientIp();
+    const rateLimited = await applyRateLimit(ip, 'broadcast', 2, '60 m');
+    if (rateLimited) return rateLimited;
 
     const body = await req.json();
     const {

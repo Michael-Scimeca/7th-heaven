@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase-client";
 
 interface CrewSetPasswordModalProps {
   email: string;
@@ -54,73 +54,97 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
   };
 
   return (
-    /* Backdrop */
     <div
       style={{
         position: "fixed", inset: 0, zIndex: 9999,
-        background: "rgba(0,0,0,0.75)",
-        backdropFilter: "blur(12px)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontFamily: "'Outfit', sans-serif",
+        fontFamily: "'Inter', sans-serif",
+        padding: "16px",
       }}
     >
-      {/* Card */}
+      {/* Blurred Hero Background Overlay */}
+      <div 
+        style={{
+          position: "fixed",
+          inset: 0,
+          backgroundImage: "url('/images/hero-band-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "brightness(0.35) blur(10px)",
+          transform: "scale(1.08)",
+          zIndex: 0,
+          pointerEvents: "none"
+        }} 
+      />
+      <div 
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0, 0, 0, 0.55)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          zIndex: 0,
+          pointerEvents: "none"
+        }}
+      />
+
+      {/* Glass Card */}
       <div
         style={{
-          background: "linear-gradient(135deg, #0d0f1c 0%, #111827 100%)",
-          border: "1px solid rgba(14,165,233,0.35)",
-          borderRadius: "20px",
-          padding: "40px 36px",
+          background: "rgba(18, 18, 24, 0.45)",
+          backdropFilter: "blur(32px) saturate(180%)",
+          WebkitBackdropFilter: "blur(32px) saturate(180%)",
+          border: "1px solid rgba(255, 255, 255, 0.15)",
+          borderRadius: "24px",
+          padding: "36px 32px",
           width: "100%",
           maxWidth: "420px",
-          boxShadow: "0 0 60px rgba(14,165,233,0.15), 0 20px 60px rgba(0,0,0,0.6)",
+          boxShadow: "0 30px 90px rgba(0, 0, 0, 0.6)",
           position: "relative",
+          zIndex: 10,
           overflow: "hidden",
         }}
       >
-        {/* Top glow bar */}
-        <div style={{
-          position: "absolute", top: 0, left: 0, right: 0, height: "3px",
-          background: "linear-gradient(90deg, #0ea5e9, #6366f1, #0ea5e9)",
-        }} />
+ 
 
         {/* Icon */}
         <div style={{
           width: 56, height: 56, borderRadius: "50%",
-          background: "linear-gradient(135deg, #0ea5e9, #6366f1)",
+          background: "linear-gradient(135deg, #9333ea, #7c3aed)",
           display: "flex", alignItems: "center", justifyContent: "center",
           margin: "0 auto 20px",
           fontSize: 26,
-          boxShadow: "0 0 24px rgba(14,165,233,0.4)",
+          boxShadow: "0 0 24px rgba(147, 51, 234, 0.5)",
         }}>
           🔐
         </div>
 
         {/* Title */}
         <h2 style={{
-          color: "#fff", fontWeight: 800, fontSize: 22,
+          color: "#fff", fontWeight: 900, fontSize: 22,
           textAlign: "center", margin: "0 0 6px",
+          letterSpacing: "-0.02em"
         }}>
           Set Your Password
         </h2>
         <p style={{
           color: "rgba(255,255,255,0.45)", fontSize: 13,
-          textAlign: "center", margin: "0 0 6px", lineHeight: 1.5,
+          textAlign: "center", margin: "0 0 8px", lineHeight: 1.5,
         }}>
           Welcome to the crew! Your account has been created at:
         </p>
         <p style={{
-          color: "#0ea5e9", fontSize: 13, fontWeight: 700,
-          textAlign: "center", margin: "0 0 28px",
-          background: "rgba(14,165,233,0.08)",
-          border: "1px solid rgba(14,165,233,0.2)",
+          color: "#c084fc", fontSize: 13, fontWeight: 700,
+          textAlign: "center", margin: "0 0 24px",
+          background: "rgba(147, 51, 234, 0.12)",
+          border: "1px solid rgba(147, 51, 234, 0.3)",
           borderRadius: 8, padding: "6px 12px",
         }}>
           {email}
         </p>
         <p style={{
           color: "rgba(255,255,255,0.4)", fontSize: 12,
-          textAlign: "center", margin: "-16px 0 24px",
+          textAlign: "center", margin: "-12px 0 24px",
           lineHeight: 1.5,
         }}>
           Create your own password to continue.
@@ -138,7 +162,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
         ) : (
           <form onSubmit={handleSubmit}>
             {/* New Password */}
-            <label style={{ display: "block", color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <label style={{ display: "block", color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
               New Password
             </label>
             <input
@@ -156,12 +180,12 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
                 outline: "none", marginBottom: 16,
                 transition: "border-color 0.2s",
               }}
-              onFocus={e => (e.target.style.borderColor = "#0ea5e9")}
+              onFocus={e => (e.target.style.borderColor = "#9333ea")}
               onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
             />
 
             {/* Confirm Password */}
-            <label style={{ display: "block", color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <label style={{ display: "block", color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
               Confirm Password
             </label>
             <input
@@ -179,7 +203,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
                 outline: "none", marginBottom: 20,
                 transition: "border-color 0.2s",
               }}
-              onFocus={e => (e.target.style.borderColor = "#0ea5e9")}
+              onFocus={e => (e.target.style.borderColor = "#9333ea")}
               onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
             />
 
@@ -201,14 +225,15 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
               style={{
                 width: "100%",
                 background: loading
-                  ? "rgba(14,165,233,0.3)"
-                  : "linear-gradient(135deg, #0ea5e9, #6366f1)",
+                  ? "rgba(147, 51, 234, 0.3)"
+                  : "linear-gradient(135deg, #9333ea, #7c3aed)",
                 border: "none", borderRadius: 12, padding: "14px",
-                color: "#fff", fontWeight: 800, fontSize: 15,
+                color: "#fff", fontWeight: 800, fontSize: 14,
+                textTransform: "uppercase",
                 cursor: loading ? "not-allowed" : "pointer",
                 transition: "all 0.2s",
-                boxShadow: loading ? "none" : "0 0 20px rgba(14,165,233,0.3)",
-                letterSpacing: 0.5,
+                boxShadow: loading ? "none" : "0 0 20px rgba(147, 51, 234, 0.4)",
+                letterSpacing: 1,
               }}
             >
               {loading ? "Setting Password…" : "Set My Password →"}
@@ -218,7 +243,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
 
         {/* Bottom note */}
         <p style={{
-          color: "rgba(255,255,255,0.2)", fontSize: 11,
+          color: "rgba(255,255,255,0.25)", fontSize: 11,
           textAlign: "center", marginTop: 20,
         }}>
           🔒 This step is required before accessing your crew dashboard

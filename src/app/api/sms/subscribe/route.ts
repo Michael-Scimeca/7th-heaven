@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { geocodeZip } from "@/lib/geo";
 import { protectAction } from "@/lib/security";
 import { sanitizeName } from "@/lib/validation";
+import { isSpam } from "@/lib/api-utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -20,10 +21,17 @@ export async function POST(req: NextRequest) {
   const { name, zipCode, zip, phone, radius } = body;
   const zipVal = zipCode || zip || '';
 
-  // --- Rate limiting ---
-  const ip = req.headers.get('x-forwarded-for') || 'anonymous';
+  // --- Spam check: honeypot, alt-honeypot (_hp), timing (_t) ---
+  if (isSpam(body)) {
+    return NextResponse.json({ error: 'Spam detected' }, { status: 400 });
+  }
+
+  // --- Rate limiting: 3 SMS subscription attempts per IP per hour ---
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous';
   const protection = await protectAction({
     identifier: `sms-subscribe:${ip}`,
+    requests: 3,
+    window: '60 m',
   });
   if (!protection.success) {
     return NextResponse.json({ error: protection.error }, { status: protection.status as number });

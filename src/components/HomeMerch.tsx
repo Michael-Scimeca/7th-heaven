@@ -68,7 +68,7 @@ export default function HomeMerch() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden animate-pulse">
+              <div key={i} className="bg-white/[0.02] border border-white/5 overflow-hidden animate-pulse">
                 <div className="aspect-square bg-white/[0.03]" />
                 <div className="p-4 space-y-2">
                   <div className="h-2 w-16 bg-white/5 rounded" />
@@ -132,9 +132,9 @@ export default function HomeMerch() {
       <div className="site-container">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ─────────────────────── */}
         {isDemo && (
-          <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
-            <span className="text-amber-400 text-xs font-black uppercase tracking-widest">⚠ Demo</span>
-            <p className="text-amber-300/50 text-xs">These are placeholder products. Connect Shopify and tag items "featured" or "sale" to replace them.</p>
+          <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-purple-500/20 rounded-lg">
+            <span className="text-purple-300 text-xs font-black uppercase tracking-widest">⚠ Demo</span>
+            <p className="text-purple-200/50 text-xs">These are placeholder products. Connect Shopify and tag items "featured" or "sale" to replace them.</p>
           </div>
         )}
         {/* ── END DEMO BANNER ─────────────────────────────────────────── */}
@@ -156,10 +156,10 @@ export default function HomeMerch() {
             const soldOut = product.quantityAvailable === 0;
 
             return (
-              <div key={product.id} className="bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden hover:border-[var(--color-accent)]/30 transition-all group relative">
+              <div key={product.id} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-[var(--color-accent)]/30 transition-all group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
-                  <span className="bg-red-500 text-white text-2xs font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-lg shadow-red-500/20">
+                  <span className="bg-red-500 text-white text-2xs font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-red-500/20">
                     Sale
                   </span>
                 </div>

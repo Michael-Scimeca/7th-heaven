@@ -46,24 +46,24 @@ export default function CruiseLayoutB() {
 
             {/* Inline signup */}
             {signupStatus === "success" ? (
-              <div className="mt-6 p-5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl">
+              <div className="mt-6 p-5 bg-emerald-500/10 border border-emerald-500/30">
                 <p className="text-emerald-400 font-bold">🚢 You&apos;re on the list! We&apos;ll be in touch.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="mt-6 space-y-3 max-w-md">
                 <div className="grid grid-cols-2 gap-3">
                   <input type="text" required placeholder="Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
-                    className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm" />
+                    className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm" />
                   <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
-                    className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm" />
+                    className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm" />
                 </div>
                 <div className="flex gap-3">
                   <select value={form.guests} onChange={e => setForm(f => ({...f, guests: e.target.value}))}
-                    className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm appearance-none cursor-pointer flex-1">
+                    className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm appearance-none cursor-pointer flex-1">
                     <option value="1">1 guest</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+</option>
                   </select>
                   <button type="submit" disabled={signupStatus === "submitting"}
-                    className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-sm font-bold uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] disabled:opacity-70 cursor-pointer whitespace-nowrap">
+                    className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-sm font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer whitespace-nowrap">
                     Count Me In
                   </button>
                 </div>
@@ -99,7 +99,7 @@ export default function CruiseLayoutB() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {ISLANDS.map(island => (
-            <div key={island.name} className="bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group">
+            <div key={island.name} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-cyan-500/30 transition-all group">
               {/* Island photo placeholder */}
               <div className="aspect-[4/3] bg-gradient-to-br from-cyan-900/30 to-blue-900/30 relative overflow-hidden">
                 <img src="/images/cruise-hero.png" alt={island.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
@@ -130,7 +130,7 @@ export default function CruiseLayoutB() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {STEPS.map((step, i) => (
-            <div key={step.n} className="relative text-center p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-[var(--color-accent)]/30 transition-all group">
+            <div key={step.n} className="relative text-center p-6 bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all group">
               {i < 3 && <div className="hidden md:block absolute top-1/2 -right-3 w-6 text-white/10 text-xl">→</div>}
               <span className="text-3xl block mb-3">{step.icon}</span>
               <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Step {step.n}</span>
@@ -156,7 +156,7 @@ export default function CruiseLayoutB() {
               { icon: "🎉", text: "Pool Deck Parties" },
               { icon: "💰", text: "Group Rate Pricing" },
             ].map(item => (
-              <div key={item.text} className="flex items-center gap-3 p-3 bg-white/[0.02] rounded-xl border border-white/5">
+              <div key={item.text} className="flex items-center gap-3 p-3 bg-white/[0.02] border border-white/5">
                 <span className="text-xl">{item.icon}</span>
                 <span className="text-sm text-white/60 font-medium">{item.text}</span>
               </div>
@@ -166,7 +166,7 @@ export default function CruiseLayoutB() {
       </section>
 
       {/* Layout label */}
-      <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-cyan-500 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
+      <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-cyan-500 text-white text-xs font-bold uppercase tracking-widest rounded-full">
         Layout B — Split Screen
       </div>
     </div>

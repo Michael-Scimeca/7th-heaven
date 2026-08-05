@@ -3,36 +3,58 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
 import VinylHeroPlayer from "@/components/VinylHeroPlayer";
+import HeroYTBackground from "@/components/HeroYTBackground";
 import {
   VideoSnapshotContext,
   type VideoSnapshotContextValue,
 } from "@/context/VideoSnapshotContext";
 
 const ALBUM_VIDEOS: Record<string, string> = {
-  "be-here":         "/movie/Behere-hero.mp4",
+  "be-here":         "/movie/are-we-there-yet.mp4",
   "color-in-motion": "/movie/hero-colorinmostion.mp4",
   "luminous":        "/movie/luminous.mp4",
   "next":            "/movie/next.mp4",
   "spectrum":        "/movie/spectrum.mp4",
 };
 
-const DEFAULT_VIDEO = "/movie/Behere-hero.mp4";
+const DEFAULT_VIDEO = "/movie/are-we-there-yet.mp4";
 const SNAPSHOT_INTERVAL_MS = 30_000; // 30 seconds
 const MAX_SNAPSHOTS = 2;
 
 const TINT_PRESETS = [
   { name: "Deep Charcoal", color: "#0d0914" },
+  { name: "Electric Crimson", color: "#FF0A3D" },
   { name: "Electric Purple", color: "#851def" },
   { name: "Vibrant Blue", color: "#3b82f6" },
-  { name: "Crimson Rose", color: "#f43f5e" },
-  { name: "Neon Amber", color: "#f59e0b" },
+  { name: "Neon Amber", color: "#9333ea" },
   { name: "Emerald Green", color: "#10b981" },
+];
+
+function hexToRgba(hex: string, alpha: number): string {
+  let c = hex.replace("#", "");
+  if (c.length === 3) c = c.split("").map((x) => x + x).join("");
+  const num = parseInt(c, 16);
+  if (isNaN(num)) return `rgba(0, 0, 0, ${alpha})`;
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
+}
+
+const GRADIENT_PRESETS = [
+  { name: "My Custom Choice", height: 46, opacity: 0.95, midstop: 37, color: "#000000" },
+  { name: "Cinematic Dark", height: 75, opacity: 0.95, midstop: 35, color: "#000000" },
+  { name: "Smooth Fade", height: 60, opacity: 0.85, midstop: 25, color: "#000000" },
+  { name: "Deep Violet Shadow", height: 70, opacity: 0.95, midstop: 30, color: "#090314" },
 ];
 
 export default function HeroVideoPlayer({ children }: { children?: ReactNode }) {
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
   const videoRef  = useRef<HTMLVideoElement>(null);
   const [snapshots, setSnapshots] = useState<string[]>([]);
+
+  const isYouTube = !videoSrc.includes(".mp4");
+  const ytId = isYouTube ? videoSrc.replace(/^.*[=/]/, "") : "";
 
   // ── Tint Customizer states ──────────────────────────────────────────────────
   const [tintColor, setTintColor] = useState("#0d0914");
@@ -41,6 +63,14 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  // ── Bottom-Up Gradient Customizer states ──────────────────────────────────
+  const [gradHeight, setGradHeight] = useState(46); // %
+  const [gradOpacity, setGradOpacity] = useState(0.95); // 0..1
+  const [gradMidstop, setGradMidstop] = useState(37); // %
+  const [gradColor, setGradColor] = useState("#000000");
+  const [isGradUiOpen, setIsGradUiOpen] = useState(false);
+  const [gradCopied, setGradCopied] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -51,7 +81,42 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     if (savedColor) setTintColor(savedColor);
     if (savedOpacity) setTintOpacity(parseFloat(savedOpacity));
     if (savedBlend) setMixBlendMode(savedBlend as any);
+
+    // Load gradient settings
+    const savedGradH = localStorage.getItem("7h_hero_grad_height");
+    const savedGradO = localStorage.getItem("7h_hero_grad_opacity");
+    const savedGradM = localStorage.getItem("7h_hero_grad_midstop");
+    const savedGradC = localStorage.getItem("7h_hero_grad_color");
+
+    if (savedGradH) setGradHeight(parseFloat(savedGradH));
+    if (savedGradO) setGradOpacity(parseFloat(savedGradO));
+    if (savedGradM) setGradMidstop(parseFloat(savedGradM));
+    if (savedGradC) setGradColor(savedGradC);
   }, []);
+
+  const updateGradHeight = (h: number) => {
+    setGradHeight(h);
+    localStorage.setItem("7h_hero_grad_height", h.toString());
+  };
+  const updateGradOpacity = (o: number) => {
+    setGradOpacity(o);
+    localStorage.setItem("7h_hero_grad_opacity", o.toString());
+  };
+  const updateGradMidstop = (m: number) => {
+    setGradMidstop(m);
+    localStorage.setItem("7h_hero_grad_midstop", m.toString());
+  };
+  const updateGradColor = (c: string) => {
+    setGradColor(c);
+    localStorage.setItem("7h_hero_grad_color", c);
+  };
+
+  const copyGradCSS = () => {
+    const cssText = `background: linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, gradOpacity * 0.75)} ${gradMidstop}%, transparent 100%);\nheight: ${gradHeight}%;`;
+    navigator.clipboard.writeText(cssText);
+    setGradCopied(true);
+    setTimeout(() => setGradCopied(false), 2000);
+  };
 
   const updateColor = (color: string) => {
     setTintColor(color);
@@ -148,19 +213,21 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         }
       `}} />
 
-      {/* ── Hero background video (self-hosted, full-bleed) ── */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
-      >
-        <source src={videoSrc} type="video/mp4" />
-      </video>
-
-      {/* ── Video Tint Overlay ── */}
+      {/* ── Hero background video (YouTube full-bleed or HTML5 video) ── */}
+      {isYouTube ? (
+        <HeroYTBackground videoId={ytId} />
+      ) : (
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none scale-[1.08]"
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      )}
       <div 
         className="absolute inset-0 z-[1] pointer-events-none transition-all duration-300"
         style={{
@@ -169,6 +236,166 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           mixBlendMode: mixBlendMode,
         }}
       />
+
+      {/* ── Bottom-Up Black Gradient Overlay ── */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-150"
+        style={{
+          height: `${gradHeight}%`,
+          background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, gradOpacity * 0.75)} ${gradMidstop}%, transparent 100%)`,
+        }}
+      />
+
+      {/* ── Gradient Customizer Toggle Button + UI Drawer ── */}
+      <div className="absolute top-[104px] right-6 z-40 md:right-8 flex flex-col items-end gap-2">
+        {!isGradUiOpen ? (
+          <button
+            onClick={() => setIsGradUiOpen(true)}
+            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/90 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] cursor-pointer group"
+            title="Adjust Hero Bottom-Up Black Gradient"
+          >
+            <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-t from-purple-500 to-pink-500 animate-pulse" />
+            <span>Hero Gradient UI</span>
+          </button>
+        ) : (
+          <div className="w-[300px] bg-black/90 backdrop-blur-2xl border border-white/15 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left text-white z-50">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+              <div className="flex flex-col">
+                <span className="font-[family-name:var(--font-rockstar)] text-xs font-black uppercase tracking-wider text-purple-400">
+                  Hero Gradient Controls
+                </span>
+                <span className="text-[9px] text-white/50 uppercase font-semibold">
+                  Adjust bottom-up dark overlay
+                </span>
+              </div>
+              <button
+                onClick={() => setIsGradUiOpen(false)}
+                className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer text-xs font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Presets */}
+            <div className="space-y-1.5">
+              <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Presets</span>
+              <div className="grid grid-cols-2 gap-1.5">
+                {GRADIENT_PRESETS.map((p) => (
+                  <button
+                    key={p.name}
+                    onClick={() => {
+                      updateGradHeight(p.height);
+                      updateGradOpacity(p.opacity);
+                      updateGradMidstop(p.midstop);
+                      updateGradColor(p.color);
+                    }}
+                    className="px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-all text-left truncate cursor-pointer"
+                  >
+                    {p.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Height Slider */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                <span>Height</span>
+                <span className="text-purple-400 font-mono font-black">{gradHeight}%</span>
+              </div>
+              <input
+                type="range"
+                min="10"
+                max="100"
+                step="1"
+                value={gradHeight}
+                onChange={(e) => updateGradHeight(parseFloat(e.target.value))}
+                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+
+            {/* Opacity Slider */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                <span>Bottom Black Opacity</span>
+                <span className="text-purple-400 font-mono font-black">{Math.round(gradOpacity * 100)}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.02"
+                value={gradOpacity}
+                onChange={(e) => updateGradOpacity(parseFloat(e.target.value))}
+                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+
+            {/* Fade Midpoint Stop Slider */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                <span>Fade Midpoint Stop</span>
+                <span className="text-purple-400 font-mono font-black">{gradMidstop}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="80"
+                step="1"
+                value={gradMidstop}
+                onChange={(e) => updateGradMidstop(parseFloat(e.target.value))}
+                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+
+            {/* Color Selector */}
+            <div className="space-y-1.5">
+              <div className="flex justify-between items-center text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                <span>Gradient Color</span>
+                <span className="text-purple-400 font-mono font-bold text-[9px]">{gradColor}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {["#000000", "#000000", "#090314", "#0f051d", "#020617"].map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => updateGradColor(c)}
+                    className="w-6 h-6 rounded-full border transition-transform cursor-pointer"
+                    style={{
+                      backgroundColor: c,
+                      borderColor: gradColor === c ? '#a855f7' : 'rgba(255,255,255,0.2)',
+                      transform: gradColor === c ? 'scale(1.15)' : 'scale(1)',
+                    }}
+                  />
+                ))}
+                <div className="relative w-6 h-6 rounded-full border border-white/30 overflow-hidden cursor-pointer bg-purple-600/30 flex items-center justify-center">
+                  <input
+                    type="color"
+                    value={gradColor}
+                    onChange={(e) => updateGradColor(e.target.value)}
+                    className="absolute -inset-2 w-[200%] h-[200%] cursor-pointer opacity-0"
+                  />
+                  <span className="text-[10px] font-bold text-white">+</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Live CSS Code Box */}
+            <div className="bg-white/5 border border-white/10 rounded-lg p-2 font-mono text-[9px] text-white/60 break-all leading-relaxed select-all">
+              background: linear-gradient(to top, {gradColor} 0%, {hexToRgba(gradColor, gradOpacity * 0.75)} {gradMidstop}%, transparent 100%);<br />
+              height: {gradHeight}%;
+            </div>
+
+            {/* Copy CSS Button */}
+            <button
+              onClick={copyGradCSS}
+              className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-all shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
+            >
+              {gradCopied ? "✓ Copied CSS to Clipboard!" : "Copy Gradient CSS"}
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* ── Tint Customizer Floating Panel (Dev/Tester Only) ── */}
       {mounted && localStorage.getItem("7h_tint_tester") === "true" && (
@@ -188,7 +415,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
-                className="text-white/80 group-hover:text-amber-500 group-hover:rotate-45 transition-all duration-300"
+                className="text-white/80 group-hover:text-purple-400 group-hover:rotate-45 transition-all duration-300"
               >
                 <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/>
                 <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
@@ -204,12 +431,12 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             </button>
           ) : (
             <div 
-              className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left"
+              className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left"
             >
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/5 pb-2">
                 <div className="flex flex-col">
-                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-amber-500">
+                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-purple-400">
                     Video Tint Tester
                   </span>
                   <span className="text-[var(--font-size-4xs)] text-white/40 uppercase font-semibold">
@@ -235,18 +462,18 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       className={`w-6 h-6 rounded-full border transition-all hover:scale-115 relative cursor-pointer flex items-center justify-center`}
                       style={{ 
                         backgroundColor: preset.color,
-                        borderColor: tintColor === preset.color ? '#f59e0b' : 'rgba(255,255,255,0.2)'
+                        borderColor: tintColor === preset.color ? '#9333ea' : 'rgba(255,255,255,0.2)'
                       }}
                       title={preset.name}
                     >
                       {tintColor === preset.color && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_4px_rgba(245,158,11,0.8)]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-purple-600 shadow-[0_0_4px_rgba(147, 51, 234,0.8)]" />
                       )}
                     </button>
                   ))}
                   {/* Custom Color Selector */}
                   <div 
-                    className="w-6 h-6 rounded-full border border-white/20 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-gradient-to-tr from-rose-500 via-purple-500 to-blue-500"
+                    className="w-6 h-6 rounded-full border border-white/20 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
                     title="Custom Color"
                   >
                     <input 
@@ -264,7 +491,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               <div className="space-y-1.5">
                 <div className="flex justify-between text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider">
                   <span>Opacity</span>
-                  <span className="text-amber-500 font-mono font-black">{Math.round(tintOpacity * 100)}%</span>
+                  <span className="text-purple-400 font-mono font-black">{Math.round(tintOpacity * 100)}%</span>
                 </div>
                 <input
                   type="range"
@@ -287,7 +514,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       onClick={() => updateBlend(mode)}
                       className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-all cursor-pointer ${
                         mixBlendMode === mode
-                          ? "bg-amber-500 border-amber-500 text-black shadow-[0_0_8px_rgba(245,158,11,0.3)] font-black"
+                          ? "bg-purple-600 border-purple-500 text-white shadow-[0_0_8px_rgba(147, 51, 234,0.3)] font-black"
                           : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
                       }`}
                     >
@@ -307,7 +534,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               {/* Copy CSS Button */}
               <button
                 onClick={copyCSS}
-                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[var(--font-size-2xs)] uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_12px_rgba(245,158,11,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[var(--font-size-2xs)] uppercase tracking-widest transition-all shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? (
                   <>
@@ -329,7 +556,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       {/* ── Bottom row: live stream thumbs on left + vinyl player on right ── */}
       <div className="relative z-[3] flex flex-col md:flex-row items-stretch md:items-end justify-between gap-6 w-full mt-auto">
         {/* Live stream small thumbnails */}
-        <div className="relative z-30 flex justify-start">
+        <div className="relative z-30 flex justify-start ml-8">
           {children}
         </div>
 

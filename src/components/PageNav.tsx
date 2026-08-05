@@ -6,65 +6,108 @@ import { usePathname } from "next/navigation";
 
 const CATEGORIES = [
   {
-    name: "Internal & Dashboards",
+    name: "Header Nav Pages",
     pages: [
-      { path: "/admin", label: "🔒 Admin Panel" },
-      { path: "/admin/emails", label: "📧 Email Templates" },
-      { path: "/admin/legal", label: "⚖️ Legal Compliance Guide" },
-      { path: "/admin/checklist", label: "📋 Ops Checklist" },
-      { path: "/crew", label: "🎸 Crew Dashboard" },
-      { path: "/fans", label: "⭐ Fan Dashboard" },
-      { path: "/planner", label: "🗓️ Planner Dashboard" },
-      { path: "/cruise/dashboard", label: "🚢 Cruise Passenger Hub" },
-      { path: "/studio", label: "🎛️ Sanity Studio" },
+      { path: "/", label: "Home" },
+      { path: "/merch", label: "Merch" },
+      { path: "/media", label: "Media" },
+      { path: "/music", label: "Music" },
+      { path: "/live", label: "Live Hub" },
+      { path: "/cruise", label: "Cruise" },
+      { path: "/book", label: "Book Band" },
+      { path: "/contact", label: "Contact" },
     ]
   },
   {
-    name: "Public Site",
+    name: "Footer Nav Pages",
     pages: [
-      { path: "/", label: "Home" },
-      { path: "/band", label: "Band" },
-      { path: "/shows", label: "Shows" },
-      { path: "/music", label: "Music" },
-      { path: "/media", label: "Media" },
-      { path: "/news", label: "News" },
-      { path: "/members", label: "Members Directory" },
-      { path: "/store", label: "Store" },
-      { path: "/merch", label: "Merch" },
-      { path: "/contact", label: "Contact" },
-      { path: "/book", label: "Book Band" },
       { path: "/faq", label: "FAQ" },
+      { path: "/news", label: "News" },
+      { path: "/shows/past", label: "Past Shows Archive" },
+      { path: "/privacy", label: "Privacy Policy" },
+      { path: "/terms", label: "Terms of Service" },
       { path: "/returns", label: "Returns & Refunds" },
     ]
   },
   {
-    name: "Live & Interactive",
+    name: "Fan Pages",
     pages: [
-      { path: "/live", label: "Live Broadcast Hub" },
-      { path: "/fan-photo-wall", label: "📸 Fan Photo Wall" },
-      { path: "/demo/proximity", label: "📍 Proximity Demo" },
-      { path: "/live/demo", label: "🎥 Live Studio Demo" },
+      { path: "/fans", label: "Fan Dashboard" },
+      { path: "/fan-photo-wall", label: "Fan Photo Wall" },
     ]
   },
   {
-    name: "Cruise",
+    name: "Crew Pages",
     pages: [
-      { path: "/cruise", label: "🚢 Cruise Landing" },
-      { path: "/cruise/dashboard", label: "🚢 Cruise Passenger Hub" },
+      { path: "/crew", label: "Crew Dashboard" },
+      { path: "/crew/verify", label: "Crew Verify" },
+      { path: "/crew-michael", label: "Michael" },
+      { path: "/crew-abbie", label: "Abbie" },
+      { path: "/crew-ryan", label: "Ryan" },
+      { path: "/crew-sam", label: "Sam" },
+      { path: "/crew-tony", label: "Tony" },
+      { path: "/crew-setup-preview", label: "Crew Setup Preview" },
     ]
   },
   {
-    name: "Utility & Architecture",
+    name: "Planner Pages",
     pages: [
-      { path: "/claim", label: "🎁 Claim Prize" },
-      { path: "/privacy", label: "📜 Privacy Policy" },
-      { path: "/terms", label: "📜 Terms of Service" },
-      { path: "/sitemap", label: "🗺️ Sitemap & Flowchart" },
-      { path: "/sitemap/visual", label: "🖼️ Visual Connection Map" },
-      { path: "/sitemap/flowchart", label: "📊 Flowchart View" },
+      { path: "/planner", label: "Planner Dashboard" },
+      { path: "/planner/verify", label: "Planner Verify" },
     ]
-  }
+  },
+  {
+    name: "Admin Pages",
+    pages: [
+      { path: "/admin", label: "Admin Panel" },
+      { path: "/admin/emails", label: "Email Templates" },
+      { path: "/admin/email-map", label: "Email Map" },
+      { path: "/admin/legal", label: "Legal Guide" },
+      { path: "/admin/checklist", label: "Ops Checklist" },
+      { path: "/admin/features", label: "Admin Features" },
+      { path: "/admin/feed", label: "Admin Feed" },
+      { path: "/studio", label: "Sanity Studio" },
+    ]
+  },
+  {
+    name: "Misc",
+    pages: [
+      { path: "/cruise/dashboard", label: "Passenger Hub" },
+      { path: "/cruise/form-a", label: "Form A" },
+      { path: "/cruise/form-b", label: "Form B" },
+      { path: "/cruise/form-c", label: "Form C" },
+      { path: "/cruise/layout-a", label: "Layout A" },
+      { path: "/cruise/layout-b", label: "Layout B" },
+      { path: "/cruise/layout-c", label: "Layout C" },
+      { path: "/cruise/payment", label: "Payment" },
+      { path: "/cruise/preview", label: "Preview" },
+      { path: "/cruise/hero-demo", label: "Hero Demo" },
+      { path: "/cruise/email-preview", label: "Email Preview" },
+      { path: "/cruise/verify", label: "Verify" },
+      { path: "/cruise/cancel", label: "Cancel" },
+      { path: "/live", label: "Live Hub" },
+      { path: "/live/live_michael", label: "Michael Live" },
+      { path: "/live/live_ryan", label: "Ryan Live" },
+      { path: "/live/live_sammy", label: "Sammy Live" },
+      { path: "/live/live_tony", label: "Tony Live" },
+      { path: "/features", label: "Features" },
+      { path: "/media/layout-demo", label: "Media Layout Demo" },
+      { path: "/demo", label: "Demo Index" },
+      { path: "/demo/proximity", label: "Proximity Demo" },
+      { path: "/demo/cursor", label: "Cursor Demo" },
+      { path: "/demo/loading", label: "Loading Demo" },
+      { path: "/demo/preloader", label: "Preloader Demo" },
+      { path: "/demo/circle-carousel", label: "Circle Carousel Demo" },
+      { path: "/demo/yt-carousel", label: "YT Carousel Demo" },
+      { path: "/style-guide", label: "Style Guide" },
+      { path: "/sitemap", label: "Sitemap" },
+      { path: "/sitemap/visual", label: "Visual Map" },
+      { path: "/sitemap/flowchart", label: "Flowchart" },
+      { path: "/qr/merch", label: "QR Merch" },
+    ]
+  },
 ];
+
 
 export function PageNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -115,14 +158,14 @@ export function PageNav() {
   return (
     <div className="fixed bottom-8 left-8 z-[9999] font-sans" ref={menuRef}>
       {isOpen && (
-        <div className="absolute bottom-full mb-4 left-0 w-[300px] bg-white border border-purple-300 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.25)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden" style={{ maxHeight: 'min(80vh, 600px)' }}>
+        <div className="absolute bottom-full mb-4 left-0 w-[300px] bg-[var(--card-bg)] border border-[var(--border-color)] shadow-[0_10px_40px_rgba(0,0,0,0.25)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden" style={{ maxHeight: 'min(80vh, 600px)' }}>
           {/* Header — fixed, never scrolls */}
-          <div className="p-4 border-b border-purple-100 bg-purple-50 shrink-0">
-            <h3 className="text-purple-900 text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2">
+          <div className="p-4 border-b border-[var(--border-color)] bg-[var(--bg-color)] shrink-0">
+            <h3 className="text-[var(--text-color)] text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
               Dev Navigator
             </h3>
-            <p className="text-black/70 text-xs mt-1 font-semibold tracking-wide">Jump to any page instantly</p>
+            <p className="text-[var(--muted-text)] text-xs mt-1 font-semibold tracking-wide">Jump to any page instantly</p>
           </div>
 
           {/* Scrollable list — grows to fill remaining height */}
@@ -133,7 +176,7 @@ export function PageNav() {
           >
             {CATEGORIES.map((category) => (
               <div key={category.name} className="flex flex-col gap-1">
-                <h4 className="text-xs font-black uppercase tracking-[0.15em] text-purple-950 pl-2 mt-2 mb-1 border-b border-purple-100 pb-1">{category.name}</h4>
+                <h4 className="text-xs font-black uppercase tracking-[0.15em] text-[var(--color-accent)] pl-2 mt-2 mb-1 border-b border-[var(--border-color)] pb-1">{category.name}</h4>
                 {category.pages.map((page) => {
                   const isActive = pathname === page.path;
                   return (
@@ -147,16 +190,13 @@ export function PageNav() {
                           localStorage.setItem('7h_dev_bypass', 'true');
                         }
                       }}
-                      className={`px-3 py-2 rounded-xl transition-all flex items-center justify-between group ${
+                      className={`px-3 py-2  transition-all flex items-center justify-between group ${
                         isActive 
-                          ? "bg-purple-600 text-white font-black shadow-md" 
-                          : "text-black font-extrabold hover:bg-purple-50 hover:text-purple-900"
+                          ? "bg-[var(--color-accent)] text-white font-black shadow-md" 
+                          : "text-[var(--text-color)] font-extrabold hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)]"
                       }`}
                     >
                       <span className="text-sm font-bold tracking-wide">{page.label}</span>
-                      <span className={`font-mono text-xs ${isActive ? 'text-white/90 font-bold' : 'text-black/40 group-hover:text-purple-800 font-semibold'}`}>
-                        {page.path}
-                      </span>
                     </Link>
                   );
                 })}
@@ -168,10 +208,10 @@ export function PageNav() {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-6 h-12 rounded-full shadow-2xl transition-all duration-300 font-bold uppercase tracking-widest text-sm ${
+        className={`flex items-center gap-2 px-6 h-12 rounded-full  transition-all duration-300 font-bold uppercase tracking-widest text-sm ${
           isOpen 
             ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200" 
-            : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(133,29,239,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
+            : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
         }`}
         title="Page Navigator"
       >

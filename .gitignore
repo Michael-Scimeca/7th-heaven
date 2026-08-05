@@ -17,6 +17,9 @@
 .env*
 !.env.example
 
+# dev fixtures — contain test credentials, must not ship to production
+src/data/fake-logins.json
+
 # next.js
 /.next/
 /out/

@@ -17,7 +17,7 @@ function buildPinEmailHtml({ name, pin, email }: { name: string; pin: string; em
   const verifyUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/planner/verify?email=${encodeURIComponent(email)}`;
   const digits = pin.split('');
   const digitBoxes = digits.map(d =>
-    `<span style="display:inline-block;width:44px;height:56px;line-height:56px;text-align:center;font-size:26px;font-weight:900;color:#fff;background:rgba(168,85,247,0.12);border:2px solid rgba(168,85,247,0.4);border-radius:10px;margin:0 4px;">${d}</span>`
+    `<span style="display:inline-block;width:44px;height:56px;line-height:56px;text-align:center;font-size:26px;font-weight:900;color:#fff;background:rgba(255,10,61,0.12);border:2px solid rgba(255,10,61,0.4);border-radius:10px;margin:0 4px;">${d}</span>`
   ).join('');
 
   return `

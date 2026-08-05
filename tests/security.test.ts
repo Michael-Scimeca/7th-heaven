@@ -56,9 +56,10 @@ describe('Website Security Unit Tests', () => {
   });
 
   describe('Role-Based Access Authorization', () => {
-    it('should grant access to users with admin email', () => {
-      expect(hasAdminAccess('guest', 'mikeyscimeca@gmail.com')).toBe(true);
-      expect(hasAdminAccess(undefined, 'admin@7thheavenband.com')).toBe(true);
+    it('should grant access to admin role regardless of email', () => {
+      // Email bypass was removed — role column is the only authority
+      expect(hasAdminAccess('admin')).toBe(true);
+      expect(hasAdminAccess('owner')).toBe(true);
     });
 
     it('should grant access to admin, owner, and manager roles', () => {

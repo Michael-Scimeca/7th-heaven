@@ -12,13 +12,13 @@ export default function NotFound() {
      <h1
       className="text-[10rem] md:text-[14rem] font-black leading-none tracking-tighter text-transparent select-none"
       style={{
-       WebkitTextStroke: "2px rgba(168,85,247,0.3)",
+       WebkitTextStroke: "2px rgba(255,10,61,0.3)",
       }}
      >
       404
      </h1>
      <h1
-      className="absolute inset-0 text-[10rem] md:text-[14rem] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-[var(--color-accent)] to-[#ec4899] select-none animate-pulse"
+      className="absolute inset-0 text-[10rem] md:text-[14rem] font-black leading-none tracking-tighter text-[var(--color-accent)] select-none animate-pulse"
       style={{ opacity: 0.15 }}
      >
       404
@@ -36,7 +36,7 @@ export default function NotFound() {
     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
      <Link
       href="/"
-      className="px-8 py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-all shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:shadow-[0_0_35px_rgba(168,85,247,0.5)]"
+      className="px-8 py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-all shadow-[0_0_25px_rgba(255,10,61,0.3)] hover:shadow-[0_0_35px_rgba(255,10,61,0.5)]"
      >
       Back to Home
      </Link>

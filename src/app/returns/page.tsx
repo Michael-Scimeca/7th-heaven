@@ -84,7 +84,7 @@ export default function ReturnsPage() {
             <p className="mb-2">
               If you have any questions about returns, exchanges, or refunds, please reach out to us:
             </p>
-            <div className="p-6 border border-black/10 bg-white rounded-2xl shadow-sm">
+            <div className="p-6 border border-black/10 bg-white shadow-sm">
               <p className="text-black font-bold text-sm">7th Heaven Support</p>
               <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-purple-600 font-bold hover:underline">info@7thheavenband.com</a></p>
               <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-purple-600 font-bold hover:underline">7thheavenband.com</a></p>

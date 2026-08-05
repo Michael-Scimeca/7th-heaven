@@ -20,12 +20,12 @@ const featured = VIDEOS[0];
 
 function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void }) {
   return (
-    <div className="fixed top-20 right-6 z-[999] flex flex-col gap-1.5 bg-black/85 backdrop-blur-xl border border-white/10 rounded-2xl p-2.5 shadow-2xl max-h-[82vh] overflow-y-auto custom-scrollbar">
+    <div className="fixed top-20 right-6 z-[999] flex flex-col gap-1.5 bg-black/85 backdrop-blur-xl border border-white/10 p-2.5 max-h-[82vh] overflow-y-auto custom-scrollbar">
       <p className="text-2xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-1">Layout ({layouts.length})</p>
       <div className="grid grid-cols-2 gap-1.5">
         {layouts.map(l => (
           <button key={l} onClick={() => set(l)}
-            className={`w-9 h-9 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white shadow-lg shadow-[var(--color-accent)]/30 scale-105" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
+            className={`w-9 h-9 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30 scale-105" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
             {l}
           </button>
         ))}
@@ -50,11 +50,11 @@ function CatNav({ active, set }: { active: string; set: (s: string) => void }) {
 function VideoCard({ v, style = "default" }: { v: typeof VIDEOS[0]; style?: string }) {
   return (
     <div className="group cursor-pointer">
-      <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] rounded-xl">
+      <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)]">
         <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
         <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all" />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="w-14 h-14 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_30px_rgba(133,29,239,0.5)]">
+          <div className="w-14 h-14 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.5)]">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg>
           </div>
         </div>
@@ -85,16 +85,16 @@ export default function MediaLayoutDemo() {
             <div className="absolute inset-0"><img src={thumb(featured.id)} alt="" className="w-full h-full object-cover scale-110 blur-[40px] opacity-30" /><div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-black/60 to-black/40" /><div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" /></div>
             <div className="relative z-10 site-container py-12 flex flex-col lg:flex-row items-center gap-12" style={{ minHeight: "min(70vh, 600px)" }}>
               <div className="w-full lg:w-[65%]">
-                <div className="relative aspect-video rounded-2xl overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.8)] border border-white/10">
+                <div className="relative aspect-video overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.8)] border border-white/10">
                   <img src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-20 h-20 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_40px_rgba(133,29,239,0.5)]"><svg width="32" height="32" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div></div>
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-20 h-20 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_40px_rgba(255,10,61,0.5)]"><svg width="32" height="32" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div></div>
                 </div>
               </div>
               <div className="w-full lg:w-[35%] flex flex-col gap-5">
                 <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]"><span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />Latest Release</span>
                 <h1 className="text-4xl font-extrabold text-white tracking-tight">{featured.title}</h1>
                 <div className="flex items-center gap-3 text-sm text-white/30 font-bold uppercase tracking-widest"><span>{featured.year}</span><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featured.duration}</span><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featured.views} views</span></div>
-                <button className="flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-widest rounded-xl w-fit"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>Watch Now</button>
+                <button className="flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-widest w-fit"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>Watch Now</button>
               </div>
             </div>
           </section>
@@ -183,7 +183,7 @@ export default function MediaLayoutDemo() {
           <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
             {VIDEOS.map((v, i) => (
               <div key={v.id+v.title} className="break-inside-avoid group cursor-pointer">
-                <div className={`relative overflow-hidden rounded-2xl bg-[var(--color-bg-card)] ${i % 3 === 0 ? "aspect-[4/5]" : i % 3 === 1 ? "aspect-video" : "aspect-[3/4]"}`}>
+                <div className={`relative overflow-hidden  bg-[var(--color-bg-card)] ${i % 3 === 0 ? "aspect-[4/5]" : i % 3 === 1 ? "aspect-video" : "aspect-[3/4]"}`}>
                   <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
@@ -214,7 +214,7 @@ export default function MediaLayoutDemo() {
             <CatNav active={cat} set={setCat} />
             <div className="mt-8 space-y-1">
               {VIDEOS.map((v, i) => (
-                <div key={v.id+v.title} className={`flex items-center gap-6 px-4 py-4 rounded-xl cursor-pointer transition-all hover:bg-white/[0.04] group ${i === 0 ? "bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20" : ""}`}>
+                <div key={v.id+v.title} className={`flex items-center gap-6 px-4 py-4  cursor-pointer transition-all hover:bg-white/[0.04] group ${i === 0 ? "bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20" : ""}`}>
                   <span className="text-sm font-bold text-white/20 w-6 text-center tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                   <div className="relative w-28 aspect-video rounded-lg overflow-hidden shrink-0 bg-[var(--color-bg-card)]">
                     <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
@@ -244,7 +244,7 @@ export default function MediaLayoutDemo() {
               <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-4 block">Spotlight</span>
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-4">
                 {/* Main large video */}
-                <div className="relative aspect-video rounded-2xl overflow-hidden bg-[var(--color-bg-card)] group cursor-pointer">
+                <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] group cursor-pointer">
                   <img src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-8">
@@ -253,13 +253,13 @@ export default function MediaLayoutDemo() {
                     <div className="flex items-center gap-3 text-xs text-white/40 font-bold uppercase tracking-widest mt-2"><span>{featured.year}</span><span>{featured.duration}</span><span>{featured.views} views</span></div>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_40px_rgba(133,29,239,0.5)]"><svg width="26" height="26" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
+                    <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_40px_rgba(255,10,61,0.5)]"><svg width="26" height="26" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
                   </div>
                 </div>
                 {/* 2x2 grid */}
                 <div className="grid grid-cols-2 gap-4">
                   {VIDEOS.slice(1, 5).map(v => (
-                    <div key={v.id+v.title} className="relative aspect-video rounded-xl overflow-hidden bg-[var(--color-bg-card)] group cursor-pointer">
+                    <div key={v.id+v.title} className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] group cursor-pointer">
                       <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-3">
@@ -287,7 +287,7 @@ export default function MediaLayoutDemo() {
         <div className="site-container py-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-6 lg:sticky lg:top-[90px]">
-              <div className="relative aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10 group cursor-pointer">
+              <div className="relative aspect-video overflow-hidden bg-black border border-white/10 group cursor-pointer">
                 <img src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -308,7 +308,7 @@ export default function MediaLayoutDemo() {
                 <CatNav active={cat} set={setCat} />
               </div>
               {VIDEOS.map((v, i) => (
-                <div key={v.id+v.title+"G"} className="flex gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[var(--color-accent)]/40 hover:bg-white/[0.06] transition-all cursor-pointer group">
+                <div key={v.id+v.title+"G"} className="flex gap-4 p-3 bg-white/[0.03] border border-white/5 hover:border-[var(--color-accent)]/40 hover:bg-white/[0.06] transition-all cursor-pointer group">
                   <div className="relative w-36 aspect-video rounded-lg overflow-hidden shrink-0 bg-black">
                     <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     <span className="absolute bottom-1 right-1 bg-black/80 text-2xs text-white px-1 rounded">{v.duration}</span>
@@ -337,7 +337,7 @@ export default function MediaLayoutDemo() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {VIDEOS.concat(VIDEOS).map((v, i) => (
-              <div key={v.id+i+"H"} className="group cursor-pointer bg-white/[0.02] border border-white/5 rounded-xl p-2 hover:border-[var(--color-accent)]/50 transition-all">
+              <div key={v.id+i+"H"} className="group cursor-pointer bg-white/[0.02] border border-white/5 p-2 hover:border-[var(--color-accent)]/50 transition-all">
                 <div className="relative aspect-video rounded-lg overflow-hidden mb-2 bg-black">
                   <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <span className="absolute bottom-1 right-1 bg-black/80 text-[10px] text-white px-1 rounded font-mono">{v.duration}</span>
@@ -372,7 +372,7 @@ export default function MediaLayoutDemo() {
             </div>
             <div className="md:col-span-4 flex flex-col gap-4">
               {VIDEOS.slice(1, 3).map((v) => (
-                <div key={v.id+v.title+"I"} className="flex-1 relative rounded-2xl overflow-hidden bg-black border border-white/10 group cursor-pointer min-h-[160px]">
+                <div key={v.id+v.title+"I"} className="flex-1 relative overflow-hidden bg-black border border-white/10 group cursor-pointer min-h-[160px]">
                   <img src={thumb(v.id)} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -402,11 +402,11 @@ export default function MediaLayoutDemo() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {VIDEOS.map((v) => (
               <div key={v.id+v.title+"J"} className="bg-white/[0.04] backdrop-blur-2xl border border-white/10 hover:border-[var(--color-accent)]/60 rounded-3xl p-4 transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group cursor-pointer">
-                <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-black">
+                <div className="relative aspect-video overflow-hidden mb-4 bg-black">
                   <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/80 backdrop-blur-md flex items-center justify-center shadow-lg"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
+                    <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/80 backdrop-blur-md flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
@@ -451,7 +451,7 @@ export default function MediaLayoutDemo() {
       {/* ═══ L — Multi-Stream Cinema Console ═══ */}
       {active === "L" && (
         <div className="site-container py-8">
-          <div className="bg-black/90 border border-white/15 rounded-3xl p-6 shadow-2xl">
+          <div className="bg-black/90 border border-white/15 rounded-3xl p-6">
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-red-500 animate-ping" />
@@ -459,11 +459,11 @@ export default function MediaLayoutDemo() {
               </div>
               <CatNav active={cat} set={setCat} />
             </div>
-            <div className="relative aspect-[21/9] rounded-2xl overflow-hidden mb-6 bg-black border border-white/10">
+            <div className="relative aspect-[21/9] overflow-hidden mb-6 bg-black border border-white/10">
               <img src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_50px_rgba(133,29,239,0.7)] cursor-pointer">
+                <div className="w-20 h-20 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_50px_rgba(255,10,61,0.7)] cursor-pointer">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                 </div>
               </div>
@@ -477,7 +477,7 @@ export default function MediaLayoutDemo() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {VIDEOS.slice(0, 4).map((v, i) => (
-                <div key={v.id+v.title+"L"} className={`p-2 rounded-xl border transition-all cursor-pointer ${i === 0 ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]" : "bg-white/5 border-white/10 hover:border-white/30"}`}>
+                <div key={v.id+v.title+"L"} className={`p-2  border transition-all cursor-pointer ${i === 0 ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]" : "bg-white/5 border-white/10 hover:border-white/30"}`}>
                   <div className="relative aspect-video rounded-lg overflow-hidden mb-2">
                     <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover" />
                   </div>
@@ -493,7 +493,7 @@ export default function MediaLayoutDemo() {
       {active === "M" && (
         <div className="site-container py-8">
           <div className="flex flex-col lg:flex-row gap-8">
-            <div className="w-full lg:w-[240px] shrink-0 bg-white/[0.02] border border-white/10 rounded-2xl p-4 h-fit">
+            <div className="w-full lg:w-[240px] shrink-0 bg-white/[0.02] border border-white/10 p-4 h-fit">
               <h3 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)] mb-3">Categories</h3>
               <div className="flex flex-col gap-1.5">
                 {CATS.map((c) => (
@@ -534,9 +534,9 @@ export default function MediaLayoutDemo() {
             </div>
             <CatNav active={cat} set={setCat} />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-black/90 p-4 border border-white/15 rounded-3xl shadow-2xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-black/90 p-4 border border-white/15 rounded-3xl">
             {VIDEOS.concat(VIDEOS.slice(0, 4)).map((v, i) => (
-              <div key={v.id+i+"N"} className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/15 group cursor-pointer hover:border-[var(--color-accent)] transition-all">
+              <div key={v.id+i+"N"} className="relative aspect-video overflow-hidden bg-black border border-white/15 group cursor-pointer hover:border-[var(--color-accent)] transition-all">
                 <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                 <div className="absolute top-2 left-2 bg-black/80 text-[9px] font-mono text-white/80 px-1.5 py-0.5 rounded border border-white/20">CAM-0{i + 1}</div>
                 <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/80 backdrop-blur-sm">
@@ -593,8 +593,8 @@ export default function MediaLayoutDemo() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {VIDEOS.map((v) => (
-                <div key={v.id+v.title+"P"} className="bg-white border border-black/10 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all group cursor-pointer">
-                  <div className="relative aspect-video rounded-xl overflow-hidden mb-3 bg-black">
+                <div key={v.id+v.title+"P"} className="bg-white border border-black/10 p-3 shadow-sm hover:shadow-md transition-all group cursor-pointer">
+                  <div className="relative aspect-video overflow-hidden mb-3 bg-black">
                     <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     <span className="absolute bottom-2 right-2 bg-black/80 text-white text-2xs font-bold px-2 py-0.5 rounded">{v.duration}</span>
                   </div>

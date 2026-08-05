@@ -35,19 +35,19 @@ export default function PrivacyPage() {
       <h2 className="text-black text-lg font-bold mb-3">2. Information We Collect</h2>
       <p className="mb-3">We may collect the following types of information:</p>
       <div className="flex flex-col gap-3">
-       <div className="p-4 border border-black/10 bg-white rounded-xl shadow-xs">
+       <div className="p-4 border border-black/10 bg-white shadow-xs">
         <p className="text-black font-bold text-sm mb-1">Account Information</p>
         <p className="text-sm text-black/70">Name, email address, and password when you create a member account.</p>
        </div>
-       <div className="p-4 border border-black/10 bg-white rounded-xl shadow-xs">
+       <div className="p-4 border border-black/10 bg-white shadow-xs">
         <p className="text-black font-bold text-sm mb-1">SMS Alert Information</p>
         <p className="text-sm text-black/70">Name, zip code, and phone number when you subscribe to show alerts. We also record your consent timestamp and IP address as required by law.</p>
        </div>
-       <div className="p-4 border border-black/10 bg-white rounded-xl shadow-xs">
+       <div className="p-4 border border-black/10 bg-white shadow-xs">
         <p className="text-black font-bold text-sm mb-1">Location Data</p>
         <p className="text-sm text-black/70">Approximate geolocation (latitude/longitude) only when you explicitly enable the &quot;Nearby Shows&quot; feature. This data is stored locally in your browser and is not transmitted to our servers.</p>
        </div>
-       <div className="p-4 border border-black/10 bg-white rounded-xl shadow-xs">
+       <div className="p-4 border border-black/10 bg-white shadow-xs">
         <p className="text-black font-bold text-sm mb-1">Usage Data</p>
         <p className="text-sm text-black/70">Browser type, pages visited, and interaction patterns collected automatically through standard web analytics.</p>
        </div>
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
      {/* 4 */}
      <div>
       <h2 className="text-black text-lg font-bold mb-3">4. SMS/Text Message Program</h2>
-      <div className="p-5 border border-purple-200 bg-white rounded-xl shadow-sm">
+      <div className="p-5 border border-purple-200 bg-white shadow-sm">
        <p className="mb-3">By subscribing to 7th Heaven Show Alerts, you consent to receive recurring automated text messages at the phone number you provided. Key details:</p>
        <ul className="list-disc pl-5 space-y-2 text-base">
         <li><strong className="text-black">Message Frequency:</strong> Varies. Typically 1–4 messages per month, with occasional additional messages for special events.</li>
@@ -138,7 +138,7 @@ export default function PrivacyPage() {
      <div>
       <h2 className="text-black text-lg font-bold mb-3">12. Contact Us</h2>
       <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
-      <div className="p-6 border border-black/10 bg-white rounded-2xl shadow-sm">
+      <div className="p-6 border border-black/10 bg-white shadow-sm">
        <p className="text-black font-bold text-sm">7th Heaven</p>
        <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-purple-600 font-bold hover:underline">info@7thheavenband.com</a></p>
        <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-purple-600 font-bold hover:underline">7thheavenband.com</a></p>

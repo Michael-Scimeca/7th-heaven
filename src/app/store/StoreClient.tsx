@@ -159,7 +159,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`text-sm font-bold uppercase tracking-[0.1em] px-5 py-2.5 rounded-xl border transition-all cursor-pointer ${
+              className={`text-sm font-bold uppercase tracking-[0.1em] px-5 py-2.5  border transition-all cursor-pointer ${
                 activeCategory === cat
                   ? "border-purple-600 bg-purple-600 text-white shadow-md"
                   : "border-black/10 bg-white text-black/70 hover:text-black hover:border-black/20 shadow-xs"
@@ -179,7 +179,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
             const imageUrl = product.images?.edges?.[0]?.node?.url;
 
             return (
-              <div key={product.id} className="group border border-black/10 bg-white rounded-2xl shadow-sm hover:shadow-md hover:border-black/20 transition-all duration-300 flex flex-col overflow-hidden text-black">
+              <div key={product.id} className="group border border-black/10 bg-white shadow-sm hover:shadow-md hover:border-black/20 transition-all duration-300 flex flex-col overflow-hidden text-black">
                 <div className="relative aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
                   {imageUrl ? (
                     <img src={imageUrl} alt={product.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -207,7 +207,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                     <button
                       onClick={() => handleCheckoutClick(product)}
                       disabled={product.quantityAvailable === 0}
-                      className="w-full block text-center bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold text-sm uppercase tracking-[0.1em] py-2.5 rounded-xl transition-all cursor-pointer shadow-sm"
+                      className="w-full block text-center bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold text-sm uppercase tracking-[0.1em] py-2.5 transition-all cursor-pointer shadow-sm"
                     >
                       {product.quantityAvailable === 0 ? 'Sold Out' : 'Buy Now'}
                     </button>
@@ -227,7 +227,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
       {/* ─── SECURE STORE CHECKOUT MODAL ─── */}
       {showCheckoutModal && selectedProduct && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-black/10 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh] text-black">
+          <div className="bg-white border border-black/10 w-full max-w-md overflow-hidden relative flex flex-col max-h-[90vh] text-black">
             
             {/* Modal Header */}
             <div className="p-5 border-b border-black/10 flex items-center justify-between bg-gray-50">
@@ -252,7 +252,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                 <form onSubmit={handleCheckoutSubmit} className="space-y-4">
                   
                   {/* Selected product card summary */}
-                  <div className="flex gap-4 p-3 bg-gray-50 border border-black/10 rounded-xl">
+                  <div className="flex gap-4 p-3 bg-gray-50 border border-black/10">
                     <div className="w-16 h-16 bg-white border border-black/10 rounded-lg flex items-center justify-center p-1 relative shrink-0">
                       {selectedProduct.images?.edges?.[0]?.node?.url ? (
                         <img 
@@ -279,7 +279,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
                   {/* Apparel sizing / colors */}
                   {selectedProduct.title.toLowerCase().match(/shirt|tee|hoodie|sweat|jersey|jacket|tank|hat|cap/) && (
-                    <div className="grid grid-cols-2 gap-3 bg-gray-50 border border-black/10 p-3 rounded-xl">
+                    <div className="grid grid-cols-2 gap-3 bg-gray-50 border border-black/10 p-3">
                       <div>
                         <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Select Size</label>
                         <select 
@@ -315,7 +315,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                       <button
                         type="button"
                         onClick={() => setCheckoutDeliveryMethod('shipping')}
-                        className={`py-2 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                        className={`py-2 px-3  border text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                           checkoutDeliveryMethod === 'shipping'
                             ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
                             : 'bg-white border-black/15 text-black/70 hover:bg-gray-50'
@@ -326,7 +326,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                       <button
                         type="button"
                         onClick={() => setCheckoutDeliveryMethod('merch_table')}
-                        className={`py-2 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                        className={`py-2 px-3  border text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                           checkoutDeliveryMethod === 'merch_table'
                             ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
                             : 'bg-white border-black/15 text-black/70 hover:bg-gray-50'
@@ -347,7 +347,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                         value={shippingDetails.name}
                         onChange={e => setShippingDetails(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="John Doe"
-                        className="w-full bg-white border border-black/15 rounded-xl p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
+                        className="w-full bg-white border border-black/15 p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
                       />
                     </div>
                     <div>
@@ -358,7 +358,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                         value={shippingDetails.email}
                         onChange={e => setShippingDetails(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="john@example.com"
-                        className="w-full bg-white border border-black/15 rounded-xl p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
+                        className="w-full bg-white border border-black/15 p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
                       />
                     </div>
                     
@@ -372,7 +372,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                             value={shippingDetails.address}
                             onChange={e => setShippingDetails(prev => ({ ...prev, address: e.target.value }))}
                             placeholder="123 Main St"
-                            className="w-full bg-white border border-black/15 rounded-xl p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
+                            className="w-full bg-white border border-black/15 p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
@@ -384,7 +384,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                               value={shippingDetails.city}
                               onChange={e => setShippingDetails(prev => ({ ...prev, city: e.target.value }))}
                               placeholder="Chicago"
-                              className="w-full bg-white border border-black/15 rounded-xl p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
+                              className="w-full bg-white border border-black/15 p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
                             />
                           </div>
                           <div>
@@ -395,7 +395,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                               value={shippingDetails.zip}
                               onChange={e => setShippingDetails(prev => ({ ...prev, zip: e.target.value }))}
                               placeholder="60601"
-                              className="w-full bg-white border border-black/15 rounded-xl p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
+                              className="w-full bg-white border border-black/15 p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
                             />
                           </div>
                         </div>
@@ -410,14 +410,14 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                         value={shippingDetails.card}
                         onChange={e => setShippingDetails(prev => ({ ...prev, card: e.target.value }))}
                         placeholder="4242 4242 4242 4242"
-                        className="w-full bg-white border border-black/15 rounded-xl p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
+                        className="w-full bg-white border border-black/15 p-2.5 text-xs text-black placeholder:text-black/40 focus:border-purple-600 focus:outline-none font-sans"
                       />
                     </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-3 bg-purple-600 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-purple-700 transition-all cursor-pointer border-none mt-2 font-sans shadow-md"
+                    className="w-full py-3 bg-purple-600 text-white font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-all cursor-pointer border-none mt-2 font-sans shadow-md"
                   >
                     Authorize Payment
                   </button>
@@ -454,13 +454,13 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                       </p>
                     </div>
                     
-                    <div className="bg-gray-50 border border-black/10 rounded-xl p-4 text-left space-y-3">
+                    <div className="bg-gray-50 border border-black/10 p-4 text-left space-y-3">
                       {/* Product Image */}
                       <div className="flex justify-center">
                         <img 
                           src={selectedProduct.images?.edges?.[0]?.node?.url || '/images/merch/vinyl.png'} 
                           alt={selectedProduct.title} 
-                          className="w-28 h-28 object-cover rounded-xl border border-black/10 shadow-sm" 
+                          className="w-28 h-28 object-cover border border-black/10 shadow-sm" 
                         />
                       </div>
 
@@ -503,7 +503,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
                     <button
                       onClick={() => setShowCheckoutModal(false)}
-                      className="w-full py-3 bg-purple-600 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-purple-700 transition-all cursor-pointer border-none font-sans shadow-md"
+                      className="w-full py-3 bg-purple-600 text-white font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-all cursor-pointer border-none font-sans shadow-md"
                     >
                       Close Gateway
                     </button>

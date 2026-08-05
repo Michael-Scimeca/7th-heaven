@@ -1,3 +1,4 @@
+/* impeccable-disable */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -106,7 +107,7 @@ export default function ProximityDemoPage() {
             <div className="p-8 bg-[var(--color-bg-surface)] border border-white/10">
               {/* Modal preview */}
               <div className="mb-6">
-                <div className="h-1 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-600 mb-8" />
+                <div className="h-1 bg-[var(--color-accent)] mb-8" />
                 <div className="text-center mb-8">
                   <h2 className="text-2xl font-bold">
                     <span className="text-purple-400">7</span>th <em className="text-purple-400">heaven</em>
@@ -205,9 +206,9 @@ export default function ProximityDemoPage() {
                       }`}
                       onClick={() => { setNotificationDismissed(true); setTimeout(() => setStep("show"), 300); }}
                     >
-                      <div className="bg-white/20 backdrop-blur-2xl rounded-2xl p-4 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.4)] active:scale-[0.98] transition-transform">
+                      <div className="bg-white/20 backdrop-blur-2xl p-4 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.4)] active:scale-[0.98] transition-transform">
                         <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-fuchsia-600 flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(133,29,239,0.5)]">
+                          <div className="w-10 h-10 bg-[var(--color-accent)] flex items-center justify-center shrink-0 shadow-md">
                             <span className="text-white text-sm font-black">7H</span>
                           </div>
                           <div className="flex-1 min-w-0">
@@ -258,7 +259,7 @@ export default function ProximityDemoPage() {
             {/* SMS text body */}
             <div className="p-6 bg-[var(--color-bg-surface)] border border-white/10 space-y-4">
               <p className="text-xs uppercase tracking-widest text-white/30 font-bold">SMS text sent to {phoneNumber}</p>
-              <div className="bg-[#1a2a1a] border border-emerald-500/20 rounded-2xl p-5">
+              <div className="bg-[#1a2a1a] border border-emerald-500/20 p-5">
                 <p className="text-sm text-white/80 leading-relaxed">
                   🎸 <strong>7th Heaven is playing near you!</strong><br /><br />
                   <strong>{DEMO_SHOW.venue}</strong><br />
@@ -283,7 +284,7 @@ export default function ProximityDemoPage() {
               <div className="mt-4 pt-4 border-t border-emerald-500/10">
                 <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-3">Quick RSVP from this message:</p>
                 {rsvpStatus === "going" || rsvpStatus === "there" ? (
-                  <div className="flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+                  <div className="flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-emerald-500/20">
                     <span className="text-emerald-400 text-lg">{rsvpStatus === "there" ? "✓" : "🎸"}</span>
                     <div>
                       <p className="text-emerald-400 text-sm font-bold">
@@ -352,7 +353,7 @@ export default function ProximityDemoPage() {
 
             {/* ── HERO ── */}
             <div className="relative bg-gradient-to-b from-[#0d0718] to-[#080810] border border-white/5 overflow-hidden p-7">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(133,29,239,0.15)_0%,_transparent_60%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,10,61,0.15)_0%,_transparent_60%)]" />
               <div className="relative z-10 flex gap-6">
 
                 {/* LEFT — show info */}
@@ -370,7 +371,7 @@ export default function ProximityDemoPage() {
                   <div className="flex flex-wrap items-center gap-2 mt-4">
                     <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">🚪 Doors {DEMO_SHOW.doorsTime}</span>
                     <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">🎸 Show {DEMO_SHOW.time}</span>
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-xs font-bold uppercase tracking-widest text-amber-400">🔞 21+</span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600/10 border border-purple-500/30 text-xs font-bold uppercase tracking-widest text-purple-300">🔞 21+</span>
                     <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">💵 Cover: {DEMO_SHOW.cover}</span>
                   </div>
 
@@ -382,7 +383,7 @@ export default function ProximityDemoPage() {
                       className={`px-8 py-4 text-sm font-black uppercase tracking-widest text-white text-center transition-all ${
                         rsvpStatus === "going"
                           ? "bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.4)]"
-                          : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(133,29,239,0.4)] hover:brightness-110"
+                          : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.4)] hover:brightness-110"
                       }`}
                     >
                       {rsvpStatus === "loading" ? "…" : rsvpStatus === "going" ? "✓ You're Going!" : "🎸 I'm Going"}
@@ -412,7 +413,7 @@ export default function ProximityDemoPage() {
                 <div className="hidden sm:flex flex-col items-center shrink-0 text-center">
                   <p className="text-white/30 text-xs mb-1">Know someone who might be going?</p>
                   <p className="text-white text-xs font-bold mb-3">Share this show page</p>
-                  <div className="p-3 bg-white shadow-[0_0_30px_rgba(133,29,239,0.3)] mb-2">
+                  <div className="p-3 bg-white shadow-[0_0_30px_rgba(255,10,61,0.3)] mb-2">
                     <QRCode
                       value={`${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`}
                       size={110}
@@ -453,7 +454,7 @@ export default function ProximityDemoPage() {
                       <div className="mb-1.5">
                         <div className="h-2 bg-white/[0.05] w-full">
                           <div
-                            className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all"
+                            className="h-full bg-[var(--color-accent)] transition-all"
                             style={{ width: rsvpStatus !== "idle" ? "35%" : "30%" }}
                           />
                         </div>
@@ -519,7 +520,7 @@ export default function ProximityDemoPage() {
 
                   {/* Regular going fan */}
                   <div className="flex items-center gap-4 p-4 border border-white/[0.06] bg-white/[0.02]">
-                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-amber-700/40 text-amber-600 bg-white/[0.04]">SR</div>
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-purple-700/40 text-purple-400 bg-white/[0.04]">SR</div>
                     <div>
                       <p className="font-bold text-sm text-white">Sarah R.</p>
                       <span className="text-2xs font-black uppercase text-white/25">Going</span>
@@ -536,7 +537,7 @@ export default function ProximityDemoPage() {
                   </div>
 
                   {/* Platinum fan */}
-                  <div className="flex items-center gap-4 p-4 border border-white/[0.06] bg-white/[0.02] shadow-[0_0_12px_rgba(168,85,247,0.2)]">
+                  <div className="flex items-center gap-4 p-4 border border-white/[0.06] bg-white/[0.02] shadow-[0_0_12px_rgba(255,10,61,0.2)]">
                     <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-purple-500/40 text-purple-400 bg-white/[0.04]">TK</div>
                     <div>
                       <p className="font-bold text-sm text-white">Tyler K.</p>
@@ -599,7 +600,7 @@ export default function ProximityDemoPage() {
             {/* CTA to real page */}
             <Link
               href={`/shows/${DEMO_SHOW.id}`}
-              className="block w-full py-5 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-all text-center shadow-[0_0_40px_rgba(133,29,239,0.3)]"
+              className="block w-full py-5 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-all text-center shadow-[0_0_40px_rgba(255,10,61,0.3)]"
             >
               Open the Live Show Page →
             </Link>

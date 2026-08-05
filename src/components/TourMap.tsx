@@ -9,7 +9,7 @@ export { VENUE_COORDS };
 
 export const typeConfig: Record<string, { color: string; label: string }> = {
   full:       { color: "#a855f7", label: "Full Band" },
-  unplugged:  { color: "#f59e0b", label: "Unplugged" },
+  unplugged:  { color: "#9333ea", label: "Unplugged" },
   outdoor:    { color: "#22c55e", label: "Outdoor" },
   casino:     { color: "#eab308", label: "Casino" },
   tv:         { color: "#06b6d4", label: "TV" },
@@ -92,8 +92,18 @@ export function getShowDateTime(startDateStr?: string, dateStr?: string, timeStr
 
 export function isShowOver(show: { startDate?: string; date: string; time: string }): boolean {
   const showDateTime = getShowDateTime(show.startDate, show.date, show.time);
-  // Keep the show active on the map for 4 hours after its start time
   return showDateTime.getTime() + (4 * 60 * 60 * 1000) < Date.now();
+}
+
+function hexToRgba(hex: string, alpha: number): string {
+  let c = hex.replace("#", "");
+  if (c.length === 3) c = c.split("").map((x) => x + x).join("");
+  const num = parseInt(c, 16);
+  if (isNaN(num)) return `rgba(0, 0, 0, ${alpha})`;
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
 }
 
 interface TourMapProps {
@@ -116,14 +126,102 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   const [L, setL] = useState<any>(null);
   const [map, setMap] = useState<any>(null);
 
-  // Preconnect to tile CDN for faster loading
+  // ── Directional Map Gradient Customizer states ──
+  const [mapGradTop, setMapGradTop] = useState(true);
+  const [mapGradBottom, setMapGradBottom] = useState(true);
+  const [mapGradLeft, setMapGradLeft] = useState(true);
+  const [mapGradRight, setMapGradRight] = useState(true);
+
+  const [mapGradSize, setMapGradSize] = useState(23); // %
+  const [mapGradOpacity, setMapGradOpacity] = useState(0.691); // 0..1 → *0.75 = 0.518
+  const [mapGradMidstop, setMapGradMidstop] = useState(35); // %
+  const [mapGradColor, setMapGradColor] = useState("#000000");
+  const [isMapGradUiOpen, setIsMapGradUiOpen] = useState(false);
+  const [mapGradCopied, setMapGradCopied] = useState(false);
+
   useEffect(() => {
+    const savedTop = localStorage.getItem("7h_map_grad_top");
+    const savedBottom = localStorage.getItem("7h_map_grad_bottom");
+    const savedLeft = localStorage.getItem("7h_map_grad_left");
+    const savedRight = localStorage.getItem("7h_map_grad_right");
+    const savedSize = localStorage.getItem("7h_map_grad_size");
+    const savedOpacity = localStorage.getItem("7h_map_grad_opacity");
+    const savedMidstop = localStorage.getItem("7h_map_grad_midstop");
+    const savedColor = localStorage.getItem("7h_map_grad_color");
+
+    if (savedTop !== null) setMapGradTop(savedTop === "true");
+    if (savedBottom !== null) setMapGradBottom(savedBottom === "true");
+    if (savedLeft !== null) setMapGradLeft(savedLeft === "true");
+    if (savedRight !== null) setMapGradRight(savedRight === "true");
+    if (savedSize) setMapGradSize(parseFloat(savedSize));
+    if (savedOpacity) setMapGradOpacity(parseFloat(savedOpacity));
+    if (savedMidstop) setMapGradMidstop(parseFloat(savedMidstop));
+    if (savedColor) setMapGradColor(savedColor);
+  }, []);
+
+  const toggleTop = (v: boolean) => { setMapGradTop(v); localStorage.setItem("7h_map_grad_top", v.toString()); };
+  const toggleBottom = (v: boolean) => { setMapGradBottom(v); localStorage.setItem("7h_map_grad_bottom", v.toString()); };
+  const toggleLeft = (v: boolean) => { setMapGradLeft(v); localStorage.setItem("7h_map_grad_left", v.toString()); };
+  const toggleRight = (v: boolean) => { setMapGradRight(v); localStorage.setItem("7h_map_grad_right", v.toString()); };
+
+  const updateSize = (s: number) => { setMapGradSize(s); localStorage.setItem("7h_map_grad_size", s.toString()); };
+  const updateOpacity = (o: number) => { setMapGradOpacity(o); localStorage.setItem("7h_map_grad_opacity", o.toString()); };
+  const updateMidstop = (m: number) => { setMapGradMidstop(m); localStorage.setItem("7h_map_grad_midstop", m.toString()); };
+  const updateColor = (c: string) => { setMapGradColor(c); localStorage.setItem("7h_map_grad_color", c); };
+
+  const selectPresetMode = (mode: "all" | "tb" | "lr" | "top" | "bottom" | "left" | "right" | "none") => {
+    switch (mode) {
+      case "all":
+        toggleTop(true); toggleBottom(true); toggleLeft(true); toggleRight(true);
+        break;
+      case "tb":
+        toggleTop(true); toggleBottom(true); toggleLeft(false); toggleRight(false);
+        break;
+      case "lr":
+        toggleTop(false); toggleBottom(false); toggleLeft(true); toggleRight(true);
+        break;
+      case "top":
+        toggleTop(true); toggleBottom(false); toggleLeft(false); toggleRight(false);
+        break;
+      case "bottom":
+        toggleTop(false); toggleBottom(true); toggleLeft(false); toggleRight(false);
+        break;
+      case "left":
+        toggleTop(false); toggleBottom(false); toggleLeft(true); toggleRight(false);
+        break;
+      case "right":
+        toggleTop(false); toggleBottom(false); toggleLeft(false); toggleRight(true);
+        break;
+      case "none":
+        toggleTop(false); toggleBottom(false); toggleLeft(false); toggleRight(false);
+        break;
+    }
+  };
+
+  const copyMapGradCSS = () => {
+    let cssLines = [];
+    if (mapGradTop) cssLines.push(`/* Top */ background: linear-gradient(to bottom, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%); height: ${mapGradSize}%;`);
+    if (mapGradBottom) cssLines.push(`/* Bottom */ background: linear-gradient(to top, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%); height: ${mapGradSize}%;`);
+    if (mapGradLeft) cssLines.push(`/* Left */ background: linear-gradient(to right, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%); width: ${mapGradSize}%;`);
+    if (mapGradRight) cssLines.push(`/* Right */ background: linear-gradient(to left, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%); width: ${mapGradSize}%;`);
+
+    navigator.clipboard.writeText(cssLines.join("\n"));
+    setMapGradCopied(true);
+    setTimeout(() => setMapGradCopied(false), 2000);
+  };
+
+  // Preconnect to tile CDN for faster loading.
+  // Guards against Strict Mode double-mount: existence check prevents duplicate <link>,
+  // and link.remove() is a safe no-op on already-detached nodes (unlike removeChild which throws).
+  useEffect(() => {
+    const PRECONNECT_HREF = "https://a.basemaps.cartocdn.com";
+    if (document.head.querySelector(`link[href="${PRECONNECT_HREF}"]`)) return;
     const link = document.createElement("link");
     link.rel = "preconnect";
-    link.href = "https://a.basemaps.cartocdn.com";
+    link.href = PRECONNECT_HREF;
     link.crossOrigin = "anonymous";
     document.head.appendChild(link);
-    return () => { document.head.removeChild(link); };
+    return () => { link.remove(); }; // safe no-op if already detached
   }, []);
 
   // Load Leaflet library once on mount
@@ -143,7 +241,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     // Center on Chicagoland — most shows are in the IL suburbs
     const mapInstance = L.map(mapRef.current, {
       center: [42.0, -88.0],
-      zoom: 10,
+      zoom: 12,
+      zoomSnap: 0.1,
+      zoomDelta: 0.1,
       zoomControl: false,
       attributionControl: false,
       scrollWheelZoom: false,
@@ -151,13 +251,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     });
 
     const baseLayer = L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
       { maxZoom: 18, subdomains: "abcd" }
     ).addTo(mapInstance);
 
     baseLayer.once("load", () => setIsLoaded(true));
-
-    L.control.zoom({ position: "bottomright" }).addTo(mapInstance);
 
     // Close tooltips when clicked
     mapInstance.on('tooltipopen', (e: any) => {
@@ -312,7 +410,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         ? `<span style="font-size:12px; font-weight:800; color:${cfg.color};">${firstShow.date} + ${v.shows.length - 1} more show${v.shows.length > 2 ? 's' : ''}</span>`
         : `<span style="font-size:12px; font-weight:800; color:${cfg.color};">${firstShow.date} ${firstShow.time || ""}</span>`;
 
-      const isLightColor = cfg.color === '#f59e0b' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
+      const isLightColor = cfg.color === '#9333ea' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
       const textColor = isLightColor ? '#000000' : '#ffffff';
       const showLetter = v.type === 'unplugged' ? 'U' : v.type === 'outdoor' ? 'O' : v.type === 'casino' ? 'C' : v.type === 'tv' ? 'T' : v.type === 'fundraiser' ? 'G' : v.type === 'special' ? 'S' : 'F';
 
@@ -452,15 +550,31 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       });
     });
 
-    // Auto-fit map bounds so all active location pins stay 100% inside the visual map screen with safety padding
+    // Center map on active show and zoom in +1 level as default
     if (filteredVenues.length > 0 && map) {
+      // Find active or up next venue (fallback to first venue)
+      const activeVenue = filteredVenues.find(v =>
+        (nextShowVenue && v.venue === nextShowVenue && v.city === nextShowCity) ||
+        v.shows.some(s => {
+          const start = getShowDateTime(undefined, s.date, s.time);
+          const end = new Date(start.getTime() + 4 * 60 * 60 * 1000);
+          const now = new Date();
+          return now >= start && now < end;
+        })
+      ) || filteredVenues[0];
+
       const bounds = L.latLngBounds(filteredVenues.map(v => [v.lat, v.lng]));
       map.fitBounds(bounds, {
-        paddingTopLeft: [50, 70],
-        paddingBottomRight: [50, 60],
-        maxZoom: 12,
-        animate: true
+        paddingTopLeft: [60, 80],
+        paddingBottomRight: [60, 80],
+        maxZoom: 14,
+        animate: false
       });
+
+      if (activeVenue) {
+        const defaultZoom = Math.min(15, map.getZoom() + 1);
+        map.setView([activeVenue.lat, activeVenue.lng], defaultZoom, { animate: true });
+      }
     }
 
     return () => {
@@ -518,43 +632,241 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     );
   }, [onPinClick]);
 
-  return (
-    <div className="relative w-full aspect-[21/12] overflow-hidden border border-black/10 bg-black shadow-lg rounded-2xl">
-      <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1]" />
-      
-      {/* Near Me Button */}
-      <button
-        onClick={handleNearMe}
-        disabled={locating}
-        className="absolute top-4 right-4 z-[4] flex items-center gap-2 px-4 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 rounded-lg text-sm font-bold uppercase tracking-wider text-white/80 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/40 transition-all cursor-pointer disabled:opacity-50"
-      >
-        {locating ? (
-          <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-[var(--color-accent)] rounded-full animate-spin" />
-        ) : (
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-          </svg>
-        )}
-        Near Me
-      </button>
+  // Zoom handlers
+  const handleZoomIn = useCallback(() => {
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.zoomIn(1);
+    }
+  }, []);
 
-      {/* Near Me Result Toast */}
-      {nearMeResult && (
-        <div className="absolute top-16 right-4 z-[4] px-4 py-2.5 bg-[rgba(8,8,18,0.95)] backdrop-blur-md border border-[var(--color-accent)]/30 rounded-lg text-sm font-semibold text-white animate-[fadeIn_0.3s_ease]">
-          📍 {nearMeResult}
-        </div>
+  const handleZoomOut = useCallback(() => {
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.zoomOut(1);
+    }
+  }, []);
+
+  return (
+    <div className="relative w-full aspect-[3/1] overflow-hidden bg-black pb-px" style={{transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', willChange: 'transform', border: 'none', outline: 'none', minHeight: '350px'}}>
+      <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862" />
+
+      {/* ── Directional Dark Edge Gradient Overlays ── */}
+      {mapGradTop && (
+        <div 
+          className="absolute top-0 left-0 right-0 z-[2] pointer-events-none"
+          style={{
+            height: `${mapGradSize}%`,
+            background: `linear-gradient(to bottom, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
+          }}
+        />
+      )}
+      {mapGradBottom && (
+        <div 
+          className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none"
+          style={{
+            height: `${mapGradSize}%`,
+            background: `linear-gradient(to top, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
+          }}
+        />
+      )}
+      {mapGradLeft && (
+        <div 
+          className="absolute top-0 bottom-0 left-0 z-[2] pointer-events-none"
+          style={{
+            width: `${mapGradSize}%`,
+            background: `linear-gradient(to right, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
+          }}
+        />
+      )}
+      {mapGradRight && (
+        <div 
+          className="absolute top-0 bottom-0 right-0 z-[2] pointer-events-none"
+          style={{
+            width: `${mapGradSize}%`,
+            background: `linear-gradient(to left, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
+          }}
+        />
       )}
 
+      {/* ── Map Gradient UI Control Button + Drawer ── */}
+      <div className="absolute top-4 left-8 z-[5] flex flex-col items-start gap-2">
+        {!isMapGradUiOpen ? (
+          <button
+            onClick={() => setIsMapGradUiOpen(true)}
+            className="flex items-center gap-2 px-7 md:px-8 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-[16px] font-bold uppercase tracking-wider text-white/80 hover:text-[var(--color-accent)] transition-all cursor-pointer"
+            title="Configure Map Directional Black Gradient"
+          >
+            <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 animate-pulse" />
+            <span>Map Gradient UI</span>
+          </button>
+        ) : (
+          <div className="w-[310px] bg-[rgba(8,8,18,0.95)] backdrop-blur-2xl border border-white/15 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col gap-3.5 select-none text-left text-white z-50">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-2">
+              <div className="flex flex-col">
+                <span className="font-bold text-xs uppercase tracking-wider text-purple-400">
+                  Map Gradient Controls
+                </span>
+                <span className="text-[9px] text-white/50 uppercase font-semibold">
+                  Custom Edge Darkening
+                </span>
+              </div>
+              <button
+                onClick={() => setIsMapGradUiOpen(false)}
+                className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer text-xs font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Quick Direction Presets */}
+            <div className="space-y-1">
+              <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Direction Presets</span>
+              <div className="grid grid-cols-4 gap-1">
+                {[
+                  { id: "all", label: "All Sides" },
+                  { id: "tb", label: "Top & Btm" },
+                  { id: "lr", label: "Left & Rgt" },
+                  { id: "none", label: "None" },
+                ].map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => selectPresetMode(p.id as any)}
+                    className="px-1.5 py-1 text-[8.5px] font-extrabold uppercase tracking-wider rounded border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-all text-center truncate cursor-pointer"
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Individual Direction Toggles */}
+            <div className="space-y-1">
+              <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Active Sides</span>
+              <div className="grid grid-cols-4 gap-1.5">
+                {[
+                  { label: "Top ⬆️", state: mapGradTop, setter: toggleTop },
+                  { label: "Bottom ⬇️", state: mapGradBottom, setter: toggleBottom },
+                  { label: "Left ⬅️", state: mapGradLeft, setter: toggleLeft },
+                  { label: "Right ➡️", state: mapGradRight, setter: toggleRight },
+                ].map((d) => (
+                  <button
+                    key={d.label}
+                    onClick={() => d.setter(!d.state)}
+                    className={`px-1 py-1.5 text-[8.5px] font-black uppercase rounded-lg border transition-all cursor-pointer ${
+                      d.state
+                        ? "bg-purple-600/40 border-purple-400 text-white shadow-[0_0_8px_rgba(168,85,247,0.3)]"
+                        : "bg-white/5 border-white/5 text-white/40 hover:bg-white/10"
+                    }`}
+                  >
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Size / Depth Slider */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                <span>Gradient Depth / Size</span>
+                <span className="text-purple-400 font-mono font-black">{mapGradSize}%</span>
+              </div>
+              <input
+                type="range"
+                min="5"
+                max="60"
+                step="1"
+                value={mapGradSize}
+                onChange={(e) => updateSize(parseFloat(e.target.value))}
+                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+
+            {/* Opacity Slider */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                <span>Edge Black Opacity</span>
+                <span className="text-purple-400 font-mono font-black">{Math.round(mapGradOpacity * 100)}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.02"
+                value={mapGradOpacity}
+                onChange={(e) => updateOpacity(parseFloat(e.target.value))}
+                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+
+            {/* Midstop Slider */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                <span>Fade Midpoint Stop</span>
+                <span className="text-purple-400 font-mono font-black">{mapGradMidstop}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="80"
+                step="1"
+                value={mapGradMidstop}
+                onChange={(e) => updateMidstop(parseFloat(e.target.value))}
+                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+
+            {/* Color Selector */}
+            <div className="space-y-1">
+              <div className="flex justify-between items-center text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                <span>Gradient Color</span>
+                <span className="text-purple-400 font-mono font-bold text-[9px]">{mapGradColor}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {["#000000", "#000000", "#090314", "#0f051d", "#020617"].map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => updateColor(c)}
+                    className="w-5 h-5 rounded-full border transition-transform cursor-pointer"
+                    style={{
+                      backgroundColor: c,
+                      borderColor: mapGradColor === c ? '#a855f7' : 'rgba(255,255,255,0.2)',
+                      transform: mapGradColor === c ? 'scale(1.2)' : 'scale(1)',
+                    }}
+                  />
+                ))}
+                <div className="relative w-5 h-5 rounded-full border border-white/30 overflow-hidden cursor-pointer bg-purple-600/30 flex items-center justify-center">
+                  <input
+                    type="color"
+                    value={mapGradColor}
+                    onChange={(e) => updateColor(e.target.value)}
+                    className="absolute -inset-2 w-[200%] h-[200%] cursor-pointer opacity-0"
+                  />
+                  <span className="text-[10px] font-bold text-white">+</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Copy CSS Button */}
+            <button
+              onClick={copyMapGradCSS}
+              className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-all shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
+            >
+              {mapGradCopied ? "✓ Copied Map Gradient CSS!" : "Copy Map Gradient CSS"}
+            </button>
+          </div>
+        )}
+      </div>
+      
+
       {/* Legend */}
-      <div className="absolute bottom-4 left-4 z-[4] bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 rounded-lg overflow-hidden transition-all duration-300">
+      <div className="group absolute bottom-4 left-8 z-[4] bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-all duration-300">
         {/* Header - always visible, click to toggle */}
         <button
           onClick={() => setLegendOpen(o => !o)}
-          className="flex items-center justify-between gap-3 px-3 py-2 w-full cursor-pointer hover:bg-white/5 transition-colors"
+          className="flex items-center justify-between gap-3 px-7 md:px-8 py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover:text-[var(--color-accent)] transition-colors"
         >
-          <p className="text-[var(--font-size-4xs)] font-bold uppercase tracking-[0.25em] text-white/40">Show Types</p>
-          <svg className={`w-2.5 h-2.5 text-white/30 transition-transform duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          <span className="text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
+          <svg className={`w-3.5 h-3.5 transition-all duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
         </button>
         {/* Expandable content */}
         {legendOpen && (
@@ -564,7 +876,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 const isSelected = selectedTypes.has(key);
                 const isAnySelected = selectedTypes.size > 0;
                 const isActive = !isAnySelected || isSelected;
-                const isLightColor = cfg.color === '#f59e0b' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
+                const isLightColor = cfg.color === '#9333ea' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
                 const textColor = isLightColor ? '#000000' : '#ffffff';
                 const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
                 return (
@@ -602,6 +914,33 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         )}
       </div>
 
+      {/* ── Custom Big Zoom Controls (+ / -) ── */}
+      <div className="absolute bottom-4 right-8 z-[4] flex flex-col gap-2">
+        <button
+          onClick={handleZoomIn}
+          type="button"
+          aria-label="Zoom In"
+          title="Zoom In"
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-all cursor-pointer active:scale-95 select-none"
+        >
+          <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+        </button>
+        <button
+          onClick={handleZoomOut}
+          type="button"
+          aria-label="Zoom Out"
+          title="Zoom Out"
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-all cursor-pointer active:scale-95 select-none"
+        >
+          <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+        </button>
+      </div>
+
       {!isLoaded && (
         <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black">
           <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
@@ -634,32 +973,40 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         .venue-popup .leaflet-popup-content-wrapper { background: transparent !important; box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
         .venue-popup .leaflet-popup-content { margin: 0 !important; width: auto !important; }
         .venue-popup .leaflet-popup-tip { background: #080812 !important; }
-        .leaflet-container { width: 100%; height: 100%; }
+        .leaflet-container { width: 100%; height: 100%; border: none !important; outline: none !important; }
         .leaflet-container a { color: white !important; }
+        .leaflet-tile { border: none !important; outline: none !important; }
+        .leaflet-tile-pane { border: none !important; outline: none !important; }
         
         /* Premium Dark-Themed Leaflet Zoom Controls */
         .leaflet-container .leaflet-control-zoom {
-          border: 1px solid rgba(255, 255, 255, 0.15) !important;
-          border-radius: 8px !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          border-radius: 10px !important;
           overflow: hidden !important;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(133,29,237,0.2) !important;
+          margin: 14px !important;
+          backdrop-filter: blur(12px) !important;
         }
         .leaflet-container a.leaflet-control-zoom-in,
         .leaflet-container a.leaflet-control-zoom-out {
-          background-color: rgba(8, 8, 18, 0.9) !important;
-          color: rgba(255, 255, 255, 0.8) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-          transition: all 0.2s ease !important;
+          background-color: rgba(8, 8, 18, 0.92) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+          transition: all 0.18s ease !important;
           font-weight: 700 !important;
-          width: 30px !important;
-          height: 30px !important;
-          line-height: 30px !important;
-          font-size: 16px !important;
+          width: 36px !important;
+          height: 36px !important;
+          line-height: 36px !important;
+          font-size: 20px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
         }
         .leaflet-container a.leaflet-control-zoom-in:hover,
         .leaflet-container a.leaflet-control-zoom-out:hover {
           background-color: var(--color-accent, #851ded) !important;
           color: #ffffff !important;
+          transform: scale(1.08) !important;
         }
         .leaflet-container a.leaflet-control-zoom-out {
           border-bottom: none !important;
@@ -677,6 +1024,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           pointer-events: none;
           z-index: 99999;
         }
+        /* ── SnazzyMaps Style 227862 (My Custom Map: Deep Purple & Violet Dark Theme) ── */
+        .snazzy-map-227862 .leaflet-tile-pane {
+          filter: invert(100%) sepia(0%) saturate(0%) contrast(110%) brightness(75%);
+        }
+
         .custom-venue-marker:hover .custom-tooltip-card {
           opacity: 1;
           visibility: visible;
@@ -729,14 +1081,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           z-index: 20;
         }
         
-        /* Blinking pulse ring and bounce for next show */
+        /* Pulse ring and subtle smooth glow for next show */
         .next-show-bounce {
           position: relative;
-          animation: nextShowBounce 1.2s ease-in-out infinite;
+          animation: nextShowGlow 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
         }
-        @keyframes nextShowBounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-12px); }
+        @keyframes nextShowGlow {
+          0%, 100% { transform: translateY(0); filter: brightness(1); }
+          50% { transform: translateY(-4px); filter: brightness(1.2); }
         }
         .next-show-ring {
           position: absolute;

@@ -173,13 +173,19 @@ export const queries = {
 
  // Band Members
  allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact, order }`,
- memberBySlug: (slug: string) =>
-  `*[_type == "bandMember" && slug.current == "${slug}"][0] { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact }`,
+ // Returns { query, params } — pass both to sanityClient.fetch() or fetchSanity()
+ memberBySlug: (slug: string) => ({
+  query: `*[_type == "bandMember" && slug.current == $slug][0] { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact }`,
+  params: { slug },
+ }),
 
  // Videos
  allVideos: `*[_type == "video"] | order(category asc, year desc) { _id, title, youtubeId, category, year, duration, description, viewCount }`,
- videosByCategory: (category: string) =>
-  `*[_type == "video" && category == "${category}"] | order(year desc) { _id, title, youtubeId, category, year, duration, description, viewCount }`,
+ // Returns { query, params } — pass both to sanityClient.fetch() or fetchSanity()
+ videosByCategory: (category: string) => ({
+  query: `*[_type == "video" && category == $category] | order(year desc) { _id, title, youtubeId, category, year, duration, description, viewCount }`,
+  params: { category },
+ }),
 
  // Site Settings (singleton)
  siteSettings: `*[_type == "siteSettings"][0]`,
@@ -188,4 +194,22 @@ export const queries = {
 // ─── Fetch helpers ───
 export async function fetchSanity<T>(query: string, params?: Record<string, unknown>): Promise<T> {
  return sanityClient.fetch<T>(query, params || {});
+}
+
+/**
+ * Fetch a single band member by slug.
+ * Uses GROQ $param syntax — the slug value is never interpolated into the query string.
+ */
+export async function fetchMemberBySlug(slug: string): Promise<SanityBandMember | null> {
+ const { query, params } = queries.memberBySlug(slug);
+ return sanityClient.fetch<SanityBandMember | null>(query, params);
+}
+
+/**
+ * Fetch all videos in a given category.
+ * Uses GROQ $param syntax — the category value is never interpolated into the query string.
+ */
+export async function fetchVideosByCategory(category: string): Promise<SanityVideo[]> {
+ const { query, params } = queries.videosByCategory(category);
+ return sanityClient.fetch<SanityVideo[]>(query, params);
 }

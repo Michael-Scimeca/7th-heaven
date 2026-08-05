@@ -102,7 +102,7 @@ export function requireAdminSecret(req: Request): NextResponse | null {
 export async function requireAdmin(_req: Request): Promise<NextResponse | null> {
   try {
     // Use the project's SSR server client — handles cookie parsing automatically
-    const { createClient } = await import("@/utils/supabase/server");
+    const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
 
     const { data: { user }, error } = await supabase.auth.getUser();

@@ -11,10 +11,7 @@ import { useTransition } from "@/context/TransitionContext";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const leftNavLinks = [
-  { href: "/news", label: "NEWS" },
-  { href: "/band", label: "BAND" },
-  { href: "/music", label: "MUSIC" },
-  { href: "/store", label: "STORE" },
+  { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
 ];
@@ -171,11 +168,11 @@ export function Header() {
 
   const badgeBg =
     displayRole === "admin"
-      ? "bg-amber-500"
+      ? "bg-purple-600"
       : displayRole === "crew"
         ? "bg-emerald-600"
         : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
-          ? "bg-fuchsia-600"
+          ? "bg-[var(--color-accent)]"
           : displayRole === "cruise"
             ? "bg-sky-500"
             : displayRole === "merch"
@@ -185,8 +182,8 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-all duration-300 pointer-events-none pt-2 ${scrolled
-          ? "bg-[var(--card-bg)] backdrop-blur-2xl shadow-md border-b border-[var(--border-color)] text-[var(--text-color)]"
-          : "bg-[var(--card-bg)] backdrop-blur-xl border-b border-[var(--border-color)] text-[var(--text-color)]"
+          ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
+          : "bg-transparent text-white"
         }`}
       suppressHydrationWarning
     >
@@ -210,6 +207,19 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+
+            {/* Live Stream link */}
+            <Link
+              href="/live"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
+            >
+              {/* Live / Offline badge — absolute above the text */}
+              <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full shadow-[0_0_4px_rgba(239,68,68,0.4)] whitespace-nowrap font-sans scale-90">
+                <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
+                {hasLiveStreams ? "LIVE" : "OFFLINE"}
+              </span>
+              LIVE
+            </Link>
           </nav>
 
           {/* ── LOGO (32px left aligned on tablet/mobile, perfectly centered on desktop) ── */}
@@ -233,19 +243,6 @@ export function Header() {
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
           <div className={`flex items-center justify-end gap-3 min-[1401px]:gap-4 min-[1401px]:flex-1 min-[1401px]:ml-0 ml-auto font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-10"}`}>
-
-            {/* Live Stream link */}
-            <Link
-              href="/live"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
-            >
-              {/* Live / Offline badge — absolute above the text */}
-              <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full shadow-[0_0_4px_rgba(239,68,68,0.4)] whitespace-nowrap font-sans scale-90">
-                <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
-                {hasLiveStreams ? "LIVE" : "OFFLINE"}
-              </span>
-              LIVE
-            </Link>
 
             {/* Cruise link */}
             <Link
@@ -274,9 +271,9 @@ export function Header() {
 
             {/* Cart Icon */}
             <Link
-              href="/store"
+              href="/merch"
               className="text-black/70 hover:text-black transition-colors p-0.5 mx-0.5"
-              title="Cart / Store"
+              title="Cart / Merch"
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="9" cy="21" r="1" />
@@ -309,7 +306,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-1 -right-3.5 px-1.5 py-0.5 min-w-[26px] h-6 text-[6.5px] font-black uppercase text-white border-2 border-white flex items-center justify-center shadow-lg leading-none ${badgeBg}`}
+                    className={`absolute -bottom-1 -right-3.5 px-1.5 py-0.5 min-w-[26px] h-6 text-[6.5px] font-black uppercase text-white border-2 border-white flex items-center justify-center  leading-none ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
@@ -320,25 +317,19 @@ export function Header() {
                 <button
                   onClick={async () => {
                     await logout();
-                    const isRestricted =
-                      pathname.startsWith("/admin") ||
-                      pathname.startsWith("/crew") ||
-                      pathname.startsWith("/fans") ||
-                      pathname.startsWith("/planner") ||
-                      pathname.startsWith("/cruise/dashboard");
-                    if (isRestricted) {
-                      router.push("/");
-                    }
+                    router.push("/");
+                    router.refresh();
                   }}
-                  className="text-black/70 hover:text-black transition-colors cursor-pointer p-1"
-                  title="Sign Out"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-red-500/10 hover:bg-red-600 border border-red-500/30 hover:border-red-600 text-red-600 hover:text-white text-[11px] font-extrabold uppercase tracking-wider rounded-lg transition-all cursor-pointer shadow-sm ml-1"
+                  title="Sign Out of Account"
                   id="header-sign-out"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                     <polyline points="16 17 21 12 16 7" />
                     <line x1="21" y1="12" x2="9" y2="12" />
                   </svg>
+                  <span className="whitespace-nowrap">Sign Out</span>
                 </button>
               </div>
             ) : (
@@ -408,10 +399,10 @@ export function Header() {
           {mobileOpen && (
             <div className="fixed inset-0 bg-[#0c021a] z-[9999] pointer-events-auto flex flex-col justify-start items-start pl-8 pt-28 pb-12 gap-3 font-[family-name:var(--font-rockstar)] overflow-y-auto">
 
-              <Link href="/news" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">NEWS</Link>
-              <Link href="/band" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BAND</Link>
-              <Link href="/music" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MUSIC</Link>
-              <Link href="/store" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">STORE</Link>
+              <Link href="/#band" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BAND</Link>
+              <Link href="/#tour" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">SHOWS</Link>
+              <Link href="/shows/past" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">PAST SHOWS</Link>
+              <Link href="/merch" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MERCH</Link>
               <Link href="/media" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MEDIA</Link>
               <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">FAN WALL</Link>
               <Link href="/live" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">LIVE</Link>

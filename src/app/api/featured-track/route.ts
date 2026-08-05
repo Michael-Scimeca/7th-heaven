@@ -47,7 +47,7 @@ export async function GET() {
 
     // Check visibility
     if (activeDrop.visibility === 'fans') {
-      const { createClient: createServerClient } = await import('@/utils/supabase/server');
+      const { createClient: createServerClient } = await import('@/lib/supabase/server');
       const supabase = await createServerClient();
       const { data: { user } } = await supabase.auth.getUser();
 

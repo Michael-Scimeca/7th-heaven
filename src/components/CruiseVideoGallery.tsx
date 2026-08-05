@@ -58,7 +58,7 @@ export default function CruiseVideoGallery() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-5 py-2  text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
                   selectedCategory === cat
                     ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
                     : 'bg-white/5 text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
@@ -108,7 +108,7 @@ export default function CruiseVideoGallery() {
                 </span>
 
                 {vid.featured && (
-                  <span className="absolute top-3 right-3 bg-amber-400 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-widest px-2.5 py-0.5 rounded shadow-lg">
+                  <span className="absolute top-3 right-3 bg-purple-500 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-widest px-2.5 py-0.5 rounded">
                     ⭐ Featured
                   </span>
                 )}
@@ -154,13 +154,13 @@ export default function CruiseVideoGallery() {
               <button
                 type="button"
                 onClick={() => setActiveVideo(null)}
-                className="text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl transition-all cursor-pointer"
+                className="text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 transition-all cursor-pointer"
               >
                 ✕ Close Player
               </button>
             </div>
 
-            <div className="aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl">
+            <div className="aspect-video w-full overflow-hidden bg-black">
               <video
                 src={activeVideo.url}
                 controls

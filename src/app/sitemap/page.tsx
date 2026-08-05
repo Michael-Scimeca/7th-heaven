@@ -61,18 +61,18 @@ const siteStructure = [
         name: "Band Bio",
         sections: ["History Timeline", "Band Member Profiles", "Accolades"],
         features: ["Static Content Hydration"],
-        color: "text-amber-400",
-        border: "border-amber-500/30",
-        bg: "bg-amber-500/5",
+        color: "text-purple-300",
+        border: "border-purple-500/30",
+        bg: "bg-purple-600/5",
       },
       {
         path: "/members/[slug]",
         name: "Individual Band Members",
         sections: ["Hero Profile", "Extended Q&A", "Gear/Instruments"],
         features: ["Dynamic Routing", "Sanity CMS Data Fetching"],
-        color: "text-amber-400",
-        border: "border-amber-500/30",
-        bg: "bg-amber-500/5",
+        color: "text-purple-300",
+        border: "border-purple-500/30",
+        bg: "bg-purple-600/5",
       },
       {
         path: "/fan-photo-wall",
@@ -188,9 +188,9 @@ const siteStructure = [
         name: "Band Members Directory",
         sections: ["Member Cards Grid", "Headshot Gallery", "Links to Profiles"],
         features: ["Sanity CMS Data", "Dynamic Routing"],
-        color: "text-amber-400",
-        border: "border-amber-500/30",
-        bg: "bg-amber-500/5",
+        color: "text-purple-300",
+        border: "border-purple-500/30",
+        bg: "bg-purple-600/5",
       },
     ],
   },
@@ -500,7 +500,7 @@ export default function SitemapPage() {
         text: 'text-pink-400', border: 'border-pink-500/20', activeBorder: 'border-pink-500', bg: 'bg-pink-500/5', activeBg: 'bg-pink-500/10', glow: 'shadow-[0_0_15px_rgba(244,63,94,0.15)]', icon: '⚙️'
       };
       case 'email': return {
-        text: 'text-amber-400', border: 'border-amber-500/20', activeBorder: 'border-amber-500', bg: 'bg-amber-500/5', activeBg: 'bg-amber-500/10', glow: 'shadow-[0_0_15px_rgba(245,158,11,0.15)]', icon: '📧'
+        text: 'text-purple-300', border: 'border-purple-500/20', activeBorder: 'border-purple-500', bg: 'bg-purple-600/5', activeBg: 'bg-purple-600/10', glow: 'shadow-[0_0_15px_rgba(147, 51, 234,0.15)]', icon: '📧'
       };
       case 'db': return {
         text: 'text-emerald-400', border: 'border-emerald-500/20', activeBorder: 'border-emerald-500', bg: 'bg-emerald-500/5', activeBg: 'bg-emerald-500/10', glow: 'shadow-[0_0_15px_rgba(16,185,129,0.15)]', icon: '💾'
@@ -525,7 +525,13 @@ export default function SitemapPage() {
           <p className="text-white/40 uppercase tracking-[0.2em] text-xs md:text-sm max-w-2xl mx-auto">
             A complete architectural overview of the 7th Heaven digital ecosystem.
           </p>
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/sitemap/flowchart"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest shadow-[0_0_25px_rgba(255,10,61,0.4)] transition-all transform hover:scale-105"
+            >
+              <span>📊</span> Open Interactive Flowchart Sitemap ↗
+            </Link>
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <span>⭐</span> E2E Testing Verified: All Sign-up Flows
             </span>
@@ -536,9 +542,9 @@ export default function SitemapPage() {
         <div className="flex flex-wrap justify-center gap-4 mb-12 relative z-20">
           <button
             onClick={() => setActiveView('flow')}
-            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer ${
+            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-all cursor-pointer ${
               activeView === 'flow'
-                ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.15)]"
+                ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
                 : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
             }`}
           >
@@ -546,9 +552,9 @@ export default function SitemapPage() {
           </button>
           <button
             onClick={() => setActiveView('directory')}
-            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer ${
+            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-all cursor-pointer ${
               activeView === 'directory'
-                ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.15)]"
+                ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
                 : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
             }`}
           >
@@ -557,13 +563,13 @@ export default function SitemapPage() {
           <div className="w-px h-10 bg-white/10 self-center hidden md:block" />
           <Link
             href="/sitemap/visual"
-            className="px-6 py-3 border border-cyan-500/20 hover:border-cyan-500/40 text-cyan-400 text-xs font-black uppercase tracking-widest rounded-xl transition-all"
+            className="px-6 py-3 border border-cyan-500/20 hover:border-cyan-500/40 text-cyan-400 text-xs font-black uppercase tracking-widest transition-all"
           >
             🖼️ Visual Connection Map
           </Link>
           <Link
             href="/sitemap/flowchart"
-            className="px-6 py-3 border border-pink-500/20 hover:border-pink-500/40 text-pink-400 text-xs font-black uppercase tracking-widest rounded-xl transition-all"
+            className="px-6 py-3 border border-pink-500/20 hover:border-pink-500/40 text-pink-400 text-xs font-black uppercase tracking-widest transition-all"
           >
             🗺️ Flowchart Sitemap
           </Link>
@@ -599,7 +605,7 @@ export default function SitemapPage() {
               </div>
 
               {/* Canvas viewport */}
-              <div className="w-[1200px] h-[900px] relative bg-black/40 border border-white/5 rounded-2xl p-6 overflow-hidden">
+              <div className="w-[1200px] h-[900px] relative bg-black/40 border border-white/5 p-6 overflow-hidden">
                 {/* SVG Connections overlay */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
                   {flowConnections.map((conn, idx) => {
@@ -687,7 +693,7 @@ export default function SitemapPage() {
             </div>
 
             {/* Details panel */}
-            <div className="mt-6 p-5 bg-white/[0.02] border border-white/5 rounded-xl min-h-[90px] flex flex-col justify-center transition-all duration-300">
+            <div className="mt-6 p-5 bg-white/[0.02] border border-white/5 min-h-[90px] flex flex-col justify-center transition-all duration-300">
               {hoveredNodeId ? (
                 <div>
                   <div className="flex items-center gap-2 mb-1.5">
@@ -723,7 +729,7 @@ export default function SitemapPage() {
                   <Link
                     key={rIdx}
                     href={route.path.includes('[') ? '#' : (route.path !== "#" ? route.path : "/")}
-                    className={`group relative flex flex-col p-6 rounded-xl border ${route.border} ${route.bg} backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] overflow-hidden`}
+                    className={`group relative flex flex-col p-6  border ${route.border} ${route.bg} backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] overflow-hidden`}
                   >
                     {/* Hover Glow Effect */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
@@ -799,7 +805,7 @@ export default function SitemapPage() {
               { name: "Vercel", desc: "Hosting & deployment — edge functions, CDN", color: "text-white/80", icon: "🚀" },
               { name: "TypeScript", desc: "Type-safe development across all components", color: "text-blue-300", icon: "🔷" },
               { name: "Leaflet", desc: "Interactive maps — tour venue locations, geo-pins", color: "text-lime-400", icon: "🗺️" },
-              { name: "QR Server API", desc: "Dynamic QR codes — referral links, ticket claims", color: "text-amber-400", icon: "📸" },
+              { name: "QR Server API", desc: "Dynamic QR codes — referral links, ticket claims", color: "text-purple-300", icon: "📸" },
               { name: "TensorFlow.js", desc: "AI Moderation — client-side NSFW image scanning", color: "text-orange-400", icon: "🧠" },
               { name: "Upstash Redis", desc: "Rate limiting — API abuse prevention", color: "text-rose-500", icon: "🛡️" },
             ].map((tech, i) => (
@@ -848,8 +854,8 @@ export default function SitemapPage() {
                 message: `7th Heaven: You've been unsubscribed from Show Alerts. You will no longer receive texts. Reply START to re-subscribe.`,
                 detail: "Triggered when a fan replies STOP or uses the unsubscribe flow. Their record is soft-deleted from sms_subscribers. Re-subscribing is supported via START reply.",
                 audience: "Unsubscribing fan",
-                color: "text-amber-400",
-                border: "border-amber-500/30",
+                color: "text-purple-300",
+                border: "border-purple-500/30",
                 icon: "🚫",
               },
               {
@@ -888,8 +894,8 @@ export default function SitemapPage() {
                 message: `You've been unsubscribed from 7th Heaven alerts. Reply START to resubscribe anytime. 🎸`,
                 detail: "Auto-reply via Twilio TwiML when a fan texts STOP, UNSUBSCRIBE, CANCEL, END, or QUIT. Updates opted_in=false in sms_subscribers.",
                 audience: "Unsubscribing fan (auto)",
-                color: "text-amber-400",
-                border: "border-amber-500/30",
+                color: "text-purple-300",
+                border: "border-purple-500/30",
                 icon: "🔄",
               },
               {
@@ -923,7 +929,7 @@ export default function SitemapPage() {
                 icon: "🔄",
               },
             ].map((sms, i) => (
-              <div key={i} className={`p-5 rounded-xl border ${sms.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
+              <div key={i} className={`p-5  border ${sms.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{sms.icon}</span>
@@ -982,7 +988,7 @@ export default function SitemapPage() {
               { name: "Crew Work Hours Summary", desc: "Sent to a crew member summarizing their weekly/monthly scheduled hours and capacity load.", category: "Crew", status: "live", icon: "🕒" },
               { name: "Schedule Change Alert", desc: "Sent to a crew member when their scheduled shift is added, updated, or removed.", category: "Crew", status: "live", icon: "🗓️" },
             ].map((email, i) => (
-              <div key={i} className="p-5 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div key={i} className="p-5 border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-lg">{email.icon}</span>
@@ -991,7 +997,7 @@ export default function SitemapPage() {
                   <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
                     email.status === 'live'
                       ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                      : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
                   }`}>{email.status}</span>
                 </div>
                 <p className="text-sm text-white/40 leading-relaxed mb-2">{email.desc}</p>
@@ -1022,8 +1028,8 @@ export default function SitemapPage() {
                 title: "Set Production Email Sender",
                 desc: "After domain verification, update your production .env with: RESEND_FROM_EMAIL=noreply@7thheavenband.com",
                 icon: "🔑",
-                color: "text-amber-400",
-                border: "border-amber-500/30",
+                color: "text-purple-300",
+                border: "border-purple-500/30",
               },
               {
                 title: "Update NEXT_PUBLIC_SITE_URL",
@@ -1061,7 +1067,7 @@ export default function SitemapPage() {
                 border: "border-green-500/30",
               },
             ].map((item, i) => (
-              <div key={i} className={`p-5 rounded-xl border ${item.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
+              <div key={i} className={`p-5  border ${item.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-xl">{item.icon}</span>
                   <h3 className={`text-sm font-black uppercase tracking-wide ${item.color}`}>{item.title}</h3>
@@ -1102,18 +1108,18 @@ export default function SitemapPage() {
               { route: "/api/livekit", method: "POST", desc: "Generate LiveKit auth tokens", color: "text-indigo-400" },
               { route: "/api/stream", method: "GET / POST", desc: "Stream CRUD + Supabase sync", color: "text-rose-400" },
               { route: "/api/close-all-streams", method: "POST", desc: "Emergency kill-switch for all streams", color: "text-rose-400" },
-              { route: "/api/sms/subscribe", method: "POST", desc: "SMS opt-in for show alerts", color: "text-amber-400" },
-              { route: "/api/sms/unsubscribe", method: "POST", desc: "SMS opt-out handler", color: "text-amber-400" },
-              { route: "/api/sms/send", method: "POST", desc: "Admin proximity SMS blast with show link + attendance count", color: "text-amber-400" },
-              { route: "/api/sms/live-alert", method: "POST", desc: "Auto-SMS when crew goes live", color: "text-amber-400" },
+              { route: "/api/sms/subscribe", method: "POST", desc: "SMS opt-in for show alerts", color: "text-purple-300" },
+              { route: "/api/sms/unsubscribe", method: "POST", desc: "SMS opt-out handler", color: "text-purple-300" },
+              { route: "/api/sms/send", method: "POST", desc: "Admin proximity SMS blast with show link + attendance count", color: "text-purple-300" },
+              { route: "/api/sms/live-alert", method: "POST", desc: "Auto-SMS when crew goes live", color: "text-purple-300" },
               { route: "/api/shopify", method: "GET / POST", desc: "Shopify cart + product queries", color: "text-green-400" },
               { route: "/api/merch", method: "GET", desc: "Merch product listings", color: "text-green-400" },
               { route: "/api/tour", method: "GET", desc: "Tour dates from Sanity", color: "text-blue-400" },
               { route: "/api/newsletter/subscribe", method: "POST", desc: "Public newsletter signup", color: "text-violet-400" },
               { route: "/api/notify", method: "POST", desc: "Push notification dispatcher", color: "text-orange-400" },
               { route: "/api/booking/cancel", method: "POST", desc: "Token-based booking cancellation", color: "text-fuchsia-400" },
-              { route: "/api/sms/auto-blast", method: "GET", desc: "Cron-triggered auto proximity SMS", color: "text-amber-400" },
-              { route: "/api/sms/webhook", method: "POST", desc: "Twilio incoming SMS handler (STOP/GOING/DIRECTIONS)", color: "text-amber-400" },
+              { route: "/api/sms/auto-blast", method: "GET", desc: "Cron-triggered auto proximity SMS", color: "text-purple-300" },
+              { route: "/api/sms/webhook", method: "POST", desc: "Twilio incoming SMS handler (STOP/GOING/DIRECTIONS)", color: "text-purple-300" },
               { route: "/api/admin/settings", method: "GET / POST", desc: "Admin key/value settings store", color: "text-red-400" },
               { route: "/api/admin/shows", method: "GET", desc: "Upcoming public shows for SMS picker", color: "text-red-400" },
               { route: "/api/audio", method: "GET", desc: "Audio track metadata/streaming", color: "text-pink-400" },
@@ -1189,7 +1195,7 @@ export default function SitemapPage() {
                 <span className="text-sm font-mono font-bold text-[var(--color-accent)] min-w-[260px]">{m.file}</span>
                 <span className="text-xs text-white/50 flex-1">{m.desc}</span>
                 <span className={`text-2xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
-                  m.status === 'applied' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                  m.status === 'applied' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
                 }`}>{m.status}</span>
               </div>
             ))}
@@ -1203,7 +1209,7 @@ export default function SitemapPage() {
           </h2>
           <p className="text-white/30 text-xs mb-8">Hierarchical view of all routes and how they connect.</p>
 
-          <div className="bg-[var(--color-bg-deep)] border border-white/5 rounded-2xl p-8 font-mono text-sm leading-loose overflow-x-auto">
+          <div className="bg-[var(--color-bg-deep)] border border-white/5 p-8 font-mono text-sm leading-loose overflow-x-auto">
             {/* Root */}
             <div className="text-white font-bold">/ <span className="text-white/30 font-normal ml-2">Home</span></div>
 
@@ -1211,8 +1217,8 @@ export default function SitemapPage() {
             <div className="ml-6 border-l border-white/10 pl-4 mt-1 space-y-0.5">
               <TreeNode path="/#tour" label="Tour Dates" color="text-blue-400" />
               <TreeNode path="/video" label="Video Gallery" color="text-pink-400" />
-              <TreeNode path="/bio" label="Band Bio" color="text-amber-400" />
-              <TreeNode path="/members" label="Band Members" color="text-amber-400" />
+              <TreeNode path="/bio" label="Band Bio" color="text-purple-300" />
+              <TreeNode path="/members" label="Band Members" color="text-purple-300" />
               <TreeNode path="/fan-photo-wall" label="Fan Photo Wall" color="text-emerald-400" />
               <TreeNode path="/contact" label="Contact" color="text-sky-400" />
               <TreeNode path="/privacy" label="Privacy Policy" color="text-gray-400" />
@@ -1282,13 +1288,13 @@ export default function SitemapPage() {
                 <TreeNode path="/api/booking" label="Booking CRUD" color="text-fuchsia-400/60">
                   <TreeNode path="/api/booking/cancel" label="Token Cancellation" color="text-fuchsia-400/40" />
                 </TreeNode>
-                <TreeNode path="/api/sms" label="SMS System" color="text-amber-400/60">
-                  <TreeNode path="/api/sms/subscribe" label="Opt-in" color="text-amber-400/40" />
-                  <TreeNode path="/api/sms/unsubscribe" label="Opt-out" color="text-amber-400/40" />
-                  <TreeNode path="/api/sms/send" label="Proximity Blast" color="text-amber-400/40" />
-                  <TreeNode path="/api/sms/auto-blast" label="Auto Cron" color="text-amber-400/40" />
-                  <TreeNode path="/api/sms/live-alert" label="Live Alert" color="text-amber-400/40" />
-                  <TreeNode path="/api/sms/webhook" label="Incoming SMS (STOP/GOING)" color="text-amber-400/40" />
+                <TreeNode path="/api/sms" label="SMS System" color="text-purple-300/60">
+                  <TreeNode path="/api/sms/subscribe" label="Opt-in" color="text-purple-300/40" />
+                  <TreeNode path="/api/sms/unsubscribe" label="Opt-out" color="text-purple-300/40" />
+                  <TreeNode path="/api/sms/send" label="Proximity Blast" color="text-purple-300/40" />
+                  <TreeNode path="/api/sms/auto-blast" label="Auto Cron" color="text-purple-300/40" />
+                  <TreeNode path="/api/sms/live-alert" label="Live Alert" color="text-purple-300/40" />
+                  <TreeNode path="/api/sms/webhook" label="Incoming SMS (STOP/GOING)" color="text-purple-300/40" />
                 </TreeNode>
                 <TreeNode path="/api/cruise" label="Cruise System" color="text-cyan-400/60">
                   <TreeNode path="/api/cruise/signup" label="Signup + Account Invite" color="text-cyan-400/40" />
@@ -1339,7 +1345,7 @@ export default function SitemapPage() {
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-cyan-500 inline-block" /> Cruiser Only</span>
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-teal-500 inline-block" /> Planner Only</span>
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-500 inline-block" /> Crew Only</span>
-            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Admin Only</span>
+            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-purple-600 inline-block" /> Admin Only</span>
           </div>
 
           <div className="overflow-x-auto pb-4">
@@ -1485,7 +1491,7 @@ export default function SitemapPage() {
           <div className="flex flex-wrap items-center gap-5 mb-10 text-xs font-bold uppercase tracking-widest">
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-cyan-500 inline-block" /> Fan Emails</span>
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-teal-500 inline-block" /> Planner Emails</span>
-            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Admin Alerts</span>
+            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-purple-600 inline-block" /> Admin Alerts</span>
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-purple-500 inline-block" /> Mass Broadcast</span>
           </div>
 
@@ -1584,9 +1590,9 @@ export default function SitemapPage() {
                 title: "60-Day Auto-Expiration",
                 icon: "⏱️",
                 desc: "The Cruise Hub toggle automatically hides 60 days after the cruise end date (CRUISE_END_DATE). The account silently reverts to fan-only — no admin action needed.",
-                color: "text-amber-400",
-                border: "border-amber-500/30",
-                bg: "bg-amber-500/5",
+                color: "text-purple-300",
+                border: "border-purple-500/30",
+                bg: "bg-purple-600/5",
               },
               {
                 title: "Fan → Cruise Promo",
@@ -1613,7 +1619,7 @@ export default function SitemapPage() {
                 bg: "bg-emerald-500/5",
               },
             ].map((item, i) => (
-              <div key={i} className={`p-6 rounded-xl border ${item.border} ${item.bg} transition-all hover:scale-[1.02]`}>
+              <div key={i} className={`p-6  border ${item.border} ${item.bg} transition-all hover:scale-[1.02]`}>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-2xl">{item.icon}</span>
                   <h3 className={`text-sm font-black uppercase tracking-wide ${item.color}`}>{item.title}</h3>
@@ -1648,11 +1654,11 @@ export default function SitemapPage() {
               { name: "AudioPlayer", file: "AudioPlayer.tsx", used: "/", desc: "Custom music player with waveform and progress bar", color: "text-pink-400" },
               { name: "LiveKitStream", file: "LiveKitStream.tsx", used: "/live/[room], /crew", desc: "LiveKit room connect with WebRTC video rendering", color: "text-rose-400" },
               { name: "LiveReactions", file: "LiveReactions.tsx", used: "/live/[room]", desc: "Floating emoji reactions overlay during streams", color: "text-rose-400" },
-              { name: "CountdownTimer", file: "CountdownTimer.tsx", used: "/, /cruise", desc: "Animated countdown to next event or cruise", color: "text-amber-400" },
+              { name: "CountdownTimer", file: "CountdownTimer.tsx", used: "/, /cruise", desc: "Animated countdown to next event or cruise", color: "text-purple-300" },
               { name: "CookieConsentBanner", file: "CookieConsentBanner.tsx", used: "All Pages", desc: "GDPR cookie consent with localStorage persistence", color: "text-gray-400" },
               { name: "GoogleAnalytics", file: "GoogleAnalytics.tsx", used: "All Pages", desc: "GA4 script injection with consent gating", color: "text-gray-400" },
               { name: "VideoSection", file: "VideoSection.tsx", used: "/, /video", desc: "YouTube video grid with custom inline player", color: "text-pink-400" },
-              { name: "SMSSignup", file: "SMSSignup.tsx", used: "/fans", desc: "SMS opt-in form for show proximity alerts", color: "text-amber-400" },
+              { name: "SMSSignup", file: "SMSSignup.tsx", used: "/fans", desc: "SMS opt-in form for show proximity alerts", color: "text-purple-300" },
               { name: "RoleBadge", file: "RoleBadge.tsx", used: "Multiple", desc: "Color-coded role indicator (Fan, Crew, Admin, Planner)", color: "text-purple-400" },
             ].map((comp, i) => (
               <div key={i} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
@@ -1670,7 +1676,7 @@ export default function SitemapPage() {
         {/* ── ENVIRONMENT VARIABLES ── */}
         <section className="mt-16 pt-14 border-t border-white/[0.06]">
           <div className="mb-10">
-            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-amber-400 border border-amber-500/30 px-3 py-1 mb-4">Configuration</span>
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-purple-300 border border-purple-500/30 px-3 py-1 mb-4">Configuration</span>
             <h2 className="text-2xl font-extrabold tracking-tight mb-2">Environment Variables</h2>
             <p className="text-white/30 text-sm">All required .env.local keys for the platform to function. Never commit secrets to version control.</p>
           </div>
@@ -1704,7 +1710,7 @@ export default function SitemapPage() {
                   env.required ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-white/5 text-white/30 border border-white/10'
                 }`}>{env.required ? 'Required' : 'Optional'}</span>
                 <div className="flex-1 min-w-0">
-                  <span className="text-xs font-mono font-bold text-amber-400 block truncate">{env.key}</span>
+                  <span className="text-xs font-mono font-bold text-purple-300 block truncate">{env.key}</span>
                   <span className="text-xs text-white/40">{env.desc}</span>
                 </div>
                 <span className="text-2xs font-bold uppercase tracking-widest text-white/15 shrink-0">{env.service}</span>
@@ -1826,8 +1832,8 @@ export default function SitemapPage() {
                 what: "Website traffic analytics, audience demographics, conversion tracking. GA4 is completely free.",
                 link: "https://analytics.google.com",
                 icon: "📊",
-                color: "text-amber-400",
-                border: "border-amber-500/20",
+                color: "text-purple-300",
+                border: "border-purple-500/20",
                 required: false,
               },
               {
@@ -1843,7 +1849,7 @@ export default function SitemapPage() {
                 required: false,
               },
             ].map((s, i) => (
-              <div key={i} className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl border ${s.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
+              <div key={i} className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5  border ${s.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
                 <div className="flex items-center gap-3 min-w-[200px]">
                   <span className="text-xl">{s.icon}</span>
                   <div>
@@ -1870,7 +1876,7 @@ export default function SitemapPage() {
           </div>
 
           {/* Total Estimate */}
-          <div className="mt-8 p-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5">
+          <div className="mt-8 p-6 border border-emerald-500/20 bg-emerald-500/5">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <h3 className="text-lg font-black uppercase tracking-wide text-emerald-400 mb-1">Estimated Monthly Total</h3>
@@ -1888,7 +1894,7 @@ export default function SitemapPage() {
                 <p className="text-white/25 mt-1">Vercel Pro ($20) + Shopify ($39) + Domain ($1.50) + Twilio number ($1.15). Everything else on free tiers.</p>
               </div>
               <div>
-                <span className="text-amber-400 font-bold">Typical Usage:</span>
+                <span className="text-purple-300 font-bold">Typical Usage:</span>
                 <span className="text-white/50 ml-2">~$100/mo</span>
                 <p className="text-white/25 mt-1">Add Supabase Pro ($25), Resend emails, and ~1,000 SMS texts/mo ($9).</p>
               </div>
@@ -1901,7 +1907,7 @@ export default function SitemapPage() {
           </div>
 
           {/* Per-transaction costs */}
-          <div className="mt-6 p-5 rounded-xl border border-white/5 bg-white/[0.02]">
+          <div className="mt-6 p-5 border border-white/5 bg-white/[0.02]">
             <h4 className="text-sm font-black uppercase tracking-wide text-white/60 mb-3">💳 Per-Transaction Costs (Variable)</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
               <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
@@ -1938,13 +1944,13 @@ function SiteNode({
     white:  "border-white/[0.08] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]",
     purple: "border-purple-500/30 bg-purple-500/5 hover:border-purple-400/50 hover:bg-purple-500/10",
     red:    "border-red-500/30 bg-red-500/5 hover:border-red-400/50 hover:bg-red-500/10",
-    amber:  "border-amber-500/30 bg-amber-500/5 hover:border-amber-400/50 hover:bg-amber-500/10",
+    amber:  "border-purple-500/30 bg-purple-600/5 hover:border-purple-400/50 hover:bg-purple-600/10",
     cyan:   "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:bg-cyan-500/10",
     teal:   "border-teal-500/30 bg-teal-500/5 hover:border-teal-400/50 hover:bg-teal-500/10",
     blue:   "border-blue-500/30 bg-blue-500/5 hover:border-blue-400/50 hover:bg-blue-500/10",
   };
-  const dotMap: Record<string, string> = { white: "bg-white/20", purple: "bg-purple-500", red: "bg-red-500", amber: "bg-amber-500", cyan: "bg-cyan-500", teal: "bg-teal-500", blue: "bg-blue-500" };
-  const textMap: Record<string, string> = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-amber-300", cyan: "text-cyan-300", teal: "text-teal-300", blue: "text-blue-300" };
+  const dotMap: Record<string, string> = { white: "bg-white/20", purple: "bg-purple-500", red: "bg-red-500", amber: "bg-purple-600", cyan: "bg-cyan-500", teal: "bg-teal-500", blue: "bg-blue-500" };
+  const textMap: Record<string, string> = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-purple-200", cyan: "text-cyan-300", teal: "text-teal-300", blue: "text-blue-300" };
   const isLinkable = !href.includes('[') && href !== '#';
   const cls = `flex flex-col items-center justify-center border rounded-lg transition-all text-center group w-full cursor-pointer hover:scale-[1.03] active:scale-[0.98] ${colorMap[color]} ${wide ? "px-6 py-3" : small ? "px-2 py-2" : "px-3 py-3"}`;
   const inner = (

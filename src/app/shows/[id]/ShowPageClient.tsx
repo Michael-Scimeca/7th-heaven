@@ -42,14 +42,14 @@ interface Show {
 }
 
 const tierColors: Record<string, string> = {
-  Bronze: "border-amber-700/40 text-amber-600",
+  Bronze: "border-purple-700/40 text-purple-400",
   Silver: "border-slate-400/40 text-slate-300",
   Gold: "border-yellow-500/40 text-yellow-400",
   Platinum: "border-purple-500/40 text-purple-400",
 };
 const tierGlow: Record<string, string> = {
   Gold: "shadow-[0_0_12px_rgba(234,179,8,0.2)]",
-  Platinum: "shadow-[0_0_12px_rgba(168,85,247,0.2)]",
+  Platinum: "shadow-[0_0_12px_rgba(255,10,61,0.2)]",
 };
 
 export default function ShowPageClient({
@@ -325,7 +325,7 @@ export default function ShowPageClient({
 
       {/* ── HERO ──────────────────────────────────────────────────── */}
       <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b border-white/5 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(133,29,239,0.2)_0%,_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,10,61,0.2)_0%,_transparent_60%)]" />
         <div className="site-container py-14 md:py-20 relative z-10">
           <Link href="/#tour" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/30 hover:text-white/60 transition-colors mb-8 font-bold">
             ← All Shows
@@ -363,7 +363,7 @@ export default function ShowPageClient({
                   </span>
                 )}
                 {show.all_ages !== null && (
-                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border text-xs font-bold uppercase tracking-widest ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-amber-500/10 border-amber-500/30 text-amber-400"}`}>
+                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border text-xs font-bold uppercase tracking-widest ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-purple-600/10 border-purple-500/30 text-purple-300"}`}>
                     {show.all_ages ? "✅ All Ages" : "🔞 21+"}
                   </span>
                 )}
@@ -386,7 +386,7 @@ export default function ShowPageClient({
                     className={`px-8 py-4 text-sm font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer ${
                       isGoing
                         ? "bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
-                        : "bg-[var(--color-accent)] text-white hover:brightness-110 shadow-[0_0_30px_rgba(133,29,239,0.4)]"
+                        : "bg-[var(--color-accent)] text-white hover:brightness-110 shadow-[0_0_30px_rgba(255,10,61,0.4)]"
                     }`}
                   >
                     {rsvpLoading ? "…" : isGoing ? "✓ Going (tap to cancel)" : "🎸 I'm Going"}
@@ -430,7 +430,7 @@ export default function ShowPageClient({
           {isPast && (
             <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
               {/* Notify Me Column */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+              <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-2xs font-black text-purple-400 uppercase tracking-widest mb-4">
@@ -443,7 +443,7 @@ export default function ShowPageClient({
                 </div>
                 <div>
                   {notifySuccess ? (
-                    <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center">
+                    <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-center">
                       <p className="text-emerald-400 font-bold text-sm">✓ Successfully subscribed!</p>
                       <p className="text-white/40 text-xs mt-1">We will alert you when new dates are announced.</p>
                     </div>
@@ -456,12 +456,12 @@ export default function ShowPageClient({
                           placeholder="yourname@domain.com"
                           value={notifyEmail}
                           onChange={(e) => setNotifyEmail(e.target.value)}
-                          className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                          className="flex-1 bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors"
                         />
                         <button
                           type="submit"
                           disabled={notifyLoading}
-                          className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 shrink-0 shadow-[0_0_20px_rgba(133,29,239,0.3)]"
+                          className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-bold text-xs uppercase tracking-widest transition-all disabled:opacity-50 shrink-0 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
                         >
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
                         </button>
@@ -473,7 +473,7 @@ export default function ShowPageClient({
               </div>
 
               {/* Video Embed Column */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+              <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-2xs font-black text-red-400 uppercase tracking-widest mb-4">
@@ -481,7 +481,7 @@ export default function ShowPageClient({
                   </span>
                   <h3 className="text-xl font-black text-white uppercase tracking-wide mb-3">Live Show Clips</h3>
                 </div>
-                <div className="aspect-video w-full rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-black">
+                <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
                   <iframe
                     src="https://www.youtube.com/embed/Dnic7xeXrQo?autoplay=0&rel=0&modestbranding=1"
                     title="7th Heaven Live Performance Video"
@@ -580,7 +580,7 @@ export default function ShowPageClient({
 
               {/* QR Code */}
               <div className="flex flex-col items-center mb-8">
-                <div className="p-4 bg-white inline-block shadow-[0_0_40px_rgba(133,29,239,0.25)] mb-3">
+                <div className="p-4 bg-white inline-block shadow-[0_0_40px_rgba(255,10,61,0.25)] mb-3">
                   <QRCode
                     value={shareUrl}
                     size={140}

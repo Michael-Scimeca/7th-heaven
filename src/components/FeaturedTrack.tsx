@@ -383,8 +383,8 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
           {locked ? (
             /* Locked Panel (Fans Only, logged out) */
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center shadow-2xl transition-all duration-300 hover:border-white/20">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-2xl shadow-inner text-[var(--color-accent)] animate-pulse">
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-all duration-300 hover:border-white/20">
+              <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-2xl shadow-inner text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
               <h3 className="text-2xl font-black uppercase italic tracking-tighter text-white mb-2" style={{ fontFamily: 'var(--font-barlow-condensed)' }}>
@@ -397,7 +397,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 <button
                   type="button"
                   onClick={() => openModal('login')}
-                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[var(--color-accent)]/20 cursor-pointer"
+                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[var(--color-accent)]/20 cursor-pointer"
                 >
                   Log In
                 </button>
@@ -412,11 +412,11 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
             </div>
           ) : (
             /* Active Player Widget */
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl p-6 sm:p-8 shadow-2xl">
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-6 sm:p-8">
               <div className="flex flex-col md:flex-row items-center gap-6 justify-between">
                 
                 {/* Visual Cover/Vinyl */}
-                <div className="relative w-20 h-20 shrink-0 rounded-full border-2 border-white/15 bg-black flex items-center justify-center shadow-2xl overflow-hidden group">
+                <div className="relative w-20 h-20 shrink-0 rounded-full border-2 border-white/15 bg-black flex items-center justify-center overflow-hidden group">
                   <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
                   <div className="relative z-10 w-6 h-6 rounded-full bg-[var(--color-bg-primary)] border border-white/10 flex items-center justify-center text-xs">
                     💿
@@ -446,7 +446,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                       key={i}
                       className={`w-[3px] rounded-full transition-all duration-300 ${
                         isCompressorActive 
-                          ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(133,29,239,0.8)]' 
+                          ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]' 
                           : 'bg-[var(--color-accent)]/80'
                       }`}
                       style={{
@@ -521,7 +521,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     onClick={toggleCompressor}
                     className={`text-[0.65rem] uppercase font-bold tracking-widest flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-all duration-300 cursor-pointer select-none ${
                       isCompressorActive 
-                        ? 'bg-[var(--color-accent)]/20 text-white border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(133,29,239,0.45)]' 
+                        ? 'bg-[var(--color-accent)]/20 text-white border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.45)]' 
                         : 'bg-white/[0.02] border-white/5 text-white/40 hover:text-white/70 hover:border-white/10'
                     }`}
                     title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"
@@ -575,9 +575,9 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);
                           }}
-                          className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer select-none transition-all duration-300 ${
+                          className={`flex items-center justify-between p-3  border cursor-pointer select-none transition-all duration-300 ${
                             isActive 
-                              ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(133,29,239,0.08)]' 
+                              ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(255,10,61,0.08)]' 
                               : 'bg-transparent border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
                           }`}
                         >

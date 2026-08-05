@@ -93,7 +93,7 @@ export default function MediaPage() {
                   className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
                   aria-label="Play featured video"
                 >
-                  <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-all duration-300 shadow-[0_0_60px_rgba(133,29,239,0.8)]">
+                  <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-all duration-300 shadow-[0_0_60px_rgba(255,10,61,0.8)]">
                     <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="ml-1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   </div>
                 </button>
@@ -122,7 +122,7 @@ export default function MediaPage() {
                 </div>
                 <button
                   onClick={() => setHeroPlaying(true)}
-                  className="flex items-center gap-2.5 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all hover:scale-105 shadow-[0_0_30px_rgba(133,29,239,0.5)] cursor-pointer"
+                  className="flex items-center gap-2.5 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-widest transition-all hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   Watch Featured Video
@@ -136,7 +136,7 @@ export default function MediaPage() {
       {/* ── FLOATING LAYOUT OPTIONS LINK ── */}
       <a
         href="/media/layout-demo"
-        className="fixed bottom-6 left-6 z-[999] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(133,29,239,0.5)] transition-all hover:scale-105 flex items-center gap-2"
+        className="fixed bottom-6 left-6 z-[999] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest shadow-[0_0_30px_rgba(255,10,61,0.5)] transition-all hover:scale-105 flex items-center gap-2"
       >
         <span>🎨 Layout Options</span>
       </a>

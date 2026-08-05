@@ -41,7 +41,7 @@ export default function CruiseLayoutA() {
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             Gauging Interest — Free Signup
           </div>
-          <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+          <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
             7th Heaven <span className="accent-gradient-text">Cruise</span>
           </h1>
           <p className="text-xl text-white/60 mt-6 max-w-2xl mx-auto leading-relaxed">
@@ -55,7 +55,7 @@ export default function CruiseLayoutA() {
 
         </div>
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 animate-pulse">
           <span className="text-xs uppercase tracking-widest font-bold">Scroll</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
@@ -63,7 +63,7 @@ export default function CruiseLayoutA() {
 
       {/* ── SIGNUP + COUNTER (overlapping hero) ── */}
       <section id="signup" className="site-container max-w-4xl -mt-20 relative z-20 mb-20">
-        <div className="bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border border-[var(--color-accent)]/30 rounded-3xl p-8 md:p-10 shadow-[0_0_60px_rgba(133,29,239,0.15)]">
+        <div className="bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border border-[var(--color-accent)]/30 rounded-3xl p-8 md:p-10 shadow-[0_0_60px_rgba(255,10,61,0.15)]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Form */}
             <div>
@@ -72,7 +72,7 @@ export default function CruiseLayoutA() {
               </h2>
               <p className="text-white/40 text-sm mb-6">Free, non-binding. Just show us you&apos;re interested.</p>
               {signupStatus === "success" ? (
-                <div className="p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center">
+                <div className="p-6 bg-emerald-500/10 border border-emerald-500/30 text-center">
                   <span className="text-3xl block mb-3">🚢</span>
                   <p className="text-white font-bold">You&apos;re on the list!</p>
                   <p className="text-emerald-400 text-sm mt-1">We&apos;ll email you when rates are locked.</p>
@@ -80,15 +80,15 @@ export default function CruiseLayoutA() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <input type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
+                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
                   <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
+                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
                   <select value={form.guests} onChange={e => setForm(f => ({...f, guests: e.target.value}))}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors appearance-none cursor-pointer">
+                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors appearance-none cursor-pointer">
                     <option value="1">Just me (1)</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+ guests</option>
                   </select>
                   <button type="submit" disabled={signupStatus === "submitting"}
-                    className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] disabled:opacity-70 cursor-pointer">
+                    className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm py-4 transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
                     {signupStatus === "submitting" ? "Submitting..." : "Count Me In"}
                   </button>
                 </form>
@@ -98,11 +98,11 @@ export default function CruiseLayoutA() {
             <div className="flex flex-col justify-center">
               <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-4">Fan Interest Tracker</p>
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-white/[0.03] border border-white/5 rounded-xl p-4 text-center">
+                <div className="bg-white/[0.03] border border-white/5 p-4 text-center">
                   <p className="text-3xl font-black text-white">{signupCount}</p>
                   <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Fans</p>
                 </div>
-                <div className="bg-white/[0.03] border border-white/5 rounded-xl p-4 text-center">
+                <div className="bg-white/[0.03] border border-white/5 p-4 text-center">
                   <p className="text-3xl font-black text-white">{totalGuests}</p>
                   <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Total Guests</p>
                 </div>
@@ -114,7 +114,7 @@ export default function CruiseLayoutA() {
                 <div className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-full transition-all duration-1000" style={{ width: `${progress}%` }} />
               </div>
               <p className="text-xs text-white/25">{GOAL - totalGuests} more guests unlock the best group rate</p>
-              <div className="mt-6 p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+              <div className="mt-6 p-4 bg-white/[0.02] border border-white/5">
                 <p className="text-xs text-white/30 font-bold uppercase tracking-widest mb-2">How it works</p>
                 <div className="space-y-2">
                   {["Sign up free — tell us your group size", "We negotiate the rate with cruise management", "You get first access at the locked-in price"].map((s, i) => (
@@ -154,7 +154,7 @@ export default function CruiseLayoutA() {
       </section>
 
       {/* Layout label */}
-      <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
+      <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-widest rounded-full">
         Layout A — Cinematic
       </div>
     </div>

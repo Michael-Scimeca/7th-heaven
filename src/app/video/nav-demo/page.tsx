@@ -8,11 +8,11 @@ interface VideoCategory { category: string; videos: { id: string; title: string;
 
 function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void }) {
   return (
-    <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-2xl">
+    <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 p-3">
       <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Nav</p>
       {layouts.map(l => (
         <button key={l} onClick={() => set(l)}
-          className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white shadow-lg shadow-[var(--color-accent)]/30" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
+          className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
           {l}
         </button>
       ))}
@@ -71,7 +71,7 @@ export default function CatNavDemo() {
                 <button key={c} onClick={() => setActiveCat(c)}
                   className={`text-xs font-bold uppercase tracking-[0.15em] px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap border ${
                     activeCat === c
-                      ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(133,29,239,0.3)]"
+                      ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       : "bg-white/[0.03] border-white/10 text-white/40 hover:border-white/20 hover:text-white/70"
                   }`}>{c}</button>
               ))}

@@ -225,29 +225,29 @@ export default function CursorTestingPage() {
               5-node cascade with <code className="text-[#C245AA] bg-black/40 px-1.5 py-0.5 rounded">feGaussianBlur</code> + <code className="text-white/60">feColorMatrix</code> — the pick shape is always on, not hover-triggered.
             </p>
           </div>
-          <Link href="/" className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+          <Link href="/" className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs uppercase tracking-wider transition-all">
             ← Back
           </Link>
         </div>
 
         {/* Telemetry */}
         <div className="grid grid-cols-3 gap-4 mb-10">
-          <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
+          <div className="bg-[#0b0b14] border border-white/10 p-5">
             <p className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-white/40 mb-1">X</p>
             <p className="text-2xl font-black text-[#C245AA]"><span ref={posXRef}>0</span><span className="text-xs text-white/30 ml-1">px</span></p>
           </div>
-          <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
+          <div className="bg-[#0b0b14] border border-white/10 p-5">
             <p className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-white/40 mb-1">Y</p>
             <p className="text-2xl font-black text-[#C245AA]"><span ref={posYRef}>0</span><span className="text-xs text-white/30 ml-1">px</span></p>
           </div>
-          <div className="bg-[#0b0b14] border border-white/10 rounded-2xl p-5">
+          <div className="bg-[#0b0b14] border border-white/10 p-5">
             <p className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-white/40 mb-1">Velocity</p>
             <p className="text-2xl font-black text-[#9C27B0]"><span ref={velRef}>0</span><span className="text-xs text-white/30 ml-1">px/f</span></p>
           </div>
         </div>
 
         {/* Preset Switcher */}
-        <div className="bg-[#0d0d18] border border-white/10 rounded-2xl p-2 flex flex-wrap gap-2 mb-12">
+        <div className="bg-[#0d0d18] border border-white/10 p-2 flex flex-wrap gap-2 mb-12">
           {([
             ["pick",      "🎸 Guitar Pick Gooey"],
             ["neon",      "✨ Neon Glow"],
@@ -256,7 +256,7 @@ export default function CursorTestingPage() {
             <button
               key={p}
               onClick={() => setPreset(p)}
-              className={`flex-1 min-w-[140px] py-3 px-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+              className={`flex-1 min-w-[140px] py-3 px-4  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
                 preset === p
                   ? "bg-[#9C27B0] text-white shadow-[0_0_20px_#9C27B080]"
                   : "text-white/50 hover:text-white hover:bg-white/5"
@@ -302,7 +302,7 @@ export default function CursorTestingPage() {
             <span className="text-xs text-emerald-400 font-bold">✓ Always-on pick shape</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-            <div className="bg-black/60 p-4 rounded-xl border border-white/10">
+            <div className="bg-black/60 p-4 border border-white/10">
               <p className="text-[#9C27B0] font-bold mb-2">// SVG Guitar Pick Path</p>
               <pre className="text-white/60 whitespace-pre-wrap leading-relaxed">{`<path d="
   M 50,6
@@ -312,7 +312,7 @@ export default function CursorTestingPage() {
   C 4,26 18,6 50,6 Z
 " fill="#9C27B0" />`}</pre>
             </div>
-            <div className="bg-black/60 p-4 rounded-xl border border-white/10">
+            <div className="bg-black/60 p-4 border border-white/10">
               <p className="text-[#C245AA] font-bold mb-2">// Cascade Lerp (5 nodes)</p>
               <pre className="text-white/60 whitespace-pre-wrap leading-relaxed">{`const speeds = [0.95,0.55,0.38,0.26,0.17];
 for (let i = 0; i < 5; i++) {

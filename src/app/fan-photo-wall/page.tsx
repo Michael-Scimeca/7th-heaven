@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
   ssr: false,
   loading: () => (
-    <div className="animate-pulse bg-white/[0.02] border border-white/10 rounded-xl p-8 text-center text-white/40 font-bold uppercase tracking-widest text-sm">
+    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40 font-bold uppercase tracking-widest text-sm">
       Loading Upload Form...
     </div>
   ),
@@ -175,7 +175,7 @@ export default function FansPage() {
 
 
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(133,29,239,0.25)_0%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,10,61,0.25)_0%,transparent_70%)]" />
         </div>
 
         <div className="site-container relative z-10">
@@ -187,7 +187,7 @@ export default function FansPage() {
                 COMMUNITY GALLERY & FAN MOMENTS
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white drop- leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                 FAN PHOTO & VIDEO <span className="gradient-text">WALL</span>
               </h1>
 
@@ -229,7 +229,7 @@ export default function FansPage() {
                   setShowUpload(!showUpload);
                 }
               }}
-              className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-xl hover:brightness-110 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(133,29,239,0.4)] cursor-pointer shrink-0 self-start md:self-auto hover:scale-105"
+              className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(255,10,61,0.4)] cursor-pointer shrink-0 self-start md:self-auto hover:scale-105"
             >
               <span className="text-lg">📸</span>
               <span>{showUpload ? "Hide Upload Form" : "Upload Photo / Video"}</span>
@@ -253,7 +253,7 @@ export default function FansPage() {
 
         {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
         {isModerator && pendingPhotos.length > 0 && (
-          <div className="site-container mx-auto mb-14 p-6 bg-purple-500/5 border border-purple-500/25 rounded-2xl">
+          <div className="site-container mx-auto mb-14 p-6 bg-purple-500/5 border border-purple-500/25">
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-sm">
                 🛡️
@@ -280,7 +280,7 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="group relative bg-[var(--color-bg-surface)] border border-black/10 rounded-xl overflow-hidden shadow-md hover:border-[var(--color-accent)]/50 transition-colors"
+                    className="group relative bg-[var(--color-bg-surface)] border border-black/10 overflow-hidden shadow-md hover:border-[var(--color-accent)]/50 transition-colors"
                   >
                     <div className="aspect-[4/3] bg-black/5 relative overflow-hidden">
                       {isVideo ? (
@@ -330,7 +330,7 @@ export default function FansPage() {
                       <button
                         onClick={() => handleApprovePhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 transition-all cursor-pointer shadow-[0_0_15px_rgba(133,29,239,0.3)]"
+                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 transition-all cursor-pointer shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       >
                         Safe & Approve
                       </button>
@@ -346,7 +346,7 @@ export default function FansPage() {
         {approvedPhotos.length > 0 && (
           <div className="site-container mx-auto mb-8">
             <div
-              className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden group cursor-pointer border border-white/10 shadow-2xl"
+              className="relative w-full aspect-[21/9] overflow-hidden group cursor-pointer border border-white/10"
               onClick={() => setSelectedPhoto(approvedPhotos[0])}
             >
               {approvedPhotos[0].type === "video" ||

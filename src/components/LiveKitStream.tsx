@@ -13,7 +13,7 @@ import {
 } from '@livekit/components-react';
 import '@livekit/components-styles';
 import { Track, Room } from 'livekit-client';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 
 import React from 'react';
 
@@ -49,7 +49,7 @@ class LiveKitErrorBoundary extends React.Component<
             <p className="text-white/40 text-sm">Stream connection interrupted</p>
             <button
               onClick={() => this.setState({ hasError: false, error: null })}
-              className="mt-2 text-xs text-purple-400 underline hover:text-purple-300"
+              className="mt-2 text-xs text-[var(--color-accent)] underline hover:text-[var(--color-accent)]"
             >
               Retry
             </button>
@@ -113,7 +113,7 @@ export function LiveKitStream({
 
  if (error) {
   return (
-   <div className={`flex items-center justify-center bg-black/40 rounded-xl p-8 ${className}`}>
+   <div className={`flex items-center justify-center bg-black/40  p-8 ${className}`}>
     <div className="text-center">
      <p className="text-red-400 text-sm font-medium mb-2">⚠️ Stream Error</p>
      <p className="text-white/30 text-xs max-w-sm">{error}</p>
@@ -124,7 +124,7 @@ export function LiveKitStream({
 
  if (!token || !url) {
   return (
-   <div className={`flex items-center justify-center bg-black/40 rounded-xl ${className}`}>
+   <div className={`flex items-center justify-center bg-black/40  ${className}`}>
     <div className="text-center">
      <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
      <p className="text-white/40 text-sm">Connecting to stream...</p>

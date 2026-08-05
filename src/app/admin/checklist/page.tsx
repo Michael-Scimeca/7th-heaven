@@ -95,7 +95,7 @@ export default function SetupChecklistPage() {
             </p>
           </div>
           
-          <div className="bg-white border border-black/5 rounded-2xl px-6 py-4 flex items-center gap-4 shrink-0 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+          <div className="bg-white border border-black/5 px-6 py-4 flex items-center gap-4 shrink-0 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
             <div className="text-right">
               <span className="text-2xs font-bold uppercase tracking-widest text-black/30 block mb-1">Production Status</span>
               <span className="text-lg font-black text-black">{activeConnected} / 9 Services Live</span>
@@ -114,7 +114,7 @@ export default function SetupChecklistPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="checklist-grid">
 
           {/* 1. EMAIL (Resend) */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -123,7 +123,7 @@ export default function SetupChecklistPage() {
                 </div>
                 {status?.resend.connected ? (
                   status.resend.isSandbox ? (
-                    <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                    <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
                       🟡 Sandbox
                     </span>
                   ) : (
@@ -168,7 +168,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 2. TEXT (Twilio) */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -177,7 +177,7 @@ export default function SetupChecklistPage() {
                 </div>
                 {status?.twilio.connected ? (
                   status.twilio.isTest ? (
-                    <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                    <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
                       🟡 Test Credentials
                     </span>
                   ) : (
@@ -222,7 +222,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 3. GOOGLE ANALYTICS */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -264,7 +264,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 4. STRIPE */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -312,7 +312,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 5. LIVEKIT & MUX STREAMING */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -360,7 +360,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 6. SHOPIFY STOREFRONT */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -408,7 +408,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 7. SUPABASE DATABASE */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -456,7 +456,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 8. SANITY CMS */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -504,14 +504,14 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 9. OAUTH SOCIAL LOGIN */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">🔐 OAuth Social Login</h3>
                   <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Google, Facebook &amp; Apple sign-in</p>
                 </div>
-                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
                   🟡 Not Configured
                 </span>
               </div>
@@ -572,7 +572,7 @@ export default function SetupChecklistPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* 10. CAN-SPAM EMAIL COMPLIANCE */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-rose-500/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-rose-500/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -637,14 +637,14 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 11. LIVE CHAT & MODERATION */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-amber-500/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-purple-500/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">💬 Chat Rooms &amp; Moderation</h3>
                   <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Live chat safety, age gates &amp; content filtering</p>
                 </div>
-                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
                   ⚠️ Required
                 </span>
               </div>
@@ -702,7 +702,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 12. LIVE STREAMING LEGAL */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-purple-500/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-purple-500/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -761,7 +761,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 13. LEGAL PAGES & POLICIES */}
-          <div className="bg-white border border-black/5 rounded-2xl p-6 hover:border-emerald-500/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-emerald-500/30 transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -846,7 +846,7 @@ export default function SetupChecklistPage() {
           <p className="text-sm text-black/50 mb-6 leading-relaxed">
             All integrations are managed through environment variables inside your root file: <code className="font-mono text-black">.env.local</code>. Make sure to restart your local development server in the terminal after editing this file to apply changes:
           </p>
-          <pre className="bg-[#f0f2f5] p-5 rounded-2xl text-xs font-mono border border-black/5 overflow-x-auto text-black/50 leading-relaxed">
+          <pre className="bg-[#f0f2f5] p-5 text-xs font-mono border border-black/5 overflow-x-auto text-black/50 leading-relaxed">
 {`# Sample setup format inside your .env.local:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsIn...

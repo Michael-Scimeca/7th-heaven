@@ -183,7 +183,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
     {/* ── LEFT: Phone Mockup ── */}
     <div className="w-[390px] sm:w-[450px] mx-auto animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.2s_both]">
-     <div className="relative bg-[#111120] rounded-[2.8rem] p-[7px] shadow-[0_25px_80px_-15px_rgba(133,29,239,0.2)] border border-white/[0.08]">
+     <div className="relative bg-[#111120] rounded-[2.8rem] p-[7px] shadow-[0_25px_80px_-15px_rgba(255,10,61,0.2)] border border-white/[0.08]">
       {/* Dynamic Island */}
       <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[90px] h-[24px] bg-black rounded-full z-20" />
 
@@ -207,7 +207,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
         {/* iMessage header */}
         <div className="relative z-10 px-4 pt-3">
          <div className="flex items-center justify-center gap-2 mb-1">
-          <div className="w-8 h-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center shadow-md shadow-purple-500/20">
+          <div className="w-8 h-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center shadow-md shadow-[var(--color-accent)]/20">
            <span className="text-white font-black text-2xs">7H</span>
           </div>
          </div>
@@ -224,7 +224,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
         {/* Green SMS bubble — iOS style */}
         <div className="relative z-10 px-4 mt-3 animate-[notifyPop_20s_ease-in-out_infinite]">
          <div className="relative max-w-[85%]">
-          <div className="bg-[#34C759] rounded-[1.2rem] rounded-bl-[4px] p-3 shadow-lg">
+          <div className="bg-[#34C759] rounded-[1.2rem] rounded-bl-[4px] p-3">
            <p className="text-base text-white leading-relaxed font-medium">
             🎸 7th Heaven is playing near you tonight!
            </p>
@@ -247,7 +247,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
          </div>
 
          {/* Link preview card */}
-         <div className="max-w-[85%] mt-1.5 bg-[var(--color-bg-elevated)] rounded-xl overflow-hidden border border-white/[0.06]">
+         <div className="max-w-[85%] mt-1.5 bg-[var(--color-bg-elevated)] overflow-hidden border border-white/[0.06]">
           <div className="bg-[#2c2c2e] px-3 py-2">
            <p className="text-xs text-white/30 uppercase tracking-wider font-bold">7thheavenband.com</p>
           </div>
@@ -286,7 +286,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
          {/* Safari address bar */}
          <div className="absolute top-10 inset-x-0 z-10 px-3">
-           <div className="bg-[var(--color-bg-elevated)] border border-white/[0.08] rounded-xl px-3 py-2 flex items-center gap-2">
+           <div className="bg-[var(--color-bg-elevated)] border border-white/[0.08] px-3 py-2 flex items-center gap-2">
              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
              <p className="text-xs text-white/40 flex-1 truncate">7thheavenband.com/shows/{showVenueSlug}</p>
              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
@@ -308,7 +308,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
              <div className="flex gap-1.5">
                <div className="flex-1 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg py-2 flex items-center justify-center gap-1">
                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                 <span className="text-base font-bold text-purple-300">Going</span>
+                 <span className="text-base font-bold text-[var(--color-accent)]">Going</span>
                </div>
                <div className="flex-1 bg-emerald-500/10 border border-emerald-500/20 rounded-lg py-2 flex items-center justify-center">
                  <span className="text-base font-bold text-emerald-400">✓ Here Now</span>
@@ -325,7 +325,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
              <div className="grid grid-cols-2 gap-1">
                {[
                  { initials: "AJ", name: "Alex J.", status: "there", color: "from-amber-400 to-orange-500" },
-                 { initials: "SR", name: "Sarah R.", status: "going", color: "from-purple-400 to-purple-600" },
+                 { initials: "SR", name: "Sarah R.", status: "going", color: "from-sky-500 to-blue-600" },
                  { initials: "TK", name: "Tyler K.", status: "going", color: "from-pink-400 to-rose-500" },
                  { initials: "JM", name: "Jake M.", status: "there", color: "from-cyan-400 to-blue-500" },
                  { initials: "LR", name: "Lisa R.", status: "going", color: "from-emerald-400 to-teal-500" },
@@ -363,7 +363,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                </div>
                {/* Venue pin */}
                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-[pinFloat_2s_ease-in-out_infinite]">
-                 <div className="w-7 h-7 rounded-full bg-[var(--color-accent)] border-2 border-white/30 flex items-center justify-center shadow-[0_0_20px_rgba(133,29,239,0.5)]">
+                 <div className="w-7 h-7 rounded-full bg-[var(--color-accent)] border-2 border-white/30 flex items-center justify-center shadow-[0_0_20px_rgba(255,10,61,0.5)]">
                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                      <circle cx="12" cy="10" r="3" />
@@ -390,7 +390,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
            <div className="mx-4 mt-3 mb-6">
              <div className="w-full py-2.5 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 rounded-lg flex items-center justify-center gap-2">
                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
-               <span className="text-sm font-bold text-purple-300 uppercase tracking-wider">Go to Home Page</span>
+               <span className="text-sm font-bold text-[var(--color-accent)] uppercase tracking-wider">Go to Home Page</span>
              </div>
            </div>
          </div>
@@ -418,7 +418,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
      {/* Glass Form Card */}
      <div className="w-full max-w-[520px] mx-auto animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.6s_both]">
       {status === "success" ? (
-       <div className="bg-[var(--color-accent)]/10 backdrop-blur-xl border border-[var(--color-accent)]/20 rounded-2xl p-10 text-center">
+       <div className="bg-[var(--color-accent)]/10 backdrop-blur-xl border border-[var(--color-accent)]/20 p-10 text-center">
         <div className="flex items-center justify-center gap-2.5 mb-3">
          <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
@@ -429,7 +429,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
         <p className="text-white/25 text-sm">Click the link to confirm your account and start getting show alerts.</p>
        </div>
       ) : (
-       <form onSubmit={handleSubmit} className="bg-black/60 backdrop-blur-md border border-white/[0.05] rounded-2xl p-6 sm:p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]">
+       <form onSubmit={handleSubmit} className="bg-black/60 backdrop-blur-md border border-white/[0.05] p-6 sm:p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]">
         <div className="space-y-3">
          {/* Profile Picture */}
          <div className="flex items-center gap-5 mb-4 pb-4 border-b border-white/[0.05]">
@@ -440,7 +440,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
             profilePic
              ? 'border-2 border-[var(--color-accent)]/30'
              : name.trim()
-              ? 'bg-gradient-to-br from-[var(--color-accent)] to-[#6b21a8] border-2 border-white/[0.1] shadow-lg shadow-purple-500/20'
+              ? 'bg-gradient-to-br from-[var(--color-accent)] to-[#6b21a8] border-2 border-white/[0.1]  shadow-[var(--color-accent)]/20'
               : 'bg-white/[0.06] border-2 border-dashed border-white/[0.15] hover:border-[var(--color-accent)]/50 hover:bg-white/[0.08]'
            }`}
           >
@@ -476,7 +476,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           onChange={(e) => setName(e.target.value)}
           required
           placeholder="Full name"
-          className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
+          className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
          />
          {/* Email */}
          <input
@@ -485,7 +485,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           onChange={(e) => setEmail(e.target.value)}
           required
           placeholder="Email"
-          className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
+          className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
          />
          {/* Phone */}
          <input
@@ -493,7 +493,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           value={phone}
           onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
           placeholder="Phone number"
-          className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
+          className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
          />
          {/* Zip + Radius */}
          <div className="flex gap-3">
@@ -505,12 +505,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
            placeholder="Zip code"
            maxLength={5}
            pattern="\d{5}"
-           className="flex-1 bg-white/[0.05] border border-white/[0.08] rounded-xl px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
+           className="flex-1 bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
           />
           <select
            value={radius}
            onChange={(e) => setRadius(e.target.value)}
-           className="bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-4 text-base text-white/40 focus:border-[var(--color-accent)]/50 focus:outline-none transition-all duration-200 appearance-none cursor-pointer text-center w-[110px]"
+           className="bg-white/[0.05] border border-white/[0.08] px-4 py-4 text-base text-white/40 focus:border-[var(--color-accent)]/50 focus:outline-none transition-all duration-200 appearance-none cursor-pointer text-center w-[110px]"
           >
            <option value="25" className="bg-[var(--color-bg-surface)]">25 mi</option>
            <option value="50" className="bg-[var(--color-bg-surface)]">50 mi</option>
@@ -523,7 +523,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           <div className="pt-3 pb-2 border-t border-white/[0.05]">
             <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2.5 text-left">Notification Preferences</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] rounded-xl hover:bg-white/[0.06] transition-all">
+              <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-all">
                 <input
                   type="checkbox"
                   checked={notifyAreaShows}
@@ -535,7 +535,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <p className="text-[var(--font-size-3xs)] text-white/40">Within {radius} miles of {zip || "Zip"}</p>
                 </div>
               </label>
-              <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] rounded-xl hover:bg-white/[0.06] transition-all">
+              <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-all">
                 <input
                   type="checkbox"
                   checked={notifyNextShow}
@@ -547,7 +547,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <p className="text-[var(--font-size-3xs)] text-white/40">General band alerts</p>
                 </div>
               </label>
-              <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] rounded-xl hover:bg-white/[0.06] transition-all">
+              <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-all">
                 <input
                   type="checkbox"
                   checked={notifyBrowser}
@@ -577,7 +577,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 return (
                   <label
                     key={type.id}
-                    className={`flex items-center gap-2 cursor-pointer px-3 py-2.5 border rounded-xl transition-all duration-200 ${
+                    className={`flex items-center gap-2 cursor-pointer px-3 py-2.5 border  transition-all duration-200 ${
                       isChecked
                         ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-white"
                         : "bg-white/[0.02] border-white/[0.05] text-white/40 hover:border-white/10 hover:text-white/60"
@@ -609,7 +609,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
            onClick={() => setAgreeNotify(!agreeNotify)}
            className={`relative w-[42px] h-[24px] rounded-full transition-all duration-300 shrink-0 mt-0.5 ${
             agreeNotify
-             ? "bg-[var(--color-accent)] shadow-[0_0_12px_rgba(133,29,239,0.3)]"
+             ? "bg-[var(--color-accent)] shadow-[0_0_12px_rgba(255,10,61,0.3)]"
              : "bg-white/[0.1]"
            }`}
           >
@@ -645,7 +645,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
          <button
           type="submit"
           disabled={status === "loading" || !agreeNotify || !agreeTerms}
-          className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 hover:shadow-[0_8px_30px_-5px_rgba(133,29,239,0.4)] text-white font-bold text-base uppercase tracking-[0.15em] py-4 rounded-xl transition-all duration-300 cursor-pointer disabled:opacity-50 mt-1"
+          className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 hover:shadow-[0_8px_30px_-5px_rgba(255,10,61,0.4)] text-white font-bold text-base uppercase tracking-[0.15em] py-4 transition-all duration-300 cursor-pointer disabled:opacity-50 mt-1"
          >
           {status === "loading" ? "Creating account..." : "Create Account"}
          </button>

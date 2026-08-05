@@ -11,7 +11,7 @@ export default function HeroDemoPage() {
   return (
     <div className="bg-[var(--color-bg-deep)] min-h-screen">
       {/* Layout Switcher */}
-      <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-2xl">
+      <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 p-3">
         <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Layout</p>
         {layouts.map(l => (
           <button
@@ -19,7 +19,7 @@ export default function HeroDemoPage() {
             onClick={() => setActive(l)}
             className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${
               active === l
-                ? "bg-[var(--color-accent)] text-white shadow-lg shadow-[var(--color-accent)]/30"
+                ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30"
                 : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
             }`}
           >
@@ -49,7 +49,7 @@ export default function HeroDemoPage() {
                   <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                   Gauging Interest — Free Signup
                 </div>
-                <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl leading-[0.9]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white drop- leading-[0.9]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                   7th Heaven<br />
                   <span className="accent-gradient-text">Cruise</span>
                 </h1>
@@ -64,7 +64,7 @@ export default function HeroDemoPage() {
                     { val: "3", label: "Islands" },
                     { val: "6", label: "Shows" },
                   ].map(s => (
-                    <div key={s.label} className="bg-white/[0.06] backdrop-blur-xl border border-white/[0.1] rounded-2xl px-6 py-4 text-center">
+                    <div key={s.label} className="bg-white/[0.06] backdrop-blur-xl border border-white/[0.1] px-6 py-4 text-center">
                       <p className="text-2xl font-black text-white">{s.val}</p>
                       <p className="text-2xs font-bold uppercase tracking-[0.2em] text-white/30 mt-0.5">{s.label}</p>
                     </div>
@@ -72,10 +72,10 @@ export default function HeroDemoPage() {
                 </div>
 
                 <div className="flex gap-4 mt-8">
-                  <a href="#signup" className="px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all shadow-[0_0_30px_rgba(133,29,239,0.3)]">
+                  <a href="#signup" className="px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Count Me In
                   </a>
-                  <a href="#itinerary" className="px-8 py-4 bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all hover:bg-white/[0.1]">
+                  <a href="#itinerary" className="px-8 py-4 bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] text-white font-bold uppercase tracking-widest text-sm transition-all hover:bg-white/[0.1]">
                     View Itinerary
                   </a>
                 </div>
@@ -85,24 +85,24 @@ export default function HeroDemoPage() {
               <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
                 <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-4">Fan Interest Tracker</p>
                 <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-white/[0.05] backdrop-blur-md border border-white/[0.1] rounded-xl p-5 text-center">
+                  <div className="bg-white/[0.05] backdrop-blur-md border border-white/[0.1] p-5 text-center">
                     <p className="text-4xl font-black text-white">5</p>
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Fans</p>
                   </div>
-                  <div className="bg-white/[0.05] backdrop-blur-md border border-white/[0.1] rounded-xl p-5 text-center">
+                  <div className="bg-white/[0.05] backdrop-blur-md border border-white/[0.1] p-5 text-center">
                     <p className="text-4xl font-black text-white">9</p>
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/25 mt-1">Total Guests</p>
                   </div>
                 </div>
                 <div className="space-y-3 mb-6">
                   {["🚢 Miami → Cozumel → Grand Cayman → Roatán", "🎸 6 Live Performances", "🏝️ 3 Island Excursions"].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 bg-white/[0.03] border border-white/[0.08] rounded-xl">
+                    <div key={i} className="flex items-center gap-3 p-3 bg-white/[0.03] border border-white/[0.08]">
                       <span className="text-sm">{item}</span>
                     </div>
                   ))}
                 </div>
                 <div className="flex -space-x-2 mb-3">
-                  {["#851DEF", "#3b82f6", "#06b6d4", "#f59e0b", "#10b981"].map((c, i) => (
+                  {["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"].map((c, i) => (
                     <div key={i} className="w-9 h-9 rounded-full border-2 border-[#0d0d14] flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>
                       {["E", "M", "D", "T", "T"][i]}
                     </div>
@@ -133,7 +133,7 @@ export default function HeroDemoPage() {
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               7 Nights · 3 Islands · 6 Shows
             </div>
-            <h1 className="text-7xl md:text-[10rem] font-black uppercase italic tracking-tighter text-white drop-shadow-2xl leading-[0.85]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            <h1 className="text-7xl md:text-[10rem] font-black uppercase italic tracking-tighter text-white drop- leading-[0.85]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Cruise
             </h1>
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40 mt-4 mb-8">
@@ -141,7 +141,7 @@ export default function HeroDemoPage() {
             </p>
 
             {/* Horizontal glass stat bar */}
-            <div className="flex items-center gap-0 bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-2xl overflow-hidden shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+            <div className="flex items-center gap-0 bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] overflow-hidden shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
               {[
                 { icon: "🚢", label: "Miami Departure" },
                 { icon: "🏝️", label: "Cozumel" },
@@ -159,10 +159,10 @@ export default function HeroDemoPage() {
 
           {/* Bottom floating CTA */}
           <div className="relative z-10 site-container pb-16">
-            <div className="flex items-center justify-between bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-2xl p-6 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+            <div className="flex items-center justify-between bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-6 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
               <div className="flex items-center gap-6">
                 <div className="flex -space-x-2">
-                  {["#851DEF", "#3b82f6", "#06b6d4", "#f59e0b", "#10b981"].map((c, i) => (
+                  {["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"].map((c, i) => (
                     <div key={i} className="w-10 h-10 rounded-full border-2 border-black/30 flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>
                       {["E", "M", "D", "T", "T"][i]}
                     </div>
@@ -173,7 +173,7 @@ export default function HeroDemoPage() {
                   <p className="text-white/40 text-xs">Free, non-binding signup</p>
                 </div>
               </div>
-              <a href="#signup" className="px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all shadow-[0_0_30px_rgba(133,29,239,0.3)]">
+              <a href="#signup" className="px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                 Count Me In →
               </a>
             </div>
@@ -202,7 +202,7 @@ export default function HeroDemoPage() {
                   <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                   2027 Caribbean
                 </div>
-                <h1 className="text-6xl md:text-[8rem] font-black uppercase italic tracking-tighter text-white drop-shadow-2xl leading-[0.85]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                <h1 className="text-6xl md:text-[8rem] font-black uppercase italic tracking-tighter text-white drop- leading-[0.85]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                   Set Sail<br />
                   <span className="accent-gradient-text">With Us</span>
                 </h1>
@@ -210,17 +210,17 @@ export default function HeroDemoPage() {
                   The ultimate 7th Heaven fan experience — 7 nights on the Caribbean with 6 live shows, 3 island stops, and the whole crew.
                 </p>
                 <div className="flex gap-4 mt-8">
-                  <a href="#signup" className="px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all shadow-[0_0_30px_rgba(133,29,239,0.3)]">
+                  <a href="#signup" className="px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     I&apos;m In
                   </a>
-                  <a href="#itinerary" className="px-10 py-4 bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all hover:bg-white/[0.1]">
+                  <a href="#itinerary" className="px-10 py-4 bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] text-white font-bold uppercase tracking-widest text-sm transition-all hover:bg-white/[0.1]">
                     See the Schedule
                   </a>
                 </div>
               </div>
 
               {/* Right — Vertical glass ticker */}
-              <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-2xl p-6 w-72 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+              <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-6 w-72 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
                 <div className="flex items-center justify-between mb-4">
                   <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Live Ticker</p>
                   <div className="flex items-center gap-1.5">
@@ -233,10 +233,10 @@ export default function HeroDemoPage() {
                     { who: "E2E", action: "signed up", time: "2m ago", color: "#851DEF" },
                     { who: "Michael", action: "added +1 guest", time: "15m ago", color: "#3b82f6" },
                     { who: "Dave", action: "signed up", time: "1h ago", color: "#06b6d4" },
-                    { who: "Test", action: "added +2 guests", time: "3h ago", color: "#f59e0b" },
+                    { who: "Test", action: "added +2 guests", time: "3h ago", color: "#9333ea" },
                     { who: "Test", action: "signed up", time: "5h ago", color: "#10b981" },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 bg-white/[0.04] border border-white/[0.08] rounded-xl">
+                    <div key={i} className="flex items-center gap-3 p-3 bg-white/[0.04] border border-white/[0.08]">
                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ backgroundColor: item.color }}>
                         {item.who[0]}
                       </div>
@@ -276,7 +276,7 @@ export default function HeroDemoPage() {
           </div>
           <div className="relative z-10 site-container text-center">
             <p className="text-xs font-black uppercase tracking-[0.35em] text-cyan-400 mb-6">Departing From Miami · 2027</p>
-            <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-2xl" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               7th Heaven <span className="accent-gradient-text">Cruise</span>
             </h1>
             <p className="text-white/50 text-lg mt-4 mb-12 max-w-xl mx-auto">The ultimate fan experience on the Caribbean.</p>
@@ -289,7 +289,7 @@ export default function HeroDemoPage() {
                 { val: "32", label: "Minutes" },
                 { val: "08", label: "Seconds" },
               ].map(t => (
-                <div key={t.label} className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-2xl w-24 h-28 flex flex-col items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <div key={t.label} className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] w-24 h-28 flex flex-col items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <p className="text-3xl font-black text-white tabular-nums">{t.val}</p>
                   <p className="text-2xs font-bold uppercase tracking-[0.25em] text-white/30 mt-1">{t.label}</p>
                 </div>
@@ -307,7 +307,7 @@ export default function HeroDemoPage() {
               </div>
             </div>
 
-            <a href="#signup" className="inline-block px-12 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all shadow-[0_0_30px_rgba(133,29,239,0.3)]">
+            <a href="#signup" className="inline-block px-12 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
               Reserve My Spot
             </a>
           </div>
@@ -372,7 +372,7 @@ export default function HeroDemoPage() {
                     { label: "Shows", val: "6 Live" },
                     { label: "Guests", val: "9" },
                   ].map(s => (
-                    <div key={s.label} className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-3 text-center">
+                    <div key={s.label} className="bg-white/[0.04] border border-white/[0.08] p-3 text-center">
                       <p className="text-2xs font-bold uppercase tracking-[0.25em] text-white/30 mb-1">{s.label}</p>
                       <p className="text-sm font-black text-white">{s.val}</p>
                     </div>
@@ -387,14 +387,14 @@ export default function HeroDemoPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="flex -space-x-2">
-                    {["#851DEF", "#3b82f6", "#06b6d4", "#f59e0b", "#10b981"].map((c, i) => (
+                    {["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"].map((c, i) => (
                       <div key={i} className="w-9 h-9 rounded-full border-2 border-black/30 flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>
                         {["E", "M", "D", "T", "T"][i]}
                       </div>
                     ))}
                     <div className="w-9 h-9 rounded-full bg-white/10 border-2 border-black/30 flex items-center justify-center text-2xs font-bold text-white/40">+4</div>
                   </div>
-                  <a href="#signup" className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-xs rounded-xl transition-all shadow-[0_0_30px_rgba(133,29,239,0.3)]">
+                  <a href="#signup" className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-xs transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Board Now →
                   </a>
                 </div>
@@ -445,7 +445,7 @@ export default function HeroDemoPage() {
                     <p className="text-white/50 text-base max-w-sm leading-relaxed">
                       7 nights. 3 islands. The band. The fans. One unforgettable voyage.
                     </p>
-                    <a href="#signup" className="shrink-0 px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all shadow-[0_0_30px_rgba(133,29,239,0.3)]">
+                    <a href="#signup" className="shrink-0 px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                       Join the Voyage
                     </a>
                   </div>
@@ -500,7 +500,7 @@ export default function HeroDemoPage() {
             </p>
             <div className="flex items-center justify-center gap-6">
               <a href="#signup" className="group flex items-center gap-3">
-                <span className="w-14 h-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(133,29,239,0.4)]">
+                <span className="w-14 h-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(255,10,61,0.4)]">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 </span>
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 group-hover:text-white transition-colors">Count Me In</span>
@@ -550,7 +550,7 @@ export default function HeroDemoPage() {
               </div>
 
               {/* Route Card */}
-              <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="flex items-center justify-between">
                   {["🚢 Miami", "🏝️ Cozumel", "🐢 Cayman", "🤿 Roatán", "🎸 Miami"].map((stop, i) => (
                     <div key={i} className="flex items-center gap-1">
@@ -568,7 +568,7 @@ export default function HeroDemoPage() {
                   { val: "6", label: "Shows", icon: "🎸" },
                   { val: "9", label: "Guests", icon: "👥" },
                 ].map(s => (
-                  <div key={s.label} className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-2xl p-4 text-center shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
+                  <div key={s.label} className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-4 text-center shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
                     <span className="text-lg block mb-1">{s.icon}</span>
                     <p className="text-2xl font-black text-white">{s.val}</p>
                     <p className="text-2xs font-bold uppercase tracking-[0.2em] text-white/25 mt-0.5">{s.label}</p>
@@ -577,9 +577,9 @@ export default function HeroDemoPage() {
               </div>
 
               {/* Social Proof Card */}
-              <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
+              <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-5 flex items-center gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
                 <div className="flex -space-x-2">
-                  {["#851DEF", "#3b82f6", "#06b6d4", "#f59e0b", "#10b981"].map((c, i) => (
+                  {["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"].map((c, i) => (
                     <div key={i} className="w-9 h-9 rounded-full border-2 border-black/30 flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>
                       {["E", "M", "D", "T", "T"][i]}
                     </div>
@@ -592,7 +592,7 @@ export default function HeroDemoPage() {
               </div>
 
               {/* CTA */}
-              <a href="#signup" className="block w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-2xl transition-all shadow-[0_0_30px_rgba(133,29,239,0.3)] text-center">
+              <a href="#signup" className="block w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)] text-center">
                 Count Me In →
               </a>
             </div>

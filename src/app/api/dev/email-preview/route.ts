@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const claimUrl = "http://localhost:3000/claim/7482";
 
     const pinDigits = pin.split('').map(d =>
-      `<td style="width:48px;height:56px;background:#0a0a0e;border:2px solid #FBBF24;border-radius:8px;text-align:center;font-size:28px;font-weight:900;color:#FBBF24;font-family:monospace;">${d}</td>`
+      `<td style="width:48px;height:56px;background:#0a0a0e;border:2px solid #c084fc;border-radius:8px;text-align:center;font-size:28px;font-weight:900;color:#c084fc;font-family:monospace;">${d}</td>`
     ).join('<td style="width:8px;"></td>');
 
     const lowerPrize = prizeName.toLowerCase();
@@ -55,13 +55,13 @@ export async function GET(req: NextRequest) {
       <h1 style="margin:0 0 12px;color:#fff;font-size:28px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1>
       <p style="margin:0 0 32px;color:#888;font-size:15px;">${displayDescription}</p>
       
-      <div style="background:#0a0a0e;border:2px solid #FBBF24;border-radius:12px;padding:24px;margin-bottom:28px;text-align:center;">
+      <div style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;margin-bottom:28px;text-align:center;">
         <p style="margin:0 0 16px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p>
         <div style="margin-bottom:16px;">
           <img src="${displayImage}" alt="${displayTitle}" width="120" height="120" style="border-radius:8px;border:1px solid rgba(255,255,255,0.1);display:inline-block;" />
         </div>
         <p style="margin:0;color:#fff;font-size:22px;font-weight:900;">${displayTitle}</p>
-        <p style="margin:8px 0 0;color:#FBBF24;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">
+        <p style="margin:8px 0 0;color:#c084fc;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">
           Size: ${lowerPrize.includes('shirt') || lowerPrize.includes('tee') || lowerPrize.includes('hood') || lowerPrize.includes('sweat') ? 'S / M / L / XL / XXL (Select at Pickup/Checkout)' : 'Any Size'}
         </p>
       </div>
@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
         <p style="margin:12px 0 0;color:#ef4444;font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">⚠️ SINGLE-USE REDEMPTION ONLY</p>
       </div>
 
-      <a href="${claimUrl}" style="display:inline-block;background:#FBBF24;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;">Open My Claim Page</a>
+      <a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;">Open My Claim Page</a>
     </div>
 </td></tr>
 <!-- Footer -->

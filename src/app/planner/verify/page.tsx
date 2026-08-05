@@ -123,35 +123,51 @@ function PlannerVerifyContent() {
     }
   };
 
+  // Lock document body and page overflow
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
+
   // ── Styles ──
   const pageStyle: React.CSSProperties = {
-    minHeight: "100vh",
-    background: "radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.12) 0%, #050508 55%)",
+    position: "fixed",
+    inset: 0,
+    height: "100vh",
+    width: "100vw",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     padding: "24px",
     fontFamily: "'Outfit', 'Inter', sans-serif",
+    overflow: "hidden",
   };
 
   const cardStyle: React.CSSProperties = {
-    background: "linear-gradient(145deg, #0d0f1c, #0a0a15)",
-    border: "1px solid rgba(168,85,247,0.25)",
+    background: "rgba(18, 18, 24, 0.45)",
+    backdropFilter: "blur(32px) saturate(180%)",
+    WebkitBackdropFilter: "blur(32px) saturate(180%)",
+    border: "1px solid rgba(255, 255, 255, 0.15)",
     borderRadius: 24,
     padding: "48px 40px",
     width: "100%",
     maxWidth: 480,
     textAlign: "center",
-    boxShadow: "0 0 80px rgba(168,85,247,0.12), 0 24px 80px rgba(0,0,0,0.7)",
+    boxShadow: "0 30px 90px rgba(0, 0, 0, 0.6)",
     position: "relative",
     overflow: "hidden",
+    zIndex: 10,
   };
 
   const inputStyle: React.CSSProperties = {
     width: 52,
     height: 64,
     background: "rgba(255,255,255,0.04)",
-    border: "2px solid rgba(168,85,247,0.35)",
+    border: "1px solid rgba(255,255,255,0.15)",
     borderRadius: 12,
     color: "#fff",
     fontSize: 28,
@@ -162,12 +178,41 @@ function PlannerVerifyContent() {
     transition: "border-color 0.2s, box-shadow 0.2s",
   };
 
+  // Background image overlay helper (exact same blurred hero bg as LoginModal!)
+  const renderBg = () => (
+    <>
+      <style jsx global>{`
+        html, body {
+          overflow: hidden !important;
+          height: 100vh !important;
+          max-height: 100vh !important;
+          touch-action: none !important;
+        }
+      `}</style>
+      <div 
+        style={{
+          position: "fixed",
+          inset: 0,
+          backgroundImage: "url('/images/hero-band-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "brightness(0.35) blur(10px)",
+          transform: "scale(1.08)",
+          zIndex: 0,
+          pointerEvents: "none"
+        }} 
+      />
+      <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(12px)", zIndex: 1, pointerEvents: "none" }} />
+    </>
+  );
+
   // ── Email Collection Step ──
   if (step === "email") {
     return (
       <div style={pageStyle}>
+        {renderBg()}
         <div style={cardStyle}>
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg,#7c3aed,#a855f7,#7c3aed)" }} />
+
           <div style={{ fontSize: 48, marginBottom: 16 }}>📋</div>
           <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>Planner Access</h1>
           <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, margin: "0 0 32px", lineHeight: 1.6 }}>
@@ -184,7 +229,7 @@ function PlannerVerifyContent() {
               style={{
                 width: "100%", boxSizing: "border-box",
                 background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.12)",
                 borderRadius: 12, padding: "14px 16px",
                 color: "#fff", fontSize: 15, outline: "none", marginBottom: 16,
               }}
@@ -199,11 +244,11 @@ function PlannerVerifyContent() {
               disabled={status === "requesting"}
               style={{
                 width: "100%",
-                background: status === "requesting" ? "rgba(168,85,247,0.3)" : "linear-gradient(135deg,#7c3aed,#a855f7)",
+                background: status === "requesting" ? "rgba(168,85,247,0.2)" : "linear-gradient(135deg,#7c00ff,#a855f7)",
                 border: "none", borderRadius: 12, padding: "14px",
                 color: "#fff", fontWeight: 800, fontSize: 15,
                 cursor: status === "requesting" ? "not-allowed" : "pointer",
-                boxShadow: "0 0 20px rgba(168,85,247,0.3)",
+                boxShadow: "0 0 20px rgba(168,85,247,0.35)",
               }}
             >
               {status === "requesting" ? "Sending PIN…" : "Send My PIN →"}
@@ -217,9 +262,9 @@ function PlannerVerifyContent() {
   // ── PIN Entry Step ──
   return (
     <div style={pageStyle}>
+      {renderBg()}
       <div style={cardStyle}>
-        {/* Top accent */}
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg,#7c3aed,#a855f7,#7c3aed)" }} />
+
 
         {/* Success state */}
         {status === "success" ? (
@@ -235,7 +280,7 @@ function PlannerVerifyContent() {
             <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, margin: "0 0 6px", lineHeight: 1.6 }}>
               We sent a 6-digit code to:
             </p>
-            <p style={{ color: "#a855f7", fontWeight: 700, fontSize: 14, margin: "0 0 32px", background: "rgba(168,85,247,0.08)", border: "1px solid rgba(168,85,247,0.2)", borderRadius: 8, padding: "6px 12px", display: "inline-block" }}>
+            <p style={{ color: "#a855f7", fontWeight: 700, fontSize: 14, margin: "0 0 32px", background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.3)", borderRadius: 8, padding: "6px 12px", display: "inline-block" }}>
               {email}
             </p>
 
@@ -254,8 +299,8 @@ function PlannerVerifyContent() {
                     onKeyDown={e => handleKeyDown(i, e)}
                     style={{
                       ...inputStyle,
-                      borderColor: d ? "#a855f7" : "rgba(168,85,247,0.35)",
-                      boxShadow: d ? "0 0 12px rgba(168,85,247,0.3)" : "none",
+                      borderColor: d ? "#a855f7" : "rgba(255,255,255,0.15)",
+                      boxShadow: d ? "0 0 12px rgba(168,85,247,0.35)" : "none",
                     }}
                   />
                 ))}
@@ -274,11 +319,11 @@ function PlannerVerifyContent() {
                   width: "100%",
                   background: pin.length !== 6 || status === "submitting"
                     ? "rgba(168,85,247,0.2)"
-                    : "linear-gradient(135deg,#7c3aed,#a855f7)",
+                    : "linear-gradient(135deg,#7c00ff,#a855f7)",
                   border: "none", borderRadius: 12, padding: "14px",
                   color: "#fff", fontWeight: 800, fontSize: 15,
                   cursor: pin.length !== 6 || status === "submitting" ? "not-allowed" : "pointer",
-                  boxShadow: pin.length === 6 ? "0 0 20px rgba(168,85,247,0.3)" : "none",
+                  boxShadow: pin.length === 6 ? "0 0 20px rgba(168,85,247,0.35)" : "none",
                   transition: "all 0.2s",
                   marginBottom: 16,
                 }}

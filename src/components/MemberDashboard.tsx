@@ -177,7 +177,7 @@ export default function MemberDashboard() {
   return (
    <section className="py-20 min-h-[calc(100vh-72px)] flex items-center justify-center">
     <div className="site-container max-w-xl w-full">
-     <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative">
+     <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden relative">
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
       <div className="p-10">
        <div className="text-center mb-10">
@@ -236,7 +236,7 @@ export default function MemberDashboard() {
        {(() => {
         const role = member?.role;
         if (role === 'admin') return (
-         <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-amber-400 border-2 border-[var(--color-bg-primary)] flex items-center justify-center">
+         <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-purple-500 border-2 border-[var(--color-bg-primary)] flex items-center justify-center">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--color-bg-primary)"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
          </span>
         );
@@ -258,7 +258,7 @@ export default function MemberDashboard() {
         {/* Role label */}
         {(() => {
          const role = member?.role ?? 'fan';
-         const cfg = { fan: { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' }, crew: { label: 'CREW', icon: '🛡️', cls: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' }, admin: { label: 'ADMIN', icon: '👑', cls: 'text-amber-400 bg-amber-500/10 border-amber-500/20' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' };
+         const cfg = { fan: { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' }, crew: { label: 'CREW', icon: '🛡️', cls: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' }, admin: { label: 'ADMIN', icon: '👑', cls: 'text-purple-300 bg-purple-600/10 border-purple-500/20' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' };
          return (
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
            <span className="text-2xs">{cfg.icon}</span>{cfg.label}
@@ -280,7 +280,7 @@ export default function MemberDashboard() {
     </div>
 
     {/* Digital Tickets / Inbox moved to top */}
-    <div className="mb-10 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border border-[var(--color-accent)]/30 rounded-2xl relative overflow-hidden shadow-[0_0_40px_rgba(168,85,247,0.15)] group">
+    <div className="mb-10 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border border-[var(--color-accent)]/30 relative overflow-hidden shadow-[0_0_40px_rgba(255,10,61,0.15)] group">
      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
      <div className="absolute top-0 right-0 p-4 opacity-30 blur-[2px] transition-all duration-500 group-hover:blur-0 group-hover:opacity-40 translate-x-4 -translate-y-4">
       <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 22h20L12 2z"/></svg>
@@ -300,7 +300,7 @@ export default function MemberDashboard() {
       {(() => {
        if (localInbox.length === 0) {
         return (
-         <div className="py-6 flex flex-col items-center border border-white/5 bg-white/5 rounded-xl border-dashed">
+         <div className="py-6 flex flex-col items-center border border-white/5 bg-white/5 border-dashed">
           <p className="text-sm text-white/50 font-bold">Your wallet is currently empty.</p>
           <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
          </div>
@@ -314,7 +314,7 @@ export default function MemberDashboard() {
           const pin = pinMatch ? pinMatch[1] : null;
 
           return (
-           <div key={msg.id} className={`p-4 rounded-xl border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-md ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
+           <div key={msg.id} className={`p-4  border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-md ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
             <div className="flex items-center gap-4 w-full">
              <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : 'bg-white/5 border border-white/10'}`}>{msg.icon}</div>
              <div className="flex-1">
@@ -330,12 +330,12 @@ export default function MemberDashboard() {
             {pin && (
              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
               {msg.isClaimed ? (
-                <div className="px-5 py-2 border border-white/20 bg-white/5 opacity-50 grayscale rounded-xl">
+                <div className="px-5 py-2 border border-white/20 bg-white/5 opacity-50 grayscale">
                   <span className="text-2xs uppercase tracking-[0.2em] font-bold text-white/40 block text-center mb-1">Claimed</span>
                   <span className="font-mono text-xl font-black tracking-[0.25em] text-white/30 line-through">{pin}</span>
                 </div>
               ) : claimConfirmId === msg.id ? (
-                <div className="p-3 border border-red-500/50 bg-red-500/10 rounded-xl text-center flex flex-col gap-2 w-full max-w-xs">
+                <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
                   <p className="text-xs font-bold text-red-400 uppercase tracking-widest leading-tight animate-pulse">Show this to merch crew.</p>
                   <button onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                     CLICK TO FLASH & CLAIM
@@ -343,7 +343,7 @@ export default function MemberDashboard() {
                   <button onClick={() => setClaimConfirmId(null)} className="text-xs text-white/40 hover:text-white uppercase tracking-widest cursor-pointer">Cancel</button>
                 </div>
               ) : (
-                <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-black text-sm uppercase tracking-[0.2em] rounded-xl transition-all shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
+                <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-black text-sm uppercase tracking-[0.2em] transition-all shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
                   Redeem Prize
                 </button>
               )}
@@ -364,7 +364,7 @@ export default function MemberDashboard() {
     </div>
 
     {/* My Photo Submissions */}
-    <div className="mb-10 p-6 bg-white/[0.02] border border-white/10 rounded-2xl">
+    <div className="mb-10 p-6 bg-white/[0.02] border border-white/10">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-bold">
           My Photo <span className="gradient-text">Submissions</span>
@@ -373,7 +373,7 @@ export default function MemberDashboard() {
       </div>
 
       {myPhotos.length === 0 ? (
-        <div className="py-8 flex flex-col items-center border border-white/5 bg-white/5 rounded-xl border-dashed">
+        <div className="py-8 flex flex-col items-center border border-white/5 bg-white/5 border-dashed">
           <p className="text-sm text-white/50 font-bold">No photo submissions found.</p>
           <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Upload a photo to join the fan wall!</p>
         </div>
@@ -382,7 +382,7 @@ export default function MemberDashboard() {
           {myPhotos.map((photo: any) => (
             <div
               key={photo.id}
-              className={`group relative bg-black/40 border rounded-xl overflow-hidden backdrop-blur-md transition-all ${
+              className={`group relative bg-black/40 border  overflow-hidden backdrop-blur-md transition-all ${
                 photo.rejected
                   ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
                   : photo.approved
@@ -398,7 +398,7 @@ export default function MemberDashboard() {
                 />
                 
                 {/* Status Overlay Badge */}
-                <div className="absolute top-2 right-2 shadow-lg">
+                <div className="absolute top-2 right-2">
                   {photo.approved ? (
                     <span className="px-2.5 py-1 bg-emerald-500/90 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-emerald-400/20">
                       ✅ Published
@@ -417,7 +417,7 @@ export default function MemberDashboard() {
               
               <div className="p-4 flex flex-col gap-2">
                 {photo.caption && (
-                  <p className="text-xs text-white/70 italic border-l-2 border-purple-500/30 pl-2 line-clamp-2">
+                  <p className="text-xs text-white/70 italic border-l-2 border-[var(--color-accent)]/30 pl-2 line-clamp-2">
                     "{photo.caption}"
                   </p>
                 )}
@@ -481,7 +481,7 @@ export default function MemberDashboard() {
       const purchases = [
        { id: "7H-2026-0412", date: "Apr 12, 2026", items: [{ name: "7th Heaven Logo Tee", type: "Merch", price: "$29.99", img: "/images/merch/logo-tee.png" }], status: "Delivered", statusColor: "text-emerald-400" },
        { id: "7H-2026-0401", date: "Apr 1, 2026", items: [{ name: "VIP Ticket — Durty Nellies", type: "Ticket", price: "$75.00", img: "/images/merch/ticket-vip.png" }, { name: "Meet & Greet Add-On", type: "Upgrade", price: "$25.00", img: "/images/merch/ticket-vip.png" }], status: "Completed", statusColor: "text-emerald-400" },
-       { id: "7H-2026-0315", date: "Mar 15, 2026", items: [{ name: "Signed Vinyl — Greatest Hits", type: "Merch", price: "$44.99", img: "/images/merch/vinyl.png" }], status: "Shipped", statusColor: "text-amber-400" },
+       { id: "7H-2026-0315", date: "Mar 15, 2026", items: [{ name: "Signed Vinyl — Greatest Hits", type: "Merch", price: "$44.99", img: "/images/merch/vinyl.png" }], status: "Shipped", statusColor: "text-purple-300" },
        { id: "7H-2026-0228", date: "Feb 28, 2026", items: [{ name: "7th Heaven Hoodie (Black)", type: "Merch", price: "$54.99", img: "/images/merch/hoodie.png" }], status: "Delivered", statusColor: "text-emerald-400" },
        { id: "7H-2026-0210", date: "Feb 10, 2026", items: [{ name: "GA Ticket — Des Plaines Theater", type: "Ticket", price: "$35.00", img: "/images/merch/ticket-ga.png" }], status: "Used", statusColor: "text-white/40" },
       ];

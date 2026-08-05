@@ -50,7 +50,7 @@ function CancelContent() {
             {name ? `Hey ${name}, your` : "Your"} cruise interest signup has been removed.
           </p>
           <p className="text-white/30 text-sm mb-8">A confirmation email has been sent. If you change your mind, you can always sign up again.</p>
-          <Link href="/cruise" className="inline-block px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-sm font-bold uppercase tracking-widest rounded-xl transition-all">
+          <Link href="/cruise" className="inline-block px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-sm font-bold uppercase tracking-widest transition-all">
             Back to Cruise Page
           </Link>
         </>
@@ -74,7 +74,7 @@ function CancelContent() {
             <button
               onClick={handleCancel}
               disabled={status === "cancelling"}
-              className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white text-sm font-bold uppercase tracking-widest rounded-xl transition-all disabled:opacity-70 cursor-pointer"
+              className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white text-sm font-bold uppercase tracking-widest transition-all disabled:opacity-70 cursor-pointer"
             >
               {status === "cancelling" ? "Cancelling..." : "Yes, Cancel My Signup"}
             </button>

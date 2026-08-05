@@ -69,7 +69,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
   return (
     <div className="relative bg-[var(--color-bg-surface)] border border-white/[0.06] overflow-hidden transition-all duration-300">
       {/* Accent glow */}
-      <div className="absolute top-0 left-0 w-64 h-32 bg-purple-600/10 blur-[60px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-64 h-32 bg-[var(--color-accent)]/10 blur-[60px] pointer-events-none" />
 
       {/* Accordion Toggle Header */}
       <div 
@@ -77,9 +77,9 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
         className="relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-all flex items-center justify-between group"
       >
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] font-bold text-purple-400 mb-0.5">Show Promotions</p>
+          <p className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--color-accent)] mb-0.5">Show Promotions</p>
           <h3 className="text-white font-black text-lg flex items-center gap-2">
-            🎁 Invite Challenge
+             Invite Challenge
             {challenge.enabled && selectedShowId && (
               <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
                 Active
@@ -93,7 +93,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
             {isCollapsed ? 'Expand' : 'Collapse'}
           </span>
           <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
-            ▼
+            
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
             <select
               value={selectedShowId}
               onChange={(e) => setSelectedShowId(e.target.value)}
-              className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500/50"
+              className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
             >
               <option value="">— Pick a show —</option>
               {shows.map((s) => (
@@ -131,7 +131,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   </div>
                   <button
                     onClick={() => setChallenge((c) => ({ ...c, enabled: !c.enabled }))}
-                    className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${challenge.enabled ? "bg-purple-600" : "bg-white/10"}`}
+                    className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${challenge.enabled ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                   >
                     <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${challenge.enabled ? "left-6" : "left-0.5"}`} />
                   </button>
@@ -151,7 +151,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           max={500}
                           value={challenge.threshold}
                           onChange={(e) => setChallenge((c) => ({ ...c, threshold: parseInt(e.target.value) || 20 }))}
-                          className="w-24 bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500/50"
+                          className="w-24 bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
                         />
                         <span className="text-white/30 text-sm">fans invited to unlock reward</span>
                       </div>
@@ -167,7 +167,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                         value={challenge.reward_name}
                         onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
                         placeholder="e.g. Free Band Tee, Signed Poster, Backstage Pass"
-                        className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500/50 placeholder:text-white/20"
+                        className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20"
                       />
                     </div>
 
@@ -181,23 +181,23 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                         onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
                         rows={2}
                         placeholder="e.g. Claim at the merch table, night of show"
-                        className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500/50 placeholder:text-white/20 resize-none"
+                        className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20 resize-none"
                       />
                     </div>
 
                     {/* Preview */}
-                    <div className="p-4 border border-purple-500/20 bg-purple-500/[0.04]">
-                      <p className="text-xs uppercase tracking-widest text-purple-400 font-bold mb-2">Fan-facing preview</p>
+                    <div className="p-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/[0.04]">
+                      <p className="text-xs uppercase tracking-widest text-[var(--color-accent)] font-bold mb-2">Fan-facing preview</p>
                       <div className="flex items-start gap-3">
-                        <span className="text-2xl">🎁</span>
+                        <span className="text-2xl"></span>
                         <div>
                           <p className="text-white text-sm font-bold">
                             Invite {challenge.threshold} fans → get a free{" "}
-                            <span className="text-purple-300">{challenge.reward_name || "merch item"}</span>
+                            <span className="text-[var(--color-accent)]">{challenge.reward_name || "merch item"}</span>
                           </p>
                           <p className="text-white/40 text-xs mt-0.5">{challenge.reward_description}</p>
                           <div className="mt-2 h-1.5 bg-white/10 w-48">
-                            <div className="h-full bg-purple-500 w-[30%]" />
+                            <div className="h-full bg-[var(--color-accent)] w-[30%]" />
                           </div>
                           <p className="text-2xs text-white/25 mt-0.5">6 / {challenge.threshold} fans invited</p>
                         </div>
@@ -216,7 +216,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                       : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
                   }`}
                 >
-                  {saved ? "✓ Challenge Saved" : saving ? "Saving…" : "Save Challenge"}
+                  {saved ? " Challenge Saved" : saving ? "Saving…" : "Save Challenge"}
                 </button>
               </>
             )}

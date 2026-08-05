@@ -113,7 +113,7 @@ export default function VideoSection() {
                         onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
                       />
                       <div className="absolute inset-0 z-[2] bg-black/20 group-hover/thumb:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                        <div className="w-20 h-20 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300 shadow-2xl">
+                        <div className="w-20 h-20 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300">
                           <svg width="24" height="28" viewBox="0 0 20 22" fill="currentColor"><path d="M19 11L1 21V1L19 11Z" /></svg>
                         </div>
                       </div>
@@ -158,7 +158,7 @@ export default function VideoSection() {
       <div
         className={`sticky top-[72px] z-30 transition-all duration-300 mb-8 ${
           navStuck
-            ? "backdrop-blur-lg border-b border-white/5 shadow-2xl"
+            ? "backdrop-blur-lg border-b border-white/5 "
             : ""
         }`}
         style={navStuck ? { backgroundColor: 'rgba(10, 10, 15, 0.95)' } : undefined}

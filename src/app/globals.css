@@ -18,23 +18,54 @@ html.lenis, html.lenis body {
  7TH HEAVEN — Tailwind v4 Theme Configuration
  ============================================= */
 :root {
-  --bg-color: #f5f8ff;
+  /* ── Day / Light Mode (Opposite of Night mode, except accent #9333ea) ── */
+  --bg-color: #ffffff;
   --text-color: #000000;
   --card-bg: #ffffff;
-  --border-color: rgba(0, 0, 0, 0.08);
-  --muted-text: rgba(0, 0, 0, 0.6);
+  --border-color: rgba(0, 0, 0, 0.12);
+  --muted-text: rgba(0, 0, 0, 0.65);
   --placeholder-color: rgba(0, 0, 0, 0.45);
-  --accent-color: #851DEF;
+
+  /* Day accent — #9333ea (Preserved per request) */
+  --accent-color: #9333ea;
+
+  /* 3-level surface system — day */
+  --surface-base: #ffffff;
+  --surface-raised: #f8fafc;
+  --surface-overlay: rgba(255, 255, 255, 0.94);
+}
+
+[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --card-bg: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.12);
+  --muted-text: rgba(0, 0, 0, 0.65);
+  --placeholder-color: rgba(0, 0, 0, 0.45);
+
+  --accent-color: #9333ea;
+
+  --surface-base: #ffffff;
+  --surface-raised: #f8fafc;
+  --surface-overlay: rgba(255, 255, 255, 0.94);
 }
 
 [data-theme="dark"] {
+  /* ── Night / Dark Mode ── */
   --bg-color: #000000;
   --text-color: #ffffff;
-  --card-bg: #0a0a0f;
-  --border-color: #222222;
-  --muted-text: rgba(255, 255, 255, 0.65);
-  --placeholder-color: rgba(255, 255, 255, 0.55);
-  --accent-color: #a855f7;
+  --card-bg: #000000;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --muted-text: rgba(255, 255, 255, 0.55);
+  --placeholder-color: rgba(255, 255, 255, 0.4);
+
+  /* Night accent — #9333ea */
+  --accent-color: #9333ea;
+
+  /* 3-level surface system — night */
+  --surface-base: #000000;
+  --surface-raised: #000000;
+  --surface-overlay: rgba(0, 0, 0, 0.92);
 }
 
 input::placeholder,
@@ -99,51 +130,89 @@ select::placeholder {
  --breakpoint-desk: 2000px;
 
  /* ═══════════════════════════════════════════════════════
+    SPACING — 8px grid
+    ═══════════════════════════════════════════════════════ */
+ --space-1: 8px;
+ --space-2: 16px;
+ --space-3: 24px;
+ --space-4: 32px;
+ --space-5: 40px;
+ --space-6: 48px;
+ --space-8: 64px;
+ --space-10: 80px;
+ --space-12: 96px;
+ --space-16: 128px;
+
+ /* Section vertical rhythm */
+ --space-section-sm: 64px;   /* tight section: tour rows, lists */
+ --space-section-md: 96px;   /* standard section */
+ --space-section-lg: 128px;  /* hero / featured sections */
+
+ /* Card internal padding */
+ --space-card-sm: 16px;  /* compact: badge, pill, mini card */
+ --space-card-md: 24px;  /* standard card */
+ --space-card-lg: 32px;  /* large / featured card */
+
+ /* ═══════════════════════════════════════════════════════
     COLOR PALETTE — Semantic Custom Property Mapping
     ═══════════════════════════════════════════════════════ */
+
+ /* ─── Backgrounds & Surfaces ─── */
  --color-bg-primary: var(--bg-color);
- --color-bg-secondary: var(--bg-color);
+ --color-bg-secondary: var(--surface-base);
  --color-bg-deep: var(--bg-color);
- --color-bg-surface: var(--card-bg);
- --color-bg-card: var(--card-bg);
- --color-bg-card-alpha: var(--card-bg);
- --color-bg-card-hover: var(--card-bg);
- --color-bg-elevated: var(--card-bg);
- --color-bg-glass: var(--card-bg);
+
+ /* 3-level surface hierarchy — resolves to theme-aware vars */
+ --color-surface-base: var(--surface-base);
+ --color-surface-raised: var(--surface-raised);
+ --color-surface-overlay: var(--surface-overlay);
+
+ /* Legacy aliases kept for backward compatibility */
+ --color-bg-surface: var(--surface-raised);
+ --color-bg-card: var(--surface-raised);
+ --color-bg-card-alpha: var(--surface-raised);
+ --color-bg-card-hover: var(--surface-raised);
+ --color-bg-elevated: var(--surface-raised);
+ --color-bg-glass: var(--surface-overlay);
 
  /* ─── Text ─── */
  --color-text-primary: var(--text-color);
  --color-text-secondary: var(--text-color);
  --color-text-muted: var(--muted-text);
- --color-text-disabled: #999999;
+ --color-text-disabled: #888888;
+ --color-text-on-accent: #ffffff; /* text on accent-colored buttons/badges */
 
- /* ─── Brand Accent (Purple) ─── */
- --color-accent: var(--accent-color);
- --color-accent-hover: #9d3cff;
- --color-accent-soft: #a855f7;
+ /* ─── Brand Accent ─── */
+  --color-accent: var(--accent-color);
+  --color-accent-hover: #7e22ce;
+  --color-accent-soft: rgba(147, 51, 234, 0.15); /* tinted background for accent areas */
+  --color-accent-glow: rgba(147, 51, 234, 0.25); /* subtle glow */
+
+ /* ─── Semantic Status Colors ─── */
+ --color-live: #ef4444;      /* live stream / urgent indicators */
+ --color-success: #10b981;
+ --color-warning: #9333ea;
+ --color-error: #ef4444;
+ --color-info: #3b82f6;
+
+ /* ─── UI Accent Colors — purposeful, not decorative ─── */
+ --color-interactive: #3b82f6;  /* links, secondary buttons */
+ --color-accent-pink: #9333ea;  /* fan/social elements */
+ --color-accent-green: #10b981; /* success / checked-in states */
+ --color-accent-amber: #9333ea; /* warnings / next-show highlights */
+
+ /* Legacy color aliases — retained for backward compat */
  --color-accent-fuchsia: #d946ef;
- --color-accent-glow: rgba(133, 29, 239, 0.4);
-
- /* ─── Semantic Accents ─── */
- --color-accent-pink: #ec4899;
  --color-accent-blue: #3b82f6;
- --color-accent-cyan: #06b6d4;
- --color-accent-green: #10b981;
- --color-accent-amber: #f59e0b;
+ --color-accent-cyan: #9333ea;
  --color-accent-red: #ef4444;
  --color-accent-orange: #f97316;
  --color-accent-indigo: #6366f1;
 
- /* ─── State Colors ─── */
- --color-success: #10b981;
- --color-warning: #f59e0b;
- --color-error: #ef4444;
- --color-info: #3b82f6;
-
  /* ─── Borders ─── */
  --color-border: var(--border-color);
  --color-border-subtle: var(--border-color);
- --color-border-hover: rgba(133, 29, 239, 0.4);
+ --color-border-hover: rgba(107, 33, 168, 0.4);
  --color-border-strong: var(--border-color);
 
  /* ─── Brand / Third Party ─── */
@@ -157,9 +226,26 @@ select::placeholder {
  --font-heading: var(--font-rockstar);
  --font-body: var(--font-barlow);
  --font-sans: var(--font-barlow), "Barlow", system-ui, sans-serif;
- --font-mono: var(--font-barlow), "Barlow", ui-monospace, monospace;
+ --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
 
- /* Micro sizes (dashboard labels, badges, metadata) */
+ /* ── Heading letter-spacing ── */
+ --tracking-display: -0.04em;  /* H1 — tight for large display */
+ --tracking-headline: -0.02em; /* H2 — slightly tight */
+ --tracking-heading: -0.01em;  /* H3 — subtle */
+ --tracking-body: 0em;
+ --tracking-label: 0.08em;     /* uppercase UI labels */
+ --tracking-eyebrow: 0.15em;   /* section eyebrow labels */
+
+ /* ── Line heights ── */
+ --leading-display: 0.95;   /* H1 — very tight for hero display */
+ --leading-headline: 1.1;   /* H2 */
+ --leading-heading: 1.2;    /* H3–H4 */
+ --leading-subheading: 1.3; /* H5–H6 */
+ --leading-body: 1.65;      /* body copy */
+ --leading-relaxed: 1.75;   /* editorial / long-form */
+ --leading-tight: 1.25;     /* compact UI labels */
+
+ /* Micro sizes (dashboard labels, badges, metadata — intentional data density) */
  --text-5xs: 0.53rem;   /* ~8.5px — micro labels & tag pills */
  --text-4xs: 0.62rem;   /* ~10px — tiny badges */
  --text-3xs: 0.72rem;   /* ~11.5px — small metadata */
@@ -168,41 +254,50 @@ select::placeholder {
  --font-size-4xs: 0.62rem;
  --font-size-3xs: 0.72rem;
 
- /* Standard scale */
- --text-2xs: 0.72rem;    /* ~11px */
- --text-xs: 0.8rem;      /* ~13px */
- --text-sm: 0.88rem;     /* ~14px */
- --text-base: 1rem;      /* 16px body */
- --text-lg: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
- --text-xl: clamp(1.2rem, 1.1rem + 0.35vw, 1.35rem);
- --text-2xl: clamp(1.35rem, 1.25rem + 0.5vw, 1.6rem);
- --text-3xl: clamp(1.6rem, 1.45rem + 0.75vw, 2rem);
- --text-4xl: clamp(2rem, 1.75rem + 1vw, 2.5rem);
- --text-5xl: clamp(2.5rem, 2.1rem + 1.25vw, 3.2rem);
- --text-6xl: clamp(3.2rem, 2.6rem + 1.5vw, 4rem);
+ /* Standard modular scale — consistent ratio ~1.25 */
+ --text-2xs: 0.72rem;    /* ~11.5px — small labels */
+ --text-xs: 0.8rem;      /* ~12.8px — captions, meta */
+ --text-sm: 0.875rem;    /* ~14px   — secondary body */
+ --text-base: 1rem;      /* 16px    — primary body */
+ --text-lg: clamp(1.1rem, 1rem + 0.3vw, 1.25rem);    /* ~17.6–20px — large body */
+ --text-xl: clamp(1.25rem, 1.1rem + 0.4vw, 1.5rem);  /* ~20–24px   — H6/subhead */
+ --text-2xl: clamp(1.5rem, 1.3rem + 0.55vw, 1.875rem); /* ~24–30px — H5 */
+ --text-3xl: clamp(1.875rem, 1.6rem + 0.8vw, 2.25rem); /* ~30–36px — H4 */
+ --text-4xl: clamp(2.25rem, 1.9rem + 1vw, 2.75rem);    /* ~36–44px — H3 */
+ --text-5xl: clamp(2.75rem, 2.3rem + 1.3vw, 3.5rem);   /* ~44–56px — H2 */
+ --text-6xl: clamp(3.5rem, 2.8rem + 1.75vw, 5rem);     /* ~56–80px — H1 display */
 
+ /* Duplicate as font-size-* aliases for backward compatibility */
  --font-size-2xs: 0.72rem;
  --font-size-xs: 0.8rem;
- --font-size-sm: 0.88rem;
+ --font-size-sm: 0.875rem;
  --font-size-base: 1rem;
- --font-size-lg: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
- --font-size-xl: clamp(1.2rem, 1.1rem + 0.35vw, 1.35rem);
- --font-size-2xl: clamp(1.35rem, 1.25rem + 0.5vw, 1.6rem);
- --font-size-3xl: clamp(1.6rem, 1.45rem + 0.75vw, 2rem);
- --font-size-4xl: clamp(2rem, 1.75rem + 1vw, 2.5rem);
- --font-size-5xl: clamp(2.5rem, 2.1rem + 1.25vw, 3.2rem);
- --font-size-6xl: clamp(3.2rem, 2.6rem + 1.5vw, 4rem);
+ --font-size-lg: clamp(1.1rem, 1rem + 0.3vw, 1.25rem);
+ --font-size-xl: clamp(1.25rem, 1.1rem + 0.4vw, 1.5rem);
+ --font-size-2xl: clamp(1.5rem, 1.3rem + 0.55vw, 1.875rem);
+ --font-size-3xl: clamp(1.875rem, 1.6rem + 0.8vw, 2.25rem);
+ --font-size-4xl: clamp(2.25rem, 1.9rem + 1vw, 2.75rem);
+ --font-size-5xl: clamp(2.75rem, 2.3rem + 1.3vw, 3.5rem);
+ --font-size-6xl: clamp(3.5rem, 2.8rem + 1.75vw, 5rem);
 
  /* ═══════════════════════════════════════════════════════
-    SHADOWS
+    SHADOWS — consolidated to brand + semantic purposes
     ═══════════════════════════════════════════════════════ */
- --shadow-card: 0 8px 30px -10px rgba(0, 0, 0, 0.7);
- --shadow-deep: 0 6px 20px rgba(0, 0, 0, 0.9);
- --shadow-accent-glow: 0 0 20px rgba(133, 29, 239, 0.3);
- --shadow-accent-glow-lg: 0 0 40px rgba(133, 29, 239, 0.4);
- --shadow-cyan-glow: 0 0 15px rgba(6, 182, 212, 0.3);
- --shadow-pink-glow: 0 0 20px rgba(236, 72, 153, 0.3);
- --shadow-nav: 0 10px 30px rgba(0, 0, 0, 0.9);
+ /* Single brand glow — use sparingly for CTA emphasis only */
+ --shadow-brand: 0 0 24px var(--color-accent-glow);
+ --shadow-brand-lg: 0 0 48px var(--color-accent-glow);
+
+ /* Structural shadows — depth without color */
+ --shadow-card: 0 4px 16px -4px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.08);
+ --shadow-card-dark: 0 8px 30px -10px rgba(0, 0, 0, 0.7);
+ --shadow-deep: 0 6px 20px rgba(0, 0, 0, 0.5);
+ --shadow-nav: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+ /* Legacy aliases kept so existing components don't break */
+ --shadow-accent-glow: var(--shadow-brand);
+ --shadow-accent-glow-lg: var(--shadow-brand-lg);
+ --shadow-cyan-glow: 0 0 15px rgba(6, 182, 212, 0.25);
+ --shadow-pink-glow: 0 0 15px rgba(236, 72, 153, 0.25);
 
  /* ═══════════════════════════════════════════════════════
     Z-INDEX LAYERS
@@ -375,18 +470,24 @@ select::placeholder {
     transition: background-color 0.3s ease, color 0.3s ease;
     font-family: var(--font-barlow), "Barlow", system-ui, sans-serif;
     font-weight: 400;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: var(--leading-body, 1.65);
     min-height: 100vh;
     overscroll-behavior-x: none;
     position: relative;
   }
 
+  /* Primary body paragraph — 16px with proper leading */
   p {
-    font-size: 1rem; /* 16px universal base paragraph font size */
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: var(--leading-body, 1.65);
+    color: var(--color-text-primary);
   }
 
-
+  /* Paragraph spacing in editorial contexts */
+  p + p {
+    margin-top: 1em;
+  }
 
   /* Dust overlay class */
   .c-dusted:before {
@@ -402,63 +503,93 @@ select::placeholder {
     opacity: 1;
   }
   body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url("/images/dust.png");
-    background-repeat: repeat;
-    background-size: cover;
-    opacity: 0.12;
-    pointer-events: none;
-    z-index: 99998;
-    mix-blend-mode: screen;
+    display: none;
   }
 
-  /* Heading typography — Barlow ExtraBold */
+  /* ── Heading hierarchy — Barlow with differentiated weights & tracking ── */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-barlow), "Barlow", sans-serif;
-    font-weight: 800;
-    line-height: 1.15;
+    /* Base: no margin — components control their own spacing */
+    margin: 0;
   }
 
- h1 { font-size: var(--font-size-5xl); }
- h2 { font-size: var(--font-size-4xl); }
- h3 { font-size: var(--font-size-3xl); }
- h4 { font-size: var(--font-size-2xl); }
- h5 { font-size: var(--font-size-xl); }
- h6 { font-size: var(--font-size-lg); }
+  /* H1 — Display: maximum visual weight, very tight tracking */
+  h1 {
+    font-size: var(--font-size-6xl);
+    font-weight: 900;
+    line-height: var(--leading-display, 0.95);
+    letter-spacing: var(--tracking-display, -0.04em);
+  }
+
+  /* H2 — Headline: strong but clearly subordinate to H1 */
+  h2 {
+    font-size: var(--font-size-5xl);
+    font-weight: 800;
+    line-height: var(--leading-headline, 1.1);
+    letter-spacing: var(--tracking-headline, -0.02em);
+  }
+
+  /* H3 — Section header: prominent but readable */
+  h3 {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    line-height: var(--leading-heading, 1.2);
+    letter-spacing: var(--tracking-heading, -0.01em);
+  }
+
+  /* H4 — Subsection: clearly smaller, still authoritative */
+  h4 {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    line-height: var(--leading-heading, 1.2);
+    letter-spacing: var(--tracking-body, 0);
+  }
+
+  /* H5 — Card heading / sidebar header */
+  h5 {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    line-height: var(--leading-subheading, 1.3);
+    letter-spacing: var(--tracking-body, 0);
+  }
+
+  /* H6 — Label-weight, smallest structural heading */
+  h6 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    line-height: var(--leading-subheading, 1.3);
+    letter-spacing: var(--tracking-body, 0);
+  }
 
  a { color: inherit; text-decoration: none; }
  button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
  ul, ol { list-style: none; }
 
+ /* Selection uses the brand accent token — works in both light and dark mode */
  ::selection {
- background: rgba(139, 92, 246, 0.3);
- color: white;
+   background: var(--color-accent-soft, rgba(107, 33, 168, 0.2));
+   color: var(--text-color);
  }
 
  html {
   scrollbar-width: thin;
   scrollbar-color: var(--color-accent) var(--color-bg-primary);
-  overflow-y: scroll; /* Force scrollbar track to always render */
+  overflow-y: scroll;
  }
  html::-webkit-scrollbar { width: 8px; }
  html::-webkit-scrollbar-track { background: var(--color-bg-primary); }
  html::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 9999px; }
- html::-webkit-scrollbar-thumb:hover { background: #9b3ff7; }
+ html::-webkit-scrollbar-thumb:hover { background: var(--color-accent-hover); }
 
-  /* Force all scrollable containers to show scrollbars */
+  /* Inner scrollable containers */
   * {
    scrollbar-width: thin;
-   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+   scrollbar-color: rgba(128, 128, 128, 0.2) transparent;
   }
   *::-webkit-scrollbar { width: 6px; height: 6px; }
-  *::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 9999px; }
-  *::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 9999px; min-height: 40px; }
-  *::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+  *::-webkit-scrollbar-track { background: transparent; border-radius: 9999px; }
+  *::-webkit-scrollbar-thumb { background: rgba(128, 128, 128, 0.2); border-radius: 9999px; min-height: 40px; }
+  *::-webkit-scrollbar-thumb:hover { background: rgba(128, 128, 128, 0.35); }
 }
 
 /* Force macOS to always show scrollbar tracks by converting auto → scroll */
@@ -478,122 +609,200 @@ select::placeholder {
   min-height: 100svh;
 }
 
-/* --- Typography Utilities --- */
+/* ═══════════════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Display / Hero Headings (Rockstar font) ── */
 @utility heading-hero {
- font-family: var(--font-rockstar), "Rockstar", sans-serif;
- font-size: clamp(3.5rem, 8vw, 7rem);
- font-weight: 900;
- text-transform: uppercase;
- letter-spacing: -0.05em;
- line-height: 0.9;
+  font-family: var(--font-rockstar), "Rockstar", sans-serif;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
 }
 
 @utility heading-section {
- font-family: var(--font-rockstar), "Rockstar", sans-serif;
- font-size: clamp(2.5rem, 5vw, 4rem);
- font-weight: 900;
- text-transform: uppercase;
- letter-spacing: -0.02em;
- line-height: 1;
+  font-family: var(--font-rockstar), "Rockstar", sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 @utility heading-card {
- font-family: var(--font-rockstar), "Rockstar", sans-serif;
- font-size: 1.5rem;
- font-weight: 800;
- text-transform: uppercase;
- letter-spacing: -0.01em;
+  font-family: var(--font-rockstar), "Rockstar", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
 }
 
+/* ── Body Text ── theme-aware, works in light and dark mode */
 @utility text-body {
- font-family: var(--font-barlow), "Barlow", sans-serif;
- font-size: 1rem;
- font-weight: 400;
- line-height: 1.7;
- color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: var(--leading-body, 1.65);
+  color: var(--color-text-muted);
 }
 
+/* ── Editorial body — relaxed for long-form reading ── */
+@utility text-editorial {
+  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-size: 1.0625rem;  /* 17px — slightly larger for reading comfort */
+  font-weight: 400;
+  line-height: var(--leading-relaxed, 1.75);
+  color: var(--color-text-muted);
+  max-width: 68ch; /* optimal reading line length */
+}
+
+/* ── Eyebrow / Section Label ── */
 @utility text-eyebrow {
- font-family: var(--font-barlow), "Barlow", sans-serif;
- font-size: 0.7rem;
- font-weight: 900;
- text-transform: uppercase;
- letter-spacing: 0.2em;
- color: var(--color-accent);
+  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow, 0.15em);
+  color: var(--color-accent);
+  line-height: 1;
 }
 
-/* --- Base Utilities --- */
+/* ── UI Label — for badges, table headers, nav items ── */
+@utility text-label {
+  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label, 0.08em);
+  line-height: var(--leading-tight, 1.25);
+}
+
+/* ── Caption / Metadata ── */
+@utility text-caption {
+  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: var(--leading-body, 1.65);
+  color: var(--color-text-muted);
+}
+
+/* ── Smallest text tier ── */
+@utility text-2xs {
+  font-size: 0.72rem;
+  line-height: 1.1rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SPACING UTILITIES — 8px grid helpers
+   ═══════════════════════════════════════════════════════ */
+
+/* Section vertical padding */
+@utility section-gap-sm {
+  padding-top: var(--space-section-sm, 64px);
+  padding-bottom: var(--space-section-sm, 64px);
+}
+@utility section-gap-md {
+  padding-top: var(--space-section-md, 96px);
+  padding-bottom: var(--space-section-md, 96px);
+}
+@utility section-gap-lg {
+  padding-top: var(--space-section-lg, 128px);
+  padding-bottom: var(--space-section-lg, 128px);
+}
+
+/* Card padding */
+@utility card-padding-sm { padding: var(--space-card-sm, 16px); }
+@utility card-padding-md { padding: var(--space-card-md, 24px); }
+@utility card-padding-lg { padding: var(--space-card-lg, 32px); }
+
+/* Content gap — for flex/grid children */
+@utility content-gap-sm { gap: var(--space-2, 16px); }
+@utility content-gap-md { gap: var(--space-3, 24px); }
+@utility content-gap-lg { gap: var(--space-4, 32px); }
+
+/* ═══════════════════════════════════════════════════════
+   COMPONENT UTILITIES
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Gradient text → solid accent (removes AI-tell) ── */
 @utility gradient-text {
- color: var(--color-accent);
+  color: var(--color-accent);
 }
 
+/* ── Primary Button ── */
 @utility btn-primary {
- display: inline-flex;
- align-items: center;
- gap: 0.5rem;
- padding: 12px 28px;
- font-size: 0.9rem;
- font-weight: 600;
- 
- background: var(--color-accent);
- color: white;
- box-shadow: 0 0 30px var(--color-accent-glow);
- transition: all 300ms var(--ease-out-expo);
- white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--color-accent);
+  color: var(--color-text-on-accent, #ffffff);
+  border-radius: 6px;
+  box-shadow: var(--shadow-brand);
+  transition: all 300ms var(--ease-out-expo);
+  white-space: nowrap;
+  text-transform: uppercase;
 }
 
 @utility btn-primary-hover {
- &:hover {
- transform: translateY(-2px);
- box-shadow: 0 0 40px var(--color-accent-glow);
- }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-brand-lg);
+    background: var(--color-accent-hover);
+  }
 }
 
+/* ── Outline Button ── */
 @utility btn-outline {
- display: inline-flex;
- align-items: center;
- gap: 0.5rem;
- padding: 12px 28px;
- font-size: 0.9rem;
- font-weight: 600;
- 
- border: 1px solid var(--color-border);
- color: var(--color-text-primary);
- background: rgba(255, 255, 255, 0.03);
- transition: all 300ms var(--ease-out-expo);
- white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  background: transparent;
+  border-radius: 6px;
+  transition: all 300ms var(--ease-out-expo);
+  white-space: nowrap;
 }
 
 @utility btn-outline-hover {
- &:hover {
- border-color: var(--color-accent);
- background: rgba(139, 92, 246, 0.1);
- transform: translateY(-2px);
- }
+  &:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    transform: translateY(-2px);
+  }
 }
 
+/* ── Accent fill background ── */
 @utility accent-gradient-bg {
- background: var(--color-accent);
+  background: var(--color-accent);
 }
 
+/* ── Glass surface ── */
 @utility glass {
- background: var(--color-bg-glass);
- backdrop-filter: blur(20px);
- -webkit-backdrop-filter: blur(20px);
- border: 1px solid var(--color-border);
+  background: var(--color-surface-overlay);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
 }
 
+/* ── Scrollbar hide ── */
 @utility scrollbar-hide {
- scrollbar-width: thin;
- -ms-overflow-style: auto;
- &::-webkit-scrollbar { width: 6px; height: 6px; }
- &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 9999px; }
-}
-
-/* Typography Scale — smallest tier (10px) */
-@utility text-2xs {
- font-size: 0.625rem;
- line-height: 1rem;
+  scrollbar-width: thin;
+  -ms-overflow-style: auto;
+  &::-webkit-scrollbar { width: 6px; height: 6px; }
+  &::-webkit-scrollbar-thumb { background: rgba(128, 128, 128, 0.2); border-radius: 9999px; }
 }
 
 .site-container {

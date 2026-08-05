@@ -28,11 +28,11 @@ function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: num
   const grad = ctx.createLinearGradient(0, 0, W, 0);
   if (isActive) {
     // Site purple — always-on up-next show
-    grad.addColorStop(0,   'rgba(133,29,239,0)');
+    grad.addColorStop(0,   'rgba(255,10,61,0)');
     grad.addColorStop(0.1, 'rgba(160,40,255,0.85)');
     grad.addColorStop(0.5, 'rgba(180,50,255,1)');
     grad.addColorStop(0.9, 'rgba(160,40,255,0.85)');
-    grad.addColorStop(1,   'rgba(133,29,239,0)');
+    grad.addColorStop(1,   'rgba(255,10,61,0)');
   } else if (isHovered) {
    grad.addColorStop(0,   'rgba(80,50,140,0)');
    grad.addColorStop(0.1, 'rgba(120,60,200,0.75)');
@@ -194,7 +194,7 @@ function getShowIcon(show: any): string {
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none bg-white border border-black/15 rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-black cursor-pointer transition-all duration-200 focus:outline-none hover:bg-gray-50";
+const selectClass = "appearance-none bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--text-color)] cursor-pointer transition-all duration-200 focus:outline-none hover:border-[var(--color-accent)]";
 const activeSelect = "!border-[var(--color-accent)] !text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -281,6 +281,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [tourRowPadding, setTourRowPadding] = useState("4px");
   const [tourRowGap, setTourRowGap] = useState("0px");
   const [tourRowHeight, setTourRowHeight] = useState("40px");
+  const [websiteBtnFontSize, setWebsiteBtnFontSize] = useState("10px");
   const [isFontCustomizerOpen, setIsFontCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -296,6 +297,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     if (savedPadding) setTourRowPadding(savedPadding);
     if (savedGap) setTourRowGap(savedGap);
     if (savedHeight) setTourRowHeight(savedHeight);
+    const savedWebsiteSize = localStorage.getItem("7h_tour_website_btn_font_size");
+    if (savedWebsiteSize) setWebsiteBtnFontSize(savedWebsiteSize);
   }, []);
 
   // Dynamically load Google Fonts when selected
@@ -779,9 +782,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 <html><head>
 <title>7th Heaven — Tour Dates</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', system-ui, sans-serif; color: #1a1a1a; padding: 40px; max-width: 1100px; margin: 0 auto; }
+  body { font-family: 'Barlow', system-ui, sans-serif; color: #1a1a1a; padding: 40px; max-width: 1100px; margin: 0 auto; }
   h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
   .subtitle { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -899,6 +902,9 @@ ${filterLine}
         font-size: ${tourFontSize} !important;
         font-family: ${tourFontFamily} !important;
       }
+      #tour-table-container .upnext-link {
+        font-size: 10px !important;
+      }
       #tour-table-container .tour-row-item {
         padding-top: ${tourRowPadding} !important;
         padding-bottom: ${tourRowPadding} !important;
@@ -920,7 +926,7 @@ ${filterLine}
       <div className="w-full px-4 sm:px-8 md:px-12 relative z-10">
 
      {!hideMap && (
-      <div className="mb-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black shadow-2xl overflow-hidden">
+      <div className="mt-[100px] mb-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden isolate" style={{transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden'}}>
         <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
       </div>
      )}
@@ -929,20 +935,19 @@ ${filterLine}
      {upNext && (
       <div className="my-6 relative z-10">
        <div className="relative overflow-hidden">
-
          <div className="relative z-10 py-6 md:py-8 flex flex-col md:flex-row justify-between items-end gap-6">
            {/* Left Column: Info */}
            <div className="relative flex flex-col justify-between min-h-[140px]">
              {/* UP NEXT label */}
              <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
-               <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-purple-600 animate-pulse"}`} />
-               <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : "text-purple-600 font-extrabold"}>
+               <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+               <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : "text-[var(--color-accent)] font-extrabold"}>
                  {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
                </span>
                {daysLabel && daysLabel !== "Happening Now" && (
                  <>
                    <span className="text-black/30">·</span>
-                   <span className="text-purple-600 font-extrabold">{daysLabel}</span>
+                   <span className="text-[var(--color-accent)] font-extrabold">{daysLabel}</span>
                  </>
                )}
              </div>
@@ -984,7 +989,7 @@ ${filterLine}
                  )}
               </div>
               {upNext.info && (
-                <p className="mt-3 text-[0.7rem] font-extrabold uppercase tracking-[0.15em] text-purple-700">
+                <p className="mt-3 text-[0.7rem] font-extrabold uppercase tracking-[0.15em] text-[var(--color-accent)]">
                   {upNext.info}
                 </p>
               )}
@@ -998,40 +1003,43 @@ ${filterLine}
              />
              <div className="flex gap-6 items-center flex-wrap">
                 {upNext.mapUrl && (
-                   <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-purple-700 underline underline-offset-4 decoration-purple-500/50 hover:text-purple-900 hover:decoration-purple-700 transition-all p-0 bg-transparent border-none" id="upnext-map">
+                   <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-purple-500/50 hover:text-[var(--color-accent)] hover:decoration-purple-700 transition-all p-0 bg-transparent border-none" id="upnext-map">
                      <span>Directions</span>
                    </a>
                 )}
                 {upNext.websiteUrl && (
-                   <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-purple-700 underline underline-offset-4 decoration-purple-500/50 hover:text-purple-900 hover:decoration-purple-700 transition-all p-0 bg-transparent border-none" id="upnext-website">
-                     Website
-                   </a>
+                  <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none" id="upnext-website">
+                    Website
+                  </a>
                 )}
-                <div className="relative calendar-dropdown-container">
+                <div className="flex items-center gap-4">
+                  <div className="relative calendar-dropdown-container">
+                    <button
+                      onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
+                      className="upnext-link text-[10px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none cursor-pointer"
+                      id="upnext-calendar-btn"
+                    >
+                      Add to Calendar
+                    </button>
+                    {activeCalDropdownId === 'upnext' && (
+                      <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 shadow-xl z-50 min-w-[170px] text-[var(--text-color)]">
+                        <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Google Calendar</a>
+                        <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Apple / iCal</a>
+                        <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Outlook</a>
+                        <button
+                          onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
+                        >SMS / Text Alerts</button>
+                      </div>
+                    )}
+                  </div>
                   <button
-                    onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                    className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-purple-700 underline underline-offset-4 decoration-purple-500/50 hover:text-purple-900 hover:decoration-purple-700 transition-all p-0 bg-transparent border-none cursor-pointer"
-                    id="upnext-calendar-btn"
+                    onClick={handlePrintTourList}
+                    className="upnext-link text-[10px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none cursor-pointer"
                   >
-                    <span>Add to Calendar</span>
+                    Print Tour List
                   </button>
-                 {activeCalDropdownId === 'upnext' && (
-                    <div className="absolute right-0 bottom-full mb-2 bg-white border border-black/15 rounded-xl py-2 shadow-xl z-50 min-w-[170px] text-black">
-                      <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full">Google Calendar</a>
-                      <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full">Apple / iCal</a>
-                      <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full">Outlook</a>
-                      <button 
-                         onClick={() => {
-                           setActiveCalDropdownId(null);
-                           document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
-                         }}
-                         className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2.5 cursor-pointer"
-                       >
-                         SMS / Text Alerts
-                       </button>
-                    </div>
-                 )}
-               </div>
+                </div>
              </div>
            </div>
          </div>
@@ -1039,82 +1047,57 @@ ${filterLine}
       </div>
      )}
 
-     <div className="flex items-center justify-between mb-3">
-      <p className="text-[0.7rem] text-[var(--color-text-muted)] tracking-wide">
-       Showing <span className="text-[var(--color-accent)] font-bold">{showCount}</span> {showCount === 1 ? "show" : "shows"}
-       {activeLabels.length > 0 && (
-        <span className="ml-1">
-         — {activeLabels.map((label, i) => (
-          <span key={i}>
-           {i > 0 && " · "}
-           <span className="text-white font-semibold">{label}</span>
-          </span>
-         ))}
-        </span>
-       )}
-      </p>
+     <div className="flex items-center justify-end mb-3">
       <div className="flex items-center gap-3">
         {member?.role === 'admin' && (
           <button
             onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
-            className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-lg shadow-emerald-600/20"
+            className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
           >
             ➕ Add Show
           </button>
         )}
-        <button
-          onClick={handlePrintTourList}
-          title="Print tour list"
-          className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-3.5 py-2 bg-gray-100 border border-black/15 hover:bg-gray-200 transition-all flex items-center gap-2 cursor-pointer text-black whitespace-nowrap shadow-xs"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zM17 9V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-          </svg>
-          <span>Print</span>
-        </button>
+
         {hasActiveFilters && (
          <button
           onClick={clearAll}
-          className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[rgba(133,29,239,0.3)] hover:border-[rgba(133,29,239,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(133,29,239,0.08)]"
+          className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(255,10,61,0.08)]"
          >Clear</button>
         )}
-
-       
        </div>
      </div>
 
      {/* Sentinel — detects when sticky sort bar locks in */}
      <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
+      <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 bg-[#000000]/95 backdrop-blur-md items-center relative text-white transition-colors duration-200`}>
+       <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+       <div className="relative">
+        <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
+         <option value="All">Month</option>
+         {months.map((m) => <option key={m} value={m}>{m}</option>)}
+        </select>
+        <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+       </div>
+       <div className="relative">
+        <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--placeholder-color)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg pl-8 pr-7 py-2 text-[0.8rem] text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-colors font-semibold" id="tour-search" />
+        {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-[var(--text-color)] text-[0.6rem] cursor-pointer">✕</button>)}
+       </div>
+       <div className="relative">
+        <select value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
+         <option value="All">City</option>
+         {locationOptions.map(({ city, count }) => <option key={city} value={city}>{city} ({count})</option>)}
+        </select>
+        <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+       </div>
+       <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
-     <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 px-6 bg-white/95 backdrop-blur-xl border border-black/10 shadow-md rounded-2xl items-center relative text-black`}>
-      <span className="text-[0.65rem] font-black uppercase tracking-widest text-black">Day</span>
-      <div className="relative">
-       <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
-        <option value="All">Month</option>
-        {months.map((m) => <option key={m} value={m}>{m}</option>)}
-       </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-black/50 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+       <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+       <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+       {member?.role === 'admin' && (
+          <div className="text-right" />
+        )}
       </div>
-      <div className="relative">
-       <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-black/40 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-       <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-white border border-black/15 rounded-lg pl-8 pr-7 py-2 text-[0.65rem] text-black placeholder:text-black/40 focus:outline-none focus:border-purple-600 transition-colors font-semibold" id="tour-search" />
-       {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-black/40 hover:text-black text-[0.6rem] cursor-pointer">✕</button>)}
-      </div>
-      <div className="relative">
-       <select value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
-        <option value="All">City</option>
-        {locationOptions.map(({ city, count }) => <option key={city} value={city}>{city} ({count})</option>)}
-       </select>
-       <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-black/50 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-      </div>
-      <span className="text-[0.65rem] font-black uppercase tracking-widest text-black">Time</span>
-
-      <span className="text-[0.65rem] font-black uppercase tracking-widest text-black text-center">Map/Cal</span>
-      <span className="text-[0.65rem] font-black uppercase tracking-widest text-black text-right">Website</span>
-      {member?.role === 'admin' && (
-         <div className="text-right" />
-       )}
-     </div>
 
      <div className="flex flex-col gap-0 overflow-visible pt-0" id="tour-rows-container">
       {(() => {
@@ -1139,13 +1122,13 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
          >
            {/* Desktop Row Layout */}
            <div
-            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-black transition-all duration-300 ${isHighlighted ? "bg-purple-100 shadow-[0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-black transition-all duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={rowId}
            >
-             <span className="font-[var(--font-heading)] font-extrabold text-xs uppercase text-purple-700">{show.day}</span>
-             <span className="text-black font-bold">{show.date}</span>
-             <span className="font-black text-black">{show.venue}</span>
-             <span className="text-black/80 font-medium">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+             <span className="font-[var(--font-heading)] font-extrabold text-sm uppercase text-[var(--color-accent)]">{show.day}</span>
+             <span className="text-black font-bold text-base">{show.date}</span>
+             <span className="font-black text-black text-base">{show.venue}</span>
+             <span className="text-black/80 font-medium text-sm">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
              <span className="flex items-center gap-2 flex-wrap text-left">
                   {show.playTime ? (
                     <div className="flex flex-col gap-0.5">
@@ -1171,7 +1154,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                         title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
                         className={`w-6 h-6 flex items-center justify-center rounded-md transition-all duration-300 shadow-xs cursor-pointer border shrink-0 ${
                           subscribedShowIds.includes(show._id)
-                            ? "bg-purple-100 border-purple-300 text-purple-700 hover:bg-purple-200"
+                            ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
                             : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
                         }`}
                       >
@@ -1205,7 +1188,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                       </button>
                       {activeCalDropdownId === rowId && (
-                        <div className="absolute right-0 mt-2 bg-white border border-black/15 rounded-xl py-1.5 shadow-xl z-50 min-w-[150px] text-black">
+                        <div className="absolute right-0 mt-2 bg-white border border-black/15 py-1.5 shadow-xl z-50 min-w-[150px] text-black">
                           <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Google Cal</a>
                           <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">iCal / Apple</a>
                           <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Outlook</a>
@@ -1217,6 +1200,12 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                             className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
                           >
                             💬 SMS / Text Alerts
+                          </button>
+                          <button
+                            onClick={() => { setActiveCalDropdownId(null); handlePrintTourList(); }}
+                            className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
+                          >
+                            🖨️ Print Tour List
                           </button>
                         </div>
                       )}
@@ -1230,7 +1219,8 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                    href={show.websiteUrl} 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   className="inline-flex items-center justify-center whitespace-nowrap text-[0.65rem] font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all duration-300 rounded-sm h-6 min-w-[76px]"
+                   className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(255,10,61,0.9)] transition-all duration-300 rounded-sm h-6 min-w-[76px]"
+                   style={{ fontSize: websiteBtnFontSize }}
                   >
                    Website
                   </a>
@@ -1262,7 +1252,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
 
            {/* Mobile/Tablet Card Layout */}
            <div
-            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300 rounded-xl ${isHighlighted ? "bg-[rgba(133,29,239,0.15)] shadow-[0_0_20px_rgba(133,29,239,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(133,29,239,0.08)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(255,10,61,0.08)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
             id={`${rowId}-mobile`}
            >
              
@@ -1309,10 +1299,10 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                  )}
                  {getShowTags(show).map(tag => {
                    if (tag === "All Ages" || tag === "21+") return null;
-                   let tagColors = "bg-purple-500/10 text-purple-400 border-purple-500/20";
-                   if (tag === "Unplugged") tagColors = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+                   let tagColors = "bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/20";
+                   if (tag === "Unplugged") tagColors = "bg-purple-600/10 text-purple-300 border-purple-500/20";
                    else if (tag === "Outdoor") tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
-                   else if (tag === "Special Event") tagColors = "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20";
+                   else if (tag === "Special Event") tagColors = "bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/20";
                    else if (tag === "Casino") tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
                    return (
                      <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded ${tagColors}`}>{tag}</span>
@@ -1343,7 +1333,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                    title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
                    className={`w-9 h-9 flex items-center justify-center rounded-md transition-all duration-300 cursor-pointer border shrink-0 ${
                      subscribedShowIds.includes(show._id)
-                       ? "bg-purple-600/20 border-purple-500/40 text-purple-400 hover:bg-purple-600/30"
+                       ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30"
                        : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
                    }`}
                  >
@@ -1388,7 +1378,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
 
                 {/* Tickets / Website Link */}
                 {!isPrivate && (show.websiteUrl ? (
-                 <a href={show.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[var(--color-accent)] text-white hover:bg-[rgba(133,29,239,0.9)] transition-all rounded-md text-center">
+                 <a href={show.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[var(--color-accent)] text-white hover:bg-[rgba(255,10,61,0.9)] transition-all rounded-md text-center">
                    Website
                  </a>
                ) : (
@@ -1427,7 +1417,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
     {/* Show Edit/Add Modal */}
     {isModalOpen && (
       <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto font-sans">
-        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-3xl w-full max-w-2xl shadow-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-3xl w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
           <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
           <div className="p-6 md:p-8 text-left">
             <div className="flex items-center justify-between mb-6">
@@ -1443,7 +1433,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
             </div>
 
             {modalError && (
-              <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs rounded-xl mb-6">
+              <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs mb-6">
                 {modalError}
               </div>
             )}
@@ -1453,12 +1443,12 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
                   <input type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
-                    placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
                   <input type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
-                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
               </div>
 
@@ -1466,12 +1456,12 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 <div className="sm:col-span-2">
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
                   <input type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
-                    placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
                   <input type="text" required value={formState} onChange={e => setFormState(e.target.value)}
-                    placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
               </div>
 
@@ -1479,22 +1469,22 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
                   <input type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
-                    placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
                   <input type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
-                    placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
                   <input type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
-                    placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
                   <input type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
-                    placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
               </div>
 
@@ -1502,19 +1492,19 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
                   <input type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
-                    placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
                   <input type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
-                    placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                    placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
                 </div>
               </div>
 
               <div>
                 <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
                 <textarea rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
-                  placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all resize-none" />
+                  placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all resize-none" />
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
@@ -1557,11 +1547,11 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
 
               <div className="flex gap-3 pt-4 border-t border-white/5">
                 <button type="button" onClick={() => setIsModalOpen(false)}
-                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all cursor-pointer">
+                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-all cursor-pointer">
                   Cancel
                 </button>
                 <button type="submit" disabled={submitting}
-                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all disabled:opacity-50 cursor-pointer">
+                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-50 cursor-pointer">
                   {submitting ? "Saving..." : "Save Show"}
                 </button>
               </div>
@@ -1574,7 +1564,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
     {/* ═══ Notification Preferences Popup ═══ */}
     {notifyPopupShow && (
       <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={() => setNotifyPopupShow(null)}>
-        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(133,29,239,0.3)] animate-[fadeIn_0.2s_ease]" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease]" onClick={(e) => e.stopPropagation()}>
           {/* Accent bar */}
           <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
 
@@ -1583,7 +1573,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-full flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-purple-400" viewBox="0 0 20 20" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                   </svg>
                 </div>
@@ -1693,7 +1683,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
               <button
                 onClick={handleNotifyConfirm}
                 disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
-                className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(133,29,239,0.3)]"
+                className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
               >
                 {subscribingId ? 'Saving...' : 'Enable Alerts 🔔'}
               </button>
@@ -1702,11 +1692,22 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
         </div>
       </div>
     )}
+    {/* ── Table Style Button ── */}
+    {!isFontCustomizerOpen && (
+      <button
+        onClick={() => setIsFontCustomizerOpen(true)}
+        className="fixed bottom-[60px] right-6 z-[9999] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
+        title="Table Font & Style Settings"
+      >
+        <span className="text-[11px]">Aa</span>
+        <span>Table Style</span>
+      </button>
+    )}
 
     {/* ── Font Customizer Modal/Panel ── */}
     {isFontCustomizerOpen && (
       <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
-        <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
+        <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 p-6 md:p-8 relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
           
           {/* Header */}
           <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
@@ -1756,6 +1757,31 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                <span>10px</span>
                <span>17px</span>
                <span>24px</span>
+             </div>
+           </div>
+
+           {/* Website Button Font Size */}
+           <div className="mb-4">
+             <div className="flex justify-between items-center mb-1.5">
+               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Website Button Size</label>
+               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{websiteBtnFontSize}</span>
+             </div>
+             <input
+               type="range"
+               min="8"
+               max="22"
+               value={parseInt(websiteBtnFontSize) || 10}
+               onChange={(e) => {
+                 const v = `${e.target.value}px`;
+                 setWebsiteBtnFontSize(v);
+                 localStorage.setItem("7h_tour_website_btn_font_size", v);
+               }}
+               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+             />
+             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+               <span>8px</span>
+               <span>15px</span>
+               <span>22px</span>
              </div>
            </div>
 
@@ -1848,7 +1874,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
                 localStorage.setItem("7h_tour_row_height", tourRowHeight);
                 setIsFontCustomizerOpen(false);
               }}
-              className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(133,29,239,0.9)] rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors"
+              className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors"
             >
               Apply & Save
             </button>

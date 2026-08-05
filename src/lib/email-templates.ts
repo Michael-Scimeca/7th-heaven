@@ -42,7 +42,7 @@ ${content}
 
 // ── Shared button style ──
 const btnStyle = `display:inline-block;background-color:#7c3aed;background:#7c3aed;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
-const btnGold = `display:inline-block;background-color:#FBBF24;background:#FBBF24;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
+const btnGold = `display:inline-block;background-color:#c084fc;background:#c084fc;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
 
 // ═══════════════════════════════════════════════
 // 1. BOOKING CONFIRMATION (sent to planner)
@@ -65,7 +65,7 @@ export function bookingConfirmation(b: {
     <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 24px;">
       Hey <strong style="color:#fff;">${sanitize(b.name)}</strong>, thanks for reaching out! Here's a full summary of what you submitted.
     </p>
-    <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);border-radius:12px;padding:18px 24px;margin-bottom:24px;">
+    <div style="background:rgba(255,10,61,0.08);border:1px solid rgba(255,10,61,0.25);border-radius:12px;padding:18px 24px;margin-bottom:24px;">
       <p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.35);font-weight:700;">Your Booking ID</p>
       <p style="margin:0;font-size:22px;font-weight:900;color:#a855f7;">${sanitize(b.bookingId)}</p>
     </div>
@@ -89,7 +89,7 @@ export function bookingConfirmation(b: {
         ${b.organization ? `<tr><td style="${td1}">Organization</td><td style="${td2}">${sanitize(b.organization)}</td></tr>` : ''}
       </table>
     </div>
-    ${b.details ? `<div style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.15);border-radius:12px;padding:20px;margin-bottom:20px;"><p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Additional Notes</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.6;">${sanitize(b.details)}</p></div>` : ''}
+    ${b.details ? `<div style="background:rgba(255,10,61,0.05);border:1px solid rgba(255,10,61,0.15);border-radius:12px;padding:20px;margin-bottom:20px;"><p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Additional Notes</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.6;">${sanitize(b.details)}</p></div>` : ''}
     <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin-bottom:24px;">
       <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a855f7;font-weight:800;">What Happens Next</p>
       <table style="width:100%;border-spacing:0 8px;">
@@ -152,7 +152,7 @@ export function bookingAdminNotification(b: {
         <tr><td style="${td1}">Attendance</td><td style="${td2}">${sanitize(b.expectedAttendance) || 'N/A'}</td></tr>
       </table>
     </div>
-    ${b.details ? `<div style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.15);border-radius:12px;padding:16px;"><p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Notes from Planner</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.5;">${sanitize(b.details)}</p></div>` : ''}
+    ${b.details ? `<div style="background:rgba(255,10,61,0.05);border:1px solid rgba(255,10,61,0.15);border-radius:12px;padding:16px;"><p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Notes from Planner</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.5;">${sanitize(b.details)}</p></div>` : ''}
   `);
 }
 
@@ -180,7 +180,7 @@ export function bookingCancelledAdminAlert(b: {
 // ═══════════════════════════════════════════════
 export function raffleWin(b: { prizeName: string; pin: string; claimUrl: string }) {
   const pinDigits = b.pin.split('').map(d =>
-    `<td style="width:48px;height:56px;background:#0a0a0e;border:2px solid #FBBF24;border-radius:8px;text-align:center;font-size:28px;font-weight:900;color:#FBBF24;font-family:monospace;">${d}</td>`
+    `<td style="width:48px;height:56px;background:#0a0a0e;border:2px solid #c084fc;border-radius:8px;text-align:center;font-size:28px;font-weight:900;color:#c084fc;font-family:monospace;">${d}</td>`
   ).join('<td style="width:8px;"></td>');
 
   const lowerPrize = b.prizeName.toLowerCase();
@@ -198,13 +198,13 @@ export function raffleWin(b: { prizeName: string; pin: string; claimUrl: string 
       <h1 style="margin:0 0 12px;color:#fff;font-size:28px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1>
       <p style="margin:0 0 32px;color:#888;font-size:15px;">Congratulations — your name was drawn live!</p>
       
-      <div style="background:#0a0a0e;border:2px solid #FBBF24;border-radius:12px;padding:24px;margin-bottom:28px;text-align:center;">
+      <div style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;margin-bottom:28px;text-align:center;">
         <p style="margin:0 0 16px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p>
         <div style="margin-bottom:16px;">
           <img src="${fullImgUrl}" alt="${sanitize(b.prizeName)}" width="120" height="120" style="border-radius:8px;border:1px solid rgba(255,255,255,0.1);display:inline-block;" />
         </div>
         <p style="margin:0;color:#fff;font-size:22px;font-weight:900;">${sanitize(b.prizeName)}</p>
-        <p style="margin:8px 0 0;color:#FBBF24;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">
+        <p style="margin:8px 0 0;color:#c084fc;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">
           Size: ${lowerPrize.includes('shirt') || lowerPrize.includes('tee') || lowerPrize.includes('hood') || lowerPrize.includes('sweat') ? 'S / M / L / XL / XXL (Select at Pickup/Checkout)' : 'Any Size'}
         </p>
       </div>
@@ -235,7 +235,7 @@ export function raffleEntry(b: { prizeName: string }) {
   return wrap(`
     <div style="text-align:center;">
       <p style="font-size:48px;margin:0 0 16px;">🎟️</p>
-      <h1 style="margin:0 0 12px;color:#FBBF24;font-size:24px;font-weight:900;text-transform:uppercase;">Raffle Entry Confirmed</h1>
+      <h1 style="margin:0 0 12px;color:#c084fc;font-size:24px;font-weight:900;text-transform:uppercase;">Raffle Entry Confirmed</h1>
       <p style="margin:0 0 24px;color:rgba(255,255,255,0.6);font-size:15px;line-height:1.6;">
         You've been entered to win <strong style="color:#fff;">${sanitize(b.prizeName)}</strong>. Stay tuned — the winner will be drawn live on stream!
       </p>
@@ -852,7 +852,7 @@ export function welcomeCrew(data: { name: string; email: string; username?: stri
           </tr>` : ''}
           <tr>
             <td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Temp Password</td>
-            <td style="padding:6px 0;color:#fbbf24;font-size:16px;font-weight:900;font-family:monospace;letter-spacing:2px;">${sanitize(data.tempPassword)}</td>
+            <td style="padding:6px 0;color:#c084fc;font-size:16px;font-weight:900;font-family:monospace;letter-spacing:2px;">${sanitize(data.tempPassword)}</td>
           </tr>
         </table>
       </td></tr>
@@ -877,8 +877,8 @@ export function welcomeCrew(data: { name: string; email: string; username?: stri
         </p>
       </td></tr>
     </table>
-    <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:10px;padding:14px 16px;margin-bottom:24px;">
-      <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.6;">⚠️ <strong style="color:#fbbf24;">Security Notice:</strong> Please change your password immediately after logging in. Never share your credentials via email or text.</p>
+    <div style="background:rgba(192, 132, 252,0.08);border:1px solid rgba(192, 132, 252,0.2);border-radius:10px;padding:14px 16px;margin-bottom:24px;">
+      <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.6;">⚠️ <strong style="color:#c084fc;">Security Notice:</strong> Please change your password immediately after logging in. Never share your credentials via email or text.</p>
     </div>
     <div style="text-align:center;margin:24px 0;">
       <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com'}/crew" style="${btnStyle}">Open Crew Dashboard</a>
@@ -894,7 +894,7 @@ export function newAccountAdminAlert(data: {
   accountRole: string; createdBy?: string;
 }) {
   const roleColors: Record<string, string> = {
-    crew: '#10b981', admin: '#f59e0b', fan: '#a855f7', event_planner: '#d946ef', merch: '#06b6d4',
+    crew: '#10b981', admin: '#9333ea', fan: '#a855f7', event_planner: '#d946ef', merch: '#06b6d4',
   };
   const color = roleColors[data.accountRole] || '#a855f7';
   const roleLabel = data.accountRole === 'event_planner' ? 'Event Planner' : data.accountRole.charAt(0).toUpperCase() + data.accountRole.slice(1);

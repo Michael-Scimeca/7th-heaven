@@ -3,7 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 import { sendEmail } from "@/lib/email";
 import { bookingCancelledAdminAlert } from "@/lib/email-templates";
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "mikeyscimeca@gmail.com";
+import { ADMIN_ALERT_EMAIL } from "@/lib/role-config";
+
+const ADMIN_EMAIL = ADMIN_ALERT_EMAIL;
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

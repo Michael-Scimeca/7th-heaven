@@ -50,13 +50,13 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
       <button
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`w-full bg-black/[0.04] border ${value ? 'border-[var(--color-accent)]/60' : 'border-black/15'} px-4 py-3 rounded-xl text-lg text-left transition-all hover:border-[var(--color-accent)]/60 cursor-pointer flex items-center justify-between ${value ? 'text-black font-semibold' : 'text-black/40'}`}
+        className={`w-full bg-black/[0.04] border ${value ? 'border-[var(--color-accent)]/60' : 'border-black/15'} px-4 py-3  text-lg text-left transition-all hover:border-[var(--color-accent)]/60 cursor-pointer flex items-center justify-between ${value ? 'text-black font-semibold' : 'text-black/40'}`}
       >
         {value ? new Date(value + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Pick a date…'}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       </button>
       {showCal && (
-        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-white border border-black/15 rounded-2xl shadow-2xl p-4 animate-[fade-in-up_0.15s_ease-out_both]">
+        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-white border border-black/15 p-4 animate-[fade-in-up_0.15s_ease-out_both]">
           <div className="flex items-center justify-between mb-3">
             <button type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
             <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-black/70 hover:text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
@@ -119,7 +119,7 @@ const InputField = ({ label, required, ...props }: { label: string; required?: b
   <div>
     <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
     <input {...props} required={required}
-      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 rounded-xl text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
+      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
     />
   </div>
 );
@@ -128,7 +128,7 @@ const SelectField = ({ label, options, required, ...props }: { label: string; op
   <div>
     <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
     <select {...props} required={required}
-      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 rounded-xl text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
+      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
     >
       <option value="" className="bg-white text-black">Select</option>
       {options.map(o => <option key={o} value={o} className="bg-white text-black">{o}</option>)}
@@ -145,7 +145,7 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           key={o}
           type="button"
           onClick={() => onChange({ target: { name, value: o } } as any)}
-          className={`py-2 px-4 rounded-xl text-lg font-bold tracking-wide transition-all border
+          className={`py-2 px-4  text-lg font-bold tracking-wide transition-all border
             ${value === o 
               ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-md" 
               : "bg-black/[0.04] border-black/15 text-black/70 hover:bg-black/10 hover:border-black/30 hover:text-black"
@@ -586,8 +586,8 @@ function BookPageContent() {
         {/* Background Glows */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] opacity-[0.05] rounded-full blur-[150px] pointer-events-none" />
 
-        <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[var(--color-bg-surface)]/80 border border-white/5 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl">
-          <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 border border-[var(--color-accent)] rounded-2xl flex items-center justify-center">
+        <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[var(--color-bg-surface)]/80 border border-white/5 backdrop-blur-xl p-10 rounded-[2rem]">
+          <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 border border-[var(--color-accent)] flex items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
           <h1 className="text-3xl font-extrabold text-white mb-3 tracking-tight">Request Received</h1>
@@ -597,12 +597,12 @@ function BookPageContent() {
           </p>
 
           <div className="flex flex-col gap-3 w-full">
-            <a href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] hover:shadow-[0_0_30px_rgba(133,29,239,0.5)]">
+            <a href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
               Book Another Show
             </a>
             {!isLoggedIn && (
               creatingAccount ? (
-                <div className="bg-white/[0.03] border border-[var(--color-accent)]/30 rounded-xl p-5 text-left">
+                <div className="bg-white/[0.03] border border-[var(--color-accent)]/30 p-5 text-left">
                   <div className="mb-4">
                     <span className="text-base text-white/30 uppercase tracking-widest font-bold block mb-1.5">Account Email</span>
                     {editingEmail ? (
@@ -636,13 +636,13 @@ function BookPageContent() {
                           value={accountPassword}
                           onChange={e => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
-                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
+                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
                         />
                         <button
                           type="button"
                           disabled={!accountPassword || accountPassword.length < 6 || !accountEmail || pinLoading}
                           onClick={handleSendPin}
-                          className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase tracking-wider rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
+                          className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
                         >
                           {pinLoading ? (
                             <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -663,13 +663,13 @@ function BookPageContent() {
                           value={pinCode}
                           onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
                           disabled={pinLoading}
-                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 rounded-xl text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all text-center tracking-[0.2em] font-mono disabled:opacity-50"
+                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all text-center tracking-[0.2em] font-mono disabled:opacity-50"
                         />
                         <button
                           type="button"
                           disabled={pinCode.length !== 6 || pinLoading}
                           onClick={handleVerifyPin}
-                          className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase tracking-wider rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
+                          className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
                         >
                           {pinLoading ? (
                             <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -700,7 +700,7 @@ function BookPageContent() {
                   )}
 
                   {pinError && (
-                    <div className="mt-3 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-300 text-sm font-bold text-left animate-[fade-in-up_0.15s_ease-out_both]">
+                    <div className="mt-3 p-3 bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm font-bold text-left animate-[fade-in-up_0.15s_ease-out_both]">
                       ⚠️ {pinError}
                     </div>
                   )}
@@ -727,14 +727,14 @@ function BookPageContent() {
                   <button
                     type="button"
                     onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
-                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 rounded-xl transition-all border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
+                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-all border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
                   >
                     Create Account
                   </button>
                 </div>
               )
             )}
-            <a href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 rounded-xl transition-all border border-white/5">
+            <a href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 transition-all border border-white/5">
               Return to Homepage
             </a>
           </div>
@@ -775,7 +775,7 @@ function BookPageContent() {
                 <p className="text-base text-black/50 font-mono mt-0.5">{member.email}</p>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-base text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-xl">
+            <div className="hidden md:flex items-center gap-2 text-base text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
               Account data auto-filled
             </div>
@@ -796,7 +796,7 @@ function BookPageContent() {
                   <p className="text-black/50 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
                 </div>
               </div>
-              <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-md shrink-0">
+              <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md shrink-0">
                 My Dashboard →
               </Link>
             </div>
@@ -811,7 +811,7 @@ function BookPageContent() {
                   <p className="text-black/50 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
                 </div>
               </div>
-              <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] rounded-xl transition-all shadow-md shrink-0">
+              <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md shrink-0">
                 Planner Portal →
               </Link>
             </div>
@@ -820,7 +820,7 @@ function BookPageContent() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {isFromPlanner && (
-            <div className="bg-fuchsia-500/5 border border-fuchsia-500/20 px-6 py-4 rounded-2xl flex items-center gap-4">
+            <div className="bg-fuchsia-500/5 border border-fuchsia-500/20 px-6 py-4 flex items-center gap-4">
               <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 flex items-center justify-center flex-shrink-0">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
@@ -832,7 +832,7 @@ function BookPageContent() {
           )}
 
           {hasSavedForm && !isFromPlanner && (
-            <div className="p-5 bg-purple-600/10 border border-purple-500/20 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
+            <div className="p-5 bg-purple-600/10 border border-purple-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
               <div className="flex items-center gap-3">
                 <span className="text-xl shrink-0">📋</span>
                 <div>
@@ -843,7 +843,7 @@ function BookPageContent() {
               <button
                 type="button"
                 onClick={handleLoadLastForm}
-                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
+                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
               >
                 ⚡ Populate
               </button>
@@ -856,7 +856,7 @@ function BookPageContent() {
               <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">1</span>
               Event Schedule & Format
             </h2>
-            <div className="mb-6 p-4 bg-purple-600/5 border border-purple-500/20 rounded-2xl flex items-start gap-3">
+            <div className="mb-6 p-4 bg-purple-600/5 border border-purple-500/20 flex items-start gap-3">
               <span className="text-xl mt-0.5">💡</span>
               <div>
                 <h4 className="text-sm font-bold text-black uppercase tracking-wider">Multi-Date Bookings Supported</h4>
@@ -881,7 +881,7 @@ function BookPageContent() {
               />
 
               {/* Alternate Dates */}
-              <div className="mt-6 p-5 bg-black/[0.02] border border-black/10 rounded-xl">
+              <div className="mt-6 p-5 bg-black/[0.02] border border-black/10">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-lg">📅</span>
                   <div>
@@ -905,7 +905,7 @@ function BookPageContent() {
             </div>
             {/* Pricing hint per type */}
             {selectedType && (
-              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-base text-black/60 rounded-xl mb-4">
+              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-base text-black/60 mb-4">
                 <span className="text-[var(--color-accent)] font-bold">Pricing Guide:</span>{" "}
                 {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
                 {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
@@ -918,7 +918,7 @@ function BookPageContent() {
           {/* Your Scheduled Shows (Full Width Grid) */}
           <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
             {bookingSlots.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed border-black/15 rounded-2xl bg-black/[0.01]">
+              <div className="text-center py-12 border-2 border-dashed border-black/15 bg-black/[0.01]">
                 <span className="text-4xl block mb-4">📅</span>
                 <h4 className="text-lg font-bold text-black uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
                 <p className="text-black/50 text-base max-w-md mx-auto">
@@ -942,7 +942,7 @@ function BookPageContent() {
                     return (
                       <div 
                         key={slot.id} 
-                        className="bg-[var(--color-bg-surface)] border border-black/10 hover:border-[var(--color-accent)]/40 rounded-2xl p-6 relative group transition-all shadow-sm hover:shadow-md"
+                        className="bg-[var(--color-bg-surface)] border border-black/10 hover:border-[var(--color-accent)]/40 p-6 relative group transition-all shadow-sm hover:shadow-md"
                       >
                         {/* Duplicate and Remove buttons */}
                         <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -1060,7 +1060,7 @@ function BookPageContent() {
                         <div className="mt-4 pt-4 border-t border-black/10">
                           <div className="mb-3">
                             <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-2">Contact & Venue Details</label>
-                            <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 rounded-xl border border-white/5">
+                            <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 border border-white/5">
                               <button
                                 type="button"
                                 onClick={() => {
@@ -1076,7 +1076,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Share Main Info
                               </button>
@@ -1095,7 +1095,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(133,29,239,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Use Separate Info
                               </button>
@@ -1103,7 +1103,7 @@ function BookPageContent() {
                           </div>
                           
                           {!slot.useSeparateInfo ? (
-                            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
+                            <div className="p-3.5 bg-white/[0.02] border border-white/5 text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
                               <div className="flex justify-between items-start gap-2">
                                 <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
                                 <span className="text-white font-medium text-right break-all">
@@ -1125,7 +1125,7 @@ function BookPageContent() {
                               </p>
                             </div>
                           ) : (
-                            <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.02] border border-white/5 rounded-xl">
+                            <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.02] border border-white/5">
                               <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
                                 <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
                                 <div className="flex gap-2">
@@ -1445,7 +1445,7 @@ function BookPageContent() {
                       key={option.id}
                       type="button"
                       onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                      className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3 group
+                      className={`w-full text-left p-4  border transition-all cursor-pointer flex items-start gap-3 group
                         ${isActive
                           ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-sm'
                           : 'border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]'
@@ -1491,7 +1491,7 @@ function BookPageContent() {
                 onChange={handleChange}
                 rows={5}
                 placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                className="w-full bg-black/[0.04] border border-black/15 text-black text-lg leading-relaxed px-5 py-4 rounded-2xl focus:border-[var(--color-accent)] outline-none transition-all resize-none placeholder:text-black/40"
+                className="w-full bg-black/[0.04] border border-black/15 text-black text-lg leading-relaxed px-5 py-4 focus:border-[var(--color-accent)] outline-none transition-all resize-none placeholder:text-black/40"
               />
               {formData.details && (
                 <div className="mt-3 flex items-center gap-2 text-base text-emerald-700">
@@ -1574,7 +1574,7 @@ function BookPageContent() {
 
                {/* Validation Errors */}
                {validationErrors.length > 0 && (
-                 <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-4">
+                 <div className="bg-red-500/10 border border-red-500/30 p-4 mb-4">
                    <div className="flex items-center gap-2 mb-2">
                      <span className="text-red-600 text-sm">⚠</span>
                      <span className="text-red-600 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
@@ -1590,7 +1590,7 @@ function BookPageContent() {
                <button 
                 type="submit" 
                 disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
+                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 transition-all flex items-center justify-center gap-2"
                >
                  {submitting ? (
                    <>

@@ -28,10 +28,10 @@ const roleConfig = {
  },
  admin: {
   label: 'ADMIN',
-  color: 'text-amber-400',
-  bg: 'bg-amber-500/15',
-  border: 'border-amber-500/30',
-  glow: 'shadow-[0_0_8px_rgba(251,191,36,0.15)]',
+  color: 'text-purple-300',
+  bg: 'bg-purple-600/15',
+  border: 'border-purple-500/30',
+  glow: 'shadow-[0_0_8px_rgba(192, 132, 252,0.15)]',
  },
 };
 
@@ -106,7 +106,7 @@ export function RoleAvatar({
  const borderColor = {
   fan: 'border-white/[0.15]',
   crew: 'border-emerald-400/50',
-  admin: 'border-amber-400/50',
+  admin: 'border-purple-400/50',
  };
 
  return (
@@ -122,7 +122,7 @@ export function RoleAvatar({
    {/* Role indicator dot */}
    <div
     className={`absolute -bottom-[1px] -right-[1px] rounded-full flex items-center justify-center ${
-     role === 'fan' ? 'bg-white/60' : role === 'crew' ? 'bg-emerald-400' : 'bg-amber-400'
+     role === 'fan' ? 'bg-white/60' : role === 'crew' ? 'bg-emerald-400' : 'bg-purple-500'
     }`}
     style={{ width: size * 0.3, height: size * 0.3, border: `1.5px solid #12121e` }}
    >

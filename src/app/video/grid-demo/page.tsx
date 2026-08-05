@@ -11,11 +11,11 @@ const thumb = (id: string) => `https://img.youtube.com/vi/${id}/hq720.jpg`;
 
 function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void }) {
   return (
-    <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-2xl">
+    <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 p-3">
       <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Grid</p>
       {layouts.map(l => (
         <button key={l} onClick={() => set(l)}
-          className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white shadow-lg shadow-[var(--color-accent)]/30" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
+          className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
           {l}
         </button>
       ))}
@@ -87,7 +87,7 @@ export default function GridLayoutDemo() {
               <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="w-14 h-14 rounded-full bg-[var(--color-accent)]/80 flex items-center justify-center shadow-[0_0_30px_rgba(133,29,239,0.4)]"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
+                <div className="w-14 h-14 rounded-full bg-[var(--color-accent)]/80 flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.4)]"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <p className="text-sm font-bold text-white">{v.title}</p>
@@ -134,7 +134,7 @@ export default function GridLayoutDemo() {
                     <img src={thumb(row[0].id)} alt={row[0].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/80 flex items-center justify-center shadow-[0_0_40px_rgba(133,29,239,0.5)]"><svg width="26" height="26" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
+                      <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/80 flex items-center justify-center shadow-[0_0_40px_rgba(255,10,61,0.5)]"><svg width="26" height="26" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-6">
                       <p className="text-lg font-bold text-white">{row[0].title}</p>
@@ -172,7 +172,7 @@ export default function GridLayoutDemo() {
                 <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover brightness-75 group-hover:brightness-100 group-hover:scale-105 transition-all duration-500" />
                 <div className="absolute inset-0 border-2 border-transparent group-hover:border-[var(--color-accent)] transition-colors" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-14 h-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center shadow-[0_0_30px_rgba(133,29,239,0.6)] scale-75 group-hover:scale-100 transition-transform"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
+                  <div className="w-14 h-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.6)] scale-75 group-hover:scale-100 transition-transform"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
                 </div>
               </div>
               {/* Expanding info panel */}

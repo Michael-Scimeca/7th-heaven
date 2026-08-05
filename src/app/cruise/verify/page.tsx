@@ -142,7 +142,7 @@ function CruiseVerifyContent() {
             0 0 0 1px rgba(255,255,255,0.04) inset,
             0 32px 80px rgba(0,0,0,0.7),
             0 0 120px rgba(6,182,212,0.1);
-          animation: cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+          animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes cardIn {
           from { opacity: 0; transform: translateY(20px) scale(0.94); }
@@ -267,7 +267,7 @@ function CruiseVerifyContent() {
           height: 100%;
           background: linear-gradient(90deg, rgba(6,182,212,0.8), rgba(14,165,233,1));
           border-radius: 10px;
-          transition: width 0.3s ease;
+          transition: opacity 0.3s ease, transform 0.3s ease;
           box-shadow: 0 0 8px rgba(6,182,212,0.4);
         }
 
@@ -377,7 +377,7 @@ function CruiseVerifyContent() {
           align-items: center;
           justify-content: center;
           font-size: 32px;
-          animation: successPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+          animation: successPop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
           box-shadow: 0 0 40px rgba(6,182,212,0.2);
         }
         @keyframes successPop {

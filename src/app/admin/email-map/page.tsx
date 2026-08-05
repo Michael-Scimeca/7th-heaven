@@ -23,7 +23,7 @@ function Node({
     blue: "border-blue-500/30 bg-blue-500/5 text-blue-300",
     purple: "border-purple-500/30 bg-purple-500/5 text-purple-300",
     red: "border-red-500/30 bg-red-500/5 text-red-300",
-    amber: "border-amber-500/30 bg-amber-500/5 text-amber-300",
+    amber: "border-purple-500/30 bg-purple-600/5 text-purple-200",
     cyan: "border-cyan-500/30 bg-cyan-500/5 text-cyan-300",
     emerald: "border-emerald-500/30 bg-emerald-500/5 text-emerald-300",
   };
@@ -32,7 +32,7 @@ function Node({
     blue: "bg-blue-500",
     purple: "bg-purple-500",
     red: "bg-red-500",
-    amber: "bg-amber-500",
+    amber: "bg-purple-600",
     cyan: "bg-cyan-500",
     emerald: "bg-emerald-500",
   };
@@ -190,7 +190,7 @@ export default function EmailMapPage() {
 
         {/* Logic Cards */}
         <div className="grid md:grid-cols-2 gap-4 mt-20">
-          <div className="p-6 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+          <div className="p-6 bg-white/[0.02] border border-white/[0.06]">
             <h3 className="text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
               The API Bridge
@@ -202,7 +202,7 @@ export default function EmailMapPage() {
               fetch(&apos;/api/email&apos;, &#123; method: &apos;POST&apos;, body: &#123; to, subject, html &#125; &#125;)
             </div>
           </div>
-          <div className="p-6 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+          <div className="p-6 bg-white/[0.02] border border-white/[0.06]">
             <h3 className="text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
               Token Security

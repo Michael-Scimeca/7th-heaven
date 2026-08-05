@@ -84,7 +84,7 @@ export function CalendarPicker({
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-black/10 p-6 rounded-2xl w-full">
+    <div className="bg-[var(--color-bg-surface)] border border-black/10 p-6 w-full">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h3 className="text-black font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-[var(--color-accent)]">*</span>}</h3>
@@ -103,7 +103,7 @@ export function CalendarPicker({
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1.5fr] gap-8">
         <div>
           {/* Month & Year Selection Bar */}
-          <div className="flex items-center justify-between bg-black/[0.03] border border-black/10 p-3 rounded-xl mb-4">
+          <div className="flex items-center justify-between bg-black/[0.03] border border-black/10 p-3 mb-4">
             <button
               type="button"
               onClick={handlePrevMonth}
@@ -203,7 +203,7 @@ export function CalendarPicker({
                     }
                   }}
                   title={isBlocked ? "This date is already booked" : undefined}
-                  className={`h-12 w-full flex items-center justify-center rounded-xl font-bold text-base transition-all relative
+                  className={`h-12 w-full flex items-center justify-center  font-bold text-base transition-all relative
                     ${(isPastDate || isBlocked) ? "cursor-not-allowed opacity-25" : "cursor-pointer"}
                     ${isBlocked
                       ? "bg-rose-500/10 border border-rose-500/20 text-rose-500 line-through"
@@ -217,7 +217,7 @@ export function CalendarPicker({
                     <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500" />
                   )}
                   {slotsForDay.length > 1 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-fuchsia-600 border border-white/20 text-white text-[var(--font-size-3xs)] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-scale-in">
+                    <span className="absolute -top-1.5 -right-1.5 bg-[var(--color-accent)] border border-white/20 text-white text-[var(--font-size-3xs)] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-scale-in">
                       {slotsForDay.length}x
                     </span>
                   )}
@@ -239,7 +239,7 @@ export function CalendarPicker({
                 <select 
                   value={startTime} 
                   onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
                   <option value="" disabled className="bg-white text-black">Select Show Start Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
@@ -259,7 +259,7 @@ export function CalendarPicker({
                 <select 
                   value={endTime} 
                   onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
                   <option value="" disabled className="bg-white text-black">Select Show Finish Time</option>
                   {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
@@ -281,7 +281,7 @@ export function CalendarPicker({
                 <select 
                   value={startTime} 
                   onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
                   <option value="" disabled className="bg-white text-black">Select Band Start Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
@@ -301,7 +301,7 @@ export function CalendarPicker({
                 <select 
                   value={endTime} 
                   onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs rounded-xl outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
                   <option value="" disabled className="bg-white text-black">Select Band Finish Time</option>
                   {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
@@ -333,7 +333,7 @@ export function CalendarPicker({
                    <button
                      type="button"
                      onClick={() => onSelectType && onSelectType(type.id)}
-                     className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex gap-4 items-center group
+                     className={`w-full text-left p-4  border transition-all cursor-pointer flex gap-4 items-center group
                        ${isSelected 
                          ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-sm" 
                          : "border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]"}
@@ -353,7 +353,7 @@ export function CalendarPicker({
                          value={customDetails || ""}
                          onChange={(e) => onCustomDetailsChange?.(e.target.value)}
                          autoFocus
-                         className="w-full bg-black/[0.04] border border-[var(--color-accent)]/40 text-black text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-[var(--color-accent)] transition-all placeholder:text-black/40"
+                         className="w-full bg-black/[0.04] border border-[var(--color-accent)]/40 text-black text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] transition-all placeholder:text-black/40"
                        />
                      </div>
                    )}

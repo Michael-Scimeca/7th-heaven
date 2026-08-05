@@ -509,7 +509,7 @@ height: ${overlayHeight}vh`;
                 >
                   {/* Video Card (Height & gap scale down dynamically with window height) */}
                   <div
-                    className="rounded-xl sm:rounded-2xl overflow-hidden relative transition-all duration-300 shadow-xl shrink-0"
+                    className="sm: overflow-hidden relative transition-all duration-300 shadow-xl shrink-0"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -529,7 +529,7 @@ height: ${overlayHeight}vh`;
                     <p className="text-xs sm:text-sm md:text-base font-black text-white leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-purple-400 mt-0.5 sm:mt-1 tracking-wide">
+                    <p className="text-[10px] sm:text-xs font-bold text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
                       {m?.role || "Musician"}
                     </p>
                   </div>
@@ -566,14 +566,14 @@ height: ${overlayHeight}vh`;
                     <p className="text-xs sm:text-sm md:text-base font-black text-white leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-purple-400 mt-0.5 sm:mt-1 tracking-wide">
+                    <p className="text-[10px] sm:text-xs font-bold text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
                       {m?.role || "Musician"}
                     </p>
                   </div>
 
                   {/* Video Card (Height & gap scale down dynamically with window height) */}
                   <div
-                    className="rounded-xl sm:rounded-2xl overflow-hidden relative transition-all duration-300 shadow-xl shrink-0"
+                    className="sm: overflow-hidden relative transition-all duration-300 shadow-xl shrink-0"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -678,22 +678,22 @@ height: ${overlayHeight}vh`;
                       )}
 
                       {textPos === "left-glass" && (
-                        <div className="absolute bottom-4 left-4 z-50 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3 rounded-2xl shadow-2xl">
+                        <div className="absolute bottom-4 left-4 z-50 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3">
                           <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-purple-400 tracking-wide block mt-0.5">
+                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block mt-0.5">
                             {m?.role}
                           </span>
                         </div>
                       )}
 
                       {textPos === "left-accent" && (
-                        <div className="absolute bottom-4 left-4 z-50 flex flex-col items-start text-left pointer-events-none max-w-[90%] border-l-4 border-purple-500 pl-3 py-1">
-                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-shadow-lg">
+                        <div className="absolute bottom-4 left-4 z-50 flex flex-col items-start text-left pointer-events-none max-w-[90%] border-l-2 border-[var(--color-accent)] pl-3 py-1">
+                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-purple-400 tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
                             {m?.role}
                           </span>
                         </div>
@@ -701,32 +701,32 @@ height: ${overlayHeight}vh`;
 
                       {textPos === "right" && (
                         <div className="absolute bottom-4 right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%]">
-                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-shadow-lg">
+                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-purple-400 tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
                             {m?.role}
                           </span>
                         </div>
                       )}
 
                       {textPos === "right-glass" && (
-                        <div className="absolute bottom-4 right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3 rounded-2xl shadow-2xl">
+                        <div className="absolute bottom-4 right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3">
                           <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-purple-400 tracking-wide block mt-0.5">
+                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block mt-0.5">
                             {m?.role}
                           </span>
                         </div>
                       )}
 
                       {textPos === "right-accent" && (
-                        <div className="absolute bottom-4 right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-4 border-purple-500 pr-3 py-1">
-                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-shadow-lg">
+                        <div className="absolute bottom-4 right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1">
+                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-purple-400 tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
                             {m?.role}
                           </span>
                         </div>
@@ -758,9 +758,9 @@ height: ${overlayHeight}vh`;
                   }`}
                 >
                   <div
-                    className={`w-12 h-16 sm:w-16 sm:h-20 rounded-2xl overflow-hidden relative transition-all duration-300 ${
+                    className={`w-12 h-16 sm:w-16 sm:h-20  overflow-hidden relative transition-all duration-300 ${
                       isActive
-                        ? "ring-2 ring-purple-500 shadow-[0_0_25px_rgba(168,85,247,0.9)] border border-purple-400"
+                        ? "ring-2 ring-purple-500 shadow-[0_0_25px_rgba(255,10,61,0.9)] border border-[var(--color-accent)]"
                         : "border border-white/20 group-hover:border-white/50"
                     }`}
                   >
@@ -777,7 +777,7 @@ height: ${overlayHeight}vh`;
         )}
 
         {paginationStyle === "circular" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-black/85 backdrop-blur-2xl border border-white/20 px-5 py-3 rounded-full shadow-2xl max-w-[95vw] overflow-x-auto select-none">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-black/85 backdrop-blur-2xl border border-white/20 px-5 py-3 rounded-full max-w-[95vw] overflow-x-auto select-none">
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
               const videoSrc = getMemberVideo(m?.name);
@@ -793,12 +793,12 @@ height: ${overlayHeight}vh`;
                   }`}
                 >
                   <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden relative border-2 transition-all duration-300 ${
-                    isActive ? "border-purple-400 shadow-[0_0_30px_rgba(168,85,247,0.9)]" : "border-white/20 group-hover:border-white/60"
+                    isActive ? "border-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.9)]" : "border-white/20 group-hover:border-white/60"
                   }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
-                    {isActive && <div className="absolute inset-0 border-2 border-purple-400 rounded-full animate-ping opacity-40" />}
+                    {isActive && <div className="absolute inset-0 border-2 border-[var(--color-accent)] rounded-full animate-ping opacity-40" />}
                   </div>
-                  <span className={`text-[10px] font-black uppercase tracking-wider mt-1 transition-colors ${isActive ? "text-purple-400" : "text-white/60 group-hover:text-white"}`}>
+                  <span className={`text-[10px] font-black uppercase tracking-wider mt-1 transition-colors ${isActive ? "text-[var(--color-accent)]" : "text-white/60 group-hover:text-white"}`}>
                     {firstName}
                   </span>
                 </button>
@@ -808,7 +808,7 @@ height: ${overlayHeight}vh`;
         )}
 
         {paginationStyle === "cyber-hud" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2.5 bg-purple-950/90 backdrop-blur-2xl border-2 border-purple-500/60 p-2.5 rounded-2xl shadow-[0_0_40px_rgba(168,85,247,0.6)] select-none">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2.5 bg-[var(--color-accent)]/90 backdrop-blur-2xl border-2 border-[var(--color-accent)]/60 p-2.5 shadow-[0_0_40px_rgba(255,10,61,0.6)] select-none">
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
               const videoSrc = getMemberVideo(m?.name);
@@ -824,10 +824,10 @@ height: ${overlayHeight}vh`;
                   }`}
                 >
                   <div className={`w-13 h-16 sm:w-15 sm:h-18 rounded-lg overflow-hidden relative border-2 transition-all ${
-                    isActive ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_20px_#06b6d4]" : "border-purple-500/40"
+                    isActive ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_20px_#06b6d4]" : "border-[var(--color-accent)]/40"
                   }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-purple-950/90 via-transparent to-purple-900/30" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
                     <span className="absolute top-1 left-1 text-[8px] font-mono font-bold text-cyan-300">0{idx+1}</span>
                     <span className="absolute bottom-1 inset-x-0 text-center text-[9px] font-mono font-bold uppercase text-white truncate px-0.5">
                       {firstName}
@@ -840,7 +840,7 @@ height: ${overlayHeight}vh`;
         )}
 
         {paginationStyle === "film-strip" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center bg-black/95 border-y-2 border-amber-500/60 px-6 py-2 shadow-2xl rounded-xl select-none">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center bg-black/95 border-y-2 border-purple-500/60 px-6 py-2 select-none">
             <div className="flex items-center gap-3">
               {displayMembers.map((m, idx) => {
                 const isActive = activeIndex === idx;
@@ -857,11 +857,11 @@ height: ${overlayHeight}vh`;
                     }`}
                   >
                     <div className={`w-14 h-18 sm:w-16 sm:h-20 rounded-md overflow-hidden relative border-2 transition-all ${
-                      isActive ? "border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.8)]" : "border-amber-500/30"
+                      isActive ? "border-purple-400 shadow-[0_0_25px_rgba(147, 51, 234,0.8)]" : "border-purple-500/30"
                     }`}>
                       <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
-                      <span className="absolute bottom-1 inset-x-0 text-center text-[9px] font-black uppercase text-amber-200 tracking-widest truncate">
+                      <span className="absolute bottom-1 inset-x-0 text-center text-[9px] font-black uppercase text-purple-100 tracking-widest truncate">
                         {firstName}
                       </span>
                     </div>
@@ -873,7 +873,7 @@ height: ${overlayHeight}vh`;
         )}
 
         {paginationStyle === "minimal" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/15 shadow-2xl select-none">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/15 select-none">
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
               const videoSrc = getMemberVideo(m?.name);
@@ -888,7 +888,7 @@ height: ${overlayHeight}vh`;
                   }`}
                 >
                   <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden relative border transition-all ${
-                    isActive ? "border-white shadow-lg" : "border-transparent"
+                    isActive ? "border-white " : "border-transparent"
                   }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                   </div>
@@ -901,7 +901,7 @@ height: ${overlayHeight}vh`;
 
 
         {paginationStyle === "full-bottom" && (
-          <div className="absolute inset-x-0 bottom-0 z-[100] flex items-center justify-center gap-4 sm:gap-6 bg-black/90 backdrop-blur-2xl border-t border-white/15 px-6 py-3 shadow-2xl select-none">
+          <div className="absolute inset-x-0 bottom-0 z-[100] flex items-center justify-center gap-4 sm:gap-6 bg-black/90 backdrop-blur-2xl border-t border-white/15 px-6 py-3 select-none">
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
               const videoSrc = getMemberVideo(m?.name);
@@ -916,8 +916,8 @@ height: ${overlayHeight}vh`;
                     isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
                   }`}
                 >
-                  <div className={`w-14 h-16 sm:w-18 sm:h-20 rounded-2xl overflow-hidden relative border-2 transition-all ${
-                    isActive ? "border-purple-400 shadow-[0_0_25px_#a855f7]" : "border-white/20"
+                  <div className={`w-14 h-16 sm:w-18 sm:h-20  overflow-hidden relative border-2 transition-all ${
+                    isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_#a855f7]" : "border-white/20"
                   }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -932,7 +932,7 @@ height: ${overlayHeight}vh`;
         )}
 
         {paginationStyle === "expanded-active" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-black/85 backdrop-blur-2xl border border-white/20 p-2.5 rounded-3xl shadow-2xl max-w-[95vw] overflow-x-auto select-none">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-black/85 backdrop-blur-2xl border border-white/20 p-2.5 rounded-3xl max-w-[95vw] overflow-x-auto select-none">
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
               const videoSrc = getMemberVideo(m?.name);
@@ -944,18 +944,18 @@ height: ${overlayHeight}vh`;
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
                   className={`relative flex items-center gap-2 cursor-pointer transition-all duration-300 ${
-                    isActive ? "bg-purple-600/30 border border-purple-500/60 p-1.5 rounded-2xl" : "opacity-60 hover:opacity-100"
+                    isActive ? "bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/60 p-1.5 " : "opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <div className={`w-12 h-14 sm:w-14 sm:h-16 rounded-xl overflow-hidden relative border transition-all ${
-                    isActive ? "border-purple-400 shadow-[0_0_20px_#a855f7]" : "border-white/20"
+                  <div className={`w-12 h-14 sm:w-14 sm:h-16  overflow-hidden relative border transition-all ${
+                    isActive ? "border-[var(--color-accent)] shadow-[0_0_20px_#a855f7]" : "border-white/20"
                   }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                   </div>
                   {isActive && (
                     <div className="flex flex-col items-start pr-3">
                       <span className="text-xs font-black uppercase text-white tracking-wider">{firstName}</span>
-                      <span className="text-[9px] font-bold text-purple-300 truncate max-w-[90px]">{m?.role}</span>
+                      <span className="text-[9px] font-bold text-[var(--color-accent)] truncate max-w-[90px]">{m?.role}</span>
                     </div>
                   )}
                 </button>
@@ -965,7 +965,7 @@ height: ${overlayHeight}vh`;
         )}
 
         {paginationStyle === "diamond" && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-6 bg-black/80 backdrop-blur-2xl border border-white/20 px-8 py-3 rounded-full shadow-2xl max-w-[95vw] overflow-x-auto select-none">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-6 bg-black/80 backdrop-blur-2xl border border-white/20 px-8 py-3 rounded-full max-w-[95vw] overflow-x-auto select-none">
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
               const videoSrc = getMemberVideo(m?.name);
@@ -979,8 +979,8 @@ height: ${overlayHeight}vh`;
                     isActive ? "scale-125 z-10" : "opacity-50 hover:opacity-100 hover:scale-110"
                   }`}
                 >
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rotate-45 rounded-xl overflow-hidden relative border-2 transition-all ${
-                    isActive ? "border-purple-400 shadow-[0_0_25px_#a855f7]" : "border-white/30"
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rotate-45  overflow-hidden relative border-2 transition-all ${
+                    isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_#a855f7]" : "border-white/30"
                   }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover -rotate-45 scale-125" />
                   </div>

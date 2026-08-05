@@ -194,19 +194,19 @@ export default function PlannerDashboard() {
   if (!hasAccess) {
     return (
       <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center px-6 relative overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-fuchsia-500 opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-2xl">
-            <div className="h-1 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-fuchsia-500" />
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden">
+            <div className="h-px bg-[var(--color-accent)]/40" />
 
             <div className="p-10">
               <div className="text-center mb-10">
-                <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center">
+                <div className="w-14 h-14 mx-auto mb-5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 </div>
                 <h1 className="text-2xl font-black tracking-tight">
-                  Planner <span className="text-fuchsia-400">Portal</span>
+                  Planner <span className="text-[var(--color-accent)]">Portal</span>
                 </h1>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/30 mt-2">
                   Event planner accounts only
@@ -218,24 +218,24 @@ export default function PlannerDashboard() {
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
                     <input type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
-                      placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-fuchsia-500/50 transition-colors" required />
+                      placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                   </div>
                 )}
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
                   <input type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
-                    placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-fuchsia-500/50 transition-colors" required />
+                    placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
                   <input type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
-                    placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-fuchsia-500/50 transition-colors" required />
+                    placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
 
                 {plannerMode === 'signup' && (
                   <div className="flex items-start gap-2.5 my-1.5 select-none cursor-pointer" onClick={() => setPlannerAgeConfirmed(p => !p)}>
                     <input type="checkbox" checked={plannerAgeConfirmed} onChange={e => setPlannerAgeConfirmed(e.target.checked)}
-                      className="mt-0.5 w-3.5 h-3.5 rounded border-white/15 bg-white/[0.03] text-fuchsia-600 focus:ring-0 cursor-pointer accent-fuchsia-600"
+                      className="mt-0.5 w-3.5 h-3.5 rounded border-white/15 bg-white/[0.03] text-[var(--color-accent)] focus:ring-0 cursor-pointer accent-fuchsia-600"
                       onClick={(e) => e.stopPropagation()} />
                     <span className="text-[var(--font-size-2xs)] font-semibold text-white/70 leading-tight">
                       I confirm that I am <span className="text-white font-bold">18 years of age or older</span>
@@ -248,12 +248,12 @@ export default function PlannerDashboard() {
                 )}
 
                 <button type="submit" disabled={plannerLoginLoading}
-                  className="w-full py-3.5 bg-fuchsia-600 text-white font-bold text-sm uppercase tracking-[0.15em] hover:bg-fuchsia-500 transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
+                  className="w-full py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:bg-[var(--color-accent)] transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
                   {plannerLoginLoading ? 'Authenticating...' : plannerMode === 'signup' ? 'Create Planner Account' : 'Sign In as Planner'}
                 </button>
 
                 <button type="button" onClick={() => { setPlannerMode(m => m === 'login' ? 'signup' : 'login'); setPlannerLoginError(''); }}
-                  className="text-xs text-fuchsia-400/60 hover:text-fuchsia-400 uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer">
+                  className="text-xs text-[var(--color-accent)]/60 hover:text-[var(--color-accent)] uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer">
                   {plannerMode === 'login' ? 'Need an account? Create one' : 'Already have an account? Sign in'}
                 </button>
               </form>
@@ -296,7 +296,7 @@ export default function PlannerDashboard() {
   };
 
   const statusConfig = {
-    pending: { label: "Pending Review", color: "amber", bg: "bg-amber-500/10", border: "border-amber-500/20", text: "text-amber-500", bar: "bg-amber-500" },
+    pending: { label: "Pending Review", color: "purple", bg: "bg-purple-600/10", border: "border-purple-500/20", text: "text-purple-400", bar: "bg-purple-600" },
     confirmed: { label: "Confirmed", color: "emerald", bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-500", bar: "bg-emerald-500" },
     cancelled: { label: "Cancelled", color: "rose", bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-500", bar: "bg-rose-500" },
   };
@@ -340,18 +340,18 @@ export default function PlannerDashboard() {
         {/* Account Identity Header — matches fan/crew layout */}
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
           <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 rounded-full bg-fuchsia-500/20 border-2 border-fuchsia-500 flex items-center justify-center text-xl font-black text-fuchsia-400">
+            <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black text-[var(--color-accent)]">
               {isSignedInPlanner && member?.name
                 ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
                 : '📋'}
-              <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-fuchsia-500 border-2 border-[#050508] flex items-center justify-center">
+              <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[var(--color-accent)] border-2 border-[#050508] flex items-center justify-center">
                 <span className="text-[var(--font-size-3xs)]">📋</span>
               </span>
             </div>
             <div className="text-left">
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-black italic tracking-tight">{isSignedInPlanner && member?.name ? member.name : 'Event Planner'}</h1>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30">
                   📋 Event Planner
                 </span>
               </div>
@@ -366,7 +366,7 @@ export default function PlannerDashboard() {
               return (
                 <a href={isSignedInPlanner ? `/book?${params.toString()}` : "#"} 
                    onClick={(e) => { if (!isSignedInPlanner) { e.preventDefault(); window.location.href = '/planner'; } }}
-                   className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] hover:shadow-[0_0_30px_rgba(133,29,239,0.5)] flex items-center gap-2">
+                   className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)] flex items-center gap-2">
                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                    New Booking
                 </a>
@@ -388,13 +388,13 @@ export default function PlannerDashboard() {
               <div className="flex gap-3">
                 <button 
                   onClick={() => setShowCancelConfirm(false)}
-                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all"
+                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-all"
                 >
                   Keep Booking
                 </button>
                 <button 
                   onClick={handleCancelRequest}
-                  className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all"
+                  className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm uppercase tracking-wider transition-all"
                 >
                   Yes, Cancel
                 </button>
@@ -445,40 +445,40 @@ export default function PlannerDashboard() {
                      <div>
                        <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Event Name</label>
                        <input value={editDraft.eventName} onChange={e => setEditDraft(d => ({...d, eventName: e.target.value}))}
-                         className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all" />
+                         className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all" />
                      </div>
                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                        <div>
                          <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Start Time</label>
                          <input value={editDraft.startTime} onChange={e => setEditDraft(d => ({...d, startTime: e.target.value}))}
-                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 rounded-xl text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
+                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
                        </div>
                        <div>
                          <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">End Time</label>
                          <input value={editDraft.endTime} onChange={e => setEditDraft(d => ({...d, endTime: e.target.value}))}
-                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 rounded-xl text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
+                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
                        </div>
                        <div>
                          <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Venue</label>
                          <input value={editDraft.venueName} onChange={e => setEditDraft(d => ({...d, venueName: e.target.value}))}
-                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 rounded-xl text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
+                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
                        </div>
                        <div>
                          <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Attendance</label>
                          <input value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({...d, expectedAttendance: e.target.value}))}
-                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 rounded-xl text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
+                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
                        </div>
                      </div>
                      <div className="grid grid-cols-2 gap-4">
                        <div>
                          <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">City</label>
                          <input value={editDraft.venueCity} onChange={e => setEditDraft(d => ({...d, venueCity: e.target.value}))}
-                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 rounded-xl text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
+                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
                        </div>
                        <div>
                          <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">State</label>
                          <input value={editDraft.venueState} onChange={e => setEditDraft(d => ({...d, venueState: e.target.value}))}
-                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 rounded-xl text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
+                           className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-all" />
                        </div>
                      </div>
                    </div>
@@ -493,11 +493,11 @@ export default function PlannerDashboard() {
                        /* Edit mode actions */
                        <>
                          <button onClick={handleEditSave}
-                           className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-emerald-400 hover:text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all">
+                           className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-emerald-400 hover:text-white font-bold text-sm uppercase tracking-wider transition-all">
                            Save Changes
                          </button>
                          <button onClick={handleEditCancel}
-                           className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold text-sm uppercase tracking-wider rounded-xl transition-all border border-white/5">
+                           className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold text-sm uppercase tracking-wider transition-all border border-white/5">
                            Discard
                          </button>
                        </>
@@ -519,18 +519,18 @@ export default function PlannerDashboard() {
                              p.set("expectedAttendance", booking.expectedAttendance);
                              return `/book?${p.toString()}`;
                            })()}
-                           className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all text-center"
+                           className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-all text-center"
                          >
                            Rebook This Event
                          </a>
                          {reviveTimeLeft && (
                            <>
                              <button onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
-                               className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-emerald-400 hover:text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all">
+                               className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-emerald-400 hover:text-white font-bold text-sm uppercase tracking-wider transition-all">
                                Revive Booking
                              </button>
                              <p className="text-center text-white/30 text-xs font-mono">
-                               ⏱ Revive expires in <span className="text-amber-400 font-bold">{reviveTimeLeft}</span>
+                               ⏱ Revive expires in <span className="text-purple-300 font-bold">{reviveTimeLeft}</span>
                              </p>
                            </>
                          )}
@@ -553,16 +553,16 @@ export default function PlannerDashboard() {
                              p.set("expectedAttendance", booking.expectedAttendance);
                              return `/book?${p.toString()}`;
                            })()}
-                           className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all text-center"
+                           className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-all text-center"
                          >
                            Rebook This Event
                          </a>
                          <button onClick={handleEditStart}
-                           className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all border border-white/5">
+                           className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold text-sm uppercase tracking-wider transition-all border border-white/5">
                            Edit Logistics
                          </button>
                          <button onClick={() => setShowCancelConfirm(true)}
-                           className="w-full py-3 text-rose-400 font-bold text-sm uppercase tracking-wider hover:bg-rose-500/10 rounded-xl transition-all">
+                           className="w-full py-3 text-rose-400 font-bold text-sm uppercase tracking-wider hover:bg-rose-500/10 transition-all">
                            Cancel Request
                          </button>
                        </>
@@ -571,7 +571,7 @@ export default function PlannerDashboard() {
                  ) : (
                    <a 
                      href="/planner"
-                     className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all border border-white/10 flex items-center justify-center gap-2"
+                     className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold text-sm uppercase tracking-wider transition-all border border-white/10 flex items-center justify-center gap-2"
                    >
                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                      Sign in to manage
@@ -579,7 +579,7 @@ export default function PlannerDashboard() {
                  )}
                  <a 
                    href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking Dashboard] Issue with Event — ${booking.id}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nI'm reaching out from my Booking Dashboard regarding the following event:\n\n────────────────────────\nBooking ID: ${booking.id}\nEvent: ${booking.eventName}\nType: ${eventTypeLabels[booking.eventType] || booking.eventType}\nDate: ${booking.date}\nTime: ${booking.startTime} – ${booking.endTime}\nVenue: ${booking.venueName}\nCity: ${booking.venueCity}, ${booking.venueState}\nStatus: ${s.label}\n────────────────────────\n\nEvent Planner Message:\n\n`)}`}
-                   className="w-full py-3 flex items-center justify-center gap-2 text-white/40 hover:text-[var(--color-accent)] font-bold text-sm uppercase tracking-wider hover:bg-[var(--color-accent)]/5 rounded-xl transition-all"
+                   className="w-full py-3 flex items-center justify-center gap-2 text-white/40 hover:text-[var(--color-accent)] font-bold text-sm uppercase tracking-wider hover:bg-[var(--color-accent)]/5 transition-all"
                  >
                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                    Contact 7th Heaven
@@ -594,7 +594,7 @@ export default function PlannerDashboard() {
           <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📝</div>
+                <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📝</div>
                 <div>
                   <h3 className="text-lg font-bold text-white tracking-tight">Event Notes</h3>
                   <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">Private notes for your event — visible to you and the 7th Heaven team</p>
@@ -609,7 +609,7 @@ export default function PlannerDashboard() {
               onChange={e => { setPlannerNotes(e.target.value); setNotesSaved(false); }}
               placeholder="Add notes about your event... (e.g. parking instructions, green room needs, special requests, AV contact info)"
               rows={4}
-              className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 rounded-xl text-base text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all resize-none mb-3"
+              className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-base text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all resize-none mb-3"
             />
             <div className="flex items-center justify-between">
               <p className="text-xs text-white/20">{plannerNotes.length}/2000 characters</p>
@@ -628,7 +628,7 @@ export default function PlannerDashboard() {
                   setNotesSaving(false);
                 }}
                 disabled={notesSaving}
-                className="px-5 py-2 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all disabled:opacity-50 cursor-pointer"
+                className="px-5 py-2 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50 cursor-pointer"
               >
                 {notesSaving ? 'Saving...' : 'Save Notes'}
               </button>
@@ -642,7 +642,7 @@ export default function PlannerDashboard() {
             <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg">✅</div>
+                  <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg">✅</div>
                   <div>
                     <h3 className="text-lg font-bold text-white tracking-tight">Event Readiness Checklist</h3>
                     <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">Auto-generated from your booking details</p>
@@ -664,7 +664,7 @@ export default function PlannerDashboard() {
                   return (
                     <div className="flex items-center gap-3">
                       <div className="w-32 h-2 bg-white/5 rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-all duration-500 ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-amber-500' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
+                        <div className={`h-full rounded-full transition-all duration-500 ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                       </div>
                       <span className={`text-xs font-bold uppercase tracking-widest ${pct === 100 ? 'text-emerald-400' : 'text-white/40'}`}>
                         {done}/{items.length}
@@ -687,21 +687,21 @@ export default function PlannerDashboard() {
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
+                    className={`flex items-center gap-3 px-4 py-3  border transition-all ${
                       item.done
                         ? 'bg-emerald-500/5 border-emerald-500/15'
-                        : 'bg-white/[0.02] border-white/5 hover:border-amber-500/20'
+                        : 'bg-white/[0.02] border-white/5 hover:border-purple-500/20'
                     }`}
                   >
                     <span className="text-lg shrink-0">{item.done ? '✅' : '⬜'}</span>
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-bold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</p>
-                      <p className={`text-xs truncate ${item.done ? 'text-emerald-400/70' : 'text-amber-400/60'}`}>
+                      <p className={`text-xs truncate ${item.done ? 'text-emerald-400/70' : 'text-purple-300/60'}`}>
                         {item.detail}
                       </p>
                     </div>
                     {!item.done && (
-                      <span className="text-2xs font-bold uppercase tracking-widest text-amber-400/50 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/15 shrink-0">
+                      <span className="text-2xs font-bold uppercase tracking-widest text-purple-300/50 bg-purple-600/10 px-2 py-0.5 rounded border border-purple-500/15 shrink-0">
                         Needed
                       </span>
                     )}
@@ -716,14 +716,14 @@ export default function PlannerDashboard() {
                   !!booking.stageAvailable, !!booking.loadInTime, !!booking.expectedAttendance,
                 ].filter(i => !i).length;
                 if (missing === 0) return (
-                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-emerald-500/20">
                     <span className="text-emerald-400 text-sm">🎉</span>
                     <p className="text-sm font-bold text-emerald-400">All set! Your event details are complete.</p>
                   </div>
                 );
                 return (
-                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-amber-500/5 border border-amber-500/15 rounded-xl">
-                    <span className="text-amber-400 text-sm">💡</span>
+                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-purple-600/5 border border-purple-500/15">
+                    <span className="text-purple-300 text-sm">💡</span>
                     <p className="text-sm text-white/40">
                       {missing} item{missing !== 1 ? 's' : ''} still needed.{' '}
                       <button onClick={handleEditStart} className="text-[var(--color-accent)] hover:text-white font-bold underline transition-colors cursor-pointer">
@@ -742,7 +742,7 @@ export default function PlannerDashboard() {
         {allBookings.length > 1 && (
           <div className="mt-10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📜</div>
+              <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📜</div>
               <div>
                 <h3 className="text-lg font-bold text-white tracking-tight">Booking History</h3>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
@@ -760,7 +760,7 @@ export default function PlannerDashboard() {
                     ? { dot: 'bg-emerald-500', border: 'border-emerald-500/20', bg: 'bg-emerald-500/5', text: 'text-emerald-400', label: 'Confirmed' }
                     : b.status === 'cancelled'
                     ? { dot: 'bg-rose-500', border: 'border-rose-500/20', bg: 'bg-rose-500/5', text: 'text-rose-400', label: 'Cancelled' }
-                    : { dot: 'bg-amber-500', border: 'border-amber-500/20', bg: 'bg-amber-500/5', text: 'text-amber-400', label: 'Pending' };
+                    : { dot: 'bg-purple-600', border: 'border-purple-500/20', bg: 'bg-purple-600/5', text: 'text-purple-300', label: 'Pending' };
 
                   return (
                     <div key={b.id} className="flex gap-4 relative">
@@ -772,9 +772,9 @@ export default function PlannerDashboard() {
                       {/* Card */}
                       <button
                         onClick={() => { setBooking(b); setEditDraft(b); }}
-                        className={`flex-1 text-left px-5 py-4 rounded-2xl border transition-all cursor-pointer ${
+                        className={`flex-1 text-left px-5 py-4  border transition-all cursor-pointer ${
                           isActive
-                            ? `${sc.bg} ${sc.border} border shadow-lg`
+                            ? `${sc.bg} ${sc.border} border `
                             : 'bg-[var(--color-bg-surface)] border-white/5 hover:border-white/10'
                         }`}
                       >

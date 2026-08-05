@@ -37,7 +37,7 @@ export function EmbarkationCountdown() {
   return (
     <div className="flex flex-wrap items-center gap-4 bg-transparent border-none p-4 relative overflow-hidden">
       <div className="flex items-center gap-4 border-r border-black/10 pr-6 shrink-0 z-10">
-        <span className="text-4xl animate-bounce">🛳️</span>
+        <span className="text-4xl">🛳️</span>
         <div>
           <h2 className="text-black font-black italic tracking-wide text-lg">Embarkation</h2>
           <p className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Port of Miami</p>
@@ -47,7 +47,7 @@ export function EmbarkationCountdown() {
       <div className="flex items-center gap-4 z-10">
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
-            <div className="bg-white border border-black/10 rounded-xl w-14 h-16 flex items-center justify-center text-black font-mono font-black text-2xl shadow-md">
+            <div className="bg-white border border-black/10 w-14 h-16 flex items-center justify-center text-black font-mono font-black text-2xl shadow-md">
               {value.toString().padStart(2, '0')}
             </div>
             <span className="text-xs font-bold text-black/60 uppercase tracking-widest mt-2">{unit}</span>
@@ -72,7 +72,7 @@ export function DailyPoll() {
   const totalVotes = options.reduce((acc, opt) => acc + opt.votes, 0) + (voted !== null ? 1 : 0);
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-emerald-500/20 rounded-2xl p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border border-emerald-500/20 p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🗳️</span>
       </div>
@@ -91,7 +91,7 @@ export function DailyPoll() {
               key={opt.id}
               onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
-              className={`w-full relative overflow-hidden rounded-xl border text-left transition-all ${
+              className={`w-full relative overflow-hidden  border text-left transition-all ${
                 voted === opt.id 
                   ? 'border-emerald-500 bg-emerald-500/10' 
                   : voted !== null 
@@ -142,7 +142,7 @@ export function OriginStats() {
   const maxCount = Math.max(...stats.map(s => s.count));
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 relative overflow-hidden group">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
       
       <div className="space-y-4">
@@ -192,7 +192,7 @@ export function PhotoWall() {
         {mockPhotos.map((src, i) => (
           <div 
             key={i} 
-            className="aspect-square rounded-xl bg-white/5 border border-white/10 overflow-hidden group cursor-pointer relative"
+            className="aspect-square bg-white/5 border border-white/10 overflow-hidden group cursor-pointer relative"
           >
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all z-10 flex items-center justify-center backdrop-blur-[2px]">
               <span className="text-white text-2xl">📸</span>
@@ -430,20 +430,20 @@ export function BookingManager({ email }: { email?: string }) {
   };
 
   if (loading) return (
-    <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-8 rounded-2xl animate-pulse h-32 flex items-center justify-center">
+    <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-8 animate-pulse h-32 flex items-center justify-center">
       <span className="text-white/30 text-xs font-bold uppercase tracking-widest">Loading Priority Status...</span>
     </div>
   );
 
   if (!booking) return (
-    <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-8 rounded-2xl relative overflow-hidden">
+    <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-8 relative overflow-hidden">
       <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
         <span className="text-8xl">🚢</span>
       </div>
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2">Cruise Registration</h2>
       <p className="text-white/60 text-sm mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
       
-      <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 bg-black/20 p-4 rounded-xl border border-white/5">
+      <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 bg-black/20 p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</label>
@@ -486,7 +486,7 @@ export function BookingManager({ email }: { email?: string }) {
   );
 
   return (
-    <div className="p-6 bg-white border border-black/10 rounded-2xl shadow-md text-black relative overflow-hidden flex flex-col justify-between">
+    <div className="p-6 bg-white border border-black/10 shadow-md text-black relative overflow-hidden flex flex-col justify-between">
        <div>
          <div className="flex justify-between items-center mb-6 relative z-10">
            <div>
@@ -662,26 +662,26 @@ export function BookingManager({ email }: { email?: string }) {
                 )}
 
                 {/* Travel Readiness Checklist Badges */}
-                <div className="bg-gray-50 border border-black/10 rounded-xl p-3 my-3">
+                <div className="bg-gray-50 border border-black/10 p-3 my-3">
                   <span className="text-[var(--font-size-3xs)] font-bold text-black/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
                   <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
                     <div className="flex items-center gap-1.5 text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-1 rounded">
                       <span>✓</span> Passport Verified
                     </div>
-                    <div className="flex items-center gap-1.5 text-purple-800 font-bold bg-purple-50 border border-purple-200 px-2 py-1 rounded">
+                    <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-bold bg-[var(--color-accent)] border border-[var(--color-accent)] px-2 py-1 rounded">
                       <span>🎸</span> Band VIP Pass Included
                     </div>
                     <div className="flex items-center gap-1.5 text-cyan-800 font-medium bg-cyan-50 border border-cyan-200 px-2 py-1 rounded">
                       <span>📅</span> Check-in: 45 Days Prior
                     </div>
-                    <div className="flex items-center gap-1.5 text-amber-800 font-medium bg-amber-50 border border-amber-200 px-2 py-1 rounded">
+                    <div className="flex items-center gap-1.5 text-purple-400 font-medium bg-amber-50 border border-amber-200 px-2 py-1 rounded">
                       <span>🏷️</span> Luggage Tags: Dec 1st
                     </div>
                   </div>
                 </div>
 
                 {/* Payment Breakdown: Total Fare, Paid & Owed */}
-                <div className="bg-gray-50 border border-black/10 rounded-xl p-4 space-y-2.5 my-3 shadow-sm">
+                <div className="bg-gray-50 border border-black/10 p-4 space-y-2.5 my-3 shadow-sm">
                   <div className="flex justify-between items-center text-xs">
                     <span className="font-bold text-black/60 uppercase tracking-wider">Total Cruise Fare</span>
                     <span className="font-bold text-black">{booking.total_fare || "$1,550.00"}</span>
@@ -735,7 +735,7 @@ export function BookingManager({ email }: { email?: string }) {
                       )}&body=${encodeURIComponent(
                         `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
                       )}`}
-                      className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
+                      className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
                     >
                       <div className="flex items-center gap-1.5 font-black">
                         <span>✉️</span> Cruise Admin
@@ -750,12 +750,12 @@ export function BookingManager({ email }: { email?: string }) {
                       )}&body=${encodeURIComponent(
                         `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
                       )}`}
-                      className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer text-center"
+                      className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer text-center"
                     >
                       <div className="flex items-center gap-1.5 font-black">
                         <span>✉️</span> Support Agent (Mary)
                       </div>
-                      <span className="text-[var(--font-size-4xs)] font-mono font-normal text-purple-200 lowercase tracking-normal">mary@ntdvacations.com</span>
+                      <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal">mary@ntdvacations.com</span>
                     </a>
                   </div>
                 </div>
@@ -894,10 +894,10 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
         onClick={processing || success ? undefined : onClose}
       />
       
-      <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-cyan-500/20 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-all duration-300 text-left">
+      <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-all duration-300 text-left">
         {success ? (
           <div className="p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 mx-auto text-2xl animate-bounce shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               ✓
             </div>
             <h3 className="text-lg font-black uppercase tracking-widest text-white">Payment Successful</h3>
@@ -906,7 +906,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
             </p>
             <button 
               onClick={onClose}
-              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-lg shadow-emerald-500/15"
+              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest transition-all cursor-pointer shadow-emerald-500/15"
             >
               Close
             </button>
@@ -934,7 +934,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
               </div>
             ) : (
               <>
-                <div className="flex gap-2 p-1 bg-black/40 border border-white/5 rounded-xl">
+                <div className="flex gap-2 p-1 bg-black/40 border border-white/5">
                   <button 
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
@@ -952,7 +952,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                 </div>
 
                 {tab === 'saved' ? (
-                  <div className="bg-black/20 border border-white/5 p-4 rounded-xl space-y-3">
+                  <div className="bg-black/20 border border-white/5 p-4 space-y-3">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <span className="text-lg">💳</span>
@@ -975,7 +975,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                         placeholder="John Doe"
                         value={cardName}
                         onChange={e => setCardName(e.target.value)}
-                        className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all"
+                        className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all"
                       />
                     </div>
                     <div>
@@ -986,7 +986,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                           placeholder="4000 1234 5678 9010"
                           value={cardNumber}
                           onChange={e => handleCardNumberChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 pl-9 pr-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
                         />
                         <span className="absolute left-3 top-2.5 text-white/40 text-xs">💳</span>
                       </div>
@@ -999,7 +999,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                           placeholder="MM/YY"
                           value={cardExpiry}
                           onChange={e => handleExpiryChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
                         />
                       </div>
                       <div>
@@ -1009,7 +1009,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                           placeholder="123"
                           value={cardCVC}
                           onChange={e => handleCVCChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
                         />
                       </div>
                     </div>
@@ -1020,13 +1020,13 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                   <button 
                     type="button" 
                     onClick={onClose}
-                    className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                    className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest transition-all cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit" 
-                    className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-lg shadow-cyan-500/10"
+                    className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black uppercase tracking-widest transition-all cursor-pointer shadow-cyan-500/10"
                   >
                     Pay {balanceDue}
                   </button>
@@ -1058,14 +1058,14 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="bg-white border border-black/10 rounded-2xl p-6 shadow-md text-black relative overflow-hidden group">
+    <div className="bg-white border border-black/10 p-6 shadow-md text-black relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
       
       <div className="flex justify-between items-end mb-6 relative z-10">
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-fuchsia-700 mb-1">Quick Access</h2>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-1">Quick Access</h2>
           <p className="text-black font-bold text-lg">Important Links</p>
         </div>
       </div>
@@ -1077,15 +1077,15 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-black/10 hover:bg-gray-100 hover:border-fuchsia-500/40 transition-all text-left group/item"
+            className="w-full flex items-center justify-between p-3 bg-gray-50 border border-black/10 hover:bg-gray-100 hover:border-[var(--color-accent)]/40 transition-all text-left group/item"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
-              <span className="text-sm font-medium text-black group-hover/item:text-fuchsia-700 transition-colors">
+              <span className="text-sm font-medium text-black group-hover/item:text-[var(--color-accent)] transition-colors">
                 {link.title}
               </span>
             </div>
-            <span className="text-fuchsia-700 opacity-0 group-hover/item:opacity-100 transition-opacity -translate-x-2 group-hover/item:translate-x-0 duration-300">
+            <span className="text-[var(--color-accent)] opacity-0 group-hover/item:opacity-100 transition-opacity -translate-x-2 group-hover/item:translate-x-0 duration-300">
               →
             </span>
           </a>
@@ -1109,11 +1109,11 @@ export function SongRequestLeaderboard() {
   };
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-amber-500/20 rounded-2xl p-6 relative overflow-hidden">
+    <div className="bg-[var(--color-bg-surface)] border border-purple-500/20 p-6 relative overflow-hidden">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-500 text-sm">🎸</div>
+        <div className="w-8 h-8 rounded-full bg-purple-600/20 flex items-center justify-center text-purple-400 text-sm">🎸</div>
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-amber-400">Setlist Requests</h2>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-300">Setlist Requests</h2>
           <p className="text-white/40 text-xs uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
         </div>
       </div>
@@ -1121,7 +1121,7 @@ export function SongRequestLeaderboard() {
       <div className="space-y-4">
         {songs.map((song, i) => (
           <div key={song.id} className="flex items-center gap-4 group">
-            <span className={`text-sm font-black w-4 text-center ${i < 3 ? 'text-amber-500' : 'text-white/20'}`}>
+            <span className={`text-sm font-black w-4 text-center ${i < 3 ? 'text-purple-400' : 'text-white/20'}`}>
               {i + 1}
             </span>
             <div className="flex-1">
@@ -1130,7 +1130,7 @@ export function SongRequestLeaderboard() {
             </div>
             <button 
               onClick={() => handleVote(song.id)}
-              className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-amber-500/20 hover:border-amber-500/50 hover:text-amber-400 transition-all text-white/40"
+              className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-purple-600/20 hover:border-purple-500/50 hover:text-purple-300 transition-all text-white/40"
             >
               ▲
             </button>
@@ -1158,13 +1158,13 @@ export function CaptainsLog() {
   }, [isPlaying]);
 
   return (
-    <div className="bg-gradient-to-br from-[#0b0b12] to-[#120b18] border border-purple-500/20 rounded-2xl p-6 shadow-xl relative">
-      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-4">Captain's Log</h2>
+    <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 shadow-xl relative">
+      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4">Captain's Log</h2>
       
-      <div className="flex items-center gap-4 bg-black/40 p-4 rounded-xl border border-white/5">
+      <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button 
           onClick={() => setIsPlaying(!isPlaying)}
-          className="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center shrink-0 hover:bg-purple-400 hover:scale-105 transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+          className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-all shadow-md"
         >
           {isPlaying ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
@@ -1176,10 +1176,10 @@ export function CaptainsLog() {
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-end mb-2">
             <span className="text-sm font-bold text-white truncate">Rehearsal Update!</span>
-            <span className="text-xs text-purple-400/80 font-mono">0:42</span>
+            <span className="text-xs text-[var(--color-accent)]/80 font-mono">0:42</span>
           </div>
           <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer">
-            <div className="h-full bg-purple-500 rounded-full" style={{ width: `${progress}%` }} />
+            <div className="h-full bg-[var(--color-accent)] rounded-full" style={{ width: `${progress}%` }} />
           </div>
         </div>
       </div>
@@ -1200,12 +1200,12 @@ export function ExcursionTeasers() {
   ];
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-cyan-500/20 rounded-2xl p-6">
+    <div className="bg-[var(--color-bg-surface)] border border-cyan-500/20 p-6">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-5">Band Excursions</h2>
       
       <div className="space-y-3">
         {excursions.map((ex, i) => (
-          <div key={i} className="p-3 rounded-xl bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
+          <div key={i} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
             <div>
               <div className="text-sm font-bold text-white mb-0.5">{ex.title}</div>
               <div className="text-xs text-cyan-400/80 uppercase tracking-wider">Join {ex.bandMember}</div>

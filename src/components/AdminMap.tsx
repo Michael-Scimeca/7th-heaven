@@ -33,11 +33,11 @@ class MapErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-3">
+        <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border border-white/5 flex flex-col items-center justify-center gap-3">
           <p className="text-xs text-white/50">Map reloading...</p>
           <button
             onClick={() => this.setState({ hasError: false })}
-            className="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-black text-[var(--font-size-3xs)] font-bold uppercase rounded cursor-pointer border-none"
+            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-3xs)] font-bold uppercase rounded cursor-pointer border-none"
           >
             Reset Map
           </button>
@@ -75,7 +75,7 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
     setMapKey("map-" + Math.random().toString());
   }, []);
 
-  if (!ready) return <div className="w-full h-full min-h-[180px] bg-slate-100 rounded-xl animate-pulse" />;
+  if (!ready) return <div className="w-full h-full min-h-[180px] bg-slate-100 animate-pulse" />;
 
   // Map locations to coordinates
   const getCoordinates = (city: string): [number, number] => {
@@ -91,7 +91,7 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
   const getColor = (city: string) => {
     const colors: Record<string, string> = {
       'Chicago, IL': '#059669', // Emerald
-      'Nashville, TN': '#d97706', // Amber
+      'Nashville, TN': '#7c3aed', // Amber
       'Los Angeles, CA': '#7c3aed', // Purple
       'Dallas, TX': '#2563eb', // Blue
     };
@@ -100,7 +100,7 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
 
   return (
     <MapErrorBoundary>
-      <div ref={containerRef} className="w-full h-full min-h-[180px] rounded-xl overflow-hidden shadow-xs relative">
+      <div ref={containerRef} className="w-full h-full min-h-[180px] overflow-hidden shadow-xs relative">
         <MapContainer 
           key={mapKey}
           center={[39.8283, -98.5795]} 

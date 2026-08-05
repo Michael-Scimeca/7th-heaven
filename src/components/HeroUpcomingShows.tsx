@@ -141,7 +141,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       {/* Main Countdown Banner for Next Show */}
       <div className="relative border border-[var(--color-accent)]/15 bg-[rgba(20,15,30,0.85)] overflow-hidden rounded-lg p-3 mb-2 flex flex-col gap-2.5">
         {/* Subtle purple gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-l from-[rgba(133,29,239,0.06)] via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-l from-[rgba(255,10,61,0.06)] via-transparent to-transparent pointer-events-none" />
 
         <div className="relative z-10 flex flex-col gap-2">
           {/* Top block: UP NEXT Badge & Countdown timer inline */}

@@ -133,7 +133,7 @@ const SparklesIcon = () => (
 const CATEGORIES = [
   { id: "all", label: "All Questions", icon: HelpIcon, color: "text-[#8a1cfc]" },
   { id: "booking", label: "Booking & Shows", icon: TicketIcon, color: "text-emerald-400" },
-  { id: "merch", label: "Store & Merch", icon: StoreIcon, color: "text-amber-400" },
+  { id: "merch", label: "Store & Merch", icon: StoreIcon, color: "text-purple-300" },
   { id: "cruise", label: "Cruise Community", icon: ShipIcon, color: "text-sky-400" },
   { id: "fan", label: "Fan Portal & Club", icon: UsersIcon, color: "text-rose-400" }
 ];
@@ -184,7 +184,7 @@ export default function FAQPage() {
 
         {/* Search Bar */}
         <div className="relative mb-10 group">
-          <div className="relative bg-[var(--card-bg)] border border-[var(--border-color)] group-focus-within:border-purple-500 rounded-2xl p-1.5 flex items-center transition duration-200 shadow-sm">
+          <div className="relative bg-[var(--card-bg)] border border-[var(--border-color)] group-focus-within:border-purple-500 p-1.5 flex items-center transition duration-200 shadow-sm">
             <div className="pl-4 pr-2 text-[var(--muted-text)]">
               <SearchIcon />
             </div>
@@ -238,7 +238,7 @@ export default function FAQPage() {
               return (
                 <div 
                   key={faq.id}
-                  className={`bg-white border rounded-2xl overflow-hidden transition-all duration-300 shadow-sm ${
+                  className={`bg-white border  overflow-hidden transition-all duration-300 shadow-sm ${
                     isExpanded 
                       ? "border-purple-500/40 shadow-md" 
                       : "border-black/10 hover:border-black/20"

@@ -8,565 +8,20 @@ import dynamic from 'next/dynamic';
 const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mod => mod.LiveKitStream), { ssr: false });
 import { useRouter, usePathname } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase-client';
 
-/* ═══════════════════════════════════════════════════════
-   FAKE DATA — crew members & fan accounts
-═══════════════════════════════════════════════════════ */
+// ── Sub-components extracted from this file ──
+import { CameraFeed } from './CameraFeed';
+import { GoingLiveOverlay } from './GoingLiveOverlay';
+import { RaffleClaimModal } from './RaffleClaimModal';
 
-interface FakeAccount {
-  id: string;
-  displayName: string;
-  role: 'crew' | 'fan';
-  color: string;
-  badge?: string;
-  avatar: string;
-  tier?: string;
-}
-
-const CREW_ACCOUNTS: FakeAccount[] = [
-  { id: 'crew-mike', displayName: 'Mike S', role: 'crew', color: '#a855f7', badge: '🎸', avatar: 'MS' },
-  { id: 'crew-sammy', displayName: 'Sammy D', role: 'crew', color: '#ec4899', badge: '🥁', avatar: 'SD' },
-  { id: 'crew-ryan', displayName: 'Ryan K', role: 'crew', color: '#06b6d4', badge: '🎹', avatar: 'RK' },
-  { id: 'crew-tony', displayName: 'Tony M', role: 'crew', color: '#f97316', badge: '🎤', avatar: 'TM' },
-];
-
-const FAN_ACCOUNTS: FakeAccount[] = [
-  { id: 'fan-jess', displayName: 'Jess_M', role: 'fan', color: '#a78bfa', avatar: 'JM', tier: '💎 Platinum' },
-  { id: 'fan-rockerdan', displayName: 'rockerdan92', role: 'fan', color: '#f472b6', avatar: 'RD', tier: '🥇 Gold' },
-  { id: 'fan-mikefan', displayName: 'mike_fan_01', role: 'fan', color: '#34d399', avatar: 'MF', tier: '🥈 Silver' },
-  { id: 'fan-chicagolou', displayName: 'ChicagoLou', role: 'fan', color: '#fbbf24', avatar: 'CL', tier: '🥇 Gold' },
-  { id: 'fan-tay', displayName: 'tay_rocks', role: 'fan', color: '#60a5fa', avatar: 'TR', tier: '🥈 Silver' },
-  { id: 'fan-mel', displayName: 'MelM', role: 'fan', color: '#fb923c', avatar: 'MM', tier: '💎 Platinum' },
-  { id: 'fan-super', displayName: 'superfan99', role: 'fan', color: '#c084fc', avatar: 'S9', tier: '🥇 Gold' },
-  { id: 'fan-drummer', displayName: 'drummer_kid', role: 'fan', color: '#4ade80', avatar: 'DK', tier: '🥉 Bronze' },
-  { id: 'fan-stacey', displayName: 'StaceyB', role: 'fan', color: '#f43f5e', avatar: 'SB', tier: '🥈 Silver' },
-  { id: 'fan-ashley', displayName: 'ashley_xo', role: 'fan', color: '#e879f9', avatar: 'AX', tier: '🥇 Gold' },
-  { id: 'fan-jake', displayName: 'Jake7H', role: 'fan', color: '#38bdf8', avatar: 'J7', tier: '💎 Platinum' },
-  { id: 'fan-midwest', displayName: 'MidwestMama', role: 'fan', color: '#facc15', avatar: 'MW', tier: '🥈 Silver' },
-  { id: 'fan-nate', displayName: 'nate_bass', role: 'fan', color: '#22d3ee', avatar: 'NB', tier: '🥉 Bronze' },
-  { id: 'fan-lauren', displayName: 'LaurenLive', role: 'fan', color: '#a3e635', avatar: 'LL', tier: '🥇 Gold' },
-  { id: 'fan-tommy', displayName: 'TommyGuitar', role: 'fan', color: '#818cf8', avatar: 'TG', tier: '🥈 Silver' },
-];
-
-const FAN_MESSAGES = [
-  'omg this is insane 🔥🔥', 'LETS GOOOO 7TH HEAVEN', 'best show of the year no cap',
-  '🤘🤘🤘 sending love from the back row', 'the drums tonight tho!! WOW',
-  'been waiting 3 years for this moment ❤️', 'streaming this to my whole family rn lmao',
-  'those guitar riffs hit different live', 'THIS IS MY FAVORITE SONG', 'chills. actual chills.',
-  'who else is crying rn 😭', 'TURN IT UP 🔊🔊🔊', 'the energy in here is UNREAL',
-  'they never disappoint 🙌', 'Chicago represent!! 🏙️', 'first time seeing them live… speechless',
-  'MOM LOOK IM ON THE LIVE STREAM', 'this band is everything', 'PLAY SING NEXT PLEASE 🎵',
-  'i cant stop screaming', 'watching from my car in the parking lot lol 😂',
-  '7th heaven forever ❤️‍🔥', 'that bass line tho 🎸', 'bruh this setlist is FIRE',
-  'i drove 6 hours for this', 'whos got the setlist??', 'PIT IS INSANE RN',
-  'they sound even better live wtf', 'ENCORE ENCORE ENCORE', 'losing my voice already',
-  'this is what live music is about', 'my 15th 7H show and they keep getting better',
-  'the light show tonight 😍', 'GET YOUR PHONES UP 📱', 'im literally floating rn',
-  'WAIT IS THAT A NEW SONG??', 'someone catch me im gonna faint', 'LEGEND STATUS 🏆',
-  'making memories for life', 'the whole crowd is jumping 🦘', 'VIBE CHECK: 100/100',
-  'goosebumps on goosebumps', 'they really are the best band in the midwest',
-  'holy harmonies batman', 'whoever is streaming THANK YOU 🙏',
-  'FRONT ROW BABY', 'they LITERALLY just winked at me', 'im never washing this hand 😂',
-  'this night is everything I needed 🫶', 'THE CROWD IS GOING INSANE',
-  'my ears are still ringing but it was SO worth it',
-];
-
-const CREW_MESSAGES = [
-  '🔴 Soundcheck done — we are LOCKED IN tonight 🔥',
-  'LFG the crowd is absolutely INSANE right now',
-  'thank you all for being here with us tonight ❤️',
-  'crowd cam looking beautiful out there 📸',
-  'this next one goes out to the OG fans 🫶',
-  'we got a STACKED setlist for you tonight 🎶',
-  '🚨 new song alert 👀 dropping this one LIVE for the first time ever',
-  'shoutout to the crew holding it down backstage — you know who you are',
-  'love seeing all your signs in the crowd!!',
-  'we see you front row!! 🤘🤘',
-  'yo the energy is OFF THE CHARTS tonight',
-  'that one was FOR YOU, Chicago 🏙️',
-  'THIS is why we do this 🙌',
-  'quick water break — DON\'T GO ANYWHERE',
-];
-
-const SYSTEM_EVENTS = [
-  { text: '🎉 Jess_M just joined the stream!', delay: 0 },
-  { text: '🎉 ChicagoLou just joined the stream!', delay: 3000 },
-  { text: '🎉 mike_fan_01 just joined the stream!', delay: 6000 },
-  { text: '📡 Mike S is going LIVE from backstage', delay: 8500 },
-  { text: '🎉 superfan99 just joined the stream!', delay: 12000 },
-  { text: '🎉 LaurenLive just joined the stream!', delay: 18000 },
-  { text: '🎉 Jake7H just joined the stream!', delay: 28000 },
-];
-
-const REACTION_EMOJIS = ['❤️', '🔥', '🤘', '🎸', '👏', '⚡', '😍', '🙌', '💜', '🤯'];
-
-/* ═══════════════════════════════════════════════════════
-   CREW CONFIG — per-member branding
-═══════════════════════════════════════════════════════ */
-
-interface CrewConfig {
-  id: string;
-  name: string;
-  displayName: string;
-  badge: string;
-  avatar: string;
-  color: string;
-  gradient: string;
-  instrument: string;
-  cameraLabel: string;
-  bioAnchor: string;
-}
-
-const CREW_CONFIG: Record<string, CrewConfig> = {
-  mike: { id: 'crew-mike', name: 'Mike S', displayName: 'MIKE S', badge: '🎸', avatar: 'MS', color: '#a855f7', gradient: 'linear-gradient(135deg, #8a1cfc, #ec4899)', instrument: 'Guitar', cameraLabel: 'Backstage Cam', bioAnchor: '#bio-member-1' },
-  michael: { id: 'crew-mike', name: 'Mike S', displayName: 'MIKE S', badge: '🎸', avatar: 'MS', color: '#a855f7', gradient: 'linear-gradient(135deg, #8a1cfc, #ec4899)', instrument: 'Guitar', cameraLabel: 'Backstage Cam', bioAnchor: '#bio-member-1' },
-  sammy: { id: 'crew-sammy', name: 'Sammy D', displayName: 'SAMMY D', badge: '🥁', avatar: 'SD', color: '#ec4899', gradient: 'linear-gradient(135deg, #ec4899, #f97316)', instrument: 'Drums', cameraLabel: 'Drum Warm-Up', bioAnchor: '#bio-member-4' },
-  ryan: { id: 'crew-ryan', name: 'Ryan K', displayName: 'RYAN K', badge: '🎹', avatar: 'RK', color: '#06b6d4', gradient: 'linear-gradient(135deg, #06b6d4, #8a1cfc)', instrument: 'Keys', cameraLabel: 'Keys & Soundcheck', bioAnchor: '#bio-member-2' },
-  tony: { id: 'crew-tony', name: 'Tony M', displayName: 'TONY M', badge: '🎤', avatar: 'TM', color: '#f97316', gradient: 'linear-gradient(135deg, #f97316, #ef4444)', instrument: 'Vocals', cameraLabel: 'Vocal Check', bioAnchor: '#bio-member-0' },
-};
-
-/* ═══════════════════════════════════════════════════════
-   FAKE CAMERA FEED — canvas-rendered live stream simulation
-═══════════════════════════════════════════════════════ */
-
-function FakeCameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const frameRef = useRef(0);
-  const timeRef = useRef(0);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Parse crewColor to rgb components for blending
-    const hexToRgb = (hex: string) => {
-      const r = parseInt(hex.slice(1, 3), 16);
-      const g = parseInt(hex.slice(3, 5), 16);
-      const b = parseInt(hex.slice(5, 7), 16);
-      return { r, g, b };
-    };
-    const accent = hexToRgb(crewColor.length === 7 ? crewColor : '#a855f7');
-
-    const resize = () => {
-      const rect = canvas.parentElement?.getBoundingClientRect();
-      if (rect) {
-        canvas.width = rect.width;
-        canvas.height = rect.height;
-      }
-    };
-    resize();
-    const ro = new ResizeObserver(resize);
-    if (canvas.parentElement) ro.observe(canvas.parentElement);
-
-    const draw = (ts: number) => {
-      frameRef.current = requestAnimationFrame(draw);
-      const t = ts / 1000;
-      timeRef.current = t;
-      const W = canvas.width;
-      const H = canvas.height;
-      if (W === 0 || H === 0) return;
-
-      // ── 1. Dark base ──
-      ctx.fillStyle = '#040408';
-      ctx.fillRect(0, 0, W, H);
-
-      // ── 2. Stage ambient wash (bottom half) ──
-      const ambH = H * 0.55;
-      const amb = ctx.createLinearGradient(0, H - ambH, 0, H);
-      amb.addColorStop(0, `rgba(${accent.r},${accent.g},${accent.b},0.0)`);
-      amb.addColorStop(0.5, `rgba(${accent.r},${accent.g},${accent.b},0.06)`);
-      amb.addColorStop(1, 'rgba(0,0,0,0.6)');
-      ctx.fillStyle = amb;
-      ctx.fillRect(0, H - ambH, W, ambH);
-
-      // ── 3. Animated spotlight beams ──
-      const beams = [
-        { xFrac: 0.18, phase: 0, colorH: (t * 40) % 360 },
-        { xFrac: 0.50, phase: Math.PI / 3, colorH: (t * 40 + 120) % 360 },
-        { xFrac: 0.78, phase: Math.PI / 1.5, colorH: (t * 40 + 240) % 360 },
-      ];
-      beams.forEach((b) => {
-        const swing = Math.sin(t * 0.7 + b.phase) * (W * 0.06);
-        const bx = W * b.xFrac + swing;
-        const topW = 8;
-        const botW = 90 + Math.sin(t * 0.3 + b.phase) * 10;
-        const beamH = H * 0.72;
-        const grad = ctx.createLinearGradient(bx, 0, bx, beamH);
-        grad.addColorStop(0, `hsla(${b.colorH},100%,75%,0.25)`);
-        grad.addColorStop(0.7, `hsla(${b.colorH},100%,65%,0.08)`);
-        grad.addColorStop(1, `hsla(${b.colorH},100%,55%,0)`);
-        ctx.beginPath();
-        ctx.moveTo(bx - topW / 2, 0);
-        ctx.lineTo(bx + topW / 2, 0);
-        ctx.lineTo(bx + botW / 2, beamH);
-        ctx.lineTo(bx - botW / 2, beamH);
-        ctx.closePath();
-        ctx.fillStyle = grad;
-        ctx.fill();
-
-        // Lens flare dot at top
-        ctx.beginPath();
-        ctx.arc(bx, 2, 3, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${b.colorH},100%,90%,0.6)`;
-        ctx.fill();
-      });
-
-      // ── 4. Performer silhouette (centre stage) ──
-      const px = W / 2 + Math.sin(t * 0.4) * (W * 0.01);
-      const py = H * 0.78;
-      const scale = H * 0.0018;
-      ctx.save();
-      ctx.translate(px, py);
-
-      // Body glow behind performer
-      const bodyGlow = ctx.createRadialGradient(0, -60 * scale, 0, 0, -60 * scale, 120 * scale);
-      bodyGlow.addColorStop(0, `rgba(${accent.r},${accent.g},${accent.b},0.18)`);
-      bodyGlow.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = bodyGlow;
-      ctx.fillRect(-100 * scale, -200 * scale, 200 * scale, 220 * scale);
-
-      // Silhouette
-      ctx.fillStyle = 'rgba(0,0,0,0.92)';
-      // Legs
-      ctx.beginPath();
-      ctx.moveTo(-20 * scale, 0);
-      ctx.lineTo(-28 * scale, -120 * scale);
-      ctx.lineTo(-8 * scale, -120 * scale);
-      ctx.lineTo(0, 0);
-      ctx.closePath();
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(20 * scale, 0);
-      ctx.lineTo(28 * scale, -120 * scale);
-      ctx.lineTo(8 * scale, -120 * scale);
-      ctx.lineTo(0, 0);
-      ctx.closePath();
-      ctx.fill();
-      // Torso
-      ctx.beginPath();
-      ctx.moveTo(-28 * scale, -120 * scale);
-      ctx.lineTo(28 * scale, -120 * scale);
-      ctx.lineTo(22 * scale, -210 * scale);
-      ctx.lineTo(-22 * scale, -210 * scale);
-      ctx.closePath();
-      ctx.fill();
-      // Head
-      ctx.beginPath();
-      ctx.arc(0, -228 * scale, 22 * scale, 0, Math.PI * 2);
-      ctx.fill();
-      // Guitar arm (animate)
-      const armAngle = Math.sin(t * 2.1) * 0.15;
-      ctx.save();
-      ctx.translate(-22 * scale, -180 * scale);
-      ctx.rotate(armAngle - 0.3);
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-55 * scale, 40 * scale);
-      ctx.strokeStyle = 'rgba(0,0,0,0.95)';
-      ctx.lineWidth = 10 * scale;
-      ctx.stroke();
-      ctx.restore();
-      ctx.restore();
-
-      // ── 5. Crowd silhouette at bottom ──
-      ctx.fillStyle = 'rgba(0,0,0,0.82)';
-      ctx.beginPath();
-      ctx.moveTo(0, H);
-      // Jagged crowd heads
-      const crowdPts = 32;
-      for (let i = 0; i <= crowdPts; i++) {
-        const cx = (i / crowdPts) * W;
-        const bobble = Math.sin(t * 1.8 + i * 0.9) * (H * 0.008);
-        const baseH = H * (0.85 + 0.03 * Math.sin(i * 0.7));
-        ctx.lineTo(cx, baseH + bobble);
-      }
-      ctx.lineTo(W, H);
-      ctx.closePath();
-      ctx.fill();
-
-      // ── 6. Bottom floor light reflection ──
-      const floorGrad = ctx.createLinearGradient(0, H * 0.8, 0, H);
-      floorGrad.addColorStop(0, 'rgba(0,0,0,0)');
-      floorGrad.addColorStop(1, `rgba(${accent.r},${accent.g},${accent.b},0.12)`);
-      ctx.fillStyle = floorGrad;
-      ctx.fillRect(0, H * 0.8, W, H * 0.2);
-
-      // ── 7. Very subtle camera shake (translate) ──
-      const shakeMag = 0.5;
-      const shakeX = (Math.sin(t * 13.7) + Math.sin(t * 7.3)) * shakeMag;
-      const shakeY = (Math.cos(t * 11.1) + Math.cos(t * 5.9)) * shakeMag;
-      // (Already baked into performer position above; apply globally via offset on next frame)
-
-      // ── 8. Film grain noise ──
-      const imageData = ctx.getImageData(0, 0, W, H);
-      const data = imageData.data;
-      const grainAmt = 28;
-      for (let i = 0; i < data.length; i += 4) {
-        const grain = (Math.random() - 0.5) * grainAmt;
-        data[i] = Math.min(255, Math.max(0, data[i] + grain));
-        data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + grain));
-        data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + grain));
-      }
-      ctx.putImageData(imageData, shakeX, shakeY);
-
-      // ── 9. Interlaced scan lines ──
-      for (let y = 0; y < H; y += 3) {
-        ctx.fillStyle = 'rgba(0,0,0,0.07)';
-        ctx.fillRect(0, y, W, 1);
-      }
-
-      // ── 10. Vignette ──
-      const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.85);
-      vig.addColorStop(0, 'rgba(0,0,0,0)');
-      vig.addColorStop(1, 'rgba(0,0,0,0.55)');
-      ctx.fillStyle = vig;
-      ctx.fillRect(0, 0, W, H);
-
-      // ── 11. "7TH HEAVEN" ghost text ──
-      ctx.save();
-      ctx.globalAlpha = 0.04 + Math.sin(t * 0.3) * 0.01;
-      ctx.fillStyle = 'white';
-      ctx.font = `bold ${W * 0.09}px sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('7TH HEAVEN', W / 2, H * 0.42);
-      ctx.restore();
-
-      // ── 12. Chromatic aberration edge fringe ──
-      ctx.save();
-      ctx.globalCompositeOperation = 'screen';
-      ctx.globalAlpha = 0.04;
-      ctx.fillStyle = 'red';
-      ctx.fillRect(-1, 0, W, H);
-      ctx.fillStyle = 'cyan';
-      ctx.fillRect(1, 0, W, H);
-      ctx.restore();
-
-      // ── 13. Broadcast timecode (bottom-left) ──
-      const now = new Date();
-      const tc = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}:${String(Math.floor((ts % 1000) / 33)).padStart(2, '0')}`;
-      ctx.save();
-      ctx.globalAlpha = 0.35;
-      ctx.fillStyle = 'white';
-      ctx.font = `${Math.max(10, W * 0.013)}px monospace`;
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'bottom';
-      ctx.fillText(`TC ${tc}  CAM-1  1080i`, W * 0.02, H * 0.97);
-      ctx.restore();
-    };
-
-    frameRef.current = requestAnimationFrame(draw);
-    return () => {
-      cancelAnimationFrame(frameRef.current);
-      ro.disconnect();
-    };
-  }, [crewColor]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
-      style={{ display: 'block' }}
-    />
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   TYPES
-═══════════════════════════════════════════════════════ */
-
-interface ChatMsg {
-  id: string;
-  account: FakeAccount | null; // null = system
-  text: string;
-  timestamp: number;
-  isSystem?: boolean;
-  isUser?: boolean;
-}
-
-interface FloatingEmoji {
-  id: string;
-  emoji: string;
-  x: number;
-  createdAt: number;
-}
-
-/* ═══════════════════════════════════════════════════════
-   STARTUP OVERLAY — "Going Live" animation sequence
-═══════════════════════════════════════════════════════ */
-
-function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void; crew: CrewConfig }) {
-  const [phase, setPhase] = useState<'connecting' | 'initializing' | 'live'>('connecting');
-  const [faded, setFaded] = useState(false);
-
-  // Use RAF + Date.now() so it works even in background tabs
-  useEffect(() => {
-    const start = Date.now();
-    let rafId: number;
-    const tick = () => {
-      const elapsed = Date.now() - start;
-      if (elapsed >= 1800 && elapsed < 3600) setPhase('initializing');
-      else if (elapsed >= 3600) setPhase('live');
-      if (elapsed >= 4200) setFaded(true);
-      if (elapsed >= 5000) {
-        onComplete();
-        return; // stop RAF loop
-      }
-      rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [onComplete]);
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white"
-      style={{
-        transition: 'opacity 0.8s ease',
-        opacity: faded ? 0 : 1,
-        pointerEvents: faded ? 'none' : 'all',
-      }}
-    >
-      <style>{`
-        @keyframes scan-line {
-          0% { top: 0; opacity: 0.8; }
-          100% { top: 100%; opacity: 0; }
-        }
-        @keyframes ring-expand {
-          0% { transform: scale(0.8); opacity: 0.8; }
-          100% { transform: scale(2); opacity: 0; }
-        }
-        @keyframes blink-dot {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.2; }
-        }
-      `}</style>
-
-      {/* Scan line */}
-      <div style={{
-        position: 'absolute', left: 0, right: 0, height: '2px',
-        background: 'linear-gradient(90deg, transparent, #a855f7, transparent)',
-        animation: 'scan-line 2s linear infinite',
-      }} />
-
-      {/* Center */}
-      <div style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-        {/* Pulsing rings */}
-        <div style={{ position: 'relative', width: 96, height: 96, margin: '0 auto 24px' }}>
-          {[0, 0.4, 0.8].map((delay, i) => (
-            <div key={i} style={{
-              position: 'absolute', inset: 0, border: '2px solid rgba(168,85,247,0.4)',
-              borderRadius: '50%',
-              animation: `ring-expand 2s ${delay}s ease-out infinite`,
-            }} />
-          ))}
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)',
-            borderRadius: '50%',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <span style={{ fontSize: 36 }}>{crew.badge}</span>
-          </div>
-        </div>
-
-        <div style={{
-          fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.3)', marginBottom: 12,
-        }}>
-          7th Heaven
-        </div>
-
-        {phase === 'connecting' && (
-          <div>
-            <div style={{ color: 'white', fontWeight: 900, fontSize: 22, letterSpacing: '0.05em', marginBottom: 8 }}>
-              Connecting...
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-              {[0, 0.2, 0.4].map((d, i) => (
-                <div key={i} style={{
-                  width: 6, height: 6, borderRadius: '50%', background: '#a855f7',
-                  animation: `blink-dot 1s ${d}s ease-in-out infinite`,
-                }} />
-              ))}
-            </div>
-          </div>
-        )}
-        {phase === 'initializing' && (
-          <div>
-            <div style={{ color: '#a855f7', fontWeight: 900, fontSize: 22, letterSpacing: '0.05em', marginBottom: 8 }}>
-              Crew member is going live
-            </div>
-            <div style={{
-              padding: '6px 16px', background: 'rgba(168,85,247,0.15)',
-              border: '1px solid rgba(168,85,247,0.4)', borderRadius: 8,
-              color: 'rgba(255,255,255,0.5)', fontSize: 11, letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-            }}>
-              {crew.name} · {crew.instrument}
-            </div>
-          </div>
-        )}
-        {phase === 'live' && (
-          <div>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: '#dc2626', padding: '8px 24px', borderRadius: 999,
-              color: 'white', fontWeight: 900, fontSize: 18, letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              boxShadow: '0 0 30px rgba(220,38,38,0.5)',
-            }}>
-              <span style={{
-                width: 8, height: 8, borderRadius: '50%', background: 'white',
-                animation: 'blink-dot 0.8s ease-in-out infinite',
-              }} />
-              YOU'RE LIVE
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Skip button */}
-      <button
-        onClick={onComplete}
-        style={{
-          position: 'absolute', bottom: 32, right: 32,
-          padding: '8px 20px', background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8,
-          color: 'rgba(255,255,255,0.4)', fontSize: 12, fontWeight: 700,
-          letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
-        }}
-      >
-        Skip →
-      </button>
-
-      {/* Noise texture overlay */}
-      <div style={{
-        position: 'absolute', inset: 0, opacity: 0.03,
-        backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")',
-        pointerEvents: 'none',
-      }} />
-    </div>
-  );
-}
-
-
-/* ═══════════════════════════════════════════════════════
-   DEMO VIOLATIONS — pre-seeded flagged messages for admin
-═══════════════════════════════════════════════════════ */
-const DEMO_VIOLATIONS: { fanId: string; text: string; reason: string }[] = [
-  { fanId: 'fan-rockerdan', text: 'MAGA FOREVER vote trump 2024 make america great again!!!', reason: '🏛️ Political content' },
-  { fanId: 'fan-super', text: 'check my onlyfans.com link in bio for exclusive content 🔞', reason: '🔞 Adult / explicit content' },
-  { fanId: 'fan-tommy', text: 'follow me @tommyguitar88 for FREE giveaway — dm me now!', reason: '📢 Spam / self-promotion' },
-  { fanId: 'fan-nate', text: 'if they play that garbage song im gonna shoot up the whole venue', reason: '🚨 Threat / violence' },
-  { fanId: 'fan-midwest', text: 'this is a hate speech test — racist slur goes here fyi', reason: '⚠️ Hate speech / slur' },
-  { fanId: 'fan-stacey', text: 'subscribe to my cashapp $staceybXO for show tickets giveaway', reason: '📢 Spam / self-promotion' },
-  { fanId: 'fan-drummer', text: 'bro biden literally ruined this country political rant incoming', reason: '🏛️ Political content' },
-  { fanId: 'fan-tay', text: 'xxx adult content link — check my bio for full video nsfw 🔞', reason: '🔞 Adult / explicit content' },
-];
+// ── Shared constants & types ──
+import {
+  CREW_ACCOUNTS, FAN_ACCOUNTS, FAN_MESSAGES, CREW_MESSAGES, SYSTEM_EVENTS,
+  REACTION_EMOJIS, CREW_CONFIG, DEMO_VIOLATIONS, MERCH_PRODUCTS, MERCH_DURATIONS,
+  FEED_STATS, FLAG_KEYWORDS, CHAT_EMOJIS,
+  type FakeAccount, type CrewConfig, type ChatMsg, type FloatingEmoji, type SetlistSong,
+} from './constants';
 
 
 export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { memberId?: string; adminMode?: boolean }) {
@@ -664,7 +119,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [hasEnteredRaffle, setHasEnteredRaffle] = useState(false);
   const [raffleWidgetClosed, setRaffleWidgetClosed] = useState(false);
   const [showClaimModal, setShowClaimModal] = useState(false);
-  const [claimMethod, setClaimMethod] = useState<'shipping' | 'merch_table' | null>(null);
+
+
   const [nextRaffleCountdown, setNextRaffleCountdown] = useState<number | null>(null);
 
   // 🛍️ Live Merch Drop Checkout States
@@ -677,12 +133,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [checkoutClaimPin, setCheckoutClaimPin] = useState('');
 
   // 🎵 Live Setlist States
-  interface SetlistSong {
-    id: string;
-    title: string;
-    likes: number;
-    isPlaying: boolean;
-  }
   const [setlist, setSetlist] = useState<SetlistSong[]>([
     { id: 's1', title: 'Sing', likes: 0, isPlaying: false },
     { id: 's2', title: 'This Is My Life', likes: 0, isPlaying: false },
@@ -695,21 +145,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [setlistSort, setSetlistSort] = useState<'order' | 'likes'>('order');
 
   // ── Merch drop (admin-controlled) ──
-  const MERCH_PRODUCTS = [
-    { id: 'p1', name: '7th Heaven Tour Tee', price: '$35', emoji: '👕', badge: 'LIMITED', color: '#a855f7', stock: 47, image: '/images/merch/logo-tee.png', description: 'Premium cotton tour tee featuring the 7th Heaven 2026 world tour graphic. Unisex fit.' },
-    { id: 'p2', name: 'Crew Hoodie — Black', price: '$65', emoji: '🧥', badge: 'NEW', color: '#ec4899', stock: 12, image: '/images/merch/hoodie.png', description: 'Heavyweight pullover hoodie with embroidered 7th Heaven logo. Fleece-lined for comfort.' },
-    { id: 'p3', name: 'Live Vinyl — 2024', price: '$28', emoji: '💿', badge: 'EXCLUSIVE', color: '#06b6d4', stock: 99, image: '/images/merch/vinyl.png', description: 'Limited pressing of the 2024 live set. 180g vinyl with gatefold sleeve.' },
-    { id: 'p4', name: 'Snapback Cap', price: '$30', emoji: '🧢', badge: 'BESTSELLER', color: '#f97316', stock: 31, image: '/images/merch/logo-tee.png', description: 'Structured snapback cap with raised embroidered 7H logo. One size fits all.' },
-    { id: 'p5', name: 'Signed Poster (18×24)', price: '$45', emoji: '🖼️', badge: 'SIGNED', color: '#fbbf24', stock: 8, image: '/images/merch/vinyl.png', description: 'Hand-signed 18×24 tour poster. Each one is unique, numbered and authenticated.' },
-    { id: 'p6', name: 'Fan Bundle Pack', price: '$89', emoji: '🎁', badge: 'BUNDLE', color: '#34d399', stock: 20, image: '/images/merch/hoodie.png', description: 'Exclusive bundle: Tour Tee + Vinyl + Sticker Pack. Save $15 vs. buying separately.' },
-  ];
-  const MERCH_DURATIONS = [
-    { label: '2 min', seconds: 120 },
-    { label: '5 min', seconds: 300 },
-    { label: '10 min', seconds: 600 },
-    { label: '15 min', seconds: 900 },
-    { label: '30 min', seconds: 1800 },
-  ];
   const [merchTimerActive, setMerchTimerActive] = useState(false);
   const [merchTimeLeft, setMerchTimeLeft] = useState(0);
   const [merchSelectedProduct, setMerchSelectedProduct] = useState(MERCH_PRODUCTS[0].id);
@@ -717,26 +152,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [activeMerchDrop, setActiveMerchDrop] = useState<{ product: typeof MERCH_PRODUCTS[0] & { image?: string; imageUrl?: string }; totalTime: number } | null>(null);
   const MERCH_TIMER_DURATION = 300; // legacy fallback
 
-  // ── Per-feed stats (seeded with realistic demo data) ──
-  const FEED_STATS: Record<string, { label: string; badge: string; peakViewers: number; avgViewers: number; color: string; duration: string }> = {
-    mike: { label: 'Mike S — Guitar', badge: '🎸', peakViewers: 1847, avgViewers: 1247, color: '#a855f7', duration: '1h 23m' },
-    sammy: { label: 'Sammy D — Drums', badge: '🥁', peakViewers: 203, avgViewers: 84, color: '#ec4899', duration: '58m' },
-    ryan: { label: 'Ryan K — Keys', badge: '🎹', peakViewers: 621, avgViewers: 412, color: '#06b6d4', duration: '1h 11m' },
-    tony: { label: 'Tony M — Vocals', badge: '🎤', peakViewers: 97, avgViewers: 18, color: '#f97316', duration: '44m' },
-  };
 
-  const FLAG_KEYWORDS = [
-    // Adult/explicit
-    { kw: /porn|nsfw|onlyfan|nude|sex|xxx|adult.content|strip/i, reason: '🔞 Adult / explicit content' },
-    // Politics
-    { kw: /maga|trump|biden|democrat|republican|vote|election|political|blm|antifa|communist|socialist|abortion/i, reason: '🏛️ Political content' },
-    // Hate speech / slurs (generic patterns)
-    { kw: /\bn[\*i]gg|\bf[\*a]gg|\bk[i1]ke|\bsp[i1]c|hate speech/i, reason: '⚠️ Hate speech / slur' },
-    // Self-promotion spam
-    { kw: /follow me|subscribe|onlyfans\.com|cashapp|venmo|giveaway|dm me|@\w+ for/i, reason: '📢 Spam / self-promotion' },
-    // Threats
-    { kw: /i.ll.kill|gonna.shoot|bomb|death.threat|fight.me|stab/i, reason: '🚨 Threat / violence' },
-  ];
+
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -747,7 +164,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const bcRef = useRef<BroadcastChannel | null>(null);
   const seenMsgIds = useRef<Set<string>>(new Set());
 
-  const CHAT_EMOJIS = ['😂', '❤️', '🔥', '🤘', '🎸', '👏', '⚡', '😍', '🙌', '💀', '👀', '🎵', '🫶', '😭', '💜', '🤯', '🎤', '🎶', '🥹', '😎'];
 
   /* ── Stage gradient ── */
   const stageGradient = useMemo(() => {
@@ -868,7 +284,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
       const claimUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://7thheavenband.com'}/claim/${pin}`;
       const pinDigits = pin.split('').map((d: string) =>
-        `<td style="padding:0 3px;"><div style="width:40px;height:52px;background:#0a0a0a;border:2px solid rgba(251,191,36,0.4);border-radius:8px;display:flex;align-items:center;justify-content:center;"><span style="color:#FBBF24;font-size:24px;font-weight:900;font-family:monospace;">${d}</span></div></td>`
+        `<td style="padding:0 3px;"><div style="width:40px;height:52px;background:#0a0a0a;border:2px solid rgba(192, 132, 252,0.4);border-radius:8px;display:flex;align-items:center;justify-content:center;"><span style="color:#c084fc;font-size:24px;font-weight:900;font-family:monospace;">${d}</span></div></td>`
       ).join('');
 
       const fallbackEmail = 'fan@7thheavenband.com';
@@ -881,7 +297,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         body: JSON.stringify({
           to: targetEmail,
           subject: '🏆 You Won the 7th Heaven Raffle!',
-          html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:Arial,Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #FBBF24;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ''}<a href="${claimUrl}" style="display:inline-block;background:#FBBF24;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`
+          html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Barlow',Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ''}<a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`
         })
       }).catch(console.error);
 
@@ -911,7 +327,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       setHasEnteredRaffle(false);
       setRaffleWidgetClosed(false);
       setShowClaimModal(false);
-      setClaimMethod(null);
+
     }
     if (curr === null && prev !== null) {
       setHasEnteredRaffle(false);
@@ -1707,7 +1123,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           to   { opacity: 1; transform: translateY(0); }
         }
         @keyframes hypePulse {
-          0%, 100% { box-shadow: 0 0 8px rgba(168,85,247,0.4); }
+          0%, 100% { box-shadow: 0 0 8px rgba(255,10,61,0.4); }
           50% { box-shadow: 0 0 20px rgba(239,68,68,0.6); }
         }
         .msg-new { animation: slideInMsg 0.25s ease forwards; }
@@ -1788,7 +1204,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           <div className="shrink-0 flex items-center gap-2">
             <Link
               href={`/live/${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all hover:scale-105"
+              className="flex items-center gap-2 px-3 py-1.5 text-xs font-black uppercase tracking-wider transition-all hover:scale-105"
               style={{
                 background: `${activeFeedCrew.color}18`,
                 border: `1px solid ${activeFeedCrew.color}44`,
@@ -1818,10 +1234,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     activeFeedId === 'ryan' ? '/crew-ryan' :
                       activeFeedId === 'tony' ? '/crew-tony' : '/crew'
               }
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all hover:scale-105"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-black uppercase tracking-wider transition-all hover:scale-105"
               style={{
-                background: 'rgba(168,85,247,0.12)',
-                border: '1px solid rgba(168,85,247,0.35)',
+                background: 'rgba(255,10,61,0.12)',
+                border: '1px solid rgba(255,10,61,0.35)',
                 color: '#c084fc',
                 textDecoration: 'none',
               }}
@@ -1833,14 +1249,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             </Link>
 
             <div
-              className="shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl"
+              className="shrink-0 flex items-center gap-2 px-3 py-1.5"
               style={{
-                background: 'rgba(251,191,36,0.08)',
-                border: '1px solid rgba(251,191,36,0.25)',
+                background: 'rgba(192, 132, 252,0.08)',
+                border: '1px solid rgba(192, 132, 252,0.25)',
               }}
             >
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#fbbf24' }} />
-              <span className="text-xs font-black uppercase tracking-widest hidden sm:inline" style={{ color: '#fbbf24' }}>
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#c084fc' }} />
+              <span className="text-xs font-black uppercase tracking-widest hidden sm:inline" style={{ color: '#c084fc' }}>
                 Demo Mode
               </span>
             </div>
@@ -1991,16 +1407,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 return (
                   <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 max-w-[calc(100%-2rem)] animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <div
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-black text-xs font-black uppercase tracking-wider border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+                      className="flex items-center gap-2 px-3 py-1.5 text-black text-xs font-black uppercase tracking-wider border border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       style={{
-                        background: 'linear-gradient(135deg, rgba(88,28,135,0.8), rgba(168,85,247,0.4))',
+                        background: 'linear-gradient(135deg, rgba(88,28,135,0.8), rgba(255,10,61,0.4))',
                         backdropFilter: 'blur(8px)',
                       }}
                     >
-                      <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping shrink-0" />
-                      <span className="text-purple-200 shrink-0">Now Playing:</span>
+                      <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-ping shrink-0" />
+                      <span className="text-[var(--color-accent)] shrink-0">Now Playing:</span>
                       <span className="text-black truncate font-bold">{activeSong.title}</span>
-                      <span className="text-purple-300 shrink-0 animate-bounce">🎵</span>
+                      <span className="text-[var(--color-accent)] shrink-0">🎵</span>
                     </div>
                   </div>
                 );
@@ -2012,7 +1428,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   raffleState.winners?.some((w: any) => (w?.name || w)?.toLowerCase().trim() === member!.name.toLowerCase().trim());
                 return (
                   <div className="absolute top-20 left-4 sm:left-auto sm:right-4 z-40 w-[calc(100%-2rem)] sm:w-full sm:max-w-xs animate-in slide-in-from-right-8 fade-in duration-500">
-                    <div className="bg-gray-50/95 backdrop-blur-xl border-2 border-yellow-500/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)] text-black relative flex flex-col px-4 py-5 pointer-events-auto">
+                    <div className="bg-gray-50/95 backdrop-blur-xl border-2 border-yellow-500/50 overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)] text-black relative flex flex-col px-4 py-5 pointer-events-auto">
 
                       <button
                         onClick={() => setRaffleWidgetClosed(true)}
@@ -2023,16 +1439,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       {raffleState.status === 'open' && (
                         <>
-                          <div className="flex items-center gap-2 text-yellow-400 mb-4 pr-6">
+                          <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
                             <span className="text-xl animate-pulse">🎰</span>
                             <span className="font-black text-sm uppercase tracking-widest leading-tight mt-1">Live Raffle</span>
-                            <span className="ml-auto px-2.5 py-1 bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 rounded text-xs font-bold uppercase tracking-widest animate-pulse">OPEN</span>
+                            <span className="ml-auto px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded text-xs font-bold uppercase tracking-widest animate-pulse">OPEN</span>
                           </div>
 
                           <div className="mb-4">
                             <div className="flex items-center justify-between mb-1.5">
                               <span className="text-xs font-bold text-black/40 uppercase tracking-widest">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entered</span>
-                              <span className="text-xs font-bold text-yellow-500/70 uppercase tracking-widest">{raffleState.minEntrants ?? 10} needed</span>
+                              <span className="text-xs font-bold text-purple-400/70 uppercase tracking-widest">{raffleState.minEntrants ?? 10} needed</span>
                             </div>
                             <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                               <div className="h-full bg-yellow-400 rounded-full transition-all duration-500"
@@ -2041,14 +1457,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </div>
 
                           {raffleState.prizes[0]?.name && (
-                            <div className="mb-4 px-3 py-2.5 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                              <p className="text-2xs font-bold text-yellow-500/60 uppercase tracking-[0.15em] mb-1">You could win</p>
+                            <div className="mb-4 px-3 py-2.5 bg-purple-500/10 border border-purple-500/20">
+                              <p className="text-2xs font-bold text-purple-400/60 uppercase tracking-[0.15em] mb-1">You could win</p>
                               <p className="text-yellow-300 font-black text-base leading-tight">
                                 {raffleState.prizes[0].qty > 1 ? <span className="text-black bg-yellow-500/30 px-1.5 py-0.5 rounded text-xs mr-2">{raffleState.prizes[0].qty}x</span> : null}
                                 {raffleState.prizes[0].name}
                               </p>
                               {raffleState.prizes.filter((p: any) => p.name).length > 1 && (
-                                <p className="text-yellow-500/70 text-xs mt-1">+ {raffleState.prizes.filter((p: any) => p.name).length - 1} more prizes</p>
+                                <p className="text-purple-400/70 text-xs mt-1">+ {raffleState.prizes.filter((p: any) => p.name).length - 1} more prizes</p>
                               )}
                             </div>
                           )}
@@ -2067,7 +1483,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 body: JSON.stringify({
                                   to: member?.email || 'fan@7thheavenband.com',
                                   subject: '🎟️ You are entered into the 7th Heaven Raffle!',
-                                  html: `<div style="font-family:Arial,sans-serif;background:#000;color:#fff;padding:40px 20px;text-align:center;"><h1 style="color:#FBBF24;">RAFFLE ENTRY CONFIRMED</h1><p>You entered the raffle for <strong>${raffleState?.prizes[0]?.name || 'the live drop'}</strong>.</p></div>`
+                                  html: `<div style="font-family:'Barlow',sans-serif;background:#000;color:#fff;padding:40px 20px;text-align:center;"><h1 style="color:#c084fc;">RAFFLE ENTRY CONFIRMED</h1><p>You entered the raffle for <strong>${raffleState?.prizes[0]?.name || 'the live drop'}</strong>.</p></div>`
                                 })
                               }).catch(console.error);
                               try {
@@ -2075,11 +1491,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 inbox.unshift({ id: Date.now(), icon: '🎰', title: 'Raffle Entry Confirmed!', desc: `You've entered the live raffle. Stay tuned!`, time: 'Just now', isNew: true, color: 'yellow' });
                                 localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
                               } catch { }
-                            }} className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-sm uppercase tracking-[0.15em] rounded-xl transition-colors shadow-[0_0_15px_rgba(234,179,8,0.4)]">
+                            }} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-sm uppercase tracking-[0.15em] transition-colors shadow-[0_0_15px_rgba(147,51,234,0.4)]">
                               Enter Raffle
                             </button>
                           ) : (
-                            <div className="w-full py-3 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 text-center font-black text-sm uppercase tracking-[0.15em] rounded-xl flex items-center justify-center gap-2">
+                            <div className="w-full py-3 bg-purple-500/10 text-purple-400 border border-purple-500/30 text-center font-black text-sm uppercase tracking-[0.15em] flex items-center justify-center gap-2">
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
                               You're Entered!
                             </div>
@@ -2093,8 +1509,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <p className="text-yellow-300 font-black text-sm uppercase tracking-wider">Drawing Coming Up!</p>
                           <p className="text-black/40 text-xs">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entries locked in</p>
                           {hasEnteredRaffle && (
-                            <div className="mt-1 px-4 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                              <p className="text-yellow-400 text-xs font-bold">✓ You're in the drawing!</p>
+                            <div className="mt-1 px-4 py-2 bg-purple-500/10 border border-purple-500/20">
+                              <p className="text-purple-300 text-xs font-bold">✓ You're in the drawing!</p>
                             </div>
                           )}
                         </div>
@@ -2103,13 +1519,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       {raffleState.status === 'drawing' && (
                         <div className="py-8 text-center flex flex-col items-center justify-center">
                           <div className="text-5xl animate-spin mb-4">🎰</div>
-                          <p className="text-yellow-400 font-black text-sm uppercase tracking-widest animate-pulse">Drawing Winner...</p>
+                          <p className="text-purple-300 font-black text-sm uppercase tracking-widest animate-pulse">Drawing Winner...</p>
                         </div>
                       )}
 
                       {raffleState.status === 'complete' && (
                         <div className="py-2">
-                          <div className="flex items-center gap-2 text-yellow-400 mb-4 pr-6">
+                          <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
                             <span className="text-xl">🏆</span>
                             <span className="font-black text-sm uppercase tracking-widest">Raffle Winner</span>
                           </div>
@@ -2118,15 +1534,15 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               const w = wObj?.name || wObj;
                               const isMine = isCurrentUserWinner && i === 0;
                               return (
-                                <div key={i} className={`rounded-xl overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-black/10'}`}>
-                                  <div className={`px-3 py-1 text-2xs font-black uppercase tracking-[0.2em] text-center ${isMine ? 'bg-yellow-500 text-black' : 'bg-gray-50 text-black/30'}`}>
+                                <div key={i} className={` overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-black/10'}`}>
+                                  <div className={`px-3 py-1 text-2xs font-black uppercase tracking-[0.2em] text-center ${isMine ? 'bg-purple-600 text-white' : 'bg-gray-50 text-black/30'}`}>
                                     {i === 0 ? '1st Place' : i === 1 ? '2nd Place' : '3rd Place'}{raffleState.prizes[i]?.name ? ` · ${raffleState.prizes[i].name}` : ''}
                                   </div>
-                                  <div className={`px-4 py-3 text-center ${isMine ? 'bg-yellow-500/10' : ''}`}>
-                                    <p className={`font-black text-xl leading-tight ${isMine ? 'text-yellow-400' : 'text-black'}`}>{w}</p>
+                                  <div className={`px-4 py-3 text-center ${isMine ? 'bg-purple-500/10' : ''}`}>
+                                    <p className={`font-black text-xl leading-tight ${isMine ? 'text-purple-300' : 'text-black'}`}>{w}</p>
                                     {isMine && (
                                       <button onClick={() => setShowClaimModal(true)}
-                                        className="mt-2 w-full py-2 bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase tracking-widest rounded-lg transition-colors">
+                                        className="mt-2 w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest rounded-lg transition-colors">
                                         Claim Reward
                                       </button>
                                     )}
@@ -2136,9 +1552,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             })}
                           </div>
 
-                          <div className="mt-4 p-3 bg-gray-50 border border-black/10 rounded-xl text-center">
+                          <div className="mt-4 p-3 bg-gray-50 border border-black/10 text-center">
                             <p className="text-xs text-black/70 leading-relaxed font-semibold">
-                              <span className="text-yellow-400 font-bold uppercase tracking-widest text-xs block mb-1">How to Claim</span>
+                              <span className="text-purple-300 font-bold uppercase tracking-widest text-xs block mb-1">How to Claim</span>
                               Winners: Check your <strong className="text-black font-bold">Email</strong> or your <strong className="text-black font-bold">Fan Profile Dashboard</strong> for your unique Verification PIN. Show your PIN to the crew at the merch table!
                             </p>
                           </div>
@@ -2149,7 +1565,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               <p className="text-xs text-black/40 uppercase tracking-[0.2em] font-bold mb-2">Next Raffle Drawing In</p>
                               <div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded border border-black/10 shadow-inner">
                                 <span className="text-[var(--font-size-3xs)] animate-pulse">⏳</span>
-                                <span className="text-lg font-mono font-black tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-200">
+                                <span className="text-lg font-mono font-black tracking-widest text-emerald-500">
                                   {Math.floor(nextRaffleCountdown / 60)}:{(nextRaffleCountdown % 60).toString().padStart(2, '0')}
                                 </span>
                               </div>
@@ -2172,7 +1588,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     style={{ animation: 'lowerThirdIn 0.4s ease forwards' }}
                   >
                     <div
-                      className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+                      className="flex items-center gap-3 px-4 py-3"
                       style={{
                         background: 'rgba(0,0,0,0.88)',
                         backdropFilter: 'blur(16px)',
@@ -2182,7 +1598,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     >
                       {/* Product emoji */}
                       <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
+                        className="w-12 h-12 flex items-center justify-center text-2xl shrink-0"
                         style={{ background: `${activeMerchDrop.product.color}22`, border: `1px solid ${activeMerchDrop.product.color}44` }}
                       >
                         {activeMerchDrop.product.emoji}
@@ -2198,7 +1614,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </span>
                           <span
                             className="text-xs font-black px-1.5 py-0.5 rounded-full uppercase"
-                            style={{ background: 'rgba(251,191,36,0.2)', color: '#fbbf24', fontSize: 9 }}
+                            style={{ background: 'rgba(192, 132, 252,0.2)', color: '#c084fc', fontSize: 9 }}
                           >
                             {activeMerchDrop.product.badge}
                           </span>
@@ -2233,7 +1649,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             background: activeMerchDrop.product.color,
                             boxShadow: `0 0 15px ${activeMerchDrop.product.color}88`
                           }}
-                          className="px-3.5 py-1.5 text-black font-black text-[var(--font-size-3xs)] uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer border-none shrink-0"
+                          className="px-3.5 py-1.5 text-black font-black text-[var(--font-size-3xs)] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all cursor-pointer border-none shrink-0"
                         >
                           BUY NOW
                         </button>
@@ -2253,7 +1669,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               {/* ── Fan Spotlight Lower-Third ── */}
               {spotlight && (
                 <div
-                  className="lower-third absolute bottom-14 left-3 right-3 z-30 flex items-center gap-3 px-4 py-3 rounded-xl"
+                  className="lower-third absolute bottom-14 left-3 right-3 z-30 flex items-center gap-3 px-4 py-3"
                   style={{
                     background: 'rgba(0,0,0,0.82)',
                     backdropFilter: 'blur(14px)',
@@ -2271,7 +1687,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <div className="flex items-center gap-2 mb-0.5">
                       <span className="text-xs font-black" style={{ color: spotlight.account.color }}>{spotlight.account.displayName}</span>
                       {spotlight.account.tier && <span className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>{spotlight.account.tier}</span>}
-                      <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: 'rgba(168,85,247,0.2)', color: '#c084fc', fontSize: 9 }}>📌 SPOTLIGHT</span>
+                      <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: 'rgba(255,10,61,0.2)', color: '#c084fc', fontSize: 9 }}>📌 SPOTLIGHT</span>
                     </div>
                     <p className="text-black/80 text-sm leading-snug" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>&#8220;{spotlight.text}&#8221;</p>
                   </div>
@@ -2309,7 +1725,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   <div className="flex items-center gap-3 text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
                     <span>👁 {viewerCount.toLocaleString()}</span>
                     <span style={{ color: bannedUsers.size > 0 ? '#f87171' : 'rgba(255,255,255,0.3)' }}>🚫 {bannedUsers.size}</span>
-                    <span style={{ color: mutedUsers.size > 0 ? '#fbbf24' : 'rgba(255,255,255,0.3)' }}>🔇 {mutedUsers.size}</span>
+                    <span style={{ color: mutedUsers.size > 0 ? '#c084fc' : 'rgba(255,255,255,0.3)' }}>🔇 {mutedUsers.size}</span>
                   </div>
                 </div>
                 {/* Tabs */}
@@ -2321,23 +1737,23 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         background: adminTab === tab
                           ? tab === 'live' ? 'rgba(34,197,94,0.18)'
                             : tab === 'flagged' ? 'rgba(239,68,68,0.2)'
-                              : tab === 'merch' ? 'rgba(251,191,36,0.18)'
+                              : tab === 'merch' ? 'rgba(192, 132, 252,0.18)'
                                 : tab === 'stats' ? 'rgba(16,185,129,0.15)'
-                                  : 'rgba(168,85,247,0.15)'
+                                  : 'rgba(255,10,61,0.15)'
                           : 'rgba(255,255,255,0.04)',
                         color: adminTab === tab
                           ? tab === 'live' ? '#4ade80'
                             : tab === 'flagged' ? '#f87171'
-                              : tab === 'merch' ? '#fbbf24'
+                              : tab === 'merch' ? '#c084fc'
                                 : tab === 'stats' ? '#34d399'
                                   : '#c084fc'
                           : 'rgba(255,255,255,0.35)',
                         border: adminTab === tab
                           ? tab === 'live' ? '1px solid rgba(34,197,94,0.35)'
                             : tab === 'flagged' ? '1px solid rgba(239,68,68,0.3)'
-                              : tab === 'merch' ? '1px solid rgba(251,191,36,0.35)'
+                              : tab === 'merch' ? '1px solid rgba(192, 132, 252,0.35)'
                                 : tab === 'stats' ? '1px solid rgba(16,185,129,0.3)'
-                                  : '1px solid rgba(168,85,247,0.25)'
+                                  : '1px solid rgba(255,10,61,0.25)'
                           : '1px solid transparent',
                       }}
                     >
@@ -2373,7 +1789,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           return (
                             <div
                               key={msg.id}
-                              className="group flex items-start gap-2.5 px-3 py-2 rounded-xl mb-2 transition-all shadow-2xs"
+                              className="group flex items-start gap-2.5 px-3 py-2 mb-2 transition-all shadow-2xs"
                               style={{
                                 background: isFlagged ? 'rgba(239,68,68,0.1)' : 'rgba(0,0,0,0.04)',
                                 border: isFlagged ? '1px solid rgba(239,68,68,0.25)' : '1px solid rgba(0,0,0,0.08)',
@@ -2401,14 +1817,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                       {isBanned && <span className="text-xs px-1 rounded" style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171', fontSize: 9 }}>BANNED</span>}
                                       {isMuted && <span className="text-xs px-1 rounded" style={{ background: 'rgba(156,163,175,0.15)', color: '#9ca3af', fontSize: 9 }}>MUTED</span>}
                                     </div>
-                                    <div className="mt-1 inline-block px-2.5 py-1.5 rounded-xl rounded-tl-sm" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                                    <div className="mt-1 inline-block px-2.5 py-1.5 rounded-tl-sm" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
                                       <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.75)' }}>{msg.text}</p>
                                     </div>
                                   </div>
                                   {/* Quick-action buttons on hover */}
                                   {msg.account && !isBanned && (
                                     <div className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                                      <button onClick={() => msg.account && handleSpotlight(msg.account, msg.text)} title="Spotlight" className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-500/20 transition-colors">📌</button>
+                                      <button onClick={() => msg.account && handleSpotlight(msg.account, msg.text)} title="Spotlight" className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-[var(--color-accent)]/20 transition-colors">📌</button>
                                       {!isMuted && <button onClick={() => msg.account && handleMute(msg.account)} title="Mute" className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-gray-500/20 transition-colors">🔇</button>}
                                       <button onClick={() => msg.account && handleBan(msg.account)} title="Ban" className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 transition-colors">🚫</button>
                                     </div>
@@ -2434,7 +1850,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <p className="text-black/15 text-xs mt-1">Chat is clean — use the Demo buttons below to test</p>
                       </div>
                     ) : flaggedMsgs.map(({ msg, reason }) => (
-                      <div key={msg.id} className="rounded-xl p-3" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)' }}>
+                      <div key={msg.id} className="p-3" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)' }}>
                         <div className="mb-2">
                           <div className="flex items-center gap-1.5 mb-1">
                             <div className="w-5 h-5 rounded-full flex items-center justify-center text-black font-black" style={{ background: msg.account?.color ?? '#555', fontSize: 8 }}>
@@ -2452,7 +1868,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           {msg.account && !warnedUsers.has(msg.account.id) && (
                             <button onClick={() => msg.account && handleWarn(msg.account)}
                               className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all hover:scale-105"
-                              style={{ background: 'rgba(251,191,36,0.15)', border: '1px solid rgba(251,191,36,0.3)', color: '#fbbf24' }}>
+                              style={{ background: 'rgba(192, 132, 252,0.15)', border: '1px solid rgba(192, 132, 252,0.3)', color: '#c084fc' }}>
                               ⚠️ Warn
                             </button>
                           )}
@@ -2501,7 +1917,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       if (msgCount === 0 && !isBanned && !isMuted && !isWarned) return null;
                       const lastMsg = messages.filter(m => m.account?.id === acc.id && !m.isSystem).slice(-1)[0];
                       return (
-                        <div key={acc.id} className="rounded-xl p-3"
+                        <div key={acc.id} className="p-3"
                           style={{
                             background: isBanned ? 'rgba(239,68,68,0.06)' : isMuted ? 'rgba(156,163,175,0.05)' : 'rgba(255,255,255,0.03)',
                             border: isBanned ? '1px solid rgba(239,68,68,0.2)' : isMuted ? '1px solid rgba(156,163,175,0.12)' : '1px solid rgba(255,255,255,0.06)',
@@ -2519,18 +1935,18 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   {acc.tier && <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 10 }}>{acc.tier}</span>}
                                   {isBanned && <span className="px-1.5 rounded-full" style={{ background: 'rgba(239,68,68,0.2)', color: '#f87171', fontSize: 9 }}>BANNED</span>}
                                   {isMuted && !isBanned && <span className="px-1.5 rounded-full" style={{ background: 'rgba(156,163,175,0.15)', color: '#9ca3af', fontSize: 9 }}>MUTED</span>}
-                                  {isWarned && !isBanned && <span className="px-1.5 rounded-full" style={{ background: 'rgba(251,191,36,0.15)', color: '#fbbf24', fontSize: 9 }}>WARNED</span>}
+                                  {isWarned && !isBanned && <span className="px-1.5 rounded-full" style={{ background: 'rgba(192, 132, 252,0.15)', color: '#c084fc', fontSize: 9 }}>WARNED</span>}
                                 </div>
                                 <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: 10 }}>{msgCount} message{msgCount !== 1 ? 's' : ''}</p>
                               </div>
                             </div>
                             {!isBanned && (
                               <div className="flex items-center gap-1 shrink-0">
-                                {!isWarned && <button onClick={() => handleWarn(acc)} title="Warn" className="w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-all hover:scale-110" style={{ background: 'rgba(251,191,36,0.1)' }}>⚠️</button>}
+                                {!isWarned && <button onClick={() => handleWarn(acc)} title="Warn" className="w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-all hover:scale-110" style={{ background: 'rgba(192, 132, 252,0.1)' }}>⚠️</button>}
                                 {!isMuted && <button onClick={() => handleMute(acc)} title="Mute" className="w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-all hover:scale-110" style={{ background: 'rgba(156,163,175,0.08)' }}>🔇</button>}
                                 <button onClick={() => handleKick(acc)} title="Kick" className="w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-all hover:scale-110" style={{ background: 'rgba(249,115,22,0.1)' }}>👢</button>
                                 <button onClick={() => handleBan(acc)} title="Ban" className="w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-all hover:scale-110" style={{ background: 'rgba(239,68,68,0.12)' }}>🚫</button>
-                                {lastMsg && <button onClick={() => handleSpotlight(acc, lastMsg.text)} title="Spotlight" className="w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-all hover:scale-110" style={{ background: 'rgba(168,85,247,0.12)' }}>📌</button>}
+                                {lastMsg && <button onClick={() => handleSpotlight(acc, lastMsg.text)} title="Spotlight" className="w-7 h-7 rounded-lg flex items-center justify-center text-sm transition-all hover:scale-110" style={{ background: 'rgba(255,10,61,0.12)' }}>📌</button>}
                               </div>
                             )}
                           </div>
@@ -2577,27 +1993,27 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         { icon: '⚠️', rule: 'Hate speech & slurs', desc: 'Racist, homophobic, antisemitic, or discriminatory language of any kind.' },
                         { icon: '🚨', rule: 'Threats & violence', desc: 'Threats toward any person, band members, venue staff, or other fans.' },
                       ].map(({ icon, rule, desc }) => (
-                        <div key={rule} className="mb-2 p-3 rounded-xl" style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.18)' }}>
+                        <div key={rule} className="mb-2 p-3" style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.18)' }}>
                           <p className="text-xs font-bold text-black/80">{icon} {rule}</p>
                           <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{desc}</p>
                         </div>
                       ))}
                     </div>
                     <div>
-                      <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: '#fbbf24' }}>⚠️ Warn First — Then Mute / Kick</p>
+                      <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: '#c084fc' }}>⚠️ Warn First — Then Mute / Kick</p>
                       {[
                         { icon: '🏛️', rule: 'Political commentary', desc: 'No political debate, party references, campaign talk, or electoral content.' },
                         { icon: '📢', rule: 'Spam & self-promotion', desc: 'Posting links, social handles, cashapp/venmo tags, or soliciting followers.' },
                         { icon: '🔄', rule: 'Excessive repetition', desc: 'Flooding the chat with the same message, phrase, or emoji spam.' },
                         { icon: '💊', rule: 'Drug / substance references', desc: 'Discussion of illegal substances or encouraging drug use during the event.' },
                       ].map(({ icon, rule, desc }) => (
-                        <div key={rule} className="mb-2 p-3 rounded-xl" style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.15)' }}>
+                        <div key={rule} className="mb-2 p-3" style={{ background: 'rgba(192, 132, 252,0.06)', border: '1px solid rgba(192, 132, 252,0.15)' }}>
                           <p className="text-xs font-bold text-black/80">{icon} {rule}</p>
                           <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{desc}</p>
                         </div>
                       ))}
                     </div>
-                    <div className="p-3 rounded-xl" style={{ background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.2)' }}>
+                    <div className="p-3" style={{ background: 'rgba(255,10,61,0.08)', border: '1px solid rgba(255,10,61,0.2)' }}>
                       <p className="text-xs font-black text-black/60 uppercase tracking-widest mb-1">✅ Keep It Positive</p>
                       <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>This is a fan space for music lovers. Keep the energy high, support the artists, and spread love. 🎸</p>
                     </div>
@@ -2672,7 +2088,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       const barW = Math.round((s.peakViewers / maxPeak) * 100);
                       const isTop = s.peakViewers === maxPeak;
                       return (
-                        <div key={key} className="rounded-xl p-3"
+                        <div key={key} className="p-3"
                           style={{
                             background: isTop ? `${s.color}0d` : 'rgba(255,255,255,0.03)',
                             border: isTop ? `1px solid ${s.color}33` : '1px solid rgba(255,255,255,0.07)',
@@ -2702,7 +2118,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         </div>
                       );
                     })}
-                    <div className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                    <div className="p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
                       <p className="text-xs font-black uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Session Summary</p>
                       <div className="grid grid-cols-3 gap-2">
                         {[
@@ -2727,7 +2143,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {/* Active drop status */}
                     {merchTimerActive && activeMerchDrop ? (
                       <div
-                        className="rounded-2xl p-4"
+                        className="p-4"
                         style={{
                           background: `${activeMerchDrop.product.color}12`,
                           border: `1px solid ${activeMerchDrop.product.color}44`,
@@ -2740,7 +2156,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         </div>
                         <div className="flex items-center gap-3 mb-3">
                           <div
-                            className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl shrink-0"
+                            className="w-14 h-14 flex items-center justify-center text-3xl shrink-0"
                             style={{ background: `${activeMerchDrop.product.color}22`, border: `1px solid ${activeMerchDrop.product.color}44` }}
                           >
                             {activeMerchDrop.product.emoji}
@@ -2779,14 +2195,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             bcRef.current?.postMessage({ type: 'MERCH_DROP_END' });
                             addModAction('🛍 Drop Ended', activeMerchDrop.product.name);
                           }}
-                          className="w-full py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all hover:scale-[1.02]"
+                          className="w-full py-2 text-xs font-black uppercase tracking-wider transition-all hover:scale-[1.02]"
                           style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#f87171' }}
                         >
                           ⏹ End Drop Early
                         </button>
                       </div>
                     ) : (
-                      <div className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                      <div className="p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
                         <p className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.25)' }}>No active drop — launch one below</p>
                       </div>
                     )}
@@ -2801,7 +2217,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             <button
                               key={product.id}
                               onClick={() => setMerchSelectedProduct(product.id)}
-                              className="rounded-xl p-3 text-left transition-all hover:scale-[1.02]"
+                              className="p-3 text-left transition-all hover:scale-[1.02]"
                               style={{
                                 background: isSelected ? `${product.color}18` : 'rgba(255,255,255,0.03)',
                                 border: isSelected ? `1px solid ${product.color}55` : '1px solid rgba(255,255,255,0.07)',
@@ -2833,9 +2249,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             onClick={() => setMerchSelectedDuration(d.seconds)}
                             className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
                             style={{
-                              background: merchSelectedDuration === d.seconds ? 'rgba(251,191,36,0.18)' : 'rgba(255,255,255,0.04)',
-                              border: merchSelectedDuration === d.seconds ? '1px solid rgba(251,191,36,0.45)' : '1px solid rgba(255,255,255,0.08)',
-                              color: merchSelectedDuration === d.seconds ? '#fbbf24' : 'rgba(255,255,255,0.4)',
+                              background: merchSelectedDuration === d.seconds ? 'rgba(192, 132, 252,0.18)' : 'rgba(255,255,255,0.04)',
+                              border: merchSelectedDuration === d.seconds ? '1px solid rgba(192, 132, 252,0.45)' : '1px solid rgba(255,255,255,0.08)',
+                              color: merchSelectedDuration === d.seconds ? '#c084fc' : 'rgba(255,255,255,0.4)',
                             }}
                           >
                             {d.label}
@@ -2849,12 +2265,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <button
                         onClick={() => handleMerchDrop(merchSelectedProduct, merchSelectedDuration)}
                         disabled={merchTimerActive}
-                        className="w-full py-3 rounded-xl text-sm font-black uppercase tracking-wider transition-all hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-full py-3 text-sm font-black uppercase tracking-wider transition-all hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
                         style={{
-                          background: 'linear-gradient(135deg, rgba(251,191,36,0.25), rgba(249,115,22,0.2))',
-                          border: '1px solid rgba(251,191,36,0.5)',
-                          color: '#fbbf24',
-                          boxShadow: '0 0 20px rgba(251,191,36,0.15)',
+                          background: 'linear-gradient(135deg, rgba(192, 132, 252,0.25), rgba(249,115,22,0.2))',
+                          border: '1px solid rgba(192, 132, 252,0.5)',
+                          color: '#c084fc',
+                          boxShadow: '0 0 20px rgba(192, 132, 252,0.15)',
                         }}
                       >
                         🛍 Start Drop with Timer
@@ -2862,10 +2278,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <button
                         onClick={() => handleMerchDrop(merchSelectedProduct, 0)}
                         disabled={merchTimerActive}
-                        className="w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-full py-2.5 text-xs font-black uppercase tracking-wider transition-all hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
                         style={{
-                          background: 'rgba(168,85,247,0.12)',
-                          border: '1px solid rgba(168,85,247,0.3)',
+                          background: 'rgba(255,10,61,0.12)',
+                          border: '1px solid rgba(255,10,61,0.3)',
                           color: '#c084fc',
                         }}
                       >
@@ -2929,7 +2345,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   <button
                     onClick={() => setAdminTab('merch')}
                     className="w-full px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:scale-105 flex items-center justify-center gap-2"
-                    style={{ background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', color: '#fbbf24' }}
+                    style={{ background: 'rgba(192, 132, 252,0.08)', border: '1px solid rgba(192, 132, 252,0.2)', color: '#c084fc' }}
                   >
                     🛍 Go to Merch Drop Tab
                   </button>
@@ -2997,7 +2413,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </button>
                       <button
                         onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-all ${setlistSort === 'likes' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' : 'bg-transparent text-black/30 hover:text-black/60 border border-transparent'
+                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-all ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-black/30 hover:text-black/60 border border-transparent'
                           }`}
                       >
                         Most Liked
@@ -3020,21 +2436,21 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         return (
                           <div
                             key={song.id}
-                            className={`flex items-center justify-between p-3 rounded-xl border transition-all ${song.isPlaying
-                                ? 'bg-purple-500/10 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.15)] animate-in fade-in duration-300'
+                            className={`flex items-center justify-between p-3  border transition-all ${song.isPlaying
+                                ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.15)] animate-in fade-in duration-300'
                                 : 'bg-white/[0.02] border-black/10'
                               }`}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <span className={`text-sm shrink-0 ${song.isPlaying ? 'animate-pulse text-purple-400' : 'text-black/25'}`}>
+                              <span className={`text-sm shrink-0 ${song.isPlaying ? 'animate-pulse text-[var(--color-accent)]' : 'text-black/25'}`}>
                                 {song.isPlaying ? '🔊' : '🎵'}
                               </span>
                               <div className="min-w-0">
-                                <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-purple-300' : 'text-black/90'}`}>
+                                <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-black/90'}`}>
                                   {song.title}
                                 </p>
                                 {song.isPlaying && (
-                                  <span className="inline-block text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-400 mt-0.5 animate-pulse">
+                                  <span className="inline-block text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-[var(--color-accent)] mt-0.5 animate-pulse">
                                     Now Playing
                                   </span>
                                 )}
@@ -3097,8 +2513,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <div
                       className="shrink-0 flex items-start gap-2 px-3 py-2"
                       style={{
-                        background: 'linear-gradient(90deg, rgba(168,85,247,0.12), rgba(236,72,153,0.08))',
-                        borderBottom: '1px solid rgba(168,85,247,0.2)',
+                        background: 'linear-gradient(90deg, rgba(255,10,61,0.12), rgba(236,72,153,0.08))',
+                        borderBottom: '1px solid rgba(255,10,61,0.2)',
                       }}
                     >
                       <span style={{ fontSize: 13, marginTop: 1 }}>📌</span>
@@ -3106,7 +2522,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 600, lineHeight: 1.4 }}>
                           {pinnedMessage.text}
                         </p>
-                        <p style={{ fontSize: 10, color: 'rgba(168,85,247,0.7)', marginTop: 2 }}>
+                        <p style={{ fontSize: 10, color: 'rgba(255,10,61,0.7)', marginTop: 2 }}>
                           Pinned by {pinnedMessage.by}
                         </p>
                       </div>
@@ -3160,19 +2576,19 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             key={msg.id}
                             className="msg-new flex items-start gap-2.5 py-1 px-1 mb-1.5 group"
                           >
-                            {/* Avatar */}
-                            <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black mt-0.5 bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-500 text-white shadow-xs">
+                             {/* Avatar */}
+                            <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black mt-0.5 bg-cyan-600 text-white shadow-xs">
                               {initials}
                             </div>
 
                             <div className="flex-1 min-w-0">
                               {/* Header row */}
                               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                <span className="text-xs font-extrabold !text-purple-800">
+                                <span className="text-xs font-extrabold !text-slate-900">
                                   {msg.account?.displayName || 'Fan'}
                                 </span>
 
-                                <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-purple-900 bg-purple-500/20 border-purple-500/35">
+                                <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-emerald-800 bg-emerald-500/20 border-emerald-500/35">
                                   {isCrew ? 'CREW' : isUser ? 'YOU' : 'FAN'}
                                 </span>
 
@@ -3182,7 +2598,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   </span>
                                 )}
                                 {showAdminPanel && isFlagged && !isBanned && (
-                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-amber-800 bg-amber-500/20 border-amber-500/35">
+                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-purple-400 bg-purple-600/20 border-purple-500/35">
                                     ⚩ FLAGGED
                                   </span>
                                 )}
@@ -3194,9 +2610,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                               {/* Message bubble */}
                               <div
-                                className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm !text-white font-bold rounded-2xl rounded-tl-xs ${
+                                className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm !text-white font-bold  rounded-tl-xs ${
                                   isCrew
-                                    ? 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 border-purple-400/50'
+                                    ? 'bg-emerald-600 border-emerald-400/50'
                                     : 'bg-cyan-500 border-cyan-400/50'
                                 }`}
                               >
@@ -3218,7 +2634,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {/* Emoji picker */}
                     {showEmojiPicker && (
                       <div
-                        className="mb-2 p-2 rounded-xl flex flex-wrap gap-1"
+                        className="mb-2 p-2 flex flex-wrap gap-1"
                         style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.08)' }}
                       >
                         {CHAT_EMOJIS.map(em => (
@@ -3240,7 +2656,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {/* Blocked message warning */}
                     {blockedReason && (
                       <div
-                        className="flex items-center gap-2 mb-2 px-3 py-2 rounded-xl text-xs font-bold"
+                        className="flex items-center gap-2 mb-2 px-3 py-2 text-xs font-bold"
                         style={{
                           background: 'rgba(239,68,68,0.12)',
                           border: '1px solid rgba(239,68,68,0.35)',
@@ -3262,7 +2678,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
                         placeholder="Type a message... use @admin to ask a question"
                         maxLength={200}
-                        className="w-full !bg-white border border-black/15 rounded-xl pl-3.5 pr-28 py-2.5 text-xs !text-black font-medium outline-none focus:border-purple-500 focus:!bg-white transition-all placeholder:!text-black/50 shadow-sm"
+                        className="w-full !bg-white border border-black/15 pl-3.5 pr-28 py-2.5 text-xs !text-black font-medium outline-none focus:border-[var(--color-accent)] focus:!bg-white transition-all placeholder:!text-black/50 shadow-sm"
                       />
                       <div className="absolute right-1.5 flex items-center gap-1">
                         <button
@@ -3274,14 +2690,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         </button>
                         <button
                           type="button"
-                          className="px-2 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 font-bold text-xs border border-amber-500/30 transition-all cursor-pointer"
+                          className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 font-bold text-xs border border-purple-500/30 transition-all cursor-pointer"
                         >
                           @
                         </button>
                         <button
                           type="submit"
                           disabled={!userMessage.trim()}
-                          className="w-7 h-7 rounded-lg bg-purple-600 hover:bg-purple-500 text-white flex items-center justify-center transition-all shadow-[0_0_10px_rgba(138,28,252,0.3)] disabled:opacity-30 disabled:hover:bg-purple-600 cursor-pointer"
+                          className="w-7 h-7 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white flex items-center justify-center transition-all shadow-[0_0_10px_rgba(138,28,252,0.3)] disabled:opacity-30 disabled:hover:bg-[var(--color-accent)] cursor-pointer"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                         </button>
@@ -3300,107 +2716,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           )}
         </div>
 
+
         {/* RAFFLE CLAIM MODAL OVERLAY */}
-        {showClaimModal && (() => {
-          const winnerIdx = Math.max(0, raffleState?.winners.findIndex((w: any) => (w?.name || w) === member?.name) ?? 0);
-          const pin = raffleState?.winnerPins?.[winnerIdx] || '';
-          const claimUrl = typeof window !== 'undefined' ? `${window.location.origin}/claim/${pin}` : '';
-          return (
-            <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm pointer-events-auto">
-              <div className="bg-gray-50/98 backdrop-blur-xl border border-yellow-500/40 rounded-2xl p-6 w-full max-w-sm shadow-md relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-autotext-black">
-                <button onClick={() => { setShowClaimModal(false); setClaimMethod(null); }} className="absolute top-3 right-3 text-black/50 hover:text-black transition-colors p-1 bg-gray-50 hover:bg-gray-100 rounded-full">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </button>
+        {showClaimModal && raffleState && (
+          <RaffleClaimModal
+            raffleState={raffleState}
+            member={member}
+            onClose={() => setShowClaimModal(false)}
+          />
+        )}
 
-                {!claimMethod ? (
-                  <>
-                    <div className="text-center mb-5">
-                      <span className="text-4xl mb-2 block">🏆</span>
-                      <h3 className="text-xl font-black text-black uppercase tracking-wider">You Won!</h3>
-                      {raffleState?.prizes?.[winnerIdx]?.name && (
-                        <p className="text-sm font-bold text-yellow-500 mt-1 uppercase tracking-widest">{raffleState?.prizes[winnerIdx].name}</p>
-                      )}
-                      <p className="text-xs text-black/40 mt-1">Show your PIN to the crew at the merch table</p>
-                    </div>
 
-                    {pin && (
-                      <div className="bg-yellow-500/5 border-2 border-yellow-500/40 rounded-xl p-4 mb-4 text-center">
-                        <p className="text-2xs font-black uppercase tracking-[0.2em] text-yellow-500/60 mb-3">Your Verification PIN</p>
-                        <div className="flex items-center justify-center gap-2 mb-3">
-                          {pin.split('').map((digit: string, i: number) => (
-                            <div key={i} className="w-9 h-12 bg-gray-100 border-2 border-yellow-500/40 rounded-lg flex items-center justify-center">
-                              <span className="text-yellow-400 font-black text-2xl tabular-nums">{digit}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <a href={claimUrl} target="_blank" rel="noreferrer"
-                          className="block w-full py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs uppercase tracking-widest rounded-lg transition-colors mb-2">
-                          Open Full Claim Page
-                        </a>
-                        <p className="text-2xs text-black/25">This link is unique to you — show it to the crew</p>
-                      </div>
-                    )}
-
-                    <div className="space-y-2">
-                      <p className="text-xs text-black/30 uppercase tracking-widest text-center mb-2">Or choose how to receive your prize</p>
-                      <button onClick={() => setClaimMethod('shipping')}
-                        className="w-full p-3 border border-black/10 hover:border-yellow-500/30 bg-gray-50 rounded-xl flex items-center gap-3 transition-all text-left">
-                        <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-                        </div>
-                        <div>
-                          <p className="font-bold text-xs text-black uppercase tracking-wider">Ship it to me</p>
-                          <p className="text-xs text-black/30 mt-0.5">100% off Shopify checkout link</p>
-                        </div>
-                      </button>
-                      <button onClick={() => setClaimMethod('merch_table')}
-                        className="w-full p-3 border border-black/10 hover:border-yellow-500/30 bg-gray-50 rounded-xl flex items-center gap-3 transition-all text-left">
-                        <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
-                        </div>
-                        <div>
-                          <p className="font-bold text-xs text-black uppercase tracking-wider">Pick up at Merch Table</p>
-                          <p className="text-xs text-black/30 mt-0.5">Show PIN or open claim page</p>
-                        </div>
-                      </button>
-                    </div>
-                  </>
-                ) : claimMethod === 'shipping' ? (
-                  <div className="text-center py-4">
-                    <div className="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>
-                    </div>
-                    <h3 className="text-lg font-black text-black uppercase tracking-wider mb-2">Shipping Claim</h3>
-                    <p className="text-sm text-black/50 mb-6 px-4">Your 100% off voucher is being generated. You'll be transferred to Shopify to enter your shipping details.</p>
-                    <button onClick={() => { alert('In production, this opens a Shopify Cart with discount applied!'); setShowClaimModal(false); setClaimMethod(null); }} className="w-full py-3 bg-blue-500 hover:bg-blue-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-colors">
-                      Open Secure Checkout
-                    </button>
-                    <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-black/30 hover:text-black/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
-                  </div>
-                ) : claimMethod === 'merch_table' ? (
-                  <div className="text-center py-4">
-                    <h3 className="text-lg font-black text-emerald-400 uppercase tracking-wider mb-1">Merch Table Pickup</h3>
-                    <p className="text-xs text-black/40 mb-5 uppercase tracking-widest">Show this PIN or page to the crew</p>
-                    {pin && (
-                      <div className="bg-yellow-500/5 border border-yellow-500/30 rounded-xl p-4 mb-4">
-                        <div className="flex items-center justify-center gap-2 mb-2">
-                          {pin.split('').map((digit: string, i: number) => (
-                            <div key={i} className="w-8 h-10 bg-gray-100 border border-yellow-500/40 rounded flex items-center justify-center">
-                              <span className="text-yellow-400 font-black text-lg tabular-nums">{digit}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <a href={claimUrl} target="_blank" rel="noreferrer" className="text-yellow-500/60 text-xs underline">Open full claim page →</a>
-                      </div>
-                    )}
-                    <button onClick={() => { setShowClaimModal(false); setClaimMethod(null); }} className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-colors">Done</button>
-                    <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-black/30 hover:text-black/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          );
-        })()}
 
         {/* ── LIVE DROP CHECKOUT MODAL OVERLAY ── */}
         {showCheckoutModal && activeMerchDrop && (() => {
@@ -3568,7 +2894,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                         <p style="text-transform: uppercase; font-size: 11px; color: #666; margin: 0 0 8px 0; letter-spacing: 0.1em; font-weight: 800;">Your Single-Use QR Code</p>
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PU-${claimPin}" alt="Scan QR Code" style="display: block; margin: 12px auto; border: 4px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" width="150" height="150" />
-                        <p style="font-size: 11px; color: #b45309; font-weight: bold; margin: 12px 0 0 0;">⚠️ This QR code is only valid for ONE claim. Do not share this email.</p>
+                        <p style="font-size: 11px; color: #6b21a8; font-weight: bold; margin: 12px 0 0 0;">⚠️ This QR code is only valid for ONE claim. Do not share this email.</p>
                       </div>
                       
                       <p style="font-weight: bold; color: #111827; font-size: 14px;">Please bring this QR code to the merch table to claim your item.</p>
@@ -3616,7 +2942,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
           return (
             <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
-              <div className="bg-white/98 backdrop-blur-xl border rounded-2xl p-6 w-full max-w-sm shadow-md relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto text-black text-left"
+              <div className="bg-white/98 backdrop-blur-xl border p-6 w-full max-w-sm shadow-md relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto text-black text-left"
                 style={{ borderColor: `${activeMerchDrop.product.color}55`, boxShadow: `0 0 40px ${activeMerchDrop.product.color}15` }}>
 
                 {/* Close Button */}
@@ -3627,7 +2953,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 {checkoutStep === 'form' && (
                   <form onSubmit={handleCheckoutSubmit} className="space-y-4">
                     <div className="text-center mb-2 flex flex-col items-center">
-                      <div className="w-20 h-20 rounded-xl border border-black/10 bg-gray-50 overflow-hidden mb-2.5 shrink-0">
+                      <div className="w-20 h-20 border border-black/10 bg-gray-50 overflow-hidden mb-2.5 shrink-0">
                         <img 
                           src={activeMerchDrop.product.image || '/images/merch/vinyl.png'} 
                           alt={activeMerchDrop.product.name} 
@@ -3669,7 +2995,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <button
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('merch_table')}
-                            className={`py-2.5 px-3 rounded-xl border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                            className={`py-2.5 px-3  border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
                               checkoutDeliveryMethod === 'merch_table'
                                 ? 'bg-white text-black border-white'
                                 : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
@@ -3681,7 +3007,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <button
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('shipping')}
-                            className={`py-2.5 px-3 rounded-xl border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                            className={`py-2.5 px-3  border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
                               checkoutDeliveryMethod === 'shipping'
                                 ? 'bg-white text-black border-white'
                                 : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
@@ -3773,7 +3099,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           value={shippingDetails.name}
                           onChange={e => setShippingDetails(prev => ({ ...prev, name: e.target.value }))}
                           placeholder="John Doe"
-                          className="w-full bg-gray-50 border border-black/10 rounded-xl p-2.5 text-xs text-black placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                          className="w-full bg-gray-50 border border-black/10 p-2.5 text-xs text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none font-sans"
                         />
                       </div>
                       <div>
@@ -3784,7 +3110,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           value={shippingDetails.email}
                           onChange={e => setShippingDetails(prev => ({ ...prev, email: e.target.value }))}
                           placeholder="john@example.com"
-                          className="w-full bg-gray-50 border border-black/10 rounded-xl p-2.5 text-xs text-black placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                          className="w-full bg-gray-50 border border-black/10 p-2.5 text-xs text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none font-sans"
                         />
                       </div>
                       
@@ -3798,7 +3124,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               value={shippingDetails.address}
                               onChange={e => setShippingDetails(prev => ({ ...prev, address: e.target.value }))}
                               placeholder="123 Main St"
-                              className="w-full bg-gray-50 border border-black/10 rounded-xl p-2.5 text-xs text-black placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                              className="w-full bg-gray-50 border border-black/10 p-2.5 text-xs text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none font-sans"
                             />
                           </div>
                           <div className="grid grid-cols-2 gap-2">
@@ -3810,7 +3136,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 value={shippingDetails.city}
                                 onChange={e => setShippingDetails(prev => ({ ...prev, city: e.target.value }))}
                                 placeholder="Chicago"
-                                className="w-full bg-gray-50 border border-black/10 rounded-xl p-2.5 text-xs text-black placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                                className="w-full bg-gray-50 border border-black/10 p-2.5 text-xs text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none font-sans"
                               />
                             </div>
                             <div>
@@ -3821,7 +3147,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 value={shippingDetails.zip}
                                 onChange={e => setShippingDetails(prev => ({ ...prev, zip: e.target.value }))}
                                 placeholder="60601"
-                                className="w-full bg-gray-50 border border-black/10 rounded-xl p-2.5 text-xs text-black placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                                className="w-full bg-gray-50 border border-black/10 p-2.5 text-xs text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none font-sans"
                               />
                             </div>
                           </div>
@@ -3836,7 +3162,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           value={shippingDetails.card}
                           onChange={e => setShippingDetails(prev => ({ ...prev, card: e.target.value }))}
                           placeholder="4242 4242 4242 4242"
-                          className="w-full bg-gray-50 border border-black/10 rounded-xl p-2.5 text-xs text-black placeholder-white/20 focus:border-purple-500 focus:outline-none font-sans"
+                          className="w-full bg-gray-50 border border-black/10 p-2.5 text-xs text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none font-sans"
                         />
                       </div>
                     </div>
@@ -3847,7 +3173,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         background: activeMerchDrop.product.color,
                         boxShadow: `0 0 15px ${activeMerchDrop.product.color}44`
                       }}
-                      className="w-full py-3 text-black font-black text-xs uppercase tracking-widest rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border-none mt-2 font-sans"
+                      className="w-full py-3 text-black font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border-none mt-2 font-sans"
                     >
                       Authorize Payment
                     </button>
@@ -3883,7 +3209,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </p>
                     </div>
                     
-                    <div className="bg-gray-50 border border-black/10 rounded-xl p-4 text-left space-y-3">
+                    <div className="bg-gray-50 border border-black/10 p-4 text-left space-y-3">
                       {/* Product Image - large and prominent */}
                       <div className="flex justify-center">
                         <img 
@@ -3899,7 +3225,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               e.currentTarget.src = '/images/merch/vinyl.png';
                             }
                           }}
-                          className="w-28 h-28 object-cover rounded-xl border border-black/10 shadow-lg" 
+                          className="w-28 h-28 object-cover border border-black/10" 
                         />
                       </div>
 
@@ -3945,7 +3271,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       style={{
                         background: activeMerchDrop.product.color
                       }}
-                      className="w-full py-3 text-black font-black text-xs uppercase tracking-widest rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border-none font-sans"
+                      className="w-full py-3 text-black font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border-none font-sans"
                     >
                       Return to Stream
                     </button>

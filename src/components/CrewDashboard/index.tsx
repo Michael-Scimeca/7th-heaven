@@ -10,246 +10,12 @@ import { createClient } from '@/lib/supabase/client';
 
 const supabase = createClient();
 
-// --- Types ---
-interface FakeAccount {
-  id: string;
-  name: string;
-  displayName: string;
-  role: 'fan' | 'crew' | 'admin';
-  color: string;
-  avatar: string;
-}
-
-interface ChatMsg {
-  id: string;
-  account?: FakeAccount | null;
-  text: string;
-  timestamp: number;
-  isSystem?: boolean;
-  isUser?: boolean;
-}
-
-const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string }> = {
-  sammy:   { id: 'sammy',   name: 'Sammy D',         email: 'sammy@7thheaven.com',   avatar: 'SD' },
-  michael: { id: 'michael', name: 'Michael Scimeca',  email: 'michael@7thheaven.com', avatar: 'MS' },
-  ryan:    { id: 'ryan',    name: 'Ryan K',           email: 'ryan@7thheaven.com',    avatar: 'RK' },
-  tony:    { id: 'tony',    name: 'Tony M',           email: 'tony@7thheaven.com',    avatar: 'TM' },
-  abbie:   { id: 'abbie',   name: 'Abbie Janssen',   email: 'abbie@7thheaven.com',   avatar: 'AJ' },
-};
-
-function getAvatarColor(name: string) {
-  const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#f87171', '#8b5cf6', '#ec4899'];
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  return colors[Math.abs(hash) % colors.length];
-}
-
-const COMMON_EMOJIS = ['😊','😂','🔥','❤️','🎉','🤘','🎸','🎶','😍','🙌','💀','👀'];
-
-const getShopifyProductAdminUrl = (productGid?: string) => {
-  const shopName = (process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com')
-    .replace(/"/g, '')
-    .split('.')[0];
-  if (!productGid) {
-    return `https://admin.shopify.com/store/${shopName}/products`;
-  }
-  // Extract number from gid://shopify/Product/123456789
-  const match = productGid.match(/\/Product\/(\d+)/) || productGid.match(/Product_(\d+)/);
-  const numericId = match ? match[1] : '';
-  if (numericId) {
-    return `https://admin.shopify.com/store/${shopName}/products/${numericId}`;
-  }
-  return `https://admin.shopify.com/store/${shopName}/products`;
-};
-
-export const ROLE_REQUIREMENTS: Record<string, { certifications: string[]; training: string[] }> = {
-  'SERVER': {
-    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
-    training: ['Customer Service Excellence']
-  },
-  'HOST': {
-    certifications: ['Food Handler Card'],
-    training: ['Guest Relations']
-  },
-  'BUSSER': {
-    certifications: ['Food Handler Card'],
-    training: ['Safety & Sanitation']
-  },
-  'CHEF': {
-    certifications: ['ServSafe Food Protection Manager'],
-    training: ['HACCP Safety Protocols']
-  },
-  'LINE COOK': {
-    certifications: ['Food Handler Card'],
-    training: ['Grill & Fryer Safety']
-  },
-  'MANAGER': {
-    certifications: ['ServSafe Manager', 'CPR/AED Certified'],
-    training: ['Shift Leadership']
-  },
-  'AUDIO MIX': {
-    certifications: ['AVIXA CTS (Certified Technology Specialist)'],
-    training: ['Digital Audio Console Setup']
-  },
-  'CAMERA': {
-    certifications: ['General Safety Cert'],
-    training: ['Equipment Inspection']
-  },
-  'POSITION': {
-    certifications: ['General Safety Cert'],
-    training: ['Venue Setup & Logistics']
-  }
-};
-
-export const CREW_QUALIFICATIONS: Record<string, { certifications: string[]; training: string[] }> = {
-  abbie: {
-    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
-    training: ['POS Terminal Operation', 'Customer Service Excellence']
-  },
-  al: {
-    certifications: ['Food Handler Card'],
-    training: ['Table Bussing Procedure', 'Safety & Sanitation']
-  },
-  andrea: {
-    certifications: ['ServSafe Food Protection Manager', 'Culinary Arts Degree'],
-    training: ['Kitchen Operations Management', 'HACCP Safety Protocols']
-  },
-  arjun: {
-    certifications: ['Food Handler Card'],
-    training: ['Customer Relations', 'Table Service Basics']
-  },
-  chris: {
-    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
-    training: ['Guest Relations', 'Reservation Software']
-  },
-  daniel: {
-    certifications: ['ServSafe Manager', 'CPR/AED Certified', 'Crowd Manager Cert'],
-    training: ['Shift Leadership', 'Emergency Response Procedures']
-  },
-  dave_croke: {
-    certifications: ['Food Handler Card'],
-    training: ['Line Station Setup', 'Grill & Fryer Safety']
-  },
-  dave_maas: {
-    certifications: ['ServSafe Food Protection Manager'],
-    training: ['Menu Development', 'Food Cost Controls']
-  },
-  david_xu: {
-    certifications: ['ServSafe Manager', 'CPR/AED Certified'],
-    training: ['Staff Scheduling', 'Inventory Auditing']
-  },
-  emily: {
-    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
-    training: ['Upselling Techniques', 'Host Desk Protocols']
-  },
-  emma: {
-    certifications: ['Food Handler Card'],
-    training: ['Prep Cook Station Basics', 'Knife Handling Safety']
-  },
-  erin: {
-    certifications: ['General Safety Cert'],
-    training: ['Venue Setup & Logistics', 'Equipment Inspection']
-  },
-  francesca: {
-    certifications: ['ServSafe Manager', 'Crowd Manager Cert'],
-    training: ['Event Coordination', 'Conflict De-escalation']
-  },
-  michael: {
-    certifications: ['AVIXA CTS (Certified Technology Specialist)', 'OSHA 10 Safety'],
-    training: ['Digital Audio Console Setup', 'Wireless Frequency Management']
-  },
-  sammy: {
-    certifications: ['BASSET Alcohol Cert', 'Food Handler Card'],
-    training: ['Fine Dining Table Etiquette', 'Point-of-Sale Checkout']
-  },
-  ryan: {
-    certifications: ['Food Handler Card'],
-    training: ['Trash Disposal Procedures', 'Floor Safety & Sweeping']
-  },
-  tony: {
-    certifications: ['Food Handler Card'],
-    training: ['Grill Station Mastery', 'High-Volume Kitchen Prep']
-  }
-};
-
-export const qualificationMap: Record<string, string[]> = {
-  abbie: ['SERVER', 'HOST'],
-  al: ['SERVER', 'BUSSER'],
-  andrea: ['CHEF'],
-  arjun: ['SERVER'],
-  chris: ['SERVER', 'HOST'],
-  daniel: ['MANAGER'],
-  dave_croke: ['LINE COOK'],
-  dave_maas: ['CHEF'],
-  david_xu: ['MANAGER'],
-  emily: ['SERVER', 'HOST'],
-  emma: ['LINE COOK'],
-  erin: ['POSITION'],
-  francesca: ['MANAGER'],
-  michael: ['AUDIO MIX'],
-  sammy: ['SERVER'],
-  ryan: ['BUSSER'],
-  tony: ['LINE COOK']
-};
-
-export interface Venue {
-  id: string;
-  name: string;
-  address: string;
-  capacity: number;
-  contactPerson: string;
-  contactPhone?: string;
-  parkingNotes: string;
-  stageSpecs: string;
-  wifiPassword?: string;
-}
-
-export const MOCK_VENUES: Venue[] = [
-  {
-    id: 'venue_1',
-    name: 'The Chicago Theatre',
-    address: '175 N State St, Chicago, IL 60601',
-    capacity: 3600,
-    contactPerson: 'Sarah Jenkins (Prod Manager)',
-    contactPhone: '(312) 555-0199',
-    parkingNotes: 'Load-in at the alley off Benton Place. Backstage parking requires security pass. Crew trucks park in designated street bays.',
-    stageSpecs: 'Proscenium stage. 60ft wide x 45ft deep. Full fly system, 48 linesets. Stage power: 3x 400A 3-phase.',
-    wifiPassword: 'BackstageGuest2026!'
-  },
-  {
-    id: 'venue_2',
-    name: 'Station 34',
-    address: '34 S Main St, Mount Prospect, IL 60056',
-    capacity: 250,
-    contactPerson: 'Dave Miller (Owner)',
-    contactPhone: '(847) 555-3434',
-    parkingNotes: 'Free street parking around the building. Load-in through the double doors on the west side of the building.',
-    stageSpecs: 'Raised deck stage. 20ft wide x 12ft deep. Basic LED wash lights, 16-channel digital console. Stage power: 2x 20A dedicated circuits.',
-    wifiPassword: 'station34_wifi'
-  },
-  {
-    id: 'venue_3',
-    name: 'Durty Nellies',
-    address: '180 N Smith St, Palatine, IL 60067',
-    capacity: 1000,
-    contactPerson: 'Mark Benson (Production Coordinator)',
-    contactPhone: '(847) 555-0142',
-    parkingNotes: 'Band bus/van park in the rear lot next to the loading dock. Public parking garage across the street.',
-    stageSpecs: 'Professional stage. 32ft wide x 20ft deep. Full DMX light rig, Behringer X32 console, 4 monitor mixes. Stage power: 200A 3-phase.',
-    wifiPassword: 'nellies_backstage'
-  },
-  {
-    id: 'venue_4',
-    name: 'Joe\'s Live',
-    address: '5441 Park Pl, Rosemont, IL 60018',
-    capacity: 1500,
-    contactPerson: 'Tony Ross (Sound Engineer)',
-    contactPhone: '(847) 555-9088',
-    parkingNotes: 'Use the loading bay at Parkway Bank Park. Buses park in the designated lane behind the venue. Validate parking at the box office.',
-    stageSpecs: 'Main stage. 40ft wide x 24ft deep. High-end L-Acoustics PA system, GrandMA2 lighting console. Stage power: 2x 400A 3-phase.',
-    wifiPassword: 'joes_guest_pass'
-  }
-];
+// ── Constants & types extracted from this file ──
+import {
+  MEMBER_SEEDS, getAvatarColor, COMMON_EMOJIS, getShopifyProductAdminUrl,
+  ROLE_REQUIREMENTS, CREW_QUALIFICATIONS, qualificationMap, MOCK_VENUES,
+  type FakeAccount, type ChatMsg, type Venue,
+} from './constants';
 
 export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } = {}) {
   // --- Auth State ---
@@ -362,7 +128,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
       const htmlContent = `
         <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
-          <h2 style="color: #fbbf24; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Crew Member Message</h2>
+          <h2 style="color: #c084fc; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Crew Member Message</h2>
           <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
             You have received a new message from crew member <strong>${displayName}</strong> (${email}):
           </p>
@@ -2264,7 +2030,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       winners.forEach((w, idx) => {
         const msg: ChatMsg = {
           id: `raffle-win-${Date.now()}-${idx}`,
-          account: { id: 'system', name: '7th Heaven', displayName: 'RAFFLE BOT', role: 'admin', color: '#fbbf24', avatar: '🏆' },
+          account: { id: 'system', name: '7th Heaven', displayName: 'RAFFLE BOT', role: 'admin', color: '#c084fc', avatar: '🏆' },
           text: `🎉 CONGRATULATIONS to ${w.name} for winning ${prizeName}! Check your Fan Dashboard to claim your prize! 🏆`,
           timestamp: Date.now(),
         };
@@ -2667,22 +2433,22 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] text-black font-sans selection:bg-[var(--color-accent-pink)]/30 pt-20">
+    <div className="min-h-screen bg-[#030305] text-white font-sans selection:bg-purple-600/30 pt-20">
       
       {/* ─── EXACT HEADER LAYOUT ─── */}
-      <header className="border-b border-black/10 bg-[#f0f2f5]/50">
+      <header>
         <div className="site-container py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center text-xl font-bold border border-purple-500 relative">
+            <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-xl font-bold border border-[var(--color-accent)] relative">
               {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
               <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-black" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="text-xl font-bold italic tracking-tight">{displayName}</span>
-                <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-black uppercase tracking-widest rounded flex items-center gap-1">🇮🇹 Crew</span>
+                <span className="text-xl font-bold italic tracking-tight text-white">{displayName}</span>
+                <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-widest rounded flex items-center gap-1">Crew</span>
               </div>
-              <span className="text-xs text-black/40">{email}</span>
+              <span className="text-xs text-white/60">{email}</span>
             </div>
           </div>
         </div>
@@ -2692,36 +2458,35 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       <div className="site-container py-8 space-y-6">
 
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
-        <div className="bg-white/80 border border-black/10 rounded-2xl overflow-hidden shadow-md transition-all duration-300">
+        <div className="transition-all duration-300 text-white">
            {/* Accordion Toggle Header */}
            <div 
              onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
-             className="p-5 border-b border-black/10 flex items-center justify-between bg-gray-50 cursor-pointer select-none hover:bg-gray-100 transition-all group"
+             className="py-4 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-all text-white group"
            >
               <div className="flex items-center gap-3">
-                 <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎥</div>
                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                     <div>
-                       <h3 className="text-sm font-black italic tracking-widetext-black">
+                       <h3 className="text-sm font-black italic tracking-wide text-white">
                           Live Broadcast & Feed Center
                        </h3>
-                       <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">
+                       <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">
                           Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls
                        </p>
                     </div>
                     
                     {/* Live/Offline status pill button in the feed container */}
-                    <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-gray-50 border-black/10 text-black/40'}`}>
+                    <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-white/5 border-white/15 text-white/60'}`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
                       <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
                     </div>
                  </div>
               </div>
               <div className="flex items-center gap-3">
-                 <span className="text-xs font-bold text-black/40 uppercase tracking-wider hidden sm:inline">
+                 <span className="text-xs font-bold text-white/60 uppercase tracking-wider hidden sm:inline">
                    {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
                  </span>
-                 <div className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
+                 <div className={`w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/70 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
                     ▼
                  </div>
               </div>
@@ -2729,13 +2494,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
            {/* Collapsible Content */}
            {!isBroadcastPanelCollapsed && (
-              <div className="p-6 space-y-6 bg-black/40">
+              <div className="py-2 space-y-2.5 text-white">
                 {/* Switch Feed and Fan page links moved from header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-black/10 bg-white/60">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-black/50 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
+                    <span className="text-xs text-white/60 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
                     <select 
-                      className="bg-gray-50 border border-black/10 rounded-lg px-3 py-1.5 text-xs text-black outline-none focus:border-purple-500 hover:bg-gray-100 transition-colors cursor-pointer"
+                      className="bg-black border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
                       onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
@@ -2748,7 +2513,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <Link
                     href={`/live/${defaultMemberId || memberSlug}`}
                     target="_blank"
-                    className="px-4 py-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:text-black text-xs font-bold uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 self-start sm:self-auto"
+                    className="px-3.5 py-1.5 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 self-start sm:self-auto"
                   >
                     <span>See Fan Feed Page</span>
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -2757,14 +2522,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   </Link>
                 </div>
 
-                <div className="flex items-center gap-2 text-black/50 text-sm uppercase tracking-widest font-black">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                  Crew Broadcast <span className="text-black/25 px-2">·</span> <span className="text-xs">{viewerCount} viewers</span>
+                <div className="flex items-center gap-2 text-white/60 text-xs uppercase tracking-widest font-black">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                  Crew Broadcast <span className="text-white/20 px-1.5">·</span> <span>{viewerCount} viewers</span>
                 </div>
 
         {/* Callout Link - Only visible when stream is LIVE */}
         {isLive && (
-          <div className="flex flex-col sm:flex-row items-center justify-between p-4 rounded-xl bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] animate-in fade-in slide-in-from-top-4 duration-500">
             <div className="mb-4 sm:mb-0 text-center sm:text-left">
               <p className="text-xs flex flex-col sm:flex-row items-center gap-1.5 font-black text-emerald-400 uppercase tracking-[0.2em] mb-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
@@ -2775,7 +2540,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </p>
             </div>
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-gray-50 hover:bg-white/15 text-emerald-300 hover:text-black text-xs font-bold uppercase tracking-widest rounded border border-emerald-500/20 hover:border-emerald-500/50 transition-colors">
+              <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded border border-emerald-500/20 hover:border-emerald-500/50 transition-colors">
                 Open <span className="ml-0.5">→</span>
               </Link>
               <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-xs font-black uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-all cursor-pointer">
@@ -2786,10 +2551,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         )}
 
         {/* ─── VIDEO + CHAT GRID (Exactly like the old one) ─── */}
-        <div className="flex bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md h-[600px]">
+        <div className="flex bg-[#0f051d] overflow-hidden h-[600px] border border-white/15 rounded-none">
           
           {/* VIDEO PLAYER (Left side) */}
-          <div className="flex-1 relative bg-[#f0f2f5] group min-w-0">
+          <div className="flex-1 relative bg-black group min-w-0 border-r border-white/15">
             {(userId && isLive) ? (
               <LiveKitStream 
                 room={`live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`} 
@@ -2803,15 +2568,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 className="absolute inset-0 z-0" 
               />
             ) : (
-              <div className="absolute inset-0 bg-white flex flex-col items-center justify-center border border-black/10">
-                <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-black/25">
+              <div className="absolute inset-0 bg-black flex flex-col items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                     <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
                     <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)"/>
                   </svg>
                 </div>
-                <h3 className="text-black/40 font-bold tracking-widest uppercase text-sm mb-1">Camera Standby</h3>
-                <p className="text-black/25 text-xs text-center max-w-[200px]">Click GO LIVE above to start your camera and begin broadcasting.</p>
+                <h3 className="text-white/70 font-bold tracking-widest uppercase text-sm mb-1">Camera Standby</h3>
+                <p className="text-white/40 text-xs text-center max-w-[200px]">Click GO LIVE above to start your camera and begin broadcasting.</p>
               </div>
             )}
             
@@ -2835,22 +2600,22 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             {/* Live Indicator overlay — only visible when actually broadcasting */}
             {isLive && (
             <div className="absolute top-4 left-4 flex gap-2 z-20">
-               <div className="px-3 py-1 bg-red-600 rounded-full flex items-center gap-1.5 shadow-lg shadow-red-600/30">
+               <div className="px-3 py-1 bg-red-600 rounded-full flex items-center gap-1.5 shadow-red-600/30">
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                  <span className="text-xs font-black text-black uppercase tracking-widest">Live</span>
+                  <span className="text-xs font-black text-white uppercase tracking-widest">Live</span>
                </div>
-               <div className="px-3 py-1 bg-black/60 backdrop-blur border border-black/10 rounded-full flex items-center gap-1.5 text-black/90">
-                  <span className="text-xs font-medium">👁 {viewerCount}</span>
+               <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/15 rounded-full flex items-center gap-1.5 text-white/90">
+                  <span className="text-xs font-medium">{viewerCount} Viewers</span>
                </div>
-               <div className="px-3 py-1 bg-black/60 backdrop-blur border border-black/10 rounded-full flex items-center gap-1.5 text-black/90">
-                  <span className="text-xs font-medium">⏱ {formatTime(elapsed)}</span>
+               <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/15 rounded-full flex items-center gap-1.5 text-white/90">
+                  <span className="text-xs font-medium">{formatTime(elapsed)}</span>
                </div>
             </div>
             )}
 
             {/* Video Controls overlay — only when live */}
             {isLive && (
-            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 to-transparent z-20 flex items-center justify-end gap-4 pointer-events-none">
+            <div className="absolute inset-x-0 bottom-0 p-4 z-20 flex items-center justify-end gap-4 pointer-events-none">
               <button 
                 onClick={attemptEndStream}
                 disabled={toggling}
@@ -2867,9 +2632,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button 
                 onClick={attemptEndStream}
                 disabled={toggling}
-                className="px-10 py-4 rounded-full text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(236,72,153,0.5)] transition-all disabled:opacity-50 bg-[var(--color-accent-pink)] text-black hover:brightness-110 hover:scale-105 hover:shadow-[0_0_50px_rgba(236,72,153,0.7)] flex items-center gap-3"
+                className="px-10 py-4 rounded-full text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(147,51,234,0.5)] transition-all disabled:opacity-50 bg-purple-600 text-white hover:brightness-110 hover:scale-105 hover:shadow-[0_0_50px_rgba(147,51,234,0.7)] flex items-center gap-3"
               >
-                <span className="w-3 h-3 bg-white rounded-full drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
+                <span className="animate-pulse shadow-[0_0_12px_#ffffff] shrink-0" style={{ backgroundColor: '#ffffff', width: '12px', height: '12px', borderRadius: '50%', display: 'inline-block' }} />
                 {toggling ? 'Starting...' : 'Go Live'}
               </button>
             </div>
@@ -2877,10 +2642,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           </div>
 
           {/* CHAT PANEL (Right side) */}
-          <div className="w-[400px] bg-white border-l border-black/10 flex flex-col shrink-0">
-             <div className="p-4 border-b border-black/10 flex items-center justify-between shrink-0">
-                 <span className="text-xs font-black uppercase tracking-widest text-black/80">💭 Live Chat</span>
-                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-black/40">
+          <div className="w-[400px] bg-[#0c0418] flex flex-col shrink-0 text-white">
+             <div className="p-4 border-b border-white/10 flex items-center justify-between shrink-0">
+                 <span className="text-xs font-black uppercase tracking-widest text-white/90">Live Chat</span>
+                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-white/60">
                    <div className="flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-emerald-500" /> {viewerCount} online
                    </div>
@@ -2893,7 +2658,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
              {activePinned && (
                <div className="px-4 py-3 border-b border-white/[0.06] bg-gradient-to-r from-emerald-500/10 to-transparent shrink-0 relative group">
                  <div className="flex items-start gap-2.5 pr-6">
-                   <span className="text-sm shrink-0 mt-0.5">📌</span>
                    <div className="min-w-0 flex-1">
                      <p className="text-black/90 text-sm leading-snug font-medium">
                        {activePinned.text}
@@ -2920,17 +2684,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     const isWarning = p.text.includes('warned') || p.text.includes('Warning');
                     const isBan = p.text.includes('banned');
                     const bg = isWarning 
-                      ? 'rgba(245,158,11,0.1)' 
+                      ? 'rgba(147, 51, 234,0.1)' 
                       : isBan 
                       ? 'rgba(239,68,68,0.1)' 
                       : 'rgba(255,255,255,0.05)';
                     const color = isWarning 
-                      ? '#fbbf24' 
+                      ? '#c084fc' 
                       : isBan 
                       ? '#f87171' 
                       : 'rgba(255,255,255,0.35)';
                     const border = isWarning 
-                      ? '1px solid rgba(245,158,11,0.2)' 
+                      ? '1px solid rgba(147, 51, 234,0.2)' 
                       : isBan 
                       ? '1px solid rgba(239,68,68,0.2)' 
                       : '1px solid transparent';
@@ -2957,7 +2721,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                   return (
                     <div key={p.id} className="flex gap-3 relative group">
-                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-black shrink-0 shadow-lg" style={{ backgroundColor: p.account?.color || getAvatarColor(username) }}>
+                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-black shrink-0" style={{ backgroundColor: p.account?.color || getAvatarColor(username) }}>
                           {p.account?.avatar || 'C'}
                        </div>
                        <div className="flex-1 min-w-0">
@@ -2969,7 +2733,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 </span>
                              )}
                              {isUserWarned && (
-                                <span className="px-1 py-0.5 bg-amber-500/10 border border-amber-500/30 rounded text-2xs font-black uppercase tracking-wider text-amber-400">
+                                <span className="px-1 py-0.5 bg-purple-600/10 border border-purple-500/30 rounded text-2xs font-black uppercase tracking-wider text-purple-300">
                                   WARNED
                                 </span>
                              )}
@@ -2984,11 +2748,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                        {/* Moderation Actions */}
                        {p.account?.role !== 'crew' && p.account?.role !== 'admin' && (
-                         <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-white/95 border border-black/10 rounded-lg p-1 shadow-lg z-20">
+                         <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-white/95 border border-black/10 rounded-lg p-1 z-20">
                            <button
                              onClick={() => handleWarn(username)}
                              title={isUserWarned ? "Unwarn User" : "Warn User"}
-                             className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-amber-500/15 text-amber-500 hover:scale-105 transition-all cursor-pointer"
+                             className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-600/15 text-purple-400 hover:scale-105 transition-all cursor-pointer"
                            >
                              ⚠️
                            </button>
@@ -3006,13 +2770,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                            >
                              🗑
                            </button>
-                            <button
-                              onClick={() => handleKick(username)}
-                              title="Remove Fan Completely"
-                              className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 text-red-500 hover:scale-105 transition-all cursor-pointer"
-                            >
-                              🚪
-                            </button>
+                           <button
+                             onClick={() => handleKick(username)}
+                             title="Remove Fan Completely"
+                             className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 text-red-500 hover:scale-105 transition-all cursor-pointer"
+                           >
+                             🚪
+                           </button>
                          </div>
                        )}
                     </div>
@@ -3020,7 +2784,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 })}
              </div>
 
-             <div className="p-4 bg-white border-t border-black/10 space-y-3 shrink-0">
+             <div className="pt-2 space-y-0 shrink-0">
                 {/* Pin message input */}
                 <div className="relative">
                    <input 
@@ -3028,90 +2792,71 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                      onChange={e => setGlobalPinText(e.target.value)}
                      onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
                      placeholder="Pin a message to all fans..."
-                     className="w-full bg-emerald-500/[0.06] border border-emerald-500/20 rounded-full px-5 py-2.5 pr-28 text-sm text-black placeholder:text-emerald-400/40 outline-none focus:border-emerald-500/50 transition-colors"
+                     className="w-full bg-emerald-500/[0.08] border border-b-0 border-emerald-500/20 rounded-none px-4 py-3.5 pr-24 text-xs text-white placeholder:text-emerald-400/50 outline-none focus:border-emerald-500/50 transition-colors"
                    />
-                   <div className="absolute right-2 top-1.5 bottom-1.5 flex items-center z-10">
+                   <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center z-10">
                       <button 
                         onClick={handleGlobalPinBox} 
                         disabled={!globalPinText.trim()} 
-                        className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest text-xs rounded-full transition-colors disabled:opacity-30 disabled:bg-gray-100 disabled:text-black/30"
+                        className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-30 disabled:bg-white/10 disabled:text-white/30"
                       >
-                        📌 PIN
+                        PIN
                       </button>
                    </div>
                 </div>
                 {/* Chat message input */}
                 <div className="relative">
-                   {showEmojiPicker && (
-                     <div className="absolute bottom-full right-0 mb-2 p-2 bg-gray-50 border border-black/10 rounded-xl shadow-md flex flex-wrap gap-1 w-64 z-50">
-                       {COMMON_EMOJIS.map(em => (
-                         <button
-                           key={em}
-                           onClick={() => { setContent(prev => prev + em); setShowEmojiPicker(false); }}
-                           className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-lg transition-colors"
-                         >
-                           {em}
-                         </button>
-                       ))}
-                     </div>
-                   )}
                    <input 
                      value={content}
                      onChange={e => setContent(e.target.value)}
                      onKeyDown={e => e.key === 'Enter' && handlePost()}
                      placeholder="Type a message..."
-                     className="w-full bg-gray-50 border border-black/10 rounded-full px-5 py-2.5 pr-24 text-xs text-black placeholder:text-black/30 outline-none focus:border-[#ec4899]/50 transition-colors"
+                     className="w-full bg-white/5 border border-white/10 rounded-none px-4 py-3.5 pr-12 text-xs text-white placeholder:text-white/30 outline-none focus:border-purple-500/50 transition-colors"
                    />
-                   <div className="absolute right-2 top-2 bottom-2 flex items-center gap-1">
-                      <button 
-                        onClick={() => setShowEmojiPicker(!showEmojiPicker)} 
-                        className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-black/50 hover:text-black"
-                        title="Add Emoji"
-                      >
-                         😊
-                      </button>
-                      <button onClick={handlePost} disabled={!content.trim() || posting} className="w-9 h-9 bg-[#2a2a35] hover:bg-[var(--color-accent-pink)] text-black rounded-full flex items-center justify-center transition-colors disabled:opacity-50" title="Send Chat">
-                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                   <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center">
+                      <button onClick={handlePost} disabled={!content.trim() || posting} className="h-full px-3 bg-purple-600 hover:brightness-110 text-black rounded-lg flex items-center justify-center transition-colors disabled:opacity-40" title="Send Chat">
+                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                       </button>
                    </div>
                 </div>
-              </div>
+             </div>
            </div>
         </div>
-
+     </div>
+  )}
+</div>
         {/* ─── BOTTOM RIGHT CARDS (Merch & Raffle) ─── */}
         <div className="grid grid-cols-1 xl:grid-cols-2 w-full gap-6 mt-6">
            
            {/* FLASH MERCH DROP */}
-           <div className="flex-1 bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md">
-              <div className="p-4 border-b border-black/10 flex items-center gap-3 bg-gray-50">
-                 <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛍️</div>
+           <div className="flex-1 text-white">
+              <div className="flex items-center gap-3 mb-4">
                  <div>
-                    <h3 className="text-sm font-black italic tracking-widetext-black">Flash Merch Drop</h3>
-                    <p className="text-xs font-bold text-black/40 uppercase tracking-widest">Limited time, limited stock</p>
+                    <h3 className="text-sm font-black italic tracking-wide text-white">Flash Merch Drop</h3>
+                    <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Limited time, limited stock</p>
                  </div>
               </div>
-              <div className="p-4">
+              <div>
                  {activeDrop ? (
                     <div className="space-y-4">
                        {/* Submitted Status Header */}
-                       <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-center justify-between">
+                       <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 flex items-center justify-between">
                           <div className="flex items-center gap-2">
                              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                              <span className="text-xs font-black uppercase tracking-widest text-emerald-400">Flash Sale Active</span>
                           </div>
-                          <span className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
+                          <span className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
                        </div>
 
                        {/* Countdown timer */}
-                       <div className="bg-black/40 border border-black/10 rounded-xl p-4 text-center">
-                          <p className="text-xs font-black tracking-widest text-black/30 uppercase mb-1">Time Remaining</p>
+                       <div className="bg-black/40 border border-white/10 p-4 text-center">
+                          <p className="text-xs font-black tracking-widest text-white/40 uppercase mb-1">Time Remaining</p>
                           <p className="text-3xl font-black font-mono text-[var(--color-accent-pink)] tracking-wider animate-pulse">
                              {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
                           </p>
-                          <div className="w-full bg-gray-50 h-1.5 rounded-full mt-3 overflow-hidden">
+                          <div className="w-full bg-white/5 h-1.5 rounded-full mt-3 overflow-hidden">
                              <div 
-                                className="h-full bg-gradient-to-r from-[#ec4899] to-pink-500 transition-all duration-1000"
+                                className="h-full bg-gradient-to-r from-purple-600 to-violet-600 transition-all duration-1000"
                                 style={{ width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%` }}
                              />
                           </div>
@@ -3119,13 +2864,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                        {/* Product List */}
                        <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                          <p className="text-xs font-black tracking-widest uppercase text-black/30">Active Products</p>
+                          <p className="text-xs font-black tracking-widest uppercase text-white/40">Active Products</p>
                           {activeDrop.products.map(p => (
-                             <div key={p.id} className="flex gap-3 p-2.5 bg-gray-50 rounded-xl border border-black/10 items-center justify-between">
-                                <img src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-[#f0f2f5] object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                             <div key={p.id} className="flex gap-3 p-2.5 bg-white/5 border border-white/10 items-center justify-between">
+                                <img src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                                 <div className="flex-1 min-w-0">
-                                   <p className="text-xs font-bold truncatetext-black" title={p.title}>{p.title}</p>
-                                   <p className="text-[var(--font-size-3xs)] text-black/40 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                   <p className="text-xs font-bold truncate text-white" title={p.title}>{p.title}</p>
+                                   <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                                 </div>
                                 <div className="shrink-0 text-right">
                                    <p className="text-xs font-black text-[var(--color-accent-pink)] font-mono">${p.flashPrice}</p>
@@ -3139,9 +2884,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <button 
                              type="button"
                              onClick={cancelFlashDrop}
-                             className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-500 hover:text-red-400 text-xs font-black tracking-widest uppercase rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                             className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 text-xs font-black tracking-widest uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                           >
-                             🚫 Cancel Flash Drop
+                             Cancel Flash Drop
                           </button>
                        </div>
                     </div>
@@ -3149,18 +2894,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <>
                        <div className="flex items-center justify-between mb-3 text-xs font-black uppercase tracking-widest">
                           <div className="flex items-center gap-2">
-                             <span className="text-[var(--color-accent-pink)]">■ LIVE SHOPIFY INVENTORY</span>
+                             <span className="text-[var(--color-accent-pink)]">LIVE SHOPIFY INVENTORY</span>
                              <a 
                                 href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[var(--font-size-4xs)] text-black/40 hover:text-[var(--color-accent-pink)] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-black/10 hover:border-[#ec4899]/30 bg-white/[0.02] hover:bg-[var(--color-accent-pink)]/5 px-2 py-0.5 rounded"
+                                className="text-[var(--font-size-4xs)] text-white/60 hover:text-white font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-purple-500/30 bg-white/5 px-2 py-0.5 rounded"
                                 title="Go to Shopify Products Admin"
                              >
                                 Shopify Admin ↗
                              </a>
                           </div>
-                          <button onClick={() => window.location.reload()} className="text-black/30 hover:text-black flex items-center gap-1">↻ Refresh</button>
+                          <button onClick={() => window.location.reload()} className="text-white/40 hover:text-white flex items-center gap-1">↻ Refresh</button>
                        </div>
                        
                        <div className="mb-4">
@@ -3172,12 +2917,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                    e.target.value = "";
                                 }
                              }}
-                             className="w-full bg-[#f0f2f5] border border-[#ec4899]/30 rounded-xl p-3 text-black font-bold text-sm outline-none focus:border-[#ec4899] cursor-pointer appearance-none"
+                             className="w-full bg-black border border-white/20 p-3 text-white font-bold text-sm outline-none focus:border-[#9333ea] cursor-pointer appearance-none"
                              style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem top 50%', backgroundSize: '0.65rem auto' }}
                           >
-                             <option value="" className="text-black/40">✚ Select product to add to Flash Drop...</option>
+                             <option value="" className="text-white/40 bg-black">Select product to add to Flash Drop...</option>
                              {shopifyProducts.map(p => (
-                                <option key={p.id} value={p.id} disabled={selectedProducts.some(sp => sp.id === p.id)}>
+                                <option key={p.id} value={p.id} disabled={selectedProducts.some(sp => sp.id === p.id)} className="bg-black text-white">
                                    {p.title} — ${p.variants?.edges?.[0]?.node?.price?.amount} ({(p.quantityAvailable || 0)} in stock)
                                 </option>
                              ))}
@@ -3185,33 +2930,33 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                        </div>
                        
                        <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
-                          <p className="text-xs font-black tracking-widest uppercase text-black/30 mb-2">Selected Products & Flash Sale Prices</p>
+                          <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
-                             <div className="text-center py-6 bg-gray-50/50 border border-black/10 rounded-xl text-black/30 italic text-xs">
+                             <div className="text-center py-6 border border-white/15 text-white/60 italic text-xs">
                                No products selected yet. Select a product above.
                              </div>
                           ) : (
                              selectedProducts.map(p => (
-                                <div key={p.id} className="flex gap-4 p-3 bg-gray-50 rounded-xl border border-black/10 items-center justify-between">
-                                   <img src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-[#f0f2f5] object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                                <div key={p.id} className="flex gap-4 p-3 border border-white/15 items-center justify-between text-white bg-white/5">
+                                   <img src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                                    <div className="flex-1 min-w-0">
-                                      <p className="text-xs font-bold truncate pr-2text-black" title={p.title}>{p.title}</p>
-                                      <p className="text-[var(--font-size-3xs)] text-black/40 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                      <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
+                                      <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                                    </div>
                                    <div className="flex items-center gap-2 shrink-0">
-                                      <div className="flex items-center bg-black/60 border border-black/10 rounded-lg px-2 py-1 max-w-[90px]">
-                                         <span className="text-black/40 text-[var(--font-size-3xs)] mr-1">$</span>
+                                      <div className="flex items-center bg-black/60 border border-white/15 rounded-lg px-2 py-1 max-w-[90px]">
+                                         <span className="text-white/40 text-[var(--font-size-3xs)] mr-1">$</span>
                                          <input 
                                             type="text" 
                                             value={p.flashPrice} 
                                             onChange={e => updateProductFlashPrice(p.id, e.target.value)} 
-                                            className="bg-transparent text-black font-mono font-black text-xs outline-none w-full text-right" 
+                                            className="bg-transparent text-white font-mono font-black text-xs outline-none w-full text-right" 
                                             placeholder="Price"
                                          />
                                       </div>
                                       <button 
                                          onClick={() => removeProductFromDrop(p.id)}
-                                         className="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-500 flex items-center justify-center font-bold text-xs transition-colors cursor-pointer border-none"
+                                         className="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-xs transition-colors cursor-pointer border-none"
                                          title="Remove from drop"
                                       >
                                          ✕
@@ -3224,18 +2969,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                        <div className="grid grid-cols-2 gap-4 mb-4">
                          <div>
-                           <p className="text-xs font-black tracking-widest uppercase text-black/30 mb-2">Total Products</p>
-                           <div className="w-full bg-gray-50 border border-black/10 rounded-lg p-2.5 text-center text-xs font-bold font-mono">{selectedProducts.length}</div>
+                           <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Total Products</p>
+                           <div className="w-full bg-white/5 border border-white/15 rounded-lg p-2.5 text-center text-xs font-bold font-mono text-white">{selectedProducts.length}</div>
                          </div>
                          <div>
-                            <p className="text-xs font-black tracking-widest uppercase text-black/30 mb-2">Duration</p>
+                            <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Duration</p>
                             <div className="grid grid-cols-4 gap-1">
                               {['2m', '5m', '10m', '15m'].map((d) => (
                                 <button 
                                   key={d}
                                   type="button"
                                   onClick={() => setDropDurationStr(d)}
-                                  className={`text-center py-2 rounded border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-[var(--color-accent-pink)]/20 border-[#ec4899] text-[var(--color-accent-pink)]' : 'bg-gray-50 border-black/10 text-black/40 hover:bg-gray-100'}`}
+                                  className={`text-center py-2 rounded border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10'}`}
                                 >
                                   {d}
                                 </button>
@@ -3245,19 +2990,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                        </div>
 
                        <label className="flex items-center gap-2 mb-4 cursor-pointer group">
-                         <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-[var(--color-accent-pink)] border-[#ec4899]' : 'border-black/15 group-hover:border-white/40 bg-black'}`}>
+                         <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-purple-600 border-[#9333ea]' : 'border-white/20 group-hover:border-white/40 bg-black'}`}>
                            {globalDrop && <span className="text-black text-[var(--font-size-3xs)] font-bold">✓</span>}
                          </div>
                          <input type="checkbox" className="hidden" checked={globalDrop} onChange={e => setGlobalDrop(e.target.checked)} />
-                         <span className="text-xs font-bold text-black/60 group-hover:text-black transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
+                         <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
                        </label>
 
                        <button 
                          type="button"
                          onClick={launchFlashDrop}
-                         className="w-full py-4 bg-gradient-to-r from-[#ec4899] to-pink-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all"
+                         className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all"
                        >
-                          🔥 Launch Flash Drop
+                          Launch Flash Drop
                        </button>
 
                        <button 
@@ -3267,7 +3012,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                            localStorage.setItem('7h_flash_drop', JSON.stringify({ ...testPayload, ts: Date.now() }));
                            try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch {}
                          }}
-                         className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-500 text-xs font-black tracking-widest uppercase rounded-xl transition-all"
+                         className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-all"
                        >
                           [TESTING] Simulate Sold Out Merch Drop
                        </button>
@@ -3277,27 +3022,25 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
            </div>
 
            {/* LIVE RAFFLE (Rebuilt as requested) */}
-           <div className="flex-1 bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md flex flex-col">
-              <div className="p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50">
+           <div className="flex-1 flex flex-col text-white">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-4">
                  <div className="flex items-center gap-3">
-                     <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xl">🎟️</div>
                      <div>
-                        <h3 className="text-sm font-black italic tracking-widetext-black">Live Event Raffle</h3>
-                        <p className="text-xs font-bold text-black/40 uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
+                        <h3 className="text-sm font-black italic tracking-wide text-white">Live Event Raffle</h3>
+                        <p className="text-xs font-bold text-white/60 uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
                      </div>
-                  </div>
-                  {raffleStatus !== 'idle' && (
+                 </div>
+                 {raffleStatus !== 'idle' && (
                     <button 
                        type="button"
                        onClick={cancelRaffle} 
-                       className="px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20"
+                       className="px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20"
                     >
                        {raffleStatus === 'complete' ? 'Clear Results' : 'Cancel Raffle'}
                     </button>
-                  )}
-               </div>
-              
-              <div className="p-4 flex-1 flex flex-col gap-5">
+                 )}
+              </div>
+               <div className="flex-1 flex flex-col gap-5">
                  
                  {/* Multi-Raffle Queue Configuration */}
                  <div className="overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -3306,7 +3049,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div key={idx} className={`flex flex-col gap-1.5 relative ${idx !== activeQueueIndex && (raffleStatus !== 'idle' && raffleStatus !== 'complete') ? 'opacity-30 pointer-events-none' : ''}`}>
                            {/* Show indicator if it's the currently active raffle */}
                            {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                             <div className="absolute -left-5 top-7 text-amber-500 animate-pulse text-xs">▶</div>
+                             <div className="absolute -left-5 top-7 text-purple-400 animate-pulse text-xs">▶</div>
                            )}
 
                            <div className="flex gap-2 items-end">
@@ -3319,24 +3062,24 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                  value={item.name}
                                  onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                  placeholder="e.g. VIP Meet & Greet Pass"
-                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-black outline-none transition-colors ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.1)]' : 'border-black/10 focus:border-[#a78bfa]'}`}
+                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-black outline-none transition-colors ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50 shadow-[0_0_10px_rgba(147,51,234,0.1)]' : 'border-black/10 focus:border-[#a78bfa]'}`}
                                />
                             </div>
 
                             {/* Input 2: Entries Needed */}
                             <div className="w-20 flex flex-col gap-1.5 relative">
-                               {idx === 0 && <label className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-amber-500 truncate">2. Entries</label>}
+                               {idx === 0 && <label className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400 truncate">2. Entries</label>}
                                <input 
                                  type="number" 
                                  min="1"
                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                  value={item.min || ''}
                                  onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-amber-400 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50' : 'border-black/10 focus:border-amber-500'}`}
+                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50' : 'border-black/10 focus:border-purple-500'}`}
                                />
                                {/* Floating counter during active raffle */}
                                {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                                 <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-amber-500 font-black uppercase bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20 whitespace-nowrap overflow-visible z-10 w-auto text-right">
+                                 <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-purple-400 font-black uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/20 whitespace-nowrap overflow-visible z-10 w-auto text-right">
                                    {raffleEntrants.length} / {item.min} Entries
                                  </div>
                                )}
@@ -3351,7 +3094,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                  value={item.qty || ''}
                                  onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-black outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-amber-500/50' : 'border-black/10 focus:border-[#a78bfa]'}`}
+                                 className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-black outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50' : 'border-black/10 focus:border-[#a78bfa]'}`}
                                />
                             </div>
 
@@ -3363,9 +3106,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                 className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-2xs font-black uppercase tracking-wider rounded-md transition-all ${
                                   (raffleStatus === 'idle' || raffleStatus === 'complete')
-                                  ? 'border-amber-500 text-amber-500 hover:bg-amber-500/10' 
+                                  ? 'border-purple-500 text-purple-400 hover:bg-purple-600/10' 
                                   : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
-                                    ? 'border-amber-500/50 bg-amber-500/20 text-amber-500' 
+                                    ? 'border-purple-500/50 bg-purple-600/20 text-purple-400' 
                                     : 'border-black/10 text-black/30 opacity-30 shadow-none' 
                                 }`}
                               >
@@ -3397,9 +3140,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                    </div>
 
                    {raffleStatus === 'open' && (
-                      <div className="mt-2 text-center p-3 border border-amber-500/20 bg-amber-500/5 rounded-xl">
+                      <div className="mt-2 text-center p-3 border border-purple-500/20 bg-purple-600/5">
                          <p className="text-lg font-black text-black italic mb-1">{raffleEntrants.length} <span className="text-xs text-black/50">/ {raffleMinEntrants}</span></p>
-                         <p className="text-xs font-bold text-amber-500 uppercase tracking-widest mt-0.5">Fan entries collected</p>
+                         <p className="text-xs font-bold text-purple-400 uppercase tracking-widest mt-0.5">Fan entries collected</p>
                          <div className="flex flex-col gap-2 mt-4 px-2">
                           <div className="flex gap-2">
                              <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-black/10 rounded-lg text-xs font-bold text-black uppercase tracking-widest transition-colors">+ Fake Entry</button>
@@ -3423,25 +3166,25 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                            type="button"
                            onClick={drawWinner}
                            disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
-                           className="w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all disabled:opacity-30 disabled:grayscale"
+                           className="w-full py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all disabled:opacity-30 disabled:grayscale"
                          >
                            {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
                          </button>
                       ) : (
-                         <div className="bg-gray-50 border border-amber-500/30 rounded-xl p-4 text-center">
-                           <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(245,158,11,0.5)]">🎉</div>
+                         <div className="bg-gray-50 border border-purple-500/30 p-4 text-center">
+                           <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(147,51,234,0.5)]">🎉</div>
                            <h4 className="text-lg font-black text-black italic">Winner Selected</h4>
                            <div className="flex flex-col gap-2 justify-center mt-3">
                              {drawnWinners.map((w, i) => (
-                                <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/30">
+                                <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-purple-600/10 text-purple-300 rounded-lg border border-purple-500/30">
                                   <span className="text-sm font-black">{w.name}</span>
-                                  <span className="text-xs font-mono font-bold tracking-widest text-amber-300 font-sans">PIN: {winnerPins[i] || '0000'}</span>
+                                  <span className="text-xs font-mono font-bold tracking-widest text-purple-200 font-sans">PIN: {winnerPins[i] || '0000'}</span>
                                 </div>
                              ))}
                            </div>
                            {raffleAutoRestartCountdown !== null && (
                               <p className="text-xs font-bold text-black/40 mt-3 pt-3 border-t border-black/10">
-                                Next raffle auto-starts in <span className="text-amber-500 font-mono text-xs">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
+                                Next raffle auto-starts in <span className="text-purple-400 font-mono text-xs">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
                               </p>
                            )}
                          </div>
@@ -3452,20 +3195,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           </div>
 
         {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
-        <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
-           <div className="p-4 border-b border-black/10 flex items-center gap-3 bg-gray-50">
-              <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
+        <div className="mt-6 text-white">
+           <div className="mb-4 flex items-center gap-3">
                <div>
-                  <h3 className="text-sm font-black italic tracking-widetext-black">Chat Moderation & Policies</h3>
-                  <p className="text-xs font-bold text-black/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+                  <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
+                  <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
                </div>
             </div>
             
-            <div className="p-4 space-y-4">
+            <div className="pt-4 space-y-4">
                <div className="flex flex-col lg:flex-row gap-6 items-start">
                   <div className="flex-1 min-w-0 w-full space-y-2">
-                     <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
-                     <p className="text-black/40 text-xs leading-relaxed font-sans font-semibold">
+                     <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Custom Flagged Keywords</h4>
+                     <p className="text-white/60 text-xs leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                      </p>
 
@@ -3475,11 +3217,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           value={newCustomWord}
                           onChange={e => setNewCustomWord(e.target.value)}
                           placeholder="e.g. ticket-scalper"
-                          className="flex-1 bg-black/60 border border-black/10 rounded-xl px-4 py-2.5 text-xs text-black outline-none focus:border-[#ec4899]/50 font-bold"
+                          className="flex-1 bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white outline-none focus:border-purple-500/50 font-bold placeholder:text-white/30"
                         />
                         <button
                           type="submit"
-                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider rounded-xl transition-all"
+                          className="px-5 py-2.5 bg-purple-600 hover:bg-purple-600 text-white font-black text-xs uppercase tracking-wider transition-all"
                         >
                           Add Keyword
                         </button>
@@ -3487,23 +3229,23 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   </div>
 
                   <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                     <p className="text-xs font-black uppercase tracking-widest text-black/40">Active Custom Filters</p>
+                     <p className="text-xs font-black uppercase tracking-widest text-white/60">Active Custom Filters</p>
                      {customWords.length === 0 ? (
-                        <div className="text-center py-6 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
-                           <p className="text-black/25 text-xs italic">No custom keywords configured.</p>
+                        <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+                           <p className="text-white/40 text-xs italic">No custom keywords configured.</p>
                         </div>
                      ) : (
                         <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
                            {customWords.map(word => (
                               <span
                                 key={word}
-                                className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-gray-50 border border-black/10 rounded-xl text-xs font-bold text-black/80"
+                                className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 border border-white/15 text-xs font-bold text-white"
                               >
                                  <span>{word}</span>
                                  <button
                                    type="button"
                                    onClick={() => handleRemoveCustomWord(word)}
-                                   className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-gray-100 text-black/40 hover:text-black transition-colors"
+                                   className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/20 text-white/60 hover:text-white transition-colors"
                                  >
                                     &times;
                                  </button>
@@ -3517,13 +3259,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
          </div>
 
         {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-        <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
-           <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
+        <div className="mt-6 text-white">
+           <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                 <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-xl">📊</div>
                  <div>
-                    <h3 className="text-sm font-black italic tracking-widetext-black">Live Stream Performance & Chat Analytics</h3>
-                    <p className="text-xs font-bold text-black/40 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
+                    <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
+                    <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
                  </div>
               </div>
               {isLive && (
@@ -3533,45 +3274,45 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               )}
            </div>
 
-           <div className="p-6">
+           <div className="pt-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                  
                  {/* store sales card */}
-                 <div className="p-4 bg-gradient-to-br from-[#291e34] to-[#0c0c11] border border-purple-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-purple-500/40 transition-all duration-300">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-purple-400">🛍️ Store Sales Revenue</p>
-                    <p className="text-2xl font-black mt-2 text-black font-mono">
+                 <div className="p-4 bg-gradient-to-br from-[#291e34] to-[#0c0c11] border border-[var(--color-accent)]/20 relative overflow-hidden group hover:border-[var(--color-accent)]/40 transition-all duration-300">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-accent)]/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-[var(--color-accent)]">Store Sales Revenue</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">
                       ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                     </p>
-                    <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">
+                    <p className="text-3xs font-bold text-white/40 uppercase tracking-wider mt-1.5">
                       {orders.filter(o => o.source === 'Store').length} purchases
                     </p>
                  </div>
 
                  {/* flash drop sales card */}
-                 <div className="p-4 bg-gradient-to-br from-[#341e29] to-[#0c0c11] border border-pink-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-pink-500/40 transition-all duration-300">
+                 <div className="p-4 bg-gradient-to-br from-[#341e29] to-[#0c0c11] border border-pink-500/20 relative overflow-hidden group hover:border-pink-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-pink-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-pink-400">⚡ Flash Drop Sales</p>
-                    <p className="text-2xl font-black mt-2 text-black font-mono">
+                    <p className="text-2xs font-black uppercase tracking-widest text-pink-400">Flash Drop Sales</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">
                       ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                     </p>
-                    <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">
+                    <p className="text-3xs font-bold text-white/40 uppercase tracking-wider mt-1.5">
                       {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
                     </p>
                  </div>
 
                  {/* raffle claims card */}
-                 <div className="p-4 bg-gradient-to-br from-[#292212] to-[#0c0c11] border border-amber-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-amber-500/40 transition-all duration-300">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-amber-500">🏆 Raffle Claims</p>
-                    <p className="text-2xl font-black mt-2 text-black font-mono">
+                 <div className="p-4 bg-gradient-to-br from-[#292212] to-[#0c0c11] border border-purple-500/20 relative overflow-hidden group hover:border-purple-500/40 transition-all duration-300">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-purple-600/5 rounded-full blur-xl pointer-events-none" />
+                    <p className="text-2xs font-black uppercase tracking-widest text-purple-400">Raffle Claims</p>
+                    <p className="text-2xl font-black mt-2 text-white font-mono">
                       {orders.filter(o => o.source === 'Raffle').length}
                     </p>
-                    <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">prizes claimed by fans</p>
+                    <p className="text-3xs font-bold text-white/40 uppercase tracking-wider mt-1.5">prizes claimed by fans</p>
                  </div>
 
                  {/* viewers card */}
-                 <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border border-emerald-500/20 rounded-xl shadow-lg relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
+                 <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border border-emerald-500/20 relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
                     <p className="text-2xs font-black uppercase tracking-widest text-emerald-400">👁️ Live Viewers</p>
                     <p className="text-2xl font-black mt-2 text-black font-mono">{viewerCount}</p>
@@ -3582,839 +3323,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
            </div>
         </div>
 
-        </div>
-      )}
-    </div>
       
-        {/* ─── YOUR WORK SCHEDULE CARD ─── */}
-          {(() => {
-            const myShifts = crewSchedules.filter(s => s.crewId === slug);
-            const pendingShifts = myShifts.filter(s => s.approvalStatus === 'pending');
-            const activeShifts = myShifts;
-            const coverageShifts = crewSchedules.filter(s => 
-              s.isCoverageRequested === true &&
-              s.crewId !== slug &&
-              isQualifiedForRole(slug, s.role)
-            );
-
-            return (
-              <>
-                <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
-                   <div 
-                     onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                     className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50 cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
-                   >
-                      <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">📅</div>
-                         <div>
-                            <h3 className="text-sm font-black italic tracking-widetext-black">Your Work Schedule</h3>
-                            <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
-                         </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setEmailSubject('General Scheduling Inquiry');
-                            setEmailMessage(`Hi Admin,\n\n[Your message here]`);
-                            setIsEmailModalOpen(true);
-                          }}
-                          className="px-3 py-1 bg-amber-500 hover:bg-amber-400 text-black rounded-full text-xs font-black uppercase tracking-widest cursor-pointer border-none transition-colors flex items-center gap-1"
-                        >
-                          📧 Contact Admins
-                        </button>
-                        {pendingShifts.length > 0 && (
-                          <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
-                            {pendingShifts.length} Pending
-                          </span>
-                        )}
-                        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full text-xs font-black uppercase tracking-widest">
-                          {activeShifts.length} Shifts
-                        </span>
-                      </div>
-                      
-                      <div className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}>
-                        ▼
-                      </div>
-                   </div>
-                   {!isScheduleCollapsed && (
-                      <div className="p-6">
-                     {/* Calendar Feed Subscription Utility */}
-                     <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 rounded-xl flex items-center justify-between gap-4 flex-col sm:flex-row">
-                       <div className="flex items-start gap-3">
-                         <span className="text-lg mt-0.5">🗓️</span>
-                         <div>
-                           <p className="text-xs font-bold text-purple-300">Sync with Google & Apple Calendar</p>
-                           <p className="text-[var(--font-size-3xs)] text-black/50 mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
-                         </div>
-                       </div>
-                       <button
-                         onClick={() => {
-                           const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
-                           navigator.clipboard.writeText(icsUrl);
-                           alert("📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.");
-                         }}
-                         className="px-4 py-2 bg-purple-500 hover:bg-purple-400 text-black text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1.5 shrink-0"
-                       >
-                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                         Copy Feed URL
-                       </button>
-                     </div>
-  
-                      {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
-                      <div className="grid grid-cols-2 gap-2 bg-black/25 p-1 border border-black/10 rounded-xl mb-6 shrink-0 font-sans">
-                        <button
-                          type="button"
-                          onClick={() => setActiveScheduleTab('my_schedule')}
-                          className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 ${
-                            activeScheduleTab === 'my_schedule'
-                              ? 'bg-amber-500 text-black shadow-sm font-bold'
-                              : 'bg-transparent text-black/50 hover:text-black'
-                          }`}
-                        >
-                          📅 My Shift Schedule ({activeShifts.length})
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setActiveScheduleTab('tour_events')}
-                          className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 ${
-                            activeScheduleTab === 'tour_events'
-                              ? 'bg-amber-500 text-black shadow-sm font-bold'
-                              : 'bg-transparent text-black/50 hover:text-black'
-                          }`}
-                        >
-                          🎸 Band Tour Events ({tourDates.length})
-                        </button>
-                      </div>
-
-                      {activeScheduleTab === 'my_schedule' ? (
-                        activeShifts.length === 0 ? (
-                          <div className="text-center py-8 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
-                             <p className="text-black/30 text-xs italic">You have no upcoming work shifts scheduled.</p>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col gap-3 font-sans">
-                            {activeShifts.map((shift) => {
-                              const dateObj = new Date(shift.date + 'T00:00:00');
-                              const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                              const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
-                              const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-     
-                              return (
-                                <div 
-                                  key={shift.id} 
-                                  className={`p-4 rounded-xl transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
-                                    shift.approvalStatus === 'pending'
-                                      ? 'bg-gradient-to-r from-yellow-500/[0.03] to-black/50 border border-yellow-500/40 shadow-[0_0_15px_rgba(245,158,11,0.05)] hover:border-yellow-500/60'
-                                      : 'bg-black/40 border border-black/10 hover:border-black/15'
-                                  }`}
-                                >
-                                  {/* Date & Time Column */}
-                                  <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
-                                    <div className={`w-11 h-11 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${
-                                      shift.approvalStatus === 'pending'
-                                        ? 'bg-yellow-500/10 border-yellow-500/30'
-                                        : 'bg-amber-500/10 border-amber-500/20'
-                                    }`}>
-                                      <span className={`text-[var(--font-size-4xs)] font-black uppercase tracking-wider ${shift.approvalStatus === 'pending' ? 'text-yellow-400' : 'text-amber-400'}`}>{month}</span>
-                                      <span className="text-base font-black text-black leading-none mt-0.5">{dayNum}</span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                      <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
-                                      <span className="text-xs font-black text-amber-400 mt-0.5">Call Time: {shift.time}</span>
-                                    </div>
-                                  </div>
-     
-                                  {/* Role & Location Column */}
-                                  <div className="flex-1 min-w-[180px]">
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                      <span className="px-1.5 py-0.5 bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded">
-                                        {shift.role}
-                                      </span>
-                                      {(() => {
-                                         const matchingVenue = venues.find(v => v.name.toLowerCase() === shift.location.toLowerCase());
-                                         if (matchingVenue) {
-                                           return (
-                                             <button
-                                               type="button"
-                                               onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                               className="text-[var(--font-size-2xs)] font-black text-cyan-400 hover:text-cyan-300 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
-                                               title="Click to view venue load-in, parking & WiFi details"
-                                             >
-                                               📍 {shift.location} <span className="text-[var(--font-size-4xs)] text-cyan-500/80">ℹ️</span>
-                                             </button>
-                                           );
-                                         }
-                                         return (
-                                           <span className="text-[var(--font-size-2xs)] font-black text-black/80">
-                                             📍 {shift.location}
-                                           </span>
-                                         );
-                                      })()}
-                                      <button
-                                        type="button"
-                                        onClick={() => setActiveDiscussionDate(shift.date)}
-                                        className="px-1.5 py-0.5 bg-cyan-500/10 hover:bg-cyan-500 hover:text-black border border-cyan-500/20 text-cyan-400 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
-                                        title="View show lineup acts and discuss details with crew"
-                                      >
-                                        💬 Lineup & Discuss
-                                      </button>
-                                    </div>
-                                  </div>
-     
-                                  {/* Status Badge & Action Column */}
-                                  <div className="shrink-0 min-w-[140px] text-left md:text-right flex items-center md:justify-end">
-                                    {shift.approvalStatus === 'approved' || !shift.approvalStatus ? (
-                                      <div className="flex items-center gap-2">
-                                        <span className="px-1.5 py-0.5 rounded border text-[var(--font-size-4xs)] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-emerald-400">
-                                          ✓ Confirmed
-                                        </span>
-                                        {shift.isCoverageRequested ? (
-                                          <span className="px-1.5 py-0.5 rounded border text-[var(--font-size-4xs)] font-black uppercase tracking-wider shrink-0 bg-purple-500/10 border-purple-500/30 text-purple-300 animate-pulse">
-                                            ⏳ Coverage Requested
-                                          </span>
-                                        ) : (
-                                          <>
-                                            <button
-                                              type="button"
-                                              onClick={() => {
-                                                setEmailSubject(`Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                                setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
-                                                setIsEmailModalOpen(true);
-                                              }}
-                                              className="px-2 py-0.5 bg-gray-100 hover:bg-white/20 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                            >
-                                              ✉️ Email Admin
-                                            </button>
-                                            <button
-                                              type="button"
-                                              onClick={() => setRequestingCoverageShift(shift)}
-                                              className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
-                                            >
-                                              🙋 Request Swap
-                                            </button>
-                                          </>
-                                        )}
-                                      </div>
-                                    ) : shift.approvalStatus === 'declined' ? (
-                                      <div className="flex items-center gap-2">
-                                        <span className="px-1.5 py-0.5 rounded border text-[var(--font-size-4xs)] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
-                                          ✗ Declined
-                                        </span>
-                                        <button
-                                          type="button"
-                                          onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
-                                        >
-                                          Confirm Shift
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setEmailSubject(`Declined Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                            setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.\n\nReason for decline: ${shift.declineReason || ''}\n\n[Your message here]`);
-                                            setIsEmailModalOpen(true);
-                                          }}
-                                          className="px-2 py-0.5 bg-amber-500 hover:bg-amber-400 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                        >
-                                          ✉️ Email Admin
-                                        </button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex flex-col md:items-end gap-1.5">
-                                        <span className="text-[7.5px] font-black uppercase tracking-widest text-yellow-500 bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20 leading-none">
-                                          ⚠️ Action Required
-                                        </span>
-                                        <div className="flex items-center gap-1.5">
-                                          <button
-                                            type="button"
-                                            onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                            className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold shadow-sm"
-                                          >
-                                            Confirm Shift
-                                          </button>
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              setDecliningShiftId(shift.id);
-                                              setIsDeclineModalOpen(true);
-                                            }}
-                                            className="px-2 py-1 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer font-bold"
-                                          >
-                                            Decline Shift
-                                          </button>
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              setEmailSubject(`Pending Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                              setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
-                                              setIsEmailModalOpen(true);
-                                            }}
-                                            className="px-2.5 py-1 bg-gray-100 hover:bg-white/20 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                          >
-                                            ✉️ Email Admin
-                                          </button>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-     
-                                  {/* Instructions/Notes Column */}
-                                  {shift.notes || shift.declineReason ? (
-                                    <div className="flex-1 md:max-w-[45%] bg-white/[0.02] border border-black/10 p-3 rounded-lg space-y-1">
-                                      {shift.notes && (
-                                        <>
-                                          <p className="text-[var(--font-size-4xs)] text-black/40 font-bold uppercase tracking-wider">Instructions:</p>
-                                          <p className="text-xs text-black/60 leading-relaxed mt-0.5 italic">“{shift.notes}”</p>
-                                        </>
-                                      )}
-                                      {shift.declineReason && (
-                                        <>
-                                          <p className="text-[var(--font-size-4xs)] text-rose-400/60 font-bold uppercase tracking-wider">Decline Reason:</p>
-                                          <p className="text-xs text-rose-300/80 leading-relaxed mt-0.5 italic">“{shift.declineReason}”</p>
-                                        </>
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <div className="hidden md:block flex-1 md:max-w-[45%] text-right">
-                                      <span className="text-[var(--font-size-3xs)] text-black/25 italic">No special instructions</span>
-                                    </div>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )
-                      ) : (
-                        tourDates.length === 0 ? (
-                          <div className="text-center py-8 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
-                             <p className="text-black/30 text-xs italic">No band tour events or shows loaded.</p>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col gap-3 font-sans">
-                            {tourDates.map((show) => {
-                              const dateObj = new Date(show.date + 'T00:00:00');
-                              const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                              const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
-                              const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-                              
-                              // Check if member is scheduled on this day
-                              const userShift = crewSchedules.find(s => s.date === show.date && s.crewId === slug);
-                              // Check if availability block exists for this day
-                              const userAvail = myAvailabilities.find(a => a.date === show.date);
-                              // Matching venue specs popup lookup
-                              const matchingVenue = venues.find(v => v.name.toLowerCase() === show.venue.toLowerCase());
-
-                              return (
-                                <div 
-                                  key={show.date + '_' + show.venue} 
-                                  className={`p-4 border rounded-xl transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
-                                    userShift 
-                                      ? 'bg-gradient-to-r from-amber-500/[0.03] to-black/40 border-amber-500/25 hover:border-amber-500/40 animate-[fadeIn_0.2s_ease-out]' 
-                                      : 'bg-black/40 border border-black/10 hover:border-black/15'
-                                  }`}
-                                >
-                                  {/* Date Column */}
-                                  <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
-                                    <div className={`w-11 h-11 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${
-                                      userShift 
-                                        ? 'bg-amber-500/10 border-amber-500/30' 
-                                        : 'bg-gray-50 border-black/10'
-                                    }`}>
-                                      <span className={`text-[var(--font-size-4xs)] font-black uppercase tracking-wider ${userShift ? 'text-amber-400' : 'text-black/40'}`}>{month}</span>
-                                      <span className="text-base font-black text-black leading-none mt-0.5">{dayNum}</span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                      <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
-                                      {show.playTime ? (
-                                        <>
-                                          <span className="text-xs font-black text-rose-400 mt-0.5" title="Band Play Time">🎸 {show.playTime}</span>
-                                          {show.time && (
-                                            <span className="text-[var(--font-size-4xs)] text-black/40 leading-none mt-0.5" title="Event Show Time">Event: {show.time}</span>
-                                          )}
-                                        </>
-                                      ) : (
-                                        <span className="text-xs font-black text-amber-400 mt-0.5">{show.time || 'TBA'}</span>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  {/* Show Venue & Details */}
-                                  <div className="flex-1 min-w-[180px]">
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                      {matchingVenue ? (
-                                        <button
-                                          type="button"
-                                          onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                          className="text-[var(--font-size-2xs)] font-black text-cyan-400 hover:text-cyan-300 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
-                                          title="Click to view venue specs"
-                                        >
-                                          📍 {show.venue} <span className="text-[var(--font-size-4xs)] text-cyan-500/80">ℹ️</span>
-                                        </button>
-                                      ) : (
-                                        <span className="text-[var(--font-size-2xs)] font-black text-black/80">
-                                          📍 {show.venue}
-                                        </span>
-                                      )}
-                                      <span className="text-[var(--font-size-3xs)] text-black/50">
-                                        ({show.city || 'TBD'}{show.state ? `, ${show.state}` : ''})
-                                      </span>
-                                      <button
-                                        type="button"
-                                        onClick={() => setActiveDiscussionDate(show.date)}
-                                        className="px-1.5 py-0.5 bg-cyan-500/10 hover:bg-cyan-500 hover:text-black border border-cyan-500/20 text-cyan-400 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
-                                      >
-                                        💬 Lineup & Discuss
-                                      </button>
-                                    </div>
-                                    {show.notes && (
-                                      <p className="text-[var(--font-size-3xs)] text-black/40 italic mt-1 max-w-md truncate">“{show.notes}”</p>
-                                    )}
-                                  </div>
-
-                                  {/* Staffing Status Column */}
-                                  <div className="shrink-0 text-left md:text-right flex items-center md:justify-end gap-3 flex-wrap">
-                                    {userShift ? (
-                                      <div className="flex items-center gap-2">
-                                        <span className="px-2 py-0.5 bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded leading-none">
-                                          🛡️ Assigned: {userShift.role}
-                                        </span>
-                                        {userShift.approvalStatus === 'approved' ? (
-                                          <span className="px-1.5 py-0.5 rounded border text-[var(--font-size-4xs)] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-emerald-400">
-                                            ✓ Confirmed
-                                          </span>
-                                        ) : userShift.approvalStatus === 'declined' ? (
-                                          <span className="px-1.5 py-0.5 rounded border text-[var(--font-size-4xs)] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
-                                            ✗ Declined
-                                          </span>
-                                        ) : (
-                                          <span className="px-1.5 py-0.5 rounded border text-[var(--font-size-4xs)] font-black uppercase tracking-wider shrink-0 bg-yellow-500/10 border-yellow-500/30 text-yellow-400 animate-pulse">
-                                            ⏳ Pending Confirm
-                                          </span>
-                                        )}
-                                      </div>
-                                    ) : (
-                                      <div className="flex items-center gap-1.5">
-                                        {userAvail ? (
-                                          <div className="flex items-center gap-1.5">
-                                            {userAvail.type === 'available' ? (
-                                              <span className="px-2 py-1 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 rounded-lg text-[var(--font-size-4xs)] font-black uppercase tracking-wider leading-none">
-                                                🟢 Available
-                                              </span>
-                                            ) : (
-                                              <span className="px-2 py-1 bg-rose-500/10 border border-rose-500/25 text-rose-400 rounded-lg text-[var(--font-size-4xs)] font-black uppercase tracking-wider leading-none">
-                                                🔴 Unavailable
-                                              </span>
-                                            )}
-                                            <button
-                                              type="button"
-                                              onClick={() => handleRemoveAvailability(userAvail.id)}
-                                              className="p-1 rounded bg-gray-50 hover:bg-rose-500 hover:text-black text-black/50 text-[var(--font-size-3xs)] transition-colors border-none cursor-pointer leading-none"
-                                              title="Clear Availability"
-                                            >
-                                              ✕
-                                            </button>
-                                          </div>
-                                        ) : (
-                                          <>
-                                            <button
-                                              type="button"
-                                              onClick={() => {
-                                                const newItem: AvailabilityItem = {
-                                                  id: 'avail_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                                                  crewId: slug,
-                                                  date: show.date,
-                                                  type: 'available'
-                                                };
-                                                try {
-                                                  const savedAvail = localStorage.getItem('7h_crew_availability');
-                                                  const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
-                                                  const filtered = currentList.filter(item => !(item.crewId === slug && item.date === show.date));
-                                                  const nextList = [...filtered, newItem];
-                                                  localStorage.setItem('7h_crew_availability', JSON.stringify(nextList));
-                                                  window.dispatchEvent(new Event('storage'));
-                                                  setMyAvailabilities(nextList.filter(a => a.crewId === slug));
-                                                  showToast('Logged as Available!', 'success', 'Logged Available');
-                                                } catch (err) {
-                                                  showToast('Failed to save availability', 'error', 'Error');
-                                                }
-                                              }}
-                                              className="px-2 py-1 bg-gray-50 hover:bg-emerald-500 hover:text-black text-black/60 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-black/10 hover:border-emerald-500/40"
-                                            >
-                                              🟢 Available
-                                            </button>
-                                            <button
-                                              type="button"
-                                              onClick={() => {
-                                                const newItem: AvailabilityItem = {
-                                                  id: 'avail_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                                                  crewId: slug,
-                                                  date: show.date,
-                                                  type: 'unavailable'
-                                                };
-                                                try {
-                                                  const savedAvail = localStorage.getItem('7h_crew_availability');
-                                                  const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
-                                                  const filtered = currentList.filter(item => !(item.crewId === slug && item.date === show.date));
-                                                  const nextList = [...filtered, newItem];
-                                                  localStorage.setItem('7h_crew_availability', JSON.stringify(nextList));
-                                                  window.dispatchEvent(new Event('storage'));
-                                                  setMyAvailabilities(nextList.filter(a => a.crewId === slug));
-                                                  showToast('Logged as Unavailable!', 'info', 'Logged Unavailable');
-                                                } catch (err) {
-                                                  showToast('Failed to save availability', 'error', 'Error');
-                                                }
-                                              }}
-                                              className="px-2 py-1 bg-gray-50 hover:bg-rose-500 hover:text-black text-black/60 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-black/10 hover:border-rose-500/40"
-                                            >
-                                              🔴 Unavailable
-                                            </button>
-                                          </>
-                                        )}
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                       </div>
-                      ))}
-                   </div>
-                  )}
-                </div>
-  
-                {/* Available Shift Coverage Requests */}
-                {coverageShifts.length > 0 && (
-                  <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
-                    <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl">🚨</div>
-                        <div>
-                          <h3 className="text-sm font-black italic tracking-widetext-black">Available Shift Coverage Requests</h3>
-                          <p className="text-xs font-bold text-black/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
-                        </div>
-                      </div>
-                      <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
-                        {coverageShifts.length} Available
-                      </span>
-                    </div>
-                    <div className="p-6 flex flex-col gap-3">
-                      {coverageShifts.map((shift) => {
-                        const dateObj = new Date(shift.date + 'T00:00:00');
-                        const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                        const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
-                        const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-  
-                        return (
-                          <div 
-                            key={shift.id} 
-                            className="p-4 bg-purple-950/10 border border-purple-500/20 rounded-xl hover:border-purple-500/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
-                          >
-                            {/* Date & Time */}
-                            <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
-                              <div className="w-11 h-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
-                                <span className="text-[var(--font-size-4xs)] text-purple-400 font-black uppercase tracking-wider">{month}</span>
-                                <span className="text-base font-black text-black leading-none mt-0.5">{dayNum}</span>
-                              </div>
-                              <div className="flex flex-col">
-                                <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
-                                <span className="text-xs font-black text-purple-400 mt-0.5">{shift.time}</span>
-                              </div>
-                            </div>
-  
-                            {/* Role & Location */}
-                            <div className="flex-1 min-w-[200px]">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="px-2 py-0.5 bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded">
-                                  {shift.role}
-                                </span>
-                                {(() => {
-                                  const matchingVenue = venues.find(v => v.name.toLowerCase() === shift.location.toLowerCase());
-                                  if (matchingVenue) {
-                                    return (
-                                      <button
-                                        type="button"
-                                        onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                        className="text-xs font-black text-cyan-400 hover:text-cyan-300 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
-                                        title="Click to view venue load-in, parking & WiFi details"
-                                      >
-                                        📍 {shift.location} <span className="text-[var(--font-size-4xs)] text-cyan-500/80">ℹ️</span>
-                                      </button>
-                                    );
-                                  }
-                                  return (
-                                    <span className="text-xs font-black text-black/80">
-                                      📍 {shift.location}
-                                    </span>
-                                  );
-                                })()}
-                                <button
-                                  type="button"
-                                  onClick={() => setActiveDiscussionDate(shift.date)}
-                                  className="px-1.5 py-0.5 bg-cyan-500/10 hover:bg-cyan-500 hover:text-black border border-cyan-500/20 text-cyan-400 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
-                                  title="View show lineup acts and discuss details with crew"
-                                >
-                                  💬 Lineup & Discuss
-                                </button>
-                                <span className="text-[var(--font-size-3xs)] text-purple-300/80 italic ml-1">
-                                  (For: {shift.crewName})
-                                </span>
-                              </div>
-                            </div>
-  
-                            {/* Action Column */}
-                            <div className="shrink-0 min-w-[120px] text-left md:text-right flex items-center md:justify-end gap-2">
-                              <button
-                                type="button"
-                                onClick={() => handleAcceptCoverage(shift.id)}
-                                className="px-3 py-1.5 bg-purple-500 hover:bg-purple-400 text-black text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
-                              >
-                                🙋 Accept Shift
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </>
-            );
-          })()}
-
-                {/* ─── AVAILABILITY & BLACKOUTS CARD ─── */}
-                <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
-                  <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-xl">🗓️</div>
-                      <div>
-                        <h3 className="text-sm font-black italic tracking-widetext-black">Your Availability & Blackouts</h3>
-                        <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <form onSubmit={handleAddAvailability} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end bg-black/20 p-4 border border-black/10 rounded-xl mb-6">
-                      <div>
-                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Date</label>
-                        <input
-                          type="date"
-                          required
-                          value={availDate}
-                          onChange={e => setAvailDate(e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-bold"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Status</label>
-                        <select
-                          value={availType}
-                          onChange={e => setAvailType(e.target.value as any)}
-                          className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-bold cursor-pointer"
-                        >
-                          <option value="unavailable">🚫 Unavailable / Blackout</option>
-                          <option value="available">✓ Available</option>
-                        </select>
-                      </div>
-                      <div className="md:col-span-2 flex gap-3 items-end">
-                        <div className="flex-1">
-                          <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Comment / Note (Optional)</label>
-                          <select
-                            value={availNote}
-                            onChange={e => setAvailNote(e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-cyan-500/50 transition-colors font-medium cursor-pointer"
-                          >
-                            <option value="" className="bg-white text-black/50">Select note / reason...</option>
-                            <option value="Out of town" className="bg-whitetext-black">Out of town</option>
-                            <option value="Family event" className="bg-whitetext-black">Family event</option>
-                            <option value="Vacation / Time off" className="bg-whitetext-black">Vacation / Time off</option>
-                            <option value="Medical appointment" className="bg-whitetext-black">Medical appointment</option>
-                            <option value="Personal day" className="bg-whitetext-black">Personal day</option>
-                            <option value="Work / Business conflict" className="bg-whitetext-black">Work / Business conflict</option>
-                            <option value="Other" className="bg-whitetext-black">Other</option>
-                          </select>
-                        </div>
-                        <button
-                          type="submit"
-                          className="px-5 h-[36px] bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </form>
-
-                    {myAvailabilities.length === 0 ? (
-                      <div className="text-center py-6 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
-                        <p className="text-black/30 text-xs italic">No availability blocks configured yet.</p>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {myAvailabilities
-                          .sort((a, b) => a.date.localeCompare(b.date))
-                          .map((item) => (
-                            <div key={item.id} className="p-3 bg-white border border-black/10 rounded-xl flex items-center justify-between gap-3 hover:border-black/10 transition-colors">
-                              <div className="min-w-0">
-                                <span className="text-[var(--font-size-2xs)] font-black text-black block">
-                                  {new Date(item.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
-                                </span>
-                                <div className="flex items-center gap-1.5 mt-1">
-                                  {item.type === 'available' ? (
-                                    <span className="text-[8.5px] bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">
-                                      ✓ Available
-                                    </span>
-                                  ) : (
-                                    <span className="text-[8.5px] bg-red-500/10 border border-red-500/25 text-red-400 font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">
-                                      🚫 Unavailable
-                                    </span>
-                                  )}
-                                  {item.note && (
-                                    <span className="text-[9.5px] text-black/50 truncate max-w-[120px]" title={item.note}>
-                                      • {item.note}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveAvailability(item.id)}
-                                className="w-6 h-6 rounded bg-gray-50 hover:bg-red-500 hover:text-black text-black/40 flex items-center justify-center cursor-pointer transition-colors border-none text-xs"
-                                title="Remove Block"
-                              >
-                                ✕
-                              </button>
-                            </div>
-                          ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* ─── TIME OFF REQUESTS CARD ─── */}
-                <div className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md mt-6">
-                  <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-xl">⏳</div>
-                      <div>
-                        <h3 className="text-sm font-black italic tracking-widetext-black">Time-Off Requests</h3>
-                        <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <form onSubmit={handleAddTimeOffRequest} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end bg-black/20 p-4 border border-black/10 rounded-xl mb-6">
-                      <div>
-                        <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Request Date</label>
-                        <input
-                          type="date"
-                          required
-                          value={timeOffDate}
-                          onChange={e => setTimeOffDate(e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-rose-500/50 transition-colors font-bold"
-                        />
-                      </div>
-                      <div className="md:col-span-2 flex gap-3 items-end">
-                        <div className="flex-1">
-                          <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5">Reason for Time-off</label>
-                          <select
-                            required
-                            value={timeOffReason}
-                            onChange={e => setTimeOffReason(e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-rose-500/50 transition-colors font-medium cursor-pointer"
-                          >
-                            <option value="" className="bg-white text-black/50">Select reason for time-off...</option>
-                            <option value="Family vacation" className="bg-whitetext-black">Family vacation</option>
-                            <option value="Medical appointment" className="bg-whitetext-black">Medical appointment</option>
-                            <option value="Personal / Family event" className="bg-whitetext-black">Personal / Family event</option>
-                            <option value="Work / Business conflict" className="bg-whitetext-black">Work / Business conflict</option>
-                            <option value="Emergency / Family matter" className="bg-whitetext-black">Emergency / Family matter</option>
-                            <option value="Other" className="bg-whitetext-black">Other</option>
-                          </select>
-                        </div>
-                        <button
-                          type="submit"
-                          className="px-5 h-[36px] bg-rose-500 hover:bg-rose-400 text-black font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
-                        >
-                          Submit Request
-                        </button>
-                      </div>
-                    </form>
-
-                    {myTimeOffRequests.length === 0 ? (
-                      <div className="text-center py-6 border border-dashed border-black/10 rounded-xl bg-white/[0.01]">
-                        <p className="text-black/30 text-xs italic">No time-off requests submitted yet.</p>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col gap-3">
-                        {myTimeOffRequests
-                          .sort((a, b) => b.date.localeCompare(a.date))
-                          .map((req) => (
-                            <div key={req.id} className="p-4 bg-white border border-black/10 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-black/10 transition-colors">
-                              <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-lg bg-rose-500/10 border border-rose-500/20 flex flex-col items-center justify-center text-center shrink-0">
-                                  <span className="text-[7.5px] text-rose-400 font-black uppercase tracking-wider">
-                                    {new Date(req.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}
-                                  </span>
-                                  <span className="text-sm font-black text-black leading-none mt-0.5">
-                                    {new Date(req.date + 'T12:00:00').getDate()}
-                                  </span>
-                                </div>
-                                <div>
-                                  <span className="text-xs font-blacktext-black">
-                                    {new Date(req.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
-                                  </span>
-                                  <span className="text-xs text-black/50 block mt-0.5">
-                                    Reason: <span className="text-black/80 font-medium italic">“{req.reason}”</span>
-                                  </span>
-                                  {req.declineReason && (
-                                    <span className="text-[var(--font-size-3xs)] text-rose-400/80 block mt-1">
-                                      Denial Feedback: <span className="italic font-bold">“{req.declineReason}”</span>
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-
-                              <div className="flex items-center gap-3 self-end md:self-center shrink-0">
-                                {req.status === 'pending' ? (
-                                  <>
-                                    <span className="px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider animate-pulse">
-                                      ⏳ Pending Approval
-                                    </span>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleRemoveTimeOffRequest(req.id)}
-                                      className="px-2 py-0.5 bg-gray-50 hover:bg-red-500 text-black/50 hover:text-black text-[var(--font-size-4xs)] font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                    >
-                                      Cancel
-                                    </button>
-                                  </>
-                                ) : req.status === 'approved' ? (
-                                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
-                                    ✓ Approved
-                                  </span>
-                                ) : (
-                                  <span className="px-2 py-0.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
-                                    ✗ Denied
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-
-
 {/* LIVE SETLIST & FAN LIKES */}
-           <div className={`xl:col-span-2 bg-white border border-black/10 rounded-2xl overflow-hidden shadow-md flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'}`}>
+           <div className={`xl:col-span-2 bg-white border border-black/10  overflow-hidden shadow-md flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'}`}>
               <div 
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
                 className="p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50 cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
               >
                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎵</div>
+                    <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎵</div>
                     <div>
                        <h3 className="text-sm font-black italic tracking-widetext-black">Live Setlist & Fan Likes</h3>
                        <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">
@@ -4445,16 +3362,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         key={song.id} 
                         className={`flex items-center justify-between p-2 rounded-lg border transition-all ${
                           song.isPlaying 
-                            ? 'bg-purple-500/10 border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.12)]' 
+                            ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40 shadow-[0_0_10px_rgba(255,10,61,0.12)]' 
                             : 'bg-black/20 border-black/10 hover:border-black/10'
                         }`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className={`text-xs ${song.isPlaying ? 'animate-bounce text-purple-400' : 'text-black/40'}`}>
+                          <span className={`text-xs ${song.isPlaying ? 'animate-pulse text-[var(--color-accent)]' : 'text-black/40'}`}>
                             {song.isPlaying ? '🔊' : '🎵'}
                           </span>
                           <div className="min-w-0">
-                            <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-purple-300' : 'text-black'}`}>
+                            <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-black'}`}>
                               {song.title}
                             </p>
                             <p className="text-[var(--font-size-3xs)] font-semibold text-black/40 uppercase tracking-wider">
@@ -4468,7 +3385,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             onClick={() => toggleSongPlaying(song.id)}
                             className={`px-2 py-1 rounded text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all ${
                               song.isPlaying
-                                ? 'bg-purple-500 text-black shadow-[0_0_8px_rgba(168,85,247,0.4)]'
+                                ? 'bg-[var(--color-accent)] text-black shadow-[0_0_8px_rgba(255,10,61,0.4)]'
                                 : 'bg-gray-50 hover:bg-white/15 text-black/70 hover:text-black border border-black/10'
                             }`}
                           >
@@ -4496,7 +3413,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           value={newSongTitle}
                           onChange={e => setNewSongTitle(e.target.value)}
                           rows={4}
-                          className="w-full bg-gray-50 border border-black/10 rounded-lg px-3 py-2 text-xs text-black outline-none focus:border-purple-500 transition-colors resize-none"
+                          className="w-full bg-gray-50 border border-black/10 rounded-lg px-3 py-2 text-xs text-black outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
                         />
                         <div className="flex justify-between items-center">
                           <button
@@ -4507,7 +3424,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           </button>
                           <button
                             onClick={() => addSongToSetlist(newSongTitle)}
-                            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-black text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-lg shadow-purple-500/20"
+                            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
                           >
                             Import Playlist
                           </button>
@@ -4522,11 +3439,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             value={newSongTitle}
                             onChange={e => setNewSongTitle(e.target.value)}
                             onKeyDown={e => e.key === 'Enter' && addSongToSetlist(newSongTitle)}
-                            className="flex-1 bg-gray-50 border border-black/10 rounded-lg px-3 py-2 text-xs text-black outline-none focus:border-purple-500 transition-colors"
+                            className="flex-1 bg-gray-50 border border-black/10 rounded-lg px-3 py-2 text-xs text-black outline-none focus:border-[var(--color-accent)] transition-colors"
                           />
                           <button
                             onClick={() => addSongToSetlist(newSongTitle)}
-                            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-black text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-lg shadow-purple-500/20"
+                            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
                           >
                             Add
                           </button>
@@ -4534,7 +3451,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="flex justify-end">
                           <button
                             onClick={() => { setIsBulkImport(true); setNewSongTitle(''); }}
-                            className="text-3xs uppercase font-black tracking-widest text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5"
+                            className="text-3xs uppercase font-black tracking-widest text-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors flex items-center gap-1.5"
                           >
                             📋 Bulk Import / Paste List
                           </button>
@@ -4546,8 +3463,831 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
            )}
         </div>
-      </div>
       
+        {/* ─── YOUR WORK SCHEDULE CARD ─── */}
+          {(() => {
+            const myShifts = crewSchedules.filter(s => s.crewId === slug);
+            const pendingShifts = myShifts.filter(s => s.approvalStatus === 'pending');
+            const activeShifts = myShifts;
+            const coverageShifts = crewSchedules.filter(s => 
+              s.isCoverageRequested === true &&
+              s.crewId !== slug &&
+              isQualifiedForRole(slug, s.role)
+            );
+
+            return (
+              <>
+                <div className="mt-6 text-white">
+                   <div 
+                     onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
+                     className="mb-4 flex items-center justify-between cursor-pointer select-none group"
+                   >
+                      <div className="flex items-center gap-3">
+                          <div>
+                            <h3 className="text-sm font-black italic tracking-wide text-white">Your Work Schedule</h3>
+                            <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
+                         </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEmailSubject('General Scheduling Inquiry');
+                            setEmailMessage(`Hi Admin,\n\n[Your message here]`);
+                            setIsEmailModalOpen(true);
+                          }}
+                          className="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-full text-xs font-black uppercase tracking-widest cursor-pointer border-none transition-colors flex items-center gap-1"
+                        >
+                          Contact Admins
+                        </button>
+                        {pendingShifts.length > 0 && (
+                          <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                            {pendingShifts.length} Pending
+                          </span>
+                        )}
+                        <span className="px-3 py-1 bg-purple-600/10 border border-purple-500/30 text-purple-300 rounded-full text-xs font-black uppercase tracking-widest">
+                          {activeShifts.length} Shifts
+                        </span>
+                      </div>
+                      
+                      <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}>
+                        ▼
+                      </div>
+                   </div>
+                   {!isScheduleCollapsed && (
+                      <div className="pt-4">
+                     {/* Calendar Feed Subscription Utility */}
+                      <div className="mb-6 p-4 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-between gap-4 flex-col sm:flex-row">
+                        <div className="flex items-start gap-3">
+                          <div>
+                            <p className="text-xs font-bold text-[var(--color-accent)]">Sync with Google & Apple Calendar</p>
+                            <p className="text-[var(--font-size-3xs)] text-white/60 mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
+                            navigator.clipboard.writeText(icsUrl);
+                            alert("📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.");
+                          }}
+                          className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1.5 shrink-0"
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                          Copy Feed URL
+                        </button>
+                      </div>
+   
+                       {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
+                       <div className="grid grid-cols-2 gap-2 bg-white/5 p-1 border border-white/10 mb-6 shrink-0 font-sans">
+                         <button
+                           type="button"
+                           onClick={() => setActiveScheduleTab('my_schedule')}
+                           className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 ${
+                             activeScheduleTab === 'my_schedule'
+                               ? 'bg-purple-600 text-white shadow-sm font-bold'
+                               : 'bg-transparent text-white/60 hover:text-white'
+                           }`}
+                         >
+                           My Shift Schedule ({activeShifts.length})
+                         </button>
+                         <button
+                           type="button"
+                           onClick={() => setActiveScheduleTab('tour_events')}
+                           className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 ${
+                             activeScheduleTab === 'tour_events'
+                               ? 'bg-purple-600 text-white shadow-sm font-bold'
+                               : 'bg-transparent text-white/60 hover:text-white'
+                           }`}
+                         >
+                           Band Tour Events ({tourDates.length})
+                         </button>
+                       </div>
+
+                      {activeScheduleTab === 'my_schedule' ? (
+                        activeShifts.length === 0 ? (
+                          <div className="text-center py-8 border border-dashed border-white/10 bg-white/[0.01]">
+                             <p className="text-white/40 text-xs italic">You have no upcoming work shifts scheduled.</p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col gap-2 font-sans">
+                            {activeShifts.map((shift) => {
+                              const dateObj = new Date(shift.date + 'T00:00:00');
+                              const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                              const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
+                              const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+     
+                              return (
+                                <div 
+                                  key={shift.id} 
+                                  className={`py-2 px-3  transition-all flex flex-col md:flex-row md:items-center justify-between gap-3 ${
+                                    shift.approvalStatus === 'pending'
+                                      ? 'bg-gradient-to-r from-yellow-500/[0.03] to-black/50 border border-yellow-500/40 shadow-[0_0_15px_rgba(147, 51, 234,0.05)] hover:border-yellow-500/60'
+                                      : 'bg-black/40 border border-white/10 hover:border-white/20'
+                                  }`}
+                                >
+                                  {/* Date & Time Column */}
+                                  <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
+                                    <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${
+                                      shift.approvalStatus === 'pending'
+                                        ? 'bg-yellow-500/10 border-yellow-500/30'
+                                        : 'bg-purple-600/10 border-purple-500/20'
+                                    }`}>
+                                      <span className={`text-[8px] font-black uppercase tracking-wider leading-none ${shift.approvalStatus === 'pending' ? 'text-yellow-400' : 'text-purple-300'}`}>{month}</span>
+                                      <span className="text-xs font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                    </div>
+                                    <div className="flex flex-col">
+                                      <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none">{weekday}</span>
+                                      <span className="text-[10px] font-black text-purple-300 mt-0.5">Call: {shift.time}</span>
+                                    </div>
+                                  </div>
+     
+                                  {/* Role & Location Column */}
+                                  <div className="flex-1 min-w-[160px]">
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-[9px] font-black uppercase tracking-wider rounded">
+                                        {shift.role}
+                                      </span>
+                                      {(() => {
+                                         const matchingVenue = venues.find(v => v.name.toLowerCase() === shift.location.toLowerCase());
+                                         if (matchingVenue) {
+                                           return (
+                                             <button
+                                               type="button"
+                                               onClick={() => setSelectedVenuePopup(matchingVenue)}
+                                               className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
+                                               title="Click to view venue load-in, parking & WiFi details"
+                                             >
+                                               📍 {shift.location} <span className="text-[9px] text-purple-400/80">ℹ️</span>
+                                             </button>
+                                           );
+                                         }
+                                         return (
+                                           <span className="text-xs font-black text-white/90">
+                                             📍 {shift.location}
+                                           </span>
+                                         );
+                                      })()}
+                 {/* ─── 50/50 GRID: AVAILABILITY & TIME-OFF REQUESTS ─── */}
+                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                   {/* ─── AVAILABILITY & BLACKOUTS CARD ─── */}
+                   <div className="flex-1 text-white">
+                     <div className="flex items-center gap-3 mb-4">
+                       <div>
+                         <h3 className="text-sm font-black italic tracking-wide text-white">Your Availability & Blackouts</h3>
+                         <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
+                       </div>
+                     </div>
+                     <div>
+                       <form onSubmit={handleAddAvailability} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
+                         <div>
+                           <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Date</label>
+                           <input
+                             type="date"
+                             required
+                             value={availDate}
+                             onChange={e => setAvailDate(e.target.value)}
+                             className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
+                           />
+                         </div>
+                         <div>
+                           <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Status</label>
+                           <select
+                             value={availType}
+                             onChange={e => setAvailType(e.target.value as any)}
+                             className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
+                           >
+                             <option value="unavailable" className="bg-black text-white">Unavailable / Blackout</option>
+                             <option value="available" className="bg-black text-white">Available</option>
+                           </select>
+                         </div>
+                         <div className="sm:col-span-2 flex gap-3 items-end">
+                           <div className="flex-1">
+                             <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Comment / Note (Optional)</label>
+                             <select
+                               value={availNote}
+                               onChange={e => setAvailNote(e.target.value)}
+                               className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+                             >
+                               <option value="" className="bg-black text-white/50">Select note / reason...</option>
+                               <option value="Out of town" className="bg-black text-white">Out of town</option>
+                               <option value="Family event" className="bg-black text-white">Family event</option>
+                               <option value="Vacation / Time off" className="bg-black text-white">Vacation / Time off</option>
+                               <option value="Medical appointment" className="bg-black text-white">Medical appointment</option>
+                               <option value="Personal day" className="bg-black text-white">Personal day</option>
+                               <option value="Work / Business conflict" className="bg-black text-white">Work / Business conflict</option>
+                               <option value="Other" className="bg-black text-white">Other</option>
+                             </select>
+                           </div>
+                           <button
+                             type="submit"
+                             className="px-5 h-[36px] bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
+                           >
+                             Save
+                           </button>
+                         </div>
+                       </form>
+
+                       {myAvailabilities.length === 0 ? (
+                         <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+                           <p className="text-white/40 text-xs italic">No availability blocks configured yet.</p>
+                         </div>
+                       ) : (
+                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                           {myAvailabilities
+                             .sort((a, b) => a.date.localeCompare(b.date))
+                             .map((item) => (
+                               <div key={item.id} className="p-3 bg-white/5 border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-colors">
+                                 <div className="min-w-0">
+                                   <span className="text-[var(--font-size-2xs)] font-black text-white block">
+                                     {new Date(item.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                                   </span>
+                                   <div className="flex items-center gap-1.5 mt-1">
+                                     {item.type === 'available' ? (
+                                       <span className="text-[8.5px] bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">
+                                         ✓ Available
+                                       </span>
+                                     ) : (
+                                       <span className="text-[8.5px] bg-red-500/10 border border-red-500/25 text-red-400 font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">
+                                         Unavailable
+                                       </span>
+                                     )}
+                                     {item.note && (
+                                       <span className="text-[9.5px] text-white/50 truncate max-w-[120px]" title={item.note}>
+                                         • {item.note}
+                                       </span>
+                                     )}
+                                   </div>
+                                 </div>
+                                 <button
+                                   type="button"
+                                   onClick={() => handleRemoveAvailability(item.id)}
+                                   className="w-6 h-6 rounded bg-white/10 hover:bg-red-500 hover:text-white text-white/40 flex items-center justify-center cursor-pointer transition-colors border-none text-xs"
+                                   title="Remove Block"
+                                 >
+                                   ✕
+                                 </button>
+                               </div>
+                             ))}
+                         </div>
+                       )}
+                     </div>
+                   </div>
+
+                   {/* ─── TIME OFF REQUESTS CARD ─── */}
+                   <div className="flex-1 text-white">
+                     <div className="flex items-center gap-3 mb-4">
+                       <div>
+                         <h3 className="text-sm font-black italic tracking-wide text-white">Time-Off Requests</h3>
+                         <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
+                       </div>
+                     </div>
+                     <div>
+                       <form onSubmit={handleAddTimeOffRequest} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
+                         <div>
+                           <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Request Date</label>
+                           <input
+                             type="date"
+                             required
+                             value={timeOffDate}
+                             onChange={e => setTimeOffDate(e.target.value)}
+                             className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
+                           />
+                         </div>
+                         <div className="sm:col-span-2 flex gap-3 items-end">
+                           <div className="flex-1">
+                             <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Reason for Time-off</label>
+                             <select
+                               required
+                               value={timeOffReason}
+                               onChange={e => setTimeOffReason(e.target.value)}
+                               className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+                             >
+                               <option value="" className="bg-black text-white/50">Select reason for time-off...</option>
+                               <option value="Family vacation" className="bg-black text-white">Family vacation</option>
+                               <option value="Medical appointment" className="bg-black text-white">Medical appointment</option>
+                               <option value="Personal / Family event" className="bg-black text-white">Personal / Family event</option>
+                               <option value="Work / Business conflict" className="bg-black text-white">Work / Business conflict</option>
+                               <option value="Emergency / Family matter" className="bg-black text-white">Emergency / Family matter</option>
+                               <option value="Other" className="bg-black text-white">Other</option>
+                             </select>
+                           </div>
+                           <button
+                             type="submit"
+                             className="px-5 h-[36px] bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
+                           >
+                             Submit Request
+                           </button>
+                         </div>
+                       </form>
+
+                       {myTimeOffRequests.length === 0 ? (
+                         <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+                           <p className="text-white/40 text-xs italic">No time-off requests submitted yet.</p>
+                         </div>
+                       ) : (
+                         <div className="flex flex-col gap-3">
+                           {myTimeOffRequests
+                             .sort((a, b) => b.date.localeCompare(a.date))
+                             .map((req) => (
+                               <div key={req.id} className="p-4 bg-white/5 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-white/20 transition-colors">
+                                 <div className="flex items-center gap-4">
+                                   <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
+                                     <span className="text-[7.5px] text-rose-400 font-black uppercase tracking-wider">
+                                       {new Date(req.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}
+                                     </span>
+                                     <span className="text-sm font-black text-white leading-none mt-0.5">
+                                       {new Date(req.date + 'T12:00:00').getDate()}
+                                     </span>
+                                   </div>
+                                   <div>
+                                     <span className="text-xs font-black text-white">
+                                       {new Date(req.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                                     </span>
+                                     <span className="text-xs text-white/50 block mt-0.5">
+                                       Reason: <span className="text-white/80 font-medium italic">“{req.reason}”</span>
+                                     </span>
+                                     {req.declineReason && (
+                                       <span className="text-[var(--font-size-3xs)] text-rose-400/80 block mt-1">
+                                         Denial Feedback: <span className="italic font-bold">“{req.declineReason}”</span>
+                                       </span>
+                                     )}
+                                   </div>
+                                 </div>
+
+                                 <div className="flex items-center gap-3 self-end md:self-center shrink-0">
+                                   {req.status === 'pending' ? (
+                                     <>
+                                       <span className="px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider animate-pulse">
+                                         Pending Approval
+                                       </span>
+                                       <button
+                                         type="button"
+                                         onClick={() => handleRemoveTimeOffRequest(req.id)}
+                                         className="px-2 py-0.5 bg-white/10 hover:bg-red-500 text-white/60 hover:text-white text-[var(--font-size-4xs)] font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                       >
+                                         Cancel
+                                       </button>
+                                     </>
+                                   ) : req.status === 'approved' ? (
+                                     <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
+                                       ✓ Approved
+                                     </span>
+                                   ) : (
+                                     <span className="px-2 py-0.5 bg-purple-600/10 border border-purple-500/30 text-purple-300 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
+                                       ✗ Denied
+                                     </span>
+                                   )}
+                                 </div>
+                               </div>
+                             ))}
+                         </div>
+                       )}
+                     </div>
+                 </div>
+
+
+ 
+                </div>
+                                      <button
+                                        type="button"
+                                        onClick={() => setActiveDiscussionDate(shift.date)}
+                                        className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
+                                        title="View show lineup acts and discuss details with crew"
+                                      >
+                                        💬 Lineup & Discuss
+                                      </button>
+                                    </div>
+                                  </div>
+     
+                                  {/* Status Badge & Action Column */}
+                                  <div className="shrink-0 min-w-[130px] text-left md:text-right flex items-center md:justify-end">
+                                    {shift.approvalStatus === 'approved' || !shift.approvalStatus ? (
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-emerald-400">
+                                          ✓ Confirmed
+                                        </span>
+                                        {shift.isCoverageRequested ? (
+                                          <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-[var(--color-accent)]/10 border-[var(--color-accent)]/30 text-[var(--color-accent)] animate-pulse">
+                                            ⏳ Coverage Requested
+                                          </span>
+                                        ) : (
+                                          <>
+                                            <button
+                                              type="button"
+                                              onClick={() => {
+                                                setEmailSubject(`Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                                setEmailMessage(`Hi Admin,
+
+I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
+
+[Your message here]`);
+                                                setIsEmailModalOpen(true);
+                                              }}
+                                              className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                            >
+                                              ✉️ Email Admin
+                                            </button>
+                                            <button
+                                              type="button"
+                                              onClick={() => setRequestingCoverageShift(shift)}
+                                              className="px-2 py-0.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
+                                            >
+                                              🙋 Swap
+                                            </button>
+                                          </>
+                                        )}
+                                      </div>
+                                    ) : shift.approvalStatus === 'declined' ? (
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
+                                          ✗ Declined
+                                        </span>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleShiftResponse(shift.id, 'approved')}
+                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
+                                        >
+                                          Confirm
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            setEmailSubject(`Declined Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                            setEmailMessage(`Hi Admin,
+
+I wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.
+
+Reason for decline: ${shift.declineReason || ''}
+
+[Your message here]`);
+                                            setIsEmailModalOpen(true);
+                                          }}
+                                          className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                        >
+                                          ✉️ Email
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      <div className="flex flex-col md:items-end gap-1">
+                                        <span className="text-[7.5px] font-black uppercase tracking-widest text-yellow-500 bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20 leading-none">
+                                          ⚠️ Action Required
+                                        </span>
+                                        <div className="flex items-center gap-1">
+                                          <button
+                                            type="button"
+                                            onClick={() => handleShiftResponse(shift.id, 'approved')}
+                                            className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold shadow-sm"
+                                          >
+                                            Confirm
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              setDecliningShiftId(shift.id);
+                                              setIsDeclineModalOpen(true);
+                                            }}
+                                            className="px-2 py-0.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer font-bold"
+                                          >
+                                            Decline
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              setEmailSubject(`Pending Shift Inquiry: ${shift.date} at ${shift.location}`);
+                                              setEmailMessage(`Hi Admin,
+
+I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
+
+[Your message here]`);
+                                              setIsEmailModalOpen(true);
+                                            }}
+                                            className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                          >
+                                            ✉️ Email
+                                          </button>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+     
+                                  {/* Instructions/Notes Column */}
+                                  {shift.notes || shift.declineReason ? (
+                                    <div className="flex-1 md:max-w-[40%] bg-white/5 border border-white/10 p-2 rounded-lg space-y-0.5">
+                                      {shift.notes && (
+                                        <>
+                                          <p className="text-[8px] text-white/40 font-bold uppercase tracking-wider">Instructions:</p>
+                                          <p className="text-[10px] text-white/70 leading-normal italic">“{shift.notes}”</p>
+                                        </>
+                                      )}
+                                      {shift.declineReason && (
+                                        <>
+                                          <p className="text-[8px] text-rose-400/60 font-bold uppercase tracking-wider">Decline Reason:</p>
+                                          <p className="text-[10px] text-rose-300/80 leading-normal italic">“{shift.declineReason}”</p>
+                                        </>
+                                      )}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )
+                      ) : (
+                        tourDates.length === 0 ? (
+                          <div className="text-center py-8 border border-dashed border-white/10 bg-white/[0.01]">
+                             <p className="text-white/40 text-xs italic">No band tour events or shows loaded.</p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col gap-2 font-sans">
+                            {tourDates.map((show) => {
+                              const dateObj = new Date(show.date + 'T00:00:00');
+                              const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                              const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
+                              const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+                              
+                              const userShift = crewSchedules.find(s => s.date === show.date && s.crewId === slug);
+                              const userAvail = myAvailabilities.find(a => a.date === show.date);
+                              const matchingVenue = venues.find(v => v.name.toLowerCase() === show.venue.toLowerCase());
+
+                              return (
+                                <div 
+                                  key={show.date + '_' + show.venue} 
+                                  className={`py-2 px-3 border  transition-all flex flex-col md:flex-row md:items-center justify-between gap-2.5 ${
+                                    userShift 
+                                      ? 'bg-gradient-to-r from-purple-500/[0.03] to-black/40 border-purple-500/25 hover:border-purple-500/40 animate-[fadeIn_0.2s_ease-out]' 
+                                      : 'bg-black/40 border border-white/10 hover:border-white/20'
+                                  }`}
+                                >
+                                  {/* Date Column */}
+                                  <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
+                                    <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${
+                                      userShift 
+                                        ? 'bg-purple-600/10 border-purple-500/30' 
+                                        : 'bg-white/5 border-white/15'
+                                    }`}>
+                                      <span className={`text-[8px] font-black uppercase tracking-wider leading-none ${userShift ? 'text-purple-300' : 'text-white/50'}`}>{month}</span>
+                                      <span className="text-xs font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                    </div>
+                                    <div className="flex flex-col">
+                                      <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none">{weekday}</span>
+                                      {show.playTime ? (
+                                        <>
+                                          <span className="text-[10px] font-black text-rose-400 mt-0.5" title="Band Play Time">🎸 {show.playTime}</span>
+                                          {show.time && (
+                                            <span className="text-[8px] text-white/40 leading-none mt-0.5" title="Event Show Time">Event: {show.time}</span>
+                                          )}
+                                        </>
+                                      ) : (
+                                        <span className="text-[10px] font-black text-purple-300 mt-0.5">{show.time || 'TBA'}</span>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {/* Show Venue & Details */}
+                                  <div className="flex-1 min-w-[160px]">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      {matchingVenue ? (
+                                        <button
+                                          type="button"
+                                          onClick={() => setSelectedVenuePopup(matchingVenue)}
+                                          className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
+                                          title="Click to view venue specs"
+                                        >
+                                          📍 {show.venue} <span className="text-[9px] text-purple-400/80">ℹ️</span>
+                                        </button>
+                                      ) : (
+                                        <span className="text-xs font-black text-white/90">
+                                          📍 {show.venue}
+                                        </span>
+                                      )}
+                                      <span className="text-[10px] text-white/50">
+                                        ({show.city || 'TBD'}{show.state ? `, ${show.state}` : ''})
+                                      </span>
+                                      <button
+                                        type="button"
+                                        onClick={() => setActiveDiscussionDate(show.date)}
+                                        className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
+                                      >
+                                        💬 Lineup & Discuss
+                                      </button>
+                                    </div>
+                                    {show.notes && (
+                                      <p className="text-[10px] text-white/40 italic mt-0.5 max-w-md truncate">“{show.notes}”</p>
+                                    )}
+                                  </div>
+
+                                  {/* Staffing Status Column */}
+                                  <div className="shrink-0 text-left md:text-right flex items-center md:justify-end gap-2 flex-wrap">
+                                    {userShift ? (
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-[9px] font-black uppercase tracking-wider rounded leading-none">
+                                          🛡️ {userShift.role}
+                                        </span>
+                                        {userShift.approvalStatus === 'approved' ? (
+                                          <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-emerald-400">
+                                            ✓ Confirmed
+                                          </span>
+                                        ) : userShift.approvalStatus === 'declined' ? (
+                                          <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
+                                            ✗ Declined
+                                          </span>
+                                        ) : (
+                                          <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-yellow-500/10 border-yellow-500/30 text-yellow-400 animate-pulse">
+                                            ⏳ Pending
+                                          </span>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center gap-1.5">
+                                        {userAvail ? (
+                                          <div className="flex items-center gap-1.5">
+                                            {userAvail.type === 'available' ? (
+                                              <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 rounded-md text-[9px] font-black uppercase tracking-wider leading-none">
+                                                🟢 Available
+                                              </span>
+                                            ) : (
+                                              <span className="px-1.5 py-0.5 bg-purple-600/10 border border-purple-500/25 text-purple-300 rounded-md text-[9px] font-black uppercase tracking-wider leading-none">
+                                                🔴 Unavailable
+                                              </span>
+                                            )}
+                                            <button
+                                              type="button"
+                                              onClick={() => handleRemoveAvailability(userAvail.id)}
+                                              className="px-1 py-0.5 rounded bg-white/10 hover:bg-rose-500 hover:text-white text-white/50 text-[10px] transition-colors border-none cursor-pointer leading-none"
+                                              title="Clear Availability"
+                                            >
+                                              ✕
+                                            </button>
+                                          </div>
+                                        ) : (
+                                          <>
+                                            <button
+                                              type="button"
+                                              onClick={() => {
+                                                const newItem: AvailabilityItem = {
+                                                  id: 'avail_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                                                  crewId: slug,
+                                                  date: show.date,
+                                                  type: 'available'
+                                                };
+                                                try {
+                                                  const savedAvail = localStorage.getItem('7h_crew_availability');
+                                                  const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
+                                                  const filtered = currentList.filter(item => !(item.crewId === slug && item.date === show.date));
+                                                  const nextList = [...filtered, newItem];
+                                                  localStorage.setItem('7h_crew_availability', JSON.stringify(nextList));
+                                                  window.dispatchEvent(new Event('storage'));
+                                                  setMyAvailabilities(nextList.filter(a => a.crewId === slug));
+                                                  showToast('Logged as Available!', 'success', 'Logged Available');
+                                                } catch (err) {
+                                                  showToast('Failed to save availability', 'error', 'Error');
+                                                }
+                                              }}
+                                              className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-white/15 hover:border-emerald-500/40"
+                                            >
+                                              🟢 Available
+                                            </button>
+                                            <button
+                                              type="button"
+                                              onClick={() => {
+                                                const newItem: AvailabilityItem = {
+                                                  id: 'avail_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                                                  crewId: slug,
+                                                  date: show.date,
+                                                  type: 'unavailable'
+                                                };
+                                                try {
+                                                  const savedAvail = localStorage.getItem('7h_crew_availability');
+                                                  const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
+                                                  const filtered = currentList.filter(item => !(item.crewId === slug && item.date === show.date));
+                                                  const nextList = [...filtered, newItem];
+                                                  localStorage.setItem('7h_crew_availability', JSON.stringify(nextList));
+                                                  window.dispatchEvent(new Event('storage'));
+                                                  setMyAvailabilities(nextList.filter(a => a.crewId === slug));
+                                                  showToast('Logged as Unavailable!', 'info', 'Logged Unavailable');
+                                                } catch (err) {
+                                                  showToast('Failed to save availability', 'error', 'Error');
+                                                }
+                                              }}
+                                              className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-white/15 hover:border-purple-500/40"
+                                            >
+                                              🔴 Unavailable
+                                            </button>
+                                          </>
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )
+                      )}
+                    </div>
+                 )}
+               </div>
+
+                {/* Available Shift Coverage Requests */}
+                {coverageShifts.length > 0 && (
+                  <div className="bg-white border border-black/10 overflow-hidden shadow-md mt-6">
+                    <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-xl">🚨</div>
+                        <div>
+                          <h3 className="text-sm font-black italic tracking-widetext-black">Available Shift Coverage Requests</h3>
+                          <p className="text-xs font-bold text-black/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
+                        </div>
+                      </div>
+                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                        {coverageShifts.length} Available
+                      </span>
+                    </div>
+                    <div className="p-6 flex flex-col gap-3">
+                      {coverageShifts.map((shift) => {
+                        const dateObj = new Date(shift.date + 'T00:00:00');
+                        const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                        const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
+                        const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+  
+                        return (
+                          <div 
+                            key={shift.id} 
+                            className="p-4 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 hover:border-[var(--color-accent)]/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                          >
+                            {/* Date & Time */}
+                            <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
+                              <div className="w-11 h-11 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex flex-col items-center justify-center text-center shrink-0">
+                                <span className="text-[var(--font-size-4xs)] text-[var(--color-accent)] font-black uppercase tracking-wider">{month}</span>
+                                <span className="text-base font-black text-black leading-none mt-0.5">{dayNum}</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
+                                <span className="text-xs font-black text-[var(--color-accent)] mt-0.5">{shift.time}</span>
+                              </div>
+                            </div>
+  
+                            {/* Role & Location */}
+                            <div className="flex-1 min-w-[200px]">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="px-2 py-0.5 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded">
+                                  {shift.role}
+                                </span>
+                                {(() => {
+                                  const matchingVenue = venues.find(v => v.name.toLowerCase() === shift.location.toLowerCase());
+                                  if (matchingVenue) {
+                                    return (
+                                      <button
+                                        type="button"
+                                        onClick={() => setSelectedVenuePopup(matchingVenue)}
+                                        className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
+                                        title="Click to view venue load-in, parking & WiFi details"
+                                      >
+                                        📍 {shift.location} <span className="text-[var(--font-size-4xs)] text-purple-400/80">ℹ️</span>
+                                      </button>
+                                    );
+                                  }
+                                  return (
+                                    <span className="text-xs font-black text-black/80">
+                                      📍 {shift.location}
+                                    </span>
+                                  );
+                                })()}
+                                <button
+                                  type="button"
+                                  onClick={() => setActiveDiscussionDate(shift.date)}
+                                  className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
+                                  title="View show lineup acts and discuss details with crew"
+                                >
+                                  💬 Lineup & Discuss
+                                </button>
+                                <span className="text-[var(--font-size-3xs)] text-[var(--color-accent)]/80 italic ml-1">
+                                  (For: {shift.crewName})
+                                </span>
+                              </div>
+                            </div>
+  
+                            {/* Action Column */}
+                            <div className="shrink-0 min-w-[120px] text-left md:text-right flex items-center md:justify-end gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleAcceptCoverage(shift.id)}
+                                className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
+                              >
+                                🙋 Accept Shift
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </>
+            );
+          })()}
+
       {/* End Stream Modal */}
       {showEndModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
@@ -4591,7 +4331,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── DECLINE REASON MODAL ─── */}
       {isDeclineModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="bg-gray-50 border border-black/10 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-md relative">
+          <div className="bg-gray-50 border border-black/10 max-w-md w-full p-6 space-y-4 shadow-md relative">
             <h3 className="text-sm font-black italic tracking-wide text-black uppercase flex items-center gap-2">
               <span className="text-rose-500">✗</span> Decline Work Shift
             </h3>
@@ -4602,7 +4342,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               value={declineReason}
               onChange={(e) => setDeclineReason(e.target.value)}
               placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
-              className="w-full min-h-[100px] bg-black/40 border border-black/10 text-black placeholder-white/30 rounded-xl p-3 text-sm focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-all resize-none"
+              className="w-full min-h-[100px] bg-black/40 border border-black/10 text-black placeholder-white/30 p-3 text-sm focus:border-purple-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-all resize-none"
             />
             <div className="flex items-center justify-end gap-2.5 pt-2">
               <button
@@ -4636,18 +4376,21 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         </div>
       )}
 
+ 
+      </div>
+
       {/* ─── EMAIL ADMIN MODAL ─── */}
       {isEmailModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="bg-gray-50 border border-black/10 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-md relative">
+          <div className="bg-gray-50 border border-black/10 max-w-lg w-full p-6 space-y-4 shadow-md relative">
             <h3 className="text-sm font-black italic tracking-wide text-black uppercase flex items-center gap-2">
-              <span className="text-amber-500">📧</span> Email Administrators
+              <span className="text-purple-400">📧</span> Email Administrators
             </h3>
             
             <div className="space-y-3">
               <div>
                 <label className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">From</label>
-                <div className="bg-black/35 border border-black/10 rounded-xl px-3.5 py-2 text-xs text-black/70">
+                <div className="bg-black/35 border border-black/10 px-3.5 py-2 text-xs text-black/70">
                   {displayName} <span className="text-black/35">({email})</span>
                 </div>
               </div>
@@ -4659,7 +4402,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
                   placeholder="Subject of your message..."
-                  className="w-full bg-black/40 border border-black/10 text-black placeholder-white/30 rounded-xl px-3.5 py-2 text-xs focus:border-amber-500/50 outline-none transition-all"
+                  className="w-full bg-black/40 border border-black/10 text-black placeholder-white/30 px-3.5 py-2 text-xs focus:border-purple-500/50 outline-none transition-all"
                 />
               </div>
 
@@ -4669,7 +4412,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   value={emailMessage}
                   onChange={(e) => setEmailMessage(e.target.value)}
                   placeholder="Type your message to the administrators here..."
-                  className="w-full min-h-[120px] bg-black/40 border border-black/10 text-black placeholder-white/30 rounded-xl p-3 text-xs focus:border-amber-500/50 outline-none transition-all resize-none"
+                  className="w-full min-h-[120px] bg-black/40 border border-black/10 text-black placeholder-white/30 p-3 text-xs focus:border-purple-500/50 outline-none transition-all resize-none"
                 />
               </div>
             </div>
@@ -4690,7 +4433,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 type="button"
                 disabled={isSendingEmail || !emailSubject.trim() || !emailMessage.trim()}
                 onClick={handleSendEmailToAdmins}
-                className="px-4 py-2 bg-amber-500 hover:bg-amber-400 disabled:bg-amber-500/30 disabled:text-black/30 text-black font-black rounded-lg text-xs uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 disabled:text-black/30 text-black font-black rounded-lg text-xs uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
               >
                 {isSendingEmail ? 'Sending...' : 'Send Message'}
               </button>
@@ -4701,11 +4444,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
       {/* 🔔 Premium Toast Notification */}
       {toast.visible && (
-        <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-white/95 border border-black/10 p-4 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3text-black">
+        <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-white/95 border border-black/10 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3text-black">
           <div className="flex-1 text-left font-sans">
             {toast.title && (
               <h4 className={`text-xs uppercase tracking-widest font-black mb-1 ${
-                toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : 'text-purple-400'
+                toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : 'text-[var(--color-accent)]'
               }`}>
                 {toast.title}
               </h4>
@@ -4727,7 +4470,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── VENUE DETAILS POPUP MODAL ─── */}
       {selectedVenuePopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
-          <div className="bg-white border border-black/10 rounded-2xl w-full max-w-md p-6 relative shadow-md text-black font-sans flex flex-col">
+          <div className="bg-white border border-black/10 w-full max-w-md p-6 relative shadow-md text-black font-sans flex flex-col">
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4">
               <div className="flex items-center gap-2.5">
@@ -4736,7 +4479,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
                     {selectedVenuePopup.name}
                   </h3>
-                  <p className="text-[var(--font-size-4xs)] text-cyan-400 font-mono tracking-wider mt-1.5 uppercase leading-none">
+                  <p className="text-[var(--font-size-4xs)] text-purple-300 font-mono tracking-wider mt-1.5 uppercase leading-none">
                     Venue Specifications
                   </p>
                 </div>
@@ -4759,7 +4502,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   href={`https://maps.google.com/?q=${encodeURIComponent(selectedVenuePopup.address)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-cyan-400 hover:underline inline-block font-medium"
+                  className="text-xs text-purple-300 hover:underline inline-block font-medium"
                 >
                   {selectedVenuePopup.address}
                 </a>
@@ -4767,9 +4510,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* Wifi Password */}
               {selectedVenuePopup.wifiPassword && (
-                <div className="p-3 bg-cyan-950/15 border border-cyan-500/20 rounded-xl flex items-center justify-between gap-3">
+                <div className="p-3 bg-purple-950/15 border border-purple-500/20 flex items-center justify-between gap-3">
                   <div className="min-w-0">
-                    <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-cyan-400/70 font-bold block mb-0.5">📶 Backstage Wi-Fi</span>
+                    <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-purple-300/70 font-bold block mb-0.5">📶 Backstage Wi-Fi</span>
                     <span className="text-xs font-mono font-bold text-black select-all">{selectedVenuePopup.wifiPassword}</span>
                   </div>
                   <button
@@ -4778,7 +4521,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       navigator.clipboard.writeText(selectedVenuePopup.wifiPassword || '');
                       showToast('Wi-Fi password copied to clipboard!', 'success', 'COPIED');
                     }}
-                    className="px-2.5 py-1 bg-cyan-500 hover:bg-cyan-400 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
                   >
                     Copy
                   </button>
@@ -4787,11 +4530,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* Two columns: Capacity and Contact */}
               <div className="grid grid-cols-2 gap-3.5">
-                <div className="bg-white/[0.02] border border-black/10 p-3 rounded-xl">
+                <div className="bg-white/[0.02] border border-black/10 p-3">
                   <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">👥 Capacity</span>
                   <span className="text-xs font-bold text-black font-mono">{selectedVenuePopup.capacity.toLocaleString()}</span>
                 </div>
-                <div className="bg-white/[0.02] border border-black/10 p-3 rounded-xl">
+                <div className="bg-white/[0.02] border border-black/10 p-3">
                   <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">👤 Contact</span>
                   <span className="text-xs font-bold text-black block truncate" title={selectedVenuePopup.contactPerson}>
                     {selectedVenuePopup.contactPerson.split(' (')[0]}
@@ -4799,7 +4542,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   {selectedVenuePopup.contactPhone && (
                     <a 
                       href={`tel:${selectedVenuePopup.contactPhone.replace(/[^0-9]/g, '')}`} 
-                      className="text-[var(--font-size-4xs)] font-mono text-cyan-400 hover:underline block mt-0.5"
+                      className="text-[var(--font-size-4xs)] font-mono text-purple-300 hover:underline block mt-0.5"
                     >
                       {selectedVenuePopup.contactPhone}
                     </a>
@@ -4808,7 +4551,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* Stage Specs */}
-              <div className="bg-white/[0.02] border border-black/10 p-3 rounded-xl">
+              <div className="bg-white/[0.02] border border-black/10 p-3">
                 <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">🎸 Stage & Power Specs</span>
                 <p className="text-xs text-black/80 leading-relaxed font-medium">
                   {selectedVenuePopup.stageSpecs}
@@ -4816,7 +4559,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* Parking & Load-In Notes */}
-              <div className="bg-white/[0.02] border border-black/10 p-3 rounded-xl">
+              <div className="bg-white/[0.02] border border-black/10 p-3">
                 <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">🚛 Parking & Load-In Notes</span>
                 <p className="text-xs text-black/80 leading-relaxed font-medium">
                   {selectedVenuePopup.parkingNotes}
@@ -4841,7 +4584,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── GIG DISCUSS & LINEUP MODAL FOR CREW ─── */}
       {activeDiscussionDate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
-          <div className="bg-white border border-black/10 rounded-2xl w-full max-w-lg p-6 relative shadow-md text-black font-sans flex flex-col max-h-[90vh]">
+          <div className="bg-white border border-black/10 w-full max-w-lg p-6 relative shadow-md text-black font-sans flex flex-col max-h-[90vh]">
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4 shrink-0">
               <div className="flex items-center gap-2.5">
@@ -4850,7 +4593,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
                     Show Lineup & Gig Discuss
                   </h3>
-                  <p className="text-[var(--font-size-4xs)] text-cyan-400 font-mono tracking-wider mt-1.5 uppercase leading-none">
+                  <p className="text-[var(--font-size-4xs)] text-purple-300 font-mono tracking-wider mt-1.5 uppercase leading-none">
                     {new Date(activeDiscussionDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
                   </p>
                 </div>
@@ -4881,13 +4624,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       const changeover = nextAct ? getChangeoverLabel(act.endTime, nextAct.startTime) : '';
                       return (
                         <div key={act.id} className="space-y-1.5">
-                          <div className="bg-black/30 border border-black/10 p-3 rounded-xl flex items-center justify-between">
+                          <div className="bg-black/30 border border-black/10 p-3 flex items-center justify-between">
                             <span className="text-xs font-boldtext-black">{act.actName}</span>
-                            <span className="text-[var(--font-size-3xs)] text-amber-400 font-mono font-bold">⏱️ {act.startTime} - {act.endTime}</span>
+                            <span className="text-[var(--font-size-3xs)] text-purple-300 font-mono font-bold">⏱️ {act.startTime} - {act.endTime}</span>
                           </div>
                           {changeover && (
                             <div className="text-center">
-                              <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-[8.5px] font-black uppercase tracking-wider text-amber-400 font-mono">
+                              <span className="inline-block px-2.5 py-0.5 rounded-full bg-purple-600/10 border border-purple-500/25 text-[8.5px] font-black uppercase tracking-wider text-purple-300 font-mono">
                                 🔄 {changeover}
                               </span>
                             </div>
@@ -4933,7 +4676,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   <button
                                     type="button"
                                     onClick={() => setReplyingToCommentId(replyingToCommentId === c.id ? null : c.id)}
-                                    className="text-[var(--font-size-4xs)] font-black text-cyan-400 hover:text-black mt-1 border-none bg-transparent cursor-pointer"
+                                    className="text-[var(--font-size-4xs)] font-black text-purple-300 hover:text-black mt-1 border-none bg-transparent cursor-pointer"
                                   >
                                     {replyingToCommentId === c.id ? 'Cancel Reply' : 'Reply'}
                                   </button>
@@ -4948,7 +4691,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     placeholder="Write a reply..."
                                     value={replyText}
                                     onChange={(e) => setReplyText(e.target.value)}
-                                    className="flex-1 px-2 py-1 bg-[#f0f2f5] border border-black/10 text-[var(--font-size-3xs)] text-black rounded outline-none focus:border-cyan-500/50"
+                                    className="flex-1 px-2 py-1 bg-[#f0f2f5] border border-black/10 text-[var(--font-size-3xs)] text-black rounded outline-none focus:border-purple-500/50"
                                   />
                                   <button
                                     type="button"
@@ -4972,7 +4715,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                       setReplyText('');
                                       setReplyingToCommentId(null);
                                     }}
-                                    className="px-2 py-1 bg-cyan-500 hover:bg-cyan-400 text-black text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border-none cursor-pointer disabled:opacity-30"
+                                    className="px-2 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border-none cursor-pointer disabled:opacity-30"
                                   >
                                     Send
                                   </button>
@@ -5009,7 +4752,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           placeholder="Post a gig note..."
                           value={newCommentText}
                           onChange={(e) => setNewCommentText(e.target.value)}
-                          className="flex-1 px-3 py-2 bg-[#f0f2f5] border border-black/10 text-xs text-black rounded-lg outline-none focus:border-cyan-500/50"
+                          className="flex-1 px-3 py-2 bg-[#f0f2f5] border border-black/10 text-xs text-black rounded-lg outline-none focus:border-purple-500/50"
                         />
                         <button
                           type="button"
@@ -5031,7 +4774,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             });
                             setNewCommentText('');
                           }}
-                          className="px-3.5 py-2 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-30 disabled:pointer-events-none text-black font-black uppercase tracking-wider text-xs rounded-lg border-none cursor-pointer"
+                          className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-30 disabled:pointer-events-none text-black font-black uppercase tracking-wider text-xs rounded-lg border-none cursor-pointer"
                         >
                           Post
                         </button>
@@ -5059,7 +4802,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── REQUEST COVERAGE / SWAP MODAL FOR CREW ─── */}
       {requestingCoverageShift && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
-          <div className="bg-white border border-black/10 rounded-2xl w-full max-w-md p-6 relative shadow-md text-black font-sans flex flex-col">
+          <div className="bg-white border border-black/10 w-full max-w-md p-6 relative shadow-md text-black font-sans flex flex-col">
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4 shrink-0">
               <div className="flex items-center gap-2.5">
@@ -5068,7 +4811,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
                     Request Coverage or Swap
                   </h3>
-                  <p className="text-[var(--font-size-4xs)] text-purple-400 font-mono tracking-wider mt-1.5 uppercase leading-none">
+                  <p className="text-[var(--font-size-4xs)] text-[var(--color-accent)] font-mono tracking-wider mt-1.5 uppercase leading-none">
                     Shift: {requestingCoverageShift.role} at {requestingCoverageShift.location}
                   </p>
                 </div>
@@ -5098,7 +4841,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   onClick={() => setSwapTargetColleagueId('')}
                   className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border-none ${
                     !swapTargetColleagueId
-                      ? 'bg-purple-600 text-black shadow-sm'
+                      ? 'bg-[var(--color-accent)] text-black shadow-sm'
                       : 'bg-transparent text-black/50 hover:text-black'
                   }`}
                 >
@@ -5109,7 +4852,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
                   className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border-none ${
                     swapTargetColleagueId
-                      ? 'bg-purple-600 text-black shadow-sm'
+                      ? 'bg-[var(--color-accent)] text-black shadow-sm'
                       : 'bg-transparent text-black/50 hover:text-black'
                   }`}
                 >
@@ -5119,12 +4862,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* Direct Swap Colleague Selection */}
               {swapTargetColleagueId !== '' && (
-                <div className="space-y-2 bg-white/[0.02] border border-black/10 p-3 rounded-xl animate-[fadeIn_0.2s_ease-out]">
+                <div className="space-y-2 bg-white/[0.02] border border-black/10 p-3 animate-[fadeIn_0.2s_ease-out]">
                   <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block">Select Colleague to Swap With</label>
                   <select
                     value={swapTargetColleagueId === 'openshifts' ? '' : swapTargetColleagueId}
                     onChange={(e) => setSwapTargetColleagueId(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
+                    className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-[var(--color-accent)]/50 transition-colors font-bold cursor-pointer"
                   >
                     <option value="" disabled>— Select Colleague —</option>
                     {[
@@ -5175,7 +4918,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId('');
                 }}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-black text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none"
+                className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none"
               >
                 Submit Request
               </button>

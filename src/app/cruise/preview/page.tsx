@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 const INPUT = "w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
-const COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#f59e0b", "#10b981", "#ec4899"];
+const COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ec4899"];
 
 type Guest = { name: string; email: string; phone: string };
 const emptyGuest = (): Guest => ({ name: "", email: "", phone: "" });
@@ -22,7 +22,7 @@ function VersionA() {
           <button key={i} type="button" onClick={() => setActiveTab(i)}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
               activeTab === i
-                ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(133,29,239,0.4)]"
+                ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
                 : "bg-white/[0.04] border border-white/10 text-white/40 hover:text-white/60"
             }`}>
             <span className="w-5 h-5 rounded-full flex items-center justify-center text-2xs font-bold" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
@@ -32,7 +32,7 @@ function VersionA() {
           </button>
         ))}
       </div>
-      <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl space-y-3 animate-[fade-in_0.2s_ease]">
+      <div className="p-4 bg-white/[0.02] border border-white/5 space-y-3 animate-[fade-in_0.2s_ease]">
         <input type="text" placeholder={activeTab === 0 ? "Your Name" : `Guest ${activeTab + 1} Name`} value={g.name} onChange={e => update("name", e.target.value)} className={INPUT} />
         <input type="email" placeholder="Email" value={g.email} onChange={e => update("email", e.target.value)} className={INPUT} />
         <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
@@ -57,7 +57,7 @@ function VersionB() {
           <React.Fragment key={i}>
             <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setStep(i)}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(133,29,239,0.4)]" 
+                step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]" 
                 : step > i ? "bg-[var(--color-accent)]/30 text-white" 
                 : "bg-white/5 border border-white/10 text-white/30"
               }`}>{step > i ? "✓" : i + 1}</div>
@@ -92,7 +92,7 @@ function VersionC() {
   return (
     <div className="grid grid-cols-2 gap-3">
       {guests.map((g, i) => (
-        <div key={i} className={`p-4 rounded-xl border space-y-2.5 ${i === 0 ? "bg-[var(--color-accent)]/5 border-[var(--color-accent)]/30" : "bg-white/[0.02] border-white/5"}`} style={{ borderLeft: `3px solid ${COLORS[i]}` }}>
+        <div key={i} className={`p-4  border space-y-2.5 ${i === 0 ? "bg-[var(--color-accent)]/5 border-[var(--color-accent)]/30" : "bg-white/[0.02] border-white/5"}`}>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-6 h-6 rounded-md flex items-center justify-center text-2xs font-bold text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
             <span className="text-xs font-bold uppercase tracking-widest text-white/50">{i === 0 ? "You" : `Guest ${i + 1}`}</span>
@@ -102,7 +102,7 @@ function VersionC() {
           <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
         </div>
       ))}
-      <button type="button" className="p-4 rounded-xl border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white/40 hover:border-white/20 transition-colors cursor-pointer">
+      <button type="button" className="p-4 border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white/40 hover:border-white/20 transition-colors cursor-pointer">
         <span className="text-xl">+</span>
         <span className="text-xs font-bold uppercase tracking-widest">Add Guest</span>
       </button>
@@ -117,7 +117,7 @@ function VersionD() {
   const SMALL = "bg-transparent border-0 border-b border-white/10 rounded-none px-2 py-2 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors w-full";
 
   return (
-    <div className="border border-white/10 rounded-xl overflow-hidden">
+    <div className="border border-white/10 overflow-hidden">
       <div className="grid grid-cols-[40px_1fr_1fr_1fr] bg-white/[0.03] px-3 py-2">
         <span className="text-2xs font-bold uppercase tracking-widest text-white/20">#</span>
         <span className="text-2xs font-bold uppercase tracking-widest text-white/20">Name</span>
@@ -147,7 +147,7 @@ function VersionE() {
   return (
     <div className="space-y-2">
       {guests.map((g, i) => (
-        <div key={i} className="rounded-xl overflow-hidden border border-white/5">
+        <div key={i} className="overflow-hidden border border-white/5">
           <button type="button" onClick={() => setOpen(open === i ? -1 : i)}
             className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-all ${
               i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"
@@ -170,7 +170,7 @@ function VersionE() {
           )}
         </div>
       ))}
-      <button type="button" className="w-full py-3 border border-dashed border-white/10 rounded-xl text-xs font-bold uppercase tracking-widest text-white/20 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/30 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button type="button" className="w-full py-3 border border-dashed border-white/10 text-xs font-bold uppercase tracking-widest text-white/20 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/30 transition-colors cursor-pointer">+ Add a Guest</button>
     </div>
   );
 }
@@ -225,7 +225,7 @@ export default function CruisePreviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {versions.map(({ label, title, desc, Component }) => (
-            <div key={label} className="bg-[var(--color-bg-surface)]/80 border border-white/10 rounded-2xl overflow-hidden">
+            <div key={label} className="bg-[var(--color-bg-surface)]/80 border border-white/10 overflow-hidden">
               <div className="px-6 py-4 border-b border-white/5 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center text-sm font-black text-white">{label}</span>
                 <div>

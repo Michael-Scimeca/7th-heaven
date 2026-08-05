@@ -295,11 +295,13 @@ export default function AudioPlayerSection() {
     : [];
 
   return (
-  <section ref={sectionRef} className="border-b border-black/10 flex-1 h-full min-h-0 flex flex-col justify-between relative w-full bg-[#f5f8ff] overflow-hidden" id="music-player-section">
+   <section ref={sectionRef} className="h-[calc(100dvh-90px)] flex flex-col justify-between relative w-full bg-[#f5f8ff] overflow-hidden" id="music-player-section">
   <div className="flex-1 min-h-0 flex flex-col lg:flex-row lg:items-stretch bg-transparent overflow-hidden">
   
   {/* --- SIDEBAR --- */}
-  <div className="w-full lg:w-[320px] bg-transparent border-r border-black/10 pt-10 pl-8 pr-6 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden">
+  <div className="w-full lg:w-[320px] bg-transparent pt-10 pl-8 pr-6 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden">
+    {/* Fading Vertical Divider on Right */}
+    <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
     {/* Fast Search Input */}
     <div className="relative mb-6">
       <input
@@ -307,7 +309,7 @@ export default function AudioPlayerSection() {
         placeholder="Search 700+ songs..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 pl-9 text-xs text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-all font-bold"
+        className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] px-4 py-2.5 pl-9 text-xs text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-all font-bold"
       />
       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 text-xs">🔍</span>
       {searchQuery && (
@@ -332,7 +334,7 @@ export default function AudioPlayerSection() {
   <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
     
     {/* Tracklist */}
-    <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="flex-1 overflow-y-auto px-0 pt-0 pb-8 custom-scrollbar h-full min-h-0">
+    <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="flex-1 overflow-y-auto px-0 pt-[42px] pb-8 custom-scrollbar h-full min-h-0">
     {searchQuery.trim() ? (
       searchResults.length > 0 ? (
         searchResults.map(({ track, trackIdx, album, albumIdx }) => {
@@ -419,7 +421,7 @@ export default function AudioPlayerSection() {
           <div className="w-full h-full bg-[var(--color-bg-card)]" />
         )}
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100">
-          <div className="w-7 h-7 rounded-full border border-white flex items-center justify-center bg-black/30 backdrop-blur-sm shadow-lg transform group-hover:scale-110 transition-transform">
+          <div className="w-7 h-7 rounded-full border border-white flex items-center justify-center bg-black/30 backdrop-blur-sm transform group-hover:scale-110 transition-transform">
             {isPlaying ? (
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             ) : (
@@ -523,7 +525,9 @@ export default function AudioPlayerSection() {
   </div>
 
   {/* --- CREDITS SIDEBAR --- */}
-  <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="w-full lg:w-[350px] bg-transparent pt-5 pl-6 pr-8 pb-8 shrink-0 overflow-y-auto custom-scrollbar border-l border-black/10 hidden lg:flex lg:flex-col items-center relative overflow-hidden self-stretch h-full">
+  <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="w-full lg:w-[350px] bg-transparent pt-5 pl-6 pr-8 pb-8 shrink-0 overflow-y-auto custom-scrollbar hidden lg:flex lg:flex-col items-center relative overflow-hidden self-stretch h-full">
+      {/* Fading Vertical Divider on Left */}
+      <div className="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none z-10" />
       
       {/* Animated gradient orb */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -596,7 +600,7 @@ export default function AudioPlayerSection() {
             {lyricsMap[activeAlbum?.id] && (
               <button
                 onClick={() => setShowLyrics(true)}
-                className="text-[var(--color-accent)] hover:text-purple-700 text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
+                className="text-[var(--color-accent)] hover:text-[var(--color-accent)] text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
               >
                 Lyrics
               </button>
@@ -668,7 +672,7 @@ export default function AudioPlayerSection() {
    });
    return (
      <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md" onClick={() => setShowLyrics(false)}>
-       <div className="relative w-full max-w-[600px] max-h-[85vh] bg-[var(--color-bg-surface)] border border-white/10 rounded-xl overflow-hidden flex flex-col mx-4" onClick={e => e.stopPropagation()}>
+       <div className="relative w-full max-w-[600px] max-h-[85vh] bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden flex flex-col mx-4" onClick={e => e.stopPropagation()}>
          {/* Modal Header */}
          <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[var(--color-bg-surface)] shrink-0">
            <div className="min-w-0">

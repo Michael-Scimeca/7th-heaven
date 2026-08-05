@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase-client";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 
 const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string; role: string }> = {
@@ -18,7 +18,7 @@ const KNOWN_ROOMS = [
   { id: "live_sammy",   label: "Sammy Live",    color: "#ec4899", icon: "🎤" },
   { id: "live_ryan",    label: "Ryan Live",     color: "#0ea5e9", icon: "🎵" },
   { id: "live_tony",    label: "Tony Live",     color: "#10b981", icon: "🥁" },
-  { id: "cruise_dashboard", label: "Cruise Lounge", color: "#f59e0b", icon: "🛳️" },
+  { id: "cruise_dashboard", label: "Cruise Lounge", color: "#9333ea", icon: "🛳️" },
 ];
 
 interface SiteChatMsg {
@@ -413,7 +413,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
   const getRoleColor = (role: string) => {
     if (role === "crew") return "#f97316";
-    if (role === "admin") return "#f59e0b";
+    if (role === "admin") return "#9333ea";
     if (role === "cruise") return "#0ea5e9";
     return "#8b5cf6";
   };
@@ -449,7 +449,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {/* Identity */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-indigo-800 flex items-center justify-center text-xs font-black border border-purple-500/30 shadow-lg">
+              <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-xs font-black border border-emerald-500/30">
                 {member?.avatar || displayName.slice(0,2).toUpperCase()}
               </div>
               <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"}`} />
@@ -466,7 +466,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
           {/* Centre — live stats when live */}
           {isLive && (
-            <div className="hidden md:flex items-center gap-6 px-6 py-2 bg-red-950/30 border border-red-500/20 rounded-xl">
+            <div className="hidden md:flex items-center gap-6 px-6 py-2 bg-red-950/30 border border-red-500/20">
               <div className="text-center">
                 <p className="text-lg font-black text-red-400">{viewerCount.toLocaleString()}</p>
                 <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Viewers</p>
@@ -487,7 +487,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {/* Right — Switch + CTA */}
           <div className="flex items-center gap-3">
             <select
-              className="bg-[var(--color-bg-card)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-purple-500/40 cursor-pointer"
+              className="bg-[var(--color-bg-card)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
               onChange={e => { if (e.target.value) window.location.href = e.target.value; }}
               value={`/crew-${defaultMemberId || slug}`}
             >
@@ -498,7 +498,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             <Link
               href={studioPath}
-              className={`flex items-center gap-2 px-5 py-2 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-lg ${
+              className={`flex items-center gap-2 px-5 py-2  font-black text-xs uppercase tracking-widest transition-all  ${
                 isLive
                   ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]"
                   : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
@@ -514,20 +514,20 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       <div className="site-container py-6 space-y-5">
 
         {/* ─── CREW MEMBER PROFILE CARD ──────────────────────── */}
-        <div className="relative overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-r from-[#0d0d18] via-[#0a0a14] to-[#080810] p-6">
+        <div className="relative overflow-hidden border border-white/[0.07] bg-gradient-to-r from-[#0d0d18] via-[#0a0a14] to-[#080810] p-6">
           <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(white 1px,transparent 1px)", backgroundSize: "18px 18px" }} />
           <div className="relative flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
             {/* Profile */}
             <div className="flex items-center gap-5">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-900 flex items-center justify-center text-2xl font-black border border-purple-500/25 shadow-[0_0_30px_rgba(99,102,241,0.2)]">
+              <div className="w-20 h-20 bg-emerald-800 flex items-center justify-center text-2xl font-black border border-emerald-500/25">
                 {member?.avatar || displayName.slice(0,2).toUpperCase()}
               </div>
               <div>
                 <p className="text-2xl font-black tracking-tight">{displayName}</p>
-                <p className="text-sm text-purple-400 font-semibold">{member?.role || "Crew"}</p>
+                <p className="text-sm text-emerald-400 font-semibold">{member?.role || "Crew"}</p>
                 <p className="text-xs text-white/30 mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-2 py-0.5 bg-purple-500/10 border border-purple-500/25 text-purple-400 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">7th Heaven</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">7th Heaven</span>
                   <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">Active Crew</span>
                 </div>
               </div>
@@ -539,9 +539,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 { label: "Revenue", value: `$${salesRevenue.toLocaleString("en", { minimumFractionDigits: 0 })}`, icon: "💰", color: "#10b981" },
                 { label: "Orders", value: salesCount.toString(), icon: "🛒", color: "#6366f1" },
                 { label: "Mod Actions", value: moderationCount.toString(), icon: "🛡️", color: "#ec4899" },
-                { label: "Chat Msgs", value: msgs.filter(m => m.room.includes(slug)).length.toString(), icon: "💬", color: "#f59e0b" },
+                { label: "Chat Msgs", value: msgs.filter(m => m.room.includes(slug)).length.toString(), icon: "💬", color: "#9333ea" },
               ].map(({ label, value, icon, color }) => (
-                <div key={label} className="text-center px-5 py-3 bg-white/[0.03] border border-white/[0.06] rounded-xl min-w-[80px]">
+                <div key={label} className="text-center px-5 py-3 bg-white/[0.03] border border-white/[0.06] min-w-[80px]">
                   <p className="text-xl font-black" style={{ color }}>{value}</p>
                   <p className="text-[var(--font-size-3xs)] text-white/25 mt-0.5">{icon} {label}</p>
                 </div>
@@ -551,7 +551,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             {/* Launch CTA */}
             <Link
               href={studioPath}
-              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24 rounded-2xl font-black text-xs uppercase tracking-widest text-center transition-all border ${
+              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24  font-black text-xs uppercase tracking-widest text-center transition-all border ${
                 isLive
                   ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
                   : "bg-white/[0.04] border-white/10 text-white/60 hover:bg-white/[0.08] hover:text-white hover:border-white/20"
@@ -570,7 +570,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
           {/* ── LEFT COLUMN: SITE-WIDE MONITOR & POLICIES ─────── */}
           <div className="flex flex-col gap-5 flex-1 min-w-0">
-            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-2xl overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
+            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
 
             {/* Feed header */}
             <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
@@ -583,7 +583,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     onClick={toggleSimulator}
                     className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-all cursor-pointer border ${
                       simActive
-                        ? "bg-amber-500 text-black border-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.35)] animate-pulse"
+                        ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
                         : "bg-white/5 border border-white/10 text-white/40 hover:text-white/60"
                     }`}
                   >
@@ -597,12 +597,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="Search messages…"
-                    className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-purple-500/40 w-44"
+                    className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/40 w-44"
                   />
                   <select
                     value={roleFilter}
                     onChange={e => setRoleFilter(e.target.value)}
-                    className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-purple-500/40 cursor-pointer"
+                    className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
                   >
                     <option value="all">All Roles</option>
                     <option value="flagged">🚩 Flagged</option>
@@ -683,7 +683,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </span>
                           {isFlagged && <span className="text-[var(--font-size-4xs)] text-yellow-400 font-bold">🚩 flagged</span>}
-                          {warned.has(msg.sender_name) && <span className="text-[var(--font-size-4xs)] text-amber-400 font-bold">⚠️ warned</span>}
+                          {warned.has(msg.sender_name) && <span className="text-[var(--font-size-4xs)] text-purple-300 font-bold">⚠️ warned</span>}
                           {isBanned && <span className="text-[var(--font-size-4xs)] text-red-400 font-bold">🚫 banned</span>}
                         </div>
                         <p className="text-sm text-white/75 break-words">{msg.content}</p>
@@ -702,7 +702,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           onClick={() => handleWarn(msg.sender_name, msg.room)}
                           title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
                           className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${
-                            warned.has(msg.sender_name) ? "border-amber-500/50 bg-amber-500/15 text-amber-400" : "border-amber-500/25 text-amber-500/70 hover:bg-amber-500/10"
+                            warned.has(msg.sender_name) ? "border-purple-500/50 bg-purple-600/15 text-purple-300" : "border-purple-500/25 text-purple-400/70 hover:bg-purple-600/10"
                           }`}
                         >⚠️</button>
                         <button
@@ -741,9 +741,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Chat Moderation Panel */}
-            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] overflow-hidden">
                <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
-                  <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
+                  <div className="w-10 h-10 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                    <div>
                       <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
                       <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
@@ -764,11 +764,11 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                              value={newCustomWord}
                              onChange={e => setNewCustomWord(e.target.value)}
                              placeholder="e.g. ticket-scalper"
-                             className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
+                             className="flex-1 bg-black/60 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
                            />
                            <button
                              type="submit"
-                             className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                             className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider transition-all cursor-pointer"
                            >
                              Add Keyword
                            </button>
@@ -778,7 +778,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                      <div className="w-full lg:w-[450px] shrink-0 space-y-2">
                         <p className="text-xs font-black uppercase tracking-widest text-white/40">Active Custom Filters</p>
                         {customWords.length === 0 ? (
-                           <div className="text-center py-6 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
+                           <div className="text-center py-6 border border-dashed border-white/5 bg-white/[0.01]">
                               <p className="text-white/20 text-xs italic">No custom keywords configured.</p>
                            </div>
                         ) : (
@@ -786,7 +786,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                               {customWords.map(word => (
                                  <span
                                    key={word}
-                                   className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-white/80"
+                                   className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 text-xs font-bold text-white/80"
                                  >
                                     <span>{word}</span>
                                     <button
@@ -811,7 +811,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           <div className="flex flex-col gap-5">
 
             {/* Live Stream Status Card */}
-            <div className={`rounded-2xl border overflow-hidden transition-all ${
+            <div className={` border overflow-hidden transition-all ${
               isLive
                 ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]"
                 : "border-white/[0.07] bg-[var(--color-bg-deep)]"
@@ -845,7 +845,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 <Link
                   href={studioPath}
-                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${
+                  className={`w-full flex items-center justify-center gap-2 py-3  font-black text-sm uppercase tracking-widest transition-all ${
                     isLive
                       ? "bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
                       : "bg-white text-black hover:bg-white/90"
@@ -858,7 +858,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <Link
                     href={`/live/${defaultMemberId || slug}`}
                     target="_blank"
-                    className="w-full mt-2 flex items-center justify-center gap-1 py-2 rounded-xl text-xs font-bold border border-white/10 text-white/40 hover:text-white hover:border-white/20 transition-all"
+                    className="w-full mt-2 flex items-center justify-center gap-1 py-2 text-xs font-bold border border-white/10 text-white/40 hover:text-white hover:border-white/20 transition-all"
                   >
                     👁 View Fan Feed ↗
                   </Link>
@@ -867,16 +867,16 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Quick Analytics */}
-            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-2xl p-5">
+            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] p-5">
               <h3 className="font-black text-xs uppercase tracking-widest text-white/25 mb-4">My Analytics</h3>
               <div className="space-y-3">
                 {[
                   { label: "All-Time Revenue", value: `$${salesRevenue.toLocaleString("en", { minimumFractionDigits: 0 })}`, color: "#10b981" },
                   { label: "Total Orders", value: salesCount.toString(), color: "#6366f1" },
-                  { label: "Messages in My Rooms", value: msgs.filter(m => m.room.includes(slug)).length.toString(), color: "#f59e0b" },
+                  { label: "Messages in My Rooms", value: msgs.filter(m => m.room.includes(slug)).length.toString(), color: "#9333ea" },
                   { label: "Moderation Actions", value: moderationCount.toString(), color: "#ec4899" },
                 ].map(({ label, value, color }) => (
-                  <div key={label} className="flex items-center justify-between p-3 bg-white/[0.025] rounded-xl">
+                  <div key={label} className="flex items-center justify-between p-3 bg-white/[0.025]">
                     <span className="text-xs text-white/40">{label}</span>
                     <span className="text-sm font-black" style={{ color }}>{value}</span>
                   </div>
@@ -885,7 +885,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Crew Notes */}
-            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-2xl p-5 flex-1">
+            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] p-5 flex-1">
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <h3 className="font-black text-sm">📝 Notes for Admin</h3>
@@ -904,7 +904,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 value={crewNotes}
                 onChange={e => setCrewNotes(e.target.value)}
                 placeholder="Stream notes, incidents, requests for admin…"
-                className="w-full h-32 bg-[#040408] border border-white/[0.07] rounded-xl p-3 text-xs text-white/70 placeholder:text-white/15 resize-none outline-none focus:border-purple-500/35 transition-colors font-mono"
+                className="w-full h-32 bg-[#040408] border border-white/[0.07] p-3 text-xs text-white/70 placeholder:text-white/15 resize-none outline-none focus:border-[var(--color-accent)]/35 transition-colors font-mono"
               />
             </div>
 
@@ -920,7 +920,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   key={label}
                   href={href}
                   target={external ? "_blank" : undefined}
-                  className="flex items-center gap-2 p-3 bg-[var(--color-bg-deep)] border border-white/[0.07] rounded-xl hover:border-white/15 hover:bg-white/[0.02] transition-all group"
+                  className="flex items-center gap-2 p-3 bg-[var(--color-bg-deep)] border border-white/[0.07] hover:border-white/15 hover:bg-white/[0.02] transition-all group"
                 >
                   <span className="text-lg">{icon}</span>
                   <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">{label}</span>

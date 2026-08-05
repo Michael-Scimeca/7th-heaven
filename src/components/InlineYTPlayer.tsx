@@ -1,13 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useId } from "react";
-
-declare global {
-  interface Window {
-    YT: any;
-    onYouTubeIframeAPIReady: () => void;
-  }
-}
+import { loadYouTubeAPI } from "@/lib/youtube-api";
 
 interface InlineYTPlayerProps {
   videoId: string;
@@ -36,12 +30,6 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (!window.YT) {
-      const tag = document.createElement("script");
-      tag.src = "https://www.youtube.com/iframe_api";
-      document.head.appendChild(tag);
-    }
-
     const initPlayer = () => {
       if (playerRef.current) {
         playerRef.current.destroy();
@@ -73,11 +61,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       });
     };
 
-    if (window.YT && window.YT.Player) {
-      initPlayer();
-    } else {
-      window.onYouTubeIframeAPIReady = initPlayer;
-    }
+    loadYouTubeAPI(initPlayer);
 
     return () => {
       cancelAnimationFrame(animRef.current);
@@ -202,7 +186,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             style={{ width: `${progress}%` }}
           />
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-lg shadow-[var(--color-accent)]/30"
+            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
             style={{ left: `calc(${progress}% - 6px)` }}
           />
         </div>

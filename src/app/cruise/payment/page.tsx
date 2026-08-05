@@ -86,13 +86,13 @@ export default function CruisePaymentPage() {
           </div>
 
           {status === "success" && (
-            <div className="mb-6 p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-bold leading-normal">
+            <div className="mb-6 p-4 border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-bold leading-normal">
               🎉 {message}
             </div>
           )}
 
           {status === "error" && (
-            <div className="mb-6 p-4 rounded-xl border border-rose-500/20 bg-rose-500/10 text-rose-400 text-xs font-bold leading-normal">
+            <div className="mb-6 p-4 border border-rose-500/20 bg-rose-500/10 text-rose-400 text-xs font-bold leading-normal">
               ⚠️ {message}
             </div>
           )}
@@ -108,7 +108,7 @@ export default function CruisePaymentPage() {
                 placeholder="Enter Booking ID (e.g. 550e8400-e29b-41d4-a716-446655440000)"
                 value={formData.bookingNumber}
                 onChange={e => setFormData({ ...formData, bookingNumber: e.target.value })}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
               />
             </div>
 
@@ -122,7 +122,7 @@ export default function CruisePaymentPage() {
                 placeholder="Enter Email"
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
               />
             </div>
 
@@ -135,7 +135,7 @@ export default function CruisePaymentPage() {
                 placeholder="Enter Cell Phone"
                 value={formData.phone}
                 onChange={e => setFormData({ ...formData, phone: formatPhoneDisplay(e.target.value) })}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
               />
             </div>
 
@@ -149,7 +149,7 @@ export default function CruisePaymentPage() {
                 placeholder="Enter Name on Card"
                 value={formData.cardName}
                 onChange={e => setFormData({ ...formData, cardName: e.target.value })}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
               />
             </div>
 
@@ -163,7 +163,7 @@ export default function CruisePaymentPage() {
                 placeholder="Enter Card Number"
                 value={formData.cardNumber}
                 onChange={e => setFormData({ ...formData, cardNumber: e.target.value })}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
               />
             </div>
 
@@ -178,7 +178,7 @@ export default function CruisePaymentPage() {
                   placeholder="MM/YY"
                   value={formData.cardExpiry}
                   onChange={e => setFormData({ ...formData, cardExpiry: e.target.value })}
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white text-center placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                  className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white text-center placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                 />
               </div>
 
@@ -192,7 +192,7 @@ export default function CruisePaymentPage() {
                   placeholder="3-4 Digit"
                   value={formData.cardCvv}
                   onChange={e => setFormData({ ...formData, cardCvv: e.target.value })}
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white text-center placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                  className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white text-center placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                 />
               </div>
 
@@ -206,7 +206,7 @@ export default function CruisePaymentPage() {
                   placeholder="Zip"
                   value={formData.cardZip}
                   onChange={e => setFormData({ ...formData, cardZip: e.target.value })}
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white text-center placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
+                  className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white text-center placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -221,7 +221,7 @@ export default function CruisePaymentPage() {
                 placeholder="Enter Amount (e.g. 250.00)"
                 value={formData.amount}
                 onChange={e => setFormData({ ...formData, amount: e.target.value })}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors font-black text-cyan-400"
+                className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors font-black text-cyan-400"
               />
             </div>
 

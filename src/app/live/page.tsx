@@ -255,7 +255,7 @@ export default function LiveHubPage() {
             ADMIN OVERLAY
         ══════════════════════════════════════════════════ */}
         {showAdmin && (
-          <div className="max-w-[1440px] mx-auto mb-12 rounded-2xl overflow-hidden" style={{ background: "#08080c", border: "1px solid rgba(239,68,68,0.2)" }}>
+          <div className="max-w-[1440px] mx-auto mb-12 overflow-hidden" style={{ background: "#08080c", border: "1px solid rgba(239,68,68,0.2)" }}>
             {/* Admin header */}
             <div className="px-6 py-4 flex items-center justify-between" style={{ background: "rgba(239,68,68,0.06)", borderBottom: "1px solid rgba(239,68,68,0.15)" }}>
               <div className="flex items-center gap-3">
@@ -266,7 +266,7 @@ export default function LiveHubPage() {
               <div className="flex items-center gap-4 text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
                 <span>👁 {totalViewers.toLocaleString()} watching</span>
                 <span style={{ color: bannedUsers.size > 0 ? "#f87171" : undefined }}>🚫 {bannedUsers.size} banned</span>
-                <span style={{ color: mutedUsers.size > 0 ? "#fbbf24" : undefined }}>🔇 {mutedUsers.size} muted</span>
+                <span style={{ color: mutedUsers.size > 0 ? "#c084fc" : undefined }}>🔇 {mutedUsers.size} muted</span>
                 {flaggedCount > 0 && <span style={{ color: "#fca5a5" }}>🚨 {flaggedCount} flagged</span>}
               </div>
             </div>
@@ -277,7 +277,7 @@ export default function LiveHubPage() {
                 <button key={tab} onClick={() => setAdminTab(tab)}
                   className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-t-lg transition-all"
                   style={{
-                    background: adminTab === tab ? "rgba(168,85,247,0.15)" : "transparent",
+                    background: adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
                     color: adminTab === tab ? "#c084fc" : "rgba(255,255,255,0.35)",
                     borderBottom: adminTab === tab ? "2px solid #a855f7" : "2px solid transparent",
                   }}
@@ -296,7 +296,7 @@ export default function LiveHubPage() {
               {adminTab === "streams" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                   {rooms.map(room => (
-                    <div key={room.name} className="rounded-xl overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                    <div key={room.name} className="overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
                       {/* Mini feed */}
                       <div className="aspect-video relative">
                         <MiniCanvasFeed color={room.color} index={rooms.indexOf(room)} />
@@ -339,7 +339,7 @@ export default function LiveHubPage() {
                     const isMuted = mutedUsers.has(fan.id);
                     const isWarned = warnedUsers.has(fan.id);
                     return (
-                      <div key={fan.id} className="flex items-center justify-between gap-3 p-4 rounded-xl"
+                      <div key={fan.id} className="flex items-center justify-between gap-3 p-4"
                         style={{
                           background: isBanned ? "rgba(239,68,68,0.06)" : "rgba(255,255,255,0.03)",
                           border: isBanned ? "1px solid rgba(239,68,68,0.2)" : "1px solid rgba(255,255,255,0.07)",
@@ -355,7 +355,7 @@ export default function LiveHubPage() {
                               <span className="text-sm font-bold truncate" style={{ color: fan.color }}>{fan.name}</span>
                               {isBanned && <span className="px-1.5 rounded-full text-xs" style={{ background: "rgba(239,68,68,0.2)", color: "#f87171", fontSize: 9 }}>BANNED</span>}
                               {isMuted && !isBanned && <span className="px-1.5 rounded-full text-xs" style={{ background: "rgba(156,163,175,0.15)", color: "#9ca3af", fontSize: 9 }}>MUTED</span>}
-                              {isWarned && !isBanned && <span className="px-1.5 rounded-full text-xs" style={{ background: "rgba(251,191,36,0.15)", color: "#fbbf24", fontSize: 9 }}>WARNED</span>}
+                              {isWarned && !isBanned && <span className="px-1.5 rounded-full text-xs" style={{ background: "rgba(192, 132, 252,0.15)", color: "#c084fc", fontSize: 9 }}>WARNED</span>}
                             </div>
                             <p className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>{fan.tier} · {fan.msgs} msgs</p>
                           </div>
@@ -365,7 +365,7 @@ export default function LiveHubPage() {
                             {!isWarned && (
                               <button onClick={() => { setWarnedUsers(s => new Set(s).add(fan.id)); addLog("⚠️ Warned", fan.name); }} title="Warn"
                                 className="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:scale-110 transition-transform"
-                                style={{ background: "rgba(251,191,36,0.1)" }}>⚠️</button>
+                                style={{ background: "rgba(192, 132, 252,0.1)" }}>⚠️</button>
                             )}
                             {!isMuted && (
                               <button onClick={() => { setMutedUsers(s => new Set(s).add(fan.id)); addLog("🔇 Muted", fan.name); }} title="Mute"
@@ -383,7 +383,7 @@ export default function LiveHubPage() {
 
                   {/* Mod log */}
                   {modLog.length > 0 && (
-                    <div className="col-span-full mt-4 p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                    <div className="col-span-full mt-4 p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                       <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
                       <div className="space-y-1">
                         {modLog.slice(0, 5).map(e => (
@@ -408,26 +408,26 @@ export default function LiveHubPage() {
                       { icon: "⚠️", rule: "Hate speech & slurs", desc: "Racist, homophobic, or discriminatory language." },
                       { icon: "🚨", rule: "Threats & violence", desc: "Any threats toward people, band, or venue staff." },
                     ].map(({ icon, rule, desc }) => (
-                      <div key={rule} className="mb-2 p-3 rounded-xl" style={{ background: "rgba(239,68,68,0.07)", border: "1px solid rgba(239,68,68,0.18)" }}>
+                      <div key={rule} className="mb-2 p-3" style={{ background: "rgba(239,68,68,0.07)", border: "1px solid rgba(239,68,68,0.18)" }}>
                         <p className="text-xs font-bold text-white/80">{icon} {rule}</p>
                         <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{desc}</p>
                       </div>
                     ))}
                   </div>
                   <div>
-                    <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#fbbf24" }}>⚠️ Warn First — Then Mute/Kick</p>
+                    <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
                     {[
                       { icon: "🏛️", rule: "Political commentary", desc: "No political debate, parties, or electoral content." },
                       { icon: "📢", rule: "Spam & self-promotion", desc: "Links, social handles, or money solicitation." },
                       { icon: "🔄", rule: "Excessive repetition", desc: "Flooding chat with same message or emoji spam." },
                       { icon: "💊", rule: "Drug references", desc: "Discussion of illegal substances during the event." },
                     ].map(({ icon, rule, desc }) => (
-                      <div key={rule} className="mb-2 p-3 rounded-xl" style={{ background: "rgba(251,191,36,0.06)", border: "1px solid rgba(251,191,36,0.15)" }}>
+                      <div key={rule} className="mb-2 p-3" style={{ background: "rgba(192, 132, 252,0.06)", border: "1px solid rgba(192, 132, 252,0.15)" }}>
                         <p className="text-xs font-bold text-white/80">{icon} {rule}</p>
                         <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{desc}</p>
                       </div>
                     ))}
-                    <div className="mt-2 p-3 rounded-xl" style={{ background: "rgba(168,85,247,0.08)", border: "1px solid rgba(168,85,247,0.2)" }}>
+                    <div className="mt-2 p-3" style={{ background: "rgba(255,10,61,0.08)", border: "1px solid rgba(255,10,61,0.2)" }}>
                       <p className="text-xs font-black text-white/60 mb-1">✅ Keep It Positive</p>
                       <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>This is a fan space for music lovers — keep the energy high! 🎸</p>
                     </div>
@@ -529,11 +529,11 @@ export default function LiveHubPage() {
                       <span className="text-black/30 text-sm">📱</span>
                     </div>
                     <input type="tel" placeholder="(312) 555-0199"
-                      className="w-full bg-white border border-black/10 rounded-xl py-3.5 pl-12 pr-4 text-black placeholder:text-black/30 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
+                      className="w-full bg-white border border-black/10 py-3.5 pl-12 pr-4 text-black placeholder:text-black/30 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
                     />
                   </div>
                   <button type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0">
+                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0">
                     ALERT ME 🔔
                   </button>
                 </form>

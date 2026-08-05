@@ -34,7 +34,7 @@ function SuccessContent() {
 
       <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both]">
         {/* Success Card */}
-        <div className="bg-[var(--color-bg-surface)]/80 border border-emerald-500/10 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl">
+        <div className="bg-[var(--color-bg-surface)]/80 border border-emerald-500/10 backdrop-blur-xl p-10 rounded-[2rem]">
           {/* Checkmark */}
           <div className="w-20 h-20 mx-auto mb-6 bg-emerald-500/10 border-2 border-emerald-500/30 rounded-full flex items-center justify-center animate-[scale-in_0.5s_ease-out_0.2s_both]">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -47,7 +47,7 @@ function SuccessContent() {
           </h1>
 
           {bookingId && (
-            <div className="inline-block bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 px-4 py-2 rounded-xl mb-4">
+            <div className="inline-block bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 px-4 py-2 mb-4">
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/40 block">Booking ID</span>
               <span className="text-lg font-black text-[var(--color-accent)] font-mono">{bookingId}</span>
             </div>
@@ -71,20 +71,20 @@ function SuccessContent() {
             {isLoggedIn && member?.role === "event_planner" && (
               <Link
                 href="/planner"
-                className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] hover:shadow-[0_0_30px_rgba(133,29,239,0.5)]"
+                className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
               >
                 View in My Dashboard →
               </Link>
             )}
             <Link
               href="/book"
-              className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 rounded-xl transition-all border border-white/5"
+              className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 transition-all border border-white/5"
             >
               Book Another Show
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold uppercase tracking-wider text-base py-3 px-8 rounded-xl transition-all"
+              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold uppercase tracking-wider text-base py-3 px-8 transition-all"
             >
               Return to Homepage
             </Link>

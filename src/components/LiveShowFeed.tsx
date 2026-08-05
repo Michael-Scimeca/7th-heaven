@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase-client";
 
 // ─── Mock live show media for demo ───
 const mockLiveMedia: FeedPostDB[] = [

@@ -23,6 +23,9 @@ const BehindTheScenes = dynamic(() => import("@/components/BehindTheScenes"));
 const ProximityNotify = dynamic(() => import("@/components/ProximityNotify"));
 const HomeMerch = dynamic(() => import("@/components/HomeMerch"));
 const FeaturedTrack = dynamic(() => import("@/components/FeaturedTrack"));
+const AudioPlayerSection = dynamic(() => import("@/components/AudioPlayer"));
+const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
+const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"));
 
 
 
@@ -153,10 +156,10 @@ export default async function Home() {
     <>
       <LiveStatusSign />
 
-      {/* ====== HERO ====== */}
-      <section className="relative w-full p-0" id="hero">
-        {/* Full-bleed Hero Section — no outer box/card border or rounded corners */}
-        <div id="hero-card" className="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between p-0 pt-[95px]">
+      {/* ====== HERO (Full 100vh Viewport Height) ====== */}
+      <section className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden" id="hero">
+        {/* Full-bleed Hero Section */}
+        <div id="hero-card" className="relative w-full h-full min-h-[100dvh] overflow-hidden bg-black flex flex-col justify-between p-0 m-0">
           {/* ── Hero Video + Vinyl Player (client component, synced) ── */}
           <HeroVideoPlayer>
             <HeroLiveThumbs />
@@ -175,24 +178,34 @@ export default async function Home() {
       )}
 
       {/* ====== TOUR LIST (full — same as /tour page) ====== */}
-      <section id="tour">
+      <section id="tour" className="bg-black py-[100px]">
         <TourList initialShows={upcomingShows} />
       </section>
 
+      {/* ====== BAND MEMBERS (Full Parallax Slider) ====== */}
+      <section id="band" className="relative w-full bg-black overflow-hidden py-[100px]">
+        <BioParallaxSlider />
+      </section>
+
+      {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
+      <section id="music" className="relative w-full h-[calc(100dvh-90px)] my-[100px] overflow-hidden">
+        <AudioPlayerSection />
+      </section>
 
       {/* ====== PROXIMITY NOTIFY ====== */}
-      <ProximityNotify nextShow={upcomingShows.find(s => s.city) || upcomingShows[0]} />
+      <div className="py-[100px]">
+        <ProximityNotify nextShow={upcomingShows.find(s => s.city) || upcomingShows[0]} />
+      </div>
+
+      {/* ====== LATEST BAND NEWS ====== */}
+      <div className="py-[100px]">
+        <HomeNewsSection />
+      </div>
 
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
-      <HomeMerch />
-
-
-
-
-      {/* ====== VIDEOS (removed) ====== */}
-
-      {/* ====== BEHIND THE SCENES (removed) ====== */}
-
+      <div className="py-[100px]">
+        <HomeMerch />
+      </div>
     </>
   );
 }

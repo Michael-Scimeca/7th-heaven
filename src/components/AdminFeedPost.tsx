@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase-client";
 
 const crewMembers = [
  { name: "Adam Heisler", role: "Lead Vocals", avatar: "AH" },
@@ -16,9 +16,9 @@ const postTypes = [
  { value: "text", label: "Update", icon: "✍️", color: "#851DEF" },
  { value: "photo", label: "Photo", icon: "📸", color: "#22c55e" },
  { value: "video", label: "Video", icon: "🎬", color: "#ef4444" },
- { value: "setlist", label: "Setlist", icon: "🎵", color: "#f59e0b" },
+ { value: "setlist", label: "Setlist", icon: "🎵", color: "#9333ea" },
  { value: "crowd", label: "Crowd", icon: "🤘", color: "#06b6d4" },
- { value: "announcement", label: "Announcement", icon: "🚨", color: "#f59e0b" },
+ { value: "announcement", label: "Announcement", icon: "🚨", color: "#9333ea" },
 ];
 
 export default function AdminFeedPost() {
@@ -115,7 +115,7 @@ export default function AdminFeedPost() {
        <div 
         key={i} 
         title={m.name}
-        className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 border-[#0a0a0f] bg-[var(--color-accent)] text-white shadow-lg"
+        className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 border-[#0a0a0f] bg-[var(--color-accent)] text-white"
        >
         {m.avatar}
        </div>

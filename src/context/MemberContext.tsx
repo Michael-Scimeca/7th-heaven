@@ -1,7 +1,12 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
-import fakeLogins from "@/data/fake-logins.json";
+// Dev-only: never ships in the production bundle
+const fakeLogins: { email: string; password: string; name: string; username: string; role: string; pin: string }[] =
+  process.env.NODE_ENV !== 'production'
+    ? require("@/data/fake-logins.json")
+    : [];
+import { resolveInitialRole, ADMIN_ALERT_EMAIL } from "@/lib/role-config";
 
 export interface Member {
  id: string;
@@ -72,13 +77,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  const [member, setMember] = useState<Member | null>(null);
  const [hydrated, setHydrated] = useState(false);
  const [isModalOpen, setIsModalOpen] = useState(false);
- const [_modalMode, _setModalMode] = useState<"login" | "signup" | "forgot">("login");
- const modalMode = _modalMode;
- const setModalMode = (mode: "login" | "signup" | "forgot") => {
-   console.log(`%c[setModalMode] ${_modalMode} → ${mode}`, 'color: red; font-weight: bold');
-   console.trace('[setModalMode] called from:');
-   _setModalMode(mode);
- };
+ const [modalMode, setModalMode] = useState<"login" | "signup" | "forgot">("login");
  const [modalLoginRole, setModalLoginRole] = useState<"fan" | "crew" | "planner" | "cruise">("fan");
 
   // Load member and setup auth listener
@@ -88,7 +87,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     const initAndListen = async () => {
       let subscription: any = null;
       try {
-        const { createClient } = await import("@/utils/supabase/client");
+        const { createClient } = await import("@/lib/supabase/client");
         const supabase = createClient();
 
         const syncUser = async (user: any) => {
@@ -118,16 +117,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
             const fullName = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
             const profileUsername = profile?.username || user.user_metadata?.username || "";
 
-            // Role email lists
-            const crewEmails = ["mike@test.com", "mikeyscimeca.dev@gmail.com"];
-            const merchEmails = ["merch@test.com", "merch@7thheaven.com"];
-            const plannerEmails = ["planner@example.com", "chicago_manager@example.com", "planner@test.com"];
-
-            let resolvedRole = role;
-            if (crewEmails.includes(user.email || "") && resolvedRole !== "crew") resolvedRole = "crew";
-            if (merchEmails.includes(user.email || "") && resolvedRole !== "merch") resolvedRole = "merch";
-            if (plannerEmails.includes(user.email || "") && resolvedRole !== "event_planner") resolvedRole = "event_planner";
-
+            // profiles.role is the authoritative source — no client-side email overrides
             const syncedMember: Member = {
               id: user.id,
               name: fullName,
@@ -141,7 +131,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
               favoriteVenues: [],
               notificationsEnabled: profile?.notifications_enabled ?? false,
               notificationRadius: profile?.notification_radius ?? 25,
-              role: resolvedRole as Member["role"],
+              role: role as Member["role"],
               cruise_signup_id: profile?.cruise_signup_id || undefined,
               signup_source: profile?.signup_source || undefined,
               is_warned: !!profile?.is_warned,
@@ -218,7 +208,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   }, [member, hydrated]);
 
  const openModal = useCallback((mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" | "planner" | "cruise" = "fan") => {
-  _setModalMode(mode);
+  setModalMode(mode);
   setModalLoginRole(role);
   setIsModalOpen(true);
  }, []);
@@ -266,7 +256,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
 
    // Authenticate via Supabase Auth
    try {
-    const { createClient } = await import("@/utils/supabase/client");
+    const { createClient } = await import("@/lib/supabase/client");
     const supabase = createClient();
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error || !data.user) return false;
@@ -321,17 +311,13 @@ export function MemberProvider({ children }: { children: ReactNode }) {
 
  const signup = async (name: string, email: string, password: string, phone?: string, username?: string): Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }> => {
   // Determine role based on email
-  const role = ["mikeyscimeca@gmail.com"].includes(email.toLowerCase()) ? "admin"
-   : ["mike@test.com", "mikeyscimeca.dev@gmail.com"].includes(email.toLowerCase()) ? "crew"
-   : ["merch@test.com", "merch@7thheaven.com"].includes(email.toLowerCase()) ? "merch"
-   : ["planner@example.com", "chicago_manager@example.com", "planner@test.com"].includes(email.toLowerCase()) ? "event_planner"
-   : "fan";
+  const role = resolveInitialRole(email);
 
   let userId = crypto.randomUUID();
 
   // Create account in Supabase Auth (persistent, cross-device)
     try {
-      const { createClient } = await import("@/utils/supabase/client");
+      const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -410,15 +396,17 @@ export function MemberProvider({ children }: { children: ReactNode }) {
       accountUsername: username || undefined,
       accountRole: role,
     });
-    fetch('/api/email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        to: 'mikeyscimeca@gmail.com',
-        subject: `🔔 New ${roleLabel} Account: ${name}`,
-        html: alertHtml,
-      }),
-    }).catch(() => {});
+    if (ADMIN_ALERT_EMAIL) {
+      fetch('/api/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: ADMIN_ALERT_EMAIL,
+          subject: `🔔 New ${roleLabel} Account: ${name}`,
+          html: alertHtml,
+        }),
+      }).catch(() => {});
+    }
   } catch {}
 
   return { success: true, confirmationRequired: false };
@@ -427,7 +415,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
  const logout = async () => {
   // 1. Use the cached supabase client (same instance that holds the session)
   try {
-   const { createClient } = await import("@/utils/supabase/client");
+   const { createClient } = await import("@/lib/supabase/client");
    const supabase = createClient();
    await supabase.auth.signOut();
   } catch {}
@@ -470,23 +458,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
 
   const updateAvatar = async (avatarUrl: string) => {
     setMember(prev => {
-      if (!prev) {
-        return {
-          id: "dev-admin",
-          name: "Michael Scimeca",
-          username: "michael",
-          email: "mikeyscimeca@gmail.com",
-          joinDate: new Date().toISOString(),
-          avatar: avatarUrl,
-          points: 100,
-          tier: "Gold",
-          showsAttended: 10,
-          favoriteVenues: [],
-          notificationsEnabled: true,
-          notificationRadius: 25,
-          role: "admin",
-        };
-      }
+      if (!prev) return null; // No member session — nothing to update
       return { ...prev, avatar: avatarUrl };
     });
     try {
@@ -497,7 +469,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
         parsed.avatar = avatarUrl;
         localStorage.setItem("7h_member", JSON.stringify(parsed));
       }
-      const { createClient } = await import("@/utils/supabase/client");
+      const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {

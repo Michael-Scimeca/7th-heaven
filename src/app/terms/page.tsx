@@ -56,7 +56,7 @@ export default function TermsPage() {
      {/* 4 */}
      <div>
       <h2 className="text-black text-lg font-bold mb-3">4. SMS Text Alert Service</h2>
-      <div className="p-5 border border-purple-200 bg-white rounded-xl shadow-sm">
+      <div className="p-5 border border-purple-200 bg-white shadow-sm">
        <p className="mb-4">By subscribing to 7th Heaven Show Alerts, you agree to the following:</p>
 
        <div className="space-y-4">
@@ -144,7 +144,7 @@ export default function TermsPage() {
      {/* 9 */}
      <div>
       <h2 className="text-black text-lg font-bold mb-3">9. Disclaimers</h2>
-      <div className="p-4 border border-black/10 bg-white rounded-xl shadow-xs text-base">
+      <div className="p-4 border border-black/10 bg-white shadow-xs text-base">
        <p className="text-black/80">The Site and its services are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, express or implied. 7th Heaven does not guarantee that the Site will be uninterrupted, error-free, or secure. Show dates, times, and venues are subject to change without notice.</p>
       </div>
      </div>
@@ -171,7 +171,7 @@ export default function TermsPage() {
      <div>
       <h2 className="text-black text-lg font-bold mb-3">13. Contact</h2>
       <p className="mb-2">For questions about these Terms of Service:</p>
-      <div className="p-6 border border-black/10 bg-white rounded-2xl shadow-sm">
+      <div className="p-6 border border-black/10 bg-white shadow-sm">
        <p className="text-black font-bold text-sm">7th Heaven</p>
        <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-purple-600 font-bold hover:underline">info@7thheavenband.com</a></p>
        <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-purple-600 font-bold hover:underline">7thheavenband.com</a></p>

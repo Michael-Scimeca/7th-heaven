@@ -94,6 +94,14 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    site: "@7thheavenband",
+    title: "7th Heaven — Official Website",
+    description:
+      "7th heaven is an experience you just have to see and hear! 40 years of rocking the world.",
+    images: ["/images/7thheavenlogo.jpg"],
+  },
 };
 
 export default async function RootLayout({
@@ -155,7 +163,7 @@ export default async function RootLayout({
           id="theme-init"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("7h_theme");if(t){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","light")}}catch(e){}`,
+            __html: `try{var t=localStorage.getItem("7h_theme");if(t){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","dark")}}catch(e){}`,
           }}
         />
       </head>

@@ -27,7 +27,7 @@ export default function ProductDetailPage() {
           {/* Left: Product Image Container */}
           <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl flex items-center justify-center aspect-square relative overflow-hidden">
             <div className="absolute inset-0 bg-radial-gradient from-[var(--color-accent)]/10 to-transparent opacity-40 blur-[80px]" />
-            <span className="text-9xl relative z-10 filter drop-shadow-[0_0_30px_rgba(133,29,239,0.3)]">👕</span>
+            <span className="text-9xl relative z-10 filter drop-shadow-[0_0_30px_rgba(255,10,61,0.3)]">👕</span>
           </div>
 
           {/* Right: Product Info & Actions */}
@@ -98,14 +98,14 @@ export default function ProductDetailPage() {
                   setAdded(true);
                   setTimeout(() => setAdded(false), 2000);
                 }}
-                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all shadow-[0_0_30px_rgba(133,29,239,0.3)] hover:scale-[1.01]"
+                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)] hover:scale-[1.01]"
               >
                 {added ? "✓ Added to Cart!" : "Add to Cart"}
               </button>
               
               <Link
                 href="/store"
-                className="w-full block text-center py-4 bg-white/5 hover:bg-white/10 text-white/70 font-bold uppercase tracking-widest text-sm rounded-xl transition-all border border-white/5"
+                className="w-full block text-center py-4 bg-white/5 hover:bg-white/10 text-white/70 font-bold uppercase tracking-widest text-sm transition-all border border-white/5"
               >
                 Back to Store
               </Link>

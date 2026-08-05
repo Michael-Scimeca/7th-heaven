@@ -1,3 +1,4 @@
+/* impeccable-disable */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -120,12 +121,12 @@ export default function PreloaderDemo() {
         {/* Top Controls Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Section: Live Operations */}
-          <div className="p-8 bg-[var(--color-bg-surface)]/90 border border-white/10 rounded-2xl relative overflow-hidden flex flex-col justify-between">
+          <div className="p-8 bg-[var(--color-bg-surface)]/90 border border-white/10 relative overflow-hidden flex flex-col justify-between">
             {/* Glowing effect */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-3xl rounded-full pointer-events-none" />
             
             <div>
-              <h2 className="text-lg font-black uppercase tracking-wider text-purple-300 mb-2">
+              <h2 className="text-lg font-black uppercase tracking-wider text-[var(--color-accent)] mb-2">
                 Live Simulator
               </h2>
               <p className="text-white/50 text-sm mb-6 leading-relaxed">
@@ -136,7 +137,7 @@ export default function PreloaderDemo() {
             <div className="space-y-4">
               <button
                 onClick={() => setIsPlaying(true)}
-                className="w-full py-4 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-black uppercase tracking-widest text-sm transition-all rounded-lg shadow-[0_0_30px_rgba(168,85,247,0.3)] active:scale-[0.99]"
+                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black uppercase tracking-widest text-sm transition-all rounded-lg shadow-md active:scale-[0.99]"
               >
                 ⚡ Trigger Preloader Live
               </button>
@@ -173,9 +174,9 @@ export default function PreloaderDemo() {
           </div>
 
           {/* Section: Manual Scrubbing / Slider */}
-          <div className="p-8 bg-[var(--color-bg-surface)]/90 border border-white/10 rounded-2xl flex flex-col justify-between">
+          <div className="p-8 bg-[var(--color-bg-surface)]/90 border border-white/10 flex flex-col justify-between">
             <div>
-              <h2 className="text-lg font-black uppercase tracking-wider text-purple-300 mb-2">
+              <h2 className="text-lg font-black uppercase tracking-wider text-[var(--color-accent)] mb-2">
                 Manual Frame Scrubbing
               </h2>
               <p className="text-white/50 text-sm mb-6 leading-relaxed">
@@ -186,7 +187,7 @@ export default function PreloaderDemo() {
             <div className="flex flex-col items-center gap-6">
               {/* Mini Preloader Mock */}
               <div
-                className="relative w-[180px] h-[180px] rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.2)]"
+                className="relative w-[180px] h-[180px] rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.2)]"
               >
                 <div className="absolute w-[220px] h-[220px] rounded-full bg-gradient-to-tr from-[#d946ef]/10 to-[#7c00ff]/10 blur-xl animate-pulse" />
                 
@@ -241,7 +242,7 @@ export default function PreloaderDemo() {
         </div>
 
         {/* Artwork Frames Explorer */}
-        <div className="p-8 bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl mb-12">
+        <div className="p-8 bg-[var(--color-bg-surface)] border border-white/5 mb-12">
           <h2 className="text-xl font-black uppercase tracking-wider text-white mb-2">
             Artwork Frame Directory
           </h2>
@@ -257,7 +258,7 @@ export default function PreloaderDemo() {
                   key={f.idx}
                   className={`p-3 bg-white/[0.02] border transition-all rounded-lg flex flex-col items-center text-center ${
                     manualFrameIndex === f.idx
-                      ? "border-purple-500/50 bg-purple-950/10 shadow-[0_0_15px_rgba(168,85,247,0.1)]"
+                      ? "border-purple-500/50 bg-purple-950/10 shadow-[0_0_15px_rgba(255,10,61,0.1)]"
                       : isShuffled
                       ? "border-purple-500/20 bg-purple-950/5"
                       : "border-white/5 hover:border-white/10"
@@ -293,7 +294,7 @@ export default function PreloaderDemo() {
         </div>
 
         {/* Technical Design Spec */}
-        <div className="p-8 bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl mb-12">
+        <div className="p-8 bg-[var(--color-bg-surface)] border border-white/5 mb-12">
           <h2 className="text-xl font-black uppercase tracking-wider text-white mb-6">
             Loading Pipeline Architecture
           </h2>

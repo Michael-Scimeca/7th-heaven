@@ -3,10 +3,12 @@ import { createClient } from "@supabase/supabase-js";
 import { bookingStatusUpdate } from "@/lib/email-templates";
 import { protectAction, sanitize as securitySanitize } from "@/lib/security";
 import { isValidEmail } from "@/lib/validation";
-import { requireAdmin } from "@/lib/api-utils";
+import { requireAdmin, applyRateLimit, isSpam } from "@/lib/api-utils";
 import crypto from "crypto";
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "mikeyscimeca@gmail.com";
+import { ADMIN_ALERT_EMAIL } from "@/lib/role-config";
+
+const ADMIN_EMAIL = ADMIN_ALERT_EMAIL;
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -94,7 +96,7 @@ function buildPlannerEmailHtml(booking: any) {
         Hey <strong style="color:#fff;">${sanitize(booking.name)}</strong>, thanks for reaching out! Here's a full summary of what you submitted.
       </p>
       <!-- Booking ID -->
-      <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);border-radius:12px;padding:18px 24px;margin-bottom:24px;">
+      <div style="background:rgba(255,10,61,0.08);border:1px solid rgba(255,10,61,0.25);border-radius:12px;padding:18px 24px;margin-bottom:24px;">
         <p style="margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.35);font-weight:700;">Your Booking ID</p>
         <p style="margin:0;font-size:22px;font-weight:900;color:#a855f7;">${sanitize(booking.bookingId)}</p>
       </div>
@@ -121,7 +123,7 @@ function buildPlannerEmailHtml(booking: any) {
           ${booking.organization ? `<tr><td style="${td1}">Organization</td><td style="${td2}">${sanitize(booking.organization)}</td></tr>` : ''}
         </table>
       </div>
-      ${booking.details ? `<div style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.15);border-radius:12px;padding:20px;margin-bottom:20px;"><p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Additional Notes</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.6;">${sanitize(booking.details)}</p></div>` : ''}
+      ${booking.details ? `<div style="background:rgba(255,10,61,0.05);border:1px solid rgba(255,10,61,0.15);border-radius:12px;padding:20px;margin-bottom:20px;"><p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;">Additional Notes</p><p style="margin:0;color:rgba(255,255,255,0.7);font-size:14px;line-height:1.6;">${sanitize(booking.details)}</p></div>` : ''}
       <!-- What Happens Next -->
       <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin-bottom:24px;">
         <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a855f7;font-weight:800;">What Happens Next</p>
@@ -249,7 +251,7 @@ function buildAdminNotificationHtml(booking: any) {
         ${scheduleHtml}
       </div>
       </div>
-      ${booking.details ? `<div style="background: rgba(168,85,247,0.05); border: 1px solid rgba(168,85,247,0.15); border-radius: 12px; padding: 16px; margin-bottom: 16px;"><p style="margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); font-weight: 700;">Additional Notes</p><p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.5;">${sanitize(booking.details)}</p></div>` : ''}
+      ${booking.details ? `<div style="background: rgba(255,10,61,0.05); border: 1px solid rgba(255,10,61,0.15); border-radius: 12px; padding: 16px; margin-bottom: 16px;"><p style="margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); font-weight: 700;">Additional Notes</p><p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.5;">${sanitize(booking.details)}</p></div>` : ''}
       <div style="text-align: center; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05);">
         <p style="margin: 0 0 8px; color: rgba(255,255,255,0.3); font-size: 12px;">Need to cancel this booking?</p>
         <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/book/cancel?token=${booking.cancelToken}&id=${booking.bookingId}" style="color: #a855f7; font-size: 13px; font-weight: 600; text-decoration: underline;">Cancel Booking →</a>
@@ -330,10 +332,19 @@ export async function POST(request: Request) {
     const data = await request.json();
 
     // ── Protection ──
-    const ip = request.headers.get('x-forwarded-for') || 'anonymous';
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous';
+
+    // Full-body spam check: honeypot field, alt-honeypot (_hp), and timing (_t)
+    if (isSpam(data)) {
+      return NextResponse.json({ error: 'Spam detected' }, { status: 400 });
+    }
+
+    // Sliding-window rate limit: 3 booking requests per IP per hour
     const protection = await protectAction({
       identifier: `booking:${ip}`,
-      honeypotValue: data.website, // bot bait
+      honeypotValue: data.website,
+      requests: 3,
+      window: '60 m',
     });
     if (!protection.success) {
       return NextResponse.json({ error: protection.error }, { status: protection.status });

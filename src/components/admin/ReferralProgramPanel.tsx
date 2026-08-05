@@ -22,9 +22,9 @@ interface LeaderboardEntry {
 export default function ReferralProgramPanel() {
   const [enabled, setEnabled] = useState(false);
   const [milestones, setMilestones] = useState<Milestone[]>([
-    { threshold: 3, reward: "Rare Pick", emoji: "🎸" },
-    { threshold: 10, reward: "Free Merch", emoji: "🎽" },
-    { threshold: 25, reward: "VIP Status", emoji: "⭐" },
+    { threshold: 3, reward: "Rare Pick", emoji: "" },
+    { threshold: 10, reward: "Free Merch", emoji: "" },
+    { threshold: 25, reward: "VIP Status", emoji: "" },
   ]);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [totalReferrals, setTotalReferrals] = useState(0);
@@ -39,7 +39,7 @@ export default function ReferralProgramPanel() {
   // New milestone form
   const [newThreshold, setNewThreshold] = useState<number>(0);
   const [newReward, setNewReward] = useState("");
-  const [newEmoji, setNewEmoji] = useState("🎁");
+  const [newEmoji, setNewEmoji] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
 
   // Load config + leaderboard
@@ -93,7 +93,7 @@ export default function ReferralProgramPanel() {
     setMilestones(updated);
     setNewThreshold(0);
     setNewReward("");
-    setNewEmoji("🎁");
+    setNewEmoji("");
     setShowAddForm(false);
   };
 
@@ -127,14 +127,14 @@ export default function ReferralProgramPanel() {
   return (
     <div className="relative bg-[var(--color-bg-surface)] border border-white/[0.06] overflow-hidden">
       {/* Accent glow */}
-      <div className="absolute top-0 right-0 w-64 h-32 bg-amber-500/10 blur-[60px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-64 h-32 bg-purple-600/10 blur-[60px] pointer-events-none" />
 
       <div className="relative p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] font-bold text-amber-400 mb-0.5">Fan Engagement</p>
-            <h3 className="text-white font-black text-lg">🔗 Referral Program</h3>
+            <p className="text-xs uppercase tracking-[0.2em] font-bold text-purple-300 mb-0.5">Fan Engagement</p>
+            <h3 className="text-white font-black text-lg"> Referral Program</h3>
             <p className="text-white/30 text-xs mt-0.5">
               Toggle visibility, configure milestone rewards, and track top referrers
             </p>
@@ -148,7 +148,7 @@ export default function ReferralProgramPanel() {
           </div>
         </div>
 
-        {/* ── Program Toggle ── */}
+        {/*  Program Toggle  */}
         <div className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.05] mb-6">
           <div>
             <p className="text-sm font-bold text-white">Show referral program to fans</p>
@@ -160,7 +160,7 @@ export default function ReferralProgramPanel() {
             onClick={toggleEnabled}
             disabled={toggling}
             className={`w-12 h-6 rounded-full relative transition-colors shrink-0 cursor-pointer ${
-              enabled ? "bg-amber-500" : "bg-white/10"
+              enabled ? "bg-purple-600" : "bg-white/10"
             } ${toggling ? "opacity-50" : ""}`}
           >
             <span
@@ -171,10 +171,10 @@ export default function ReferralProgramPanel() {
           </button>
         </div>
 
-        {/* ── Metrics Strip ── */}
+        {/*  Metrics Strip  */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
-            <p className="text-2xl font-black text-amber-400">{totalReferrals}</p>
+            <p className="text-2xl font-black text-purple-300">{totalReferrals}</p>
             <p className="text-2xs uppercase tracking-widest text-white/30 font-bold mt-1">Total Referrals</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
@@ -187,7 +187,7 @@ export default function ReferralProgramPanel() {
           </div>
         </div>
 
-        {/* ── Milestone Rewards Editor ── */}
+        {/*  Milestone Rewards Editor  */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <p className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold">
@@ -195,7 +195,7 @@ export default function ReferralProgramPanel() {
             </p>
             <button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="text-xs uppercase tracking-widest font-bold text-amber-400 hover:text-amber-300 transition-colors cursor-pointer"
+              className="text-xs uppercase tracking-widest font-bold text-purple-300 hover:text-purple-200 transition-colors cursor-pointer"
             >
               {showAddForm ? "Cancel" : "+ Add Tier"}
             </button>
@@ -212,7 +212,7 @@ export default function ReferralProgramPanel() {
                   <span className="text-lg">{m.emoji}</span>
                   <div>
                     <p className="text-sm font-bold text-white">
-                      <span className="text-amber-400 font-black">{m.threshold}</span> referrals →{" "}
+                      <span className="text-purple-300 font-black">{m.threshold}</span> referrals →{" "}
                       {m.reward}
                     </p>
                   </div>
@@ -222,7 +222,7 @@ export default function ReferralProgramPanel() {
                   className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 text-xs cursor-pointer"
                   title="Remove"
                 >
-                  ✕
+                  
                 </button>
               </div>
             ))}
@@ -230,8 +230,8 @@ export default function ReferralProgramPanel() {
 
           {/* Add new milestone form */}
           {showAddForm && (
-            <div className="p-4 border border-amber-500/20 bg-amber-500/[0.04] space-y-3">
-              <p className="text-xs uppercase tracking-widest text-amber-400 font-bold">
+            <div className="p-4 border border-purple-500/20 bg-purple-600/[0.04] space-y-3">
+              <p className="text-xs uppercase tracking-widest text-purple-300 font-bold">
                 New Milestone
               </p>
               <div className="flex items-center gap-3">
@@ -244,7 +244,7 @@ export default function ReferralProgramPanel() {
                     min={1}
                     value={newThreshold || ""}
                     onChange={(e) => setNewThreshold(parseInt(e.target.value) || 0)}
-                    className="w-20 bg-white/[0.04] border border-white/10 text-white text-sm px-3 py-2 focus:outline-none focus:border-amber-500/50"
+                    className="w-20 bg-white/[0.04] border border-white/10 text-white text-sm px-3 py-2 focus:outline-none focus:border-purple-500/50"
                   />
                 </div>
                 <div className="flex-1">
@@ -256,7 +256,7 @@ export default function ReferralProgramPanel() {
                     value={newReward}
                     onChange={(e) => setNewReward(e.target.value)}
                     placeholder="e.g. Free Band Tee + Album"
-                    className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-3 py-2 focus:outline-none focus:border-amber-500/50 placeholder:text-white/20"
+                    className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-3 py-2 focus:outline-none focus:border-purple-500/50 placeholder:text-white/20"
                   />
                 </div>
                 <div>
@@ -267,13 +267,13 @@ export default function ReferralProgramPanel() {
                     type="text"
                     value={newEmoji}
                     onChange={(e) => setNewEmoji(e.target.value)}
-                    className="w-14 bg-white/[0.04] border border-white/10 text-white text-center text-lg px-2 py-1 focus:outline-none focus:border-amber-500/50"
+                    className="w-14 bg-white/[0.04] border border-white/10 text-white text-center text-lg px-2 py-1 focus:outline-none focus:border-purple-500/50"
                   />
                 </div>
                 <button
                   onClick={addMilestone}
                   disabled={!newReward || newThreshold < 1}
-                  className="self-end px-4 py-2 bg-amber-500 text-black text-xs font-black uppercase tracking-widest disabled:opacity-40 hover:bg-amber-400 transition-all cursor-pointer"
+                  className="self-end px-4 py-2 bg-purple-600 text-white text-xs font-black uppercase tracking-widest disabled:opacity-40 hover:bg-purple-500 transition-all cursor-pointer"
                 >
                   Add
                 </button>
@@ -288,16 +288,16 @@ export default function ReferralProgramPanel() {
             className={`w-full mt-3 py-3 text-sm font-black uppercase tracking-widest transition-all cursor-pointer ${
               saved
                 ? "bg-emerald-600 text-white"
-                : "bg-amber-500 text-black hover:bg-amber-400 disabled:opacity-40"
+                : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
             }`}
           >
-            {saved ? "✓ Milestones Saved" : saving ? "Saving…" : "Save Milestones"}
+            {saved ? " Milestones Saved" : saving ? "Saving…" : "Save Milestones"}
           </button>
         </div>
 
-        {/* ── Fan-Facing Preview ── */}
-        <div className="p-4 border border-amber-500/20 bg-amber-500/[0.04] mb-6">
-          <p className="text-xs uppercase tracking-widest text-amber-400 font-bold mb-3">
+        {/*  Fan-Facing Preview  */}
+        <div className="p-4 border border-purple-500/20 bg-purple-600/[0.04] mb-6">
+          <p className="text-xs uppercase tracking-widest text-purple-300 font-bold mb-3">
             Fan-facing preview
           </p>
           <div className="flex items-center gap-2">
@@ -306,7 +306,7 @@ export default function ReferralProgramPanel() {
                 key={i}
                 className="flex-1 text-center p-2 bg-white/[0.02] border border-white/5 rounded-lg"
               >
-                <p className="text-lg font-black text-amber-400">{m.threshold}</p>
+                <p className="text-lg font-black text-purple-300">{m.threshold}</p>
                 <p className="text-2xs text-white/30 font-bold uppercase tracking-widest mt-0.5">
                   {m.emoji} {m.reward}
                 </p>
@@ -315,11 +315,11 @@ export default function ReferralProgramPanel() {
           </div>
         </div>
 
-        {/* ── Leaderboard ── */}
+        {/*  Leaderboard  */}
         <div>
           <div className="flex items-center justify-between mb-3">
             <p className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold">
-              🏆 Top Referrers
+               Top Referrers
             </p>
             <span className="text-2xs text-white/20 uppercase tracking-widest font-bold">
               {leaderboard.length} referrer{leaderboard.length !== 1 ? "s" : ""}
@@ -328,7 +328,7 @@ export default function ReferralProgramPanel() {
 
           {leaderboard.length === 0 ? (
             <div className="py-8 flex flex-col items-center border border-dashed border-white/10 bg-white/[0.02]">
-              <span className="text-3xl mb-2 opacity-20">🔗</span>
+              <span className="text-3xl mb-2 opacity-20"></span>
               <p className="text-sm text-white/30 font-bold">No referrals yet</p>
               <p className="text-xs text-white/20 mt-1">
                 When fans share their code and friends sign up, they&apos;ll appear here
@@ -360,7 +360,7 @@ export default function ReferralProgramPanel() {
                       <div
                         className={`flex items-center justify-between p-3 border transition-all hover:bg-white/[0.03] ${
                           i === 0
-                            ? "border-amber-500/30 bg-amber-500/[0.04]"
+                            ? "border-purple-500/30 bg-purple-600/[0.04]"
                             : i === 1
                             ? "border-white/10 bg-white/[0.02]"
                             : i === 2
@@ -373,7 +373,7 @@ export default function ReferralProgramPanel() {
                           <div
                             className={`w-8 h-8 flex items-center justify-center font-black text-sm shrink-0 ${
                               i === 0
-                                ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+                                ? "bg-purple-600/20 text-purple-300 border border-purple-500/30"
                                 : i === 1
                                 ? "bg-white/10 text-white/60 border border-white/10"
                                 : i === 2
@@ -410,7 +410,7 @@ export default function ReferralProgramPanel() {
 
                           {/* Count */}
                           <div className="text-right">
-                            <p className="text-lg font-black text-amber-400">
+                            <p className="text-lg font-black text-purple-300">
                               {entry.total}
                             </p>
                             <p className="text-2xs uppercase tracking-widest text-white/20 font-bold">
@@ -459,13 +459,13 @@ export default function ReferralProgramPanel() {
                               <span className="text-2xs uppercase tracking-widest text-white/30 font-bold">
                                 Next: {nextMilestone.emoji} {nextMilestone.reward}
                               </span>
-                              <span className="text-xs text-amber-400 font-bold">
+                              <span className="text-xs text-purple-300 font-bold">
                                 {entry.total}/{nextMilestone.threshold}
                               </span>
                             </div>
                             <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-amber-500 transition-all"
+                                className="h-full bg-purple-600 transition-all"
                                 style={{
                                   width: `${Math.min(100, (entry.total / nextMilestone.threshold) * 100)}%`,
                                 }}
@@ -500,7 +500,7 @@ export default function ReferralProgramPanel() {
                               onClick={() => markRewarded(entry.referrer_code)}
                               className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-black uppercase tracking-widest hover:bg-yellow-500/20 transition-all cursor-pointer"
                             >
-                              ✓ Mark Rewards as Claimed
+                               Mark Rewards as Claimed
                             </button>
                           )}
                       </div>

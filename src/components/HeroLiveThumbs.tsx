@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
-import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase-client";
 import { useVideoSnapshots } from "@/context/VideoSnapshotContext";
 
 const mockThumbs: FeedPostDB[] = [
@@ -153,7 +153,7 @@ export default function HeroLiveThumbs() {
           }}
         >
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="w-[220px] h-[250px] rounded-2xl bg-white/5 shrink-0" />
+            <div key={i} className="w-[220px] h-[250px] bg-white/5 shrink-0" />
           ))}
         </div>
       </div>
@@ -225,7 +225,7 @@ export default function HeroLiveThumbs() {
               <Link
                 key={post.id}
                 href="/live"
-                className="group shrink-0 w-[220px] h-[250px] rounded-2xl overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-all duration-300 flex flex-col"
+                className="group shrink-0 w-[220px] h-[250px] overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-all duration-300 flex flex-col"
               >
                 {/* Thumbnail */}
                 <div className="relative w-full h-[195px] overflow-hidden bg-zinc-950">

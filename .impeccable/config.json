@@ -1,0 +1,10 @@
+{
+  "detector": {
+    "ignoreFiles": [
+      "public/sitemap.html",
+      "src/app/sitemap/flowchart/page.tsx",
+      "src/app/demo/proximity/page.tsx",
+      "src/app/demo/preloader/page.tsx"
+    ]
+  }
+}

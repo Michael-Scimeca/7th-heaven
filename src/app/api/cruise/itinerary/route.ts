@@ -64,7 +64,7 @@ const DEFAULT_CARIBBEAN_ITINERARY = [
     dayLabel: "Day 5 · Thu Jan 14",
     location: "St. Maarten",
     theme: "Tropical Island Sunset",
-    colorTheme: "#f59e0b",
+    colorTheme: "#9333ea",
     events: [
       { id: "e5-1", time: "8:00 AM", title: "Dock at Philipsburg, St. Maarten", subtitle: "Maho Beach plane watching & shopping" },
       { id: "e5-2", time: "5:00 PM", title: "Ship Departs St. Maarten", subtitle: "Set sail for evening theater show" },

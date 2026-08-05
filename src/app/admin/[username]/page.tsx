@@ -5,7 +5,7 @@ import React from 'react';
 import { useState, useEffect, useRef, use, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 
 import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember, adminResetPassword, adminCreateAdmin } from "../actions";
@@ -16,7 +16,7 @@ import QRCode from "react-qr-code";
 
 const AdminMap = dynamic(() => import('@/components/AdminMap'), {
   ssr: false,
-  loading: () => <div className="w-full h-[400px] bg-black/40 rounded-xl animate-pulse" />
+  loading: () => <div className="w-full h-[400px] bg-black/40 animate-pulse" />
 });
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
@@ -114,19 +114,19 @@ function parseCruiseNotes(notes: string): ParsedCruiseNotes | null {
 }
 
 const STATIC_CREW = [
-  { id: 'abbie', name: 'Abbie Janssen', role: 'STAGE MANAGER', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
-  { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: '/images/crew/al.png', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
-  { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/andrea.png', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
-  { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: '/images/crew/arjun.png', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
-  { id: 'chris', name: 'Chris Loxely', role: 'LIGHTS', maxHours: 40, avatar: '/images/crew/chris.png', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
-  { id: 'daniel', name: 'Daniel Kim', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
-  { id: 'dave_croke', name: 'Dave Croke', role: 'EQUIPMENT SETUP', maxHours: 32, avatar: '/images/crew/dave_croke.png', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
-  { id: 'dave_maas', name: 'Dave Maas', role: 'TEAR DOWN', maxHours: 24, avatar: '/images/crew/dave_maas.png', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
-  { id: 'david_xu', name: 'David Xu', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/david_xu.png', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
-  { id: 'emily', name: 'Emily Hafften', role: 'MERCH', maxHours: 32, avatar: '/images/crew/emily.png', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
-  { id: 'emma', name: 'Emma Smid', role: 'PHOTOGRAPHER', maxHours: 40, avatar: '/images/crew/emma.png', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
-  { id: 'erin', name: 'Erin Eagan', role: 'EVENT SUPPORT', maxHours: 40, avatar: '/images/crew/erin.png', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
-  { id: 'francesca', name: 'Francesca Troast', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/francesca.png', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
+  { id: 'abbie', name: 'Abbie Janssen', role: 'STAGE MANAGER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Abbie+Janssen&background=f472b6&color=fff', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
+  { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Al+Hollie&background=a78bfa&color=fff', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
+  { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Andrea+Kinzinger&background=60a5fa&color=fff', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
+  { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Arjun+Patel&background=34d399&color=fff', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
+  { id: 'chris', name: 'Chris Loxely', role: 'LIGHTS', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Chris+Loxely&background=fbbf24&color=fff', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
+  { id: 'daniel', name: 'Daniel Kim', role: 'TOUR MANAGER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Daniel+Kim&background=f87171&color=fff', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
+  { id: 'dave_croke', name: 'Dave Croke', role: 'EQUIPMENT SETUP', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Dave+Croke&background=8b5cf6&color=fff', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
+  { id: 'dave_maas', name: 'Dave Maas', role: 'TEAR DOWN', maxHours: 24, avatar: 'https://ui-avatars.com/api/?name=Dave+Maas&background=ec4899&color=fff', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
+  { id: 'david_xu', name: 'David Xu', role: 'STAGE HAND', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=David+Xu&background=3b82f6&color=fff', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
+  { id: 'emily', name: 'Emily Hafften', role: 'MERCH', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Emily+Hafften&background=10b981&color=fff', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
+  { id: 'emma', name: 'Emma Smid', role: 'PHOTOGRAPHER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Emma+Smid&background=f59e0b&color=fff', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
+  { id: 'erin', name: 'Erin Eagan', role: 'EVENT SUPPORT', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Erin+Eagan&background=8a1cfc&color=fff', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
+  { id: 'francesca', name: 'Francesca Troast', role: 'STAGE HAND', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Francesca+Troast&background=ec4899&color=fff', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
   { id: 'mary', name: 'Mary Grivas', role: 'ADMIN', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Mary+Grivas&background=f59e0b&color=fff', email: 'Marygrivas65@icloud.com', phone: '(630) 688-1725' },
   { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff', email: 'michael@7thheavenband.com', phone: '(555) 456-6543' },
   { id: 'sammy', name: 'Sammy D', role: 'BAND MEMBER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', email: 'sammy@7thheavenband.com', phone: '(555) 567-5432' },
@@ -137,33 +137,20 @@ const STATIC_CREW = [
 ];
 
 const getAvatarColor = (name: string) => {
-  const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#f87171', '#8b5cf6', '#ec4899'];
+  const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#c084fc', '#f87171', '#8b5cf6', '#ec4899'];
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
   return colors[Math.abs(hash) % colors.length];
 };
 
 const CrewAvatar = React.memo(({ member }: { member: any }) => {
-  const [hasError, setHasError] = useState(false);
-  const showImage = member.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/')) && !hasError;
-
-  if (showImage) {
-    return (
-      <img
-        src={member.avatar}
-        alt={member.name}
-        onError={() => setHasError(true)}
-        className="w-9 h-9 rounded-full object-cover shrink-0 border border-white/10 shadow-sm"
-      />
-    );
-  }
-
-  const initials = member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
-  const color = member.color || getAvatarColor(member.name);
+  const name = member?.name || 'Crew';
+  const initials = member?.initials || name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+  const color = member?.color || getAvatarColor(name);
 
   return (
     <div
-      className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 shadow-sm text-white"
+      className="w-9 h-9 rounded-full flex items-center justify-center font-black text-xs shrink-0 shadow-sm text-white select-none border border-white/10"
       style={{ backgroundColor: color, color: '#ffffff' }}
     >
       {initials}
@@ -191,7 +178,7 @@ const SidebarDateButton = React.memo(({
       onClick={() => show.date && onClick(show.date)}
       className={`w-full text-left px-2 py-1.5 border-b border-[var(--border-color)] flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${
         isSelected
-          ? 'bg-amber-500/15 ring-1 ring-amber-500/30 rounded-md border-b-transparent' 
+          ? 'bg-purple-500/15 ring-1 ring-amber-500/30 rounded-md border-b-transparent' 
           : isActiveWeek
             ? 'bg-white/[0.04]'
             : 'bg-transparent hover:bg-white/[0.03]'
@@ -199,7 +186,7 @@ const SidebarDateButton = React.memo(({
     >
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
         <span className="text-[7.5px] font-extrabold text-white/40 uppercase tracking-tight">{show.dayLabel}</span>
-        <span className={`text-[9.5px] font-black tracking-tight ${isSelected ? 'text-amber-400' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
+        <span className={`text-[9.5px] font-black tracking-tight ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
         <p className={`text-[10px] font-extrabold truncate leading-tight ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
@@ -216,7 +203,7 @@ const SidebarDateButton = React.memo(({
           </span>
           {/* Tooltip */}
           <div className="absolute right-0 bottom-full mb-1.5 opacity-0 invisible group-hover/badge:opacity-100 group-hover/badge:visible transition-all duration-150 bg-[#1c1d22] text-white text-[9px] font-bold py-1 px-2 rounded border border-slate-700/50 shadow-xl whitespace-nowrap z-50 pointer-events-none flex items-center gap-1">
-            <span>ℹ️</span>
+            <span>ℹ</span>
             <span>{shiftCount} active {shiftCount === 1 ? 'shift' : 'shifts'} scheduled</span>
           </div>
         </div>
@@ -294,7 +281,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const activeAdminAvatar = adminAvatarOverride || effectiveAdmin.avatar || member?.avatar || (typeof window !== "undefined" ? localStorage.getItem("7h_profile_avatar") : null);
   const isAvatarUrl = activeAdminAvatar && (activeAdminAvatar.startsWith("http") || activeAdminAvatar.startsWith("/") || activeAdminAvatar.startsWith("data:"));
 
-  const isMasterAdmin = effectiveAdmin.email.toLowerCase() === 'mikeyscimeca@gmail.com' || username.toLowerCase() === 'michaelscimeca';
+  // Master admin = role is 'admin' in Supabase profiles — no hardcoded email needed
+  const isMasterAdmin = effectiveAdmin.role === 'admin';
 
   const [adminPermissions, setAdminPermissions] = useState<Record<string, Record<string, boolean>>>({
     'marygrivas65@icloud.com': {
@@ -364,25 +352,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
-  const staticCrew = [
-    { id: 'abbie', name: 'Abbie Janssen', role: 'VIP HOST', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
-    { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: '/images/crew/al.png', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
-    { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/andrea.png', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
-    { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: '/images/crew/arjun.png', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
-    { id: 'chris', name: 'Chris Loxely', role: 'LIGHTS', maxHours: 40, avatar: '/images/crew/chris.png', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
-    { id: 'daniel', name: 'Daniel Kim', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
-    { id: 'dave_croke', name: 'Dave Croke', role: 'EQUIPMENT SETUP', maxHours: 32, avatar: '/images/crew/dave_croke.png', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
-    { id: 'dave_maas', name: 'Dave Maas', role: 'TEAR DOWN', maxHours: 24, avatar: '/images/crew/dave_maas.png', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
-    { id: 'david_xu', name: 'David Xu', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/david_xu.png', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
-    { id: 'emily', name: 'Emily Hafften', role: 'MERCH', maxHours: 32, avatar: '/images/crew/emily.png', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
-    { id: 'emma', name: 'Emma Smid', role: 'PHOTOGRAPHER', maxHours: 40, avatar: '/images/crew/emma.png', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
-    { id: 'erin', name: 'Erin Eagan', role: 'EVENT SUPPORT', maxHours: 40, avatar: '/images/crew/erin.png', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
-    { id: 'francesca', name: 'Francesca Troast', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/francesca.png', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
-    { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff', email: 'michael@7thheavenband.com', phone: '(555) 456-6543' },
-    { id: 'sammy', name: 'Sammy D', role: 'BAND MEMBER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', email: 'sammy@7thheavenband.com', phone: '(555) 567-5432' },
-    { id: 'ryan', name: 'Ryan K', role: 'STAGE HAND', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff', email: 'ryan@7thheavenband.com', phone: '(555) 678-4321' },
-    { id: 'tony', name: 'Tony M', role: 'EQUIPMENT SETUP', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff', email: 'tony@7thheavenband.com', phone: '(555) 789-3210' }
-  ];
+  const staticCrew = STATIC_CREW;
 
   const staticBand = [
     { id: 'adam', name: 'Adam Heisler', role: 'Lead Vocals • Guitars • Bass', phone: '(555) 301-4411', email: 'adam@7thheavenband.com', avatar: 'https://ui-avatars.com/api/?name=Adam+Heisler&background=851DEF&color=fff' },
@@ -479,7 +449,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
         // Show toast
         setActiveToast({
-          title: '🛍️ New Order Received',
+          title: ' New Order Received',
           message: `${payload.customer} purchased ${payload.item}${payload.size ? ` (${payload.size})` : ''} via ${payload.source}!`,
           type: 'success'
         });
@@ -769,7 +739,29 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');
   const [selectedCrewAssignments, setSelectedCrewAssignments] = useState<{ [crewId: string]: { active: boolean; customized?: boolean; role: string; startHour: number; endHour: number; timeFrames?: { id?: string; startHour: number; endHour: number; role: string; tags?: string[] }[] } }>({});
   const [drawerCrewSearch, setDrawerCrewSearch] = useState('');
+
+  // Custom Alert Modal State
+  const [alertModal, setAlertModal] = useState<{ isOpen: boolean; title?: string; message: string; type?: 'warning' | 'info' | 'error' | 'success' }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'warning'
+  });
+
+  const showAlert = (message: string, title: string = 'Notice', type: 'warning' | 'info' | 'error' | 'success' = 'warning') => {
+    setAlertModal({ isOpen: true, title, message, type });
+  };
   
+  // Schedule Co-Editor Presence & Mix-Up Prevention State
+  const [coEditors, setCoEditors] = useState<{ id: string; name: string; avatar: string; role: string; color: string; isEditing: boolean; lockedShiftId: string | null; lastAction: string; timeAgo: string }[]>([
+    { id: 'ed_1', name: 'Marcus Vance', avatar: 'MV', role: 'Stage Manager', color: '#ec4899', isEditing: false, lockedShiftId: null, lastAction: 'Viewing Schedule Roster', timeAgo: 'Active now' },
+    { id: 'ed_2', name: 'Sarah Jenkins', avatar: 'SJ', role: 'Tour Manager', color: '#3b82f6', isEditing: false, lockedShiftId: null, lastAction: 'Viewing Schedule Roster', timeAgo: '2s ago' }
+  ]);
+  const [showCoEditorModal, setShowCoEditorModal] = useState(false);
+  const [coEditorConflictAlert, setCoEditorConflictAlert] = useState<{ isOpen: boolean; editorName: string; shiftTitle: string; changeDesc: string; timestamp: string } | null>(null);
+  const [coEditorToast, setCoEditorToast] = useState<string | null>(null);
+  const [isCoEditorSimRunning, setIsCoEditorSimRunning] = useState(false);
+
   // Schedule filter & leaderboard states
   const [scheduleCrewFilter, setScheduleCrewFilter] = useState<string>('');
   const [showTourDatesOnly, setShowTourDatesOnly] = useState(false);
@@ -814,7 +806,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
   const [createGroupForDate, setCreateGroupForDate] = useState<string | null>(null);
   const [newGroupNameInput, setNewGroupNameInput] = useState('');
-  const [newGroupMemberSettings, setNewGroupMemberSettings] = useState<{ [crewId: string]: { active: boolean; role: string; startHour: number; endHour: number } }>({});
+  const [newGroupMemberSettings, setNewGroupMemberSettings] = useState<{ [crewId: string]: { active: boolean; role?: string; startHour?: number; endHour?: number; timeFrames?: { startHour: number; endHour: number; role: string }[] } }>({});
   const [groupNameError, setGroupNameError] = useState('');
   const [showCapacityHeatmap, setShowCapacityHeatmap] = useState(false);
 
@@ -855,7 +847,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [dropLocation, setDropLocation] = useState<string>('');
   const [dropNotes, setDropNotes] = useState<string>('');
   const supabase = createClient();
-  // ── Collapsible Sections (persisted via localStorage & Supabase) ──
+  //  Collapsible Sections (persisted via localStorage & Supabase) 
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() => {
     if (typeof window === 'undefined') return {};
     try {
@@ -935,7 +927,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const startDate = dates[0];
     const endDate = dates[dates.length - 1];
 
-    alert(`⚡ 10 Distinct Time Shifts Created Successfully!\n\n• Total Shifts Created: ${totalCreated}\n• Crew Members Assigned: ${uniqueCrewAssigned}\n• Date Range: ${startDate} to ${endDate}\n• Custom Roles & Multiple Timeframes included (Setup, Audio Mix, VIP Host, Lighting, Tear Down).\n\nAll test shifts can be purged anytime using "Purge Test Data 🧹".`);
+    showAlert(` 10 Distinct Time Shifts Created Successfully!\n\n• Total Shifts Created: ${totalCreated}\n• Crew Members Assigned: ${uniqueCrewAssigned}\n• Date Range: ${startDate} to ${endDate}\n• Custom Roles & Multiple Timeframes included (Setup, Audio Mix, VIP Host, Lighting, Tear Down).\n\nAll test shifts can be purged anytime using "Purge Test Data ".`, "Shifts Created", "success");
   };
 
   const handlePurgeTestData = () => {
@@ -945,11 +937,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       if (typeof window !== 'undefined') {
         localStorage.setItem('7h_crew_schedules', JSON.stringify(remaining));
       }
-      alert("🧹 Test schedule data purged successfully!");
+      showAlert(" Test schedule data purged successfully!", "Purged Test Data", "success");
     }
   };
 
-  // ── Drag & Drop Sortable Sections State & Handlers ──
+  //  Drag & Drop Sortable Sections State & Handlers 
   const DEFAULT_SECTION_ORDER = [
     'bookings',
     'planners',
@@ -997,7 +989,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const saveLayoutToSupabase = async (order: string[], collapsed: Record<string, boolean>) => {
     if (!isLoggedIn) return;
     try {
-      const { createClient: createSupabaseClient } = await import("@/utils/supabase/client");
+      const { createClient: createSupabaseClient } = await import("@/lib/supabase/client");
       const client = createSupabaseClient();
       await client.auth.updateUser({
         data: {
@@ -1016,7 +1008,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     if (!isLoggedIn || !member) return;
     const loadSavedLayout = async () => {
       try {
-        const { createClient: createSupabaseClient } = await import("@/utils/supabase/client");
+        const { createClient: createSupabaseClient } = await import("@/lib/supabase/client");
         const client = createSupabaseClient();
         const { data: { user } } = await client.auth.getUser();
         
@@ -1106,7 +1098,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     } catch {}
   };
 
-  // ── Tour Dates Sync State & Handlers ──
+  //  Tour Dates Sync State & Handlers 
   const [tourDates, setTourDates] = useState<any[]>([]);
 
   // Pre-calculate schedules lookup maps once per render for O(1) retrieval
@@ -1173,7 +1165,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       });
   }, [tourDates]);
 
-  // ── Memoized Schedule Calculations for Performance ──
+  //  Memoized Schedule Calculations for Performance 
   const crewMembers = useMemo(() => {
     const dynamicCrew = users
       .filter(u => u.role === 'crew')
@@ -1201,7 +1193,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       };
     });
 
-    return [...processedStatic, ...dynamicCrew.filter(dc => !processedStatic.some(sc => sc.id === dc.id))];
+    return [...processedStatic, ...dynamicCrew.filter(dc => !processedStatic.some(sc => sc.id === dc.id || sc.name.toLowerCase().trim() === dc.name.toLowerCase().trim()))];
   }, [users]);
 
   const next7Days = useMemo(() => {
@@ -1485,14 +1477,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
         setAuditLog(prev => [{
           id: crypto.randomUUID(),
-          text: "🔄 Synced tour dates: Scraped " + data.scraped + " shows from official site.",
+          text: " Synced tour dates: Scraped " + data.scraped + " shows from official site.",
           time: "Just now",
           color: "bg-emerald-500"
         }, ...prev]);
       } else {
         setAuditLog(prev => [{
           id: crypto.randomUUID(),
-          text: "❌ Tour sync failed: " + (data.error || "Unknown error"),
+          text: " Tour sync failed: " + (data.error || "Unknown error"),
           time: "Just now",
           color: "bg-rose-500"
         }, ...prev]);
@@ -1504,7 +1496,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     }
   };
 
-  // ── Memory Moderation Queue State & Handlers ──
+  //  Memory Moderation Queue State & Handlers 
   const [memoryQueue, setMemoryQueue] = useState<any[]>([]);
 
   const moderateMemory = async (id: string, action: 'approve' | 'reject') => {
@@ -1785,9 +1777,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       setBroadcastResult(`Success! ${smsStatus}${emailStatus}`);
       setAuditLog(prev => [{
         id: crypto.randomUUID(),
-        text: `📢 Sent broadcast to ${showName} crew (SMS: ${sendSms ? phones.length : 0}, Email: ${sendEmail ? emails.length : 0})`,
+        text: ` Sent broadcast to ${showName} crew (SMS: ${sendSms ? phones.length : 0}, Email: ${sendEmail ? emails.length : 0})`,
         time: 'Just now',
-        color: 'bg-amber-500',
+        color: 'bg-purple-600',
         details: {
           type: 'broadcast',
           smsText: sendSms ? smsMessage : undefined,
@@ -1873,7 +1865,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const message = `Hey team, regarding our show at ${showName} on ${formattedDate}:${rolesListStr}`;
     
     setCrewAlertMsg(message);
-    setSmsEmailSubject(`🔔 Crew Alert: ${showName} - ${formattedDate}`);
+    setSmsEmailSubject(` Crew Alert: ${showName} - ${formattedDate}`);
     setSendEmailAlert(true);
     setSendSmsAlert(true);
   };
@@ -1993,6 +1985,16 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [expandedBooking, setExpandedBooking] = useState<string | null>(null);
   const [smsAutoBlast, setSmsAutoBlast] = useState(true);
   const [smsAutoBlastDays, setSmsAutoBlastDays] = useState(3);
+  const [smsTwilioBalance, setSmsTwilioBalance] = useState(161.92);
+  const [smsCostPerSegment] = useState(0.0079); // Twilio US SMS Segment standard rate
+  const [smsTotalSentAllTime, setSmsTotalSentAllTime] = useState(4820);
+  const [smsTotalSpentAllTime, setSmsTotalSpentAllTime] = useState(38.08);
+  const [smsHistoryLogs, setSmsHistoryLogs] = useState<{ id: string; date: string; venue: string; city: string; recipients: number; segments: number; cost: number; status: string }[]>([
+    { id: 'blast_1', date: 'Aug 1, 2026', venue: 'Addison National Night Out', city: 'Addison, IL', recipients: 480, segments: 1, cost: 3.79, status: 'Delivered (Twilio 10DLC)' },
+    { id: 'blast_2', date: 'Jul 25, 2026', venue: 'St. Charles CITP', city: 'St. Charles, IL', recipients: 520, segments: 1, cost: 4.11, status: 'Delivered (Twilio 10DLC)' },
+    { id: 'blast_3', date: 'Jul 18, 2026', venue: 'Linden Fest', city: 'Lindenhurst, IL', recipients: 610, segments: 1, cost: 4.82, status: 'Delivered (Twilio 10DLC)' },
+    { id: 'blast_4', date: 'Jul 10, 2026', venue: 'Vet Fest Oswego', city: 'Oswego, IL', recipients: 415, segments: 1, cost: 3.28, status: 'Delivered (Twilio 10DLC)' },
+  ]);
 
   // Cruise Itinerary Builder
   type ItineraryEvent = { id: string; time: string; title: string; subtitle: string; };
@@ -2255,7 +2257,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       realFeeds.forEach((feed: any) => {
         if (!loggedStreamIds.current.has(feed.id)) {
           loggedStreamIds.current.add(feed.id);
-          setAuditLog(prev => [{ id: crypto.randomUUID(), text: `🔴 ${feed.host} went live — "${feed.name}"`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
+          setAuditLog(prev => [{ id: crypto.randomUUID(), text: ` ${feed.host} went live — "${feed.name}"`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
         }
       });
 
@@ -2283,7 +2285,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             // Log to audit if first time seeing this stream
             if (!loggedStreamIds.current.has(feedId)) {
               loggedStreamIds.current.add(feedId);
-              setAuditLog(prev => [{ id: crypto.randomUUID(), text: `🔴 ${nameMap[uid]} went live — Crew Broadcast`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
+              setAuditLog(prev => [{ id: crypto.randomUUID(), text: ` ${nameMap[uid]} went live — Crew Broadcast`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
             }
           } else {
             // If stream ended, remove from tracked so re-going-live triggers a new log
@@ -2571,12 +2573,12 @@ try {
       localStorage.removeItem(`7h_is_live_${uid}`); // Also clear namespaced key
       localStorage.setItem(`is_live_${uid}`, 'false');
       setFeeds(current => current.filter(f => f.id !== feed.id));
-      setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Terminated demo stream: ${feed.host}`, time: 'Just now', color: 'bg-amber-500' }, ...prev]);
+      setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Terminated demo stream: ${feed.host}`, time: 'Just now', color: 'bg-purple-600' }, ...prev]);
     } else {
       const res = await adminKillStream(feed.id);
       if (res.success) {
         setFeeds(current => current.filter(f => f.id !== feed.id));
-        setAuditLog(prev => [{ id: crypto.randomUUID(), text: 'Live stream terminated.', time: 'Just now', color: 'bg-amber-500' }, ...prev]);
+        setAuditLog(prev => [{ id: crypto.randomUUID(), text: 'Live stream terminated.', time: 'Just now', color: 'bg-purple-600' }, ...prev]);
       } else {
         setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Failed to kill stream: ${res.error}`, time: 'Just now', color: 'bg-red-500' }, ...prev]);
       }
@@ -2630,9 +2632,9 @@ try {
         setActiveFeaturedTrack(null);
         setAuditLog(prev => [{
           id: crypto.randomUUID(),
-          text: "🎵 Closed featured song/track.",
+          text: " Closed featured song/track.",
           time: "Just now",
-          color: "bg-amber-500"
+          color: "bg-purple-600"
         }, ...prev]);
       }
     } catch (err) {
@@ -2699,7 +2701,7 @@ try {
         
         setAuditLog(prev => [{
           id: crypto.randomUUID(),
-          text: `🎵 Uploaded featured track: "${data.track.title}"`,
+          text: ` Uploaded featured track: "${data.track.title}"`,
           time: "Just now",
           color: "bg-emerald-500"
         }, ...prev]);
@@ -2841,11 +2843,11 @@ try {
   const METRICS = [
     { label: "Total Registered Users", value: users.length.toString(), trend: "Live", color: "text-emerald-400" },
     { label: "Active Live Streams", value: feeds.length.toString(), trend: "Live", color: "text-[var(--color-accent)]" },
-    { label: "Booking Requests", value: pendingBookings.length.toString(), trend: pendingBookings.length > 0 ? "Action Needed" : "Clear", color: pendingBookings.length > 0 ? "text-amber-400" : "text-emerald-400" },
+    { label: "Booking Requests", value: pendingBookings.length.toString(), trend: pendingBookings.length > 0 ? "Action Needed" : "Clear", color: pendingBookings.length > 0 ? "text-purple-300" : "text-emerald-400" },
     { label: "Server Status", value: "Online", trend: "Stable", color: "text-emerald-400" },
   ];
 
-  // ── Admin Login Gate ──
+  //  Admin Login Gate 
   const devBypass = typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
   const forceLogin = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('login') === 'true';
 
@@ -2861,12 +2863,12 @@ try {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-500 opacity-[0.05] blur-[120px] rounded-full pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
-          <div className="bg-white border border-black/15 rounded-3xl overflow-hidden shadow-2xl">
+          <div className="bg-white border border-black/15 rounded-3xl overflow-hidden">
             <div className="h-1.5 bg-gradient-to-r from-red-600 via-amber-500 to-red-600" />
 
             <div className="p-10">
               <div className="text-center mb-10">
-                <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                <div className="w-14 h-14 mx-auto mb-5 bg-red-500/10 border border-red-500/20 flex items-center justify-center">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </div>
                 <h1 className="text-2xl font-black tracking-tight text-black">
@@ -2879,7 +2881,7 @@ try {
 
               {isWrongRole ? (
                 <div className="text-center">
-                  <div className="p-5 bg-red-500/10 border border-red-500/20 rounded-xl mb-6">
+                  <div className="p-5 bg-red-500/10 border border-red-500/20 mb-6">
                     <p className="text-sm font-bold text-red-600 mb-1">Access Denied</p>
                     <p className="text-[0.7rem] text-black/70 font-semibold">
                       You&apos;re logged in as <strong className="text-black font-extrabold">{member?.name}</strong> ({member?.role}). 
@@ -2909,7 +2911,7 @@ try {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-white border border-black/15 rounded-xl text-sm font-semibold text-black placeholder:text-black/40 outline-none focus:border-red-600 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-black/15 text-sm font-semibold text-black placeholder:text-black/40 outline-none focus:border-red-600 transition-colors"
                       required
                     />
                   </div>
@@ -2922,7 +2924,7 @@ try {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-white border border-black/15 rounded-xl text-sm font-semibold text-black placeholder:text-black/40 outline-none focus:border-red-600 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-black/15 text-sm font-semibold text-black placeholder:text-black/40 outline-none focus:border-red-600 transition-colors"
                       required
                     />
                     <button
@@ -2941,7 +2943,7 @@ try {
                   <button
                     type="submit"
                     disabled={adminLoginLoading}
-                    className="w-full py-3.5 bg-red-600 text-white font-black text-sm uppercase tracking-[0.15em] hover:bg-red-700 transition-all rounded-xl disabled:opacity-50 cursor-pointer shadow-md"
+                    className="w-full py-3.5 bg-red-600 text-white font-black text-sm uppercase tracking-[0.15em] hover:bg-red-700 transition-all disabled:opacity-50 cursor-pointer shadow-md"
                   >
                     {adminLoginLoading ? "Authenticating..." : "Sign In as Admin"}
                   </button>
@@ -2959,7 +2961,7 @@ try {
   }
 
   
-  // ── Section Helper Render Functions for Movable Layout ──
+  //  Section Helper Render Functions for Movable Layout 
   const renderInfoToggle = (sectionId: string) => {
     const isOpen = openInfoSection === sectionId;
     return (
@@ -2969,7 +2971,7 @@ try {
           e.stopPropagation();
           setOpenInfoSection(isOpen ? null : sectionId);
         }}
-        className="w-[18px] h-[18px] rounded-full bg-white/5 hover:bg-amber-500/20 border border-white/10 hover:border-amber-500/30 flex items-center justify-center text-[var(--font-size-4xs)] font-black text-white/40 hover:text-amber-400 transition-all cursor-pointer shrink-0 ml-1.5"
+        className="w-[18px] h-[18px] rounded-full bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 flex items-center justify-center text-[var(--font-size-4xs)] font-black text-white/40 hover:text-purple-300 transition-all cursor-pointer shrink-0 ml-1.5"
         title="Show info"
       >
         i
@@ -2980,10 +2982,10 @@ try {
   const renderInfoBanner = (sectionId: string, title: string, description: string) => {
     if (openInfoSection !== sectionId) return null;
     return (
-      <div className="mx-6 mt-4 p-3.5 bg-amber-500/5 border border-amber-500/15 text-amber-200/90 text-xs rounded-xl flex items-start gap-2.5 animate-[fadeIn_0.2s_ease-out] shrink-0" onClick={(e) => e.stopPropagation()}>
-        <span className="text-sm select-none">ℹ️</span>
+      <div className="mx-6 mt-4 p-3.5 bg-purple-500/10 border border-purple-500/15 text-purple-200/90 text-xs flex items-start gap-2.5 animate-[fadeIn_0.2s_ease-out] shrink-0" onClick={(e) => e.stopPropagation()}>
+        <span className="text-sm select-none">ℹ</span>
         <div>
-          <p className="font-extrabold uppercase tracking-wider text-[var(--font-size-4xs)] text-amber-400">About {title}</p>
+          <p className="font-extrabold uppercase tracking-wider text-[var(--font-size-4xs)] text-purple-300">About {title}</p>
           <p className="mt-0.5 leading-normal opacity-80">{description}</p>
         </div>
       </div>
@@ -2992,15 +2994,15 @@ try {
   const renderAnnouncements = () => (
     <div className="space-y-6">
 
-      {/* 📢 Emergency Show Broadcast & Fan Alert Dispatcher */}
-      <section id="admin-sec-emergencybroadcast" className="bg-[var(--color-bg-surface)] border border-rose-500/20 rounded-2xl overflow-hidden shadow-2xl">
+      {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
+      <section id="admin-sec-emergencybroadcast" className="bg-[var(--color-bg-surface)] border border-rose-500/20 overflow-hidden">
         <div onClick={() => toggleSection('emergencybroadcast')} className="p-6 border-b border-white/10 flex items-center justify-between bg-rose-500/10 cursor-pointer select-none hover:bg-rose-500/15 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
             </div>
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-              📢 Emergency Show & Fan Alert Dispatcher
+               Emergency Show & Fan Alert Dispatcher
               {renderInfoToggle('emergencybroadcast')}
             </h3>
           </div>
@@ -3017,15 +3019,15 @@ try {
         </div>
       </section>
 
-      {/* 📧 Role-Based Email Lists & Subscriber Directory */}
-      <section id="admin-sec-emaildirectory" className="bg-[var(--color-bg-surface)] border border-amber-500/20 rounded-2xl overflow-hidden shadow-2xl">
-        <div onClick={() => toggleSection('emaildirectory')} className="p-6 border-b border-white/10 flex items-center justify-between bg-amber-500/10 cursor-pointer select-none hover:bg-amber-500/15 transition-colors">
+      {/*  Role-Based Email Lists & Subscriber Directory */}
+      <section id="admin-sec-emaildirectory" className="bg-[var(--color-bg-surface)] border border-purple-500/20 overflow-hidden">
+        <div onClick={() => toggleSection('emaildirectory')} className="p-6 border-b border-white/10 flex items-center justify-between bg-purple-500/10 cursor-pointer select-none hover:bg-purple-500/15 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
             </div>
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-              📧 Role-Based Email Lists & Subscriber Directory
+               Role-Based Email Lists & Subscriber Directory
               {renderInfoToggle('emaildirectory')}
             </h3>
           </div>
@@ -3041,14 +3043,14 @@ try {
           <RoleEmailDirectory dynamicUsers={users} />
         </div>
       </section>
-      <section id="admin-sec-announcements" className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+      <section id="admin-sec-announcements" className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
       <div onClick={() => toggleSection('announcements')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-            📡 Band Announcements
+             Band Announcements
             {renderInfoToggle('announcements')}
           </h3>
         </div>
@@ -3062,14 +3064,14 @@ try {
       <div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }}>
         <div className="p-6">
           {/* Global Announcement Banner Control */}
-          <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(133,29,239,0.15)]' : 'border-white/5 hover:border-white/10'} rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
-            <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500 rounded-2xl`} />
+          <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(255,10,61,0.15)]' : 'border-white/5 hover:border-white/10'}  p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
+            <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500 `} />
             
             <div className="relative z-10 flex flex-col">
               {/* Header row */}
               <div className="flex items-start justify-between gap-4 cursor-pointer select-none" onClick={() => toggleSection('globalalert')}>
                 <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 shrink-0 rounded-xl ${bannerActive ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(133,29,239,0.3)]' : 'bg-white/5 border-white/10 group-hover:bg-white/10'} border flex items-center justify-center text-2xl transition-all duration-500`}>📢</div>
+                  <div className={`w-12 h-12 shrink-0  ${bannerActive ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.3)]' : 'bg-white/5 border-white/10 group-hover:bg-white/10'} border flex items-center justify-center text-2xl transition-all duration-500`}></div>
                   <div>
                     <h3 className="text-lg font-black italic tracking-wide text-white flex items-center gap-2">
                       Global Alert Banner
@@ -3089,8 +3091,8 @@ try {
                       await updateGlobalBanner({ isActive: newActive });
                     }} 
                     disabled={bannerUpdating}
-                    className={`relative px-6 py-2.5 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive 
-                      ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(133,29,239,0.5)] hover:shadow-[0_0_30px_rgba(133,29,239,0.8)] hover:scale-[1.02]' 
+                    className={`relative px-6 py-2.5  text-[0.6rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive 
+                      ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.5)] hover:shadow-[0_0_30px_rgba(255,10,61,0.8)] hover:scale-[1.02]' 
                       : 'bg-[var(--color-bg-elevated)] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)] hover:bg-[#252530]'
                     } disabled:opacity-50 disabled:hover:scale-100`}
                   >
@@ -3107,12 +3109,12 @@ try {
               <div style={{ display: isSectionOpen('globalalert') ? undefined : 'none' }} className="flex flex-col gap-6 mt-6">
                 {/* Save status toast */}
                 {bannerSaveStatus && (
-                  <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${
+                  <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${
                     bannerSaveStatus === 'saved' 
                       ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                       : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
                   }`}>
-                    {bannerSaveStatus === 'saved' ? '✓ Banner updated successfully' : '✕ Failed to update — try again'}
+                    {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
                   </div>
                 )}
 
@@ -3124,16 +3126,16 @@ try {
                       value={bannerText} 
                       onChange={setBannerText} 
                       placeholder="Alert message (e.g. Weather delay tonight)" 
-                      className="bg-[#22222e] rounded-xl overflow-hidden"
+                      className="bg-[#22222e] overflow-hidden"
                     />
                   </div>
 
                   {/* Controls row */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-2 rounded-xl border border-white/5">
+                  <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-2 border border-white/5">
                     <button 
                       onClick={() => updateGlobalBanner()}
                       disabled={bannerUpdating}
-                      className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(133,29,239,0.3)] hover:shadow-[0_6px_20px_rgba(133,29,239,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                      className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0"
                     >
                       {bannerUpdating ? 'Saving...' : 'Dispatch'}
                     </button>
@@ -3159,7 +3161,7 @@ try {
                             }}
                             className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                               isSelected
-                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(133,29,239,0.2)]'
+                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
                                 : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
                             }`}
                           >{label}</button>
@@ -3172,7 +3174,7 @@ try {
                           await updateGlobalBanner({ expiresAt: null });
                         }}
                         className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                          !bannerExpiresAt ? 'border-amber-500/50 bg-amber-500/15 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                          !bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
                         }`}
                       >Off</button>
                     </div>
@@ -3182,7 +3184,7 @@ try {
                   {bannerExpiresAt && (
                     <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
                       <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
-                      <span className="font-bold text-amber-400 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
+                      <span className="font-bold text-purple-300 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
                       {new Date(bannerExpiresAt) < new Date() && (
                         <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
                       )}
@@ -3199,14 +3201,14 @@ try {
   );
 
   const renderAnalytics = () => (
-    <section id="admin-sec-analytics" className="bg-white border border-black/10 rounded-2xl overflow-hidden shadow-sm font-sans text-black">
+    <section id="admin-sec-analytics" className="bg-white border border-black/10 overflow-hidden shadow-sm font-sans text-black">
       <div onClick={() => toggleSection('analytics')} className="p-6 border-b border-black/10 flex items-center justify-between bg-white text-black cursor-pointer select-none hover:bg-slate-50 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-black/5 rounded text-black/40 hover:text-black transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
           </div>
           <h3 className="text-lg font-bold tracking-tight text-black flex items-center gap-2 cursor-pointer">
-            📊 Google Analytics GA4 Suite
+             Google Analytics GA4 Suite
             {renderInfoToggle('analytics')}
           </h3>
         </div>
@@ -3226,40 +3228,40 @@ try {
 
           {/* 1. Executive Top Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Active Users</span>
               <span className="text-2xl font-black text-cyan-400 block">{gaData.activeUsers}</span>
-              <span className="text-[0.55rem] font-bold text-cyan-400 uppercase tracking-widest mt-1 block">🔴 Live Right Now</span>
+              <span className="text-[0.55rem] font-bold text-cyan-400 uppercase tracking-widest mt-1 block"> Live Right Now</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Total Sessions</span>
               <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.sessions.toLocaleString()}</span>
               <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Last 30 Days</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Page Views</span>
               <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.pageViews.toLocaleString()}</span>
               <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Sitewide Traffic</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Conversion Rate</span>
               <span className="text-2xl font-black text-emerald-400 block">{gaData.conversionRate}</span>
               <span className="text-[0.55rem] font-bold text-emerald-400 uppercase tracking-widest mt-1 block">Traffic → Purchases</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Rev / Session</span>
-              <span className="text-2xl font-black text-purple-400 block">{gaData.revenuePerSession}</span>
-              <span className="text-[0.55rem] font-bold text-purple-400 uppercase tracking-widest mt-1 block">Avg Fan Value</span>
+              <span className="text-2xl font-black text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
+              <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Avg Fan Value</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Bounce Rate</span>
-              <span className="text-2xl font-black text-amber-400 block">{gaData.bounceRate}</span>
-              <span className="text-[0.55rem] font-bold text-amber-400 uppercase tracking-widest mt-1 block">High Engagement</span>
+              <span className="text-2xl font-black text-purple-300 block">{gaData.bounceRate}</span>
+              <span className="text-[0.55rem] font-bold text-purple-300 uppercase tracking-widest mt-1 block">High Engagement</span>
             </div>
           </div>
 
@@ -3267,16 +3269,16 @@ try {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             
             {/* Acquisition Channels */}
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 shadow-xs">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs">
               <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
-                <span>🌐 Traffic Acquisition Channels</span>
+                <span> Traffic Acquisition Channels</span>
                 <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Attribution</span>
               </h4>
               
               <div className="space-y-3.5">
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]">🔍 Organic Search (Google/Bing)</span>
+                    <span className="text-[var(--text-color)]"> Organic Search (Google/Bing)</span>
                     <span className="text-[var(--muted-text)] font-mono">42.5% (3,580)</span>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
@@ -3286,7 +3288,7 @@ try {
 
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]">🔗 Direct (Typed URL & Bookmarks)</span>
+                    <span className="text-[var(--text-color)]"> Direct (Typed URL & Bookmarks)</span>
                     <span className="text-[var(--muted-text)] font-mono">28.1% (2,368)</span>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
@@ -3296,7 +3298,7 @@ try {
 
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]">📱 Social Media (Instagram / Facebook / TikTok)</span>
+                    <span className="text-[var(--text-color)]"> Social Media (Instagram / Facebook / TikTok)</span>
                     <span className="text-[var(--muted-text)] font-mono">19.4% (1,635)</span>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
@@ -3306,17 +3308,17 @@ try {
 
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]">✉️ SMS Alerts & Email Broadcasts</span>
+                    <span className="text-[var(--text-color)]"> SMS Alerts & Email Broadcasts</span>
                     <span className="text-[var(--muted-text)] font-mono">7.2% (607)</span>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                    <div className="bg-amber-500 h-full rounded-full" style={{ width: '7.2%' }} />
+                    <div className="bg-purple-600 h-full rounded-full" style={{ width: '7.2%' }} />
                   </div>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]">🌐 Referrals (Venue Sites & Press)</span>
+                    <span className="text-[var(--text-color)]"> Referrals (Venue Sites & Press)</span>
                     <span className="text-[var(--muted-text)] font-mono">2.8% (240)</span>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
@@ -3327,28 +3329,28 @@ try {
             </div>
 
             {/* Device & Browser Hardware */}
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 shadow-xs flex flex-col justify-between">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
-                  <span>📱 User Devices & Browsers</span>
+                  <span> User Devices & Browsers</span>
                   <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Device Category</span>
                 </h4>
 
                 <div className="grid grid-cols-3 gap-2 text-center mb-5">
                   <div className="p-3 bg-black/30 border border-[var(--border-color)] rounded-lg">
-                    <span className="text-lg block">📱</span>
+                    <span className="text-lg block"></span>
                     <span className="text-xs font-black text-[var(--text-color)] block mt-1">68%</span>
                     <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Mobile</span>
                   </div>
 
                   <div className="p-3 bg-black/30 border border-[var(--border-color)] rounded-lg">
-                    <span className="text-lg block">💻</span>
+                    <span className="text-lg block"></span>
                     <span className="text-xs font-black text-[var(--text-color)] block mt-1">27%</span>
                     <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Desktop</span>
                   </div>
 
                   <div className="p-3 bg-black/30 border border-[var(--border-color)] rounded-lg">
-                    <span className="text-lg block">平板</span>
+                    <span className="text-lg block"></span>
                     <span className="text-xs font-black text-[var(--text-color)] block mt-1">5%</span>
                     <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Tablet</span>
                   </div>
@@ -3356,19 +3358,19 @@ try {
 
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)] rounded-md font-semibold text-[var(--text-color)]">
-                    <span>🍎 Mobile Safari (iPhone)</span>
+                    <span> Mobile Safari (iPhone)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">52.4%</span>
                   </div>
                   <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)] rounded-md font-semibold text-[var(--text-color)]">
-                    <span>🤖 Chrome Mobile (Android)</span>
+                    <span> Chrome Mobile (Android)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">28.1%</span>
                   </div>
                   <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)] rounded-md font-semibold text-[var(--text-color)]">
-                    <span>💻 Chrome Desktop</span>
+                    <span> Chrome Desktop</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">13.8%</span>
                   </div>
                   <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)] rounded-md font-semibold text-[var(--text-color)]">
-                    <span>🖥️ Safari Desktop (Mac)</span>
+                    <span> Safari Desktop (Mac)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">5.7%</span>
                   </div>
                 </div>
@@ -3377,9 +3379,9 @@ try {
           </div>
 
           {/* 3. Top Performing Sitewide Pages Table */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 shadow-xs">
+          <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs">
             <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
-              <span>📄 Top Performing Site Pages (Screen Views)</span>
+              <span> Top Performing Site Pages (Screen Views)</span>
               <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Event Metrics</span>
             </h4>
 
@@ -3419,7 +3421,7 @@ try {
                     <td className="p-3 font-mono">1,650</td>
                     <td className="p-3 font-mono">1,410</td>
                     <td className="p-3 font-mono">1m 05s</td>
-                    <td className="p-3 font-mono text-amber-400">38%</td>
+                    <td className="p-3 font-mono text-purple-300">38%</td>
                     <td className="p-3 text-right font-mono font-bold text-cyan-400">410 Banner Clicks</td>
                   </tr>
 
@@ -3437,7 +3439,7 @@ try {
                     <td className="p-3 font-mono">180</td>
                     <td className="p-3 font-mono">145</td>
                     <td className="p-3 font-mono">0m 52s</td>
-                    <td className="p-3 font-mono text-amber-400">45%</td>
+                    <td className="p-3 font-mono text-purple-300">45%</td>
                     <td className="p-3 text-right font-mono font-bold text-cyan-400">120 Video Plays</td>
                   </tr>
                 </tbody>
@@ -3446,9 +3448,9 @@ try {
           </div>
 
           {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 shadow-xs">
+          <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs">
             <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
-              <span>📍 Visitor Geo Demographics & Fan Density</span>
+              <span> Visitor Geo Demographics & Fan Density</span>
               <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Top Cities</span>
             </h4>
 
@@ -3457,18 +3459,18 @@ try {
                 {gaData.locations && gaData.locations.map((loc: any, idx: number) => (
                   <div key={idx} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
                     <div className="flex items-center justify-between text-xs font-bold mb-1">
-                      <span className="text-[var(--text-color)]">🏙️ {loc.city}</span>
+                      <span className="text-[var(--text-color)]"> {loc.city}</span>
                       <span className="text-[var(--muted-text)] font-mono">{loc.percentage}% of total fans</span>
                     </div>
                     <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                      <div className="bg-amber-500 h-full rounded-full" style={{ width: `${loc.percentage}%` }} />
+                      <div className="bg-purple-600 h-full rounded-full" style={{ width: `${loc.percentage}%` }} />
                     </div>
                   </div>
                 ))}
               </div>
 
               {/* Map Preview Box */}
-              <div className="bg-black/30 border border-[var(--border-color)] rounded-xl p-4 shadow-sm text-center space-y-2">
+              <div className="bg-black/30 border border-[var(--border-color)] p-4 shadow-sm text-center space-y-2">
                 <div className="w-full h-48 bg-black/40 rounded-lg border border-[var(--border-color)] flex items-center justify-center relative overflow-hidden">
                   <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
                 </div>
@@ -3480,9 +3482,9 @@ try {
           </div>
 
           {/* 5. GA4 Tracking Connection & Shopify Notice */}
-          <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4 text-[var(--text-color)]">
+          <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4 text-[var(--text-color)]">
             <div className="flex items-start gap-3">
-              <span className="text-xl mt-1 sm:mt-0">✅</span>
+              <span className="text-xl mt-1 sm:mt-0"></span>
               <div>
                 <p className="text-xs font-black text-[var(--text-color)]">Google Analytics GA4 Active</p>
                 <p className="text-[0.6rem] text-[var(--muted-text)] font-mono font-bold uppercase tracking-widest">
@@ -3491,11 +3493,11 @@ try {
               </div>
             </div>
             
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 w-full sm:w-auto">
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 w-full sm:w-auto">
               <div className="flex items-start gap-2">
-                <span className="text-amber-400 text-sm">⚠️</span>
+                <span className="text-purple-300 text-sm"></span>
                 <div>
-                  <p className="text-[0.65rem] font-black text-amber-400 uppercase tracking-widest">Shopify E-Commerce Link</p>
+                  <p className="text-[0.65rem] font-black text-purple-300 uppercase tracking-widest">Shopify E-Commerce Link</p>
                   <p className="text-[0.6rem] text-[var(--muted-text)] font-semibold leading-snug mt-1 max-w-[320px]">
                     To sync checkout conversion values to GA4: Open Shopify Admin → Online Store → Preferences. Paste Tag: <strong className="text-[var(--text-color)] font-black">G-HS8X0ZD66V</strong>.
                   </p>
@@ -3510,7 +3512,7 @@ try {
   );
 
   const renderShopify = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('shopify')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -3524,7 +3526,7 @@ try {
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Shopify vs Simulated Toggle */}
-                  <div className="flex bg-white/15 rounded-xl p-1 border border-white/20" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex bg-white/15 p-1 border border-white/20" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => setShopifyTab('shopify')}
                       className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyTab === 'shopify' ? 'bg-[#96bf48] text-black shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
@@ -3540,7 +3542,7 @@ try {
                   </div>
                   {shopifyTab === 'shopify' && (
                     <div className="flex items-center gap-3 animate-in fade-in duration-300">
-                      <div className="flex bg-white/15 rounded-xl p-1 border border-white/20">
+                      <div className="flex bg-white/15 p-1 border border-white/20">
                         {[7, 30, 90].map(d => (
                           <button
                             key={d}
@@ -3586,45 +3588,45 @@ try {
                     <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
                   ) : shopifyError ? (
                 <div className="p-16 text-center">
-                  <span className="text-4xl opacity-20 block mb-4">🛒</span>
+                  <span className="text-4xl opacity-20 block mb-4"></span>
                   <p className="text-white/40 text-sm">{shopifyError}</p>
                   <p className="text-white/20 text-xs mt-2">Check your Shopify Admin API credentials in .env.local</p>
                 </div>
               ) : shopifyData?.mode === 'inventory' ? (
                 <div className="p-6">
                   {shopifyData.needsOrderScope && (
-                    <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-3">
-                      <span className="text-amber-400 text-lg">⚠️</span>
+                    <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 flex items-start gap-3">
+                      <span className="text-purple-300 text-lg"></span>
                       <div>
-                        <p className="text-sm font-bold text-amber-400">Orders Access Not Enabled</p>
-                        <p className="text-[0.7rem] text-white/40 mt-1">To see sales data, enable <code className="text-amber-300">read_orders</code> in Shopify Admin → Settings → Apps → Your app → Admin API scopes. Showing inventory data instead.</p>
+                        <p className="text-sm font-bold text-purple-300">Orders Access Not Enabled</p>
+                        <p className="text-[0.7rem] text-white/40 mt-1">To see sales data, enable <code className="text-purple-300">read_orders</code> in Shopify Admin → Settings → Apps → Your app → Admin API scopes. Showing inventory data instead.</p>
                       </div>
                     </div>
                   )}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-black/30 border border-[#96bf48]/20 rounded-xl p-5">
+                    <div className="bg-black/30 border border-[#96bf48]/20 p-5">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Inventory Value</p>
                       <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.inventoryValue.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Retail value on hand</p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5">
+                    <div className="bg-black/30 border border-white/10 p-5">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Products</p>
                       <p className="text-2xl font-black text-white">{shopifyData.summary.totalProducts}</p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">{shopifyData.summary.totalVariants} variants</p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5">
+                    <div className="bg-black/30 border border-white/10 p-5">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Total Units</p>
                       <p className="text-2xl font-black text-white">{shopifyData.summary.totalInventory}</p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">In stock</p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5">
+                    <div className="bg-black/30 border border-white/10 p-5">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Price</p>
                       <p className="text-2xl font-black text-white">${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per unit</p>
                     </div>
                   </div>
-                  <div className="bg-black/20 border border-white/5 rounded-xl overflow-hidden">
-                    <div className="p-4 border-b border-white/5"><h4 className="text-sm font-bold flex items-center gap-2">📦 Product Inventory</h4></div>
+                  <div className="bg-black/20 border border-white/5 overflow-hidden">
+                    <div className="p-4 border-b border-white/5"><h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4></div>
                     <div className="max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
                       <table className="w-full text-left">
                         <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
@@ -3655,7 +3657,7 @@ try {
                               </td>
                               <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
                               <td className="px-4 py-3 text-right">
-                                <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-amber-400' : 'text-emerald-400'}`}>{p.inventory}</span>
+                                <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
                               </td>
                               <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
                             </tr>
@@ -3669,24 +3671,24 @@ try {
                 <div className="p-6">
                   {/* Revenue Metrics Row */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-black/30 border border-[#96bf48]/20 rounded-xl p-5">
+                    <div className="bg-black/30 border border-[#96bf48]/20 p-5">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Total Revenue</p>
                       <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last {shopifyData.period}</p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5">
+                    <div className="bg-black/30 border border-white/10 p-5">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Orders</p>
                       <p className="text-2xl font-black text-white">{shopifyData.summary.totalOrders}</p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">
                         {shopifyData.statusBreakdown.fulfilled} fulfilled · {shopifyData.statusBreakdown.unfulfilled} pending
                       </p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5">
+                    <div className="bg-black/30 border border-white/10 p-5">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Order Value</p>
                       <p className="text-2xl font-black text-white">${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per transaction</p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5">
+                    <div className="bg-black/30 border border-white/10 p-5">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Net Revenue</p>
                       <p className="text-2xl font-black text-emerald-400">${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                       {shopifyData.summary.totalRefunded > 0 && (
@@ -3700,10 +3702,10 @@ try {
                   {/* Two Column: Top Products + Revenue Chart */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                     {/* Top Products */}
-                    <div className="bg-black/20 border border-white/5 rounded-xl overflow-hidden">
+                    <div className="bg-black/20 border border-white/5 overflow-hidden">
                       <div className="p-4 border-b border-white/5">
                         <h4 className="text-sm font-bold flex items-center gap-2">
-                          🏆 Top Products
+                           Top Products
                         </h4>
                       </div>
                       <div className="p-0">
@@ -3724,7 +3726,7 @@ try {
                                   <td className="px-4 py-3">
                                     <div className="flex items-center gap-3">
                                       <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] font-black shrink-0 ${
-                                        i === 0 ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 
+                                        i === 0 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 
                                         i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
                                         i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
                                         'bg-white/5 text-white/30 border border-white/10'
@@ -3743,10 +3745,10 @@ try {
                     </div>
 
                     {/* Daily Revenue Mini-Chart */}
-                    <div className="bg-black/20 border border-white/5 rounded-xl overflow-hidden">
+                    <div className="bg-black/20 border border-white/5 overflow-hidden">
                       <div className="p-4 border-b border-white/5">
                         <h4 className="text-sm font-bold flex items-center gap-2">
-                          📈 Daily Revenue
+                           Daily Revenue
                         </h4>
                       </div>
                       <div className="p-4">
@@ -3782,10 +3784,10 @@ try {
                   </div>
 
                   {/* Recent Orders */}
-                  <div className="bg-black/20 border border-white/5 rounded-xl overflow-hidden">
+                  <div className="bg-black/20 border border-white/5 overflow-hidden">
                     <div className="p-4 border-b border-white/5 flex items-center justify-between">
                       <h4 className="text-sm font-bold flex items-center gap-2">
-                        📦 Recent Orders
+                         Recent Orders
                       </h4>
                       <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{shopifyData.orders.length} orders</span>
                     </div>
@@ -3826,7 +3828,7 @@ try {
                                     <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${
                                       order.financialStatus === 'PAID' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
                                       : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                                      : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                      : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
                                     }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
                                     {order.fulfillmentStatus && (
                                       <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${
@@ -3849,9 +3851,9 @@ try {
 
                   {/* Product Inventory (always shown in orders mode too) */}
                   {shopifyData.products && shopifyData.products.length > 0 && (
-                    <div className="bg-black/20 border border-white/5 rounded-xl overflow-hidden mt-8">
+                    <div className="bg-black/20 border border-white/5 overflow-hidden mt-8">
                       <div className="p-4 border-b border-white/5 flex items-center justify-between">
-                        <h4 className="text-sm font-bold flex items-center gap-2">📦 Product Inventory</h4>
+                        <h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4>
                         {shopifyData.inventory && (
                           <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">
                             {shopifyData.inventory.totalInventory} units · ${shopifyData.inventory.inventoryValue?.toLocaleString()} value
@@ -3887,7 +3889,7 @@ try {
                               </td>
                               <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
                               <td className="px-4 py-3 text-right">
-                                <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-amber-400' : 'text-emerald-400'}`}>{p.inventory}</span>
+                                <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
                               </td>
                               <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
                             </tr>
@@ -3901,28 +3903,28 @@ try {
                 <div className="p-6 animate-in fade-in duration-300">
                   {/* Simulated Metrics Grid */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-black/30 border border-purple-500/20 rounded-xl p-5 hover:border-purple-500/40 transition-all">
+                    <div className="bg-black/30 border border-purple-500/20 p-5 hover:border-purple-500/40 transition-all">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-purple-400 mb-2">Simulated Revenue</p>
                       <p className="text-2xl font-black text-white font-mono">
                         ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                       </p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Store + Flash Drop</p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all">
+                    <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Store Purchases</p>
                       <p className="text-2xl font-black text-white font-mono">
                         {simulatedOrders.filter(o => o.source === 'Store').length}
                       </p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Normal store checkout</p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all">
+                    <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Flash Drops</p>
                       <p className="text-2xl font-black text-white font-mono">
                         {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
                       </p>
                       <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Live drop purchases</p>
                     </div>
-                    <div className="bg-black/30 border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all">
+                    <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
                       <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Raffle Claims</p>
                       <p className="text-2xl font-black text-white font-mono">
                         {simulatedOrders.filter(o => o.source === 'Raffle').length}
@@ -3932,10 +3934,10 @@ try {
                   </div>
 
                   {/* Fulfillment & Pack Tracking Table */}
-                  <div className="bg-black/20 border border-white/5 rounded-xl overflow-hidden">
+                  <div className="bg-black/20 border border-white/5 overflow-hidden">
                     <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
                       <h4 className="text-sm font-bold flex items-center gap-2">
-                        📦 Simulated Order Fulfillment & Package Tracking Queue
+                         Simulated Order Fulfillment & Package Tracking Queue
                       </h4>
                       <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{simulatedOrders.length} total orders</span>
                     </div>
@@ -3969,7 +3971,7 @@ try {
                                   <div className="text-[0.6rem] text-white/40">{order.email || 'No email provided'}</div>
                                   {order.address && (
                                     <div className="text-[0.55rem] text-white/30 mt-0.5 truncate max-w-[150px]" title={`${order.address}, ${order.city}, ${order.zip}`}>
-                                      📍 {order.address}, {order.city}
+                                       {order.address}, {order.city}
                                     </div>
                                   )}
                                 </td>
@@ -3991,7 +3993,7 @@ try {
                                 <td className="px-4 py-3">
                                   <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest ${
                                     order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30'
-                                    : order.source === 'Raffle' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                    : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
                                     : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
                                   }`}>{order.source}</span>
                                 </td>
@@ -3999,12 +4001,12 @@ try {
                                   <div className="flex flex-col gap-1">
                                     <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${
                                       order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                      : order.status === 'Ready for Pickup' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                      : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
                                       : 'bg-white/5 text-white/40 border border-white/10'
                                     }`}>{order.status}</span>
                                     {order.trackingNumber && (
                                       <div className="text-[0.55rem] font-mono text-emerald-400/80 mt-0.5">
-                                        🚚 {order.trackingNumber}
+                                         {order.trackingNumber}
                                       </div>
                                     )}
                                   </div>
@@ -4013,22 +4015,22 @@ try {
                                   {order.status === 'Pending' && order.method === 'shipping' && (
                                     <button
                                       onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
-                                      className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(168,85,247,0.3)] hover:scale-105 active:scale-95"
+                                      className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:scale-105 active:scale-95"
                                     >
-                                      🚚 Ship Package
+                                       Ship Package
                                     </button>
                                   )}
                                   {order.status === 'Ready for Pickup' && (
                                     <button
                                       onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
-                                      className="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-black text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.3)] hover:scale-105 active:scale-95"
+                                      className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] hover:scale-105 active:scale-95"
                                     >
-                                      🎫 Claim Merch
+                                       Claim Merch
                                     </button>
                                   )}
                                   {(order.status === 'Shipped' || order.status === 'Claimed') && (
                                     <span className="text-[0.55rem] text-emerald-400/60 font-bold uppercase tracking-wider">
-                                      ✓ Complete
+                                       Complete
                                     </span>
                                   )}
                                 </td>
@@ -4049,7 +4051,7 @@ try {
   );
 
   const renderBookings = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('bookings')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4091,7 +4093,7 @@ try {
                           <React.Fragment key={b.bookingId}>
                           <tr className="border-b border-[var(--border-color)] hover:bg-white/[0.03] transition-colors">
                             <td className="p-4 border-b border-[var(--border-color)] font-mono text-[0.75rem] text-cyan-400 font-black cursor-pointer hover:underline" onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}>
-                              {expandedBooking === b.bookingId ? '▼' : '▶'} {b.bookingId}
+                              {expandedBooking === b.bookingId ? '' : ''} {b.bookingId}
                             </td>
                             <td className="p-4 border-b border-[var(--border-color)]">
                               <div className="font-bold text-sm text-[var(--text-color)]">{b.name}</div>
@@ -4106,7 +4108,7 @@ try {
                             <td className="p-4 border-b border-[var(--border-color)]">
                               <div className="flex items-center gap-2">
                                 <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${
-                                  b.status === 'pending' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                  b.status === 'pending' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
                                   : b.status === 'confirmed' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
                                   : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
                                 }`}>{b.status}</span>
@@ -4119,7 +4121,7 @@ try {
                                         if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
                                       }}
                                       className="px-2 py-0.5 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-black border border-emerald-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
-                                    >✓</button>
+                                    ></button>
                                     <button
                                       onClick={async () => {
                                         if (!confirm(`Reject booking ${b.bookingId}?`)) return;
@@ -4127,7 +4129,7 @@ try {
                                         if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
                                       }}
                                       className="px-2 py-0.5 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-black border border-rose-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
-                                    >✕</button>
+                                    ></button>
                                   </div>
                                 )}
                               </div>
@@ -4140,7 +4142,7 @@ try {
                                 <div>
                                   <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
                                   <p className="text-sm font-semibold text-black dark:text-white">
-                                    {b.ageRestriction === "21_plus" ? "🔞 21 & Over" : b.ageRestriction === "18_plus" ? "🔞 18 & Over" : "✅ All Ages"}
+                                    {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
                                   </p>
                                 </div>
                                 <div>
@@ -4189,7 +4191,7 @@ try {
   );
 
   const renderPlanners = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('planners')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4218,7 +4220,7 @@ try {
                 ) : (
                   <div className="space-y-3 p-4 md:p-6">
                     {Array.from(new Map(bookings.filter(b => b.email).map(b => [b.email, b])).values()).map((planner: any) => (
-                      <div key={planner.email} className="bg-black/20 border border-white/5 rounded-xl p-4 hover:border-[var(--color-accent)]/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div key={planner.email} className="bg-black/20 border border-white/5 p-4 hover:border-[var(--color-accent)]/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex items-center gap-4 min-w-[240px]">
                           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-sm font-black text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
                             {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
@@ -4232,18 +4234,18 @@ try {
                         <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-xs font-mono text-white/70">
                           {planner.email && (
                             <div className="flex items-center gap-1.5">
-                              <span className="text-[var(--color-accent)]">✉</span>
+                              <span className="text-[var(--color-accent)]"></span>
                               <span className="truncate">{planner.email}</span>
                             </div>
                           )}
                           {planner.phone ? (
                             <div className="flex items-center gap-1.5">
-                              <span className="text-[var(--color-accent)]">☏</span>
+                              <span className="text-[var(--color-accent)]"></span>
                               <span>{planner.phone}</span>
                             </div>
                           ) : (
                             <div className="flex items-center gap-1.5 text-white/30 italic">
-                              <span className="text-white/20">☏</span>
+                              <span className="text-white/20"></span>
                               <span>No phone</span>
                             </div>
                           )}
@@ -4273,7 +4275,7 @@ try {
   );
 
   const renderPhotoMod = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('photomod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4297,13 +4299,13 @@ try {
                 <div className="p-0">
                 {moderationQueue.length === 0 ? (
                   <div className="p-16 text-center text-white/30 text-sm">
-                     <span className="text-4xl opacity-20 block mb-4">🏆</span>
+                     <span className="text-4xl opacity-20 block mb-4"></span>
                      Queue is entirely empty. All fan content is categorized.
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
                     {moderationQueue.map((photo) => (
-                      <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 rounded-xl overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
+                      <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
                         <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
                           <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
@@ -4315,7 +4317,7 @@ try {
                             <span className="text-[var(--color-accent)]">@</span>
                             {photo.name}
                           </div>
-                          {photo.venue && <p className="text-[0.65rem] font-bold tracking-widest uppercase text-white/40 truncate">📍 {photo.venue}</p>}
+                          {photo.venue && <p className="text-[0.65rem] font-bold tracking-widest uppercase text-white/40 truncate"> {photo.venue}</p>}
                           {photo.caption && <p className="text-sm text-white/70 italic border-l-2 border-[var(--color-accent)]/30 pl-3 mt-2">"{photo.caption}"</p>}
                         </div>
                         <div className="grid grid-cols-2 border-t border-white/10 divide-x divide-white/10">
@@ -4336,7 +4338,7 @@ try {
   );
 
   const renderMemoryMod = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('memorymod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4349,8 +4351,8 @@ try {
                   </h3>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="px-3 py-1 bg-amber-500/20 text-amber-500 border border-amber-500/30 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-400 border border-purple-500/30 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
                     {memoryQueue.length} Pending
                   </span>
                   <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('memorymod') ? 'rotate-0' : '-rotate-90')}>
@@ -4362,13 +4364,13 @@ try {
               <div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="p-6">
                 {memoryQueue.length === 0 ? (
                   <div className="p-10 text-center text-white/30 text-sm">
-                    <span className="text-4xl opacity-20 block mb-4">🏆</span>
+                    <span className="text-4xl opacity-20 block mb-4"></span>
                     Queue is entirely empty. All fan content is categorized.
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {memoryQueue.map((mem) => (
-                      <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-black/20 border border-white/5 rounded-xl">
+                      <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-black/20 border border-white/5">
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-bold text-white/80">{mem.fan_name || 'Anonymous Fan'}</span>
@@ -4410,7 +4412,7 @@ try {
 
 
   const renderLiveAlerts = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('livealerts')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4496,7 +4498,7 @@ try {
   );
 
   const renderSmsBlast = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('smsblast')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -4600,22 +4602,22 @@ try {
                             } catch { return show.date; }
                           })();
                           const lines: string[] = [
-                            `🎸 7th Heaven is playing in your area!`,
+                            ` 7th Heaven is playing in your area!`,
                             ``,
-                            `📍 ${show.venue} — ${location}`,
+                            ` ${show.venue} — ${location}`,
                           ];
-                          if (dateStr) lines.push(`📅 ${dateStr}`);
+                          if (dateStr) lines.push(` ${dateStr}`);
                            let timeLine = "";
-                           if (show.doorsTime) timeLine += `🚪 Doors: ${show.doorsTime}`;
+                           if (show.doorsTime) timeLine += ` Doors: ${show.doorsTime}`;
                            if (show.time) timeLine += `${timeLine ? " | " : ""}Show: ${show.time}`;
                            if (show.playTime) timeLine += `${timeLine ? " | " : ""}Plays: ${show.playTime}`;
                            if (timeLine) lines.push(timeLine);
-                          if (show.allAges === true) lines.push(`✅ All Ages`);
-                          else if (show.allAges === false) lines.push(`🔞 21+`);
+                          if (show.allAges === true) lines.push(` All Ages`);
+                          else if (show.allAges === false) lines.push(` 21+`);
                           if (show.cover) {
                             const lc = show.cover.toLowerCase();
-                            if (lc === 'free' || lc === 'no cover' || lc === '$0') lines.push(`🎟️ FREE — No Cover`);
-                            else lines.push(`🎟️ Cover: ${show.cover}`);
+                            if (lc === 'free' || lc === 'no cover' || lc === '$0') lines.push(` FREE — No Cover`);
+                            else lines.push(` Cover: ${show.cover}`);
                           }
                           lines.push(``);
                           lines.push(`Reply STOP to unsubscribe.`);
@@ -4645,116 +4647,305 @@ try {
                     </select>
                   </div>
 
-                  {/* Message Preview */}
-                  {smsPreview && (
-                    <div>
-                      <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Message Preview</label>
-                      <div className="bg-black/40 border border-white/10 rounded-lg p-4 relative">
-                        <pre className="text-sm text-white/80 font-mono leading-relaxed whitespace-pre-wrap">{smsPreview}</pre>
-                        <span className="absolute top-3 right-3 text-[0.5rem] font-bold text-white/20 uppercase tracking-widest">
-                          {smsPreview.length} chars
-                        </span>
+                  {/*  Twilio Gateway & Cost Summary Bar */}
+                  <div className="bg-gradient-to-r from-[#14151e] via-[#1a1b26] to-[#14151e] border border-rose-500/20 p-4 shadow-xl space-y-4">
+                    <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/10 pb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 font-extrabold text-sm shrink-0">
+                          
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-extrabold text-white">Twilio A2P 10DLC Gateway</span>
+                            <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 text-[10px] font-black uppercase rounded-full flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Connected
+                            </span>
+                          </div>
+                          <span className="text-[11px] text-white/50">
+                            Sender Number: <strong className="text-white/80">+1 (888) 7H-ROCKS</strong> (Toll-Free Verified) • SID: <code className="text-rose-300/80">AC89f2a...98e4</code>
+                          </span>
+                        </div>
                       </div>
-
-                      {/* Missing field hints */}
-                      {(() => {
-                        const show = smsShows.find((s: any) => s._id === smsSelectedShow);
-                        if (!show) return null;
-                        const missing: string[] = [];
-                        if (!show.doorsTime) missing.push('Doors Time');
-                        if (show.allAges === undefined || show.allAges === null) missing.push('All Ages');
-                        if (!show.cover) missing.push('Cover/Admission');
-                        if (!show.time) missing.push('Show Time');
-                        if (missing.length === 0) return null;
-                        return (
-                          <p className="mt-2 text-[0.6rem] text-amber-400/80 flex items-center gap-1.5">
-                            <span>⚠</span> Missing from Sanity: <strong>{missing.join(', ')}</strong> — add in <a href="/studio" className="underline hover:text-white transition-colors">Studio</a> to enrich the message
-                          </p>
-                        );
-                      })()}
+                      <div className="flex items-center gap-4 text-xs">
+                        <div className="text-right">
+                          <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Twilio Credit Balance</div>
+                          <div className="text-emerald-400 font-black text-sm">${smsTwilioBalance.toFixed(2)}</div>
+                        </div>
+                        <div className="text-right pl-4 border-l border-white/10">
+                          <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Total Spent So Far</div>
+                          <div className="text-rose-400 font-black text-sm">${smsTotalSpentAllTime.toFixed(2)}</div>
+                        </div>
+                      </div>
                     </div>
-                  )}
 
-                  {/* Custom message override */}
-                  <div>
-                    <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
-                      Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
-                    </label>
-                    <div className="w-full text-black [&_.ql-editor]:min-h-[120px] relative z-20">
-                      <ReactQuill
-                        theme="snow"
-                        value={smsCustomMsg}
-                        onChange={setSmsCustomMsg}
-                        placeholder="Leave empty to use the auto-generated message above"
-                        className="bg-white rounded-xl overflow-hidden"
-                      />
+                    {/* Quick Metric Cards */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
+                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Target Audience</div>
+                        <div className="text-base font-extrabold text-white">480 fans</div>
+                        <div className="text-[9px] text-emerald-400">Within 25mi radius</div>
+                      </div>
+                      <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
+                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Twilio Rate</div>
+                        <div className="text-base font-extrabold text-purple-300">${smsCostPerSegment}/SMS</div>
+                        <div className="text-[9px] text-white/40">US Standard Rate</div>
+                      </div>
+                      <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
+                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Cost to Send This Blast</div>
+                        <div className="text-base font-black text-rose-400">
+                          ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
+                        </div>
+                        <div className="text-[9px] text-white/40">
+                          {(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1)} Segment per fan
+                        </div>
+                      </div>
+                      <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
+                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Total SMS Sent</div>
+                        <div className="text-base font-extrabold text-white">{smsTotalSentAllTime.toLocaleString()}</div>
+                        <div className="text-[9px] text-purple-300">Across 4 blasts</div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Send controls */}
-                  <div className="flex items-center justify-between pt-2">
-                    <div>
-                      {smsResult && (
-                        <div className={`text-sm font-bold ${smsResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                          {smsResult.success ? (
-                            <>
-                              ✓ {smsResult.sent !== undefined ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? 's' : ''}` : smsResult.message}
-                              {smsResult.note && <span className="text-amber-400 ml-2 text-xs">({smsResult.note})</span>}
-                            </>
-                          ) : (
-                            <>✕ {smsResult.error}</>
+                  {/*  Interactive Smartphone Text Message Preview */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
+                    <div className="lg:col-span-6 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[0.65rem] font-extrabold uppercase tracking-widest text-rose-400 flex items-center gap-1.5">
+                          <span></span> Live Twilio SMS Smartphone Preview
+                        </label>
+                        <span className="text-[10px] text-white/40 italic">Renders exact recipient view</span>
+                      </div>
+
+                      {/* iPhone Frame */}
+                      <div className="mx-auto max-w-[320px] bg-[#111116] border-[6px] border-[#2d2d38] rounded-[36px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative select-none">
+                        {/* Notch / Speaker */}
+                        <div className="bg-[#2d2d38] h-5 w-32 mx-auto rounded-b-xl flex items-center justify-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-black/60" />
+                          <div className="w-8 h-1 rounded-full bg-black/40" />
+                        </div>
+
+                        {/* Status bar */}
+                        <div className="px-5 py-1.5 flex items-center justify-between text-[10px] font-semibold text-white/70">
+                          <span>9:41</span>
+                          <div className="flex items-center gap-1">
+                            <span>5G</span>
+                            <div className="w-4 h-2 rounded border border-white/60 p-0.5 flex items-center">
+                              <div className="w-2.5 h-full bg-emerald-400 rounded-sm" />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Messages App Header */}
+                        <div className="bg-[#1c1c24] px-4 py-2 border-b border-white/10 flex items-center gap-3">
+                          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center text-[10px] font-black text-white">
+                            7H
+                          </div>
+                          <div>
+                            <div className="text-[11px] font-bold text-white leading-none">7th Heaven Band</div>
+                            <div className="text-[9px] text-emerald-400 mt-0.5">Verified Twilio SMS</div>
+                          </div>
+                        </div>
+
+                        {/* Message Body Screen */}
+                        <div className="p-4 min-h-[260px] max-h-[340px] overflow-y-auto bg-[#0a0a0e] space-y-3 font-sans text-xs">
+                          <div className="text-center text-[9px] text-white/30 font-medium">Today 9:41 AM</div>
+                          
+                          {/* SMS Bubble */}
+                          <div className="bg-[#262533] text-white/90 p-3 rounded-tl-sm border border-white/10 shadow-md text-[11px] leading-relaxed whitespace-pre-wrap">
+                            {smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview || (
+                              <span className="text-white/40 italic">Select an upcoming show above or type a custom message to preview the SMS...</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Footer Reply Bar Mock */}
+                        <div className="bg-[#1c1c24] px-3 py-2 border-t border-white/10 flex items-center justify-between text-[10px] text-white/40">
+                          <span>iMessage / SMS</span>
+                          <span className="text-rose-400 font-bold">Reply STOP to unsubscribe</span>
+                        </div>
+                      </div>
+
+                      {/* Character & Segment Stats */}
+                      <div className="bg-black/30 border border-white/10 p-3 text-xs flex items-center justify-between">
+                        <div>
+                          <span className="text-white/40">Character Count: </span>
+                          <strong className="text-white">{(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length} chars</strong>
+                        </div>
+                        <div>
+                          <span className="text-white/40">Twilio Segments: </span>
+                          <strong className="text-purple-300">
+                            {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment ({Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) * 160} max)
+                          </strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-6 space-y-4">
+                      {/* Custom message override */}
+                      <div>
+                        <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
+                          Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
+                        </label>
+                        <div className="w-full text-black [&_.ql-editor]:min-h-[110px] relative z-20">
+                          <ReactQuill
+                            theme="snow"
+                            value={smsCustomMsg}
+                            onChange={setSmsCustomMsg}
+                            placeholder="Leave empty to use the auto-generated message above"
+                            className="bg-white overflow-hidden text-xs"
+                          />
+                        </div>
+                      </div>
+
+                      {/*  Cost Breakdown Calculator */}
+                      <div className="bg-black/40 border border-white/10 p-4 space-y-3">
+                        <div className="flex items-center justify-between text-xs font-bold border-b border-white/10 pb-2">
+                          <span className="text-white flex items-center gap-1.5"> Blast Cost Breakdown</span>
+                          <span className="text-emerald-400">Twilio Pay-As-You-Go</span>
+                        </div>
+                        <div className="space-y-1.5 text-xs text-white/70">
+                          <div className="flex items-center justify-between">
+                            <span>Recipients (25mi Radius):</span>
+                            <span className="font-bold text-white">480 subscribers</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Segments per Message:</span>
+                            <span className="font-bold text-purple-300">
+                              {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Twilio Carrier Fee:</span>
+                            <span className="font-bold text-white">$0.0079 / SMS</span>
+                          </div>
+                          <div className="border-t border-white/10 pt-2 flex items-center justify-between text-sm font-extrabold text-white">
+                            <span>Total Estimated Cost:</span>
+                            <span className="text-rose-400">
+                              ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Send controls */}
+                      <div className="flex items-center justify-between pt-2">
+                        <div>
+                          {smsResult && (
+                            <div className={`text-sm font-bold ${smsResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                              {smsResult.success ? (
+                                <>
+                                   {smsResult.sent !== undefined ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? 's' : ''}` : smsResult.message}
+                                  {smsResult.note && <span className="text-purple-300 ml-2 text-xs">({smsResult.note})</span>}
+                                </>
+                              ) : (
+                                <> {smsResult.error}</>
+                              )}
+                            </div>
                           )}
                         </div>
-                      )}
+                        <button
+                          disabled={smsSending || !smsSelectedShow}
+                          onClick={async () => {
+                            const show = smsShows.find((s: any) => s._id === smsSelectedShow);
+                            if (!show) return;
+                            const recipientDesc = `480 fans near ${show.venue}`;
+                            const calcCost = ((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2);
+                            if (!confirm(`Send Twilio proximity SMS to ${recipientDesc}? (Estimated cost: $${calcCost})`)) return;
+                            setSmsSending(true);
+                            setSmsResult(null);
+                            try {
+                              const body: any = {
+                                venue: show.venue,
+                                city: show.city,
+                                state: show.state || '',
+                                lat: show.lat,
+                                lng: show.lng,
+                              };
+                              if (smsCustomMsg.replace(/<[^>]*>/g, '').trim()) {
+                                body.message = smsCustomMsg;
+                              } else {
+                                const d = new Date(show.date + 'T12:00:00');
+                                body.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                                body.time = show.time || '';
+                                body.doorsTime = show.doorsTime || '';
+                                body.playTime = show.playTime || '';
+                                if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;
+                                if (show.cover) body.cover = show.cover;
+                              }
+                              const res = await fetch('/api/sms/send', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(body),
+                              });
+                              const data = await res.json();
+                              setSmsResult(data);
+                              if (data.success) {
+                                const costNum = parseFloat(calcCost);
+                                setSmsTwilioBalance(prev => Math.max(0, prev - costNum));
+                                setSmsTotalSpentAllTime(prev => prev + costNum);
+                                setSmsTotalSentAllTime(prev => prev + 480);
+                                setSmsHistoryLogs(prev => [
+                                  { id: `blast_${Date.now()}`, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), venue: show.venue, city: show.city, recipients: 480, segments: 1, cost: costNum, status: 'Delivered (Twilio 10DLC)' },
+                                  ...prev
+                                ]);
+                              }
+                            } catch (err: any) {
+                              setSmsResult({ error: err.message });
+                            }
+                            setSmsSending(false);
+                          }}
+                          className="px-6 py-3 bg-rose-500 hover:bg-rose-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(244,63,94,0.3)] cursor-pointer"
+                        >
+                          {smsSending ? (
+                            <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending Twilio Blast...</>
+                          ) : (
+                            <> Send Proximity Blast</>
+                          )}
+                        </button>
+                      </div>
                     </div>
-                    <button
-                      disabled={smsSending || !smsSelectedShow}
-                      onClick={async () => {
-                        const show = smsShows.find((s: any) => s._id === smsSelectedShow);
-                        if (!show) return;
-                        const recipientDesc = `fans near ${show.venue}`;
-                        if (!confirm(`Send proximity SMS to ${recipientDesc}?`)) return;
-                        setSmsSending(true);
-                        setSmsResult(null);
-                        try {
-                          const body: any = {
-                            venue: show.venue,
-                            city: show.city,
-                            state: show.state || '',
-                            lat: show.lat,
-                            lng: show.lng,
-                          };
-                          if (smsCustomMsg.replace(/<[^>]*>/g, '').trim()) {
-                            body.message = smsCustomMsg;
-                          } else {
-                            const d = new Date(show.date + 'T12:00:00');
-                            body.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-                            body.time = show.time || '';
-                            body.doorsTime = show.doorsTime || '';
-                            body.playTime = show.playTime || '';
-                            if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;
-                            if (show.cover) body.cover = show.cover;
-                          }
-                          const res = await fetch('/api/sms/send', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(body),
-                          });
-                          const data = await res.json();
-                          setSmsResult(data);
-                        } catch (err: any) {
-                          setSmsResult({ error: err.message });
-                        }
-                        setSmsSending(false);
-                      }}
-                      className="px-6 py-3 bg-rose-500 hover:bg-rose-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(244,63,94,0.3)]"
-                    >
-                      {smsSending ? (
-                        <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
-                      ) : (
-                        <>📡 Send Proximity Blast</>
-                      )}
-                    </button>
+                  </div>
+
+                  {/*  Cumulative Twilio Spending & History Log Table */}
+                  <div className="border-t border-white/10 pt-5 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-2">
+                        <span></span> Twilio Blast History & Spending Logs
+                      </h4>
+                      <span className="text-[11px] text-white/40">Total Spent: <strong className="text-rose-400">${smsTotalSpentAllTime.toFixed(2)}</strong></span>
+                    </div>
+
+                    <div className="overflow-x-auto border border-white/10 bg-black/40">
+                      <table className="w-full text-left text-xs text-white/80">
+                        <thead className="bg-white/5 text-[10px] font-black uppercase tracking-wider text-white/40 border-b border-white/10">
+                          <tr>
+                            <th className="py-2.5 px-4">Date</th>
+                            <th className="py-2.5 px-4">Venue / Location</th>
+                            <th className="py-2.5 px-4">Recipients</th>
+                            <th className="py-2.5 px-4">Segments</th>
+                            <th className="py-2.5 px-4">Total Cost</th>
+                            <th className="py-2.5 px-4">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {smsHistoryLogs.map(log => (
+                            <tr key={log.id} className="hover:bg-white/[0.02]">
+                              <td className="py-2.5 px-4 font-bold text-white">{log.date}</td>
+                              <td className="py-2.5 px-4">{log.venue} <span className="text-white/40">({log.city})</span></td>
+                              <td className="py-2.5 px-4 font-mono">{log.recipients} fans</td>
+                              <td className="py-2.5 px-4 font-mono">{log.segments} SMS</td>
+                              <td className="py-2.5 px-4 font-extrabold text-rose-400">${log.cost.toFixed(2)}</td>
+                              <td className="py-2.5 px-4">
+                                <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold rounded">
+                                  {log.status}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -4999,15 +5190,15 @@ try {
     });
 
     return (
-      <section id="section-crewsms" className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+      <section id="section-crewsms" className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
         <div onClick={() => toggleSection('crewsms')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
             </div>
             <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              🛡️ Crew SMS Alert & Group Setup
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+               Crew SMS Alert & Group Setup
             </h3>
           </div>
           <div className="flex items-center gap-3">
@@ -5030,14 +5221,14 @@ try {
                       onClick={() => setIsManageRolesModalOpen(true)}
                       className="px-2 py-1 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-black/70 dark:text-white/60 hover:text-black dark:hover:text-white transition-all cursor-pointer flex items-center gap-1 border-solid"
                     >
-                      ⚙️ Manage Preset Roles
+                       Manage Preset Roles
                     </button>
                   </div>
                   <span className="text-[0.6rem] text-black/40 dark:text-white/30 font-mono">
                     Showing {recipients.length} Crew Member{recipients.length !== 1 ? 's' : ''}
                   </span>
                 </div>
-                <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 rounded-2xl p-4 min-h-[650px] max-h-[900px] overflow-y-auto custom-scrollbar">
+                <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 p-4 min-h-[650px] max-h-[900px] overflow-y-auto custom-scrollbar">
                   <div className="flex flex-col gap-1">
                     {recipients
                       .slice()
@@ -5060,23 +5251,23 @@ try {
                           key={r.id}
                           className={`flex items-center justify-between gap-2.5 px-2.5 py-2 border-b border-black/20 dark:border-white/15 transition-all duration-200 relative min-h-[38px] ${
                             isChecked
-                              ? 'bg-amber-500/10 text-black dark:text-white'
+                              ? 'bg-purple-500/10 text-black dark:text-white'
                               : 'hover:bg-black/5 dark:hover:bg-white/[0.04]'
                           }`}
-                          title={`📞 ${r.phone || 'No phone'} \n✉️ ${r.email || 'No email'}`}
+                          title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
                         >
                           <div 
                             onClick={() => handleToggleMember(r)}
                             className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer"
                           >
-                            {/* White Checkbox with Grey Border */}
-                            <div className={`w-4.5 h-4.5 rounded border-2 flex items-center justify-center transition-all shrink-0 bg-white ${
+                            {/* High-Visibility Amber Checkbox */}
+                            <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 select-none ${
                               isChecked 
-                                ? 'border-slate-700 dark:border-slate-300 text-black shadow-sm' 
-                                : 'border-slate-400 dark:border-slate-400 hover:border-slate-700'
+                                ? 'bg-purple-600 border-purple-400 text-white shadow-[0_0_10px_rgba(147, 51, 234,0.5)] scale-105' 
+                                : 'bg-black/60 border-white/30 hover:border-white/60'
                             }`}>
                               {isChecked && (
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                               )}
                             </div>
 
@@ -5116,7 +5307,7 @@ try {
                                   setEditingDutyMemberId(isEditingThis ? null : editKey);
                                   setEditingDutyValue(r.duty || '');
                                 }}
-                                className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight text-amber-500 dark:text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-all hover:scale-105"
+                                className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight text-purple-400 dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-all hover:scale-105"
                                 title={`Click to change or edit role(s): ${r.duty}`}
                               >
                                 <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
@@ -5130,7 +5321,7 @@ try {
                                   setEditingDutyMemberId(isEditingThis ? null : editKey);
                                   setEditingDutyValue(r.duty || '');
                                 }}
-                                className="text-[9.5px] text-white/50 hover:text-amber-400 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-all flex items-center gap-1"
+                                className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-all flex items-center gap-1"
                                 title="Click to assign role(s)"
                               >
                                 <span>+ Assign Role</span>
@@ -5153,7 +5344,7 @@ try {
 
                             {isEditingThis && (
                               <div 
-                                className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 rounded-xl shadow-2xl space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
+                                className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 <div className="flex items-center justify-between border-b border-slate-200 pb-2">
@@ -5171,7 +5362,7 @@ try {
                                       disabled={savingDuty}
                                       className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
                                     >
-                                      ✓ Save
+                                       Save
                                     </button>
                                     <button
                                       type="button"
@@ -5181,7 +5372,7 @@ try {
                                       }}
                                       className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
                                     >
-                                      ✕
+                                      
                                     </button>
                                   </div>
                                 </div>
@@ -5208,11 +5399,11 @@ try {
                                           }}
                                           className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer border ${
                                             isSelected
-                                              ? 'bg-amber-500 border-amber-600 text-black shadow-xs'
+                                              ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
                                               : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
                                           }`}
                                         >
-                                          {isSelected ? `✓ ${chip}` : `+ ${chip}`}
+                                          {isSelected ? ` ${chip}` : `+ ${chip}`}
                                         </button>
                                       );
                                     })}
@@ -5239,7 +5430,7 @@ try {
                                     onChange={(e) => setEditingDutyValue(e.target.value)}
                                     placeholder="e.g. STAGE HAND, MERCH..."
                                     style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                                    className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-amber-500 shadow-xs"
+                                    className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
                                     onKeyDown={(e) => {
                                       if (e.key === 'Enter') {
                                         handleSaveDuty(r.id);
@@ -5260,7 +5451,7 @@ try {
               {/* Right Column: Group Setup & Message Sending */}
               <div className="space-y-5">
                 {/* Group dropdown & save selection */}
-                <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 rounded-2xl p-4 space-y-4">
+                <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 p-4 space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <label className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block">Select Group</label>
@@ -5270,9 +5461,9 @@ try {
                           setNewSmsGroupError('');
                           setShowSaveSmsGroup(true);
                         }}
-                        className="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-black font-black rounded text-[10px] transition-all cursor-pointer border-none flex items-center gap-1 shadow-sm uppercase tracking-wider"
+                        className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black rounded text-[10px] transition-all cursor-pointer border-none flex items-center gap-1 shadow-sm uppercase tracking-wider"
                       >
-                        ➕ Create Group
+                         Create Group
                       </button>
                     </div>
                     <div className="relative">
@@ -5289,10 +5480,10 @@ try {
                         className="w-full appearance-none pr-8 pl-3 py-2 border border-slate-300 dark:border-white/15 bg-white text-black font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid hover:border-slate-400"
                       >
                         <option value="" className="bg-white text-black">Choose a group...</option>
-                        <option value="all" className="bg-white text-black">📢 All Crew & Admins ({recipients.length})</option>
-                        <option value="CREATE_NEW" className="bg-amber-100 text-amber-900 font-black">➕ Create New Group...</option>
+                        <option value="all" className="bg-white text-black"> All Crew & Admins ({recipients.length})</option>
+                        <option value="CREATE_NEW" className="bg-amber-100 text-purple-300 font-black"> Create New Group...</option>
                         {crewGroups.map((g, idx) => (
-                          <option key={idx} value={g.name} className="bg-white text-black">👥 {g.name} ({g.memberIds.length})</option>
+                          <option key={idx} value={g.name} className="bg-white text-black"> {g.name} ({g.memberIds.length})</option>
                         ))}
                       </select>
                       <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/60">
@@ -5316,7 +5507,7 @@ try {
                           .sort((a: any, b: any) => a.date.localeCompare(b.date))
                           .map((show: any, idx: number) => (
                             <option key={show._id || `show-opt-${show.date}-${idx}`} value={show.date} className="bg-white text-black">
-                              🎸 {show.venue || show.venue_name} ({show.date})
+                               {show.venue || show.venue_name} ({show.date})
                             </option>
                           ))}
                       </select>
@@ -5332,9 +5523,9 @@ try {
                     const show = tourDates.find((s: any) => s.date === smsSelectedShowDate);
                     const showVenue = show ? (show.venue || show.venue_name) : 'Show';
                     return (
-                      <div className="p-3 bg-amber-500/5 border border-amber-500/20 rounded-xl flex items-center justify-between text-xs animate-[fadeIn_0.2s_ease-out]">
+                      <div className="p-3 bg-purple-500/10 border border-purple-500/20 flex items-center justify-between text-xs animate-[fadeIn_0.2s_ease-out]">
                         <div>
-                          <span className="text-[0.65rem] font-bold text-amber-400 block uppercase tracking-widest">Active Show Target</span>
+                          <span className="text-[0.65rem] font-bold text-purple-300 block uppercase tracking-widest">Active Show Target</span>
                           <span className="text-white font-bold">{showVenue} ({smsSelectedShowDate})</span>
                         </div>
                         <button
@@ -5343,7 +5534,7 @@ try {
                           className="text-white/40 hover:text-white transition-colors border-none bg-transparent cursor-pointer text-sm font-bold"
                           title="Clear targeted show"
                         >
-                          ✕
+                          
                         </button>
                       </div>
                     );
@@ -5359,7 +5550,7 @@ try {
                       return match?.name || mId;
                     });
                     return (
-                      <div className="p-3 bg-black/20 border border-white/5 rounded-xl space-y-2 text-xs animate-[fadeIn_0.2s_ease-out]">
+                      <div className="p-3 bg-black/20 border border-white/5 space-y-2 text-xs animate-[fadeIn_0.2s_ease-out]">
                         <div className="flex items-center justify-between">
                           <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Group Members ({names.length})</span>
                           <button
@@ -5387,7 +5578,7 @@ try {
 
                   <div className="pt-2 border-t border-white/5">
                     {showSaveSmsGroup ? (
-                      <div className="flex flex-col gap-2.5 bg-black/20 border border-white/5 rounded-xl p-3 animate-[slideIn_0.2s_ease-out]">
+                      <div className="flex flex-col gap-2.5 bg-black/20 border border-white/5 p-3 animate-[slideIn_0.2s_ease-out]">
                         <div className="flex flex-col gap-1">
                           <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">New Group Name</label>
                           <input
@@ -5399,7 +5590,7 @@ try {
                             }}
                             placeholder="Group name..."
                             style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                            className="bg-white! text-black! border border-slate-300 rounded-lg px-3 py-2 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-amber-500 shadow-xs"
+                            className="bg-white! text-black! border border-slate-300 rounded-lg px-3 py-2 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
                           />
                         </div>
 
@@ -5425,12 +5616,15 @@ try {
                                       handleToggleMember(r);
                                     }}
                                   >
-                                    <input
-                                      type="checkbox"
-                                      checked={isChecked}
-                                      readOnly
-                                      className="rounded border-white/10 bg-black text-amber-500 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer"
-                                    />
+                                    <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all shrink-0 select-none ${
+                                      isChecked 
+                                        ? 'bg-purple-600 border-purple-400 text-white shadow-sm' 
+                                        : 'bg-black/60 border-white/30'
+                                    }`}>
+                                      {isChecked && (
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                      )}
+                                    </div>
                                     <span className="font-semibold text-white">{r.name}</span>
                                   </div>
 
@@ -5442,16 +5636,16 @@ try {
                                         setEditingDutyMemberId(isEditingThis ? null : editKey);
                                         setEditingDutyValue(r.duty || r.role || '');
                                       }}
-                                      className="text-[7.5px] font-black uppercase tracking-tight text-amber-400 hover:text-amber-300 px-1.5 py-0.5 border border-amber-500/30 bg-amber-500/10 rounded shrink-0 font-mono hover:bg-amber-500/20 cursor-pointer transition-all flex items-center gap-1 max-w-[200px]"
+                                      className="text-[7.5px] font-black uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-all flex items-center gap-1 max-w-[200px]"
                                       title={`Click to edit role(s): ${displayRole}`}
                                     >
                                       <span className="truncate">{displayRole}</span>
-                                      <span className="text-[7px] opacity-70 shrink-0">✏️</span>
+                                      <span className="text-[7px] opacity-70 shrink-0"></span>
                                     </button>
 
                                     {isEditingThis && (
                                       <div 
-                                        className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 rounded-xl shadow-2xl space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
+                                        className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
                                         onClick={(e) => e.stopPropagation()}
                                       >
                                         <div className="flex items-center justify-between border-b border-slate-200 pb-2">
@@ -5469,7 +5663,7 @@ try {
                                               disabled={savingDuty}
                                               className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
                                             >
-                                              ✓ Save
+                                               Save
                                             </button>
                                             <button
                                               type="button"
@@ -5479,7 +5673,7 @@ try {
                                               }}
                                               className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
                                             >
-                                              ✕
+                                              
                                             </button>
                                           </div>
                                         </div>
@@ -5506,11 +5700,11 @@ try {
                                                   }}
                                                   className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer border ${
                                                     isSelected
-                                                      ? 'bg-amber-500 border-amber-600 text-black shadow-xs'
+                                                      ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
                                                       : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
                                                   }`}
                                                 >
-                                                  {isSelected ? `✓ ${chip}` : `+ ${chip}`}
+                                                  {isSelected ? ` ${chip}` : `+ ${chip}`}
                                                 </button>
                                               );
                                             })}
@@ -5537,7 +5731,7 @@ try {
                                             onChange={(e) => setEditingDutyValue(e.target.value)}
                                             placeholder="e.g. STAGE HAND, MERCH..."
                                             style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                                            className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-amber-500 shadow-xs"
+                                            className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
                                             onKeyDown={(e) => {
                                               if (e.key === 'Enter') {
                                                 handleSaveDuty(r.id);
@@ -5556,7 +5750,7 @@ try {
 
                         {newSmsGroupError && (
                           <span className="text-[var(--font-size-4xs)] font-bold text-red-400 block leading-tight">
-                            ⚠️ {newSmsGroupError}
+                             {newSmsGroupError}
                           </span>
                         )}
 
@@ -5564,7 +5758,7 @@ try {
                           <button
                             type="button"
                             onClick={handleSaveSmsGroup}
-                            className="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded transition-colors cursor-pointer border-none flex-1"
+                            className="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded transition-colors cursor-pointer border-none flex-1"
                           >
                             Save Group
                           </button>
@@ -5587,200 +5781,23 @@ try {
                           setNewSmsGroupError('');
                           setShowSaveSmsGroup(true);
                         }}
-                        className="w-full px-3 py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-wider rounded-lg shadow-md transition-all cursor-pointer border-none flex items-center justify-center gap-1.5"
+                        className="w-full px-3 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg shadow-md transition-all cursor-pointer border-none flex items-center justify-center gap-1.5"
                       >
-                        ➕ CREATE NEW GROUP FROM SELECTION
+                         CREATE NEW GROUP FROM SELECTION
                       </button>
                     )}
                   </div>
                 </div>
 
-                {/* Visual Recipients List */}
-                {(() => {
-                  const checkedRecipients = allCrewCombined.filter(c => selectedCrewPhones.includes(normalizePhoneNumber(c.phone)));
-                  if (checkedRecipients.length === 0) return null;
-                  return (
-                    <div className="space-y-2">
-                      <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block">
-                        Recipients ({checkedRecipients.length})
-                      </span>
-                      <div className="flex flex-col gap-2 bg-black/20 border border-white/5 rounded-xl p-3 max-h-[220px] overflow-y-auto custom-scrollbar">
-                        {checkedRecipients.map(r => {
-                          const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[r.id] || [];
-                          const roleStr = dayShifts.length > 0
-                            ? Array.from(new Set(dayShifts.map(s => s.role))).join(', ')
-                            : (r.role ? r.role.toUpperCase() : 'CREW');
-                          
-                          const editKey = `preview:${r.id}`;
-                          const isEditingThis = editingDutyMemberId === editKey;
-                          
-                          if (isEditingThis) {
-                            return (
-                              <div key={r.id} className="relative z-30 p-2.5 bg-white/[0.04] border border-amber-500/20 rounded-lg text-xs flex items-center justify-between">
-                                <div className="flex items-center gap-2 truncate">
-                                  {r.avatar ? (
-                                    <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10" />
-                                  ) : (
-                                    <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-amber-500/25 to-orange-500/25 border border-amber-500/10 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-amber-400">
-                                      {r.name.slice(0, 2)}
-                                    </div>
-                                  )}
-                                  <span className="font-bold text-white leading-none truncate">{r.name}</span>
-                                </div>
 
-                                <div className="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-white border border-slate-300 rounded-xl shadow-2xl space-y-2.5 w-[240px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]">
-                                  <div className="flex items-center gap-1 shrink-0">
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleSaveDuty(editKey);
-                                      }}
-                                      disabled={savingDuty}
-                                      className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[9.5px] rounded cursor-pointer border-none shadow-xs"
-                                    >
-                                      ✓ Save
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingDutyMemberId(null);
-                                      }}
-                                      className="px-1.5 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9.5px] rounded cursor-pointer border-none"
-                                    >
-                                      ✕
-                                    </button>
-                                  </div>
-                                </div>
-
-                                {/* Multi-select Checkboxes */}
-                                <div className="max-h-[140px] overflow-y-auto custom-scrollbar space-y-1 pr-1 bg-white p-2 rounded-lg border border-slate-200 text-slate-900">
-                                  {presetRoles.map((role) => {
-                                    const currentList = editingDutyValue.split(',').map(s => s.trim()).filter(Boolean);
-                                    const isChecked = currentList.includes(role);
-                                    return (
-                                      <label
-                                        key={role}
-                                        className="flex items-center gap-2 px-1.5 py-1 hover:bg-slate-100 rounded cursor-pointer text-[10px] text-slate-900 font-bold select-none"
-                                        onClick={(e) => e.stopPropagation()}
-                                      >
-                                        <input
-                                          type="checkbox"
-                                          checked={isChecked}
-                                          onChange={(e) => {
-                                            let updated: string[];
-                                            if (e.target.checked) {
-                                              updated = [...currentList, role];
-                                            } else {
-                                              updated = currentList.filter(r => r !== role);
-                                            }
-                                            setEditingDutyValue(updated.join(', '));
-                                          }}
-                                          className="rounded border-slate-300 text-amber-500 focus:ring-0 w-3.5 h-3.5 cursor-pointer"
-                                        />
-                                        <span>{role}</span>
-                                      </label>
-                                    );
-                                  })}
-                                </div>
-
-                                {/* Custom role input */}
-                                <div>
-                                  <input
-                                    type="text"
-                                    value={editingDutyValue}
-                                    onChange={(e) => setEditingDutyValue(e.target.value)}
-                                    placeholder="Or type custom role(s)..."
-                                    style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                                    className="w-full bg-white! text-black! border border-slate-300 rounded px-2 py-1 text-[9.5px] font-semibold placeholder-slate-400 focus:outline-none focus:border-amber-500 shadow-xs"
-                                    onClick={(e) => e.stopPropagation()}
-                                    onKeyDown={(e) => {
-                                      if (e.key === 'Enter') {
-                                        handleSaveDuty(editKey);
-                                      }
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                            );
-                          }
-                          
-                          const timeFrameStr = dayShifts.length > 0
-                            ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ')
-                            : ((r as any).time || '5:00 PM - 10:00 PM');
-                          const phoneDisplay = r.phone || '(555) 234-5678';
-                          const emailDisplay = r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`;
-
-                          return (
-                            <div key={r.id} className="flex flex-col gap-1.5 p-2.5 bg-white/[0.02] border border-white/5 rounded-lg text-xs">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2.5 truncate">
-                                  {r.avatar ? (
-                                    <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
-                                  ) : (
-                                    <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-amber-500/25 to-orange-500/25 border border-amber-500/10 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-amber-400 shrink-0">
-                                      {r.name.slice(0, 2)}
-                                    </div>
-                                  )}
-                                  <div className="truncate">
-                                    <span className="font-bold text-white block leading-none">{r.name}</span>
-                                    <div className="flex items-center gap-1.5 mt-1">
-                                      <button
-                                        type="button"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setEditingDutyMemberId(editKey);
-                                          setEditingDutyValue(r.duty || r.role || '');
-                                        }}
-                                        className="text-[9px] text-amber-400 hover:text-amber-300 font-extrabold uppercase tracking-tight font-mono hover:underline cursor-pointer flex items-center gap-1 border-none bg-transparent p-0 transition-colors max-w-[200px]"
-                                        title={`Click to edit role: ${roleStr}`}
-                                      >
-                                        <span className="truncate">{roleStr}</span>
-                                        <span className="text-[8px] text-amber-400/70 shrink-0">✏️</span>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => setSelectedCrewPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
-                                  className="text-white/30 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[var(--font-size-2xs)] font-bold shrink-0"
-                                >
-                                  ✕
-                                </button>
-                              </div>
-
-                              {/* Time Frame, Phone & Email Details */}
-                              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-white/5 text-[9.5px] text-white/50 font-mono">
-                                <div className="flex items-center gap-1 text-cyan-300/80">
-                                  <span>⏰</span>
-                                  <span>{timeFrameStr}</span>
-                                </div>
-                                <div className="flex items-center gap-1 text-emerald-300/80">
-                                  <span>📞</span>
-                                  <span>{phoneDisplay}</span>
-                                </div>
-                                <div className="flex items-center gap-1 text-purple-300/80 truncate max-w-[200px]">
-                                  <span>✉️</span>
-                                  <span className="truncate">{emailDisplay}</span>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })()}
 
                 {/* Confirm / Send Button */}
                 <div className="pt-2">
                   {crewAlertResult && (
                     <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                       {crewAlertResult.success
-                        ? `✓ Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
-                        : `✕ ${crewAlertResult.error}`}
+                        ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
+                        : ` ${crewAlertResult.error}`}
                       {crewAlertResult.failed > 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
                     </p>
                   )}
@@ -5826,9 +5843,9 @@ try {
                           setSendEmailAlert(false);
                           setAuditLog(prev => [{
                             id: crypto.randomUUID(),
-                            text: `📢 Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
+                            text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
                             time: 'Just now',
-                            color: 'bg-amber-500',
+                            color: 'bg-purple-600',
                             details: {
                               type: 'broadcast',
                               smsText: crewAlertMsg,
@@ -5838,7 +5855,7 @@ try {
                         } else {
                           setAuditLog(prev => [{
                             id: crypto.randomUUID(),
-                            text: `⚠️ Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
+                            text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
                             time: 'Just now',
                             color: 'bg-red-500'
                           }, ...prev]);
@@ -5848,12 +5865,12 @@ try {
                       }
                       setCrewAlertSending(false);
                     }}
-                    className="w-full py-3 bg-amber-500 hover:bg-amber-400 disabled:opacity-30 disabled:cursor-not-allowed text-black font-bold text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.2)] cursor-pointer border-none"
+                    className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
                   >
                     {crewAlertSending ? (
                       <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
                     ) : (
-                      <>📢 Send Broadcast</>
+                      <> Send Broadcast</>
                     )}
                   </button>
                 </div>
@@ -5866,42 +5883,42 @@ try {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div
                   onClick={() => setSendSmsAlert(prev => !prev)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
+                  className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
                     sendSmsAlert
-                      ? 'bg-amber-500/[0.06] border-amber-500/30 text-white shadow-[0_0_15px_rgba(245,158,11,0.03)]'
+                      ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                       : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                      sendSmsAlert ? 'bg-amber-500 border-amber-500 text-black' : 'border-white/20'
+                      sendSmsAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
                     }`}>
                       {sendSmsAlert && (
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                       )}
                     </div>
-                    <span className="text-xs font-black uppercase tracking-wider text-amber-400">📱 SMS TEXTS</span>
+                    <span className="text-xs font-black uppercase tracking-wider text-purple-300"> SMS TEXTS</span>
                   </div>
                   <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
                 </div>
 
                 <div
                   onClick={() => setSendEmailAlert(prev => !prev)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
+                  className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
                     sendEmailAlert
-                      ? 'bg-amber-500/[0.06] border-amber-500/30 text-white shadow-[0_0_15px_rgba(245,158,11,0.03)]'
+                      ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                       : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                      sendEmailAlert ? 'bg-amber-500 border-amber-500 text-black' : 'border-white/20'
+                      sendEmailAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
                     }`}>
                       {sendEmailAlert && (
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                       )}
                     </div>
-                    <span className="text-xs font-black uppercase tracking-wider text-amber-400">✉️ EMAIL ALERTS</span>
+                    <span className="text-xs font-black uppercase tracking-wider text-purple-300"> EMAIL ALERTS</span>
                   </div>
                   <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
                 </div>
@@ -5909,21 +5926,21 @@ try {
                 {sendSmsAlert && (
                   <div
                     onClick={() => setCrewSendAsGroup(prev => !prev)}
-                    className={`p-4 rounded-2xl border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
+                    className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
                       crewSendAsGroup
-                        ? 'bg-amber-500/[0.06] border-amber-500/30 text-white shadow-[0_0_15px_rgba(245,158,11,0.03)]'
+                        ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                         : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
                     }`}
                   >
                     <div className="flex items-center gap-2">
                       <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                        crewSendAsGroup ? 'bg-amber-500 border-amber-500 text-black' : 'border-white/20'
+                        crewSendAsGroup ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
                       }`}>
                         {crewSendAsGroup && (
                           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                         )}
                       </div>
-                      <span className="text-xs font-black uppercase tracking-wider text-amber-400">👥 Send as Group Text</span>
+                      <span className="text-xs font-black uppercase tracking-wider text-purple-300"> Send as Group Text</span>
                     </div>
                     <span className="text-[10px] text-white/40 leading-normal">Appends list of recipients to SMS so everyone sees who is on alert</span>
                   </div>
@@ -5935,8 +5952,8 @@ try {
                     {crewAlertResult && (
                       <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                         {crewAlertResult.success
-                          ? `✓ Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
-                          : `✕ ${crewAlertResult.error}`}
+                          ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
+                          : ` ${crewAlertResult.error}`}
                         {crewAlertResult.failed > 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
                       </p>
                     )}
@@ -5982,9 +5999,9 @@ try {
                             setSendEmailAlert(false);
                             setAuditLog(prev => [{
                               id: crypto.randomUUID(),
-                              text: `📢 Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
+                              text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
                               time: 'Just now',
-                              color: 'bg-amber-500',
+                              color: 'bg-purple-600',
                               details: {
                                 type: 'broadcast',
                                 smsText: crewAlertMsg,
@@ -5994,7 +6011,7 @@ try {
                           } else {
                             setAuditLog(prev => [{
                               id: crypto.randomUUID(),
-                              text: `⚠️ Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
+                              text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
                               time: 'Just now',
                               color: 'bg-red-500'
                             }, ...prev]);
@@ -6004,12 +6021,12 @@ try {
                         }
                         setCrewAlertSending(false);
                       }}
-                      className="w-full py-3 bg-amber-500 hover:bg-amber-400 disabled:opacity-30 disabled:cursor-not-allowed text-black font-bold text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.2)] cursor-pointer border-none"
+                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
                     >
                       {crewAlertSending ? (
                         <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
                       ) : (
-                        <>📢 Send Broadcast</>
+                        <> Send Broadcast</>
                       )}
                     </button>
                   </div>
@@ -6019,34 +6036,34 @@ try {
             {(sendSmsAlert || sendEmailAlert) && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-4 border-t border-white/5">
                 {/* Left Column: SMS Text Message Preview (50% Width) */}
-                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] rounded-2xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] p-5 space-y-4 shadow-sm flex flex-col justify-between">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
-                      <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">📱 SMS TEXT MESSAGE PREVIEW</span>
+                      <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]"> SMS TEXT MESSAGE PREVIEW</span>
                       <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
                     </div>
 
-                    <div className="bg-[var(--bg-color)] border border-[var(--border-color)] rounded-xl p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[160px]">
+                    <div className="bg-[var(--bg-color)] border border-[var(--border-color)] p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[160px]">
                       {crewAlertMsg ? crewAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
                     </div>
                   </div>
 
-                  <div className="text-xs text-slate-500 font-mono text-center pt-1">
-                    ⚡ Recipient phones will receive raw text alert instantly
+                  <div className="text-xs text-white/50 font-mono text-center pt-1">
+                     Recipient phones will receive raw text alert instantly
                   </div>
                 </div>
 
                 {/* Right Column: Email Template Preview (50% Width) */}
-                <div className="bg-white border border-slate-300 rounded-2xl p-5 space-y-4 shadow-sm">
-                  <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4 shadow-sm">
+                  <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase tracking-widest text-slate-800">📧 EMAIL DISPATCH PREVIEW</span>
-                      <span className="text-[9px] bg-purple-100 text-purple-700 border border-purple-300 px-2.5 py-0.5 rounded-full font-bold">Full HTML Template</span>
+                      <span className="text-xs font-black uppercase tracking-widest text-white"> EMAIL DISPATCH PREVIEW</span>
+                      <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold shadow-sm tracking-wide">Full HTML Template</span>
                     </div>
-                    <span className="text-xs text-slate-500 font-mono truncate max-w-[180px]">Subject: {smsEmailSubject || '(No subject)'}</span>
+                    <span className="text-xs text-white/50 font-mono truncate max-w-[180px]">Subject: {smsEmailSubject || '(No subject)'}</span>
                   </div>
 
-                  <div className="w-full h-[380px] rounded-xl overflow-hidden border border-slate-200 shadow-inner bg-[#050508]">
+                  <div className="w-full h-[380px] overflow-hidden border border-purple-500/20 shadow-inner bg-[#050508]">
                     <iframe
                       srcDoc={emailHtmlPreview}
                       title="Crew Email Template Live Preview"
@@ -6057,107 +6074,25 @@ try {
               </div>
             )}
 
-            {/* Automated Crew Reminders Sub-section */}
-            <div className="border-t border-white/5 pt-6 mt-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h4 className="text-xs font-black uppercase tracking-wider text-white">Automated Shift Reminders</h4>
-                  <p className="text-[0.65rem] text-white/40 mt-0.5">Send text reminders to crew members automatically before their scheduled shifts.</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    const newVal = !crewAutoReminders;
-                    setCrewAutoReminders(newVal);
-                    try {
-                      await fetch('/api/admin/settings', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ key: 'crew_auto_reminders', value: newVal ? 'on' : 'off' }),
-                      });
-                    } catch (err) {}
-                  }}
-                  className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer border-none ${crewAutoReminders ? 'bg-emerald-500' : 'bg-white/10'}`}
-                >
-                  <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow-sm ${crewAutoReminders ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                </button>
-              </div>
 
-              {crewAutoReminders && (
-                <div className="space-y-4 bg-white/[0.02] border border-white/5 rounded-xl p-4 animate-[slideIn_0.2s_ease]">
-                  <div className="flex items-center justify-between gap-4 flex-wrap">
-                    <div>
-                      <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block mb-1.5">Reminder Timing</span>
-                      <div className="relative inline-block">
-                        <select
-                          value={crewAutoRemindersHours}
-                          onChange={async (e) => {
-                            const v = parseInt(e.target.value, 10);
-                            setCrewAutoRemindersHours(v);
-                            try {
-                              await fetch('/api/admin/settings', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ key: 'crew_auto_reminders_hours', value: String(v) }),
-                              });
-                            } catch (err) {}
-                          }}
-                          className="appearance-none pr-7 pl-2.5 py-1 border border-slate-300 dark:border-white/15 bg-white text-slate-900 font-bold text-[11px] rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[130px]"
-                        >
-                          <option value="1" className="bg-white text-black">1 Hour Before</option>
-                          <option value="2" className="bg-white text-black">2 Hours Before</option>
-                          <option value="3" className="bg-white text-black">3 Hours Before</option>
-                          <option value="4" className="bg-white text-black">4 Hours Before</option>
-                          <option value="6" className="bg-white text-black">6 Hours Before</option>
-                          <option value="8" className="bg-white text-black">8 Hours Before</option>
-                          <option value="12" className="bg-white text-black">12 Hours Before</option>
-                          <option value="18" className="bg-white text-black">18 Hours Before</option>
-                          <option value="24" className="bg-white text-black">24 Hours Before (1 Day)</option>
-                          <option value="36" className="bg-white text-black">36 Hours Before</option>
-                          <option value="48" className="bg-white text-black">48 Hours Before (2 Days)</option>
-                          <option value="72" className="bg-white text-black">72 Hours Before (3 Days)</option>
-                          <option value="168" className="bg-white text-black">168 Hours Before (1 Week)</option>
-                        </select>
-                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-600 dark:text-white/40">
-                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="text-right">
-                      <span className="text-[0.55rem] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
-                        ● Active Reminders Queue
-                      </span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40 block mb-1">Message Template Preview</label>
-                    <div className="bg-black/30 border border-white/5 rounded-lg p-2.5 text-[11px] text-white/70 font-mono leading-relaxed select-text">
-                      Hi [Crew Name], this is an automated reminder that you are scheduled for [Role] at [Show/Location] starting at [Shift Time]. Please reply if you have conflicts.
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
 
             {/* Preset Roles Manager Modal */}
             {isManageRolesModalOpen && (
               <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[9999] animate-[fadeIn_0.2s_ease-out] p-4">
                 <div 
-                  className="bg-[#0c0c0e] border border-white/10 rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl relative animate-[scaleIn_0.2s_ease-out]"
+                  className="bg-[#0c0c0e] border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out]"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
                     <h3 className="text-sm font-black uppercase tracking-widest text-white flex items-center gap-2">
-                      ⚙️ Manage Preset Roles
+                       Manage Preset Roles
                     </h3>
                     <button
                       type="button"
                       onClick={() => setIsManageRolesModalOpen(false)}
                       className="text-white/40 hover:text-white transition-colors border-none bg-transparent cursor-pointer text-xs"
                     >
-                      ✕ Close
+                       Close
                     </button>
                   </div>
 
@@ -6170,7 +6105,7 @@ try {
                         value={newPresetRoleInput}
                         onChange={(e) => setNewPresetRoleInput(e.target.value)}
                         placeholder="e.g. LIGHTING DESIGNER"
-                        className="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500/50"
+                        className="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500/50"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             handleAddPresetRole(newPresetRoleInput);
@@ -6184,7 +6119,7 @@ try {
                           handleAddPresetRole(newPresetRoleInput);
                           setNewPresetRoleInput('');
                         }}
-                        className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none"
+                        className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none"
                       >
                         Add
                       </button>
@@ -6194,7 +6129,7 @@ try {
                   {/* Preset Roles List */}
                   <div className="space-y-1.5">
                     <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block">Current Preset Roles ({presetRoles.length})</label>
-                    <div className="max-h-[220px] overflow-y-auto custom-scrollbar border border-white/10 rounded-xl bg-black/40 p-2 space-y-1.5">
+                    <div className="max-h-[220px] overflow-y-auto custom-scrollbar border border-white/10 bg-black/40 p-2 space-y-1.5">
                       {presetRoles.length === 0 ? (
                         <div className="text-xs text-white/30 italic text-center py-4">No preset roles defined.</div>
                       ) : (
@@ -6248,15 +6183,15 @@ try {
     });
 
     return (
-      <section id="section-bandsms" className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+      <section id="section-bandsms" className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
         <div onClick={() => toggleSection('bandsms')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
             </div>
             <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 text-white">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              💬 Band Member SMS Text
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+               Band Member SMS Text
             </h3>
           </div>
           <div className="flex items-center gap-3">
@@ -6273,57 +6208,82 @@ try {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column: Band List (Choose Recipients) */}
               <div className="lg:col-span-2 space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-2">
                   <label className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40 block">Choose Recipients</label>
-                  <span className="text-[0.6rem] text-white/30 font-mono">
-                    Showing {allBandCombined.length} Band Member{allBandCombined.length !== 1 ? 's' : ''}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const allKeys = allBandCombined.map(b => normalizePhoneNumber(b.phone) || b.id || b.name).filter(Boolean);
+                        setSelectedBandPhones(allKeys);
+                      }}
+                      className="px-2 py-0.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-bold rounded transition-colors cursor-pointer"
+                    >
+                       Select All ({allBandCombined.length})
+                    </button>
+                    {selectedBandPhones.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedBandPhones([])}
+                        className="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-[10px] font-bold rounded transition-colors cursor-pointer"
+                      >
+                         Clear All
+                      </button>
+                    )}
+                    <span className="text-[0.6rem] text-white/30 font-mono">
+                      {selectedBandPhones.length} selected
+                    </span>
+                  </div>
                 </div>
 
-                <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 rounded-2xl p-4 max-h-[460px] overflow-y-auto custom-scrollbar">
+                <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 p-4 max-h-[460px] overflow-y-auto custom-scrollbar">
                   <div className="flex flex-col gap-1">
                     {allBandCombined
                       .slice()
                       .sort((a, b) => {
-                        const aChecked = selectedBandPhones.includes(normalizePhoneNumber(a.phone));
-                        const bChecked = selectedBandPhones.includes(normalizePhoneNumber(b.phone));
+                        const normA = normalizePhoneNumber(a.phone) || a.id;
+                        const normB = normalizePhoneNumber(b.phone) || b.id;
+                        const aChecked = selectedBandPhones.includes(normA) || selectedBandPhones.includes(a.id) || selectedBandPhones.includes(a.name);
+                        const bChecked = selectedBandPhones.includes(normB) || selectedBandPhones.includes(b.id) || selectedBandPhones.includes(b.name);
                         if (aChecked && !bChecked) return -1;
                         if (!aChecked && bChecked) return 1;
                         return a.name.localeCompare(b.name);
                       })
                       .map((r) => {
-                        const isChecked = selectedBandPhones.includes(normalizePhoneNumber(r.phone));
+                        const normPhone = normalizePhoneNumber(r.phone);
+                        const isChecked = (normPhone && selectedBandPhones.includes(normPhone)) || selectedBandPhones.includes(r.id) || selectedBandPhones.includes(r.name);
+                        const toggleSelection = () => {
+                          const normKey = normPhone || r.id || r.name;
+                          setSelectedBandPhones(prev => {
+                            const isCurrentlySelected = (normPhone && prev.includes(normPhone)) || prev.includes(r.id) || prev.includes(r.name);
+                            if (isCurrentlySelected) {
+                              return prev.filter(p => p !== normPhone && p !== r.id && p !== r.name);
+                            } else {
+                              return [...prev, normKey];
+                            }
+                          });
+                        };
+
                         return (
                           <div
                             key={r.id}
-                            className={`flex items-center justify-between gap-2.5 px-2.5 py-2 border-b border-black/20 dark:border-white/15 transition-all duration-200 relative min-h-[38px] ${
+                            onClick={toggleSelection}
+                            className={`flex items-center justify-between gap-2.5 px-3 py-2.5  border transition-all duration-200 cursor-pointer select-none min-h-[44px] ${
                               isChecked
-                                ? 'bg-amber-500/10 text-black dark:text-white'
-                                : 'hover:bg-black/5 dark:hover:bg-white/[0.04]'
+                                ? 'bg-purple-500/15 border-purple-500/40 text-white shadow-[0_0_12px_rgba(147, 51, 234,0.15)]'
+                                : 'bg-black/20 border-white/5 hover:bg-white/[0.05] text-white/80'
                             }`}
-                            title={`📞 ${r.phone || 'No phone'} \n✉️ ${r.email || 'No email'}`}
+                            title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
                           >
-                            <div 
-                              onClick={() => {
-                                if (r.phone) {
-                                  const norm = normalizePhoneNumber(r.phone);
-                                  setSelectedBandPhones(prev => 
-                                    prev.includes(norm) ? prev.filter(p => p !== norm) : [...prev, norm]
-                                  );
-                                }
-                              }}
-                              className={`flex items-center gap-2.5 flex-1 min-w-0 select-none h-full ${!r.phone ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                            >
-                              {/* White Checkbox with Grey Border */}
-                              <div className={`w-4.5 h-4.5 rounded border-2 flex items-center justify-center transition-all shrink-0 bg-white ${
-                                !r.phone 
-                                  ? 'border-gray-300 opacity-40' 
-                                  : isChecked 
-                                    ? 'border-slate-700 dark:border-slate-300 text-black shadow-sm' 
-                                    : 'border-slate-400 dark:border-slate-400 hover:border-slate-700'
+                            <div className="flex items-center gap-3 flex-1 min-w-0">
+                              {/* Custom Styled Checkbox */}
+                              <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 ${
+                                isChecked 
+                                  ? 'bg-purple-600 border-purple-400 text-white shadow-md scale-105' 
+                                  : 'bg-black/40 border-white/30 group-hover:border-white/60'
                               }`}>
-                                {isChecked && r.phone && (
-                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                {isChecked && (
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                                 )}
                               </div>
 
@@ -6334,7 +6294,7 @@ try {
                                   <img
                                     src={avatarSrc}
                                     alt={r.name}
-                                    className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
+                                    className="w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white/20 shadow-md"
                                     onError={(e) => {
                                       const fallback = resolveMemberAvatar(r.name, '');
                                       if (fallback && !e.currentTarget.src.endsWith(fallback)) {
@@ -6343,19 +6303,19 @@ try {
                                     }}
                                   />
                                 ) : (
-                                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0 ${!r.phone ? 'opacity-40' : ''}`}>
+                                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white/20 shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0">
                                     {r.name.slice(0, 2)}
                                   </div>
                                 );
                               })()}
 
                               {/* Name */}
-                              <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
+                              <span className="text-sm font-extrabold truncate leading-none text-white">{r.name}</span>
                             </div>
 
                             {/* Role badge */}
                             <div className="flex items-center gap-1.5 shrink-0">
-                              <span className="inline-block text-[8.5px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded leading-none shrink-0">
+                              <span className="inline-block text-[9px] font-black uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1 rounded-md leading-none shrink-0">
                                 {r.role}
                               </span>
                             </div>
@@ -6368,7 +6328,7 @@ try {
 
               {/* Right Column: Alert Broadcast Form */}
               <div className="space-y-5">
-                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 rounded-2xl p-4 space-y-4">
+                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 p-4 space-y-4">
                   <div>
                     <label className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Upcoming Show</label>
                     <div className="relative">
@@ -6391,17 +6351,17 @@ try {
                   </div>
 
                   {bandSmsSelectedShowDate && (
-                    <div className="flex items-center justify-between bg-amber-500/10 border border-amber-500/25 rounded-lg px-3 py-2 text-[var(--font-size-3xs)] text-amber-400 animate-[fadeIn_0.2s_ease-out]">
+                    <div className="flex items-center justify-between bg-purple-500/10 border border-purple-500/25 rounded-lg px-3 py-2 text-[var(--font-size-3xs)] text-purple-300 animate-[fadeIn_0.2s_ease-out]">
                       <div className="flex items-center gap-1.5">
-                        <span>📢</span>
+                        <span></span>
                         <span>Targeting show: <strong>{tourDates.find((s: any) => s.date === bandSmsSelectedShowDate)?.venue || 'Selected show'}</strong></span>
                       </div>
                       <button
                         type="button"
                         onClick={() => selectShowForBandSms('')}
-                        className="text-amber-500 hover:text-amber-300 font-bold border-none bg-transparent cursor-pointer text-xs"
+                        className="text-purple-400 hover:text-purple-300 font-bold border-none bg-transparent cursor-pointer text-xs"
                       >
-                        ✕
+                        
                       </button>
                     </div>
                   )}
@@ -6410,42 +6370,42 @@ try {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div
                       onClick={() => setSendBandSmsAlert(prev => !prev)}
-                      className={`p-4 rounded-2xl border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
+                      className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
                         sendBandSmsAlert
-                          ? 'bg-amber-500/[0.06] border-amber-500/30 text-white shadow-[0_0_15px_rgba(245,158,11,0.03)]'
+                          ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                           : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
                       }`}
                     >
                       <div className="flex items-center gap-2">
                         <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                          sendBandSmsAlert ? 'bg-amber-500 border-amber-500 text-black' : 'border-white/20'
+                          sendBandSmsAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
                         }`}>
                           {sendBandSmsAlert && (
                             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                           )}
                         </div>
-                        <span className="text-xs font-black uppercase tracking-wider text-amber-400">📱 SMS TEXTS</span>
+                        <span className="text-xs font-black uppercase tracking-wider text-purple-300"> SMS TEXTS</span>
                       </div>
                       <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
                     </div>
 
                     <div
                       onClick={() => setSendBandEmailAlert(prev => !prev)}
-                      className={`p-4 rounded-2xl border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
+                      className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
                         sendBandEmailAlert
-                          ? 'bg-amber-500/[0.06] border-amber-500/30 text-white shadow-[0_0_15px_rgba(245,158,11,0.03)]'
+                          ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                           : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
                       }`}
                     >
                       <div className="flex items-center gap-2">
                         <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                          sendBandEmailAlert ? 'bg-amber-500 border-amber-500 text-black' : 'border-white/20'
+                          sendBandEmailAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
                         }`}>
                           {sendBandEmailAlert && (
                             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                           )}
                         </div>
-                        <span className="text-xs font-black uppercase tracking-wider text-amber-400">✉️ EMAIL ALERTS</span>
+                        <span className="text-xs font-black uppercase tracking-wider text-purple-300"> EMAIL ALERTS</span>
                       </div>
                       <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
                     </div>
@@ -6461,7 +6421,7 @@ try {
                         onChange={(e) => setBandEmailSubject(e.target.value)}
                         placeholder="e.g. Band Schedule Update"
                         style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                        className="bg-white! text-black! border border-slate-300 rounded-lg px-3 py-2 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-amber-500 shadow-xs"
+                        className="bg-white! text-black! border border-slate-300 rounded-lg px-3 py-2 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
                       />
                     </div>
                   )}
@@ -6475,19 +6435,19 @@ try {
                       placeholder="Write message to send..."
                       rows={5}
                       style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                      className="w-full bg-white! text-black! border border-slate-300 rounded-xl px-3 py-2 text-xs font-medium placeholder-slate-400 focus:outline-none focus:border-amber-500 resize-none leading-relaxed shadow-xs"
+                      className="w-full bg-white! text-black! border border-slate-300 px-3 py-2 text-xs font-medium placeholder-slate-400 focus:outline-none focus:border-purple-500 resize-none leading-relaxed shadow-xs"
                     />
                   </div>
 
                   {/* Feedback Logs */}
                   {bandAlertResult && (
-                    <div className={`p-3 border rounded-xl text-xs flex flex-col gap-1 ${
+                    <div className={`p-3 border  text-xs flex flex-col gap-1 ${
                       bandAlertResult.success 
                         ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
                         : 'bg-red-500/10 border-red-500/20 text-red-400'
                     }`}>
                       <span className="font-bold flex items-center gap-1">
-                        {bandAlertResult.success ? '✓ Dispatch Successful' : '⚠️ Dispatch Failed'}
+                        {bandAlertResult.success ? ' Dispatch Successful' : ' Dispatch Failed'}
                       </span>
                       <span>
                         {bandAlertResult.success 
@@ -6503,12 +6463,12 @@ try {
                       type="button"
                       onClick={handleSendBandAlert}
                       disabled={bandAlertSending || !bandAlertMsg.trim() || selectedBandPhones.length === 0}
-                      className="w-full py-3 bg-amber-500 hover:bg-amber-400 disabled:opacity-30 disabled:cursor-not-allowed text-black font-bold text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.2)] cursor-pointer border-none"
+                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
                     >
                       {bandAlertSending ? (
                         <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
                       ) : (
-                        <>📢 Send Band Broadcast</>
+                        <> Send Band Broadcast</>
                       )}
                     </button>
                   </div>
@@ -6523,7 +6483,7 @@ try {
                       <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block">
                         Recipients ({checkedRecipients.length})
                       </span>
-                      <div className="flex flex-col gap-2 bg-black/20 border border-white/5 rounded-xl p-3 max-h-[220px] overflow-y-auto custom-scrollbar">
+                      <div className="flex flex-col gap-2 bg-black/20 border border-white/5 p-3 max-h-[220px] overflow-y-auto custom-scrollbar">
                         {checkedRecipients.map(r => {
                           const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[r.id] || [];
                           const timeFrameStr = dayShifts.length > 0
@@ -6539,7 +6499,7 @@ try {
                                   {r.avatar ? (
                                     <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
                                   ) : (
-                                    <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-purple-500/25 to-indigo-500/25 border border-purple-500/10 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-purple-400 shrink-0">
+                                    <div className="w-6.5 h-6.5 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-[var(--color-accent)] shrink-0">
                                       {r.name.slice(0, 2)}
                                     </div>
                                   )}
@@ -6553,7 +6513,7 @@ try {
                                   onClick={() => setSelectedBandPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
                                   className="text-white/30 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[var(--font-size-2xs)] font-bold shrink-0"
                                 >
-                                  ✕
+                                  
                                 </button>
                               </div>
 
@@ -6564,11 +6524,11 @@ try {
                                   <span>{timeFrameStr}</span>
                                 </div>
                                 <div className="flex items-center gap-1 text-emerald-300/80">
-                                  <span>📞</span>
+                                  <span></span>
                                   <span>{phoneDisplay}</span>
                                 </div>
                                 <div className="flex items-center gap-1 text-purple-300/80 truncate max-w-[200px]">
-                                  <span>✉️</span>
+                                  <span></span>
                                   <span className="truncate">{emailDisplay}</span>
                                 </div>
                               </div>
@@ -6586,34 +6546,34 @@ try {
             {/* FULL WIDTH 50/50 LIVE DISPATCH PREVIEW SECTION */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-2 border-t border-white/5">
               {/* Left Column: SMS Text Message Preview (50% Width) */}
-              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] rounded-2xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
+              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] p-5 space-y-4 shadow-sm flex flex-col justify-between">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
-                    <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">📱 SMS TEXT MESSAGE PREVIEW</span>
+                    <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]"> SMS TEXT MESSAGE PREVIEW</span>
                     <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
                   </div>
 
-                  <div className="bg-[var(--bg-color)] border border-[var(--border-color)] rounded-xl p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[120px]">
+                  <div className="bg-[var(--bg-color)] border border-[var(--border-color)] p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[120px]">
                     {bandAlertMsg ? bandAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
                   </div>
                 </div>
 
-                <div className="text-xs text-slate-500 font-mono text-center pt-1">
-                  ⚡ Recipient phone will receive raw text alert instantly
+                <div className="text-xs text-white/50 font-mono text-center pt-1">
+                   Recipient phone will receive raw text alert instantly
                 </div>
               </div>
 
               {/* Right Column: Email Template Preview (50% Width) */}
-              <div className="bg-white border border-slate-300 rounded-2xl p-5 space-y-4 shadow-sm">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4 shadow-sm">
+                <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-black uppercase tracking-widest text-slate-800">📧 EMAIL DISPATCH PREVIEW</span>
-                    <span className="text-[9px] bg-purple-100 text-purple-700 border border-purple-300 px-2.5 py-0.5 rounded-full font-bold">Full HTML Template</span>
+                    <span className="text-xs font-black uppercase tracking-widest text-white"> EMAIL DISPATCH PREVIEW</span>
+                    <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold shadow-sm tracking-wide">Full HTML Template</span>
                   </div>
-                  <span className="text-xs text-slate-500 font-mono">Subject: {bandEmailSubject || '(No subject)'}</span>
+                  <span className="text-xs text-white/50 font-mono">Subject: {bandEmailSubject || '(No subject)'}</span>
                 </div>
 
-                <div className="w-full h-[380px] rounded-xl overflow-hidden border border-slate-200 shadow-inner bg-[#050508]">
+                <div className="w-full h-[380px] overflow-hidden border border-purple-500/20 shadow-inner bg-[#050508]">
                   <iframe
                     srcDoc={bandEmailHtmlPreview}
                     title="Band Email Template Live Preview"
@@ -6629,7 +6589,7 @@ try {
   };
 
   const renderNewsletter = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('newsletter')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -6658,7 +6618,7 @@ try {
                       type="text"
                       value={blastSubject}
                       onChange={e => setBlastSubject(e.target.value)}
-                      placeholder="e.g. 🎸 New Show Announced — Chicago June 15th!"
+                      placeholder="e.g.  New Show Announced — Chicago June 15th!"
                       className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
                     />
                   </div>
@@ -6676,7 +6636,7 @@ try {
                     <div>
                       {blastResult && (
                         <p className={`text-sm font-bold ${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                          {blastResult.success ? `✓ Sent to ${blastResult.sent} fans` : `✕ ${blastResult.error}`}
+                          {blastResult.success ? ` Sent to ${blastResult.sent} fans` : ` ${blastResult.error}`}
                           {blastResult.failed > 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
                         </p>
                       )}
@@ -6701,12 +6661,12 @@ try {
                         }
                         setBlastSending(false);
                       }}
-                      className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-30 disabled:cursor-not-allowed text-black font-bold text-sm uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+                      className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-30 disabled:cursor-not-allowed text-black font-bold text-sm uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
                     >
                       {blastSending ? (
                         <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending...</>
                       ) : (
-                        <>📨 Send Blast</>
+                        <> Send Blast</>
                       )}
                     </button>
                   </div>
@@ -6717,7 +6677,7 @@ try {
   );
 
   const renderEmailFlow = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
       <div onClick={() => toggleSection('emailflow')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -6744,10 +6704,10 @@ try {
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {/* Booking Flows */}
-            <div className="bg-black/30 border border-emerald-500/10 rounded-xl p-4 flex flex-col justify-between">
+            <div className="bg-black/30 border border-emerald-500/10 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-emerald-400 font-black text-xs uppercase tracking-wider mb-3">
-                  <span>📅</span> Booking System
+                  <span></span> Booking System
                 </div>
                 <div className="space-y-3">
                   {[
@@ -6766,10 +6726,10 @@ try {
             </div>
 
             {/* Crew Flows */}
-            <div className="bg-black/30 border border-amber-500/10 rounded-xl p-4 flex flex-col justify-between">
+            <div className="bg-black/30 border border-purple-500/15 p-4 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2 text-amber-400 font-black text-xs uppercase tracking-wider mb-3">
-                  <span>🛡️</span> Crew Management
+                <div className="flex items-center gap-2 text-purple-300 font-black text-xs uppercase tracking-wider mb-3">
+                  <span></span> Crew Management
                 </div>
                 <div className="space-y-3">
                   {[
@@ -6779,8 +6739,8 @@ try {
                     { name: 'Crew SMS Dispatched', trigger: 'Sent to admin showing confirmation and recipient table.' },
                     { name: 'Crew Work Hours Summary', trigger: 'Sent automatically when crew checks out of a completed shift.' }
                   ].map((email, idx) => (
-                    <div key={idx} className="bg-amber-500/5 border border-amber-500/10 rounded-lg p-2.5 hover:border-amber-500/30 transition-all">
-                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-amber-200">{email.name}</h4>
+                    <div key={idx} className="bg-purple-500/10 border border-purple-500/15 rounded-lg p-2.5 hover:border-purple-500/30 transition-all">
+                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-purple-200">{email.name}</h4>
                       <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
                   ))}
@@ -6789,10 +6749,10 @@ try {
             </div>
 
             {/* Fan Flows */}
-            <div className="bg-black/30 border border-pink-500/10 rounded-xl p-4 flex flex-col justify-between">
+            <div className="bg-black/30 border border-pink-500/10 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-pink-400 font-black text-xs uppercase tracking-wider mb-3">
-                  <span>🎟️</span> Fan Engagement
+                  <span></span> Fan Engagement
                 </div>
                 <div className="space-y-3">
                   {[
@@ -6814,10 +6774,10 @@ try {
             </div>
 
             {/* Cruise Flows */}
-            <div className="bg-black/30 border border-cyan-500/10 rounded-xl p-4 flex flex-col justify-between">
+            <div className="bg-black/30 border border-cyan-500/10 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-cyan-400 font-black text-xs uppercase tracking-wider mb-3">
-                  <span>🚢</span> Cruise System
+                  <span></span> Cruise System
                 </div>
                 <div className="space-y-3">
                   {[
@@ -6836,10 +6796,10 @@ try {
             </div>
 
             {/* Newsletter & Other */}
-            <div className="bg-black/30 border border-purple-500/10 rounded-xl p-4 flex flex-col justify-between">
+            <div className="bg-black/30 border border-purple-500/10 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-purple-400 font-black text-xs uppercase tracking-wider mb-3">
-                  <span>📰</span> Newsletter & Account
+                  <span></span> Newsletter & Account
                 </div>
                 <div className="space-y-3">
                   {[
@@ -6866,7 +6826,7 @@ try {
   );
 
   const renderRegistry = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-black/10 dark:border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-black/10 dark:border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('registry')} className="p-6 border-b border-black/10 dark:border-white/10 flex items-center justify-between bg-black/5 dark:bg-black/20 cursor-pointer select-none hover:bg-black/10 dark:hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -6879,7 +6839,7 @@ try {
                 </h3>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="flex bg-white/15 rounded-xl p-1 border border-white/20 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex bg-white/15 p-1 border border-white/20 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
                     {['All', 'fan', 'crew', 'admin'].map(role => (
                       <button
                         key={role}
@@ -6972,7 +6932,7 @@ try {
                                 </div>
                                 <div>
                                   <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Password: </span>
-                                  <span className="text-amber-400 font-mono">
+                                  <span className="text-purple-300 font-mono">
                                     {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
                                   </span>
                                   {user.role === 'crew' && (
@@ -6994,14 +6954,14 @@ try {
                                           window.location.reload();
                                         }
                                       }}
-                                      className="ml-4 px-2 py-1 bg-amber-500/10 hover:bg-amber-500 text-amber-500 hover:text-black border border-amber-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-all"
+                                      className="ml-4 px-2 py-1 bg-purple-500/10 hover:bg-purple-600 text-purple-400 hover:text-black border border-purple-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-all"
                                     >
                                       Reset & Show
                                     </button>
                                   )}
                                 </div>
                                 {user.role === 'crew' && !acct?.password && (
-                                  <p className="text-[0.6rem] text-amber-500/60 font-bold italic">
+                                  <p className="text-[0.6rem] text-purple-400/60 font-bold italic">
                                     * Credentials lost (Check browser history or re-create account)
                                   </p>
                                 )}
@@ -7022,7 +6982,7 @@ try {
   );
 
   const renderCrewCreation = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
               <div onClick={() => toggleSection('crewcreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
                 <div className="flex items-center gap-2">
                   <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
@@ -7086,7 +7046,7 @@ try {
                     />
                   </div>
                   <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Phone Number <span className="text-amber-400">*</span></label>
+                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Phone Number <span className="text-purple-300">*</span></label>
                     <input
                       type="tel"
                       placeholder="(555) 123-4567"
@@ -7110,7 +7070,7 @@ try {
                   </button>
                 </div>
                 <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
-                  <span className="text-amber-400 text-sm mt-0.5">⚠️</span>
+                  <span className="text-purple-300 text-sm mt-0.5"></span>
                   <p className="text-[0.65rem] text-white/40 leading-relaxed">
                     A crew account will be created with the credentials above. Share the login details securely with the crew member. Only admins can create crew accounts.
                   </p>
@@ -7118,17 +7078,17 @@ try {
 
                 {/* Success card */}
                 {createdCrew && (
-                  <div className="mt-4 p-5 bg-emerald-500/[0.08] border border-emerald-500/30 rounded-xl animate-[fadeIn_0.3s_ease]">
+                  <div className="mt-4 p-5 bg-emerald-500/[0.08] border border-emerald-500/30 animate-[fadeIn_0.3s_ease]">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0">✅</div>
+                        <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
                         <div>
                           <h4 className="text-sm font-bold text-emerald-400">Crew Account Created</h4>
                           <p className="text-[0.7rem] text-white/60 mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
-                          {createdCrew.phone && <p className="text-[0.65rem] text-white/40 mt-0.5">📱 {createdCrew.phone}</p>}
+                          {createdCrew.phone && <p className="text-[0.65rem] text-white/40 mt-0.5"> {createdCrew.phone}</p>}
                           <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
                             <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
-                            <code className="text-sm font-mono font-bold text-amber-400 tracking-wider select-all">{createdCrew.password}</code>
+                            <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdCrew.password}</code>
                             <button
                               onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
                               className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
@@ -7136,7 +7096,7 @@ try {
                           </div>
                         </div>
                       </div>
-                      <button onClick={() => setCreatedCrew(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
+                      <button onClick={() => setCreatedCrew(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0"></button>
                     </div>
                     <button
                       onClick={scrollToRegistry}
@@ -7151,9 +7111,9 @@ try {
                 {/* Error */}
                 {crewError && (
                   <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
-                    <span className="text-rose-400">✕</span>
+                    <span className="text-rose-400"></span>
                     <p className="text-[0.7rem] text-rose-400 font-bold">{crewError}</p>
-                    <button onClick={() => setCrewError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
+                    <button onClick={() => setCrewError('')} className="ml-auto text-white/30 hover:text-white"></button>
                   </div>
                 )}
               </div>
@@ -7181,7 +7141,7 @@ try {
   };
 
   const renderAdminCreation = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
       <div onClick={() => toggleSection('admincreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
@@ -7209,7 +7169,7 @@ try {
                 placeholder="e.g. Michael Scimeca"
                 value={newAdminName}
                 onChange={e => setNewAdminName(e.target.value)}
-                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all rounded-lg"
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all rounded-lg"
               />
             </div>
             <div>
@@ -7219,7 +7179,7 @@ try {
                 placeholder="admin@7thheaven.com"
                 value={newAdminEmail}
                 onChange={e => setNewAdminEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all rounded-lg"
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all rounded-lg"
               />
             </div>
             <div>
@@ -7229,13 +7189,13 @@ try {
                 placeholder="e.g. mikeys"
                 value={newAdminUsername}
                 onChange={e => setNewAdminUsername(e.target.value)}
-                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all rounded-lg"
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all rounded-lg"
               />
             </div>
             <button
               onClick={createAdmin}
               disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
-              className="px-6 py-3 bg-amber-500 text-black font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-amber-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] flex items-center gap-2 whitespace-nowrap"
+              className="px-6 py-3 bg-purple-600 text-white font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(147, 51, 234,0.2)] hover:shadow-[0_0_30px_rgba(147, 51, 234,0.4)] flex items-center gap-2 whitespace-nowrap"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
               {adminCreateLoading ? 'Creating…' : 'Create Admin'}
@@ -7243,7 +7203,7 @@ try {
           </div>
 
           <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
-            <span className="text-amber-400 text-sm mt-0.5">🔐</span>
+            <span className="text-purple-300 text-sm mt-0.5"></span>
             <p className="text-[0.65rem] text-white/40 leading-relaxed">
               A secure temporary password will be auto-generated and emailed to the new admin. They can log in immediately with those credentials. Only grant admin access to trusted individuals — admin accounts have full platform access.
             </p>
@@ -7251,34 +7211,34 @@ try {
 
           {/* Success card */}
           {createdAdmin && (
-            <div className="mt-4 p-5 bg-amber-500/[0.08] border border-amber-500/30 rounded-xl">
+            <div className="mt-4 p-5 bg-purple-600/[0.08] border border-purple-500/30">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-lg shrink-0">✅</div>
+                  <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-lg shrink-0"></div>
                   <div>
-                    <h4 className="text-sm font-bold text-amber-400">Admin Account Created</h4>
+                    <h4 className="text-sm font-bold text-purple-300">Admin Account Created</h4>
                     <p className="text-[0.7rem] text-white/60 mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
                     <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
                       <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
-                      <code className="text-sm font-mono font-bold text-amber-400 tracking-wider select-all">{createdAdmin.password}</code>
+                      <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdAdmin.password}</code>
                       <button
                         onClick={() => { navigator.clipboard.writeText(createdAdmin.password); }}
                         className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
                       >Copy</button>
                     </div>
-                    <p className="text-[0.6rem] text-white/30 mt-2">📧 Welcome email sent to {createdAdmin.email}</p>
+                    <p className="text-[0.6rem] text-white/30 mt-2"> Welcome email sent to {createdAdmin.email}</p>
                   </div>
                 </div>
-                <button onClick={() => setCreatedAdmin(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
+                <button onClick={() => setCreatedAdmin(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0"></button>
               </div>
             </div>
           )}
           {/* Error */}
           {adminCreateError && (
             <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
-              <span className="text-rose-400">✕</span>
+              <span className="text-rose-400"></span>
               <p className="text-[0.7rem] text-rose-400 font-bold">{adminCreateError}</p>
-              <button onClick={() => setAdminCreateError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
+              <button onClick={() => setAdminCreateError('')} className="ml-auto text-white/30 hover:text-white"></button>
             </div>
           )}
 
@@ -7287,9 +7247,9 @@ try {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  🛡️ Sub-Admin Role Permissions
-                  {savePermStatus === 'saving' && <span className="text-[0.65rem] text-amber-400 font-mono animate-pulse">Saving changes...</span>}
-                  {savePermStatus === 'saved' && <span className="text-[0.65rem] text-emerald-400 font-mono">✓ Saved to database</span>}
+                   Sub-Admin Role Permissions
+                  {savePermStatus === 'saving' && <span className="text-[0.65rem] text-purple-300 font-mono animate-pulse">Saving changes...</span>}
+                  {savePermStatus === 'saved' && <span className="text-[0.65rem] text-emerald-400 font-mono"> Saved to database</span>}
                 </h4>
                 <p className="text-[0.65rem] text-white/40 mt-0.5">Control feature access for specific sub-admin accounts.</p>
               </div>
@@ -7297,20 +7257,20 @@ try {
 
             <div className="space-y-4">
               {Object.entries(adminPermissions).map(([email, perms]) => (
-                <div key={email} className="p-4 bg-white/[0.03] border border-white/10 rounded-xl">
+                <div key={email} className="p-4 bg-white/[0.03] border border-white/10">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold text-amber-400 font-mono">{email}</span>
+                    <span className="text-xs font-bold text-purple-300 font-mono">{email}</span>
                     <span className="text-[0.6rem] uppercase tracking-wider text-white/30 font-bold">Sub-Admin</span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {[
-                      { key: 'cruise_admin', label: '🚢 Cruise Admin' },
-                      { key: 'cruise_chat', label: '💬 Cruise Chat' },
-                      { key: 'schedule', label: '📅 Schedule' },
-                      { key: 'crew_roster', label: '👥 Crew Roster' },
-                      { key: 'email_blasts', label: '📧 Email Blasts' },
-                      { key: 'site_settings', label: '⚙️ Site Settings' },
+                      { key: 'cruise_admin', label: ' Cruise Admin' },
+                      { key: 'cruise_chat', label: ' Cruise Chat' },
+                      { key: 'schedule', label: ' Schedule' },
+                      { key: 'crew_roster', label: ' Crew Roster' },
+                      { key: 'email_blasts', label: ' Email Blasts' },
+                      { key: 'site_settings', label: ' Site Settings' },
                     ].map(({ key, label }) => {
                       const enabled = !!perms[key];
                       return (
@@ -7329,13 +7289,13 @@ try {
                           }}
                           className={`flex items-center justify-between p-2.5 rounded-lg border text-left text-xs font-medium transition-all cursor-pointer ${
                             enabled
-                              ? 'bg-amber-500/10 border-amber-500/40 text-amber-300'
+                              ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
                               : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20'
                           }`}
                         >
                           <span>{label}</span>
-                          <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-3xs)] font-bold ${enabled ? 'bg-amber-400 text-black' : 'bg-white/10 text-white/30'}`}>
-                            {enabled ? '✓' : '✕'}
+                          <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-3xs)] font-bold ${enabled ? 'bg-purple-500 text-white' : 'bg-white/10 text-white/30'}`}>
+                            {enabled ? '' : ''}
                           </span>
                         </button>
                       );
@@ -7353,14 +7313,14 @@ try {
 
 
   const renderBulkInvites = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
       <div onClick={() => toggleSection('bulkinvites')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-            ✉️ Bulk Invites
+             Bulk Invites
             {renderInfoToggle('bulkinvites')}
           </h3>
         </div>
@@ -7445,14 +7405,14 @@ try {
     };
 
     return (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
       <div onClick={() => toggleSection('cruisesignups')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-            🚢 Cruise Signups
+             Cruise Signups
             {renderInfoToggle('cruisesignups')}
           </h3>
         </div>
@@ -7470,27 +7430,27 @@ try {
         <div className="p-6">
           {/* Summary stats bar */}
           <div className="grid grid-cols-4 gap-3 mb-6">
-            <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+            <div className="bg-black/30 p-3 border border-white/5 text-center">
               <p className="text-xl font-black text-cyan-400">{signups.length}</p>
               <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
             </div>
-            <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+            <div className="bg-black/30 p-3 border border-white/5 text-center">
               <p className="text-xl font-black text-white">{cruiseStats.total}</p>
               <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
             </div>
-            <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+            <div className="bg-black/30 p-3 border border-white/5 text-center">
               <p className="text-xl font-black text-emerald-400">{signups.filter((s: any) => s.depositPaid).length}</p>
               <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Deposits</p>
             </div>
-            <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
-              <p className="text-xl font-black text-amber-400">{signups.filter((s: any) => s.fullPaid).length}</p>
+            <div className="bg-black/30 p-3 border border-white/5 text-center">
+              <p className="text-xl font-black text-purple-300">{signups.filter((s: any) => s.fullPaid).length}</p>
               <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Paid Full</p>
             </div>
           </div>
 
           {/* Email action bar */}
           {signups.length > 0 && (
-            <div className="flex items-center justify-between mb-4 bg-black/20 px-4 py-3 rounded-xl border border-white/5">
+            <div className="flex items-center justify-between mb-4 bg-black/20 px-4 py-3 border border-white/5">
               <div className="flex items-center gap-3">
                 <button onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-all cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/15 text-white/10 hover:border-white/25'}`}>
                   {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
@@ -7512,10 +7472,10 @@ try {
 
           {/* Email compose panel */}
           {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
-            <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 rounded-xl p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
+            <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
               <div className="flex items-center justify-between">
                 <p className="text-[0.6rem] font-bold uppercase tracking-widest text-cyan-400/60">Compose Cruise Email</p>
-                <button onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer text-sm">✕</button>
+                <button onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer text-sm"></button>
               </div>
               {/* Selected recipients preview */}
               <div className="flex flex-wrap gap-1.5 max-h-[60px] overflow-y-auto scrollbar-hide">
@@ -7550,7 +7510,7 @@ try {
                 <div>
                   {cruiseEmailResult && (
                     <p className={`text-sm font-bold ${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      {cruiseEmailResult.success ? `✓ Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : `✕ ${cruiseEmailResult.error}`}
+                      {cruiseEmailResult.success ? ` Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : ` ${cruiseEmailResult.error}`}
                       {cruiseEmailResult.failed > 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
                     </p>
                   )}
@@ -7563,7 +7523,7 @@ try {
                   {cruiseEmailSending ? (
                     <><span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
                   ) : (
-                    <>📨 Send Email</>
+                    <> Send Email</>
                   )}
                 </button>
               </div>
@@ -7624,7 +7584,7 @@ try {
                   </div>
                   {/* Full paid */}
                   <div className="flex justify-center">
-                    <button onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all cursor-pointer ${s.fullPaid ? 'bg-amber-500/20 border-amber-500/40 text-amber-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                    <button onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
                       {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
                     </button>
                   </div>
@@ -7639,7 +7599,7 @@ try {
 
           {/* Bottom actions */}
           <div className="flex gap-3 mt-4">
-            <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
+            <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
               Export CSV
             </button>
@@ -7669,19 +7629,19 @@ try {
     // Internal overlap validation
     if (activeAssignments.length > 0) {
       for (const [crewId, details] of activeAssignments) {
-        const tfs = details.customized 
-          ? (details.timeFrames || [{ startHour: details.startHour, endHour: details.endHour, role: details.role }])
-          : dropTimeFrames;
+        const tfs = (crewId === draggedCrewMemberId || !details.customized) 
+          ? dropTimeFrames 
+          : (details.timeFrames || dropTimeFrames);
         
         if (hasInternalOverlap(tfs)) {
           const name = findCrewName(crewId);
-          alert(`Cannot save schedule for ${name}: Time frames overlap with each other.`);
+          showAlert(`Cannot save schedule for ${name}: Time frames overlap with each other.`, "Schedule Overlap", "warning");
           return;
         }
       }
     } else {
       if (hasInternalOverlap(dropTimeFrames)) {
-        alert(`Cannot save schedule: Time frames overlap with each other.`);
+        showAlert(`Cannot save schedule: Time frames overlap with each other.`, "Schedule Overlap", "warning");
         return;
       }
     }
@@ -7703,16 +7663,18 @@ try {
     setSchedules(current => {
       let updated = [...current];
 
-      // Delete all existing shifts on activeDropDay for all touched real crew members
-      if (touchedCrewIds.size > 0) {
+      // When editing a specific shift, remove only that shift. Otherwise, update touched crew shifts.
+      if (editingShiftId) {
+        updated = updated.filter(item => item.id !== editingShiftId);
+      } else if (touchedCrewIds.size > 0) {
         updated = updated.filter(item => !(item.date === activeDropDay && touchedCrewIds.has(item.crewId) && !item.isTimeOff));
       }
 
       if (activeAssignments.length > 0) {
         activeAssignments.forEach(([crewId, details], idx) => {
-          const tfs = details.customized 
-            ? (details.timeFrames || [{ startHour: details.startHour, endHour: details.endHour, role: details.role, tags: [] }])
-            : dropTimeFrames;
+          const tfs = (crewId === draggedCrewMemberId || !details.customized) 
+            ? dropTimeFrames 
+            : (details.timeFrames || dropTimeFrames);
 
           tfs.forEach((tf, tfIdx) => {
             const newId = 'shift_' + Date.now() + '_' + crewId + '_' + idx + '_' + tfIdx + '_' + Math.random().toString(36).substr(2, 5);
@@ -7927,20 +7889,21 @@ try {
         if (!mObj) return;
 
         const settings = group.memberSettings?.[memberId] || { startHour: 17.0, endHour: 22.0, role: mObj.role || 'SERVER' };
-        const start = settings.startHour;
-        const end = settings.endHour;
+        const tfs = (settings as any).timeFrames || [{ startHour: settings.startHour, endHour: settings.endHour, role: settings.role }];
         
-        newShiftsToAdd.push({
-          id: `group_shift_${Date.now()}_${memberId}_${Math.random().toString(36).substr(2, 5)}`,
-          crewId: memberId,
-          crewName: mObj.name,
-          date: dateStr,
-          startHour: start,
-          endHour: end,
-          time: formatTimeFrame(start, end),
-          role: settings.role,
-          location: 'The Chicago Theatre',
-          notes: ''
+        tfs.forEach((tf: any, tfIdx: number) => {
+          newShiftsToAdd.push({
+            id: `group_shift_${Date.now()}_${memberId}_${tfIdx}_${Math.random().toString(36).substr(2, 5)}`,
+            crewId: memberId,
+            crewName: mObj.name,
+            date: dateStr,
+            startHour: tf.startHour,
+            endHour: tf.endHour,
+            time: formatTimeFrame(tf.startHour, tf.endHour),
+            role: tf.role,
+            location: 'The Chicago Theatre',
+            notes: ''
+          });
         });
       });
 
@@ -8034,7 +7997,7 @@ try {
       BUSSER: { bg: '#10b981', tagBg: '#047857', label: 'BUSSER' },       // Vibrant Emerald Green
       LINE_COOK: { bg: '#6366f1', tagBg: '#4338ca', label: 'LINE COOK' },  // Vibrant Indigo
       CHEF: { bg: '#f43f5e', tagBg: '#be123c', label: 'CHEF' },           // Vibrant Rose Red
-      HOST: { bg: '#f59e0b', tagBg: '#b45309', label: 'HOST' },           // Vibrant Amber Gold
+      HOST: { bg: '#9333ea', tagBg: '#6b21a8', label: 'HOST' },           // Vibrant Amber Gold
       MANAGER: { bg: '#a855f7', tagBg: '#7e22ce', label: 'MANAGER' },     // Vibrant Purple / Violet
       POSITION: { bg: '#06b6d4', tagBg: '#0891b2', label: 'POSITION' },   // Vibrant Electric Teal
       UNLOADING: { bg: '#f97316', tagBg: '#c2410c', label: 'UNLOADING' },  // Orange
@@ -8068,11 +8031,11 @@ try {
         const isCorporate = show.tags?.includes('corporate');
         const isCruise = show.tags?.includes('cruise') || (show.venue && show.venue.toLowerCase().includes('cruise'));
 
-        if (isFestival) return { bg: '#ec4899', tagBg: '#be185d', label: '🎪 Festival' }; 
-        if (isPrivate) return { bg: '#8b5cf6', tagBg: '#6d28d9', label: '🔒 Private' }; 
-        if (isCorporate) return { bg: '#10b981', tagBg: '#047857', label: '💼 Corporate' }; 
-        if (isCruise) return { bg: '#3b82f6', tagBg: '#1d4ed8', label: '🚢 Cruise' }; 
-        return { bg: '#f59e0b', tagBg: '#b45309', label: '🎵 Club / Bar' };
+        if (isFestival) return { bg: '#ec4899', tagBg: '#be185d', label: ' Festival' }; 
+        if (isPrivate) return { bg: '#8b5cf6', tagBg: '#6d28d9', label: ' Private' }; 
+        if (isCorporate) return { bg: '#10b981', tagBg: '#047857', label: ' Corporate' }; 
+        if (isCruise) return { bg: '#3b82f6', tagBg: '#1d4ed8', label: ' Cruise' }; 
+        return { bg: '#9333ea', tagBg: '#6b21a8', label: ' Club / Bar' };
       }
 
       if (mode === 'band') {
@@ -8080,15 +8043,15 @@ try {
         const venueLower = (show.venue || '').toLowerCase();
         
         if (notesLower.includes('unplugged') || notesLower.includes('f.a.n. show')) {
-          return { bg: '#f97316', tagBg: '#c2410c', label: '🔸 F.A.N. Unplugged' };
+          return { bg: '#f97316', tagBg: '#c2410c', label: ' F.A.N. Unplugged' };
         }
         if (notesLower.includes('tv appearance') || venueLower.includes('wgn')) {
-          return { bg: '#06b6d4', tagBg: '#0891b2', label: '📺 TV appearance' };
+          return { bg: '#06b6d4', tagBg: '#0891b2', label: ' TV appearance' };
         }
         if (venueLower.includes('private event') || notesLower.includes('private')) {
-          return { bg: '#f43f5e', tagBg: '#be123c', label: '🔒 Private Event' };
+          return { bg: '#f43f5e', tagBg: '#be123c', label: ' Private Event' };
         }
-        return { bg: '#6366f1', tagBg: '#4338ca', label: '🎸 7th Heaven' };
+        return { bg: '#6366f1', tagBg: '#4338ca', label: ' 7th Heaven' };
       }
 
       return defaultRoleStyle;
@@ -8172,7 +8135,7 @@ try {
           if (overlapping.length > 0) {
             const member = crewMembers.find(c => c.id === crewId);
             const memberName = member ? member.name : crewId;
-            alert(`Cannot reassign shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${dateStr}.`);
+            showAlert(`Cannot reassign shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${dateStr}.`, "Reassignment Error", "error");
             return;
           }
         }
@@ -8298,21 +8261,8 @@ try {
       setDropLocation(shift.location);
       setDropNotes(shift.notes);
 
-      // Load all shifts for this crew member on this day if real crew member
+      // Load only the specific shift being edited into the drawer
       let loadedTimeFrames = [{ id: shift.id, startHour: shift.startHour, endHour: shift.endHour, role: shift.role, tags: shift.tags || [] }];
-      if (shift.crewId && shift.crewId !== 'openshifts') {
-        const existing = schedules.filter(s => s.date === shift.date && s.crewId === shift.crewId && !s.isTimeOff);
-        if (existing.length > 0) {
-          loadedTimeFrames = existing.map(s => ({
-            id: s.id,
-            startHour: s.startHour,
-            endHour: s.endHour,
-            role: s.role,
-            tags: s.tags || []
-          }));
-        }
-      }
-
       setDropTimeFrames(loadedTimeFrames);
 
       const initialAssignments: { [key: string]: any } = {};
@@ -8351,14 +8301,20 @@ try {
       const timeLabel = shift.labelOverride || formatTimeStringWIW(shift.startHour, shift.endHour);
       const isBeingDragged = draggedShiftId === shift.id;
 
+      const activeLockingEditor = coEditors.find(ed => ed.isEditing && ed.lockedShiftId === shift.id);
       const showOverlapAvatar = showCrewName;
 
       return (
         <div
           key={shift.id}
           id={`shift-card-${shift.id}`}
-          draggable
+          draggable={!activeLockingEditor}
           onDragStart={(e) => {
+            if (activeLockingEditor) {
+              e.preventDefault();
+              setAlertModal({ isOpen: true, title: 'Shift Locked', message: `${activeLockingEditor.name} is currently editing this shift. Locks auto-release when changes are saved to prevent schedule mix-ups!`, type: 'warning' });
+              return;
+            }
             e.stopPropagation();
             e.dataTransfer.setData("text/plain", `shift:${shift.id}`);
             e.dataTransfer.effectAllowed = "move";
@@ -8372,6 +8328,16 @@ try {
           }}
           onClick={(e) => {
             e.stopPropagation();
+            if (activeLockingEditor) {
+              setCoEditorConflictAlert({
+                isOpen: true,
+                editorName: activeLockingEditor.name,
+                shiftTitle: `${shift.role || 'Shift'} (${formatTimeStringWIW(shift.startHour, shift.endHour)})`,
+                changeDesc: `${activeLockingEditor.name} is currently updating this shift parameters in real time.`,
+                timestamp: 'Active right now'
+              });
+              return;
+            }
             handleEditShiftClick(shift);
           }}
           style={{
@@ -8382,6 +8348,8 @@ try {
             showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
           } ${
             shift.isDraft ? 'wiw-striped' : ''
+          } ${
+            activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''
           }`}
           title={shift.crewId !== 'openshifts' ? (() => {
             const member = crewMembers.find(c => c.id === shift.crewId);
@@ -8389,6 +8357,14 @@ try {
             return `${name}\nRole: ${member?.role || shift.role || 'Crew Member'}\nPhone: ${member?.phone || 'N/A'}\nEmail: ${member?.email || 'N/A'}`;
           })() : 'Open Shift'}
         >
+          {activeLockingEditor && (
+            <div className="absolute inset-x-0 -top-2 z-20 flex justify-center pointer-events-none">
+              <span className="bg-pink-600 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border border-pink-400 flex items-center gap-1 animate-pulse">
+                 {activeLockingEditor.name.split(' ')[0]} editing
+              </span>
+            </div>
+          )}
+
           {/* Action buttons — visible on hover */}
           <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
@@ -8429,18 +8405,26 @@ try {
                   {timeLabel}
                 </span>
               </div>
-              {shift.tags && shift.tags.length > 0 && (
-                <div className="flex flex-wrap gap-0.5 mt-0.5">
-                  {shift.tags.map((tag: string, idx: number) => (
+              <div className="flex flex-wrap gap-0.5 mt-0.5">
+                {shift.role ? (
+                  shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string, rIdx: number) => (
                     <span 
-                      key={idx}
-                      className="px-1.5 py-0.2 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/95 border border-white/15 select-none"
+                      key={rIdx}
+                      className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-purple-500/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
                     >
-                      {tag}
+                      {singleRole}
                     </span>
-                  ))}
-                </div>
-              )}
+                  ))
+                ) : null}
+                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string, idx: number) => (
+                  <span 
+                    key={idx}
+                    className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           ) : (
             /* Expanded style for Timeline / List / Detail views */
@@ -8452,15 +8436,25 @@ try {
 
               {shift.location || shift.labelOverride ? (
                 <span className="text-[8.5px] font-bold opacity-90 truncate mt-0.5 block">
-                  {shift.labelOverride ? shift.labelOverride.replace(/^\d+[a|p]\s*-\s*\d+[a|p]\s*at\s*/i, '') : `📍 ${shift.location.split(',')[0]}`}
+                  {shift.labelOverride ? shift.labelOverride.replace(/^\d+[a|p]\s*-\s*\d+[a|p]\s*at\s*/i, '') : ` ${shift.location.split(',')[0]}`}
                 </span>
               ) : null}
 
               <div className="mt-1 flex items-center justify-start gap-0.5 flex-wrap">
-                {shift.tags && shift.tags.length > 0 && shift.tags.map((tag: string, idx: number) => (
+                {shift.role ? (
+                  shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string, rIdx: number) => (
+                    <span 
+                      key={rIdx}
+                      className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-purple-500/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
+                    >
+                      {singleRole}
+                    </span>
+                  ))
+                ) : null}
+                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string, idx: number) => (
                   <span 
                     key={idx}
-                    className="px-1.5 py-0.2 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/95 border border-white/15 select-none"
+                    className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
                   >
                     {tag}
                   </span>
@@ -8477,9 +8471,9 @@ try {
                 const name = member?.name || shift.crewName || shift.crewId || '?';
                 return (
                   <div className="mt-2.5 pt-1.5 border-t border-white/10 text-[8.5px] text-white/70 space-y-0.5 font-sans leading-normal">
-                    <span className="font-bold text-amber-300 block truncate" title={name}>👤 {name}</span>
-                    <span className="block truncate font-mono opacity-80" title={member?.phone || 'N/A'}>📞 {member?.phone || 'N/A'}</span>
-                    <span className="block truncate font-mono opacity-80" title={member?.email || 'N/A'}>✉️ {member?.email || 'N/A'}</span>
+                    <span className="font-bold text-purple-300 block truncate" title={name}> {name}</span>
+                    <span className="block truncate font-mono opacity-80" title={member?.phone || 'N/A'}> {member?.phone || 'N/A'}</span>
+                    <span className="block truncate font-mono opacity-80" title={member?.email || 'N/A'}> {member?.email || 'N/A'}</span>
                   </div>
                 );
               })()}
@@ -8530,16 +8524,16 @@ try {
                 return (
                   <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg shadow-xl text-left border border-slate-700/50 w-52 leading-relaxed font-sans text-xs">
                     <div className="font-bold text-slate-200 text-xs mb-0.5">{displayName}</div>
-                    <div className="text-amber-400 font-extrabold text-[var(--font-size-4xs)] uppercase tracking-wider mb-2">
+                    <div className="text-purple-300 font-extrabold text-[var(--font-size-4xs)] uppercase tracking-wider mb-2">
                       Role: {member?.role || shift.role || 'Crew Member'}
                     </div>
                     <div className="text-slate-400 text-[var(--font-size-3xs)] space-y-1 border-t border-slate-700/50 pt-1.5 font-mono">
                       <div className="flex items-center gap-1.5">
-                        <span>✉️</span>
+                        <span></span>
                         <span className="truncate">{member?.email || 'N/A'}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <span>📞</span>
+                        <span></span>
                         <span>{member?.phone || 'N/A'}</span>
                       </div>
                     </div>
@@ -8554,7 +8548,7 @@ try {
               {shift.crewId === 'openshifts' ? (
                 <>
                   <div className="w-4 h-4 rounded-full border border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 text-[var(--font-size-5xs)]">
-                    ●
+                    
                   </div>
                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-wider text-emerald-400 truncate">
                     OpenShifts
@@ -8622,7 +8616,7 @@ try {
           } else if (upper.includes("CHEF") || upper.includes("COOK")) {
             colorClass = "text-emerald-400 bg-emerald-500/10 border-emerald-500/25";
           } else if (upper.includes("MANAGER")) {
-            colorClass = "text-amber-400 bg-amber-500/10 border-amber-500/25";
+            colorClass = "text-purple-300 bg-purple-500/10 border-purple-500/25";
           } else if (upper.includes("BUSSER")) {
             colorClass = "text-sky-400 bg-sky-500/10 border-sky-500/25";
           }
@@ -8642,7 +8636,7 @@ try {
           data-lenis-prevent="true"
           data-lenis-prevent-wheel="true"
           data-lenis-prevent-touch="true"
-          className="w-full flex-1 min-h-0 overflow-auto border border-[var(--border-color)] rounded-xl bg-[var(--card-bg)] text-[var(--text-color)] shadow-sm relative"
+          className="w-full flex-1 min-h-0 overflow-auto border border-[var(--border-color)] bg-[var(--card-bg)] text-[var(--text-color)] shadow-sm relative"
           style={{ overscrollBehavior: "contain", touchAction: "pan-x pan-y" }}
         >
           <table
@@ -8666,9 +8660,9 @@ try {
                       }}
                       className={`p-2 w-36 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-all duration-200 cursor-pointer ${
                         (selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
-                          ? 'bg-amber-500/20 text-amber-400 font-black shadow-[inset_0_-3px_0_#f59e0b]' 
+                          ? 'bg-purple-500/20 text-purple-300 font-black shadow-[inset_0_-3px_0_#9333ea]' 
                           : isNextShow
-                            ? 'bg-amber-500/10 text-amber-400 font-black border-x border-amber-500/30 shadow-[inset_0_1px_0_rgba(245,158,11,0.2)]'
+                            ? 'bg-purple-500/10 text-purple-300 font-black border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
                             : 'text-[var(--text-color)] hover:bg-[var(--bg-color)]'
                       }`}
                       title="Click to select date & stack working crew at top"
@@ -8678,7 +8672,7 @@ try {
                           <div className="flex items-center gap-1.5">
                             <span className="text-[var(--text-color)] font-black text-[10px]">{getDayLabelOverride(day.dateStr, idx)}</span>
                             {isNextShow && (
-                              <span className="text-[9px] bg-amber-500 text-black px-1 py-0.5 rounded font-black uppercase tracking-widest scale-[0.85] origin-left select-none">
+                              <span className="text-[9px] bg-purple-600 text-white px-1 py-0.5 rounded font-black uppercase tracking-widest scale-[0.85] origin-left select-none">
                                 NEXT
                               </span>
                             )}
@@ -8690,7 +8684,7 @@ try {
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="p-0.5 hover:bg-amber-500/10 rounded text-amber-500 hover:text-amber-400 border-none bg-transparent cursor-pointer"
+                              className="p-0.5 hover:bg-purple-500/10 rounded text-purple-400 hover:text-purple-300 border-none bg-transparent cursor-pointer"
                               title="Alert assigned crew for this show"
                             >
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -8705,7 +8699,7 @@ try {
                               }}
                               className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${
                                 scheduleSortByDate === day.dateStr 
-                                  ? 'bg-amber-500/20 text-amber-400 font-extrabold' 
+                                  ? 'bg-purple-500/20 text-purple-300 font-extrabold' 
                                   : 'text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]'
                               }`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}
@@ -8721,10 +8715,10 @@ try {
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 w-full text-[9px] font-bold uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"
+                            className="mt-1 w-full text-[9px] font-bold uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
-                            🎸 {dayShow.venue || dayShow.venue_name}
+                             {dayShow.venue || dayShow.venue_name}
                           </button>
                         )}
                       </div>
@@ -8756,9 +8750,9 @@ try {
                         key={day.dateStr}
                         className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer ${
                           isSelectedDay 
-                            ? 'bg-amber-500/10 border-x border-amber-500/30' 
+                            ? 'bg-purple-500/10 border-x border-purple-500/30' 
                             : isNextShow
-                              ? 'bg-amber-500/5 border-x border-amber-500/20'
+                              ? 'bg-purple-500/10 border-x border-purple-500/20'
                               : 'bg-[var(--card-bg)]'
                         }`}
                         onDragOver={(e) => {
@@ -8828,7 +8822,7 @@ try {
                             {cellGroupPopover === `openshifts_group_${day.dateStr}` && (
                               <div 
                                 data-group-popover-cell 
-                                className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl shadow-xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
+                                className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[var(--card-bg)] border border-[var(--border-color)] shadow-xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 <div className="text-[9px] text-[var(--muted-text)] uppercase tracking-widest font-black px-2 py-1 border-b border-[var(--border-color)] mb-1">
@@ -8880,7 +8874,7 @@ try {
                     <td className={`p-2 border-r border-b border-[var(--border-color)] align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-[var(--card-bg)]'}`}>
                       <div className="flex items-center gap-2.5">
                         {hasExclamation && (
-                          <div className="absolute left-1 top-1/2 -translate-y-1/2 text-amber-500" title="Warning: Schedule issues">
+                          <div className="absolute left-1 top-1/2 -translate-y-1/2 text-purple-400" title="Warning: Schedule issues">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                           </div>
                         )}
@@ -8897,7 +8891,7 @@ try {
                           <div className="flex items-center gap-1 mt-0.5 flex-wrap">
                             {hoursStatus.status !== 'ok' ? (
                               <span className="text-[9px] text-rose-500 font-extrabold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
-                                ⚠️ <span className="font-mono">{totalHours}h</span>
+                                 <span className="font-mono">{totalHours}h</span>
                               </span>
                             ) : (
                               <span className="text-[9px] text-[var(--muted-text)] font-bold font-mono leading-none">
@@ -8908,22 +8902,22 @@ try {
                           </div>
                           
                           <div className="mt-1 text-[8px] text-[var(--muted-text)] font-mono space-y-0.5 leading-tight font-medium">
-                            {member.phone && <div className="truncate text-[var(--muted-text)]" title={member.phone}>📞 {member.phone}</div>}
-                            {member.email && <div className="truncate text-[var(--muted-text)]" title={member.email}>✉️ {member.email}</div>}
+                            {member.phone && <div className="truncate text-[var(--muted-text)]" title={member.phone}> {member.phone}</div>}
+                            {member.email && <div className="truncate text-[var(--muted-text)]" title={member.email}> {member.email}</div>}
                           </div>
 
                           <div className="wiw-tooltip bg-[var(--card-bg)] text-[var(--text-color)] p-3 rounded-lg shadow-xl text-left border border-[var(--border-color)] w-52 leading-relaxed font-sans text-xs">
                             <div className="font-bold text-[var(--text-color)] text-xs mb-0.5">{member.name}</div>
-                            <div className="text-amber-500 font-extrabold text-[9px] uppercase tracking-wider mb-2">
+                            <div className="text-purple-400 font-extrabold text-[9px] uppercase tracking-wider mb-2">
                               Role: {member.role || 'Crew Member'}
                             </div>
                             <div className="text-[var(--muted-text)] text-[9px] space-y-1 border-t border-[var(--border-color)] pt-1.5 font-mono">
                               <div className="flex items-center gap-1.5">
-                                <span>✉️</span>
+                                <span></span>
                                 <span className="truncate">{member.email || 'N/A'}</span>
                               </div>
                               <div className="flex items-center gap-1.5">
-                                <span>📞</span>
+                                <span></span>
                                 <span>{member.phone || 'N/A'}</span>
                               </div>
                             </div>
@@ -8932,7 +8926,7 @@ try {
                                 <div className="font-bold text-[var(--text-color)]">Hours Alert:</div>
                                 <div>Scheduled: {totalHours}h (Max: {hoursStatus.maxHours}h)</div>
                                 <div className="text-rose-500 font-bold mt-0.5 flex items-center gap-1">
-                                  <span>🚫</span> {hoursStatus.over} hours over max
+                                  <span></span> {hoursStatus.over} hours over max
                                 </div>
                               </div>
                             )}
@@ -8950,9 +8944,9 @@ try {
                           key={day.dateStr}
                           className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer group ${
                             isSelectedDay 
-                              ? 'bg-amber-500/10 border-x border-amber-500/30' 
+                              ? 'bg-purple-500/10 border-x border-purple-500/30' 
                               : isNextShow
-                                ? 'bg-amber-500/5 border-x border-amber-500/20'
+                                ? 'bg-purple-500/10 border-x border-purple-500/20'
                                 : 'bg-[var(--card-bg)]'
                           }`}
                           onDragOver={(e) => {
@@ -8999,7 +8993,7 @@ try {
                       className="w-full px-4 py-1.5 flex items-center gap-2 text-left border-none bg-transparent hover:bg-slate-100 transition-colors cursor-pointer group"
                     >
                       <span className="text-[9px] font-bold text-slate-500 group-hover:text-black uppercase tracking-wider transition-colors">
-                        {filteredCrewMembers.every(m => collapsedCrewIds.includes(m.id)) ? '▸ Expand All' : '▾ Collapse All'}
+                        {filteredCrewMembers.every(m => collapsedCrewIds.includes(m.id)) ? ' Expand All' : ' Collapse All'}
                       </span>
                     </button>
                   </td>
@@ -9023,8 +9017,8 @@ try {
             return (
               <div 
                 key={day.dateStr}
-                className={`rounded-xl border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-all shadow-sm ${
-                  isHovered ? 'bg-amber-500/5 border-amber-500/30' : 'border-white/5'
+                className={` border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-all shadow-sm ${
+                  isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
                 }`}
                 onDragOver={(e) => {
                   e.preventDefault();
@@ -9056,7 +9050,7 @@ try {
                       if (overlapping.length > 0) {
                         const member = crewMembers.find(c => c.id === draggedShift.crewId);
                         const memberName = member ? member.name : draggedShift.crewId;
-                        alert(`Cannot move shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${day.dateStr}.`);
+                        showAlert(`Cannot move shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${day.dateStr}.`, "Shift Move Error", "error");
                         return;
                       }
                     }
@@ -9093,10 +9087,10 @@ try {
                           e.stopPropagation();
                           setSelectedShowCrewDate(day.dateStr);
                         }}
-                        className="mt-1 w-full text-[8.5px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1.5 py-0.5 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1"
+                        className="mt-1 w-full text-[8.5px] font-black uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 hover:border-purple-500/40 px-1.5 py-0.5 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1"
                         title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                       >
-                        🎸 {dayShow.venue || dayShow.venue_name}
+                         {dayShow.venue || dayShow.venue_name}
                       </button>
                     );
                   })()}
@@ -9121,7 +9115,7 @@ try {
     const renderTimelineGrid = () => {
       const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
       return (
-        <div className="flex flex-col flex-1 min-h-0 bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] rounded-xl p-4 shadow-2xl select-none">
+        <div className="flex flex-col flex-1 min-h-0 bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] p-4 select-none">
           <div className="flex select-none">
             <div className="w-14 shrink-0" />
             <div className="flex-1 grid grid-cols-7 gap-2 text-center pb-2 border-b border-[var(--border-color)] mb-2">
@@ -9141,10 +9135,10 @@ try {
                             e.stopPropagation();
                             setSelectedShowCrewDate(day.dateStr);
                           }}
-                          className="mt-1 w-full text-[7.5px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/30 border border-amber-500/20 hover:border-amber-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1 text-center"
+                          className="mt-1 w-full text-[7.5px] font-black uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 hover:border-purple-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1 text-center"
                           title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                         >
-                          🎸 {dayShow.venue || dayShow.venue_name}
+                           {dayShow.venue || dayShow.venue_name}
                         </button>
                       );
                     })()}
@@ -9163,7 +9157,7 @@ try {
               ))}
             </div>
 
-            <div className="flex-1 h-[480px] relative grid grid-cols-7 gap-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden p-0">
+            <div className="flex-1 h-[480px] relative grid grid-cols-7 gap-2 bg-[var(--card-bg)] border border-[var(--border-color)] overflow-hidden p-0">
               <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                 {Array.from({ length: 17 }).map((_, idx) => (
                   <div 
@@ -9197,7 +9191,7 @@ try {
                           if (overlapping.length > 0) {
                             const member = crewMembers.find(c => c.id === draggedShift.crewId);
                             const memberName = member ? member.name : draggedShift.crewId;
-                            alert(`Cannot move shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${day.dateStr}.`);
+                            showAlert(`Cannot move shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${day.dateStr}.`, "Shift Move Error", "error");
                             return;
                           }
                         }
@@ -9241,6 +9235,7 @@ try {
                           }`}
                         >
                           <div className="truncate">{shift.crewName}</div>
+                          <div className="text-purple-300 font-extrabold text-[var(--font-size-5xs)] uppercase truncate">{shift.role || 'Crew'}</div>
                           <div className="opacity-80 text-[var(--font-size-4xs)]">{formatTimeStringWIW(shift.startHour, shift.endHour)}</div>
                         </div>
                       );
@@ -9255,12 +9250,12 @@ try {
     };
 
     return (
-      <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+      <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
         <style>{`
           .wiw-scheduler-container {
             background-color: #0f0f13;
             color: #ffffff;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-barlow), 'Barlow', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
           }
           .wiw-scheduler-container ::-webkit-scrollbar {
             width: 10px;
@@ -9272,12 +9267,12 @@ try {
             border-radius: 6px;
           }
           .wiw-scheduler-container ::-webkit-scrollbar-thumb {
-            background: rgba(245, 158, 11, 0.4);
+            background: rgba(147, 51, 234, 0.4);
             border-radius: 6px;
             border: 2px solid rgba(15, 15, 19, 0.9);
           }
           .wiw-scheduler-container ::-webkit-scrollbar-thumb:hover {
-            background: rgba(245, 158, 11, 0.8);
+            background: rgba(147, 51, 234, 0.8);
           }
           .wiw-scheduler-container td, .wiw-scheduler-container th {
             border-style: solid;
@@ -9376,7 +9371,7 @@ try {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
             </div>
             <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
-              <span>📅</span> Crew Work Schedule Calendar
+              <span></span> Crew Work Schedule Calendar
               {renderInfoToggle('calendar')}
             </h3>
           </div>
@@ -9390,6 +9385,153 @@ try {
         {renderInfoBanner('calendar', 'Crew Work Schedule Calendar', 'Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps in a weekly/monthly timeline.')}
 
         <div style={{ display: isSectionOpen('calendar') ? undefined : 'none' }}>
+          {/*  Live Co-Editor Presence & Mix-up Prevention Status Bar */}
+          <div className="bg-gradient-to-r from-emerald-950/40 via-purple-950/30 to-black/60 border-b border-emerald-500/20 px-6 py-2.5 flex items-center justify-between gap-4 select-none">
+            <div className="flex items-center gap-3 flex-wrap text-xs">
+              <span className="flex items-center gap-2 font-bold text-emerald-400">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </span>
+                LIVE CO-EDITING SYNC
+              </span>
+              <span className="text-white/30 font-light">|</span>
+              <div className="flex items-center gap-2">
+                <span className="text-white/60 text-[11px]">Active Editors:</span>
+                {coEditors.map(ed => (
+                  <span key={ed.id} className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold border transition-all ${ed.isEditing ? 'bg-pink-500/15 border-pink-500/40 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]' : 'bg-blue-500/15 border-blue-500/30 text-blue-300'}`}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                    {ed.name} {ed.isEditing ? ' (Editing shift)' : '(Viewing)'}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setCoEditorConflictAlert({
+                    isOpen: true,
+                    editorName: 'Marcus Vance',
+                    shiftTitle: 'Sound Engineer (Tue Aug 4)',
+                    changeDesc: 'Shift updated from 1p-6:30p to 2p-8p while you were viewing the roster!',
+                    timestamp: 'Just now'
+                  });
+                }}
+                className="px-2.5 py-1 bg-purple-500/15 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
+                title="Simulate concurrent editing conflict (schedule mix-up) to test live sync warning"
+              >
+                 Simulate Mix-Up Conflict
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCoEditorModal(true)}
+                className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
+              >
+                 Co-Editor Settings
+              </button>
+            </div>
+          </div>
+
+          {/*  Schedule Mix-Up Conflict Resolution Modal */}
+          {coEditorConflictAlert?.isOpen && (
+            <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
+              <div className="bg-[#1e1e26] border-2 border-purple-500/50 p-6 max-w-lg w-full shadow-[0_0_50px_rgba(147, 51, 234,0.3)] space-y-4">
+                <div className="flex items-center gap-3 border-b border-white/10 pb-3">
+                  <div className="w-10 h-10 bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
+                    
+                  </div>
+                  <div>
+                    <h3 className="text-base font-extrabold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
+                    <p className="text-xs text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
+                  </div>
+                </div>
+
+                <div className="bg-black/50 border border-white/10 p-4 space-y-2 text-xs">
+                  <div className="flex items-center justify-between text-white/50">
+                    <span>Editor: <strong className="text-white">{coEditorConflictAlert.editorName}</strong></span>
+                    <span className="text-[10px] text-white/40">{coEditorConflictAlert.timestamp}</span>
+                  </div>
+                  <div className="text-sm font-bold text-pink-300">
+                     Shift: {coEditorConflictAlert.shiftTitle}
+                  </div>
+                  <p className="text-white/80 leading-relaxed bg-white/5 p-2.5 rounded border border-white/5">
+                    {coEditorConflictAlert.changeDesc}
+                  </p>
+                </div>
+
+                <p className="text-[11px] text-white/50 italic">
+                  Live presence prevents double-bookings & timeline mix-ups by automatically syncing modifications made by other admins.
+                </p>
+
+                <div className="flex items-center justify-end gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setCoEditorConflictAlert(null)}
+                    className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                  >
+                     Accept Remote Sync
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/*  Co-Editors Settings & Live Active List Modal */}
+          {showCoEditorModal && (
+            <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
+              <div className="bg-[#181820] border border-white/10 p-6 max-w-md w-full space-y-5">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <span></span> Active Co-Editors & Lock Status
+                  </h3>
+                  <button onClick={() => setShowCoEditorModal(false)} className="text-white/40 hover:text-white text-lg"></button>
+                </div>
+
+                <div className="space-y-3">
+                  {coEditors.map(ed => (
+                    <div key={ed.id} className="p-3 bg-black/40 border border-white/5 flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 font-black text-xs flex items-center justify-center">
+                          {ed.avatar}
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                            {ed.name}
+                            <span className="text-[10px] text-white/40">({ed.role})</span>
+                          </div>
+                          <div className="text-[10px] text-white/50">{ed.lastAction}</div>
+                        </div>
+                      </div>
+                      <span className={`px-2 py-0.5 text-[9px] font-black rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'}`}>
+                        {ed.isEditing ? ' Shift Locked' : '🟢 Viewing'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 space-y-1">
+                  <div className="font-bold flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Conflict Prevention Active
+                  </div>
+                  <p className="text-[11px] text-emerald-200/70">
+                    If another team member edits a shift while you are viewing, real-time locks and notifications prevent scheduling mix-ups.
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-end">
+                  <button
+                    onClick={() => setShowCoEditorModal(false)}
+                    className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container min-h-[1400px] h-[1400px] flex flex-col min-h-0">
             
             {/* Header controls (Date range, prev/next, today, action icons) */}
@@ -9454,7 +9596,7 @@ try {
                   onClick={handleGoToMonth}
                   className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid ${
                     calendarRange === 'month'
-                      ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20'
+                      ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
                       : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
                   }`}
                 >
@@ -9524,22 +9666,22 @@ try {
                   </div>
                 </div>
 
-                {/* 🎸 Tour Dates Quick-Jump */}
+                {/*  Tour Dates Quick-Jump */}
                 <div className="relative" data-tour-dropdown>
                   <button
                     type="button"
                     onClick={() => setShowTourDropdown(prev => !prev)}
                     className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${
                       showTourDropdown 
-                        ? 'border-amber-500/40 bg-amber-500/10 text-amber-400' 
+                        ? 'border-purple-500/40 bg-purple-500/10 text-purple-300' 
                         : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
                     }`}
                   >
-                    🎸 SHOWS
+                     SHOWS
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform ${showTourDropdown ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
                   </button>
                   {showTourDropdown && (
-                    <div className="absolute top-full left-0 mt-1 z-50 bg-[#1a1a22] border border-white/10 rounded-xl shadow-2xl min-w-[320px] max-h-[850px] overflow-y-auto py-1.5 custom-scrollbar">
+                    <div className="absolute top-full left-0 mt-1 z-50 bg-[#1a1a22] border border-white/10 min-w-[320px] max-h-[850px] overflow-y-auto py-1.5 custom-scrollbar">
                       {(() => {
                         const todayStr = new Date().toISOString().split('T')[0];
                         const upcomingTourDates = tourDates.filter(show => !show.date || show.date >= todayStr);
@@ -9568,7 +9710,7 @@ try {
                                 }}
                                 className="w-full text-left px-4 py-2.5 hover:bg-white/5 flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
                               >
-                                <span className="text-[var(--font-size-3xs)] font-black text-amber-400/70 group-hover:text-amber-400 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
+                                <span className="text-[var(--font-size-3xs)] font-black text-purple-300/70 group-hover:text-purple-300 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
                                 <span className="text-xs font-bold text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
                                 {show.city && <span className="text-[var(--font-size-3xs)] text-white/30 ml-auto shrink-0">{show.city}</span>}
                               </button>
@@ -9585,12 +9727,12 @@ try {
                   onClick={() => setShowTourDatesOnly(prev => !prev)}
                   className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${
                     showTourDatesOnly 
-                      ? 'border-amber-500/40 bg-amber-500/15 text-amber-400' 
+                      ? 'border-purple-500/40 bg-purple-500/15 text-purple-300' 
                       : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
                   }`}
                   title="Show only days with tour shows"
                 >
-                  {showTourDatesOnly ? '🎸 SHOWS ONLY' : 'ALL DAYS'}
+                  {showTourDatesOnly ? ' SHOWS ONLY' : 'ALL DAYS'}
                 </button>
 
                 {/* Crew Member Filter */}
@@ -9600,7 +9742,7 @@ try {
                     onChange={(e) => setScheduleCrewFilter(e.target.value)}
                     className="appearance-none pr-8 pl-3 py-1.5 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[140px]"
                   >
-                    <option value="">👥 All Crew</option>
+                    <option value=""> All Crew</option>
                     {crewMembers.filter(m => m.id !== 'openshifts').map(member => (
                       <option key={member.id} value={member.id}>{member.name}</option>
                     ))}
@@ -9616,14 +9758,14 @@ try {
                   onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
                   className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-all cursor-pointer border-solid flex items-center gap-1.5 select-none ${
                     isFiltersPanelExpanded || activeFiltersCount > 0
-                      ? 'border-amber-500/40 bg-amber-500/15 text-amber-400 font-extrabold shadow-[0_0_8px_rgba(245,158,11,0.1)]' 
+                      ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-extrabold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]' 
                       : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
                   }`}
                   title="Search & advanced filters by person, venue, date range, and event type"
                 >
-                  <span>🔍</span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
+                  <span></span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
                   {activeFiltersCount > 0 && (
-                    <span className="px-1.5 py-0.5 bg-amber-500 text-black rounded-full text-[var(--font-size-4xs)] font-black leading-none">
+                    <span className="px-1.5 py-0.5 bg-purple-600 text-white rounded-full text-[var(--font-size-4xs)] font-black leading-none">
                       {activeFiltersCount}
                     </span>
                   )}
@@ -9637,9 +9779,9 @@ try {
                     className="appearance-none pr-8 pl-3 py-1.5 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[155px]"
                     title="Select color coding scheme for schedule cards"
                   >
-                    <option value="role">🎨 Role Colors</option>
-                    <option value="eventType">🎪 Event Type Colors</option>
-                    <option value="band">🎸 Band Colors</option>
+                    <option value="role"> Role Colors</option>
+                    <option value="eventType"> Event Type Colors</option>
+                    <option value="band"> Band Colors</option>
                   </select>
                   <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
@@ -9662,11 +9804,11 @@ try {
                     className="px-3 py-1.5 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-400 hover:text-rose-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
                     title="Reset all search filters"
                   >
-                    Clear All ✕
+                    Clear All 
                   </button>
                 )}
 
-                {/* 🗑️ Clear All Shifts / Start Fresh Button */}
+                {/*  Clear All Shifts / Start Fresh Button */}
                 {schedules.length > 0 && (
                   <button
                     type="button"
@@ -9681,21 +9823,21 @@ try {
                     className="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-400 hover:text-red-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
                     title="Clear all scheduled shift timeframes and start fresh"
                   >
-                    🗑️ Clear All Shifts
+                     Clear All Shifts
                   </button>
                 )}
 
-                {/* ⚡ Generate Test Data Action */}
+                {/*  Generate Test Data Action */}
                 <button
                   type="button"
                   onClick={handleGenerateTestData}
-                  className="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 hover:text-amber-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
+                  className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
                   title="Generate realistic test schedule data for 2-4 weeks with edge cases"
                 >
-                  ⚡ Generate Test Data
+                   Generate Test Data
                 </button>
 
-                {/* 🧹 Purge Test Data Action */}
+                {/*  Purge Test Data Action */}
                 {schedules.some(s => s.isTestData || s.id.startsWith('test_shift_') || (s.notes && s.notes.includes('[TEST]'))) && (
                   <button
                     type="button"
@@ -9703,7 +9845,7 @@ try {
                     className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none animate-pulse"
                     title="Purge all test schedule data ([TEST] shifts)"
                   >
-                    🧹 Purge Test Data
+                     Purge Test Data
                   </button>
                 )}
 
@@ -9724,7 +9866,7 @@ try {
                         }}
                         className="appearance-none pr-8 pl-3 py-1.5 border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-xs font-bold text-red-400 hover:text-red-300 rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[190px]"
                       >
-                        <option value="" className="text-white/40">🚨 {coverageRequests.length} Coverage {coverageRequests.length === 1 ? 'Request' : 'Requests'}</option>
+                        <option value="" className="text-white/40"> {coverageRequests.length} Coverage {coverageRequests.length === 1 ? 'Request' : 'Requests'}</option>
                         {coverageRequests.map(shift => {
                           const member = crewMembers.find(m => m.id === shift.crewId);
                           const name = member ? member.name : shift.crewName || shift.crewId;
@@ -9761,7 +9903,7 @@ try {
                         value={schedulePersonSearch}
                         onChange={(e) => setSchedulePersonSearch(e.target.value)}
                         placeholder="Name, role, e.g. Dave, Audio..."
-                        className="w-full bg-black/60 border border-white/10 focus:border-amber-500/50 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
+                        className="w-full bg-black/60 border border-white/10 focus:border-purple-500/50 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
                       />
                       {schedulePersonSearch && (
                         <button
@@ -9769,7 +9911,7 @@ try {
                           onClick={() => setSchedulePersonSearch('')}
                           className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold"
                         >
-                          ✕
+                          
                         </button>
                       )}
                     </div>
@@ -9784,7 +9926,7 @@ try {
                         value={scheduleVenueSearch}
                         onChange={(e) => setScheduleVenueSearch(e.target.value)}
                         placeholder="Venue, e.g. Blarney, Cruise..."
-                        className="w-full bg-black/60 border border-white/10 focus:border-amber-500/50 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
+                        className="w-full bg-black/60 border border-white/10 focus:border-purple-500/50 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
                       />
                       {scheduleVenueSearch && (
                         <button
@@ -9792,7 +9934,7 @@ try {
                           onClick={() => setScheduleVenueSearch('')}
                           className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold"
                         >
-                          ✕
+                          
                         </button>
                       )}
                     </div>
@@ -9807,12 +9949,12 @@ try {
                         onChange={(e) => setScheduleEventTypeFilter(e.target.value)}
                         className="appearance-none w-full bg-white text-slate-900 border border-slate-300 dark:border-white/10 rounded-lg pl-3 pr-8 py-1.5 text-xs outline-none transition-colors cursor-pointer border-solid font-bold"
                       >
-                        <option value="">⚡ Any Event Type</option>
-                        <option value="festival">🎪 Festival</option>
-                        <option value="private">🔒 Private Event</option>
-                        <option value="corporate">💼 Corporate</option>
-                        <option value="cruise">🚢 Cruise</option>
-                        <option value="club">🎵 Club / Bar</option>
+                        <option value=""> Any Event Type</option>
+                        <option value="festival"> Festival</option>
+                        <option value="private"> Private Event</option>
+                        <option value="corporate"> Corporate</option>
+                        <option value="cruise"> Cruise</option>
+                        <option value="club"> Club / Bar</option>
                       </select>
                       <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9" /></svg>
@@ -9828,14 +9970,14 @@ try {
                         type="date"
                         value={scheduleStartDate}
                         onChange={(e) => setScheduleStartDate(e.target.value)}
-                        className="w-full bg-black/60 border border-white/10 focus:border-amber-500/50 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer"
+                        className="w-full bg-black/60 border border-white/10 focus:border-purple-500/50 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer"
                       />
                       <span className="text-white/35 text-[var(--font-size-3xs)] font-bold">TO</span>
                       <input
                         type="date"
                         value={scheduleEndDate}
                         onChange={(e) => setScheduleEndDate(e.target.value)}
-                        className="w-full bg-black/60 border border-white/10 focus:border-amber-500/50 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer"
+                        className="w-full bg-black/60 border border-white/10 focus:border-purple-500/50 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer"
                       />
                       {(scheduleStartDate || scheduleEndDate) && (
                         <button
@@ -9847,7 +9989,7 @@ try {
                           className="text-white/40 hover:text-white bg-white/5 hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-all cursor-pointer border-none"
                           title="Reset Date Range"
                         >
-                          ✕
+                          
                         </button>
                       )}
                     </div>
@@ -9858,15 +10000,15 @@ try {
                 <div className="flex items-center justify-between text-[var(--font-size-2xs)] text-white/40 border-t border-white/5 pt-2">
                   <div className="flex items-center gap-4">
                     <span>
-                      📅 Displaying <strong className="text-amber-400 font-extrabold">{filteredDays.length}</strong> date columns
+                       Displaying <strong className="text-purple-300 font-extrabold">{filteredDays.length}</strong> date columns
                     </span>
                     <span>
-                      👥 Showing <strong className="text-amber-400 font-extrabold">{filteredCrewMembers.length}</strong> crew rows
+                       Showing <strong className="text-purple-300 font-extrabold">{filteredCrewMembers.length}</strong> crew rows
                     </span>
                   </div>
                   {activeFiltersCount > 0 && (
                     <div className="flex items-center gap-2">
-                      <span className="text-amber-400/80 font-semibold italic">Filters active</span>
+                      <span className="text-purple-300/80 font-semibold italic">Filters active</span>
                       <button
                         type="button"
                         onClick={() => {
@@ -9879,9 +10021,9 @@ try {
                           setShowTourDatesOnly(false);
                           setScheduleSortByDate(null);
                         }}
-                        className="text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
+                        className="text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
                       >
-                        Reset All Filters ✕
+                        Reset All Filters 
                       </button>
                     </div>
                   )}
@@ -9905,7 +10047,7 @@ try {
                 <div className="border-b border-white/5">
                   <div className="px-3 py-2.5 flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[var(--font-size-3xs)]">🎸</span>
+                      <span className="text-[var(--font-size-3xs)]"></span>
                       <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
                     </div>
                     <div className="flex items-center gap-1.5">
@@ -9913,9 +10055,9 @@ try {
                         <button
                           type="button"
                           onClick={() => setSelectedTourDate(null)}
-                          className="text-[var(--font-size-4xs)] font-bold text-amber-400/70 hover:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded cursor-pointer border-none transition-colors"
+                          className="text-[var(--font-size-4xs)] font-bold text-purple-300/70 hover:text-purple-300 bg-purple-500/10 px-2 py-0.5 rounded cursor-pointer border-none transition-colors"
                         >
-                          SHOW ALL ✕
+                          SHOW ALL 
                         </button>
                       )}
                       <span className="text-[var(--font-size-4xs)] font-bold text-white/20 bg-white/5 px-1.5 py-0.5 rounded">
@@ -9959,7 +10101,7 @@ try {
                 className="w-full px-4 py-2.5 flex items-center justify-between cursor-pointer border-none bg-transparent hover:bg-white/[0.02] transition-colors"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-xs">🏆</span>
+                  <span className="text-xs"></span>
                   <span className="text-[var(--font-size-2xs)] font-bold text-white/60 uppercase tracking-wider">Crew Hours Leaderboard</span>
                 </div>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`text-white/30 transition-transform ${showLeaderboard ? '' : '-rotate-90'}`}><polyline points="6 9 12 15 18 9" /></svg>
@@ -9976,7 +10118,7 @@ try {
                         onClick={() => setLeaderboardPeriod(period)}
                         className={`px-3 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md border-none cursor-pointer transition-all ${
                           leaderboardPeriod === period
-                            ? 'bg-amber-500/15 text-amber-400'
+                            ? 'bg-purple-500/15 text-purple-300'
                             : 'bg-transparent text-white/30 hover:text-white/60 hover:bg-white/5'
                         }`}
                       >
@@ -9999,8 +10141,8 @@ try {
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                         {leaderboardRankings.slice(0, 9).map((member, idx) => {
                           const pct = Math.round((member.hours / maxHours) * 100);
-                          const medalEmoji = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
-                          const barColor = idx === 0 ? 'bg-amber-500/30' : idx === 1 ? 'bg-slate-400/20' : idx === 2 ? 'bg-orange-700/20' : 'bg-white/5';
+                          const medalEmoji = idx === 0 ? '' : idx === 1 ? '' : idx === 2 ? '' : '';
+                          const barColor = idx === 0 ? 'bg-purple-500/30' : idx === 1 ? 'bg-slate-400/20' : idx === 2 ? 'bg-orange-700/20' : 'bg-white/5';
                           
                           return (
                             <div key={member.id} className="flex items-center gap-2.5 bg-black/30 rounded-lg px-3 py-2 border border-white/5 hover:border-white/10 transition-colors">
@@ -10011,10 +10153,6 @@ try {
                               
                               {/* Avatar */}
                               {(() => {
-                                const hasImage = member.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/'));
-                                if (hasImage) {
-                                  return <img src={member.avatar} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" />;
-                                }
                                 const initials = member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
                                 const color = member.color || getAvatarColor(member.name);
                                 return (
@@ -10028,7 +10166,7 @@ try {
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between mb-0.5">
                                   <span className="text-[var(--font-size-3xs)] font-bold text-white/70 truncate">{member.name}</span>
-                                  <span className="text-[var(--font-size-3xs)] font-black text-amber-400/80 ml-2 shrink-0">{member.hours.toFixed(1)}h</span>
+                                  <span className="text-[var(--font-size-3xs)] font-black text-purple-300/80 ml-2 shrink-0">{member.hours.toFixed(1)}h</span>
                                 </div>
                                 <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                                   <div className={`h-full rounded-full ${barColor} transition-all`} style={{ width: `${pct}%` }} />
@@ -10049,7 +10187,7 @@ try {
               const editingShift = schedules.find(s => s.id === editingShiftId);
               const showFormDetails = !!editingShiftId || Object.values(selectedCrewAssignments).some(a => a.active);
               return (
-                <div className="fixed inset-0 bg-black/50 z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
+                <div className="fixed inset-0 bg-transparent z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
                 {/* Backdrop Click Overlay */}
                 <div 
                   className="absolute inset-0 cursor-default" 
@@ -10060,7 +10198,7 @@ try {
                   }}
                 />
 
-                <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
                   
                   {/* Modal Header */}
                   <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
@@ -10083,7 +10221,7 @@ try {
                       }}
                       className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
                     >
-                      ✕
+                      
                     </button>
                   </div>
 
@@ -10118,9 +10256,9 @@ try {
                                   return updated;
                                 });
                               }}
-                              className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-xl text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                              className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                             >
-                              <span>🙋</span> Request Coverage
+                              <span></span> Request Coverage
                             </button>
                           </div>
                         );
@@ -10128,10 +10266,10 @@ try {
                       
                       // If coverage is requested:
                       return (
-                        <div className="shrink-0 bg-red-500/10 border border-red-500/30 rounded-xl p-4 space-y-3">
+                        <div className="shrink-0 bg-red-500/10 border border-red-500/30 p-4 space-y-3">
                           <div className="flex items-center justify-between gap-3 text-red-400">
                             <div className="flex items-center gap-2">
-                              <span className="text-sm">🚨</span>
+                              <span className="text-sm"></span>
                               <div>
                                 <p className="text-xs font-black uppercase tracking-wider">Coverage Requested</p>
                                 <p className="text-[var(--font-size-3xs)] text-white/60 mt-0.5">
@@ -10176,11 +10314,11 @@ try {
                                   onClick={() => setOnlyShowFitRole(true)}
                                   className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
                                     onlyShowFitRole 
-                                      ? 'bg-amber-500 text-black font-black' 
+                                      ? 'bg-purple-600 text-white font-black' 
                                       : 'text-white/60 hover:text-white'
                                   }`}
                                 >
-                                  🎯 Fit Role ({editingShift.role})
+                                   Fit Role ({editingShift.role})
                                 </button>
                                 <button
                                   type="button"
@@ -10191,7 +10329,7 @@ try {
                                       : 'text-white/60 hover:text-white'
                                   }`}
                                 >
-                                  ⚠️ Override (All)
+                                   Override (All)
                                 </button>
                               </div>
                             </div>
@@ -10231,12 +10369,11 @@ try {
                                   return (
                                     <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
                                       <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 rounded-full bg-white/10 overflow-hidden flex items-center justify-center text-[var(--font-size-4xs)] font-bold text-white uppercase">
-                                          {member.avatar ? (
-                                            <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
-                                          ) : (
-                                            member.initials || member.name[0]
-                                          )}
+                                        <div 
+                                          className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
+                                          style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
+                                        >
+                                          {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                         </div>
                                         <div>
                                           <span className="text-xs font-bold text-white block leading-tight">{member.name}</span>
@@ -10244,7 +10381,7 @@ try {
                                             <span className="text-[var(--font-size-4xs)] text-white/40 uppercase tracking-wider font-bold block">{member.role || 'Crew'}</span>
                                             {isOverlapping && (
                                               <span className="px-1 py-0.2 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider bg-red-500/20 border border-red-500/35 text-red-400">
-                                                ⚠️ Overlaps {overlaps[0].time}
+                                                 Overlaps {overlaps[0].time}
                                               </span>
                                             )}
                                           </div>
@@ -10285,7 +10422,7 @@ try {
                                         className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors border-none ${
                                           isOverlapping
                                             ? 'bg-white/5 text-white/20 cursor-not-allowed'
-                                            : 'bg-amber-500 hover:bg-amber-400 text-black cursor-pointer'
+                                            : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
                                         }`}
                                       >
                                         Assign
@@ -10304,21 +10441,42 @@ try {
                     {(() => {
                       const activeShow = activeDropDay ? getDayShow(activeDropDay) : null;
                       if (!activeShow) return null;
+
+                      const dateObj = activeDropDay ? new Date(activeDropDay + 'T12:00:00') : null;
+                      const formattedDate = dateObj ? dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : activeDropDay;
+                      const festStart = activeShow.festStart || activeShow.festStartTime || '5:00 PM';
+                      const bandTime = activeShow.time || activeShow.bandTime || activeShow.showTime || '8:00 PM';
+
                       return (
-                        <div className="shrink-0 bg-amber-500/5 border border-amber-500/20 rounded-lg px-2.5 h-[30px] flex items-center justify-between gap-2">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <span className="text-[var(--font-size-2xs)] shrink-0">🎸</span>
-                            <span className="text-[var(--font-size-3xs)] font-black text-white truncate">{activeShow.venue}</span>
-                            <span className="text-[var(--font-size-4xs)] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
+                        <div className="shrink-0 bg-purple-500/10 border border-purple-500/20 rounded-lg px-3 py-2 space-y-1.5 font-sans">
+                          <div className="flex items-center justify-between gap-2 min-w-0">
+                            <div className="flex items-center gap-1.5 min-w-0 truncate">
+                              <span className="text-[14px] font-extrabold text-white truncate">{activeShow.venue}</span>
+                              <span className="text-[13px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
+                            </div>
+                            <span className="text-[12px] font-extrabold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
+                               {formattedDate}
+                            </span>
+                          </div>
+                          
+                          <div className="flex items-center gap-2 text-[11px] font-semibold text-white/80 border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
+                            <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
+                               Fest: {festStart}
+                            </span>
+                            <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
+                               Band: {bandTime}
+                            </span>
                             {activeShow.notes && (
-                              <span className="text-[var(--font-size-4xs)] text-amber-300/50 italic truncate ml-1.5" title={activeShow.notes}>
-                                Note: {activeShow.notes}
+                              <span className="text-white/40 italic truncate text-[11px] shrink-0" title={activeShow.notes}>
+                                • {activeShow.notes}
                               </span>
                             )}
                           </div>
                         </div>
                       );
                     })()}
+
+
 
                     {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
                     {!(editingShift && editingShift.isCoverageRequested) && (
@@ -10331,68 +10489,23 @@ try {
                           type="text"
                           value={drawerCrewSearch}
                           onChange={e => setDrawerCrewSearch(e.target.value)}
-                          placeholder="🔍 Search crew members..."
-                          className="w-full px-3 py-1.5 bg-black/40 border border-white/10 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold font-sans"
+                          placeholder=" Search crew members..."
+                          className="w-full px-3 py-1.5 bg-black/40 border border-white/10 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold font-sans"
                         />
                         
-                        {Object.values(selectedCrewAssignments).some(a => a.active) && (
-                          <div className="flex items-center gap-2 animate-[fadeIn_0.15s_ease] text-[9px] font-sans">
-                            <span className="text-[9px] text-white/40 font-bold uppercase tracking-wider whitespace-nowrap shrink-0" style={{ fontSize: '9px' }}>Time Mode:</span>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setSelectedCrewAssignments(prev => {
-                                  const updated = { ...prev };
-                                  Object.keys(updated).forEach(id => {
-                                    if (updated[id].active) {
-                                      updated[id] = { ...updated[id], customized: false };
-                                    }
-                                  });
-                                  return updated;
-                                });
-                              }}
-                              className={`px-2 py-1 text-[9px] font-bold rounded transition-all cursor-pointer border whitespace-nowrap ${
-                                Object.entries(selectedCrewAssignments).filter(([_, a]) => a.active).every(([_, a]) => !a.customized)
-                                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                                  : 'bg-black/20 border-white/10 text-white/60 hover:text-white'
-                              }`}
-                              style={{ fontSize: '9px' }}
-                            >
-                              🔗 Group Times
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setSelectedCrewAssignments(prev => {
-                                  const updated = { ...prev };
-                                  Object.keys(updated).forEach(id => {
-                                    if (updated[id].active) {
-                                      updated[id] = { 
-                                        ...updated[id], 
-                                        customized: true,
-                                        timeFrames: updated[id].timeFrames || JSON.parse(JSON.stringify(dropTimeFrames))
-                                      };
-                                    }
-                                  });
-                                  return updated;
-                                });
-                              }}
-                              className={`px-2 py-1 text-[9px] font-bold rounded transition-all cursor-pointer border whitespace-nowrap ${
-                                Object.entries(selectedCrewAssignments).filter(([_, a]) => a.active).every(([_, a]) => a.customized)
-                                  ? 'bg-sky-500/10 border-sky-500/30 text-sky-400'
-                                  : 'bg-black/20 border-white/10 text-white/60 hover:text-white'
-                              }`}
-                              style={{ fontSize: '9px' }}
-                            >
-                              ✏️ Set Separately
-                            </button>
-                          </div>
-                        )}
                       </div>
 
-                      <div className="space-y-2.5 pr-1 overflow-y-auto max-h-60 border border-white/5 bg-black/10 rounded-xl p-2.5">
-                        {crewMembers
-                          .filter(m => m.id !== 'openshifts')
+                      <div className="space-y-2.5 pr-1 overflow-y-auto max-h-60 border border-white/5 bg-black/10 p-2.5">
+                        {(() => {
+                          const seenKeys = new Set<string>();
+                          const uniqueCrew = crewMembers.filter(m => {
+                            const normKey = m.name.toLowerCase().trim();
+                            if (m.id === 'openshifts' || seenKeys.has(m.id) || seenKeys.has(normKey)) return false;
+                            seenKeys.add(m.id);
+                            seenKeys.add(normKey);
+                            return true;
+                          });
+                          return uniqueCrew
                           .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
                           .sort((a, b) => {
                             const aActive = !!selectedCrewAssignments[a.id]?.active;
@@ -10416,9 +10529,9 @@ try {
                             return (
                               <div
                                 key={member.id}
-                                className={`p-3 rounded-xl border transition-all ${
+                                className={`p-3  border transition-all ${
                                   assignment.active
-                                    ? 'bg-amber-500/5 border-amber-500/30'
+                                    ? 'bg-purple-500/10 border-purple-500/30'
                                     : 'bg-black/20 border-white/5 hover:border-white/10'
                                 }`}
                               >
@@ -10441,20 +10554,19 @@ try {
                                           }
                                         }));
                                       }}
-                                      className="rounded border-white/10 bg-black/40 text-amber-500 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer"
+                                      className="rounded border-white/10 bg-black/40 text-purple-400 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer"
                                     />
                                     <div className="flex items-center gap-2">
-                                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-4xs font-bold text-white uppercase overflow-hidden font-sans">
-                                        {member.avatar ? (
-                                          <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
-                                        ) : (
-                                          member.initials || member.name[0]
-                                        )}
+                                      <div 
+                                        className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
+                                        style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
+                                      >
+                                        {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                       </div>
                                       <div>
                                         <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
                                         <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
-                                          📞 {member.phone || 'No phone'} | ✉️ {member.email || 'No email'}
+                                           {member.phone || 'No phone'} |  {member.email || 'No email'}
                                         </span>
                                         {(() => {
                                           const memberShifts = schedules.filter(s => s.date === activeDropDay && s.crewId === member.id && s.id !== editingShiftId && !s.isTimeOff);
@@ -10464,9 +10576,9 @@ try {
                                               {memberShifts.map((s, idx) => (
                                                 <span 
                                                   key={idx} 
-                                                  className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
+                                                  className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
                                                 >
-                                                  ⚡ {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
+                                                   {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
                                                 </span>
                                               ))}
                                             </div>
@@ -10474,274 +10586,17 @@ try {
                                         })()}
                                         {isOverlapping && (
                                           <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
-                                            ⚠️ Overlaps: {overlaps[0].time}
+                                             Overlaps: {overlaps[0].time}
                                           </span>
                                         )}
                                       </div>
                                     </div>
                                   </label>
-                                  
-                                  {assignment.active && (
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        setSelectedCrewAssignments(prev => ({
-                                          ...prev,
-                                          [member.id]: {
-                                            ...prev[member.id],
-                                            customized: !assignment.customized,
-                                            timeFrames: prev[member.id].timeFrames || [{ startHour: assignment.startHour || dropStartHour || 12, endHour: assignment.endHour || dropEndHour || 17, role: assignment.role || dropRole || 'STAGE HAND' }]
-                                          }
-                                        }));
-                                      }}
-                                      className="text-3xs font-bold text-[var(--color-accent)] hover:text-white transition-colors bg-transparent border-none p-1 cursor-pointer font-sans"
-                                    >
-                                      {assignment.customized ? "Collapse" : "✏️ Customize"}
-                                    </button>
-                                  )}
                                 </div>
-
-                                {/* Sub-form for customized timing/role details */}
-                                {assignment.active && assignment.customized && (
-                                  <div className="mt-3 pt-3 border-t border-white/5 space-y-3 animate-[slideIn_0.15s_ease-out]">
-                                    {(assignment.timeFrames || [{ startHour: assignment.startHour || dropStartHour || 12, endHour: assignment.endHour || dropEndHour || 17, role: assignment.role || dropRole || 'STAGE HAND', tags: [] }]).map((tf, tfIdx) => {
-                                      return (
-                                        <div key={tfIdx} className="p-2.5 bg-white/[0.02] border border-white/5 rounded-lg space-y-2 relative">
-                                          <div className="flex items-center justify-between">
-                                            <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-sky-400 font-extrabold">Time Frame {tfIdx + 1}</span>
-                                            {(assignment.timeFrames || []).length > 1 && (
-                                              <button
-                                                type="button"
-                                                onClick={() => {
-                                                  setSelectedCrewAssignments(prev => {
-                                                    const currentMember = prev[member.id];
-                                                    const currentTfs = currentMember.timeFrames || [{ startHour: currentMember.startHour, endHour: currentMember.endHour, role: currentMember.role }];
-                                                    const newTfs = currentTfs.filter((_, i) => i !== tfIdx);
-                                                    return {
-                                                      ...prev,
-                                                      [member.id]: {
-                                                        ...currentMember,
-                                                        timeFrames: newTfs
-                                                      }
-                                                    };
-                                                  });
-                                                }}
-                                                className="text-white/40 hover:text-red-400 text-[var(--font-size-4xs)] font-bold bg-transparent border-none cursor-pointer"
-                                              >
-                                                Remove
-                                              </button>
-                                            )}
-                                          </div>
-
-                                          <div className="grid grid-cols-2 gap-2">
-                                            <div>
-                                              <span className="text-[0.55rem] font-bold text-white/40 block mb-1 uppercase tracking-wider">Start Time</span>
-                                              <select
-                                                value={tf.startHour}
-                                                onChange={(e) => {
-                                                  const sh = parseFloat(e.target.value);
-                                                  setSelectedCrewAssignments(prev => {
-                                                    const currentMember = prev[member.id];
-                                                    const currentTfs = currentMember.timeFrames || [{ startHour: currentMember.startHour, endHour: currentMember.endHour, role: currentMember.role }];
-                                                    const newTfs = currentTfs.map((item, i) => {
-                                                      if (i === tfIdx) {
-                                                        const newEnd = item.endHour <= sh ? Math.min(24, sh + 1) : item.endHour;
-                                                        return { ...item, startHour: sh, endHour: newEnd };
-                                                      }
-                                                      return item;
-                                                    });
-                                                    return {
-                                                      ...prev,
-                                                      [member.id]: {
-                                                        ...currentMember,
-                                                        timeFrames: newTfs
-                                                      }
-                                                    };
-                                                  });
-                                                }}
-                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none font-bold cursor-pointer"
-                                              >
-                                                {generateTimeOptions().slice(0, -1).map(opt => (
-                                                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                                ))}
-                                              </select>
-                                            </div>
-                                            <div>
-                                              <span className="text-[0.55rem] font-bold text-white/40 block mb-1 uppercase tracking-wider">End Time</span>
-                                              <select
-                                                value={tf.endHour}
-                                                onChange={(e) => {
-                                                  const eh = parseFloat(e.target.value);
-                                                  setSelectedCrewAssignments(prev => {
-                                                    const currentMember = prev[member.id];
-                                                    const currentTfs = currentMember.timeFrames || [{ startHour: currentMember.startHour, endHour: currentMember.endHour, role: currentMember.role }];
-                                                    const newTfs = currentTfs.map((item, i) => i === tfIdx ? { ...item, endHour: eh } : item);
-                                                    return {
-                                                      ...prev,
-                                                      [member.id]: {
-                                                        ...currentMember,
-                                                        timeFrames: newTfs
-                                                      }
-                                                    };
-                                                  });
-                                                }}
-                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none font-bold cursor-pointer"
-                                              >
-                                                {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
-                                                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                                ))}
-                                              </select>
-                                            </div>
-                                          </div>
-
-                                          <div>
-                                            <span className="text-[0.55rem] font-bold text-white/40 block mb-1 uppercase tracking-wider">Specific Role / Duty</span>
-                                            <select
-                                              value={tf.role || 'SERVER'}
-                                              onChange={(e) => {
-                                                const r = e.target.value;
-                                                setSelectedCrewAssignments(prev => {
-                                                  const currentMember = prev[member.id];
-                                                  const currentTfs = currentMember.timeFrames || [{ startHour: currentMember.startHour, endHour: currentMember.endHour, role: currentMember.role }];
-                                                  const newTfs = currentTfs.map((item, i) => i === tfIdx ? { ...item, role: r } : item);
-                                                  return {
-                                                    ...prev,
-                                                    [member.id]: {
-                                                      ...currentMember,
-                                                      timeFrames: newTfs
-                                                    }
-                                                  };
-                                                });
-                                              }}
-                                              className="w-full px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none font-bold uppercase tracking-wide font-sans cursor-pointer"
-                                            >
-                                              <option value="BAND SETUP">🎸 Band Setup</option>
-                                              <option value="MERCH TABLE">🛍️ Merch Table</option>
-                                              <option value="STAGE HAND">🔧 Stage Hand</option>
-                                              <option value="TEAR DOWN">📦 Tear Down</option>
-                                              <option value="AUDIO MIX">🎛️ Audio Mix</option>
-                                              <option value="LIGHTS">💡 Lights</option>
-                                              <option value="CAMERA">🎥 Camera</option>
-                                              <option value="UNLOADING">🚚 Unloading</option>
-                                              <option value="SERVER">🍽️ Server</option>
-                                              <option value="CHEF">👨‍🍳 Chef</option>
-                                              <option value="LINE COOK">🍳 Line Cook</option>
-                                              <option value="MANAGER">💼 Manager</option>
-                                              <option value="BUSSER">🧹 Busser</option>
-                                            </select>
-                                          </div>
-                                          
-                                          <div>
-                                            <span className="text-[0.55rem] font-bold text-white/40 block mb-1 uppercase tracking-wider">Tags</span>
-                                            <div className="relative">
-                                              <select
-                                                value=""
-                                                onChange={(e) => {
-                                                  const val = e.target.value;
-                                                  if (!val) return;
-                                                  setSelectedCrewAssignments(prev => {
-                                                    const currentMember = prev[member.id];
-                                                    const currentTfs = currentMember.timeFrames || [{ startHour: currentMember.startHour, endHour: currentMember.endHour, role: currentMember.role, tags: [] }];
-                                                    const newTfs = currentTfs.map((item, i) => {
-                                                      if (i === tfIdx) {
-                                                        const currentTags = item.tags || [];
-                                                        const newTags = currentTags.includes(val)
-                                                          ? currentTags.filter(t => t !== val)
-                                                          : [...currentTags, val];
-                                                        return { ...item, tags: newTags };
-                                                      }
-                                                      return item;
-                                                    });
-                                                    return {
-                                                      ...prev,
-                                                      [member.id]: {
-                                                        ...currentMember,
-                                                        timeFrames: newTfs
-                                                      }
-                                                    };
-                                                  });
-                                                }}
-                                                className="w-full px-2 py-1 bg-black border border-white/10 text-[var(--font-size-3xs)] text-white rounded outline-none font-bold cursor-pointer"
-                                              >
-                                                <option value="">Select tags...</option>
-                                                <option value="Overtime">⏰ Overtime</option>
-                                                <option value="Double Shift">⚡ Double Shift</option>
-                                                <option value="Split Shift">🔄 Split Shift</option>
-                                                <option value="Standby">📡 Standby</option>
-                                                <option value="Backup">🛡️ Backup</option>
-                                                <option value="Training">🎓 Training</option>
-                                              </select>
-                                            </div>
-                                            {tf.tags && tf.tags.length > 0 && (
-                                              <div className="flex flex-wrap gap-1 mt-1.5">
-                                                {tf.tags.map(tag => (
-                                                  <span 
-                                                    key={tag}
-                                                    className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-[7.5px] tracking-wider px-1.5 py-0.2 rounded"
-                                                  >
-                                                    {tag}
-                                                    <button
-                                                      type="button"
-                                                      onClick={() => {
-                                                        setSelectedCrewAssignments(prev => {
-                                                          const currentMember = prev[member.id];
-                                                          const currentTfs = currentMember.timeFrames || [{ startHour: currentMember.startHour, endHour: currentMember.endHour, role: currentMember.role, tags: [] }];
-                                                          const newTfs = currentTfs.map((item, i) => {
-                                                            if (i === tfIdx) {
-                                                              return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
-                                                            }
-                                                            return item;
-                                                          });
-                                                          return {
-                                                            ...prev,
-                                                            [member.id]: {
-                                                              ...currentMember,
-                                                              timeFrames: newTfs
-                                                            }
-                                                          };
-                                                        });
-                                                      }}
-                                                      className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-[7.5px]"
-                                                    >
-                                                      ✕
-                                                    </button>
-                                                  </span>
-                                                ))}
-                                              </div>
-                                            )}
-                                          </div>
-                                        </div>
-                                      );
-                                    })}
-
-                                    {/* Add timeframe button for customized member */}
-                                    {(assignment.timeFrames || []).length < 3 && (
-                                      <button
-                                        type="button"
-                                        onClick={() => {
-                                          setSelectedCrewAssignments(prev => {
-                                            const currentMember = prev[member.id];
-                                            const currentTfs = currentMember.timeFrames || [{ startHour: currentMember.startHour, endHour: currentMember.endHour, role: currentMember.role, tags: [] }];
-                                            const newTfs = [...currentTfs, { startHour: 12, endHour: 17, role: 'SERVER', tags: [] }];
-                                            return {
-                                              ...prev,
-                                              [member.id]: {
-                                                ...currentMember,
-                                                timeFrames: newTfs
-                                              }
-                                            };
-                                          });
-                                        }}
-                                        className="w-full py-1.5 bg-sky-500/10 border border-dashed border-sky-500/30 hover:bg-sky-500/20 text-sky-400 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1"
-                                      >
-                                        ➕ Add Time Frame ({(assignment.timeFrames || []).length}/3)
-                                      </button>
-                                    )}
-                                  </div>
-                                )}
                               </div>
                             );
-                          })}
+                          });
+                        })()}
                       </div>
                     </div>
                     )}
@@ -10751,9 +10606,9 @@ try {
                       {showFormDetails && (
                         <div className="space-y-4 font-sans">
                           {dropTimeFrames.map((tf, index) => (
-                            <div key={index} className="p-3.5 bg-black/40 border border-white/10 rounded-xl space-y-3 relative animate-[fadeIn_0.2s_ease]">
+                            <div key={index} className="p-3.5 bg-black/40 border border-white/10 space-y-3 relative animate-[fadeIn_0.2s_ease]">
                               <div className="flex items-center justify-between">
-                                <span className="text-xs uppercase tracking-wider text-amber-400 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
+                                <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
                                 {dropTimeFrames.length > 1 && (
                                   <button
                                     type="button"
@@ -10783,7 +10638,7 @@ try {
                                         return item;
                                       }));
                                     }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer font-sans"
+                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
                                   >
                                     {generateTimeOptions().slice(0, -1).map(opt => (
                                       <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -10799,7 +10654,7 @@ try {
                                       const val = parseFloat(e.target.value);
                                       setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
                                     }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer font-sans"
+                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
                                   >
                                     {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
                                       <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -10818,25 +10673,39 @@ try {
                                     setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
                                   }}
                                   placeholder="e.g. Audio Mix"
-                                  className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
+                                  className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
                                 />
                                 <div className="flex flex-wrap gap-1 mt-1.5">
-                                  {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => (
-                                    <button
-                                      key={preset}
-                                      type="button"
-                                      onClick={() => {
-                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: preset } : item));
-                                      }}
-                                      className={`px-2 py-0.5 rounded-full text-[8.5px] font-black uppercase tracking-wider border transition-all cursor-pointer font-sans ${
-                                        tf.role.toUpperCase() === preset 
-                                          ? 'bg-amber-500 text-black border-amber-500 shadow-xs' 
-                                          : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                      }`}
-                                    >
-                                      {preset}
-                                    </button>
-                                  ))}
+                                  {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                    const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                    const isSelected = currentRoles.includes(preset.toUpperCase());
+                                    return (
+                                      <button
+                                        key={preset}
+                                        type="button"
+                                        onClick={() => {
+                                          const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                          const upperPreset = preset.toUpperCase();
+                                          const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                          let newRoles: string[];
+                                          if (exists) {
+                                            newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                          } else {
+                                            newRoles = [...rawRoles, preset];
+                                          }
+                                          const newRoleStr = newRoles.join(', ');
+                                          setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
+                                        }}
+                                        className={`px-2 py-0.5 rounded-full text-[8.5px] font-black uppercase tracking-wider border transition-all cursor-pointer font-sans ${
+                                          isSelected 
+                                            ? 'bg-purple-600 text-white border-purple-500 shadow-xs font-black' 
+                                            : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                        }`}
+                                      >
+                                        {isSelected ? ` ${preset}` : preset}
+                                      </button>
+                                    );
+                                  })}
                                 </div>
                               </div>
 
@@ -10859,15 +10728,15 @@ try {
                                         return item;
                                       }));
                                     }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer appearance-none font-sans"
+                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer appearance-none font-sans"
                                   >
                                     <option value="">Select tags...</option>
                                     <option value="Overtime">⏰ Overtime</option>
-                                    <option value="Double Shift">⚡ Double Shift</option>
-                                    <option value="Split Shift">🔄 Split Shift</option>
-                                    <option value="Standby">📡 Standby</option>
-                                    <option value="Backup">🛡️ Backup</option>
-                                    <option value="Training">🎓 Training</option>
+                                    <option value="Double Shift"> Double Shift</option>
+                                    <option value="Split Shift"> Split Shift</option>
+                                    <option value="Standby"> Standby</option>
+                                    <option value="Backup"> Backup</option>
+                                    <option value="Training"> Training</option>
                                   </select>
                                   <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9" /></svg>
@@ -10878,7 +10747,7 @@ try {
                                     {tf.tags.map(tag => (
                                       <span 
                                         key={tag}
-                                        className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
+                                        className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
                                       >
                                         {tag}
                                         <button
@@ -10893,7 +10762,7 @@ try {
                                           }}
                                           className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
                                         >
-                                          ✕
+                                          
                                         </button>
                                       </span>
                                     ))}
@@ -10909,94 +10778,26 @@ try {
                               onClick={() => {
                                 setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
                               }}
-                              className="w-full py-2 bg-amber-500/10 border border-dashed border-amber-500/30 hover:bg-amber-500/20 text-amber-400 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
+                              className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
                               style={{ fontSize: '11px' }}
                             >
-                              ➕ Add Time Frame ({dropTimeFrames.length}/3)
+                               Add Time Frame ({dropTimeFrames.length}/3)
                             </button>
                           )}
                         </div>
                       )}
 
-                    <div>
-                      <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1.5 block font-semibold font-sans" style={{ fontSize: '10px' }}>Venue / Location</label>
-                      <input
-                        type="text"
-                        value={dropLocation}
-                        onChange={e => setDropLocation(e.target.value)}
-                        placeholder="e.g. The Chicago Theatre"
-                        className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold font-sans"
-                      />
 
-                      {/* Tour Date Picker Dropdown */}
-                      <div className="mt-2">
-                        <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1.5 block font-semibold font-sans" style={{ fontSize: '10px' }}>Pick Tour Date</label>
-                        <div className="relative">
-                          <select
-                            value={activeDropDay || ''}
-                            onChange={(e) => {
-                              const chosenDate = e.target.value;
-                              if (!chosenDate) return;
-                              const show = tourDates.find(s => s.date === chosenDate);
-                              // Set the shift date
-                              setActiveDropDay(chosenDate);
-                              // Auto-fill venue from tour date
-                              if (show) {
-                                const venueName = show.venue || show.venue_name || '';
-                                const cityStr = show.city ? `${show.city}, ${show.state || 'IL'}` : '';
-                                setDropLocation(cityStr ? `${venueName} at ${cityStr}` : venueName);
-                              }
-                              // Jump to that week
-                              const chosen = new Date(chosenDate + 'T12:00:00');
-                              const day = chosen.getDay();
-                              const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
-                              setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
-                            }}
-                            className="w-full appearance-none pr-8 px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold cursor-pointer"
-                          >
-                            <option value="" disabled>— Select a tour show —</option>
-                            {[...tourDates]
-                              .filter(show => !show.date || show.date >= new Date().toISOString().split('T')[0])
-                              .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
-                              .map((show, idx) => {
-                                const d = show.date ? new Date(show.date + 'T12:00:00') : null;
-                                const label = d
-                                  ? `${d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — ${show.venue || show.venue_name}${show.city ? `, ${show.city}` : ''}`
-                                  : show.venue || show.venue_name;
-                                return (
-                                  <option key={idx} value={show.date || ''}>{label}</option>
-                                );
-                              })}
-                          </select>
-                          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-amber-400/50">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9" /></svg>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 font-bold">Shift Notes</label>
-                        <span className="text-[var(--font-size-3xs)] font-mono text-white/40">{350 - dropNotes.length}</span>
-                      </div>
-                      <textarea
-                        rows={3}
-                        maxLength={350}
-                        value={dropNotes}
-                        onChange={e => setDropNotes(e.target.value.slice(0, 350))}
-                        placeholder="e.g. Bring backup gear, report to backstage entrance"
-                        className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-amber-500/50 transition-colors font-bold resize-none"
-                      />
-                    </div>
+
                     </div>
                   </div>
 
                   {/* Drawer Footer */}
-                  <div className="p-5 border-t border-white/5 bg-[var(--color-bg-elevated)] space-y-2 shrink-0">
+                  <div className="p-3.5 border-t border-white/5 bg-[var(--color-bg-elevated)] space-y-1.5 shrink-0">
                     <button
                       onClick={addScheduleItem}
-                      className="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-[0.2em] rounded-lg shadow-[0_0_20px_rgba(245,158,11,0.25)] transition-all cursor-pointer border-none"
+                      className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider rounded-md shadow-sm transition-all cursor-pointer border-none"
                     >
                       {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
                     </button>
@@ -11009,7 +10810,7 @@ try {
                           setDraggedCrewMemberId(null);
                           setEditingShiftId(null);
                         }}
-                        className="w-full py-2.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-black text-xs uppercase tracking-[0.2em] rounded-lg transition-all cursor-pointer"
+                        className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-extrabold text-[10.5px] uppercase tracking-wider rounded-md transition-all cursor-pointer"
                       >
                         Delete Shift
                       </button>
@@ -11021,11 +10822,38 @@ try {
               );
             })()}
 
-            {/* 👥 Create Group Modal Pop-up */}
+            {/*  Custom Alert / Notification Modal */}
+            {alertModal.isOpen && (
+              <div 
+                className="fixed inset-0 bg-black/75 z-[120] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]"
+                onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
+              >
+                <div 
+                  className="bg-[#181920] border border-purple-500/30 w-full max-w-md p-6 flex flex-col items-center text-center space-y-4 animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] select-none"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl shadow-inner shrink-0">
+                    {alertModal.type === 'error' ? '' : alertModal.type === 'success' ? '' : alertModal.type === 'info' ? 'ℹ' : ''}
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black italic tracking-wide text-white uppercase font-sans">{alertModal.title || 'Schedule Notice'}</h3>
+                    <p className="text-xs text-white/80 mt-2 font-medium leading-relaxed font-sans whitespace-pre-line">{alertModal.message}</p>
+                  </div>
+                  <button
+                    onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
+                    className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider transition-all cursor-pointer border-none mt-2"
+                  >
+                    Got It
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/*  Create Group Modal Pop-up */}
             {isCreateGroupModalOpen && (
               <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]">
                 <div 
-                  className="bg-[var(--color-bg-card)] border border-white/10 rounded-2xl w-full max-w-xl max-h-[85vh] shadow-2xl flex flex-col overflow-hidden animate-[scaleIn_0.25s_cubic-bezier(0.16,1,0.3,1)]"
+                  className="bg-[var(--color-bg-card)] border border-white/10 w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden animate-[scaleIn_0.25s_cubic-bezier(0.16,1,0.3,1)]"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {/* Modal Header */}
@@ -11041,7 +10869,7 @@ try {
                       }}
                       className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
                     >
-                      ✕
+                      
                     </button>
                   </div>
 
@@ -11064,13 +10892,13 @@ try {
                     <div className="space-y-2">
                       <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</label>
                       
-                      <div className="border border-white/5 bg-black/20 rounded-xl divide-y divide-white/5 overflow-hidden">
+                      <div className="border border-white/5 bg-black/20 divide-y divide-white/5 overflow-hidden">
                         {crewMembers.filter(m => m.id !== 'openshifts').map((m) => {
                           const setting = newGroupMemberSettings[m.id] || { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
                           
                           return (
                             <div key={m.id} className="p-3 transition-colors hover:bg-white/[0.01]">
-                              <div className="flex items-center justify-between gap-3">
+                              <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg hover:bg-white/5 transition-colors group">
                                 {/* Left checkbox and avatar */}
                                 <div className="flex items-center gap-3 min-w-0">
                                   <input
@@ -11081,117 +10909,177 @@ try {
                                       setNewGroupMemberSettings(prev => ({
                                         ...prev,
                                         [m.id]: {
-                                          ...prev[m.id],
-                                          active: act
+                                          active: act,
+                                          timeFrames: (prev[m.id]?.timeFrames && prev[m.id]?.timeFrames!.length > 0)
+                                            ? prev[m.id]?.timeFrames!
+                                            : [{ startHour: 17.0, endHour: 22.0, role: m.role || 'STAGE HAND' }]
                                         }
                                       }));
                                     }}
                                     className="accent-emerald-500 w-4 h-4 cursor-pointer"
                                   />
-                                  <CrewAvatar member={m} />
+                                  <div 
+                                    className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
+                                    style={{ backgroundColor: m.color || getAvatarColor(m.name) }}
+                                  >
+                                    {m.initials || m.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                                  </div>
                                   <div className="min-w-0">
-                                    <p className="text-xs font-bold text-white/80 truncate">{m.name}</p>
-                                    <span className="text-[var(--font-size-4xs)] text-white/30 uppercase font-bold tracking-wider">{m.role || 'Crew'}</span>
+                                    <p className="text-xs font-bold text-white/80 group-hover:text-white truncate transition-colors">{m.name}</p>
+                                    <span className="text-white/40 uppercase font-semibold tracking-wider block leading-tight mt-0.5" style={{ fontSize: '8px' }}>{m.role || 'Crew'}</span>
                                   </div>
                                 </div>
+                              </label>
 
-                                {/* Right: if active, show role and time slots */}
+                                {/* Multiple time frames and role pill selector when active */}
                                 {setting.active && (
-                                  <div className="flex items-center gap-2 animate-[fadeIn_0.15s_ease] shrink-0 font-sans">
-                                    {/* Role */}
-                                    <div className="flex flex-col gap-0.5">
-                                      <span className="text-[var(--font-size-4xs)] font-bold text-white/35 uppercase tracking-wider">Role</span>
-                                      <select
-                                        value={setting.role || 'SERVER'}
-                                        onChange={(e) => {
-                                          const r = e.target.value;
-                                          setNewGroupMemberSettings(prev => ({
-                                            ...prev,
-                                            [m.id]: {
-                                              ...prev[m.id],
-                                              role: r
-                                            }
-                                          }));
-                                        }}
-                                        className="px-1.5 py-1 bg-black border border-white/10 text-[var(--font-size-4xs)] text-white rounded outline-none font-bold uppercase w-[85px] tracking-wide cursor-pointer"
-                                      >
-                                        <option value="BAND SETUP">🎸 Setup</option>
-                                        <option value="MERCH TABLE">🛍️ Merch</option>
-                                        <option value="STAGE HAND">🔧 Hand</option>
-                                        <option value="TEAR DOWN">📦 Tear</option>
-                                        <option value="AUDIO MIX">🎛️ Audio</option>
-                                        <option value="LIGHTS">💡 Lights</option>
-                                        <option value="CAMERA">🎥 Camera</option>
-                                        <option value="UNLOADING">🚚 Unload</option>
-                                        <option value="STAGE HAND">🎸 Stage Hand</option>
-                                        <option value="AUDIO MIX">🎛️ Audio Mix</option>
-                                        <option value="LIGHTS">💡 Lights</option>
-                                        <option value="EQUIPMENT SETUP">🔌 Equip Setup</option>
-                                        <option value="TEAR DOWN">📦 Tear Down</option>
-                                        <option value="MERCH">👕 Merch</option>
-                                        <option value="TOUR MANAGER">📋 Tour Mngr</option>
-                                        <option value="SOUND ENGINEER">🎧 Sound Eng</option>
-                                        <option value="VIP HOST">⭐ VIP Host</option>
-                                        {setting.role && ![
-                                          "STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP",
-                                          "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "VIP HOST"
-                                        ].includes(setting.role.toUpperCase()) && (
-                                          <option value={setting.role}>{setting.role.slice(0,6)}</option>
-                                        )}
-                                      </select>
-                                    </div>
+                                  <div className="w-full mt-2.5 pt-2.5 border-t border-white/5 space-y-3 animate-[fadeIn_0.15s_ease] font-sans">
+                                    {(setting.timeFrames || [{ startHour: setting.startHour || 17, endHour: setting.endHour || 22, role: setting.role || 'STAGE HAND' }]).map((tf, tfIdx) => (
+                                      <div key={tfIdx} className="p-2.5 bg-black/40 border border-white/10 space-y-2 relative">
+                                        <div className="flex items-center justify-between">
+                                          <span className="uppercase tracking-wider text-purple-300 font-extrabold" style={{ fontSize: '9.5px' }}>
+                                            Time Frame {tfIdx + 1}
+                                          </span>
+                                          {(setting.timeFrames || []).length > 1 && (
+                                            <button
+                                              type="button"
+                                              onClick={() => {
+                                                const currentTfs = setting.timeFrames || [];
+                                                const nextTfs = currentTfs.filter((_, i) => i !== tfIdx);
+                                                setNewGroupMemberSettings(prev => ({
+                                                  ...prev,
+                                                  [m.id]: {
+                                                    ...prev[m.id],
+                                                    timeFrames: nextTfs
+                                                  }
+                                                }));
+                                              }}
+                                              className="text-red-400 hover:text-red-300 font-bold uppercase tracking-wider cursor-pointer border-none bg-transparent"
+                                              style={{ fontSize: '8px' }}
+                                            >
+                                               Remove
+                                            </button>
+                                          )}
+                                        </div>
 
-                                    {/* Start Time */}
-                                    <div className="flex flex-col gap-0.5">
-                                      <span className="text-[var(--font-size-4xs)] font-bold text-white/35 uppercase tracking-wider">Start</span>
-                                      <select
-                                        value={setting.startHour}
-                                        onChange={(e) => {
-                                          const h = parseFloat(e.target.value);
-                                          setNewGroupMemberSettings(prev => ({
-                                            ...prev,
-                                            [m.id]: {
-                                              ...prev[m.id],
-                                              startHour: h,
-                                              endHour: prev[m.id]?.endHour <= h ? Math.min(24, h + 1) : prev[m.id]?.endHour
-                                            }
-                                          }));
-                                        }}
-                                        className="px-1.5 py-1 bg-black border border-white/10 text-[var(--font-size-4xs)] text-white rounded outline-none font-bold cursor-pointer"
-                                      >
-                                        {generateTimeOptions().slice(0, -1).map(opt => (
-                                          <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                        ))}
-                                      </select>
-                                    </div>
+                                        {/* Start / End selects */}
+                                        <div className="grid grid-cols-2 gap-2">
+                                          <div>
+                                            <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
+                                            <select
+                                              value={tf.startHour}
+                                              onChange={(e) => {
+                                                const h = parseFloat(e.target.value);
+                                                const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                const newEnd = tf.endHour <= h ? Math.min(24, h + 1) : tf.endHour;
+                                                currentTfs[tfIdx] = { ...tf, startHour: h, endHour: newEnd };
+                                                setNewGroupMemberSettings(prev => ({
+                                                  ...prev,
+                                                  [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                }));
+                                              }}
+                                              className="w-full px-2 py-1 bg-black border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
+                                              style={{ fontSize: '9.5px' }}
+                                            >
+                                              {generateTimeOptions().slice(0, -1).map(opt => (
+                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                              ))}
+                                            </select>
+                                          </div>
 
-                                    {/* End Time */}
-                                    <div className="flex flex-col gap-0.5">
-                                      <span className="text-[var(--font-size-4xs)] font-bold text-white/35 uppercase tracking-wider">End</span>
-                                      <select
-                                        value={setting.endHour}
-                                        onChange={(e) => {
-                                          const h = parseFloat(e.target.value);
-                                          setNewGroupMemberSettings(prev => ({
-                                            ...prev,
-                                            [m.id]: {
-                                              ...prev[m.id],
-                                              endHour: h
-                                            }
-                                          }));
-                                        }}
-                                        className="px-1.5 py-1 bg-black border border-white/10 text-[var(--font-size-4xs)] text-white rounded outline-none font-bold cursor-pointer"
-                                      >
-                                        {generateTimeOptions().filter(opt => opt.value > setting.startHour).map(opt => (
-                                          <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                        ))}
-                                      </select>
-                                    </div>
+                                          <div>
+                                            <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
+                                            <select
+                                              value={tf.endHour}
+                                              onChange={(e) => {
+                                                const h = parseFloat(e.target.value);
+                                                const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                currentTfs[tfIdx] = { ...tf, endHour: h };
+                                                setNewGroupMemberSettings(prev => ({
+                                                  ...prev,
+                                                  [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                }));
+                                              }}
+                                              className="w-full px-2 py-1 bg-black border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
+                                              style={{ fontSize: '9.5px' }}
+                                            >
+                                              {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
+                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                              ))}
+                                            </select>
+                                          </div>
+                                        </div>
+
+                                        {/* Role pills */}
+                                        <div>
+                                          <label className="uppercase tracking-wider text-white/50 mb-1 block font-bold" style={{ fontSize: '7.5px' }}>Roles / Duties</label>
+                                          <div className="flex flex-wrap gap-1">
+                                            {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                              const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                              const isSelected = currentRoles.includes(preset.toUpperCase());
+                                              return (
+                                                <button
+                                                  key={preset}
+                                                  type="button"
+                                                  onClick={() => {
+                                                    const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                                    const upperPreset = preset.toUpperCase();
+                                                    const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                                    let newRoles: string[];
+                                                    if (exists) {
+                                                      newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                                    } else {
+                                                      newRoles = [...rawRoles, preset];
+                                                    }
+                                                    const newRoleStr = newRoles.join(', ');
+                                                    const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                    currentTfs[tfIdx] = { ...tf, role: newRoleStr };
+                                                    setNewGroupMemberSettings(prev => ({
+                                                      ...prev,
+                                                      [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                    }));
+                                                  }}
+                                                  className={`px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider border transition-all cursor-pointer ${
+                                                    isSelected 
+                                                      ? 'bg-purple-600 text-white border-purple-500 shadow-xs' 
+                                                      : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                  }`}
+                                                  style={{ fontSize: '7.5px' }}
+                                                >
+                                                  {isSelected ? ` ${preset}` : preset}
+                                                </button>
+                                              );
+                                            })}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const currentTfs = setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }];
+                                        const lastEnd = currentTfs[currentTfs.length - 1]?.endHour || 17;
+                                        const newStart = Math.min(23, lastEnd);
+                                        const newEnd = Math.min(24, newStart + 2);
+                                        const nextTfs = [...currentTfs, { startHour: newStart, endHour: newEnd, role: 'STAGE HAND' }];
+                                        setNewGroupMemberSettings(prev => ({
+                                          ...prev,
+                                          [m.id]: {
+                                            ...prev[m.id],
+                                            timeFrames: nextTfs
+                                          }
+                                        }));
+                                      }}
+                                      className="w-full py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 font-extrabold uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center"
+                                      style={{ fontSize: '8.5px' }}
+                                    >
+                                      + Add Time Frame
+                                    </button>
                                   </div>
                                 )}
                               </div>
-                            </div>
-                          );
+                            );
                         })}
                       </div>
                     </div>
@@ -11218,10 +11106,12 @@ try {
                         const memberIds = activeMembers.map(([id]) => id);
                         const memberSettings: any = {};
                         activeMembers.forEach(([id, s]) => {
+                          const tfs = s.timeFrames || [{ startHour: s.startHour || 17, endHour: s.endHour || 22, role: s.role || 'STAGE HAND' }];
                           memberSettings[id] = {
-                            startHour: s.startHour,
-                            endHour: s.endHour,
-                            role: s.role
+                            startHour: tfs[0].startHour,
+                            endHour: tfs[0].endHour,
+                            role: tfs[0].role,
+                            timeFrames: tfs
                           };
                         });
                         
@@ -11262,14 +11152,14 @@ try {
               const openShifts = dayShifts.filter(s => s.crewId === 'openshifts');
               
               return (
-                <div className="fixed inset-0 bg-black/50 z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
+                <div className="fixed inset-0 bg-transparent z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
                   {/* Backdrop Click Overlay */}
                   <div 
                     className="absolute inset-0 cursor-default" 
                     onClick={() => setSelectedShowCrewDate(null)}
                   />
 
-                  <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                  <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
                     
                     {/* Header */}
                     <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
@@ -11277,7 +11167,7 @@ try {
                         <h3 className="text-sm font-black italic tracking-wide text-white">
                           Show Crew Roster
                         </h3>
-                        <p className="text-[0.65rem] text-amber-400 uppercase tracking-widest font-bold mt-1">
+                        <p className="text-[0.65rem] text-purple-300 uppercase tracking-widest font-bold mt-1">
                           {new Date(selectedShowCrewDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — {show.venue || show.venue_name}
                         </p>
                       </div>
@@ -11285,14 +11175,14 @@ try {
                         onClick={() => setSelectedShowCrewDate(null)}
                         className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
                       >
-                        ✕
+                        
                       </button>
                     </div>
 
                     {/* Content */}
                     <div className="p-5 space-y-4 flex-1 overflow-y-auto">
                       {/* Show Stats Summary */}
-                      <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5 rounded-xl">
+                      <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5">
                         <div>
                           <span className="text-[var(--font-size-3xs)] text-white/40 block">Total Shift(s)</span>
                           <span className="text-sm font-black text-white">{dayShifts.length}</span>
@@ -11303,7 +11193,7 @@ try {
                         </div>
                         <div>
                           <span className="text-[var(--font-size-3xs)] text-white/40 block">Open Position(s)</span>
-                          <span className="text-sm font-black text-amber-400">{openShifts.length}</span>
+                          <span className="text-sm font-black text-purple-300">{openShifts.length}</span>
                         </div>
                       </div>
 
@@ -11311,7 +11201,7 @@ try {
                       <div>
                         <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/40 tracking-wider mb-2.5">Scheduled Crew</h4>
                         {filledShifts.length === 0 ? (
-                          <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 rounded-xl text-white/30 text-xs italic">
+                          <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 text-xs italic">
                             No crew members scheduled yet
                           </div>
                         ) : (
@@ -11322,7 +11212,7 @@ try {
                               const color = member?.color || getAvatarColor(shift.crewName);
                               
                               return (
-                                <div key={shift.id} className="bg-black/20 border border-white/5 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-white/10 transition-colors">
+                                <div key={shift.id} className="bg-black/20 border border-white/5 p-3 flex items-center justify-between gap-3 hover:border-white/10 transition-colors">
                                   <div className="flex items-center gap-2.5 min-w-0">
                                     {member?.avatar ? (
                                       <img src={member.avatar} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
@@ -11347,7 +11237,7 @@ try {
                                         setSelectedShowCrewDate(null);
                                         handleEditShiftClick(shift);
                                       }}
-                                      className="text-[8.5px] font-black uppercase text-amber-400 hover:text-white bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/20 hover:border-amber-500/40 transition-colors cursor-pointer mt-1 inline-block"
+                                      className="text-[8.5px] font-black uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded border border-purple-500/20 hover:border-purple-500/40 transition-colors cursor-pointer mt-1 inline-block"
                                     >
                                       Edit
                                     </button>
@@ -11363,13 +11253,13 @@ try {
                       <div>
                         <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/40 tracking-wider mb-2.5">Open Positions</h4>
                         {openShifts.length === 0 ? (
-                          <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 rounded-xl text-white/30 text-xs italic">
+                          <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 text-xs italic">
                             No open positions
                           </div>
                         ) : (
                           <div className="space-y-2">
                             {openShifts.map(shift => (
-                              <div key={shift.id} className="bg-emerald-500/[0.02] border border-dashed border-emerald-500/25 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-emerald-500/40 transition-colors">
+                              <div key={shift.id} className="bg-emerald-500/[0.02] border border-dashed border-emerald-500/25 p-3 flex items-center justify-between gap-3 hover:border-emerald-500/40 transition-colors">
                                 <div>
                                   <span className="text-[var(--font-size-4xs)] text-white/40 block mt-0.5">{shift.time}</span>
                                 </div>
@@ -11455,7 +11345,7 @@ try {
         #admin-dashboard-root .bg-purple-600,
         #admin-dashboard-root .bg-cyan-600,
         #admin-dashboard-root .bg-emerald-600,
-        #admin-dashboard-root .bg-amber-600,
+        #admin-dashboard-root .bg-purple-700,
         #admin-dashboard-root button[class*="bg-red-600"],
         #admin-dashboard-root button[class*="bg-purple-600"] {
           color: #ffffff !important;
@@ -11706,7 +11596,7 @@ try {
             <div
               onClick={() => adminPhotoInputRef.current?.click()}
               title="Click to upload crew photo"
-              className="relative w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center text-xl font-black text-amber-700 shrink-0 shadow-xs overflow-hidden cursor-pointer group transition-all"
+              className="relative w-16 h-16 bg-purple-500/10 flex items-center justify-center text-xl font-black text-purple-400 shrink-0 shadow-xs overflow-hidden cursor-pointer group transition-all"
             >
               {isAvatarUrl ? (
                 <img src={activeAdminAvatar} alt={effectiveAdmin.name} className="w-full h-full object-cover" />
@@ -11715,7 +11605,7 @@ try {
               )}
               {/* Hover overlay with camera icon */}
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white text-[9px] font-bold uppercase transition-opacity">
-                <span className="text-sm">📷</span>
+                <span className="text-sm"></span>
                 <span>{adminAvatarUploading ? "..." : "Upload"}</span>
               </div>
             </div>
@@ -11725,9 +11615,9 @@ try {
                 <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-wider ${
                   (member?.role || effectiveAdmin.role) === 'crew'
                     ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 dark:text-emerald-300'
-                    : 'bg-amber-500/15 border border-amber-500/30 text-amber-400 dark:text-amber-300'
+                    : 'bg-purple-500/15 border border-purple-500/30 text-purple-300 dark:text-purple-300'
                 }`}>
-                  {(member?.role || effectiveAdmin.role) === 'crew' ? '⚡ Crew' : '👑 Admin'}
+                  {(member?.role || effectiveAdmin.role) === 'crew' ? ' Crew' : ' Admin'}
                 </span>
                 <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.6rem] font-black uppercase tracking-wider animate-pulse">
                   <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
@@ -11764,7 +11654,7 @@ try {
                   adminTab === 'band' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
                 }`}
               >
-                <span>🎸</span>
+                <span></span>
                 <span>Band & Site</span>
               </button>
 
@@ -11775,7 +11665,7 @@ try {
                   adminTab === 'cruise' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
                 }`}
               >
-                <span>🚢</span>
+                <span></span>
                 <span>Cruise</span>
                 {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
                   <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.55rem] font-black px-1 shadow-xs border border-white shrink-0 ml-0.5">
@@ -11795,14 +11685,14 @@ try {
           </div>
         </div>
 
-        {/* ═══════════════════════════════════════════════ */}
-        {/* ═══  BAND & SITE TAB  ═══════════════════════ */}
-        {/* ═══════════════════════════════════════════════ */}
+        {/*  */}
+        {/*   BAND & SITE TAB   */}
+        {/*  */}
         {adminTab === 'band' && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
               {METRICS.map((metric, i) => (
-                <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`p-4 bg-white rounded-xl border border-black/10 shadow-sm hover:shadow-md transition-all ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
+                <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`p-4 bg-white  border border-black/10 shadow-sm hover:shadow-md transition-all ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
                   <p className="text-[0.65rem] font-black uppercase tracking-wider text-black/60 mb-2">{metric.label}</p>
                   <div className="flex items-end justify-between">
                     <span className="text-3xl font-black text-black">{metric.value}</span>
@@ -11867,7 +11757,7 @@ try {
           </div>
 
           <div className="flex flex-col gap-4 w-full mt-4">
-            <section className="bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl overflow-hidden shadow-2xl h-full flex flex-col">
+            <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden h-full flex flex-col">
               <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 shrink-0">
                 <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
                   Audit Log
@@ -11894,11 +11784,11 @@ try {
                             onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
                             className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-all cursor-pointer"
                           >
-                            {expandedAuditId === entry.id ? 'Hide Details ✕' : 'View Message Content 🔍'}
+                            {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
                           </button>
 
                           {expandedAuditId === entry.id && (
-                            <div className="mt-2 p-3 bg-black/40 border border-white/10 rounded-xl space-y-3 text-xs text-white/80 animate-[slideDown_0.2s_ease-out] max-w-full md:max-w-[650px] overflow-hidden">
+                            <div className="mt-2 p-3 bg-black/40 border border-white/10 space-y-3 text-xs text-white/80 animate-[slideDown_0.2s_ease-out] max-w-full md:max-w-[650px] overflow-hidden">
                               {entry.details.type === 'signin' && (
                                 <div className="space-y-1.5 font-sans">
                                   <div className="flex justify-between border-b border-white/5 pb-1">
@@ -11914,8 +11804,8 @@ try {
 
                               {entry.details.smsText && (
                                 <div className="space-y-1.5">
-                                  <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block">📱 SMS Message Body</span>
-                                  <div className="bg-black/60 border border-white/5 rounded-lg p-2.5 font-mono text-[var(--font-size-3xs)] whitespace-pre-wrap leading-relaxed text-amber-300">
+                                  <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block"> SMS Message Body</span>
+                                  <div className="bg-black/60 border border-white/5 rounded-lg p-2.5 font-mono text-[var(--font-size-3xs)] whitespace-pre-wrap leading-relaxed text-purple-300">
                                     {entry.details.smsText}
                                   </div>
                                 </div>
@@ -11924,7 +11814,7 @@ try {
                               {entry.details.emailHtml && (
                                 <div className="space-y-2">
                                   <div className="border-b border-white/5 pb-1">
-                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block mb-1">✉️ Email Template</span>
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block mb-1"> Email Template</span>
                                     <span className="text-[var(--font-size-3xs)] text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
                                   </div>
                                   
@@ -11983,9 +11873,9 @@ try {
         {/* === CRUISE BROADCAST CENTER === */}
         <div id="admin-sec-cruise-command" className="pt-2 mb-6 relative">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 p-[1px]">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-cyan-500/20 p-[1px]">
               <div className="w-full h-full bg-[var(--color-bg-deep)] rounded-full flex items-center justify-center">
-                <span className="text-lg">🚢</span>
+                <span className="text-lg"></span>
               </div>
             </div>
             <div>
@@ -11997,10 +11887,10 @@ try {
           {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start mb-6">
             {/* Column 1: Cruise Information & Guidelines Editor */}
-            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6 md:p-8 shadow-xl">
+            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8 shadow-xl">
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/5 flex-wrap gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]">📋</div>
+                  <div className="w-10 h-10 bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
                   <div>
                     <h3 className="text-base md:text-lg font-black italic tracking-wide text-white">Cruise Information & Guidelines</h3>
                     <p className="text-[0.65rem] text-cyan-400 font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
@@ -12008,12 +11898,12 @@ try {
                 </div>
                 {adminGuidelinesSaveStatus === 'saved' && (
                   <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full animate-pulse">
-                    ✓ Guidelines Saved!
+                     Guidelines Saved!
                   </span>
                 )}
                 {adminGuidelinesSaveStatus === 'error' && (
                   <span className="text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/30 px-3 py-1 rounded-full">
-                    ⚠️ Error Saving
+                     Error Saving
                   </span>
                 )}
               </div>
@@ -12027,7 +11917,7 @@ try {
                       value={adminGuidelinesTitle}
                       onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
                       placeholder="Cruise Information & Guidelines"
-                      className="w-full bg-white border border-black/15 rounded-xl px-4 py-2.5 text-xs !text-black outline-none focus:border-cyan-600 transition-all font-bold"
+                      className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-black outline-none focus:border-cyan-600 transition-all font-bold"
                     />
                   </div>
                   <div>
@@ -12037,7 +11927,7 @@ try {
                       value={adminGuidelinesSubtitle}
                       onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
                       placeholder="Cruiser Welcome Pack"
-                      className="w-full bg-white border border-black/15 rounded-xl px-4 py-2.5 text-xs !text-cyan-700 outline-none focus:border-cyan-600 transition-all font-bold"
+                      className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-cyan-700 outline-none focus:border-cyan-600 transition-all font-bold"
                     />
                   </div>
                 </div>
@@ -12045,7 +11935,7 @@ try {
                 <div>
                   <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</label>
                   <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
-                    <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white rounded-xl overflow-hidden" />
+                    <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white overflow-hidden" />
                   </div>
                 </div>
 
@@ -12076,9 +11966,9 @@ try {
                       }
                     }}
                     disabled={adminGuidelinesUpdating}
-                    className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2"
+                    className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2"
                   >
-                    <span>{adminGuidelinesUpdating ? 'Saving...' : '💾 Save Guidelines'}</span>
+                    <span>{adminGuidelinesUpdating ? 'Saving...' : ' Save Guidelines'}</span>
                   </button>
                 </div>
               </div>
@@ -12092,12 +11982,12 @@ try {
           <div className="grid grid-cols-1 gap-6 relative items-start mb-6">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
 
-            <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden`}>
+            <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20  p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden`}>
               <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-cyan-500/10 transition-all duration-700 pointer-events-none" />
               <div className="relative z-10 flex flex-col gap-6">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 shrink-0 rounded-xl bg-cyan-500/10 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-all duration-500">📣</div>
+                    <div className="w-12 h-12 shrink-0 bg-cyan-500/10 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-all duration-500"></div>
                     <div>
                       <h3 className="text-lg font-black italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
                       <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
@@ -12110,30 +12000,30 @@ try {
                 </div>
 
                 {cruiseSaveStatus && (
-                  <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
-                    {cruiseSaveStatus === 'saved' ? '✓ Update dispatched to cruise dashboard & passenger inboxes!' : '✕ Failed to update — try again'}
+                  <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                    {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
                   </div>
                 )}
 
                 {/* 2 Columns Container: Left Form | Right Live Preview */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
                   {/* Left Column: Form Inputs & Target Controls */}
-                  <div className="flex flex-col gap-3 bg-black/20 p-4 md:p-5 rounded-xl border border-white/5 h-full">
+                  <div className="flex flex-col gap-3 bg-black/20 p-4 md:p-5 border border-white/5 h-full">
                     <div>
                       <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice Title / Email Subject Line</label>
                       <input
                         type="text"
                         value={cruiseBlastSubject}
                         onChange={(e) => setCruiseBlastSubject(e.target.value)}
-                        placeholder="e.g. TEST, CAPTAIN'S LOG, or 🚢 Cruise Update..."
-                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-cyan-500/60 transition-all placeholder:text-white/20 mb-2 font-sans"
+                        placeholder="e.g. TEST, CAPTAIN'S LOG, or  Cruise Update..."
+                        className="w-full bg-black/40 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-cyan-500/60 transition-all placeholder:text-white/20 mb-2 font-sans"
                       />
                     </div>
 
                     <div>
                       <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</label>
                       <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
-                        <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white rounded-xl overflow-hidden" />
+                        <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white overflow-hidden" />
                       </div>
                     </div>
 
@@ -12146,7 +12036,7 @@ try {
                           onChange={(e) => setPostNoticeToDashboard(e.target.checked)}
                           className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
                         />
-                        <span>🌐 Live Banner on Dashboard</span>
+                        <span> Live Banner on Dashboard</span>
                       </label>
                       <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
                         <input
@@ -12155,7 +12045,7 @@ try {
                           onChange={(e) => setSendEmailToPassengers(e.target.checked)}
                           className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
                         />
-                        <span>✉️ Email Passenger Signups</span>
+                        <span> Email Passenger Signups</span>
                       </label>
                     </div>
 
@@ -12172,7 +12062,7 @@ try {
                               await updateCruiseMessage(cleanedNoticeMsg);
                             }
                             if (sendEmailToPassengers) {
-                              const emailSubject = cruiseBlastSubject.trim() || "🚢 Cruise Update & Passenger Notice";
+                              const emailSubject = cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice";
                               await fetch('/api/cruise/blast', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -12187,25 +12077,25 @@ try {
                           }
                         }}
                         disabled={cruiseUpdating || (!postNoticeToDashboard && !sendEmailToPassengers)}
-                        className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center"
+                        className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center"
                       >
-                        <span className="relative z-10">{cruiseUpdating ? 'Dispatching...' : '🚀 Dispatch Notice & Email'}</span>
+                        <span className="relative z-10">{cruiseUpdating ? 'Dispatching...' : ' Dispatch Notice & Email'}</span>
                       </button>
-                      <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-10 h-10 flex items-center justify-center rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 group/trash">
+                      <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-10 h-10 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 group/trash">
                         <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
                       </button>
                     </div>
                   </div>
 
                   {/* Right Column: Live Real-Time Dispatch Previews (Dashboard Banner + Email Template) */}
-                  <div className="p-4 md:p-5 bg-black/40 border border-white/10 rounded-2xl shadow-xl font-sans h-full flex flex-col">
+                  <div className="p-4 md:p-5 bg-black/40 border border-white/10 shadow-xl font-sans h-full flex flex-col">
                     <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-base">👁️</span>
+                        <span className="text-base"></span>
                         <h4 className="text-xs font-black uppercase tracking-widest text-cyan-400">Live Dispatch Preview</h4>
                       </div>
                       {/* Live Preview Tab Switcher */}
-                      <div className="flex items-center gap-1.5 bg-black/50 p-1 rounded-xl border border-white/10">
+                      <div className="flex items-center gap-1.5 bg-black/50 p-1 border border-white/10">
                         <button
                           type="button"
                           onClick={() => setLivePreviewTab('dashboard')}
@@ -12215,7 +12105,7 @@ try {
                               : 'text-white/60 hover:text-white hover:bg-white/5'
                           }`}
                         >
-                          🌐 Cruise Dashboard Banner
+                           Cruise Dashboard Banner
                         </button>
                         <button
                           type="button"
@@ -12226,14 +12116,14 @@ try {
                               : 'text-white/60 hover:text-white hover:bg-white/5'
                           }`}
                         >
-                          📧 Email Broadcast
+                           Email Broadcast
                         </button>
                       </div>
                     </div>
 
                     {livePreviewTab === 'dashboard' ? (
-                      /* 🌐 Cruise Dashboard Banner Live Preview (Exact match of /cruise/michael) */
-                      <div className="bg-[#f0f2f5] rounded-xl p-4 border border-white/10 text-black shadow-inner flex-1">
+                      /*  Cruise Dashboard Banner Live Preview (Exact match of /cruise/michael) */
+                      <div className="bg-[#f0f2f5] p-4 border border-white/10 text-black shadow-inner flex-1">
                         <div className="flex items-center justify-between mb-3 px-1">
                           <span className="text-[9px] font-black uppercase tracking-widest text-black/50">
                             LIVE PASSENGER DASHBOARD VIEW (/cruise/michael)
@@ -12243,11 +12133,11 @@ try {
                           </span>
                         </div>
 
-                        <div className="relative overflow-hidden p-4 bg-white border border-black/10 rounded-2xl shadow-md">
+                        <div className="relative overflow-hidden p-4 bg-white border border-black/10 shadow-md">
                           <div className="relative z-10">
                             <div className="flex items-start gap-3 mb-4">
                               <div className="w-8 h-8 rounded-full bg-cyan-100 text-cyan-700 flex items-center justify-center text-sm shrink-0 mt-0.5">
-                                <span className="animate-pulse">🔔</span>
+                                <span className="animate-pulse"></span>
                               </div>
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
@@ -12271,13 +12161,13 @@ try {
                         </div>
                       </div>
                     ) : (
-                      /* 📧 Email Broadcast Preview */
+                      /*  Email Broadcast Preview */
                       <div className="flex-1 flex flex-col">
                         {/* Email Client Header Bar */}
                         <div className="bg-[#0f0e1d] rounded-t-xl border border-white/10 p-3 space-y-1 text-xs">
                           <div className="flex items-center gap-2 text-white/60">
                             <span className="font-bold text-white/40 w-16 shrink-0">Subject:</span>
-                            <span className="font-bold text-cyan-300 truncate">{cruiseBlastSubject.trim() || "🚢 Cruise Update & Passenger Notice"}</span>
+                            <span className="font-bold text-cyan-300 truncate">{cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice"}</span>
                           </div>
                           <div className="flex items-center gap-2 text-white/60">
                             <span className="font-bold text-white/40 w-16 shrink-0">From:</span>
@@ -12295,7 +12185,7 @@ try {
                             className="email-blast-preview-content bg-white text-slate-900"
                             dangerouslySetInnerHTML={{ 
                               __html: cruiseCommunityBlast({ 
-                                subject: cruiseBlastSubject.trim() || "🚢 Cruise Update & Passenger Notice", 
+                                subject: cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice", 
                                 body: cleanWysiwygHtml(cruiseMessage) || "<p>Message content will appear here in real-time...</p>" 
                               }) 
                             }} 
@@ -12317,11 +12207,11 @@ try {
 
           {/* Cruise Roster & Signup Stats */}
           <div id="admin-sec-cruise-roster" className="grid grid-cols-1 gap-6 relative items-start mt-6">
-            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-emerald-500/20 rounded-2xl p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
+            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-emerald-500/20 p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-all duration-700 pointer-events-none" />
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 shrink-0 rounded-xl bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-all duration-500">📊</div>
+                  <div className="w-12 h-12 shrink-0 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-all duration-500"></div>
                   <div>
                     <h3 className="text-lg font-black italic tracking-wide text-white">Cruise Roster</h3>
                     <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
@@ -12330,15 +12220,15 @@ try {
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-3 gap-2">
-                  <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+                  <div className="bg-black/30 p-3 border border-white/5 text-center">
                     <p className="text-2xl font-black text-emerald-400">{cruiseStats.signups || 0}</p>
                     <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
                   </div>
-                  <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+                  <div className="bg-black/30 p-3 border border-white/5 text-center">
                     <p className="text-2xl font-black text-white">{cruiseStats.total}</p>
                     <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
                   </div>
-                  <div className="bg-black/30 p-3 rounded-xl border border-white/5 text-center">
+                  <div className="bg-black/30 p-3 border border-white/5 text-center">
                     <p className="text-lg font-black text-white/60">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
                     <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Adult / Child</p>
                   </div>
@@ -12369,7 +12259,7 @@ try {
                 )}
 
                 {/* Download CSV */}
-                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border border-emerald-400/30 flex items-center justify-center gap-2 mt-auto">
+                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border border-emerald-400/30 flex items-center justify-center gap-2 mt-auto">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
                   Download Full CSV
                 </button>
@@ -12434,7 +12324,7 @@ try {
             }
           `}} />
 
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-[scaleIn_0.2s_ease-out]">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-[scaleIn_0.2s_ease-out]">
             <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20">
               <div>
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
@@ -12447,7 +12337,7 @@ try {
                 onClick={() => setSelectedQrProduct(null)} 
                 className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
-                ✕
+                
               </button>
             </div>
 
@@ -12524,7 +12414,7 @@ try {
                       />
                     </div>
 
-                    <div className="flex items-center justify-between p-3 bg-black/20 border border-white/5 rounded-xl">
+                    <div className="flex items-center justify-between p-3 bg-black/20 border border-white/5">
                       <div>
                         <p className="text-xs font-bold text-white">Show Price Tag</p>
                         <p className="text-[0.6rem] text-white/40">Include product price at the bottom of the card</p>
@@ -12540,17 +12430,17 @@ try {
                   </div>
                 </div>
 
-                <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl text-[0.65rem] leading-relaxed text-white/60">
-                  <span className="text-amber-400 font-bold block mb-1">💡 Pro-Tip for Merch Tables</span>
+                <div className="p-4 bg-purple-500/10 border border-purple-500/20 text-[0.65rem] leading-relaxed text-white/60">
+                  <span className="text-purple-300 font-bold block mb-1"> Pro-Tip for Merch Tables</span>
                   Generate a **Direct Add to Cart** QR code for each specific size (e.g. Medium vs. Large). When fans scan it, the item is instantly added to their Shopify cart for immediate checkout, keeping the queue moving fast!
                 </div>
               </div>
 
-              <div className="flex flex-col items-center justify-center bg-black/30 border border-white/5 rounded-2xl p-6 md:p-8">
+              <div className="flex flex-col items-center justify-center bg-black/30 border border-white/5 p-6 md:p-8">
                 <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/30 mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
                 
                 <div className="print-tag-container">
-                  <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px] shadow-lg">
+                  <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px]">
                     <div className="text-center">
                       <div className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-black/60 mb-0.5">7th Heaven</div>
                       <div className="text-[0.5rem] font-bold uppercase tracking-wider text-black/40">{qrSubtitle || 'Official Merchandise'}</div>
@@ -12563,7 +12453,7 @@ try {
                       )}
                     </div>
 
-                    <div className="p-3 bg-white border border-black/10 rounded-xl flex items-center justify-center">
+                    <div className="p-3 bg-white border border-black/10 flex items-center justify-center">
                       <QRCode
                         value={
                           qrLinkType === 'checkout' && selectedQrVariant
@@ -12598,7 +12488,7 @@ try {
               </button>
               <button
                 onClick={() => window.print()}
-                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_15px_rgba(133,29,239,0.3)] border border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
+                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all shadow-[0_4px_15px_rgba(255,10,61,0.3)] border border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
                 Print Label
@@ -12608,8 +12498,8 @@ try {
         </div>
       )}
       {activeToast && (
-        <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 rounded-xl shadow-2xl flex items-start gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
-          <div className="text-xl">🛍️</div>
+        <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
+          <div className="text-xl"></div>
           <div>
             <p className="text-xs font-black text-emerald-400 uppercase tracking-widest">{activeToast.title}</p>
             <p className="text-sm text-white/90 font-medium mt-0.5">{activeToast.message}</p>
@@ -12619,7 +12509,7 @@ try {
 
       {/* Floating Quick Scroll Nav / Toggle Button — Removed */}
       {showJumpNav && (
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300 animate-[fadeIn_0.15s_ease]">
+        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 p-3 backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300 animate-[fadeIn_0.15s_ease]">
           <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
             <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
             <button
@@ -12627,7 +12517,7 @@ try {
               title="Hide Navigation"
               className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[var(--font-size-3xs)]"
             >
-              ✕
+              
             </button>
           </div>
           {adminTab === 'band' && (
@@ -12655,26 +12545,26 @@ try {
                   <>
                     {sectionOrder.map((key) => {
                       const labelMap: Record<string, { label: string; icon: string }> = {
-                        announcements: { label: 'Band Announcements', icon: '📡' },
-                        calendar: { label: 'Crew Schedule', icon: '📅' },
-                        analytics: { label: 'Google Analytics', icon: '📊' },
-                        shopify: { label: 'Shopify Store', icon: '🛒' },
-                        bookings: { label: 'Booking Requests', icon: '📅' },
-                        planners: { label: 'Planners Directory', icon: '👥' },
-                        cruisesignups: { label: 'Cruise Signups', icon: '🚢' },
-                        livealerts: { label: 'Live Alerts', icon: '🚨' },
-                        smsblast: { label: 'SMS Blast', icon: '💬' },
-                        crewsms: { label: 'Crew SMS', icon: '👥' },
-                        bandsms: { label: 'Band Member SMS Text', icon: '💬' },
-                        newsletter: { label: 'Newsletter', icon: '✉️' },
-                        emailflow: { label: 'Email Template Flows', icon: '✉️' },
-                        registry: { label: 'Fan Registry', icon: '📝' },
-                        crewcreation: { label: 'Crew Management', icon: '🛠️' },
-                        admincreation: { label: 'Admin Management', icon: '🔐' },
-                        bulkinvites: { label: 'Bulk Invites', icon: '📨' },
-                        awardpicks: { label: 'Award Picks', icon: '🏅' }
+                        announcements: { label: 'Band Announcements', icon: '' },
+                        calendar: { label: 'Crew Schedule', icon: '' },
+                        analytics: { label: 'Google Analytics', icon: '' },
+                        shopify: { label: 'Shopify Store', icon: '' },
+                        bookings: { label: 'Booking Requests', icon: '' },
+                        planners: { label: 'Planners Directory', icon: '' },
+                        cruisesignups: { label: 'Cruise Signups', icon: '' },
+                        livealerts: { label: 'Live Alerts', icon: '' },
+                        smsblast: { label: 'SMS Blast', icon: '' },
+                        crewsms: { label: 'Crew SMS', icon: '' },
+                        bandsms: { label: 'Band Member SMS Text', icon: '' },
+                        newsletter: { label: 'Newsletter', icon: '' },
+                        emailflow: { label: 'Email Template Flows', icon: '' },
+                        registry: { label: 'Fan Registry', icon: '' },
+                        crewcreation: { label: 'Crew Management', icon: '' },
+                        admincreation: { label: 'Admin Management', icon: '' },
+                        bulkinvites: { label: 'Bulk Invites', icon: '' },
+                        awardpicks: { label: 'Award Picks', icon: '' }
                       };
-                      const section = labelMap[key] || { label: key, icon: '⚙️' };
+                      const section = labelMap[key] || { label: key, icon: '' };
                       return (
                         <button
                           key={key}
@@ -12693,26 +12583,26 @@ try {
                     </div>
                     {sectionOrder.map((key, index) => {
                       const labelMap: Record<string, { label: string; icon: string }> = {
-                        announcements: { label: 'Band Announcements', icon: '📡' },
-                        calendar: { label: 'Crew Schedule', icon: '📅' },
-                        analytics: { label: 'Google Analytics', icon: '📊' },
-                        shopify: { label: 'Shopify Store', icon: '🛒' },
-                        bookings: { label: 'Booking Requests', icon: '📅' },
-                        planners: { label: 'Planners Directory', icon: '👥' },
-                        cruisesignups: { label: 'Cruise Signups', icon: '🚢' },
-                        livealerts: { label: 'Live Alerts', icon: '🚨' },
-                        smsblast: { label: 'SMS Blast', icon: '💬' },
-                        crewsms: { label: 'Crew SMS', icon: '👥' },
-                        bandsms: { label: 'Band Member SMS Text', icon: '💬' },
-                        newsletter: { label: 'Newsletter', icon: '✉️' },
-                        emailflow: { label: 'Email Template Flows', icon: '✉️' },
-                        registry: { label: 'Fan Registry', icon: '📝' },
-                        crewcreation: { label: 'Crew Management', icon: '🛠️' },
-                        admincreation: { label: 'Admin Management', icon: '🔐' },
-                        bulkinvites: { label: 'Bulk Invites', icon: '📨' },
-                        awardpicks: { label: 'Award Picks', icon: '🏅' }
+                        announcements: { label: 'Band Announcements', icon: '' },
+                        calendar: { label: 'Crew Schedule', icon: '' },
+                        analytics: { label: 'Google Analytics', icon: '' },
+                        shopify: { label: 'Shopify Store', icon: '' },
+                        bookings: { label: 'Booking Requests', icon: '' },
+                        planners: { label: 'Planners Directory', icon: '' },
+                        cruisesignups: { label: 'Cruise Signups', icon: '' },
+                        livealerts: { label: 'Live Alerts', icon: '' },
+                        smsblast: { label: 'SMS Blast', icon: '' },
+                        crewsms: { label: 'Crew SMS', icon: '' },
+                        bandsms: { label: 'Band Member SMS Text', icon: '' },
+                        newsletter: { label: 'Newsletter', icon: '' },
+                        emailflow: { label: 'Email Template Flows', icon: '' },
+                        registry: { label: 'Fan Registry', icon: '' },
+                        crewcreation: { label: 'Crew Management', icon: '' },
+                        admincreation: { label: 'Admin Management', icon: '' },
+                        bulkinvites: { label: 'Bulk Invites', icon: '' },
+                        awardpicks: { label: 'Award Picks', icon: '' }
                       };
-                      const section = labelMap[key] || { label: key, icon: '⚙️' };
+                      const section = labelMap[key] || { label: key, icon: '' };
                       return (
                         <div
                           key={key}
@@ -12726,7 +12616,7 @@ try {
                           onDragEnd={handleDragEnd}
                           className={`py-1.5 px-2 hover:bg-white/5 text-white/70 hover:text-white transition-all rounded font-medium truncate flex items-center gap-2 cursor-grab active:cursor-grabbing border border-transparent select-none ${draggedIndex === index ? 'border-dashed border-[var(--color-accent)]/50 opacity-40 bg-white/5 shadow-inner' : ''}`}
                         >
-                          <span className="text-white/20 select-none">☰</span>
+                          <span className="text-white/20 select-none"></span>
                           <span>{section.icon}</span> 
                           <span className="truncate">{section.label}</span>
                         </div>
@@ -12740,19 +12630,19 @@ try {
                     onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                     className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
-                    <span>🚢</span> Command Center
+                    <span></span> Command Center
                   </button>
                   <button
                     onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                     className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
-                    <span>📊</span> Cruise Roster & Links
+                    <span></span> Cruise Roster & Links
                   </button>
                   <button
                     onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                     className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
-                    <span>📡</span> Cruise Blast
+                    <span></span> Cruise Blast
                   </button>
                 </>
               )}

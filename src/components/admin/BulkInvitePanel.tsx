@@ -213,9 +213,9 @@ export default function BulkInvitePanel() {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 ${
+              className={`border-2 border-dashed  p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 ${
                 isDragging
-                  ? "border-purple-600 bg-purple-50 scale-[0.99]"
+                  ? "border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
                   : "border-black/20 bg-black/[0.02] hover:border-black/40 hover:bg-black/[0.04]"
               }`}
             >
@@ -226,12 +226,12 @@ export default function BulkInvitePanel() {
                 accept=".csv"
                 className="hidden"
               />
-              <span className="text-3xl mb-3 block">📄</span>
+              <span className="text-3xl mb-3 block"></span>
               <p className="text-black text-xs font-black uppercase tracking-wider">Drag & Drop CSV File</p>
               <p className="text-black/60 text-2xs mt-1.5 leading-relaxed max-w-xs font-semibold">
                 Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
               </p>
-              <span className="mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-[0.65rem] font-bold uppercase tracking-widest rounded-lg border border-purple-600 shadow-xs">
+              <span className="mt-4 px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-[0.65rem] font-bold uppercase tracking-widest rounded-lg border border-[var(--color-accent)] shadow-xs">
                 Browse Files
               </span>
             </div>
@@ -244,14 +244,14 @@ export default function BulkInvitePanel() {
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
                 rows={5}
-                className="w-full bg-white border border-black/15 text-black text-xs px-4 py-3 focus:outline-none focus:border-purple-600 rounded-xl font-mono resize-none placeholder:text-black/30 font-semibold"
+                className="w-full bg-white border border-black/15 text-black text-xs px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] font-mono resize-none placeholder:text-black/30 font-semibold"
               />
               <button
                 onClick={() => parseInvites(inputText)}
                 disabled={!inputText.trim()}
-                className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all border border-purple-600 cursor-pointer disabled:opacity-30 shadow-sm"
+                className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-widest transition-all border border-[var(--color-accent)] cursor-pointer disabled:opacity-30 shadow-sm"
               >
-                🔍 Parse & Import list
+                 Parse & Import list
               </button>
             </div>
           </div>
@@ -259,9 +259,9 @@ export default function BulkInvitePanel() {
           /* Verification Preview / Progress Stage */
           <div className="space-y-6">
             {/* Status overview */}
-            <div className="p-4 rounded-xl border border-black/10 bg-black/[0.02] flex items-center justify-between flex-wrap gap-4">
+            <div className="p-4 border border-black/10 bg-black/[0.02] flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-3">
-                <span className="text-2xl">👥</span>
+                <span className="text-2xl"></span>
                 <div>
                   <p className="text-black text-xs font-black uppercase tracking-widest">Parsed Invite Roster</p>
                   <p className="text-black/60 text-2xs mt-0.5 font-semibold">Found {invites.length} prospective fans to invite.</p>
@@ -281,21 +281,21 @@ export default function BulkInvitePanel() {
                   type="button"
                   onClick={dispatchInvites}
                   disabled={sending}
-                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white text-xs font-black uppercase tracking-widest rounded-lg shadow-md transition-all border border-purple-600 disabled:opacity-40 cursor-pointer"
+                  className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-lg shadow-md transition-all border border-[var(--color-accent)] disabled:opacity-40 cursor-pointer"
                 >
-                  {sending ? "⚡ Sending Invites..." : "✉️ Send Invitation Email Blasts"}
+                  {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
                 </button>
               </div>
             </div>
 
             {/* Results Toast */}
             {results && (
-              <div className={`p-4 rounded-xl border flex items-center gap-3 ${
+              <div className={`p-4  border flex items-center gap-3 ${
                 results.failed > 0 
                   ? "bg-rose-50 border-rose-200 text-rose-800" 
                   : "bg-emerald-50 border-emerald-200 text-emerald-800"
               }`}>
-                <span className="text-lg">{results.failed > 0 ? "⚠️" : "✓"}</span>
+                <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
                 <p className="text-xs font-black uppercase tracking-widest">
                   Dispatched: {results.success} invites sent successfully{results.failed > 0 && `, ${results.failed} failed`}.
                 </p>
@@ -303,7 +303,7 @@ export default function BulkInvitePanel() {
             )}
 
             {/* Invite table */}
-            <div className="max-h-[300px] overflow-y-auto border border-black/10 rounded-xl bg-white">
+            <div className="max-h-[300px] overflow-y-auto border border-black/10 bg-white">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
                   <tr className="bg-black/5 text-black/70 uppercase tracking-widest text-[0.65rem] border-b border-black/10">
@@ -324,13 +324,13 @@ export default function BulkInvitePanel() {
                           </span>
                         )}
                         {inv.status === "sending" && (
-                          <span className="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full font-bold uppercase tracking-wider text-[0.55rem] animate-pulse">
+                          <span className="px-2.5 py-1 bg-[var(--color-accent)] text-[var(--color-accent)] rounded-full font-bold uppercase tracking-wider text-[0.55rem] animate-pulse">
                             Sending…
                           </span>
                         )}
                         {inv.status === "success" && (
                           <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold uppercase tracking-wider text-[0.55rem] border border-emerald-300">
-                            ✓ Sent
+                             Sent
                           </span>
                         )}
                         {inv.status === "failed" && (
@@ -338,7 +338,7 @@ export default function BulkInvitePanel() {
                             title={inv.error}
                             className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full font-bold uppercase tracking-wider text-[0.55rem] border border-rose-300 cursor-help"
                           >
-                            ✕ Failed
+                             Failed
                           </span>
                         )}
                       </td>

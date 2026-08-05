@@ -109,17 +109,17 @@ const connections: Connection[] = [
 /* ─────────── Color Schemes ─────────── */
 const categoryStyles: Record<string, { border: string; activeBorder: string; glow: string; bg: string; text: string; badge: string }> = {
   public: { border: "border-cyan-500/20", activeBorder: "border-cyan-400", glow: "shadow-[0_0_30px_rgba(34,211,238,0.25)]", bg: "bg-cyan-500/5", text: "text-cyan-400", badge: "bg-cyan-500/20 text-cyan-300" },
-  dashboard: { border: "border-violet-500/20", activeBorder: "border-violet-400", glow: "shadow-[0_0_30px_rgba(139,92,246,0.25)]", bg: "bg-violet-500/5", text: "text-violet-400", badge: "bg-violet-500/20 text-violet-300" },
+  dashboard: { border: "border-violet-500/20", activeBorder: "border-violet-400", glow: "shadow-[0_0_30px_rgba(255,10,61,0.25)]", bg: "bg-violet-500/5", text: "text-violet-400", badge: "bg-violet-500/20 text-violet-300" },
   admin: { border: "border-rose-500/20", activeBorder: "border-rose-400", glow: "shadow-[0_0_30px_rgba(244,63,94,0.25)]", bg: "bg-rose-500/5", text: "text-rose-400", badge: "bg-rose-500/20 text-rose-300" },
-  email: { border: "border-amber-500/20", activeBorder: "border-amber-400", glow: "shadow-[0_0_30px_rgba(245,158,11,0.25)]", bg: "bg-amber-500/5", text: "text-amber-400", badge: "bg-amber-500/20 text-amber-300" },
+  email: { border: "border-purple-500/20", activeBorder: "border-purple-400", glow: "shadow-[0_0_30px_rgba(147, 51, 234,0.25)]", bg: "bg-purple-600/5", text: "text-purple-300", badge: "bg-purple-600/20 text-purple-200" },
   module: { border: "border-emerald-500/20", activeBorder: "border-emerald-400", glow: "shadow-[0_0_30px_rgba(16,185,129,0.25)]", bg: "bg-emerald-500/5", text: "text-emerald-400", badge: "bg-emerald-500/20 text-emerald-300" },
 };
 
 const connectionColors: Record<string, { stroke: string; activeStroke: string }> = {
   navigation: { stroke: "rgba(255,255,255,0.06)", activeStroke: "rgba(34,211,238,0.6)" },
   data: { stroke: "rgba(255,255,255,0.06)", activeStroke: "rgba(16,185,129,0.6)" },
-  email: { stroke: "rgba(255,255,255,0.06)", activeStroke: "rgba(245,158,11,0.6)" },
-  auth: { stroke: "rgba(255,255,255,0.06)", activeStroke: "rgba(139,92,246,0.6)" },
+  email: { stroke: "rgba(255,255,255,0.06)", activeStroke: "rgba(147, 51, 234,0.6)" },
+  auth: { stroke: "rgba(255,255,255,0.06)", activeStroke: "rgba(255,10,61,0.6)" },
 };
 
 /* ─────────── Component ─────────── */
@@ -182,7 +182,7 @@ export default function VisualSitemapPage() {
     { key: "navigation", label: "Page Navigation", color: "bg-cyan-400" },
     { key: "auth", label: "Auth / Signup Flow", color: "bg-violet-400" },
     { key: "data", label: "Data Pipeline", color: "bg-emerald-400" },
-    { key: "email", label: "Email Trigger", color: "bg-amber-400" },
+    { key: "email", label: "Email Trigger", color: "bg-purple-500" },
   ];
 
   return (
@@ -310,7 +310,7 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative rounded-xl border overflow-hidden transition-all duration-300 cursor-pointer ${
+                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${
                       isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
                       `${style.border} hover:${style.activeBorder}`
@@ -353,7 +353,7 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative rounded-xl border overflow-hidden transition-all duration-300 cursor-pointer ${
+                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${
                       isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
                       `${style.border} hover:${style.activeBorder}`
@@ -385,7 +385,7 @@ export default function VisualSitemapPage() {
 
             {/* Column 2: Authenticated Dashboards */}
             <div className="space-y-3">
-              <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-violet-400/60 mb-4 pb-2 border-b border-violet-500/10">📊 Dashboards</h2>
+              <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4 pb-2 border-b border-white/10">📊 Dashboards</h2>
               {pages.filter(p => p.col === 2).map(page => {
                 const style = categoryStyles[page.category];
                 const connected = isConnected(page.id);
@@ -394,7 +394,7 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative rounded-xl border overflow-hidden transition-all duration-300 cursor-pointer ${
+                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${
                       isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
                       `${style.border} hover:${style.activeBorder}`
@@ -426,7 +426,7 @@ export default function VisualSitemapPage() {
 
             {/* Column 3: Admin Tools & Email Templates */}
             <div className="space-y-3">
-              <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-amber-400/60 mb-4 pb-2 border-b border-amber-500/10">📧 Admin & Email Tools</h2>
+              <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-purple-300/60 mb-4 pb-2 border-b border-purple-500/10">📧 Admin & Email Tools</h2>
               {pages.filter(p => p.col === 3).map(page => {
                 const style = categoryStyles[page.category];
                 const connected = isConnected(page.id);
@@ -435,7 +435,7 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative rounded-xl border overflow-hidden transition-all duration-300 cursor-pointer ${
+                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${
                       isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
                       `${style.border} hover:${style.activeBorder}`
@@ -468,7 +468,7 @@ export default function VisualSitemapPage() {
         </div>
 
         {/* ═══════════ Detail Panel ═══════════ */}
-        <div className="mt-10 p-6 bg-white/[0.02] border border-white/5 rounded-2xl min-h-[100px] transition-all duration-300">
+        <div className="mt-10 p-6 bg-white/[0.02] border border-white/5 min-h-[100px] transition-all duration-300">
           {hoveredId ? (() => {
             const page = pages.find(p => p.id === hoveredId);
             if (!page) return null;
@@ -497,7 +497,7 @@ export default function VisualSitemapPage() {
                       <p className="text-[0.55rem] font-black uppercase tracking-widest text-white/30 mb-1.5">Sends To →</p>
                       {outgoing.map((c, i) => (
                         <div key={i} className="flex items-center gap-2 text-[0.6rem] text-white/50 py-0.5">
-                          <span className={`w-1.5 h-1.5 rounded-full ${connectionColors[c.type].activeStroke === "rgba(34,211,238,0.6)" ? "bg-cyan-400" : connectionColors[c.type].activeStroke === "rgba(16,185,129,0.6)" ? "bg-emerald-400" : connectionColors[c.type].activeStroke === "rgba(245,158,11,0.6)" ? "bg-amber-400" : "bg-violet-400"}`} />
+                          <span className={`w-1.5 h-1.5 rounded-full ${connectionColors[c.type].activeStroke === "rgba(34,211,238,0.6)" ? "bg-cyan-400" : connectionColors[c.type].activeStroke === "rgba(16,185,129,0.6)" ? "bg-emerald-400" : connectionColors[c.type].activeStroke === "rgba(147, 51, 234,0.6)" ? "bg-purple-500" : "bg-violet-400"}`} />
                           <span className="font-bold text-white/70">{pages.find(p => p.id === c.to)?.name}</span>
                           {c.label && <span className="text-white/30">— {c.label}</span>}
                         </div>
@@ -509,7 +509,7 @@ export default function VisualSitemapPage() {
                       <p className="text-[0.55rem] font-black uppercase tracking-widest text-white/30 mb-1.5">← Receives From</p>
                       {incoming.map((c, i) => (
                         <div key={i} className="flex items-center gap-2 text-[0.6rem] text-white/50 py-0.5">
-                          <span className={`w-1.5 h-1.5 rounded-full ${connectionColors[c.type].activeStroke === "rgba(34,211,238,0.6)" ? "bg-cyan-400" : connectionColors[c.type].activeStroke === "rgba(16,185,129,0.6)" ? "bg-emerald-400" : connectionColors[c.type].activeStroke === "rgba(245,158,11,0.6)" ? "bg-amber-400" : "bg-violet-400"}`} />
+                          <span className={`w-1.5 h-1.5 rounded-full ${connectionColors[c.type].activeStroke === "rgba(34,211,238,0.6)" ? "bg-cyan-400" : connectionColors[c.type].activeStroke === "rgba(16,185,129,0.6)" ? "bg-emerald-400" : connectionColors[c.type].activeStroke === "rgba(147, 51, 234,0.6)" ? "bg-purple-500" : "bg-violet-400"}`} />
                           <span className="font-bold text-white/70">{pages.find(p => p.id === c.from)?.name}</span>
                           {c.label && <span className="text-white/30">— {c.label}</span>}
                         </div>
@@ -532,7 +532,7 @@ export default function VisualSitemapPage() {
             { value: pages.filter(p => p.category === "public").length, label: "Public Pages", color: "text-cyan-400" },
             { value: pages.filter(p => p.category === "dashboard").length, label: "Dashboards", color: "text-violet-400" },
             { value: pages.filter(p => p.category === "admin").length, label: "Admin Tools", color: "text-rose-400" },
-            { value: pages.filter(p => p.category === "email").length, label: "Email Systems", color: "text-amber-400" },
+            { value: pages.filter(p => p.category === "email").length, label: "Email Systems", color: "text-purple-300" },
             { value: connections.length, label: "Connections", color: "text-white/60" },
           ].map((stat, i) => (
             <div key={i} className="px-4">
@@ -548,7 +548,7 @@ export default function VisualSitemapPage() {
         <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl flex items-center justify-center p-6" onClick={() => setLightboxId(null)}>
           <div className="max-w-5xl w-full max-h-[90vh] relative" onClick={e => e.stopPropagation()}>
             <button onClick={() => setLightboxId(null)} className="absolute -top-10 right-0 text-white/40 hover:text-white text-sm uppercase tracking-widest font-bold cursor-pointer">✕ Close</button>
-            <div className="bg-[rgb(12,12,18)] border border-white/10 rounded-2xl overflow-hidden">
+            <div className="bg-[rgb(12,12,18)] border border-white/10 overflow-hidden">
               <div className="p-4 border-b border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <h3 className={`text-lg font-black uppercase tracking-widest ${categoryStyles[lightboxPage.category].text}`}>{lightboxPage.name}</h3>

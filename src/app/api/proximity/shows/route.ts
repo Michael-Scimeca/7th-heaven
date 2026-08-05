@@ -31,7 +31,7 @@ async function zipToLatLng(zip: string): Promise<{ lat: number; lng: number } | 
 // Returns shows within the user's notification radius
 export async function GET(req: NextRequest) {
   try {
-    const { createClient } = await import("@/utils/supabase/server");
+    const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
     const userId = req.nextUrl.searchParams.get("userId");
     if (!userId) return NextResponse.json({ error: "userId required" }, { status: 400 });

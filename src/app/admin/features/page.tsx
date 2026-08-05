@@ -143,7 +143,7 @@ const features: Feature[] = [
 
 const statusConfig = {
   live: { label: "Live", color: "bg-emerald-500", textColor: "text-emerald-400" },
-  "in-progress": { label: "In Progress", color: "bg-amber-500", textColor: "text-amber-400" },
+  "in-progress": { label: "In Progress", color: "bg-purple-600", textColor: "text-purple-300" },
   planned: { label: "Planned", color: "bg-blue-500", textColor: "text-blue-400" },
   "needs-api-key": { label: "Needs API Key", color: "bg-orange-500", textColor: "text-orange-400" },
 };
@@ -180,7 +180,7 @@ export default function AdminFeaturesPage() {
       <div className="site-container py-16">
         {/* Header */}
         <div className="mb-12">
-          <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(133,29,239,0.3)]">
+          <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(255,10,61,0.3)]">
             Admin
           </span>
           <h1 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">

@@ -46,12 +46,12 @@ export default function CruiseLayoutC() {
         <div className="absolute inset-0 flex items-end">
           <div className="site-container pb-20 max-w-5xl">
             <div className="max-w-2xl">
-              <div className="bg-black/70 backdrop-blur-sm px-8 py-6 -rotate-1 inline-block mb-4 border-l-4 border-[var(--color-accent)]">
+              <div className="bg-black/70 backdrop-blur-sm px-8 py-6 -rotate-1 inline-block mb-4 border border-[var(--color-accent)]/40">
                 <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                   Rock the<br/>Wave
                 </h1>
               </div>
-              <div className="bg-amber-500/90 text-black px-6 py-3 rotate-1 inline-block ml-8">
+              <div className="bg-purple-600/90 text-black px-6 py-3 rotate-1 inline-block ml-8">
                 <p className="text-sm font-black uppercase tracking-widest">A 7th Heaven Cruise Experience</p>
               </div>
               <div className="bg-black/70 backdrop-blur-sm px-6 py-3 -rotate-[0.5deg] inline-block mt-4">
@@ -68,14 +68,14 @@ export default function CruiseLayoutC() {
           <div className="site-container max-w-5xl">
             <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${section.align === "left" ? "lg:direction-rtl" : ""}`}>
               {/* Photo */}
-              <div className={`relative aspect-[4/3] rounded-2xl overflow-hidden ${section.align === "left" ? "lg:order-2" : ""}`}>
+              <div className={`relative aspect-[4/3]  overflow-hidden ${section.align === "left" ? "lg:order-2" : ""}`}>
                 <img src="/images/cruise-hero.png" alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                   style={{ objectPosition: i === 0 ? 'center' : i === 1 ? 'center 30%' : 'center 70%' }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>
               {/* Text */}
               <div className={section.align === "left" ? "lg:order-1 lg:text-right" : ""}>
-                <span className="text-xs font-black uppercase tracking-[0.25em] text-amber-400">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-xs font-black uppercase tracking-[0.25em] text-purple-300">{String(i + 1).padStart(2, "0")}</span>
                 <h2 className="text-4xl font-black uppercase italic tracking-tight mt-2 mb-1" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                   {section.title}
                 </h2>
@@ -98,7 +98,7 @@ export default function CruiseLayoutC() {
           </div>
 
           {signupStatus === "success" ? (
-            <div className="max-w-lg mx-auto bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-8 text-center">
+            <div className="max-w-lg mx-auto bg-emerald-500/10 border border-emerald-500/30 p-8 text-center">
               <span className="text-4xl block mb-3">🚢</span>
               <p className="text-xl font-bold text-white mb-1">You&apos;re on the list!</p>
               <p className="text-emerald-400 text-sm">We&apos;ll email you the moment rates are locked.</p>
@@ -107,19 +107,19 @@ export default function CruiseLayoutC() {
             <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <input type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
-                  className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/20 focus:border-amber-500 focus:outline-none transition-colors" />
+                  className="bg-white/[0.03] border border-white/10 px-4 py-3.5 text-white placeholder:text-white/20 focus:border-purple-500 focus:outline-none transition-colors" />
                 <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
-                  className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/20 focus:border-amber-500 focus:outline-none transition-colors" />
+                  className="bg-white/[0.03] border border-white/10 px-4 py-3.5 text-white placeholder:text-white/20 focus:border-purple-500 focus:outline-none transition-colors" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <input type="tel" placeholder="Phone (optional)" value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))}
-                  className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/20 focus:border-amber-500 focus:outline-none transition-colors" />
+                  className="bg-white/[0.03] border border-white/10 px-4 py-3.5 text-white placeholder:text-white/20 focus:border-purple-500 focus:outline-none transition-colors" />
                 <select value={form.guests} onChange={e => setForm(f => ({...f, guests: e.target.value}))}
-                  className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-white focus:border-amber-500 focus:outline-none transition-colors appearance-none cursor-pointer">
+                  className="bg-white/[0.03] border border-white/10 px-4 py-3.5 text-white focus:border-purple-500 focus:outline-none transition-colors appearance-none cursor-pointer">
                   <option value="1">1 guest</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+</option><option value="10">10+</option>
                 </select>
               </div>
-                <button type="submit" disabled={signupStatus === "submitting"} className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all shadow-[0_0_20px_rgba(133,29,239,0.3)] disabled:opacity-70 cursor-pointer">
+                <button type="submit" disabled={signupStatus === "submitting"} className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
                 {signupStatus === "submitting" ? "Submitting..." : "Count Me In — It's Free"}
                 </button>
             </form>
@@ -147,7 +147,7 @@ export default function CruiseLayoutC() {
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <a href="#signup-section" onClick={e => { e.preventDefault(); document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="flex-1 md:flex-none px-8 py-3 bg-amber-500 hover:bg-amber-400 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all text-center">
+                className="flex-1 md:flex-none px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-all text-center">
                 Sign Up Now
               </a>
               <button onClick={() => setStickyVisible(false)} className="text-white/30 hover:text-white text-xl cursor-pointer px-2">×</button>
@@ -157,7 +157,7 @@ export default function CruiseLayoutC() {
       )}
 
       {/* Layout label */}
-      <div className="fixed bottom-16 right-6 z-50 px-4 py-2 bg-amber-500 text-black text-xs font-bold uppercase tracking-widest rounded-full shadow-lg">
+      <div className="fixed bottom-16 right-6 z-50 px-4 py-2 bg-purple-600 text-white text-xs font-bold uppercase tracking-widest rounded-full">
         Layout C — Editorial
       </div>
     </div>

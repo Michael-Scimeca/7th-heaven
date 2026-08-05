@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
 import { protectAction, sanitize } from '@/lib/security';
 import { isValidEmail, isValidPhone, sanitizeName, sanitizeNotes } from '@/lib/validation';
+import { isSpam } from '@/lib/api-utils';
 import { encrypt } from '@/lib/encryption';
 import { savePin } from '@/lib/pins';
 import crypto from 'crypto';
@@ -171,13 +172,24 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
 // POST — new signup
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, guest_count, notes, anonymous, guests, joinCommunity, website, paymentDetails } = await req.json();
+    // Capture raw body before destructuring so isSpam can inspect timing (_t) and alt-honeypot (_hp)
+    const body = await req.json();
+    const { name, email, phone, guest_count, notes, anonymous, guests, joinCommunity, website, paymentDetails } = body;
 
     // ── Protection ──
-    const ip = req.headers.get('x-forwarded-for') || 'anonymous';
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous';
+
+    // Full-body spam check: honeypot (website), alt-honeypot (_hp), timing (_t)
+    if (isSpam(body)) {
+      return NextResponse.json({ error: 'Spam detected' }, { status: 400 });
+    }
+
+    // Sliding-window rate limit: 2 cruise signups per IP per hour
     const protection = await protectAction({
       identifier: `cruise:${ip}`,
       honeypotValue: website,
+      requests: 2,
+      window: '60 m',
     });
     if (!protection.success) {
       return NextResponse.json({ error: protection.error }, { status: protection.status });

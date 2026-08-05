@@ -30,10 +30,10 @@ interface Attendee {
 
 const RADIUS_OPTIONS = [10, 25, 50, 100, 200];
 const tierColors: Record<string, string> = {
-  Bronze: "text-amber-600",
+  Bronze: "text-purple-400",
   Silver: "text-slate-300",
   Gold: "text-yellow-400",
-  Platinum: "text-purple-400",
+  Platinum: "text-[var(--color-accent)]",
 };
 
 export default function ProximityPanel() {
@@ -144,82 +144,79 @@ export default function ProximityPanel() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Settings Card */}
-      <div className="p-6 bg-white border border-black/10 rounded-2xl relative overflow-hidden shadow-md text-black">
-        <div className="absolute -right-20 -top-20 w-56 h-56 bg-blue-500/5 blur-[80px] rounded-full" />
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-5">
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-              📍 Show Proximity Alerts
-            </span>
-          </div>
-          <h3 className="text-xl font-black text-black mb-1">Shows Near You</h3>
-          <p className="text-black/60 text-sm mb-6 max-w-md">
-            Get notified when 7th Heaven is performing within your chosen radius. See who else is going!
-          </p>
+    <div className="space-y-6 text-white">
+      {/* Settings Container — No outer card box/border */}
+      <div className="relative">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-[var(--color-accent)]/15 px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
+            Show Proximity Alerts
+          </span>
+        </div>
+        <h3 className="text-xl font-black text-white mb-1">Shows Near You</h3>
+        <p className="text-white/60 text-sm mb-6 max-w-md">
+          Get notified when 7th Heaven is performing within your chosen radius. See who else is going!
+        </p>
 
-          {/* Notification Toggle */}
-          <div className="flex items-center justify-between p-4 bg-gray-50 border border-black/10 rounded-xl mb-4">
-            <div>
-              <p className="text-sm font-bold text-black">Enable Proximity Notifications</p>
-              <p className="text-xs text-black/50 mt-0.5">SMS & email alerts for nearby shows</p>
-            </div>
-            <button
-              onClick={() => setNotificationsEnabled(!notificationsEnabled)}
-              className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${notificationsEnabled ? "bg-blue-600" : "bg-black/20"}`}
-            >
-              <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${notificationsEnabled ? "left-7" : "left-1"}`} />
-            </button>
+        {/* Notification Toggle */}
+        <div className="flex items-center justify-between py-3 border-b border-white/10 mb-4">
+          <div>
+            <p className="text-sm font-bold text-white">Enable Proximity Notifications</p>
+            <p className="text-xs text-white/40 mt-0.5">SMS & email alerts for nearby shows</p>
           </div>
-
-          {/* Zip + Radius */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div>
-              <label className="text-xs uppercase tracking-widest font-bold text-black/60 mb-2 block">Your Zip Code</label>
-              <input
-                type="text"
-                maxLength={5}
-                placeholder="60601"
-                value={zip}
-                onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
-                className="w-full bg-white border border-black/15 text-black text-sm font-mono px-4 py-3 rounded-xl outline-none focus:border-blue-500 transition-colors placeholder:text-black/30"
-              />
-            </div>
-            <div>
-              <label className="text-xs uppercase tracking-widest font-bold text-black/60 mb-2 block">Radius</label>
-              <select
-                value={radius}
-                onChange={e => setRadius(Number(e.target.value))}
-                className="w-full bg-white border border-black/15 text-black text-sm px-4 py-3 rounded-xl outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
-              >
-                {RADIUS_OPTIONS.map(r => (
-                  <option key={r} value={r} className="bg-white text-black">{r} miles</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
           <button
-            onClick={saveSettings}
-            disabled={saving || !zip || zip.length < 5}
-            className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all shadow-md cursor-pointer"
+            onClick={() => setNotificationsEnabled(!notificationsEnabled)}
+            className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${notificationsEnabled ? "bg-[var(--color-accent)]" : "bg-white/20"}`}
           >
-            {saving ? "Saving…" : saveStatus === "saved" ? "✓ Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
+            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${notificationsEnabled ? "left-7" : "left-1"}`} />
           </button>
         </div>
+
+        {/* Zip + Radius */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div>
+            <label className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Your Zip Code</label>
+            <input
+              type="text"
+              maxLength={5}
+              placeholder="60601"
+              value={zip}
+              onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
+              className="w-full bg-white/5 border border-white/15 text-white text-sm font-mono px-4 py-3 outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-white/30"
+            />
+          </div>
+          <div>
+            <label className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Radius</label>
+            <select
+              value={radius}
+              onChange={e => setRadius(Number(e.target.value))}
+              className="w-full bg-white/5 border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
+            >
+              {RADIUS_OPTIONS.map(r => (
+                <option key={r} value={r} className="bg-[#0f051d] text-white">{r} miles</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <button
+          onClick={saveSettings}
+          disabled={saving || !zip || zip.length < 5}
+          className="w-full px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 disabled:opacity-40 text-white text-xs font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
+        >
+          {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
+        </button>
       </div>
 
       {/* Nearby Shows */}
       {notificationsEnabled && (
-        <div className="p-6 bg-white border border-black/10 rounded-2xl shadow-md text-black">
-          <div className="flex items-center justify-between mb-5">
-            <span className="text-xs font-black uppercase tracking-widest text-blue-700">
-              📍 Shows Within {radius} Miles
+        <div className="pt-2 text-white">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)]">
+              Shows Within {radius} Miles
             </span>
             <button
               onClick={fetchNearbyShows}
-              className="text-xs uppercase tracking-widest text-black/40 hover:text-blue-600 font-bold transition-colors"
+              className="text-xs uppercase tracking-widest text-white/40 hover:text-white font-bold transition-colors"
             >
               Refresh
             </button>
@@ -227,38 +224,37 @@ export default function ProximityPanel() {
 
           {loadingShows ? (
             <div className="py-8 flex items-center justify-center">
-              <span className="text-black/40 text-sm animate-pulse">Checking nearby shows…</span>
+              <span className="text-white/40 text-sm animate-pulse">Checking nearby shows…</span>
             </div>
           ) : nearbyShows.length === 0 ? (
-            <div className="py-8 flex flex-col items-center border border-black/10 bg-gray-50 rounded-xl border-dashed">
-              <span className="text-3xl mb-2 opacity-30">📍</span>
-              <p className="text-sm text-black/60 font-bold">No shows in your area yet.</p>
-              <p className="text-xs text-black/40 mt-1">We&apos;ll alert you the moment one is booked near you!</p>
+            <div className="py-8 flex flex-col items-center border border-white/10 bg-white/5 border-dashed">
+              <p className="text-sm text-white/60 font-bold">No shows in your area yet.</p>
+              <p className="text-xs text-white/40 mt-1">We&apos;ll alert you the moment one is booked near you!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
               {nearbyShows.map(show => (
                 <div
                   key={show.id}
-                  className="p-4 bg-gray-50 border border-black/10 rounded-xl hover:border-blue-500/40 transition-all cursor-pointer group"
+                  className="p-4 bg-white/5 border border-white/10 hover:border-blue-500/40 transition-all cursor-pointer group"
                   onClick={() => loadAttendees(show)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-50 border border-blue-200 rounded-lg shrink-0">
-                        <span className="text-xs font-black text-blue-700 uppercase">
+                      <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-lg shrink-0">
+                        <span className="text-xs font-black text-blue-400 uppercase">
                           {new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { month: "short" })}
                         </span>
-                        <span className="text-lg font-black text-black leading-none">
+                        <span className="text-lg font-black text-white leading-none">
                           {new Date(show.date + "T12:00:00").getDate()}
                         </span>
                       </div>
                       <div>
-                        <p className="text-base font-bold text-black group-hover:text-blue-600 transition-colors">{show.venue_name}</p>
-                        <p className="text-xs text-black/50">
+                        <p className="text-base font-bold text-white group-hover:text-blue-400 transition-colors">{show.venue_name}</p>
+                        <p className="text-xs text-white/50">
                           {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state || ""}
                         </p>
-                        <p className="text-xs text-blue-700 font-bold mt-0.5">📍 {show.distanceMiles} miles away</p>
+                        <p className="text-xs text-blue-400 font-bold mt-0.5">{show.distanceMiles} miles away</p>
                       </div>
                     </div>
                     <button
@@ -266,33 +262,33 @@ export default function ProximityPanel() {
                       className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-all border ${
                         myStatus && selectedShow?.id === show.id
                           ? "bg-blue-600 text-white border-blue-600"
-                          : "bg-white text-black/60 border-black/15 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300"
+                          : "bg-white/10 text-white border-white/15 hover:bg-blue-500 hover:text-black hover:border-blue-500"
                       }`}
                     >
-                      {myStatus && selectedShow?.id === show.id ? "✓ Going" : "I'm Going"}
+                      {myStatus && selectedShow?.id === show.id ? "Going" : "I'm Going"}
                     </button>
                   </div>
 
                   {/* Attendees preview */}
                   {selectedShow?.id === show.id && (
-                    <div className="mt-4 pt-4 border-t border-black/10">
+                    <div className="mt-4 pt-4 border-t border-white/10">
                       <div className="flex items-center justify-between mb-3">
-                        <p className="text-xs uppercase tracking-widest text-black/50 font-bold">
+                        <p className="text-xs uppercase tracking-widest text-white/50 font-bold">
                           {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
                         </p>
                         <div className="flex items-center gap-2">
                           <a
                             href={show.showPageUrl || `/shows/${show.id}`}
-                            className="text-xs uppercase tracking-widest text-blue-600 hover:text-black font-bold transition-colors"
+                            className="text-xs uppercase tracking-widest text-blue-400 hover:text-white font-bold transition-colors"
                           >
                             View Show Page →
                           </a>
-                          <span className="text-black/20">·</span>
+                          <span className="text-white/20">·</span>
                           <a
                             href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
-                            className="text-xs uppercase tracking-widest text-black/40 hover:text-black font-bold transition-colors"
+                            className="text-xs uppercase tracking-widest text-white/40 hover:text-white font-bold transition-colors"
                           >
-                            💬 Share
+                            Share
                           </a>
                         </div>
                       </div>
@@ -304,7 +300,7 @@ export default function ProximityPanel() {
                         <div className="flex flex-wrap gap-2">
                           {attendees.slice(0, 12).map(a => (
                             <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-black/10 rounded-full">
-                              <div className="w-5 h-5 rounded-full bg-purple-100 flex items-center justify-center text-2xs font-black text-purple-700">
+                              <div className="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-2xs font-black text-[var(--color-accent)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
                               <span className="text-xs text-black/70 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>

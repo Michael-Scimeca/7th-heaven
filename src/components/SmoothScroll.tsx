@@ -3,8 +3,6 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -12,8 +10,6 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     if (typeof window === "undefined" || isDashboard) return;
-
-    gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({
       duration: 1.2,
@@ -24,41 +20,25 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     (window as any).__lenis = lenis;
 
-    const onScroll = () => {
-      ScrollTrigger.update();
-    };
-
-    lenis.on("scroll", onScroll);
-
-    function update(time: number) {
-      lenis.raf(time * 1000);
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
     }
+    rafId = requestAnimationFrame(raf);
 
-    gsap.ticker.add(update);
-    gsap.ticker.lagSmoothing(0);
+    // Recalculate scroll bounds after layout settles
+    const t1 = setTimeout(() => lenis.resize(), 100);
+    const t2 = setTimeout(() => lenis.resize(), 400);
 
-    // Immediately recalculate page scroll bounds on mount & layout changes
-    const resizeLenis = () => {
-      lenis.resize();
-      ScrollTrigger.refresh();
-    };
-
-    const t1 = setTimeout(resizeLenis, 100);
-    const t2 = setTimeout(resizeLenis, 400);
-
-    const ro = new ResizeObserver(() => {
-      lenis.resize();
-    });
-    if (document.body) {
-      ro.observe(document.body);
-    }
+    const ro = new ResizeObserver(() => lenis.resize());
+    if (document.body) ro.observe(document.body);
 
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
+      cancelAnimationFrame(rafId);
       ro.disconnect();
-      lenis.off("scroll", onScroll);
-      gsap.ticker.remove(update);
       lenis.destroy();
       delete (window as any).__lenis;
     };

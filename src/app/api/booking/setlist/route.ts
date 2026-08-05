@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { protectAction } from '@/lib/security';
 import { isValidEmail, sanitizeName, sanitizeNotes } from '@/lib/validation';
+import { isSpam } from '@/lib/api-utils';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,11 +16,22 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
-    const { email, name, songs, notes } = await request.json();
+    // Capture raw body before destructuring so isSpam can inspect _hp and _t fields
+    const body = await request.json();
+    const { email, name, songs, notes } = body;
 
-    // Rate limiting
-    const ip = request.headers.get('x-forwarded-for') || 'anonymous';
-    const protection = await protectAction({ identifier: `setlist:${ip}` });
+    // Full-body spam check (no honeypot was previously wired here at all)
+    if (isSpam(body)) {
+      return NextResponse.json({ error: 'Spam detected' }, { status: 400 });
+    }
+
+    // Rate limiting — 5 setlist submissions per IP per hour
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous';
+    const protection = await protectAction({
+      identifier: `setlist:${ip}`,
+      requests: 5,
+      window: '60 m',
+    });
     if (!protection.success) {
       return NextResponse.json({ error: protection.error }, { status: protection.status as number });
     }

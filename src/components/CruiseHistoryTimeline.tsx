@@ -5,8 +5,7 @@ import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+
 import { suppressBlobTextureErrors } from '@/lib/suppressBlobTextureErrors';
 
 // Suppress blob URL texture errors that occur during page transitions
@@ -417,8 +416,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       setDesktopPathLength(desktopPathRef.current.getTotalLength());
       updateShipPosition(latestProgressRef.current);
       const t = setTimeout(() => {
-        if (typeof window !== 'undefined' && ScrollTrigger) {
-          ScrollTrigger.refresh();
+        if (typeof window !== 'undefined' && (window as any).__lenis) {
+          (window as any).__lenis.resize();
         }
       }, 250);
       return () => clearTimeout(t);
@@ -428,57 +427,87 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     }
   }, [pathD, updateShipPosition]);
 
-  // Hook up GSAP ScrollTrigger scrub
+  // Native scroll-progress scrub (replaces GSAP ScrollTrigger)
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    gsap.registerPlugin(ScrollTrigger);
+    const row2026El = rowRefs.current.find(rowEl =>
+      rowEl?.querySelector('[data-year-badge]')?.textContent?.includes('2026')
+    ) || null;
 
-    const startPct = (tuning.scrollStartMul * 100).toFixed(0);
-    const endPct = (tuning.scrollEndMul * 100).toFixed(0);
-
-    const ctx = gsap.context(() => {
-      // Find row element containing 2026 badge for ScrollTrigger end target
-      const row2026El = rowRefs.current.find(rowEl => rowEl?.querySelector('[data-year-badge]')?.textContent?.includes('2026'));
-
-      // Desktop Lenis + GSAP ScrollTrigger Scrub
-      if (desktopPathRef.current && desktopPathLength > 0) {
-        ScrollTrigger.create({
-          trigger: desktopContainerRef.current,
-          endTrigger: row2026El || undefined,
-          start: `top 50%`,
-          end: row2026El ? `center 50%` : `bottom ${endPct}%`,
-          scrub: tuning.scrubDamping ?? 0.5,
-          onUpdate: (self) => {
-            setDesktopProgress(self.progress);
-            latestProgressRef.current = self.progress;
-            updateShipPosition(self.progress);
-          },
-        });
+    const computeProgress = (
+      triggerEl: HTMLElement | null,
+      startVh: number,
+      endEl: HTMLElement | null,
+      endVh: number
+    ): number => {
+      if (!triggerEl) return 0;
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      const rect = triggerEl.getBoundingClientRect();
+      const startScroll = scrollY + rect.top - vh * startVh;
+      let endScroll: number;
+      if (endEl) {
+        const er = endEl.getBoundingClientRect();
+        endScroll = scrollY + (er.top + er.height / 2) - vh * 0.5;
+      } else {
+        endScroll = scrollY + rect.bottom - vh * endVh;
       }
+      if (endScroll <= startScroll) return 0;
+      return Math.min(1, Math.max(0, (scrollY - startScroll) / (endScroll - startScroll)));
+    };
 
-      // Mobile Lenis + GSAP ScrollTrigger Scrub — updates mobileProgress on scroll
-      if (mobileContainerRef.current) {
-        ScrollTrigger.create({
-          trigger: mobileContainerRef.current,
-          start: `top 70%`,
-          end: `bottom 60%`,
-          scrub: 0.2,
-          onUpdate: (self) => {
-            setMobileProgress(self.progress);
-          },
-        });
+    let desktopRaw = 0;
+    let mobileRaw = 0;
+    let desktopSmoothed = 0;
+    let mobileSmoothed = 0;
+    const LERP = 0.08;
+    let rafId: number;
+
+    const tick = () => {
+      if (Math.abs(desktopRaw - desktopSmoothed) > 0.0001) {
+        desktopSmoothed += (desktopRaw - desktopSmoothed) * LERP;
+        setDesktopProgress(desktopSmoothed);
+        latestProgressRef.current = desktopSmoothed;
+        updateShipPosition(desktopSmoothed);
       }
-      setTimeout(() => ScrollTrigger.refresh(), 150);
-    });
+      if (Math.abs(mobileRaw - mobileSmoothed) > 0.0001) {
+        mobileSmoothed += (mobileRaw - mobileSmoothed) * LERP;
+        setMobileProgress(mobileSmoothed);
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+
+    const onScroll = () => {
+      desktopRaw = computeProgress(
+        desktopContainerRef.current,
+        0.5,
+        row2026El,
+        1 - tuning.scrollEndMul
+      );
+      mobileRaw = computeProgress(
+        mobileContainerRef.current,
+        0.7,
+        null,
+        0.4
+      );
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const lenis = (window as any).__lenis;
+    if (lenis) lenis.on('scroll', onScroll);
 
     return () => {
-      ctx.revert();
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+      const l = (window as any).__lenis;
+      if (l) l.off('scroll', onScroll);
     };
   }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning, updateShipPosition]);
 
   return (
-    <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip border-t border-cyan-500/20 shadow-2xl">
+    <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip border-t border-cyan-500/20">
       {/* Section Header — Synced to Global Layout Padding (25px Mobile / 32px Desktop) */}
       <div className="text-center max-w-4xl mx-auto mb-16 px-[25px] md:px-[32px]">
         <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
@@ -669,7 +698,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         >
                           <div
                             data-year-badge
-                            className={`inline-block rounded-2xl z-40 transition-all duration-300 ${
+                            className={`inline-block  z-40 transition-all duration-300 ${
                               isReached
                                 ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
                                 : 'bg-[#06060c] border border-white/10'
@@ -901,14 +930,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </div>
 
               {/* 3. Year Scaling Curve Mode */}
-              <div className="bg-cyan-950/40 border border-cyan-400/40 p-3.5 rounded-2xl space-y-2">
+              <div className="bg-cyan-950/40 border border-cyan-400/40 p-3.5 space-y-2">
                 <span className="font-black text-cyan-300 block text-xs uppercase tracking-wide">📈 Year-by-Year Scaling Mode</span>
                 <div className="grid grid-cols-3 gap-1.5">
                   {(['linear', 'exponential', 'stepped'] as const).map(mode => (
                     <button
                       key={mode}
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
-                      className={`py-1.5 px-2 rounded-xl text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer border ${
+                      className={`py-1.5 px-2  text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer border ${
                         (tuning.scalingCurve || 'linear') === mode
                           ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
                           : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
@@ -948,7 +977,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               )}
 
               {/* 3. Ship X Position Offset */}
-              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-black text-cyan-300">↔️ Ship X Position Offset (Horizontal)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{tuning.shipOffsetX ?? 0}px</span>
@@ -966,7 +995,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </div>
 
               {/* 4. Ship Y Position Offset */}
-              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-black text-cyan-300">↕️ Ship Y Position Offset (Vertical)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{tuning.shipOffsetY ?? 0}px</span>
@@ -984,7 +1013,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </div>
 
               {/* 5. Bow Offset / Ship Stop Position */}
-              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-black text-cyan-300">🎯 Ship & Blue Line Timeline Stop Position</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{tuning.bowOffsetPx}px</span>
@@ -1002,7 +1031,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </div>
 
               {/* 6. Scroll Start Target */}
-              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-black text-cyan-300">🚀 Scroll Start Trigger (% Viewport)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
@@ -1020,7 +1049,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </div>
 
               {/* 7. Scroll End Target */}
-              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-black text-cyan-300">🏁 2026 Finish Viewport Position (% Viewport)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
@@ -1038,7 +1067,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </div>
 
               {/* 8. Scrub Damping / Smoothness */}
-              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3 rounded-2xl">
+              <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-black text-cyan-300">⚡ Scroll Scrub Smoothness (Damping)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrubDamping ?? 0.5).toFixed(1)}s</span>
@@ -1076,7 +1105,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div>
                 <span className="font-bold text-white/90 block mb-2">🎨 Line Glow Color</span>
                 <div className="flex items-center gap-2">
-                  {['#06b6d4', '#a855f7', '#3b82f6', '#10b981', '#f59e0b', '#ec4899'].map(col => (
+                  {['#06b6d4', '#a855f7', '#3b82f6', '#10b981', '#9333ea', '#ec4899'].map(col => (
                     <button
                       key={col}
                       onClick={() => setTuning({ ...tuning, lineColor: col })}
@@ -1094,7 +1123,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-6">
               <button
                 onClick={handleResetTuning}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-extrabold text-xs uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-extrabold text-xs uppercase tracking-widest transition-all cursor-pointer"
               >
                 🔄 Reset Defaults
               </button>
@@ -1106,7 +1135,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 )}
                 <button
                   onClick={handleSaveTuning}
-                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
                 >
                   💾 Save Settings
                 </button>

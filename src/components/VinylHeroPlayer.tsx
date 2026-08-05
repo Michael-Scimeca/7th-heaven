@@ -357,8 +357,24 @@ export default function VinylHeroPlayer({
         }
       }
     }
-    // Reactivate as soon as Swiper commits to the new slide
     setIsDragging(false);
+  };
+
+  const goToAlbum = (idx: number) => {
+    const clamped = Math.max(0, Math.min(ALBUMS.length - 1, idx));
+    swiperRef.current?.slideTo(clamped);
+    setActiveAlbumIdx(clamped);
+    setActiveTrackIdx(0);
+    setIsPlaying(false);
+    setProgress(0);
+    setCurrentTime("0:00");
+    setDuration("0:00");
+    onAlbumChange?.(ALBUMS[clamped]?.id ?? "");
+    if (audioRef.current) {
+      audioRef.current.pause();
+      const url = ALBUMS[clamped]?.tracks[0]?.audioUrl;
+      if (url) { audioRef.current.src = url; audioRef.current.load(); }
+    }
   };
 
   const handleTimeUpdate = () => {
@@ -440,7 +456,7 @@ export default function VinylHeroPlayer({
 
         {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <div className="w-[250px] h-[250px] border border-white/20 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
+          <div className="w-[250px] h-[250px] border border-white/20 shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
         </div>
 
         {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
@@ -506,7 +522,7 @@ export default function VinylHeroPlayer({
                   {/* Center label with album art — sits on top of the vinyl image */}
                   <div className="relative z-10 flex items-center justify-center">
                       <div
-                        className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-amber-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
+                        className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
                         style={{ backgroundColor: album.centerLabelColor }}
                       >
                         <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
@@ -530,7 +546,6 @@ export default function VinylHeroPlayer({
             className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none"
             onMouseEnter={() => setShowTracklist(true)}
             onMouseLeave={() => setShowTracklist(false)}
-            style={{ pointerEvents: 'auto' }}
           >
 
             {/* Top Controls */}
@@ -552,7 +567,7 @@ export default function VinylHeroPlayer({
                 <div className="w-[1px] h-3 bg-white/20 my-auto" />
                 <button
                   onClick={(e) => { e.stopPropagation(); }}
-                  className={`p-1 rounded-full transition-all cursor-pointer ${showTracklist ? "text-[#d946ef] bg-purple-500/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+                  className={`p-1 rounded-full transition-all cursor-pointer ${showTracklist ? "text-[#d946ef] bg-[var(--color-accent)]/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
                   title="Toggle Playlist"
                 >
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -585,13 +600,13 @@ export default function VinylHeroPlayer({
               <div className="flex flex-col gap-1 pointer-events-auto">
                 <div
                   onClick={(e) => { e.stopPropagation(); }}
-                  className="bg-white text-black rounded-lg px-2.5 py-1 shadow-md max-w-[110px] cursor-pointer hover:bg-purple-100 transition-colors"
+                  className="bg-white text-black rounded-lg px-2 py-0.5 shadow-md max-w-[105px] cursor-pointer hover:bg-[var(--color-accent)] transition-colors"
                 >
-                  <div className="text-[var(--font-size-2xs)] font-black uppercase leading-tight flex items-center gap-1">
+                  <div className="text-[9px] font-black uppercase leading-tight flex items-center gap-1">
                     <span className="truncate">{currentAlbum.title}</span>
-                    <span className="text-[var(--font-size-4xs)] font-bold text-purple-600 bg-purple-100 px-1 rounded shrink-0">PLAYLIST ☰</span>
+                    <span className="text-[7.5px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST ☰</span>
                   </div>
-                  <div className="text-[var(--font-size-4xs)] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                  <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
                     {currentTrack.title}
                   </div>
                 </div>
@@ -599,9 +614,9 @@ export default function VinylHeroPlayer({
                 <Link
                   href={currentAlbum.storeUrl}
                   onClick={(e) => e.stopPropagation()}
-                  className="flex items-center gap-1 bg-gradient-to-r from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-md transition-all hover:scale-105 w-fit"
+                  className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-md transition-all hover:scale-105 w-fit"
                 >
-                  <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
                   Buy CD
                 </Link>
               </div>
@@ -625,6 +640,29 @@ export default function VinylHeroPlayer({
                 <span>{duration}</span>
               </div>
             </div>
+
+            {/* Album nav arrows */}
+            <div className="absolute bottom-2 left-0 right-0 flex items-center justify-between px-2 pointer-events-auto">
+              <button
+                onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx - 1); }}
+                disabled={activeAlbumIdx === 0}
+                className="flex items-center gap-0.5 text-white/60 hover:text-white disabled:opacity-20 transition-all text-[9px] font-black uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
+                title="Previous Album"
+              >
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="15 18 9 12 15 6 15 18"/></svg>
+                Album
+              </button>
+              <span className="text-[8px] text-white/40 font-bold">{activeAlbumIdx + 1} / {ALBUMS.length}</span>
+              <button
+                onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx + 1); }}
+                disabled={activeAlbumIdx === ALBUMS.length - 1}
+                className="flex items-center gap-0.5 text-white/60 hover:text-white disabled:opacity-20 transition-all text-[9px] font-black uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
+                title="Next Album"
+              >
+                Album
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="9 18 15 12 9 6 9 18"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       {/* ── TRACKLIST PANEL — anchored right of the 270px center card ── */}
@@ -638,32 +676,32 @@ export default function VinylHeroPlayer({
         onMouseEnter={() => setShowTracklist(true)}
         onMouseLeave={() => setShowTracklist(false)}
       >
-        <div className="pl-4 border-l border-white/15 h-full flex flex-col justify-center">
-        <div className="flex items-center justify-between mb-2 pb-1 border-b border-white/10 whitespace-nowrap">
-          <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-300">
+        <div className="pl-3 border-l border-white/15 h-full flex flex-col justify-center">
+        <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
+          <span className="text-[9px] font-black uppercase tracking-wider text-[var(--color-accent)]">
             {currentAlbum.title} TRACKLIST
           </span>
-          <div className="flex items-center gap-2">
-            <span className="text-[var(--font-size-4xs)] font-bold text-white/40">{currentAlbum.tracks.length} SONGS</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[8px] font-bold text-white/40">{currentAlbum.tracks.length} SONGS</span>
             <button
               onClick={() => setShowTracklist(false)}
-              className="text-white/50 hover:text-white text-xs font-bold px-1 rounded transition-colors cursor-pointer"
+              className="text-white/50 hover:text-white text-[10px] font-bold px-1 rounded transition-colors cursor-pointer"
             >✕</button>
           </div>
         </div>
-        <ol className="space-y-1 font-sans text-[var(--font-size-2xs)] font-bold uppercase text-white/80 tracking-tight max-h-[200px] overflow-y-auto pr-2 whitespace-nowrap">
+        <ol className="space-y-0.5 font-sans text-[10px] font-bold uppercase text-white/80 tracking-tight max-h-[190px] overflow-y-auto pr-1.5 whitespace-nowrap">
           {currentAlbum.tracks.map((track, tIdx) => {
             const isSelected = tIdx === activeTrackIdx;
             return (
               <li
                 key={track.id}
                 onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                className={`flex items-center gap-2 px-1.5 py-0.5 rounded cursor-pointer transition-all duration-200 ${
-                  isSelected ? "text-purple-200 font-black bg-purple-500/15" : "hover:text-white hover:bg-white/5"
+                className={`flex items-center gap-1.5 px-1 py-0.5 rounded cursor-pointer transition-all duration-200 ${
+                  isSelected ? "text-[var(--color-accent)] font-black bg-[var(--color-accent)]/15" : "hover:text-white hover:bg-white/5"
                 }`}
               >
-                <span className="text-[var(--font-size-4xs)] font-mono opacity-50 w-4 text-right">{track.number}.</span>
-                <span className="truncate flex-1">{track.title}</span>
+                <span className="text-[8px] font-mono opacity-50 w-3.5 text-right">{track.number}.</span>
+                <span className="truncate flex-1 text-[10px]">{track.title}</span>
                 {isSelected && isPlaying && <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-pulse" />}
               </li>
             );

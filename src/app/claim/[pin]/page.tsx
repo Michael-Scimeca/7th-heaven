@@ -203,14 +203,14 @@ export default function ClaimPage() {
         {/* Loading */}
         {status === 'loading' && (
           <div className="text-center py-16">
-            <div className="w-8 h-8 border-2 border-yellow-500/30 border-t-yellow-500 rounded-full animate-spin mx-auto mb-4" />
+            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-yellow-500 rounded-full animate-spin mx-auto mb-4" />
             <p className="text-white/40 text-sm">Verifying...</p>
           </div>
         )}
 
         {/* NOT LOGGED IN */}
         {status === 'not_logged_in' && (
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-8 text-center">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center">
             <span className="text-5xl block mb-4">🔐</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Sign In Required</h2>
             <p className="text-white/40 text-sm mb-6">
@@ -218,7 +218,7 @@ export default function ClaimPage() {
             </p>
             <button
               onClick={() => openModal()}
-              className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-colors"
+              className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors"
             >
               Sign In to Verify
             </button>
@@ -227,7 +227,7 @@ export default function ClaimPage() {
 
         {/* WRONG USER — logged in but not the winner */}
         {status === 'wrong_user' && (
-          <div className="bg-[var(--color-bg-surface)] border border-red-500/30 rounded-2xl p-8 text-center">
+          <div className="bg-[var(--color-bg-surface)] border border-red-500/30 p-8 text-center">
             <span className="text-5xl block mb-4">🚫</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Not Your Claim</h2>
             <p className="text-white/40 text-sm mb-4">
@@ -241,7 +241,7 @@ export default function ClaimPage() {
 
         {/* VALID — logged in AND is the winner */}
         {status === 'valid' && (
-          <div className="bg-[var(--color-bg-surface)] border-2 border-yellow-500/50 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(251,191,36,0.2)]">
+          <div className="bg-[var(--color-bg-surface)] border-2 border-yellow-500/50 overflow-hidden shadow-[0_0_60px_rgba(192, 132, 252,0.2)]">
 
             {/* Top bar */}
             <div className="bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3 flex items-center justify-center gap-2">
@@ -254,9 +254,9 @@ export default function ClaimPage() {
               <p className="text-white/40 text-xs mb-8 font-sans">Show this screen to the 7th Heaven crew at the merch table.</p>
 
               {/* Winner name */}
-              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl px-6 py-4 mb-4">
-                <p className="text-yellow-500/60 text-2xs font-black uppercase tracking-[0.2em] mb-1 font-sans">Account Name</p>
-                <p className="text-yellow-400 font-black text-2xl leading-tight font-sans">{winnerName}</p>
+              <div className="bg-purple-500/10 border border-purple-500/30 px-6 py-4 mb-4">
+                <p className="text-purple-400/60 text-2xs font-black uppercase tracking-[0.2em] mb-1 font-sans">Account Name</p>
+                <p className="text-purple-300 font-black text-2xl leading-tight font-sans">{winnerName}</p>
               </div>
 
               {/* Prizes List */}
@@ -268,7 +268,7 @@ export default function ClaimPage() {
                   const displayImage = shopifyDetails?.imageUrl || '/images/mockups/merch-hoodie.png';
                   
                   return (
-                    <div key={idx} className="bg-white/[0.03] border border-white/10 rounded-xl p-3 flex gap-3 items-center text-left">
+                    <div key={idx} className="bg-white/[0.03] border border-white/10 p-3 flex gap-3 items-center text-left">
                       <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center p-1 relative shrink-0">
                         <img src={displayImage} alt={displayTitle} className="w-full h-full object-contain mix-blend-screen" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                       </div>
@@ -286,8 +286,8 @@ export default function ClaimPage() {
                 <p className="text-white/30 text-2xs font-black uppercase tracking-[0.2em] mb-3 font-sans">Verification PIN</p>
                 <div className="flex items-center justify-center gap-2">
                   {pin.split('').map((digit, i) => (
-                    <div key={i} className="w-10 h-14 bg-black/60 border-2 border-yellow-500/40 rounded-lg flex items-center justify-center shadow-[0_0_8px_rgba(251,191,36,0.15)]">
-                      <span className="text-yellow-400 font-black text-2xl tabular-nums font-sans">{digit}</span>
+                    <div key={i} className="w-10 h-14 bg-black/60 border-2 border-purple-500/40 rounded-lg flex items-center justify-center shadow-[0_0_8px_rgba(192, 132, 252,0.15)]">
+                      <span className="text-purple-300 font-black text-2xl tabular-nums font-sans">{digit}</span>
                     </div>
                   ))}
                 </div>
@@ -296,13 +296,13 @@ export default function ClaimPage() {
               {/* Claim Confirm Button */}
               <div className="mt-6 mb-4">
                 {hasClaimed ? (
-                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-emerald-400 text-xs font-black uppercase tracking-widest font-sans flex items-center justify-center gap-1.5 animate-pulse">
+                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-widest font-sans flex items-center justify-center gap-1.5 animate-pulse">
                     <span>✓ Claim Confirmed & Admin Notified</span>
                   </div>
                 ) : (
                   <button
                     onClick={handleClaimConfirm}
-                    className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-all cursor-pointer font-sans"
+                    className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-all cursor-pointer font-sans"
                   >
                     Confirm Prize Claim
                   </button>
@@ -323,7 +323,7 @@ export default function ClaimPage() {
 
         {/* INVALID — PIN not found */}
         {status === 'invalid' && (
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-8 text-center">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center">
             <span className="text-5xl block mb-4">❌</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">PIN Not Found</h2>
             <p className="text-white/40 text-sm mb-6">

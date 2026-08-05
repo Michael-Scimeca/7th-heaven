@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 // Returns fans who are "going" or "there" for a given show
 export async function GET(req: NextRequest) {
   try {
-    const { createClient } = await import("@/utils/supabase/server");
+    const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
     const showId = req.nextUrl.searchParams.get("showId");
     if (!showId) return NextResponse.json({ error: "showId required" }, { status: 400 });
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
 // POST /api/proximity/attendees — mark "going" or check in
 export async function POST(req: NextRequest) {
   try {
-    const { createClient } = await import("@/utils/supabase/server");
+    const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
 // DELETE /api/proximity/attendees — remove "going"
 export async function DELETE(req: NextRequest) {
   try {
-    const { createClient } = await import("@/utils/supabase/server");
+    const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

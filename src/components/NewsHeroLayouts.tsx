@@ -71,9 +71,9 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               </p>
             </div>
             
-            <div className="lg:col-span-7 bg-[#110b20]/90 border border-white/10 p-8 text-left shadow-2xl relative">
+            <div className="lg:col-span-7 bg-[#110b20]/90 border border-white/10 p-8 text-left relative">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400">Featured Article</span>
+                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)]">Featured Article</span>
                 <span className="text-xs font-mono text-white/50">{featured.date}</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">{featured.title}</h2>
@@ -99,7 +99,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               </p>
             </div>
 
-            <div className="lg:col-span-7 relative overflow-hidden border border-cyan-500/40 bg-black/80 p-8 md:p-10 shadow-2xl">
+            <div className="lg:col-span-7 relative overflow-hidden border border-cyan-500/40 bg-black/80 p-8 md:p-10">
               <div className="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none" style={{ backgroundImage: "url('/images/hero-band-bg.png')" }} />
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-4 mb-4">
@@ -124,7 +124,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[#0a0712] text-left">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Card */}
-            <div className="lg:col-span-7 bg-[#130d24] border border-cyan-500/30 p-8 md:p-10 shadow-2xl">
+            <div className="lg:col-span-7 bg-[#130d24] border border-cyan-500/30 p-8 md:p-10">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-2.5 py-1">
                   OPTION 2C — REVERSED LEFT CARD
@@ -168,7 +168,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-7 p-8 md:p-12 bg-black flex flex-col justify-center">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-xs font-mono text-cyan-300 font-bold uppercase">{featured.date}</span>
-                <span className="px-2.5 py-0.5 bg-purple-500/20 text-purple-300 text-[var(--font-size-3xs)] font-bold uppercase">Featured</span>
+                <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-bold uppercase">Featured</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">{featured.title}</h2>
               <p className="text-white/70 text-sm md:text-base leading-relaxed">{featured.content}</p>
@@ -195,7 +195,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               </div>
             </div>
 
-            <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border-l-4 border-cyan-400 p-8 md:p-12 shadow-2xl">
+            <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border border-cyan-400/30 p-8 md:p-12">
               <span className="text-xs font-mono text-cyan-300 font-bold uppercase block mb-2">{featured.date}</span>
               <h2 className="text-2xl md:text-3xl font-black text-white mb-4">{featured.title}</h2>
               <p className="text-white/80 text-sm md:text-base leading-relaxed">{featured.content}</p>

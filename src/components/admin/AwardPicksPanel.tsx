@@ -1,23 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 const PICK_TYPES = [
   { id: "purple",      name: "Classic Purple",  rarity: "Common",    color: "#a855f7", chance: "60%" },
   { id: "red",         name: "Crimson Fire",    rarity: "Uncommon",  color: "#ef4444", chance: "25%" },
   { id: "black",       name: "Stealth Black",   rarity: "Uncommon",  color: "#6b7280", chance: "25%" },
   { id: "silver",      name: "Chrome Silver",   rarity: "Rare",      color: "#c0c0c0", chance: "10%" },
-  { id: "gold",        name: "24K Gold",        rarity: "Epic",      color: "#fbbf24", chance: "4%" },
+  { id: "gold",        name: "24K Gold",        rarity: "Epic",      color: "#c084fc", chance: "4%" },
   { id: "holographic", name: "Holographic",     rarity: "Legendary", color: "#ec4899", chance: "1%" },
 ];
 
 const AWARD_REASONS = [
-  { id: "show_attendance", label: "🎸 Show Attendance", desc: "Fan attended a live show" },
-  { id: "merch_purchase",  label: "🛍️ Merch Purchase",  desc: "Bought merch at a show or online" },
-  { id: "social_share",    label: "📱 Social Share",     desc: "Shared on social media" },
-  { id: "referral",        label: "🔗 Referral",         desc: "Referred a new fan" },
-  { id: "manual",          label: "🎁 Manual Award",     desc: "Custom award by admin" },
+  { id: "show_attendance", label: " Show Attendance", desc: "Fan attended a live show" },
+  { id: "merch_purchase",  label: " Merch Purchase",  desc: "Bought merch at a show or online" },
+  { id: "social_share",    label: " Social Share",     desc: "Shared on social media" },
+  { id: "referral",        label: " Referral",         desc: "Referred a new fan" },
+  { id: "manual",          label: " Manual Award",     desc: "Custom award by admin" },
 ];
 
 const rarityColors: Record<string, string> = {
@@ -131,7 +131,7 @@ export default function AwardPicksPanel() {
               onClick={() => setSelectedPick(pick.id)}
               className={`p-3 border text-center transition-all cursor-pointer rounded-lg ${
                 selectedPick === pick.id
-                  ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(133,29,239,0.2)]"
+                  ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]"
                   : "border-white/10 bg-white/[0.02] hover:border-white/20"
               }`}
             >
@@ -211,14 +211,14 @@ export default function AwardPicksPanel() {
         <button
           onClick={handleAward}
           disabled={!selectedFan || awarding}
-          className="flex-1 py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-widest rounded-xl hover:brightness-110 transition-all disabled:opacity-30 cursor-pointer shadow-[0_0_20px_rgba(133,29,239,0.3)]"
+          className="flex-1 py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-widest hover:brightness-110 transition-all disabled:opacity-30 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
         >
           {awarding ? "Awarding..." : `Award to ${selectedFan?.full_name?.split(" ")[0] || "Fan"}`}
         </button>
         <button
           onClick={handleBulkAward}
           disabled={filteredFans.length === 0 || awarding}
-          className="px-6 py-3 border border-amber-500/30 text-amber-400 font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-amber-500/10 transition-all disabled:opacity-30 cursor-pointer"
+          className="px-6 py-3 border border-purple-500/30 text-purple-300 font-bold text-xs uppercase tracking-widest hover:bg-purple-600/10 transition-all disabled:opacity-30 cursor-pointer"
         >
           Bulk ({filteredFans.length})
         </button>

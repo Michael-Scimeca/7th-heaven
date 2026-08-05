@@ -90,14 +90,67 @@ export default function VerifyPage() {
     if (fullPin.length === 6 && result === null) verify();
   }, [fullPin]);
 
+  // Disable all document body & page scrolling on verify page
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
+
+  // Shared background overlay
+  const renderBackground = () => (
+    <>
+      <style jsx global>{`
+        html, body {
+          overflow: hidden !important;
+          height: 100vh !important;
+          max-height: 100vh !important;
+          touch-action: none !important;
+        }
+      `}</style>
+      <div 
+        style={{
+          position: "fixed",
+          inset: 0,
+          backgroundImage: "url('/images/hero-band-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "brightness(0.35) blur(10px)",
+          transform: "scale(1.08)",
+          zIndex: 0,
+          pointerEvents: "none"
+        }} 
+      />
+      <div className="fixed inset-0 bg-black/55 backdrop-blur-md z-0 pointer-events-none" />
+    </>
+  );
+
+  const modalGlassStyle: React.CSSProperties = {
+    background: "rgba(18, 18, 24, 0.45)",
+    backdropFilter: "blur(32px) saturate(180%)",
+    WebkitBackdropFilter: "blur(32px) saturate(180%)",
+    border: "1px solid rgba(255, 255, 255, 0.15)",
+  };
+
   if (!isLoggedIn || !member) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-8 text-center max-w-sm w-full">
+      <div className="fixed inset-0 h-screen w-screen flex flex-col items-center justify-center p-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+        {renderBackground()}
+
+        <div 
+          className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+          style={modalGlassStyle}
+        >
           <span className="text-5xl block mb-4">🔐</span>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
           <p className="text-white/40 text-sm mb-6">Sign in with your crew account to access PIN verification.</p>
-          <button onClick={() => openModal()} className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-colors">
+          <button 
+            onClick={() => openModal()} 
+            className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
+          >
             Sign In
           </button>
         </div>
@@ -107,8 +160,13 @@ export default function VerifyPage() {
 
   if (!isCrew) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-        <div className="bg-[var(--color-bg-surface)] border border-red-500/20 rounded-2xl p-8 text-center max-w-sm w-full">
+      <div className="fixed inset-0 h-screen w-screen flex flex-col items-center justify-center p-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+        {renderBackground()}
+
+        <div 
+          className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+          style={modalGlassStyle}
+        >
           <span className="text-5xl block mb-4">🚫</span>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Only</h2>
           <p className="text-white/40 text-sm">This page is for 7th Heaven crew members only.</p>
@@ -118,20 +176,24 @@ export default function VerifyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] flex flex-col items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="fixed inset-0 h-screen w-screen flex flex-col items-center justify-center p-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+      {renderBackground()}
 
       {/* Header */}
-      <div className="text-center mb-8">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-yellow-500 mb-1">7th Heaven · Crew</p>
+      <div className="text-center mb-8 relative z-10">
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-purple-400 mb-1">7th Heaven · Crew</p>
         <h1 className="text-white font-black text-2xl uppercase tracking-widest">Raffle Verifier</h1>
         <p className="text-white/30 text-xs mt-1">Enter the fan's PIN to verify their win</p>
       </div>
 
-      <div className="w-full max-w-xs">
+      <div className="w-full max-w-sm relative z-10">
 
-        {/* PIN Input */}
+        {/* PIN Input Form */}
         {result !== 'valid' && (
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-2xl p-6 mb-4">
+          <div 
+            className="rounded-3xl p-7 mb-4 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in duration-300"
+            style={modalGlassStyle}
+          >
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
 
             <div className="flex items-center justify-center gap-2 mb-6" onPaste={handlePaste}>
@@ -145,9 +207,9 @@ export default function VerifyPage() {
                   value={digit}
                   onChange={e => handleDigit(i, e.target.value)}
                   onKeyDown={e => handleKeyDown(i, e)}
-                  className={`w-11 h-14 text-center text-2xl font-black rounded-xl border-2 bg-black/50 outline-none transition-all tabular-nums
-                    ${digit ? 'border-yellow-500/60 text-yellow-400' : 'border-white/15 text-white/40'}
-                    focus:border-yellow-500 focus:shadow-[0_0_12px_rgba(251,191,36,0.2)]`}
+                  className={`w-11 h-14 text-center text-2xl font-black  border-2 bg-black/50 outline-none transition-all tabular-nums
+                    ${digit ? 'border-purple-500 text-purple-300 shadow-[0_0_12px_rgba(147,51,234,0.3)]' : 'border-white/15 text-white/40'}
+                    focus:border-purple-400 focus:shadow-[0_0_18px_rgba(147,51,234,0.6)]`}
                 />
               ))}
             </div>
@@ -155,7 +217,7 @@ export default function VerifyPage() {
             <button
               onClick={verify}
               disabled={fullPin.length < 6 || result === 'checking'}
-              className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-xs uppercase tracking-widest rounded-xl transition-colors"
+              className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
             >
               {result === 'checking' ? 'Checking...' : 'Verify PIN'}
             </button>
@@ -164,26 +226,29 @@ export default function VerifyPage() {
 
         {/* Checking state */}
         {result === 'checking' && (
-          <div className="text-center py-4">
-            <div className="w-8 h-8 border-2 border-yellow-500/30 border-t-yellow-500 rounded-full animate-spin mx-auto" />
+          <div className="text-center py-4 relative z-10">
+            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-400 rounded-full animate-spin mx-auto" />
           </div>
         )}
 
         {/* VALID */}
         {result === 'valid' && winnerData && (
-          <div className="bg-[var(--color-bg-surface)] border-2 border-yellow-500/60 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(251,191,36,0.25)] animate-in fade-in zoom-in-95 duration-300">
-            <div className="bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-4 text-center">
-              <p className="text-black font-black text-lg uppercase tracking-widest">✓ Valid Win</p>
+          <div 
+            className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+            style={modalGlassStyle}
+          >
+            <div className="bg-purple-600 px-6 py-4 text-center shadow-[0_0_25px_rgba(147,51,234,0.5)]">
+              <p className="text-white font-black text-lg uppercase tracking-widest">✓ Valid Win</p>
             </div>
             <div className="p-6 text-center">
               <span className="text-5xl block mb-4">🏆</span>
 
-              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl px-5 py-3 mb-3">
-                <p className="text-yellow-500/50 text-2xs font-black uppercase tracking-[0.2em] mb-1">Winner Account</p>
-                <p className="text-yellow-400 font-black text-2xl">{winnerData.winner}</p>
+              <div className="bg-purple-600/10 border border-purple-500/30 px-5 py-3 mb-3">
+                <p className="text-purple-300/60 text-2xs font-black uppercase tracking-[0.2em] mb-1">Winner Account</p>
+                <p className="text-purple-300 font-black text-2xl">{winnerData.winner}</p>
               </div>
 
-              <div className="bg-white/[0.03] border border-white/10 rounded-xl px-5 py-3 mb-4">
+              <div className="bg-white/[0.03] border border-white/10 px-5 py-3 mb-4">
                 <p className="text-white/30 text-2xs font-black uppercase tracking-[0.2em] mb-1">Prize</p>
                 <p className="text-white font-black text-lg">{winnerData.prize}</p>
               </div>
@@ -191,15 +256,15 @@ export default function VerifyPage() {
               {/* PIN confirmation */}
               <div className="flex items-center justify-center gap-1.5 mb-5">
                 {fullPin.split('').map((d, i) => (
-                  <div key={i} className="w-9 h-11 bg-black/60 border border-yellow-500/40 rounded-lg flex items-center justify-center">
-                    <span className="text-yellow-400 font-black text-lg tabular-nums">{d}</span>
+                  <div key={i} className="w-9 h-11 bg-black/60 border border-purple-500/40 rounded-lg flex items-center justify-center">
+                    <span className="text-purple-300 font-black text-lg tabular-nums">{d}</span>
                   </div>
                 ))}
               </div>
 
-              <p className="text-emerald-400/80 text-xs font-bold mb-6">Award the prize to this fan ✓</p>
+              <p className="text-emerald-400/90 text-xs font-bold mb-6">Award the prize to this fan ✓</p>
 
-              <button onClick={reset} className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-black text-xs uppercase tracking-widest rounded-xl transition-colors">
+              <button onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-all cursor-pointer">
                 Verify Another PIN
               </button>
             </div>
@@ -208,19 +273,22 @@ export default function VerifyPage() {
 
         {/* INVALID */}
         {result === 'invalid' && (
-          <div className="bg-[var(--color-bg-surface)] border-2 border-red-500/40 rounded-2xl p-6 text-center animate-in fade-in zoom-in-95 duration-300">
+          <div 
+            className="rounded-3xl p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+            style={modalGlassStyle}
+          >
             <span className="text-5xl block mb-3">❌</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
             <p className="text-white/40 text-sm mb-5">
               This PIN doesn't match any raffle winner. Ask the fan to show the email or claim page.
             </p>
-            <button onClick={reset} className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-black text-xs uppercase tracking-widest rounded-xl transition-colors">
+            <button onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-all cursor-pointer">
               Try Again
             </button>
           </div>
         )}
 
-        <p className="text-white/15 text-2xs text-center mt-6 uppercase tracking-widest">
+        <p className="text-white/20 text-2xs text-center mt-6 uppercase tracking-widest">
           Crew access only · 7th Heaven
         </p>
       </div>

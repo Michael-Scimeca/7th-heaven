@@ -75,7 +75,7 @@ export default function EmailPreviewPage() {
           <CustomScrollbar className="p-4 space-y-1.5">
             {filtered.map(t => (
               <button key={t.id} onClick={() => setActiveId(t.id)}
-                className={`w-full text-left p-4 rounded-xl transition-all cursor-pointer group ${
+                className={`w-full text-left p-4  transition-all cursor-pointer group ${
                   activeId === t.id
                     ? 'bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30'
                     : 'hover:bg-white/[0.03] border border-transparent'
@@ -88,7 +88,7 @@ export default function EmailPreviewPage() {
                   <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
                     t.status === 'live'
                       ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                      : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
                   }`}>
                     {t.status}
                   </span>
@@ -109,7 +109,7 @@ export default function EmailPreviewPage() {
               <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
                 active.status === 'live'
                   ? 'bg-emerald-500/10 text-emerald-400'
-                  : 'bg-amber-500/10 text-amber-400'
+                  : 'bg-purple-600/10 text-purple-300'
               }`}>{active.status}</span>
             </div>
 
@@ -162,7 +162,7 @@ export default function EmailPreviewPage() {
           <div className="flex-1 overflow-y-auto bg-[var(--color-bg-card)] flex justify-center p-8">
             {viewMode === "preview" ? (
               <div className="w-full max-w-[620px]">
-                <div className="bg-[var(--color-bg-deep)] rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+                <div className="bg-[var(--color-bg-deep)] overflow-hidden border border-white/5">
                   <iframe
                     srcDoc={html}
                     className="w-full border-0"
@@ -172,7 +172,7 @@ export default function EmailPreviewPage() {
                 </div>
               </div>
             ) : (
-              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/5 rounded-2xl p-6 text-sm text-white/50 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">
+              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/5 p-6 text-sm text-white/50 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">
                 {html}
               </pre>
             )}

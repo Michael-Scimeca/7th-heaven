@@ -112,7 +112,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
       
       {/* Top Banner & Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2.5">
-        <div className="p-2.5 bg-black/30 border border-[var(--border-color)] rounded-xl flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-black/30 border border-[var(--border-color)] flex items-center justify-between shadow-xs">
           <div>
             <span className="text-[8px] font-black uppercase tracking-wider text-rose-400 block">Target Audience</span>
             <span className="text-[11px] font-black text-[var(--text-color)]">{recipientCount.toLocaleString()} Subscribers</span>
@@ -120,23 +120,23 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <span className="text-sm">📢</span>
         </div>
 
-        <div className="p-2.5 bg-black/30 border border-[var(--border-color)] rounded-xl flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-black/30 border border-[var(--border-color)] flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[8px] font-black uppercase tracking-wider text-amber-400 block">SMS Length & Segments</span>
+            <span className="text-[8px] font-black uppercase tracking-wider text-purple-300 block">SMS Length & Segments</span>
             <span className="text-[11px] font-black text-[var(--text-color)]">{smsLength} Chars ({smsSegments} Segments)</span>
           </div>
           <span className="text-sm">📱</span>
         </div>
 
-        <div className="p-2.5 bg-black/30 border border-[var(--border-color)] rounded-xl flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-black/30 border border-[var(--border-color)] flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[8px] font-black uppercase tracking-wider text-purple-400 block">Twilio SMS Rate</span>
+            <span className="text-[8px] font-black uppercase tracking-wider text-[var(--color-accent)] block">Twilio SMS Rate</span>
             <span className="text-[11px] font-black text-[var(--text-color)]">${estimatedSmsCost.toFixed(2)} (${smsRatePerSegment}/msg)</span>
           </div>
           <span className="text-sm">💳</span>
         </div>
 
-        <div className="p-2.5 bg-black/30 border border-[var(--border-color)] rounded-xl flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-black/30 border border-[var(--border-color)] flex items-center justify-between shadow-xs">
           <div>
             <span className="text-[8px] font-black uppercase tracking-wider text-emerald-400 block">Total Est. Campaign Cost</span>
             <span className="text-[11px] font-black text-emerald-400">${totalEstimatedCost.toFixed(2)}</span>
@@ -168,7 +168,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
             onClick={() => handleApplyPreset("time_change")}
             className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
               alertType === "time_change"
-                ? "bg-amber-600 border-amber-600 text-white shadow-md"
+                ? "bg-purple-700 border-purple-600 text-white shadow-md"
                 : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
             }`}
           >
@@ -180,7 +180,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
             onClick={() => handleApplyPreset("venue_change")}
             className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
               alertType === "venue_change"
-                ? "bg-purple-600 border-purple-600 text-white shadow-md"
+                ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
                 : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
             }`}
           >
@@ -211,7 +211,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <select
             value={selectedShowDate}
             onChange={(e) => setSelectedShowDate(e.target.value)}
-            className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] font-bold text-[var(--text-color)] focus:outline-none focus:border-amber-500 cursor-pointer"
+            className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] font-bold text-[var(--text-color)] focus:outline-none focus:border-purple-500 cursor-pointer"
           >
             {tourDates.map((s, idx) => (
               <option key={idx} value={s.date} className="bg-zinc-900 text-white font-semibold">
@@ -229,7 +229,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <select
             value={targetAudience}
             onChange={(e) => setTargetAudience(e.target.value as any)}
-            className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] font-bold text-[var(--text-color)] focus:outline-none focus:border-amber-500 cursor-pointer"
+            className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] font-bold text-[var(--text-color)] focus:outline-none focus:border-purple-500 cursor-pointer"
           >
             <option value="all_fans" className="bg-zinc-900 text-white font-semibold">📢 All Opted-In SMS & Email Fan Subscribers (1,482 Subscribers)</option>
             <option value="show_fans" className="bg-zinc-900 text-white font-semibold">📍 Fans Registered for {selectedShow.venue} (284 Fans)</option>
@@ -247,7 +247,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <div
             onClick={() => setSendSms(!sendSms)}
             className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
-              sendSms ? "bg-amber-500/15 border-amber-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+              sendSms ? "bg-purple-600/15 border-purple-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
             }`}
           >
             <div className="flex items-center gap-2">
@@ -262,7 +262,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <div
             onClick={() => setSendEmail(!sendEmail)}
             className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
-              sendEmail ? "bg-purple-500/15 border-purple-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+              sendEmail ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
             }`}
           >
             <div className="flex items-center gap-2">
@@ -304,7 +304,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
               value={customTitle !== "" ? customTitle : activeTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="e.g. 🚨 SHOW CANCELLED: Broken Oar"
-              className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] text-[var(--text-color)] font-bold placeholder:text-[var(--muted-text)] outline-none focus:border-amber-500"
+              className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] text-[var(--text-color)] font-bold placeholder:text-[var(--muted-text)] outline-none focus:border-purple-500"
             />
           </div>
 
@@ -313,7 +313,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
               <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider">
                 SMS & Alert Body Text
               </label>
-              <span className="text-[9px] font-mono font-bold text-amber-400">
+              <span className="text-[9px] font-mono font-bold text-purple-300">
                 {smsLength} / 160 chars ({smsSegments} segment{smsSegments > 1 ? "s" : ""})
               </span>
             </div>
@@ -322,22 +322,22 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
               value={customBody !== "" ? customBody : activeBody}
               onChange={(e) => setCustomBody(e.target.value)}
               placeholder="Write your emergency broadcast message text..."
-              className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg p-2.5 text-[11px] text-[var(--text-color)] font-mono font-semibold placeholder:text-[var(--muted-text)] outline-none focus:border-amber-500 leading-relaxed resize-none"
+              className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg p-2.5 text-[11px] text-[var(--text-color)] font-mono font-semibold placeholder:text-[var(--muted-text)] outline-none focus:border-purple-500 leading-relaxed resize-none"
             />
           </div>
         </div>
 
         {/* Live iPhone SMS Mockup Preview */}
-        <div className="bg-black/40 border border-[var(--border-color)] rounded-xl p-3 flex flex-col justify-between shadow-xs">
+        <div className="bg-black/40 border border-[var(--border-color)] p-3 flex flex-col justify-between shadow-xs">
           <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-1.5 mb-2.5">
-            <span className="text-[9px] font-black uppercase tracking-widest text-amber-400 flex items-center gap-1">
+            <span className="text-[9px] font-black uppercase tracking-widest text-purple-300 flex items-center gap-1">
               <span>📱</span> Twilio Live SMS Preview
             </span>
             <span className="text-[8px] font-mono text-[var(--muted-text)] font-bold">Twilio Toll-Free # +1 (888) 7TH-BAND</span>
           </div>
 
           {/* SMS Bubble */}
-          <div className="p-3 bg-zinc-900/90 border border-white/10 rounded-xl text-[11px] leading-relaxed space-y-1 shadow-sm">
+          <div className="p-3 bg-zinc-900/90 border border-white/10 text-[11px] leading-relaxed space-y-1 shadow-sm">
             <span className="text-[11px] font-black text-rose-400 block">{activeTitle}</span>
             <p className="text-white font-semibold text-[11px] leading-relaxed">{activeBody}</p>
             <span className="text-[8px] text-white/50 block text-right font-mono font-bold pt-1">7th Heaven Emergency Alerts • Reply STOP to unsubscribe</span>

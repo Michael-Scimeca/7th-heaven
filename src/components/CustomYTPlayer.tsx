@@ -323,7 +323,7 @@ export default function CustomYTPlayer({
               />
               {/* Scrubber */}
               <div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-lg shadow-[var(--color-accent)]/30"
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
                 style={{ left: `calc(${progress}% - 6px)` }}
               />
             </div>
