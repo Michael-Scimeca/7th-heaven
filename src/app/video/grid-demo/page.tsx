@@ -12,7 +12,7 @@ const thumb = (id: string) => `https://img.youtube.com/vi/${id}/hq720.jpg`;
 function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void }) {
   return (
     <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 p-3">
-      <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Grid</p>
+      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Grid</p>
       {layouts.map(l => (
         <button key={l} onClick={() => set(l)}
           className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
@@ -71,9 +71,9 @@ export default function GridLayoutDemo() {
               {/* Info overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-transparent to-transparent translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
                 <p className="text-sm font-bold text-white truncate">{v.title}</p>
-                <div className="flex items-center gap-2 text-2xs text-white/40 mt-0.5"><span>{v.year}</span>{v.duration && <span>{v.duration}</span>}</div>
+                <div className="flex items-center gap-2 text-[var(--font-size-2xs)] text-white/40 mt-0.5"><span>{v.year}</span>{v.duration && <span>{v.duration}</span>}</div>
               </div>
-              {v.duration && <span className="absolute top-2 right-2 bg-black/60 text-white text-2xs font-bold px-1.5 py-0.5 rounded opacity-60">{v.duration}</span>}
+              {v.duration && <span className="absolute top-2 right-2 bg-black/60 text-white text-[var(--font-size-2xs)] font-bold px-1.5 py-0.5 rounded opacity-60">{v.duration}</span>}
             </div>
           ))}
         </div>
@@ -109,11 +109,11 @@ export default function GridLayoutDemo() {
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
                 </div>
-                {v.duration && <span className="absolute bottom-2 right-2 bg-black/70 text-white text-2xs font-bold px-1.5 py-0.5 rounded">{v.duration}</span>}
+                {v.duration && <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[var(--font-size-2xs)] font-bold px-1.5 py-0.5 rounded">{v.duration}</span>}
               </div>
               <div className="px-3 py-3 bg-[var(--color-bg-surface)] border-b border-r border-white/[0.04]">
                 <p className="text-sm font-bold text-white truncate group-hover:text-[var(--color-accent)] transition-colors">{v.title}</p>
-                <div className="flex items-center gap-2 text-2xs text-white/25 mt-0.5"><span>{v.year}</span>{v.viewCount && <><span>·</span><span>{v.viewCount} views</span></>}</div>
+                <div className="flex items-center gap-2 text-[var(--font-size-2xs)] text-white/25 mt-0.5"><span>{v.year}</span>{v.viewCount && <><span>·</span><span>{v.viewCount} views</span></>}</div>
               </div>
             </div>
           ))}
@@ -165,7 +165,7 @@ export default function GridLayoutDemo() {
 
       {/* ═══ E — Full-Bleed 4-Col with hover card expand ═══ */}
       {active === "E" && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-[2px]">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
           {videos.map(v => (
             <div key={v.id} className="relative group cursor-pointer overflow-hidden bg-[var(--color-bg-surface)]">
               <div className="aspect-video relative overflow-hidden">
@@ -206,7 +206,7 @@ export default function GridLayoutDemo() {
               {/* Bottom info */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <p className="text-sm font-bold text-white truncate">{v.title}</p>
-                <div className="flex items-center gap-2 text-2xs text-white/30 mt-0.5">
+                <div className="flex items-center gap-2 text-[var(--font-size-2xs)] text-white/30 mt-0.5">
                   <span>{v.year}</span>
                   {v.duration && <><span>·</span><span>{v.duration}</span></>}
                   {v.viewCount && <><span>·</span><span>{v.viewCount}</span></>}

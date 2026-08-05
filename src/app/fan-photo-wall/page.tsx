@@ -262,7 +262,7 @@ export default function FansPage() {
                 <h3 className="text-lg font-bold text-black">
                   Pending Review Queue
                 </h3>
-                <p className="text-2xs text-black/60 uppercase tracking-widest font-bold">
+                <p className="text-[var(--font-size-2xs)] text-black/60 uppercase tracking-widest font-bold">
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
@@ -309,7 +309,7 @@ export default function FansPage() {
                         {photo.name}
                       </div>
                       {photo.venue && (
-                        <p className="text-2xs font-bold tracking-widest uppercase text-black/60 truncate">
+                        <p className="text-[var(--font-size-2xs)] font-bold tracking-widest uppercase text-black/60 truncate">
                           📍 {photo.venue}
                         </p>
                       )}
@@ -423,7 +423,7 @@ export default function FansPage() {
                           {photo.name}
                         </p>
                         {(photo.venue || photo.city) && (
-                          <p className="text-[var(--color-accent)] text-2xs uppercase tracking-widest font-extrabold mt-0.5">
+                          <p className="text-[var(--color-accent)] text-[var(--font-size-2xs)] uppercase tracking-widest font-extrabold mt-0.5">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}

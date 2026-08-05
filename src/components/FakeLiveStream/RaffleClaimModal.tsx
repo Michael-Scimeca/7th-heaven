@@ -61,20 +61,20 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
             </div>
 
             {pin && (
-              <div className="bg-purple-500/5 border-2 border-purple-500/40 p-4 mb-4 text-center">
-                <p className="text-2xs font-black uppercase tracking-[0.2em] text-purple-400/60 mb-3">Your Verification PIN</p>
+              <div className="bg-[var(--color-purple-glow)] border-2 border-[var(--color-border-purple)] p-4 mb-4 text-center">
+                <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] text-[var(--color-purple-light)] mb-3">Your Verification PIN</p>
                 <div className="flex items-center justify-center gap-2 mb-3">
                   {pin.split('').map((digit: string, i: number) => (
-                    <div key={i} className="w-9 h-12 bg-gray-100 border-2 border-purple-500/40 rounded-lg flex items-center justify-center">
-                      <span className="text-purple-300 font-black text-2xl tabular-nums">{digit}</span>
+                    <div key={i} className="w-9 h-12 bg-gray-100 border-2 border-[var(--color-border-purple)] rounded-lg flex items-center justify-center">
+                      <span className="text-[var(--color-purple-light)] font-black text-2xl tabular-nums">{digit}</span>
                     </div>
                   ))}
                 </div>
                 <a href={claimUrl} target="_blank" rel="noreferrer"
-                  className="block w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest rounded-lg transition-colors mb-2">
+                  className="block w-full py-2.5 bg-[var(--color-purple-primary)] hover:bg-[var(--color-purple-hover)] text-white font-black text-[var(--font-size-xs)] uppercase tracking-widest rounded-lg transition-colors mb-2">
                   Open Full Claim Page
                 </a>
-                <p className="text-2xs text-black/25">This link is unique to you — show it to the crew</p>
+                <p className="text-[var(--font-size-2xs)] text-black/25">This link is unique to you — show it to the crew</p>
               </div>
             )}
 

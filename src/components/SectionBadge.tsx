@@ -14,7 +14,7 @@ type BadgeColor = "rose" | "amber" | "emerald" | "cyan" | "purple" | "blue" | "i
 
 const COLOR_MAP: Record<BadgeColor, { text: string; bg: string; border: string }> = {
   rose:    { text: "text-rose-500",    bg: "bg-rose-500/15",    border: "border-rose-500/20" },
-  amber:   { text: "text-purple-400",   bg: "bg-purple-600/15",   border: "border-purple-500/20" },
+  amber:   { text: "text-[var(--color-purple-light)]",   bg: "bg-[var(--color-purple-glow)]",   border: "border-[var(--color-border-purple)]" },
   emerald: { text: "text-emerald-500", bg: "bg-emerald-500/15", border: "border-emerald-500/20" },
   cyan:    { text: "text-cyan-500",    bg: "bg-cyan-500/15",    border: "border-cyan-500/20" },
   purple:  { text: "text-[var(--color-accent)]",  bg: "bg-[var(--color-accent)]/15",  border: "border-[var(--color-accent)]/20" },
@@ -34,7 +34,7 @@ export function SectionBadge({ label, color = "rose", className = "" }: SectionB
 
   return (
     <span
-      className={`text-[8.5px] font-black uppercase tracking-widest ${c.text} ${c.bg} ${c.border} px-2 py-0.5 rounded border whitespace-nowrap ${className}`}
+      className={`text-[var(--font-size-2xs)] font-black uppercase tracking-widest ${c.text} ${c.bg} ${c.border} px-2 py-0.5 rounded border whitespace-nowrap ${className}`}
     >
       {label}
     </span>

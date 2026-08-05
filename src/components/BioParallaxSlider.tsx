@@ -917,7 +917,7 @@ height: ${overlayHeight}vh`;
                   }`}
                 >
                   <div className={`w-14 h-16 sm:w-18 sm:h-20  overflow-hidden relative border-2 transition-all ${
-                    isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_#a855f7]" : "border-white/20"
+                    isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_var(--color-purple-glow)]" : "border-white/20"
                   }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />

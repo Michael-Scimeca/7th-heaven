@@ -701,7 +701,7 @@ export default function PlannerDashboard() {
                       </p>
                     </div>
                     {!item.done && (
-                      <span className="text-2xs font-bold uppercase tracking-widest text-purple-300/50 bg-purple-600/10 px-2 py-0.5 rounded border border-purple-500/15 shrink-0">
+                      <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] px-2 py-0.5 rounded border border-[var(--color-border-purple)] shrink-0">
                         Needed
                       </span>
                     )}
@@ -785,7 +785,7 @@ export default function PlannerDashboard() {
                             </span>
                             <span className="text-xs text-white/30 font-mono">{b.id}</span>
                             {isActive && (
-                              <span className="text-2xs font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">
+                              <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">
                                 Active
                               </span>
                             )}

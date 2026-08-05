@@ -1,0 +1,344 @@
+{
+  "url": "http://localhost:3000",
+  "date": "2026-08-05T04:16:09.564Z",
+  "score": {
+    "overall": 55,
+    "grade": "D",
+    "label": "Poor",
+    "color": "#f97316",
+    "modules": [
+      {
+        "name": "Typography",
+        "score": 13,
+        "weight": 15,
+        "pass": 0,
+        "warn": 1,
+        "error": 3
+      },
+      {
+        "name": "Vertical Rhythm & Spacing",
+        "score": 60,
+        "weight": 15,
+        "pass": 2,
+        "warn": 2,
+        "error": 1
+      },
+      {
+        "name": "Colors",
+        "score": 50,
+        "weight": 20,
+        "pass": 3,
+        "warn": 1,
+        "error": 3
+      },
+      {
+        "name": "Components",
+        "score": 50,
+        "weight": 15,
+        "pass": 2,
+        "warn": 3,
+        "error": 2
+      },
+      {
+        "name": "Reading Width",
+        "score": 100,
+        "weight": 10,
+        "pass": 1,
+        "warn": 0,
+        "error": 0
+      },
+      {
+        "name": "Images",
+        "score": 50,
+        "weight": 10,
+        "pass": 1,
+        "warn": 1,
+        "error": 1
+      },
+      {
+        "name": "Links",
+        "score": 75,
+        "weight": 5,
+        "pass": 2,
+        "warn": 2,
+        "error": 0
+      },
+      {
+        "name": "Breakpoints",
+        "score": 83,
+        "weight": 5,
+        "pass": 2,
+        "warn": 1,
+        "error": 0
+      },
+      {
+        "name": "Headings",
+        "score": 67,
+        "weight": 5,
+        "pass": 2,
+        "warn": 0,
+        "error": 1
+      }
+    ]
+  },
+  "summary": {
+    "pass": 15,
+    "warn": 11,
+    "error": 11
+  },
+  "modules": [
+    {
+      "name": "Typography",
+      "violations": [
+        {
+          "id": "too-many-font-families",
+          "severity": "error",
+          "message": "4 custom fonts found — recommendation: max 3",
+          "hint": "Fonts: \"Barlow\", \"Barlow Condensed\", \"rockstar\", \"__nextjs-Geist\""
+        },
+        {
+          "id": "too-many-font-sizes",
+          "severity": "error",
+          "message": "23 unique font sizes — recommendation: max 8–10",
+          "hint": "Sizes: 7px, 7.5px, 8px, 8.5px, 9px, 9.6px, 10px, 10.4px, 11px, 11.2px, 12.8px, 13px, 13.6px, 14px, 14.08px, 16px, 19.84px, 27.84px, 35.84px, 43.2px, 48px, 53.44px, 72px"
+        },
+        {
+          "id": "no-modular-scale",
+          "severity": "warn",
+          "message": "Font sizes do not follow a modular scale",
+          "hint": "Try Major Third (1.25) or Perfect Fourth (1.333): 12 → 15 → 19 → 24 → 30..."
+        },
+        {
+          "id": "too-many-line-heights",
+          "severity": "error",
+          "message": "39 unique line-heights — recommendation: max 4–6",
+          "hint": "Too many different line spacings — no vertical rhythm system"
+        }
+      ]
+    },
+    {
+      "name": "Vertical Rhythm & Spacing",
+      "violations": [
+        {
+          "id": "rhythm-unit-ok",
+          "severity": "pass",
+          "message": "Rhythm unit = 24px (16px × 1.50) — multiple of 4px ✓"
+        },
+        {
+          "id": "line-heights-rhythm-error",
+          "severity": "error",
+          "message": "Line-heights: only 13% match rhythm unit — no rhythm",
+          "hint": "Outliers: 9px, 14px, 15px, 16px, 17px, 19px, 20px, 21px"
+        },
+        {
+          "id": "detected-grid",
+          "severity": "pass",
+          "message": "Detected grid: 4px (margin/padding: 56% divisible by 8px, 79% by 4px)"
+        },
+        {
+          "id": "spacing-grid-warn",
+          "severity": "warn",
+          "message": "56% of spacing divisible by 8px — consider switching to an 8px grid",
+          "hint": "Not divisible by 4px: 2px, 6px, 10px, 14px"
+        },
+        {
+          "id": "many-margins",
+          "severity": "warn",
+          "message": "15 unique margin values — rec. 6–8"
+        }
+      ]
+    },
+    {
+      "name": "Colors",
+      "violations": [
+        {
+          "id": "too-many-colors",
+          "severity": "error",
+          "message": "63 unique colors found — recommendation: max 15–20",
+          "hint": "Too large a palette makes maintenance harder and hurts brand consistency"
+        },
+        {
+          "id": "similar-colors",
+          "severity": "error",
+          "message": "55 similar color pairs — palette could be reduced",
+          "hint": "Examples: #000000≈#030006 (ΔE=2.6), #000000≈#0b0b0f (ΔE=3.7), #000000≈#08080f (ΔE=3.9), #22c55e≈#34c759 (ΔE=3.7)"
+        },
+        {
+          "id": "primary-detected",
+          "severity": "pass",
+          "message": "Primary: #9333ea (477 uses)"
+        },
+        {
+          "id": "secondary-detected",
+          "severity": "pass",
+          "message": "Secondary: #22c55e (131 uses)"
+        },
+        {
+          "id": "color-balance-ok",
+          "severity": "pass",
+          "message": "Color balance: 55% / 26% / 9% — close to 60/30/10"
+        },
+        {
+          "id": "contrast-fail",
+          "severity": "error",
+          "message": "13 color pairs fail WCAG AA",
+          "hint": "Examples: #22c55e on #22c55e (1:1), #ef4444 on #ef4444 (1:1), #ffffff on #dddddd (1.36:1)"
+        },
+        {
+          "id": "css-vars-low",
+          "severity": "warn",
+          "message": "CSS variables: only 0% of colors use var()",
+          "hint": "More hardcoded values make theming and maintenance harder"
+        }
+      ]
+    },
+    {
+      "name": "Components",
+      "violations": [
+        {
+          "id": "touch-targets",
+          "severity": "error",
+          "message": "157/226 buttons smaller than 44px (69%)",
+          "hint": "Examples: \"Cursor Settings\" 139×33px, \"☀️🌙\" 56×28px, \"SIGN IN\" 74×29px"
+        },
+        {
+          "id": "button-padding",
+          "severity": "warn",
+          "message": "Buttons: 13 padding variations — rec. ≤ 3",
+          "hint": "Different paddings often indicate missing button size variants (sm/md/lg)"
+        },
+        {
+          "id": "button-cursor",
+          "severity": "warn",
+          "message": "226 buttons without cursor: pointer",
+          "hint": "\"Cursor Settings\", \"☀️🌙\", \"SIGN IN\""
+        },
+        {
+          "id": "interactive-states-ok",
+          "severity": "pass",
+          "message": "Interactive states: :hover and :focus are present"
+        },
+        {
+          "id": "too-many-radii",
+          "severity": "error",
+          "message": "10 unique border-radius values — rec. ≤ 5",
+          "hint": "Outliers (not in scale): 44.8px, 38.4px, 1px, 19.2px 19.2px 19.2px 4px"
+        },
+        {
+          "id": "shadows-ok",
+          "severity": "pass",
+          "message": "Shadows: 5 levels — OK"
+        },
+        {
+          "id": "too-many-zindex",
+          "severity": "warn",
+          "message": "59 unique z-index values — system may be chaotic",
+          "hint": "Values: -116, -95, -74, -10, 1, 2, 3, 4, 5, 10..."
+        }
+      ]
+    },
+    {
+      "name": "Reading Width",
+      "violations": [
+        {
+          "id": "reading-width-ok",
+          "severity": "pass",
+          "message": "Average line width: ~70 chars — within optimal range (45–75)"
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "violations": [
+        {
+          "id": "images-missing-alt",
+          "severity": "error",
+          "message": "29/48 images missing alt text (60%)",
+          "hint": "Alt text is required for screen readers and SEO (WCAG 1.1.1)"
+        },
+        {
+          "id": "images-ratios-ok",
+          "severity": "pass",
+          "message": "Aspect ratios: 1:1, 4:3 — consistent"
+        },
+        {
+          "id": "images-inconsistent-cards",
+          "severity": "warn",
+          "message": "1 component groups with different aspect ratios",
+          "hint": "page: free, 1:1, 4:3"
+        }
+      ]
+    },
+    {
+      "name": "Links",
+      "violations": [
+        {
+          "id": "links-wcag-ok",
+          "severity": "pass",
+          "message": "WCAG 1.4.1: links have a visual indicator beyond color"
+        },
+        {
+          "id": "links-inconsistent-colors",
+          "severity": "warn",
+          "message": "6 different link colors — rec. 1–2",
+          "hint": "Different link colors on the same page break visual language"
+        },
+        {
+          "id": "links-no-visited",
+          "severity": "warn",
+          "message": ":visited state not defined in CSS",
+          "hint": ":visited state helps users understand where they have already been"
+        },
+        {
+          "id": "links-focus-ok",
+          "severity": "pass",
+          "message": ":focus state defined"
+        }
+      ]
+    },
+    {
+      "name": "Breakpoints",
+      "violations": [
+        {
+          "id": "breakpoints-system",
+          "severity": "pass",
+          "message": "Detected breakpoint system: Tailwind CSS",
+          "hint": "Values: 768, 1023, 1401px"
+        },
+        {
+          "id": "breakpoints-count-ok",
+          "severity": "pass",
+          "message": "Breakpoints: 3 — OK (768, 1023, 1401px)"
+        },
+        {
+          "id": "breakpoints-mixed-strategy",
+          "severity": "warn",
+          "message": "Mixed strategy: both min-width and max-width media queries detected",
+          "hint": "Choose one approach: mobile-first (min-width) or desktop-first (max-width)"
+        }
+      ]
+    },
+    {
+      "name": "Headings",
+      "violations": [
+        {
+          "id": "no-h1",
+          "severity": "error",
+          "message": "H1 missing — every page must have exactly one H1",
+          "hint": "H1 is the main page heading (SEO + accessibility)"
+        },
+        {
+          "id": "heading-hierarchy-ok",
+          "severity": "pass",
+          "message": "Heading hierarchy has no skipped levels"
+        },
+        {
+          "id": "heading-sizes-ok",
+          "severity": "pass",
+          "message": "Visual size hierarchy is correct",
+          "hint": "H2: 51px > H3: 34px > H4: 20px"
+        }
+      ]
+    }
+  ]
+}

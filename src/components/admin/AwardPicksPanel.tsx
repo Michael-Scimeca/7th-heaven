@@ -142,7 +142,7 @@ export default function AwardPicksPanel() {
                 7H
               </div>
               <p className="text-xs font-bold text-white/70 truncate">{pick.name}</p>
-              <p className={`text-2xs font-bold uppercase tracking-[0.1em] ${rarityColors[pick.rarity]}`}>
+              <p className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.1em] ${rarityColors[pick.rarity]}`}>
                 {pick.rarity}
               </p>
             </button>
@@ -218,7 +218,7 @@ export default function AwardPicksPanel() {
         <button
           onClick={handleBulkAward}
           disabled={filteredFans.length === 0 || awarding}
-          className="px-6 py-3 border border-purple-500/30 text-purple-300 font-bold text-xs uppercase tracking-widest hover:bg-purple-600/10 transition-all disabled:opacity-30 cursor-pointer"
+          className="px-6 py-3 border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase tracking-widest hover:bg-[var(--color-purple-glow)] transition-all disabled:opacity-30 cursor-pointer"
         >
           Bulk ({filteredFans.length})
         </button>

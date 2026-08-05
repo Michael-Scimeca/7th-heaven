@@ -168,7 +168,7 @@ export function Header() {
 
   const badgeBg =
     displayRole === "admin"
-      ? "bg-purple-600"
+      ? "bg-[var(--color-purple-primary)]"
       : displayRole === "crew"
         ? "bg-emerald-600"
         : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"

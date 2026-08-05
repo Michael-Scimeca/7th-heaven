@@ -702,7 +702,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           onClick={() => handleWarn(msg.sender_name, msg.room)}
                           title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
                           className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${
-                            warned.has(msg.sender_name) ? "border-purple-500/50 bg-purple-600/15 text-purple-300" : "border-purple-500/25 text-purple-400/70 hover:bg-purple-600/10"
+                            warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"
                           }`}
                         >⚠️</button>
                         <button

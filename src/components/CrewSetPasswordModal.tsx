@@ -91,10 +91,10 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
       {/* Glass Card */}
       <div
         style={{
-          background: "rgba(18, 18, 24, 0.45)",
+          background: "var(--color-bg-glass)",
           backdropFilter: "blur(32px) saturate(180%)",
           WebkitBackdropFilter: "blur(32px) saturate(180%)",
-          border: "1px solid rgba(255, 255, 255, 0.15)",
+          border: "1px solid var(--color-border-main)",
           borderRadius: "24px",
           padding: "36px 32px",
           width: "100%",
@@ -105,45 +105,44 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
           overflow: "hidden",
         }}
       >
- 
 
         {/* Icon */}
         <div style={{
           width: 56, height: 56, borderRadius: "50%",
-          background: "linear-gradient(135deg, #9333ea, #7c3aed)",
+          background: "linear-gradient(135deg, var(--color-purple-primary), var(--color-purple-hover))",
           display: "flex", alignItems: "center", justifyContent: "center",
           margin: "0 auto 20px",
           fontSize: 26,
-          boxShadow: "0 0 24px rgba(147, 51, 234, 0.5)",
+          boxShadow: "0 0 24px var(--color-purple-glow)",
         }}>
           🔐
         </div>
 
         {/* Title */}
         <h2 style={{
-          color: "#fff", fontWeight: 900, fontSize: 22,
+          color: "var(--color-text-main)", fontWeight: 900, fontSize: "var(--font-size-lg)",
           textAlign: "center", margin: "0 0 6px",
           letterSpacing: "-0.02em"
         }}>
           Set Your Password
         </h2>
         <p style={{
-          color: "rgba(255,255,255,0.45)", fontSize: 13,
+          color: "var(--color-text-subtle)", fontSize: "var(--font-size-md)",
           textAlign: "center", margin: "0 0 8px", lineHeight: 1.5,
         }}>
           Welcome to the crew! Your account has been created at:
         </p>
         <p style={{
-          color: "#c084fc", fontSize: 13, fontWeight: 700,
+          color: "var(--color-purple-light)", fontSize: "var(--font-size-md)", fontWeight: 700,
           textAlign: "center", margin: "0 0 24px",
           background: "rgba(147, 51, 234, 0.12)",
-          border: "1px solid rgba(147, 51, 234, 0.3)",
+          border: "1px solid var(--color-border-purple)",
           borderRadius: 8, padding: "6px 12px",
         }}>
           {email}
         </p>
         <p style={{
-          color: "rgba(255,255,255,0.4)", fontSize: 12,
+          color: "var(--color-text-subtle)", fontSize: "var(--font-size-sm)",
           textAlign: "center", margin: "-12px 0 24px",
           lineHeight: 1.5,
         }}>
@@ -155,14 +154,14 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
             textAlign: "center", padding: "20px 0",
           }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>✅</div>
-            <p style={{ color: "#34d399", fontWeight: 700, fontSize: 16 }}>
+            <p style={{ color: "var(--color-success-light)", fontWeight: 700, fontSize: "var(--font-size-base)" }}>
               Password set! Loading your dashboard…
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
             {/* New Password */}
-            <label style={{ display: "block", color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <label style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
               New Password
             </label>
             <input
@@ -174,18 +173,18 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
               style={{
                 width: "100%", boxSizing: "border-box",
                 background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: "1px solid var(--color-border-main)",
                 borderRadius: 10, padding: "12px 14px",
-                color: "#fff", fontSize: 14,
+                color: "var(--color-text-main)", fontSize: "var(--font-size-md)",
                 outline: "none", marginBottom: 16,
                 transition: "border-color 0.2s",
               }}
-              onFocus={e => (e.target.style.borderColor = "#9333ea")}
-              onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
+              onFocus={e => (e.target.style.borderColor = "var(--color-purple-primary)")}
+              onBlur={e => (e.target.style.borderColor = "var(--color-border-main)")}
             />
 
             {/* Confirm Password */}
-            <label style={{ display: "block", color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <label style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
               Confirm Password
             </label>
             <input
@@ -197,22 +196,22 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
               style={{
                 width: "100%", boxSizing: "border-box",
                 background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: "1px solid var(--color-border-main)",
                 borderRadius: 10, padding: "12px 14px",
-                color: "#fff", fontSize: 14,
+                color: "var(--color-text-main)", fontSize: "var(--font-size-md)",
                 outline: "none", marginBottom: 20,
                 transition: "border-color 0.2s",
               }}
-              onFocus={e => (e.target.style.borderColor = "#9333ea")}
-              onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
+              onFocus={e => (e.target.style.borderColor = "var(--color-purple-primary)")}
+              onBlur={e => (e.target.style.borderColor = "var(--color-border-main)")}
             />
 
             {/* Error */}
             {error && (
               <div style={{
                 background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)",
-                borderRadius: 8, padding: "10px 14px", color: "#f87171",
-                fontSize: 13, marginBottom: 16, textAlign: "center",
+                borderRadius: 8, padding: "10px 14px", color: "var(--color-error-light)",
+                fontSize: "var(--font-size-md)", marginBottom: 16, textAlign: "center",
               }}>
                 {error}
               </div>
@@ -226,13 +225,13 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
                 width: "100%",
                 background: loading
                   ? "rgba(147, 51, 234, 0.3)"
-                  : "linear-gradient(135deg, #9333ea, #7c3aed)",
+                  : "linear-gradient(135deg, var(--color-purple-primary), var(--color-purple-hover))",
                 border: "none", borderRadius: 12, padding: "14px",
-                color: "#fff", fontWeight: 800, fontSize: 14,
+                color: "var(--color-text-main)", fontWeight: 800, fontSize: "var(--font-size-md)",
                 textTransform: "uppercase",
                 cursor: loading ? "not-allowed" : "pointer",
                 transition: "all 0.2s",
-                boxShadow: loading ? "none" : "0 0 20px rgba(147, 51, 234, 0.4)",
+                boxShadow: loading ? "none" : "0 0 20px var(--color-purple-glow)",
                 letterSpacing: 1,
               }}
             >

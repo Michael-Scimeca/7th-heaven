@@ -46,7 +46,7 @@ function Node({
           {label}
         </span>
       </div>
-      {sub && <span className="text-2xs text-white/20 font-mono mt-0.5">{sub}</span>}
+      {sub && <span className="text-[var(--font-size-2xs)] text-white/20 font-mono mt-0.5">{sub}</span>}
     </div>
   );
 }

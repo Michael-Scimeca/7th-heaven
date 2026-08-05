@@ -247,7 +247,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <div
             onClick={() => setSendSms(!sendSms)}
             className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
-              sendSms ? "bg-purple-600/15 border-purple-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+              sendSms ? "bg-[var(--color-purple-glow)] border-[var(--color-border-purple)] text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
             }`}
           >
             <div className="flex items-center gap-2">

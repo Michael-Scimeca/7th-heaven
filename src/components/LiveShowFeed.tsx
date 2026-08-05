@@ -218,7 +218,7 @@ export default function LiveShowFeed() {
       <div className="absolute bottom-0 left-0 right-0 p-5">
        <div className="flex items-center gap-2 mb-2">
         <div
-         className="w-7 h-7 rounded-full flex items-center justify-center text-2xs font-bold border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15"
+         className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15"
         >
          {selectedMedia.member_avatar}
         </div>
@@ -276,7 +276,7 @@ export default function LiveShowFeed() {
         )}
         {/* Type badge */}
         <div className="absolute top-1 left-1">
-         <span className="text-2xs font-bold uppercase tracking-wider bg-black/60 text-white/70 px-1.5 py-0.5">
+         <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-wider bg-black/60 text-white/70 px-1.5 py-0.5">
           {isVideo ? "🎬" : "📸"} {timeAgo(post.created_at)}
          </span>
         </div>
@@ -302,7 +302,7 @@ export default function LiveShowFeed() {
         className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-all hover:bg-white/[0.04]"
        >
         <div
-         className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-2xs font-bold border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10"
+         className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10"
         >
          {post.member_avatar}
         </div>

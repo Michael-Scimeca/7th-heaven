@@ -97,7 +97,7 @@ export default function SetupChecklistPage() {
           
           <div className="bg-white border border-black/5 px-6 py-4 flex items-center gap-4 shrink-0 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
             <div className="text-right">
-              <span className="text-2xs font-bold uppercase tracking-widest text-black/30 block mb-1">Production Status</span>
+              <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-black/30 block mb-1">Production Status</span>
               <span className="text-lg font-black text-black">{activeConnected} / 9 Services Live</span>
             </div>
             <div className="w-12 h-12 rounded-full border-4 border-white/5 flex items-center justify-center relative">
@@ -119,20 +119,20 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">📧 Resend Email</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Resends OTP PINs, confirmations & alerts</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Resends OTP PINs, confirmations & alerts</p>
                 </div>
                 {status?.resend.connected ? (
                   status.resend.isSandbox ? (
-                    <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
+                    <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
                       🟡 Sandbox
                     </span>
                   ) : (
-                    <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                       🟢 Live
                     </span>
                   )
                 ) : (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                     🔴 Disconnected
                   </span>
                 )}
@@ -173,20 +173,20 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">💬 Twilio SMS</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Sends automated show alerts & auto-blasts</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Sends automated show alerts & auto-blasts</p>
                 </div>
                 {status?.twilio.connected ? (
                   status.twilio.isTest ? (
-                    <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
+                    <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
                       🟡 Test Credentials
                     </span>
                   ) : (
-                    <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                       🟢 Connected
                     </span>
                   )
                 ) : (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                     🔴 Disconnected
                   </span>
                 )}
@@ -227,14 +227,14 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">📈 Google Analytics</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Logs user traffic & engagement metrics</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Logs user traffic & engagement metrics</p>
                 </div>
                 {status?.googleAnalytics.connected ? (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     🟢 Connected
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                     🔴 Disconnected
                   </span>
                 )}
@@ -269,14 +269,14 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">💳 Stripe Payments</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Handles ticket booking deposits & checkouts</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Handles ticket booking deposits & checkouts</p>
                 </div>
                 {status?.stripe.connected ? (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     🟢 Connected
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                     🔴 Disconnected
                   </span>
                 )}
@@ -317,14 +317,14 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">🎥 Streaming (LiveKit + Mux)</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Powers backstage feeds & stream archives</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Powers backstage feeds & stream archives</p>
                 </div>
                 {status?.livekit.connected && status?.mux.connected ? (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     🟢 Live & Connected
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                     🔴 Keys Missing
                   </span>
                 )}
@@ -365,14 +365,14 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">🛍️ Shopify Commerce</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Syncs band merch products & inventory</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Syncs band merch products & inventory</p>
                 </div>
                 {status?.shopify.connected ? (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     🟢 Connected
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                     🔴 Disconnected
                   </span>
                 )}
@@ -413,14 +413,14 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">🗄️ Supabase Database</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Manages fan accounts, bookings, and notes</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Manages fan accounts, bookings, and notes</p>
                 </div>
                 {status?.supabase.connected ? (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     🟢 Connected
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                     🔴 Disconnected
                   </span>
                 )}
@@ -461,14 +461,14 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">❄️ Sanity Content Studio</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Powers website news, bios, and tour dates</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Powers website news, bios, and tour dates</p>
                 </div>
                 {status?.sanity.connected ? (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     🟢 Connected
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                     🔴 Disconnected
                   </span>
                 )}
@@ -509,9 +509,9 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">🔐 OAuth Social Login</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Google, Facebook &amp; Apple sign-in</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Google, Facebook &amp; Apple sign-in</p>
                 </div>
-                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
+                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
                   🟡 Not Configured
                 </span>
               </div>
@@ -577,9 +577,9 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">📧 CAN-SPAM Email Compliance</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Federal law for commercial email</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Federal law for commercial email</p>
                 </div>
-                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
                   ⚠️ Required
                 </span>
               </div>
@@ -642,9 +642,9 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">💬 Chat Rooms &amp; Moderation</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Live chat safety, age gates &amp; content filtering</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Live chat safety, age gates &amp; content filtering</p>
                 </div>
-                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
+                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-purple-600/10 text-purple-300 border border-purple-500/20">
                   ⚠️ Required
                 </span>
               </div>
@@ -707,9 +707,9 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">🎥 Live Streaming Legal</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Music licensing, venue consent &amp; recording</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Music licensing, venue consent &amp; recording</p>
                 </div>
-                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
                   ⚠️ Required
                 </span>
               </div>
@@ -766,9 +766,9 @@ export default function SetupChecklistPage() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-black mb-1">📋 Legal Pages &amp; Policies</h3>
-                  <p className="text-2xs text-black/30 font-bold uppercase tracking-widest">Privacy, terms, cookies &amp; accessibility</p>
+                  <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Privacy, terms, cookies &amp; accessibility</p>
                 </div>
-                <span className="px-2.5 py-1 text-2xs font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                   🔍 Audit Required
                 </span>
               </div>

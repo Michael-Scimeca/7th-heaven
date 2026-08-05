@@ -27,7 +27,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
     <div className="w-full">
       {/* ── 20-LAYOUT SELECTOR PILLS ── */}
       <div className="flex flex-col items-center mb-12">
-        <span className="text-2xs font-extrabold uppercase tracking-widest text-[var(--color-accent)] mb-3 block">
+        <span className="text-[var(--font-size-2xs)] font-extrabold uppercase tracking-widest text-[var(--color-accent)] mb-3 block">
           Select Layout Style (1–20)
         </span>
         <div className="flex flex-wrap justify-center gap-1.5 max-w-5xl p-2.5 bg-white/5 border border-white/10 backdrop-blur-xl">
@@ -52,7 +52,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="md:col-span-2 p-8 md:p-10 rounded-3xl bg-[var(--color-surface-raised)] border border-[var(--color-accent)]/30 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-2xl flex flex-col justify-between group hover:border-[var(--color-accent)] transition-all">
             <div className="flex justify-between items-start mb-6">
-              <span className="px-3 py-1 rounded-full text-2xs font-black uppercase tracking-widest bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30">
+              <span className="px-3 py-1 rounded-full text-[var(--font-size-2xs)] font-black uppercase tracking-widest bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30">
                 {stats[0].badge}
               </span>
               <span className="text-[var(--color-accent)] text-xl animate-pulse">✦</span>
@@ -73,10 +73,10 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             >
               <div className="flex justify-between items-center mb-4">
                 <span className="text-3xl font-black text-[var(--color-accent)] group-hover:scale-110 transition-transform">{s.number}</span>
-                <span className="text-2xs font-mono font-bold text-white/40">0{i + 2}</span>
+                <span className="text-[var(--font-size-2xs)] font-mono font-bold text-white/40">0{i + 2}</span>
               </div>
               <div>
-                <h4 className="text-2xs font-bold uppercase tracking-wider text-[var(--color-accent)] mb-1">{s.label}</h4>
+                <h4 className="text-[var(--font-size-2xs)] font-bold uppercase tracking-wider text-[var(--color-accent)] mb-1">{s.label}</h4>
                 <p className="text-xs text-white/70 leading-relaxed">{s.text}</p>
               </div>
             </div>
@@ -164,8 +164,8 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             >
               <div>
                 <div className="flex justify-between items-center mb-3">
-                  <span className="text-2xs font-mono font-bold text-[var(--color-accent)] uppercase tracking-wider">{s.badge}</span>
-                  <span className="text-2xs font-mono text-white/30">0{i + 1}</span>
+                  <span className="text-[var(--font-size-2xs)] font-mono font-bold text-[var(--color-accent)] uppercase tracking-wider">{s.badge}</span>
+                  <span className="text-[var(--font-size-2xs)] font-mono text-white/30">0{i + 1}</span>
                 </div>
                 <div className="text-4xl font-black text-white mb-2 group-hover:scale-105 transition-transform">{s.number}</div>
               </div>
@@ -188,7 +188,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 i === 0 ? "md:col-span-2" : ""
               }`}
             >
-              <span className="text-2xs font-semibold uppercase tracking-widest text-white/40 block mb-4">Achievement 0{i + 1}</span>
+              <span className="text-[var(--font-size-2xs)] font-semibold uppercase tracking-widest text-white/40 block mb-4">Achievement 0{i + 1}</span>
               <div className="text-5xl font-black text-white tracking-tight mb-3">{s.number}</div>
               <h4 className="text-sm font-bold text-white mb-2">{s.label}</h4>
               <p className="text-xs text-white/60 leading-relaxed">{s.text}</p>
@@ -281,7 +281,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s, i) => (
             <div key={i} className="shrink-0 w-[280px] md:w-[320px] p-7 rounded-3xl bg-[var(--color-surface-raised)] border border-white/10 backdrop-blur-xl flex flex-col justify-between hover:border-[var(--color-accent)]/50 transition-all">
               <div>
-                <span className="text-2xs font-mono font-bold uppercase text-[var(--color-accent)] block mb-3">0{i + 1} / 06</span>
+                <span className="text-[var(--font-size-2xs)] font-mono font-bold uppercase text-[var(--color-accent)] block mb-3">0{i + 1} / 06</span>
                 <div className="text-5xl font-black text-white mb-2">{s.number}</div>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-accent)] mb-4">{s.label}</h4>
               </div>
@@ -318,7 +318,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                   <p className="text-xs text-white/70 mt-1">{s.text}</p>
                 </div>
               </div>
-              <span className="px-3 py-1 rounded-full text-2xs font-mono font-bold bg-white/5 border border-white/10 text-[var(--color-accent)] uppercase">
+              <span className="px-3 py-1 rounded-full text-[var(--font-size-2xs)] font-mono font-bold bg-white/5 border border-white/10 text-[var(--color-accent)] uppercase">
                 {s.badge}
               </span>
             </div>
@@ -331,7 +331,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
           {stats.map((s, i) => (
             <div key={i} className="p-8 rounded-3xl bg-[var(--color-surface-raised)] border border-white/8 backdrop-blur-2xl hover:border-[var(--color-accent)]/40 transition-all relative group">
-              <span className="text-2xs font-mono font-bold text-sky-400 block mb-3">[ STAT_0{i + 1} ]</span>
+              <span className="text-[var(--font-size-2xs)] font-mono font-bold text-sky-400 block mb-3">[ STAT_0{i + 1} ]</span>
               <div className="text-5xl font-black text-sky-300 mb-2">{s.number}</div>
               <h4 className="text-xs font-bold uppercase text-white mb-2">{s.label}</h4>
               <p className="text-xs text-[var(--color-accent)]/70 leading-relaxed">{s.text}</p>
@@ -378,7 +378,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                   <p className="text-xs text-white/70 mt-0.5">{s.text}</p>
                 </div>
               </div>
-              <span className="text-2xs font-mono font-bold text-white/40 group-hover:text-[var(--color-accent)] transition-colors">✦ 0{i + 1}</span>
+              <span className="text-[var(--font-size-2xs)] font-mono font-bold text-white/40 group-hover:text-[var(--color-accent)] transition-colors">✦ 0{i + 1}</span>
             </div>
           ))}
         </div>
@@ -390,8 +390,8 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s, i) => (
             <div key={i} className="p-6 bg-black border border-white/10 hover:border-[var(--color-accent)] backdrop-blur-xl text-center group transition-all">
               <div className="text-4xl font-black text-white mb-1 group-hover:scale-110 transition-transform">{s.number}</div>
-              <h4 className="text-2xs font-extrabold uppercase text-[var(--color-accent)] tracking-wider mb-2">{s.label}</h4>
-              <p className="text-2xs text-white/60 leading-snug line-clamp-2">{s.text}</p>
+              <h4 className="text-[var(--font-size-2xs)] font-extrabold uppercase text-[var(--color-accent)] tracking-wider mb-2">{s.label}</h4>
+              <p className="text-[var(--font-size-2xs)] text-white/60 leading-snug line-clamp-2">{s.text}</p>
             </div>
           ))}
         </div>
@@ -420,7 +420,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 <span className="text-6xl font-black tracking-tighter text-white">
                   {s.number}
                 </span>
-                <span className="text-2xs font-mono font-bold uppercase tracking-widest text-white/40">[ {s.badge} ]</span>
+                <span className="text-[var(--font-size-2xs)] font-mono font-bold uppercase tracking-widest text-white/40">[ {s.badge} ]</span>
               </div>
               <h3 className="text-base font-extrabold uppercase text-white mb-2 tracking-wide">{s.label}</h3>
               <p className="text-xs text-white/70 leading-relaxed">{s.text}</p>

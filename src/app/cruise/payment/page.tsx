@@ -80,7 +80,7 @@ export default function CruisePaymentPage() {
             <h1 className="text-2xl font-black uppercase text-white tracking-wide">
               Cruise Payment Form
             </h1>
-            <p className="text-2xs text-white/40 mt-1 leading-relaxed">
+            <p className="text-[var(--font-size-2xs)] text-white/40 mt-1 leading-relaxed">
               Make payments towards your existing booking. Group cabin deposits are $250.00/person. Mock-processed for staging.
             </p>
           </div>
@@ -99,7 +99,7 @@ export default function CruisePaymentPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Booking Number: *
               </label>
               <input
@@ -113,7 +113,7 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Email: *
               </label>
               <input
@@ -127,7 +127,7 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Cell Phone:
               </label>
               <input
@@ -140,7 +140,7 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Your Name on Credit Card: *
               </label>
               <input
@@ -154,7 +154,7 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Credit Card Number: *
               </label>
               <input
@@ -169,7 +169,7 @@ export default function CruisePaymentPage() {
 
             <div className="grid grid-cols-3 gap-3">
               <div className="col-span-1">
-                <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+                <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   Exp. Date: *
                 </label>
                 <input
@@ -183,7 +183,7 @@ export default function CruisePaymentPage() {
               </div>
 
               <div className="col-span-1">
-                <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+                <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   CVC/CVV: *
                 </label>
                 <input
@@ -197,7 +197,7 @@ export default function CruisePaymentPage() {
               </div>
 
               <div className="col-span-1">
-                <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+                <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   Zip Code: *
                 </label>
                 <input
@@ -212,7 +212,7 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-2xs font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Amount to Charge: *
               </label>
               <input

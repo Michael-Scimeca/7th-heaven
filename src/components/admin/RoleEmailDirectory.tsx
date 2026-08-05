@@ -124,7 +124,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
 
   const getRoleBadgeStyle = (role: string) => {
     switch (role) {
-      case "admin": return "bg-purple-600/20 text-purple-200 border-purple-500/30";
+      case "admin": return "bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)]";
       case "crew": return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
       case "cruise": return "bg-sky-500/20 text-sky-300 border-sky-500/30";
       case "planner":

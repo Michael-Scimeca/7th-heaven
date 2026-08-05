@@ -846,7 +846,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                     <div className="px-5 pb-5 pt-0 text-left">
                       {room.price === "Prevailing" ? (
-                        <p className="text-2xs text-black/50 italic font-medium">Prevailing Rates Only</p>
+                        <p className="text-[var(--font-size-2xs)] text-black/50 italic font-medium">Prevailing Rates Only</p>
                       ) : (
                         <div className="flex items-baseline gap-1.5">
                           <span className="text-xl font-black text-black">{room.price}</span>
@@ -858,7 +858,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       )}
                       <button 
                         type="button"
-                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 text-white font-black text-2xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
+                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
                       >
                         <span>Select & Book Cabin</span>
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -926,7 +926,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="px-5 pb-5 pt-0 text-left">
                           <div className="flex items-baseline gap-1.5">
                             <span className="text-xl font-black text-black">{room.price}</span>
-                            <span className="text-2xs text-black/60 font-bold">USD pp</span>
+                            <span className="text-[var(--font-size-2xs)] text-black/60 font-bold">USD pp</span>
                           </div>
                           <span className="text-[var(--font-size-4xs)] text-black/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                           <button 
@@ -1385,7 +1385,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               onChange={e => setFormData({...formData, splitPayment: e.target.checked})} 
                               className="w-4 h-4 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" 
                             />
-                            <span className="text-2xs font-bold uppercase tracking-widest text-cyan-700 group-hover:text-cyan-800">Split deposit payment between Card 1 and Card 2</span>
+                            <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-cyan-700 group-hover:text-cyan-800">Split deposit payment between Card 1 and Card 2</span>
                           </label>
                         </div>
                       )}
@@ -1520,14 +1520,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div className="p-0 border-0 bg-transparent text-left relative w-full">
                 <span className="text-3xl block mb-2">💳</span>
                 <h4 className="text-sm font-black text-black uppercase tracking-wider">Already Booked?</h4>
-                <p className="text-2xs text-black/70 font-semibold mt-1 leading-normal">
+                <p className="text-[var(--font-size-2xs)] text-black/70 font-semibold mt-1 leading-normal">
                   Submit additional payments, modify balances, or authorize custom charges directly with the Royal Caribbean processor.
                 </p>
                 <a 
                   href="https://www.chicagomusiccruise.com/payment.html" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-2xs transition-all shadow-md cursor-pointer"
+                  className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-all shadow-md cursor-pointer"
                 >
                   Go to Payment Portal
                 </a>
@@ -1592,7 +1592,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
                   <div className="flex flex-wrap gap-x-1 gap-y-0.5">
                     {joinedFans.map((fan, i) => (
-                      <span key={i} className="text-2xs text-black/60 font-semibold">
+                      <span key={i} className="text-[var(--font-size-2xs)] text-black/60 font-semibold">
                         {fan.anonymous ? 'Anonymous' : fan.name.split(' ')[0]}
                         {fan.guest_count > 1 && <span className="text-black/40"> +{fan.guest_count - 1}</span>}
                         {i < joinedFans.length - 1 && <span className="text-black/20 mx-0.5">·</span>}
@@ -1786,7 +1786,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                 {/* Sidebar Selectors */}
                 <div className="space-y-3">
-                  <span className="text-2xs font-bold text-white/40 uppercase tracking-widest block mb-2">Select Destination to Preview:</span>
+                  <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Select Destination to Preview:</span>
                   {PORTS_DATA.map((port, idx) => (
                     <button
                       key={idx}
@@ -1936,7 +1936,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("included")}
-                  className={`px-4 py-2 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
+                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
                     foodTypeTab === "included" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
                   }`}
                 >
@@ -1945,7 +1945,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("paid")}
-                  className={`px-4 py-2 rounded-lg text-2xs font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
+                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
                     foodTypeTab === "paid" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
                   }`}
                 >

@@ -421,8 +421,8 @@ export default function PlannerClient() {
                               onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({...booking, [fieldKey]: v} as Booking); setEditField(null); } }}}
                               className="flex-1 bg-[#f0f2f5] border border-black/10 px-2 py-1 rounded text-sm text-black focus:border-purple-500 outline-none"
                             />
-                            <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({...booking, [fieldKey]: input.value} as Booking); setEditField(null); } }} className="text-2xs text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
-                            <button type="button" onClick={() => setEditField(null)} className="text-2xs text-black/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
+                            <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({...booking, [fieldKey]: input.value} as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
+                            <button type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-black/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
                           </div>
                         ) : (
                           item.done && item.val && <p className="text-xs text-emerald-400/60 truncate">{item.val}</p>
@@ -430,9 +430,9 @@ export default function PlannerClient() {
                       </div>
                       {!isEditing && (
                         item.done ? (
-                          <button type="button" onClick={() => setEditField(i)} className="text-2xs font-bold text-black/30 hover:text-purple-400 uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
+                          <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-black/30 hover:text-purple-400 uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
                         ) : (
-                          <button type="button" onClick={() => setEditField(i)} className="text-2xs font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-all">NEEDED</button>
+                          <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-all">NEEDED</button>
                         )
                       )}
                     </div>
@@ -495,7 +495,7 @@ export default function PlannerClient() {
                             <span>📅 {pb.date}</span><span>📍 {pb.venueName}</span><span className="font-mono">{pb.id}</span>
                           </div>
                         </div>
-                        <span className={`text-2xs font-bold uppercase tracking-widest ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
+                        <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
                         <Link href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
                           className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer shrink-0">
                           Rebook →

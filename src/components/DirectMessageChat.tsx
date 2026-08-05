@@ -167,7 +167,7 @@ export default function DirectMessageChat() {
                     {/* Sender tag */}
                     <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
                       <span className={`text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none ${
-                        isAdminMsg ? 'text-purple-400 bg-purple-600/20 border-purple-500/40' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
+                        isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
                       }`}>
                         {isAdminMsg ? 'ADMIN' : 'YOU'}
                       </span>
@@ -176,7 +176,7 @@ export default function DirectMessageChat() {
                     <div
                       className={`p-2.5  text-xs leading-relaxed font-bold !text-white shadow-sm ${
                         isAdminMsg
-                          ? "bg-purple-700 rounded-tl-xs"
+                          ? "bg-[var(--color-purple-primary)] rounded-tl-xs"
                           : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
                       }`}
                     >

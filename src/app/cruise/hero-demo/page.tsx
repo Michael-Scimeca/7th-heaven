@@ -12,7 +12,7 @@ export default function HeroDemoPage() {
     <div className="bg-[var(--color-bg-deep)] min-h-screen">
       {/* Layout Switcher */}
       <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 p-3">
-        <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Layout</p>
+        <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Layout</p>
         {layouts.map(l => (
           <button
             key={l}
@@ -66,7 +66,7 @@ export default function HeroDemoPage() {
                   ].map(s => (
                     <div key={s.label} className="bg-white/[0.06] backdrop-blur-xl border border-white/[0.1] px-6 py-4 text-center">
                       <p className="text-2xl font-black text-white">{s.val}</p>
-                      <p className="text-2xs font-bold uppercase tracking-[0.2em] text-white/30 mt-0.5">{s.label}</p>
+                      <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-white/30 mt-0.5">{s.label}</p>
                     </div>
                   ))}
                 </div>
@@ -225,7 +225,7 @@ export default function HeroDemoPage() {
                   <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Live Ticker</p>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-2xs font-bold uppercase tracking-widest text-emerald-400/70">Live</span>
+                    <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-emerald-400/70">Live</span>
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -244,14 +244,14 @@ export default function HeroDemoPage() {
                         <p className="text-sm font-bold text-white truncate">{item.who}</p>
                         <p className="text-xs text-white/30">{item.action}</p>
                       </div>
-                      <span className="text-2xs text-white/20 shrink-0">{item.time}</span>
+                      <span className="text-[var(--font-size-2xs)] text-white/20 shrink-0">{item.time}</span>
                     </div>
                   ))}
                 </div>
                 <div className="mt-4 pt-4 border-t border-white/[0.08] flex items-center justify-between">
                   <div>
                     <p className="text-2xl font-black text-white">9</p>
-                    <p className="text-2xs font-bold uppercase tracking-[0.2em] text-white/25">Total Guests</p>
+                    <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-white/25">Total Guests</p>
                   </div>
                   <a href="#signup" className="px-5 py-2.5 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs rounded-lg transition-all hover:bg-[var(--color-accent)]/30">
                     Join →
@@ -291,14 +291,14 @@ export default function HeroDemoPage() {
               ].map(t => (
                 <div key={t.label} className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] w-24 h-28 flex flex-col items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <p className="text-3xl font-black text-white tabular-nums">{t.val}</p>
-                  <p className="text-2xs font-bold uppercase tracking-[0.25em] text-white/30 mt-1">{t.label}</p>
+                  <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.25em] text-white/30 mt-1">{t.label}</p>
                 </div>
               ))}
             </div>
 
             {/* Progress bar */}
             <div className="max-w-md mx-auto mb-8">
-              <div className="flex justify-between text-2xs font-bold uppercase tracking-widest text-white/30 mb-2">
+              <div className="flex justify-between text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/30 mb-2">
                 <span>9 / 200 guests</span>
                 <span>4.5%</span>
               </div>
@@ -333,12 +333,12 @@ export default function HeroDemoPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">🚢</span>
                   <div>
-                    <p className="text-2xs font-bold uppercase tracking-[0.3em] text-white/40">7th Heaven</p>
+                    <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.3em] text-white/40">7th Heaven</p>
                     <p className="text-sm font-black uppercase tracking-widest text-white">Boarding Pass</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-2xs font-bold uppercase tracking-[0.3em] text-white/40">Cabin Class</p>
+                  <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.3em] text-white/40">Cabin Class</p>
                   <p className="text-sm font-black uppercase tracking-widest text-[var(--color-accent)]">VIP Fan</p>
                 </div>
               </div>
@@ -347,7 +347,7 @@ export default function HeroDemoPage() {
               <div className="px-8 py-8">
                 <div className="flex items-center justify-between mb-8">
                   <div>
-                    <p className="text-2xs font-bold uppercase tracking-[0.3em] text-white/30 mb-1">From</p>
+                    <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.3em] text-white/30 mb-1">From</p>
                     <p className="text-4xl font-black text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>MIA</p>
                     <p className="text-xs text-white/40">Miami, FL</p>
                   </div>
@@ -359,7 +359,7 @@ export default function HeroDemoPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xs font-bold uppercase tracking-[0.3em] text-white/30 mb-1">To</p>
+                    <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.3em] text-white/30 mb-1">To</p>
                     <p className="text-4xl font-black text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>CZM</p>
                     <p className="text-xs text-white/40">Cozumel, MX</p>
                   </div>
@@ -373,7 +373,7 @@ export default function HeroDemoPage() {
                     { label: "Guests", val: "9" },
                   ].map(s => (
                     <div key={s.label} className="bg-white/[0.04] border border-white/[0.08] p-3 text-center">
-                      <p className="text-2xs font-bold uppercase tracking-[0.25em] text-white/30 mb-1">{s.label}</p>
+                      <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.25em] text-white/30 mb-1">{s.label}</p>
                       <p className="text-sm font-black text-white">{s.val}</p>
                     </div>
                   ))}
@@ -392,7 +392,7 @@ export default function HeroDemoPage() {
                         {["E", "M", "D", "T", "T"][i]}
                       </div>
                     ))}
-                    <div className="w-9 h-9 rounded-full bg-white/10 border-2 border-black/30 flex items-center justify-center text-2xs font-bold text-white/40">+4</div>
+                    <div className="w-9 h-9 rounded-full bg-white/10 border-2 border-black/30 flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white/40">+4</div>
                   </div>
                   <a href="#signup" className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-xs transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Board Now →
@@ -424,7 +424,7 @@ export default function HeroDemoPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white font-black text-sm">7H</div>
                 <div>
                   <p className="text-white font-black text-sm uppercase tracking-widest">7th Heaven</p>
-                  <p className="text-white/30 text-2xs uppercase tracking-[0.3em]">Official Cruise Issue</p>
+                  <p className="text-white/30 text-[var(--font-size-2xs)] uppercase tracking-[0.3em]">Official Cruise Issue</p>
                 </div>
               </div>
               <div className="bg-white/[0.06] backdrop-blur-xl border border-white/[0.1] rounded-full px-5 py-2 flex items-center gap-2">
@@ -461,7 +461,7 @@ export default function HeroDemoPage() {
                   ].map(s => (
                     <div key={s.label} className="flex items-baseline gap-2">
                       <span className={`text-3xl font-black ${s.accent ? "text-[var(--color-accent)]" : "text-white"}`}>{s.val}</span>
-                      <span className="text-2xs font-bold uppercase tracking-[0.2em] text-white/30">{s.label}</span>
+                      <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-white/30">{s.label}</span>
                     </div>
                   ))}
                 </div>
@@ -512,7 +512,7 @@ export default function HeroDemoPage() {
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-8 bg-white/[0.05] backdrop-blur-2xl border border-white/[0.1] rounded-full px-8 py-3">
             <div className="flex -space-x-1.5">
               {["#851DEF", "#3b82f6", "#06b6d4"].map((c, i) => (
-                <div key={i} className="w-7 h-7 rounded-full border-2 border-black/40 flex items-center justify-center text-2xs font-bold text-white" style={{ backgroundColor: c, zIndex: 3 - i }}>
+                <div key={i} className="w-7 h-7 rounded-full border-2 border-black/40 flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white" style={{ backgroundColor: c, zIndex: 3 - i }}>
                   {["E", "M", "D"][i]}
                 </div>
               ))}
@@ -571,7 +571,7 @@ export default function HeroDemoPage() {
                   <div key={s.label} className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-4 text-center shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
                     <span className="text-lg block mb-1">{s.icon}</span>
                     <p className="text-2xl font-black text-white">{s.val}</p>
-                    <p className="text-2xs font-bold uppercase tracking-[0.2em] text-white/25 mt-0.5">{s.label}</p>
+                    <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-white/25 mt-0.5">{s.label}</p>
                   </div>
                 ))}
               </div>

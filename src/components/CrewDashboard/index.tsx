@@ -2701,7 +2701,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     return (
                       <div key={p.id} className="flex items-center justify-center py-1">
                         <span
-                          className="px-3 py-1 rounded-full text-2xs uppercase tracking-wider font-bold"
+                          className="px-3 py-1 rounded-full text-[var(--font-size-2xs)] uppercase tracking-wider font-bold"
                           style={{
                             background: bg,
                             color: color,
@@ -2728,17 +2728,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
                              <p className="text-sm font-bold uppercase tracking-tight" style={{ color: p.account?.color || getAvatarColor(username) }}>{username}</p>
                              {(p.account?.role === 'crew' || p.account?.role === 'admin') && (
-                                <span className="px-1 py-0.5 bg-[var(--color-accent)]/20 border border-[#8a1cfc]/40 rounded text-2xs font-black uppercase tracking-wider text-[#c084fc]">
+                                <span className="px-1 py-0.5 bg-[var(--color-accent)]/20 border border-[#8a1cfc]/40 rounded text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-[#c084fc]">
                                   CREW
                                 </span>
                              )}
                              {isUserWarned && (
-                                <span className="px-1 py-0.5 bg-purple-600/10 border border-purple-500/30 rounded text-2xs font-black uppercase tracking-wider text-purple-300">
+                                <span className="px-1 py-0.5 bg-purple-600/10 border border-purple-500/30 rounded text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-purple-300">
                                   WARNED
                                 </span>
                              )}
                              {isUserBanned && (
-                                <span className="px-1 py-0.5 bg-red-500/10 border border-red-500/30 rounded text-2xs font-black uppercase tracking-wider text-red-400">
+                                <span className="px-1 py-0.5 bg-red-500/10 border border-red-500/30 rounded text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-red-400">
                                   BANNED
                                 </span>
                              )}
@@ -3104,7 +3104,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 type="button"
                                 onClick={() => startSpecificRaffle(idx)}
                                 disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-2xs font-black uppercase tracking-wider rounded-md transition-all ${
+                                className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-md transition-all ${
                                   (raffleStatus === 'idle' || raffleStatus === 'complete')
                                   ? 'border-purple-500 text-purple-400 hover:bg-purple-600/10' 
                                   : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
@@ -3280,7 +3280,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  {/* store sales card */}
                  <div className="p-4 bg-gradient-to-br from-[#291e34] to-[#0c0c11] border border-[var(--color-accent)]/20 relative overflow-hidden group hover:border-[var(--color-accent)]/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-accent)]/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-[var(--color-accent)]">Store Sales Revenue</p>
+                    <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-[var(--color-accent)]">Store Sales Revenue</p>
                     <p className="text-2xl font-black mt-2 text-white font-mono">
                       ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                     </p>
@@ -3292,7 +3292,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  {/* flash drop sales card */}
                  <div className="p-4 bg-gradient-to-br from-[#341e29] to-[#0c0c11] border border-pink-500/20 relative overflow-hidden group hover:border-pink-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-pink-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-pink-400">Flash Drop Sales</p>
+                    <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-pink-400">Flash Drop Sales</p>
                     <p className="text-2xl font-black mt-2 text-white font-mono">
                       ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                     </p>
@@ -3304,7 +3304,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  {/* raffle claims card */}
                  <div className="p-4 bg-gradient-to-br from-[#292212] to-[#0c0c11] border border-purple-500/20 relative overflow-hidden group hover:border-purple-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-purple-600/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-purple-400">Raffle Claims</p>
+                    <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-purple-400">Raffle Claims</p>
                     <p className="text-2xl font-black mt-2 text-white font-mono">
                       {orders.filter(o => o.source === 'Raffle').length}
                     </p>
@@ -3314,7 +3314,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  {/* viewers card */}
                  <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border border-emerald-500/20 relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
-                    <p className="text-2xs font-black uppercase tracking-widest text-emerald-400">👁️ Live Viewers</p>
+                    <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-emerald-400">👁️ Live Viewers</p>
                     <p className="text-2xl font-black mt-2 text-black font-mono">{viewerCount}</p>
                     <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">{isLive ? "Watching live right now" : "Offline"}</p>
                  </div>
@@ -3342,7 +3342,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                  <div className="flex items-center gap-3 self-end md:self-auto">
                     <button 
                        onClick={(e) => { e.stopPropagation(); resetSetlistLikes(); }} 
-                       className="px-4 py-2 text-2xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-gray-50 text-black/60 border-black/10 hover:bg-gray-100 hover:text-black font-sans font-bold"
+                       className="px-4 py-2 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors border bg-gray-50 text-black/60 border-black/10 hover:bg-gray-100 hover:text-black font-sans font-bold"
                     >
                        Reset Likes
                     </button>
@@ -3424,7 +3424,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           </button>
                           <button
                             onClick={() => addSongToSetlist(newSongTitle)}
-                            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
+                            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
                           >
                             Import Playlist
                           </button>
@@ -3443,7 +3443,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           />
                           <button
                             onClick={() => addSongToSetlist(newSongTitle)}
-                            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-2xs font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
+                            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
                           >
                             Add
                           </button>
@@ -4615,7 +4615,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 {(() => {
                   const lineup = setLineups[activeDiscussionDate] || [];
                   if (lineup.length === 0) {
-                    return <p className="text-2xs text-black/35 italic">No lineup configured for this show date yet.</p>;
+                    return <p className="text-[var(--font-size-2xs)] text-black/35 italic">No lineup configured for this show date yet.</p>;
                   }
                   return lineup
                     .sort((a, b) => parseTimeToMinutes(a.startTime) - parseTimeToMinutes(b.startTime))
@@ -4741,7 +4741,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           );
                         })}
                         {comments.length === 0 && (
-                          <p className="text-2xs text-black/25 italic text-center py-6">No discussions yet. Start the conversation!</p>
+                          <p className="text-[var(--font-size-2xs)] text-black/25 italic text-center py-6">No discussions yet. Start the conversation!</p>
                         )}
                       </div>
 

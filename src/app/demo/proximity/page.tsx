@@ -422,7 +422,7 @@ export default function ProximityDemoPage() {
                       level="M"
                     />
                   </div>
-                  <p className="text-2xs uppercase tracking-widest text-white/20 font-bold">Scan to open show page</p>
+                  <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/20 font-bold">Scan to open show page</p>
                 </div>
 
               </div>
@@ -438,7 +438,7 @@ export default function ProximityDemoPage() {
                       Invite <span className="text-purple-300">20 fans</span> → get a free{" "}
                       <span className="text-purple-300">Band Tee</span>
                     </p>
-                    <span className="text-2xs font-black uppercase tracking-widest text-purple-400 border border-purple-500/30 px-2 py-0.5">
+                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-purple-400 border border-purple-500/30 px-2 py-0.5">
                       Invite Challenge
                     </span>
                   </div>
@@ -460,7 +460,7 @@ export default function ProximityDemoPage() {
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <p className="text-2xs text-white/25 font-bold">
+                        <p className="text-[var(--font-size-2xs)] text-white/25 font-bold">
                           {rsvpStatus !== "idle" ? "7" : "6"} / 20 fans invited
                         </p>
                         <a
@@ -510,10 +510,10 @@ export default function ProximityDemoPage() {
                   <div className="flex items-center gap-4 p-4 border border-emerald-500/30 bg-emerald-500/[0.03]">
                     <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-yellow-500/40 text-yellow-400 bg-white/[0.04]">AJ</div>
                     <div>
-                      <p className="font-bold text-sm text-white">Alex Johnson <span className="ml-1 text-2xs uppercase tracking-widest text-purple-400 font-black">You</span></p>
+                      <p className="font-bold text-sm text-white">Alex Johnson <span className="ml-1 text-[var(--font-size-2xs)] uppercase tracking-widest text-purple-400 font-black">You</span></p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-2xs font-black uppercase text-yellow-400">Gold</span>
-                        <span className="text-2xs font-black uppercase text-emerald-400">✓ Here Now</span>
+                        <span className="text-[var(--font-size-2xs)] font-black uppercase text-yellow-400">Gold</span>
+                        <span className="text-[var(--font-size-2xs)] font-black uppercase text-emerald-400">✓ Here Now</span>
                       </div>
                     </div>
                   </div>
@@ -523,7 +523,7 @@ export default function ProximityDemoPage() {
                     <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-purple-700/40 text-purple-400 bg-white/[0.04]">SR</div>
                     <div>
                       <p className="font-bold text-sm text-white">Sarah R.</p>
-                      <span className="text-2xs font-black uppercase text-white/25">Going</span>
+                      <span className="text-[var(--font-size-2xs)] font-black uppercase text-white/25">Going</span>
                     </div>
                   </div>
 
@@ -532,7 +532,7 @@ export default function ProximityDemoPage() {
                     <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 border-2 border-white/10 bg-white/[0.04] text-lg">👤</div>
                     <div>
                       <p className="font-bold text-sm text-white/50 italic">Anonymous Fan</p>
-                      <span className="text-2xs font-black uppercase text-white/25">Going</span>
+                      <span className="text-[var(--font-size-2xs)] font-black uppercase text-white/25">Going</span>
                     </div>
                   </div>
 
@@ -542,8 +542,8 @@ export default function ProximityDemoPage() {
                     <div>
                       <p className="font-bold text-sm text-white">Tyler K.</p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-2xs font-black uppercase text-purple-400">Platinum</span>
-                        <span className="text-2xs font-black uppercase text-white/25">Going</span>
+                        <span className="text-[var(--font-size-2xs)] font-black uppercase text-purple-400">Platinum</span>
+                        <span className="text-[var(--font-size-2xs)] font-black uppercase text-white/25">Going</span>
                       </div>
                     </div>
                   </div>
@@ -573,8 +573,8 @@ export default function ProximityDemoPage() {
                           <div>
                             <p className="font-bold text-sm text-white/70">{fan.name}</p>
                             <div className="flex items-center gap-2 mt-0.5">
-                              {fan.tier && <span className="text-2xs font-black uppercase text-white/30">{fan.tier}</span>}
-                              <span className={`text-2xs font-black uppercase ${fan.status === "there" ? "text-emerald-400" : "text-white/30"}`}>
+                              {fan.tier && <span className="text-[var(--font-size-2xs)] font-black uppercase text-white/30">{fan.tier}</span>}
+                              <span className={`text-[var(--font-size-2xs)] font-black uppercase ${fan.status === "there" ? "text-emerald-400" : "text-white/30"}`}>
                                 {fan.status === "there" ? "✓ Here Now" : "Going"}
                               </span>
                             </div>

@@ -190,7 +190,7 @@ export default function MediaPage() {
                       <img src={thumbMax(video.id)} alt={video.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" onLoad={(e) => { const img = e.currentTarget; if (img.naturalWidth <= 120 && img.src.includes('maxresdefault')) img.src = thumb(video.id); }} onError={(e) => { const img = e.currentTarget; if (img.src.includes('maxresdefault')) img.src = thumb(video.id); }} />
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-all" />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div></div>
-                      {video.duration && <span className="absolute bottom-2 right-2 bg-black/70 text-white text-2xs font-bold px-1.5 py-0.5 rounded">{video.duration}</span>}
+                      {video.duration && <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[var(--font-size-2xs)] font-bold px-1.5 py-0.5 rounded">{video.duration}</span>}
                     </button>
                   )}
                 </div>

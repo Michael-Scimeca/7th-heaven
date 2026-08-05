@@ -228,7 +228,7 @@ export default function BulkInvitePanel() {
               />
               <span className="text-3xl mb-3 block"></span>
               <p className="text-black text-xs font-black uppercase tracking-wider">Drag & Drop CSV File</p>
-              <p className="text-black/60 text-2xs mt-1.5 leading-relaxed max-w-xs font-semibold">
+              <p className="text-black/60 text-[var(--font-size-2xs)] mt-1.5 leading-relaxed max-w-xs font-semibold">
                 Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
               </p>
               <span className="mt-4 px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-[0.65rem] font-bold uppercase tracking-widest rounded-lg border border-[var(--color-accent)] shadow-xs">
@@ -264,7 +264,7 @@ export default function BulkInvitePanel() {
                 <span className="text-2xl"></span>
                 <div>
                   <p className="text-black text-xs font-black uppercase tracking-widest">Parsed Invite Roster</p>
-                  <p className="text-black/60 text-2xs mt-0.5 font-semibold">Found {invites.length} prospective fans to invite.</p>
+                  <p className="text-black/60 text-[var(--font-size-2xs)] mt-0.5 font-semibold">Found {invites.length} prospective fans to invite.</p>
                 </div>
               </div>
               

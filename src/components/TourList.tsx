@@ -1290,7 +1290,7 @@ rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 
              {!isPrivate && (
                <div className="flex items-center gap-1.5 flex-wrap">
                  <span className="text-xs">{getShowIcon(show)}</span>
-                 {show.info && <span className="text-2xs text-white/40 italic">{show.info}</span>}
+                 {show.info && <span className="text-[var(--font-size-2xs)] text-white/40 italic">{show.info}</span>}
                  {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
                    <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded">All Ages</span>
                  )}

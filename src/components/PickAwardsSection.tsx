@@ -149,7 +149,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                   )}
                 </div>
                 <p className="text-xs font-bold text-black/80 truncate">{pick.name}</p>
-                <p className={`text-2xs font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
+                <p className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
                 {pick.owned === 0 && (
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                     <span className="text-xs font-bold text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded shadow-xs">Locked</span>
@@ -243,7 +243,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                           <button
                             onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
-                            className="px-4 py-2 bg-purple-500/20 border border-purple-500/40 text-yellow-600 font-bold text-xs uppercase tracking-[0.15em] rounded-lg hover:bg-yellow-500/30 transition-all cursor-pointer disabled:opacity-50 shadow-[0_0_10px_rgba(250,204,21,0.15)]"
+                            className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase tracking-[0.15em] rounded-lg hover:bg-[var(--color-purple-glow)] transition-all cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]"
                           >
                             {enteringLottery === lottery.id ? "Entering..." : "Enter Lottery"}
                           </button>
@@ -257,12 +257,12 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     {!lottery.isEntered && (
                       <div className="mt-2">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-2xs text-black/50">
+                          <span className="text-[var(--font-size-2xs)] text-black/50">
                             {lottery.requirement_type === "min_picks"
                               ? `${totalOwned}/${lottery.requirement_value} picks`
                               : `${uniqueTypes}/${lottery.requirement_value} unique types`}
                           </span>
-                          <span className="text-2xs text-black/40">{lottery.endsIn}</span>
+                          <span className="text-[var(--font-size-2xs)] text-black/40">{lottery.endsIn}</span>
                         </div>
                         <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden">
                           <div
@@ -274,7 +274,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     )}
 
                     {/* Entry count + deadline */}
-                    <div className="flex items-center gap-3 mt-2 text-2xs text-black/40">
+                    <div className="flex items-center gap-3 mt-2 text-[var(--font-size-2xs)] text-black/40">
                       <span>{lottery.entryCount} entries</span>
                       <span>·</span>
                       <span>Ends in {lottery.endsIn}</span>

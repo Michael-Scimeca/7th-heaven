@@ -300,12 +300,12 @@ export default function ProximityPanel() {
                         <div className="flex flex-wrap gap-2">
                           {attendees.slice(0, 12).map(a => (
                             <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-black/10 rounded-full">
-                              <div className="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-2xs font-black text-[var(--color-accent)]">
+                              <div className="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)] font-black text-[var(--color-accent)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
                               <span className="text-xs text-black/70 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>
                               {a.profiles?.tier && a.profiles.tier !== "Bronze" && (
-                                <span className={`text-2xs font-black uppercase ${tierColors[a.profiles.tier]}`}>
+                                <span className={`text-[var(--font-size-2xs)] font-black uppercase ${tierColors[a.profiles.tier]}`}>
                                   {a.profiles.tier}
                                 </span>
                               )}

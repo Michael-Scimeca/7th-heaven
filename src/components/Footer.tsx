@@ -239,7 +239,7 @@ export function Footer() {
             >
               Crew Login
             </button>
-            <Link href="/planner?login=true" className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
+            <Link href="/planner?login=true" className="text-[var(--font-size-md)] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
               Planner Login
             </Link>
           </div>
@@ -248,11 +248,11 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-1">
             {socialLinks.map((link, i) => (
               <span key={link.name} className="flex items-center">
-                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
+                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[var(--font-size-md)] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
                   {link.name}
                 </a>
                 {i < socialLinks.length - 1 && (
-                  <span className="text-[var(--color-accent)] mx-1.5 text-[13px] font-bold">/</span>
+                  <span className="text-[var(--color-accent)] mx-1.5 text-[var(--font-size-md)] font-bold">/</span>
                 )}
               </span>
             ))}
@@ -262,7 +262,7 @@ export function Footer() {
 
       {/* Legal Bottom */}
       <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="flex flex-wrap justify-center md:justify-start gap-5 text-[13px] font-semibold tracking-wide text-[var(--muted-text)] mt-1 md:mt-0">
+        <div className="flex flex-wrap justify-center md:justify-start gap-5 text-[var(--font-size-md)] font-semibold tracking-wide text-[var(--muted-text)] mt-1 md:mt-0">
           <Link href="/privacy" className="hover:text-[var(--text-color)] transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-[var(--text-color)] transition-colors">Terms</Link>
           <Link href="/returns" className="hover:text-[var(--text-color)] transition-colors">Returns</Link>
@@ -271,7 +271,7 @@ export function Footer() {
           <Link href="/admin?login=true" className="hover:text-[var(--color-accent)] transition-colors">Admin</Link>
           <Link href="/planner?login=true" className="hover:text-[var(--color-accent)] transition-colors">Planner</Link>
         </div>
-        <p className="text-[13px] font-medium tracking-wide text-[var(--muted-text)]">
+        <p className="text-[var(--font-size-md)] font-medium tracking-wide text-[var(--muted-text)]">
           Designed & Developed by NTD Records © {new Date().getFullYear()}
         </p>
       </div>

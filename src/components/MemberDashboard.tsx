@@ -258,15 +258,15 @@ export default function MemberDashboard() {
         {/* Role label */}
         {(() => {
          const role = member?.role ?? 'fan';
-         const cfg = { fan: { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' }, crew: { label: 'CREW', icon: '🛡️', cls: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' }, admin: { label: 'ADMIN', icon: '👑', cls: 'text-purple-300 bg-purple-600/10 border-purple-500/20' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' };
+         const cfg = { fan: { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' }, crew: { label: 'CREW', icon: '🛡️', cls: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' }, admin: { label: 'ADMIN', icon: '👑', cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' };
          return (
-          <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
-           <span className="text-2xs">{cfg.icon}</span>{cfg.label}
+          <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[var(--font-size-xs)] font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
+           <span className="text-[var(--font-size-2xs)]">{cfg.icon}</span>{cfg.label}
           </span>
          );
         })()}
        </div>
-       <p className="text-sm text-white/40">{member!.email}</p>
+       <p className="text-[var(--font-size-sm)] text-white/40">{member!.email}</p>
       </div>
      </div>
      <div className="flex items-center gap-2">
@@ -320,10 +320,10 @@ export default function MemberDashboard() {
              <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
-               {msg.isNew && <span className="text-2xs font-black uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+               {msg.isNew && <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
               </div>
               <p className="text-xs text-white/60 max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-              <p className="text-2xs uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
+              <p className="text-[var(--font-size-2xs)] uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
              </div>
             </div>
             
@@ -331,7 +331,7 @@ export default function MemberDashboard() {
              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
               {msg.isClaimed ? (
                 <div className="px-5 py-2 border border-white/20 bg-white/5 opacity-50 grayscale">
-                  <span className="text-2xs uppercase tracking-[0.2em] font-bold text-white/40 block text-center mb-1">Claimed</span>
+                  <span className="text-[var(--font-size-2xs)] uppercase tracking-[0.2em] font-bold text-white/40 block text-center mb-1">Claimed</span>
                   <span className="font-mono text-xl font-black tracking-[0.25em] text-white/30 line-through">{pin}</span>
                 </div>
               ) : claimConfirmId === msg.id ? (
@@ -428,7 +428,7 @@ export default function MemberDashboard() {
                     <p className="text-[0.6rem] text-red-400 font-extrabold uppercase tracking-widest mb-1">
                       Reason for Decline
                     </p>
-                    <p className="text-2xs text-red-200/80 leading-normal font-medium">
+                    <p className="text-[var(--font-size-2xs)] text-red-200/80 leading-normal font-medium">
                       {photo.rejection_reason || "Content does not meet community guidelines."}
                     </p>
                   </div>

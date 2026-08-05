@@ -755,7 +755,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       {[{ v: countdown.days, l: 'Days' }, { v: countdown.hours, l: 'Hrs' }, { v: countdown.mins, l: 'Min' }, { v: countdown.secs, l: 'Sec' }].map((u, i) => (
                         <div key={i} className="flex flex-col items-center">
                           <span className="text-2xl md:text-3xl font-black text-white tabular-nums bg-white/5 border border-white/10 rounded-lg w-14 h-14 flex items-center justify-center">{String(u.v).padStart(2, '0')}</span>
-                          <span className="text-2xs uppercase tracking-widest text-white/40 font-bold mt-1">{u.l}</span>
+                          <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/40 font-bold mt-1">{u.l}</span>
                         </div>
                       ))}
                     </div>
@@ -797,9 +797,9 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <p className="text-xs text-white/60">{show.city}, {show.state}</p>
                   </div>
                   {show.isSoldOut ? (
-                    <span className="text-2xs font-black uppercase tracking-widest text-red-400 bg-red-500/10 px-2 py-1 rounded border border-red-500/20">Sold Out</span>
+                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-red-400 bg-red-500/10 px-2 py-1 rounded border border-red-500/20">Sold Out</span>
                   ) : show.ticketLink ? (
-                    <a href={show.ticketLink} target="_blank" rel="noopener noreferrer" className="text-2xs font-black uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20 hover:bg-emerald-500 hover:text-black transition-all">Tickets</a>
+                    <a href={show.ticketLink} target="_blank" rel="noopener noreferrer" className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20 hover:bg-emerald-500 hover:text-black transition-all">Tickets</a>
                   ) : null}
                 </div>
               ))}
@@ -823,7 +823,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-purple-400">
               Subscribed Show Alerts
             </span>
-            <span className="text-2xs font-bold text-white/40 uppercase tracking-widest">Specific Tour Dates</span>
+            <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest">Specific Tour Dates</span>
           </div>
 
           {loadingAlerts ? (
@@ -844,7 +844,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   </div>
                   <button
                     onClick={() => handleUnsubscribeShow(sub.showId)}
-                    className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-2xs font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer"
+                    className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer"
                   >
                     Cancel Alert
                   </button>
@@ -988,12 +988,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 <span>⚠️</span> Declined
                               </p>
                               <div className="p-2 bg-red-900/20 border border-red-500/10 rounded">
-                                <p className="text-2xs text-red-100/90 font-medium leading-normal line-clamp-4">
+                                <p className="text-[var(--font-size-2xs)] text-red-100/90 font-medium leading-normal line-clamp-4">
                                   {photo.rejection_reason || 'Content does not meet community guidelines.'}
                                 </p>
                               </div>
                             </div>
-                            <p className="text-2xs font-mono text-black/30 truncate mt-auto">{photo.venue || 'Live Event'}</p>
+                            <p className="text-[var(--font-size-2xs)] font-mono text-black/30 truncate mt-auto">{photo.venue || 'Live Event'}</p>
                           </div>
                         ) : (
                           /* Hover overlay for approved/pending */

@@ -514,7 +514,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       onClick={() => updateBlend(mode)}
                       className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-all cursor-pointer ${
                         mixBlendMode === mode
-                          ? "bg-purple-600 border-purple-500 text-white shadow-[0_0_8px_rgba(147, 51, 234,0.3)] font-black"
+                          ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] font-black"
                           : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
                       }`}
                     >

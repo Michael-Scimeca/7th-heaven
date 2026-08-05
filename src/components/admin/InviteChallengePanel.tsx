@@ -199,7 +199,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           <div className="mt-2 h-1.5 bg-white/10 w-48">
                             <div className="h-full bg-[var(--color-accent)] w-[30%]" />
                           </div>
-                          <p className="text-2xs text-white/25 mt-0.5">6 / {challenge.threshold} fans invited</p>
+                          <p className="text-[var(--font-size-2xs)] text-white/25 mt-0.5">6 / {challenge.threshold} fans invited</p>
                         </div>
                       </div>
                     </div>

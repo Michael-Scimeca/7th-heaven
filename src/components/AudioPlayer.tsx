@@ -143,7 +143,7 @@ export default function AudioPlayerSection() {
 
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
     <div className="mb-4">
-      <h3 className="text-2xs font-bold tracking-[0.2em] uppercase text-black/50 mb-1.5">{title}</h3>
+      <h3 className="text-[var(--font-size-2xs)] font-bold tracking-[0.2em] uppercase text-black/50 mb-1.5">{title}</h3>
       <ul className="flex flex-col gap-0.5">
       {categoryAlbums.map((album) => {
         const originalIdx = albums.findIndex(a => a.id === album.id);
@@ -334,7 +334,7 @@ export default function AudioPlayerSection() {
   <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
     
     {/* Tracklist */}
-    <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="flex-1 overflow-y-auto px-0 pt-[42px] pb-8 custom-scrollbar h-full min-h-0">
+    <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="flex-1 overflow-y-auto px-0 pt-10 pb-8 custom-scrollbar h-full min-h-0">
     {searchQuery.trim() ? (
       searchResults.length > 0 ? (
         searchResults.map(({ track, trackIdx, album, albumIdx }) => {
@@ -351,14 +351,14 @@ export default function AudioPlayerSection() {
               }}
             >
               <div className="flex items-center gap-4 min-w-0">
-                <span className="text-2xs font-bold uppercase tracking-widest text-[var(--color-accent)] shrink-0">
+                <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] shrink-0">
                   {album.title.split(' ')[0]}
                 </span>
                 <span className={`text-sm font-bold truncate ${isActive ? 'text-[var(--color-accent)]' : 'text-black/80 group-hover:text-black'}`}>
                   {cleanName}
                 </span>
               </div>
-              <span className="text-2xs text-black/50 font-mono font-bold">
+              <span className="text-[var(--font-size-2xs)] text-black/50 font-mono font-bold">
                 {getDummyDuration(track.title, trackIdx)}
               </span>
             </div>

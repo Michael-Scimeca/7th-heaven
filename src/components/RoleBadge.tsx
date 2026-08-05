@@ -28,10 +28,10 @@ const roleConfig = {
  },
  admin: {
   label: 'ADMIN',
-  color: 'text-purple-300',
-  bg: 'bg-purple-600/15',
-  border: 'border-purple-500/30',
-  glow: 'shadow-[0_0_8px_rgba(192, 132, 252,0.15)]',
+  color: 'text-[var(--color-purple-light)]',
+  bg: 'bg-[var(--color-purple-glow)]',
+  border: 'border-[var(--color-border-purple)]',
+  glow: 'shadow-[0_0_8px_var(--color-purple-glow)]',
  },
 };
 
@@ -81,7 +81,7 @@ export default function RoleBadge({ role, size = 'sm', showLabel = false, classN
     <Icon size={iconSize} />
    </span>
    {showLabel && (
-    <span className={`${config.color} font-bold uppercase tracking-wider ${size === 'sm' ? 'text-2xs' : 'text-xs'}`}>
+    <span className={`${config.color} font-bold uppercase tracking-wider ${size === 'sm' ? 'text-[var(--font-size-2xs)]' : 'text-[var(--font-size-xs)]'}`}>
      {config.label}
     </span>
    )}

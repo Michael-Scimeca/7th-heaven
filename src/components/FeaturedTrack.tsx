@@ -281,7 +281,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               </div>
 
               {/* Mini EQ bars */}
-              <div className="flex items-end gap-[2px] h-[16px] shrink-0">
+              <div className="flex items-end gap-1 h-[16px] shrink-0">
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
@@ -504,7 +504,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     {isPlaying ? (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                     ) : (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="ml-[2px]"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="ml-1"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     )}
                   </button>
                   
@@ -521,7 +521,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     onClick={toggleCompressor}
                     className={`text-[0.65rem] uppercase font-bold tracking-widest flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-all duration-300 cursor-pointer select-none ${
                       isCompressorActive 
-                        ? 'bg-[var(--color-accent)]/20 text-white border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.45)]' 
+                        ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]' 
                         : 'bg-white/[0.02] border-white/5 text-white/40 hover:text-white/70 hover:border-white/10'
                     }`}
                     title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"

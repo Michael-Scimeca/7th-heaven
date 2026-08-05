@@ -947,7 +947,7 @@ export default function SitemapPage() {
                   <div className="mt-3 flex flex-col gap-2">
                     {sms.audience && (
                       <div className="flex items-center gap-2">
-                        <span className="text-2xs font-bold uppercase tracking-widest text-white/25">Audience:</span>
+                        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/25">Audience:</span>
                         <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/5 border border-white/10 ${sms.color}`}>{sms.audience}</span>
                       </div>
                     )}
@@ -1158,7 +1158,7 @@ export default function SitemapPage() {
               <div key={i} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-xs font-mono text-white/60 font-bold">{api.route}</span>
-                  <span className="text-2xs font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-white/5 text-white/30">{api.method}</span>
+                  <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-white/5 text-white/30">{api.method}</span>
                 </div>
                 <p className={`text-xs ${api.color} leading-relaxed`}>{api.desc}</p>
               </div>
@@ -1194,7 +1194,7 @@ export default function SitemapPage() {
                 <span className="text-xs font-mono font-bold text-white/20 w-4 text-right">{i + 1}</span>
                 <span className="text-sm font-mono font-bold text-[var(--color-accent)] min-w-[260px]">{m.file}</span>
                 <span className="text-xs text-white/50 flex-1">{m.desc}</span>
-                <span className={`text-2xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
+                <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
                   m.status === 'applied' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
                 }`}>{m.status}</span>
               </div>
@@ -1664,10 +1664,10 @@ export default function SitemapPage() {
               <div key={i} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className={`text-sm font-black uppercase tracking-wide ${comp.color}`}>{comp.name}</span>
-                  <span className="text-2xs font-mono text-white/20">{comp.file}</span>
+                  <span className="text-[var(--font-size-2xs)] font-mono text-white/20">{comp.file}</span>
                 </div>
                 <p className="text-xs text-white/40 leading-relaxed mb-1.5">{comp.desc}</p>
-                <span className="text-2xs font-bold uppercase tracking-widest text-white/15">Used: {comp.used}</span>
+                <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/15">Used: {comp.used}</span>
               </div>
             ))}
           </div>
@@ -1706,14 +1706,14 @@ export default function SitemapPage() {
               { key: "MUX_TOKEN_SECRET", service: "Mux", desc: "Mux video API secret", required: false },
             ].map((env, i) => (
               <div key={i} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
-                <span className={`text-2xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
+                <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
                   env.required ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-white/5 text-white/30 border border-white/10'
                 }`}>{env.required ? 'Required' : 'Optional'}</span>
                 <div className="flex-1 min-w-0">
                   <span className="text-xs font-mono font-bold text-purple-300 block truncate">{env.key}</span>
                   <span className="text-xs text-white/40">{env.desc}</span>
                 </div>
-                <span className="text-2xs font-bold uppercase tracking-widest text-white/15 shrink-0">{env.service}</span>
+                <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/15 shrink-0">{env.service}</span>
               </div>
             ))}
           </div>
@@ -1959,8 +1959,8 @@ function SiteNode({
         <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotMap[color]}`} />
         <span className={`text-xs font-black uppercase tracking-widest leading-tight ${textMap[color]}`}>{label}</span>
       </div>
-      {sub && <span className="text-2xs text-white/20 font-mono mt-0.5">{sub}</span>}
-      {desc && <span className="text-2xs text-white/15 leading-snug mt-1 max-w-[140px]">{desc}</span>}
+      {sub && <span className="text-[var(--font-size-2xs)] text-white/20 font-mono mt-0.5">{sub}</span>}
+      {desc && <span className="text-[var(--font-size-2xs)] text-white/15 leading-snug mt-1 max-w-[140px]">{desc}</span>}
     </>
   );
   if (isLinkable) {

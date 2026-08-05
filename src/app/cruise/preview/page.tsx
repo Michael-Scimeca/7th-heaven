@@ -25,7 +25,7 @@ function VersionA() {
                 ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
                 : "bg-white/[0.04] border border-white/10 text-white/40 hover:text-white/60"
             }`}>
-            <span className="w-5 h-5 rounded-full flex items-center justify-center text-2xs font-bold" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
+            <span className="w-5 h-5 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
               {i === 0 ? "Y" : guest.name ? guest.name[0].toUpperCase() : (i + 1)}
             </span>
             {i === 0 ? "You" : guest.name || `Guest ${i + 1}`}
@@ -61,7 +61,7 @@ function VersionB() {
                 : step > i ? "bg-[var(--color-accent)]/30 text-white" 
                 : "bg-white/5 border border-white/10 text-white/30"
               }`}>{step > i ? "✓" : i + 1}</div>
-              <span className={`text-2xs uppercase tracking-widest font-bold ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
+              <span className={`text-[var(--font-size-2xs)] uppercase tracking-widest font-bold ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
             </div>
             {i < labels.length - 1 && <div className={`flex-1 h-px mx-2 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`} />}
           </React.Fragment>
@@ -94,7 +94,7 @@ function VersionC() {
       {guests.map((g, i) => (
         <div key={i} className={`p-4  border space-y-2.5 ${i === 0 ? "bg-[var(--color-accent)]/5 border-[var(--color-accent)]/30" : "bg-white/[0.02] border-white/5"}`}>
           <div className="flex items-center gap-2 mb-1">
-            <span className="w-6 h-6 rounded-md flex items-center justify-center text-2xs font-bold text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
+            <span className="w-6 h-6 rounded-md flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
             <span className="text-xs font-bold uppercase tracking-widest text-white/50">{i === 0 ? "You" : `Guest ${i + 1}`}</span>
           </div>
           <input type="text" placeholder="Name" value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
@@ -119,14 +119,14 @@ function VersionD() {
   return (
     <div className="border border-white/10 overflow-hidden">
       <div className="grid grid-cols-[40px_1fr_1fr_1fr] bg-white/[0.03] px-3 py-2">
-        <span className="text-2xs font-bold uppercase tracking-widest text-white/20">#</span>
-        <span className="text-2xs font-bold uppercase tracking-widest text-white/20">Name</span>
-        <span className="text-2xs font-bold uppercase tracking-widest text-white/20">Email</span>
-        <span className="text-2xs font-bold uppercase tracking-widest text-white/20">Phone</span>
+        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">#</span>
+        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">Name</span>
+        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">Email</span>
+        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">Phone</span>
       </div>
       {guests.map((g, i) => (
         <div key={i} className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? "bg-[var(--color-accent)]/10" : i % 2 === 0 ? "bg-white/[0.01]" : ""}`}>
-          <span className="w-6 h-6 rounded-full flex items-center justify-center text-2xs font-bold text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
+          <span className="w-6 h-6 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
           <input type="text" placeholder={i === 0 ? "Your name" : "Guest name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={SMALL} />
           <input type="email" placeholder="email@example.com" value={g.email} onChange={e => update(i, "email", e.target.value)} className={SMALL} />
           <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={SMALL} />
@@ -185,7 +185,7 @@ function VersionF() {
     <div className="space-y-3">
       {guests.map((g, i) => (
         <div key={i} className="flex items-start gap-2">
-          <span className="w-7 h-7 rounded-md flex items-center justify-center text-2xs font-bold text-white shrink-0 mt-2" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
+          <span className="w-7 h-7 rounded-md flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white shrink-0 mt-2" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
           <div className="flex-1 grid grid-cols-3 gap-2">
             <input type="text" placeholder={i === 0 ? "Your Name" : "Guest Name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
             <input type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />

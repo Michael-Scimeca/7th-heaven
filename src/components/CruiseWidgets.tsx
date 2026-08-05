@@ -1130,7 +1130,7 @@ export function SongRequestLeaderboard() {
             </div>
             <button 
               onClick={() => handleVote(song.id)}
-              className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-purple-600/20 hover:border-purple-500/50 hover:text-purple-300 transition-all text-white/40"
+              className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-all text-white/40"
             >
               ▲
             </button>

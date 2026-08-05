@@ -30,7 +30,7 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
   if (inline) {
     return (
       <div className="site-container my-6 animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.2s_both]">
-        <div className="relative overflow-hidden bg-gradient-to-r from-[var(--color-accent)] to-[#6b1dcf] p-4 sm:p-5 shadow-[0_8px_30px_rgba(255,10,61,0.2)] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="relative overflow-hidden bg-gradient-to-r from-[var(--color-purple-primary)] to-[var(--color-purple-hover)] p-4 sm:p-5 shadow-[0_8px_30px_var(--color-purple-glow)] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="text-lg animate-pulse shrink-0">⚠️</span>
             <div 
@@ -39,7 +39,7 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
             />
           </div>
           {link && (
-            <Link href={link} className="shrink-0 px-5 py-2 bg-black/30 hover:bg-black/50 text-white text-xs font-black uppercase tracking-widest rounded-lg transition-colors border border-white/20">
+            <Link href={link} className="shrink-0 px-5 py-2 bg-black/30 hover:bg-black/50 text-white text-[var(--font-size-xs)] font-black uppercase tracking-widest rounded-lg transition-colors border border-white/20">
               {linkText || "Read More"}
             </Link>
           )}

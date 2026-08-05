@@ -159,7 +159,7 @@ export default function HomeMerch() {
               <div key={product.id} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-[var(--color-accent)]/30 transition-all group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
-                  <span className="bg-red-500 text-white text-2xs font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-red-500/20">
+                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-red-500/20">
                     Sale
                   </span>
                 </div>
@@ -172,7 +172,7 @@ export default function HomeMerch() {
                     </div>
                   )}
                   {soldOut && (
-                    <span className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-white text-2xs font-bold uppercase tracking-wider px-2 py-0.5 rounded">Sold Out</span>
+                    <span className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-white text-[var(--font-size-2xs)] font-bold uppercase tracking-wider px-2 py-0.5 rounded">Sold Out</span>
                   )}
                 </div>
                 <div className="p-4">
@@ -185,11 +185,11 @@ export default function HomeMerch() {
                       )}
                     </div>
                     {soldOut ? (
-                      <span className="text-2xs text-white/15 uppercase tracking-widest">Sold Out</span>
+                      <span className="text-[var(--font-size-2xs)] text-white/15 uppercase tracking-widest">Sold Out</span>
                     ) : (
                       <button
                         onClick={() => handleBuy(product)}
-                        className="text-2xs font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors cursor-pointer"
+                        className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors cursor-pointer"
                       >
                         Buy →
                       </button>

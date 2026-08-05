@@ -148,10 +148,10 @@ function PlannerVerifyContent() {
   };
 
   const cardStyle: React.CSSProperties = {
-    background: "rgba(18, 18, 24, 0.45)",
+    background: "var(--color-bg-glass)",
     backdropFilter: "blur(32px) saturate(180%)",
     WebkitBackdropFilter: "blur(32px) saturate(180%)",
-    border: "1px solid rgba(255, 255, 255, 0.15)",
+    border: "1px solid var(--color-border-main)",
     borderRadius: 24,
     padding: "48px 40px",
     width: "100%",

@@ -21,7 +21,7 @@ const featured = VIDEOS[0];
 function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void }) {
   return (
     <div className="fixed top-20 right-6 z-[999] flex flex-col gap-1.5 bg-black/85 backdrop-blur-xl border border-white/10 p-2.5 max-h-[82vh] overflow-y-auto custom-scrollbar">
-      <p className="text-2xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-1">Layout ({layouts.length})</p>
+      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-1">Layout ({layouts.length})</p>
       <div className="grid grid-cols-2 gap-1.5">
         {layouts.map(l => (
           <button key={l} onClick={() => set(l)}
@@ -248,7 +248,7 @@ export default function MediaLayoutDemo() {
                   <img src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-8">
-                    <span className="text-2xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2 block">Latest</span>
+                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2 block">Latest</span>
                     <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{featured.title}</h2>
                     <div className="flex items-center gap-3 text-xs text-white/40 font-bold uppercase tracking-widest mt-2"><span>{featured.year}</span><span>{featured.duration}</span><span>{featured.views} views</span></div>
                   </div>
@@ -264,7 +264,7 @@ export default function MediaLayoutDemo() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-3">
                         <p className="text-sm font-bold text-white truncate">{v.title}</p>
-                        <p className="text-2xs text-white/30">{v.duration}</p>
+                        <p className="text-[var(--font-size-2xs)] text-white/30">{v.duration}</p>
                       </div>
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/80 flex items-center justify-center"><svg width="16" height="16" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
@@ -296,7 +296,7 @@ export default function MediaLayoutDemo() {
                   </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="text-2xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] block mb-1">Featured Track</span>
+                  <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] block mb-1">Featured Track</span>
                   <h2 className="text-2xl font-black text-white uppercase tracking-tight">{featured.title}</h2>
                   <p className="text-xs text-white/50 mt-1">{featured.year} · {featured.duration} · {featured.views} views</p>
                 </div>
@@ -311,12 +311,12 @@ export default function MediaLayoutDemo() {
                 <div key={v.id+v.title+"G"} className="flex gap-4 p-3 bg-white/[0.03] border border-white/5 hover:border-[var(--color-accent)]/40 hover:bg-white/[0.06] transition-all cursor-pointer group">
                   <div className="relative w-36 aspect-video rounded-lg overflow-hidden shrink-0 bg-black">
                     <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                    <span className="absolute bottom-1 right-1 bg-black/80 text-2xs text-white px-1 rounded">{v.duration}</span>
+                    <span className="absolute bottom-1 right-1 bg-black/80 text-[var(--font-size-2xs)] text-white px-1 rounded">{v.duration}</span>
                   </div>
                   <div className="flex-1 min-w-0 flex flex-col justify-center">
-                    <span className="text-2xs font-bold uppercase text-[var(--color-accent)]">#0{i + 1}</span>
+                    <span className="text-[var(--font-size-2xs)] font-bold uppercase text-[var(--color-accent)]">#0{i + 1}</span>
                     <h4 className="text-sm font-bold text-white truncate group-hover:text-[var(--color-accent)] transition-colors">{v.title}</h4>
-                    <span className="text-2xs text-white/40 mt-1">{v.year} · {v.views} views</span>
+                    <span className="text-[var(--font-size-2xs)] text-white/40 mt-1">{v.year} · {v.views} views</span>
                   </div>
                 </div>
               ))}
@@ -330,7 +330,7 @@ export default function MediaLayoutDemo() {
         <div className="site-container py-8">
           <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
             <div>
-              <span className="text-2xs font-black uppercase tracking-widest text-[var(--color-accent)]">Ultra-Dense Grid</span>
+              <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-[var(--color-accent)]">Ultra-Dense Grid</span>
               <h1 className="text-3xl font-black uppercase tracking-tight text-white">All 7th Heaven Media</h1>
             </div>
             <CatNav active={cat} set={setCat} />
@@ -395,7 +395,7 @@ export default function MediaLayoutDemo() {
       {active === "J" && (
         <div className="site-container py-12">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-2xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] block mb-2">Glass Experience</span>
+            <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.3em] text-[var(--color-accent)] block mb-2">Glass Experience</span>
             <h1 className="text-4xl font-black uppercase tracking-tight text-white">Glassmorphic Gallery</h1>
             <p className="text-sm text-white/50 mt-2">Smooth backdrop blur cards with floating neon glow highlights.</p>
           </div>
@@ -426,7 +426,7 @@ export default function MediaLayoutDemo() {
       {active === "K" && (
         <div className="site-container py-12">
           <div className="mb-10 text-center">
-            <span className="text-2xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] block mb-1">Discography History</span>
+            <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] block mb-1">Discography History</span>
             <h1 className="text-4xl font-black uppercase text-white">Chronological Media Archive</h1>
           </div>
           <div className="relative border-l-2 border-white/10 pl-6 md:pl-10 space-y-12 ml-4">
@@ -527,7 +527,7 @@ export default function MediaLayoutDemo() {
         <div className="site-container py-10">
           <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
             <div>
-              <span className="text-2xs font-black uppercase tracking-[0.3em] text-red-500 flex items-center gap-2">
+              <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.3em] text-red-500 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" /> CONTROL ROOM WALL
               </span>
               <h1 className="text-4xl font-black uppercase tracking-tight text-white">Broadcast Grid</h1>
@@ -552,7 +552,7 @@ export default function MediaLayoutDemo() {
       {active === "O" && (
         <div className="site-container py-12">
           <div className="text-center max-w-xl mx-auto mb-10">
-            <span className="text-2xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] block mb-1">Reels & Clips</span>
+            <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.3em] text-[var(--color-accent)] block mb-1">Reels & Clips</span>
             <h1 className="text-4xl font-black uppercase text-white">Short Media Feed</h1>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-6 snap-x custom-scrollbar">
@@ -560,7 +560,7 @@ export default function MediaLayoutDemo() {
               <div key={v.id+i+"O"} className="w-[240px] aspect-[9/16] shrink-0 snap-center rounded-3xl overflow-hidden relative bg-black border border-white/15 group cursor-pointer shadow-xl">
                 <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
-                <div className="absolute top-4 left-4 right-4 flex justify-between text-2xs font-mono text-white/70">
+                <div className="absolute top-4 left-4 right-4 flex justify-between text-[var(--font-size-2xs)] font-mono text-white/70">
                   <span>#0{i + 1}</span>
                   <span>{v.duration}</span>
                 </div>
@@ -596,7 +596,7 @@ export default function MediaLayoutDemo() {
                 <div key={v.id+v.title+"P"} className="bg-white border border-black/10 p-3 shadow-sm hover:shadow-md transition-all group cursor-pointer">
                   <div className="relative aspect-video overflow-hidden mb-3 bg-black">
                     <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                    <span className="absolute bottom-2 right-2 bg-black/80 text-white text-2xs font-bold px-2 py-0.5 rounded">{v.duration}</span>
+                    <span className="absolute bottom-2 right-2 bg-black/80 text-white text-[var(--font-size-2xs)] font-bold px-2 py-0.5 rounded">{v.duration}</span>
                   </div>
                   <h3 className="text-sm font-bold text-black uppercase truncate group-hover:text-[var(--color-accent)] transition-colors">{v.title}</h3>
                   <div className="flex items-center justify-between text-xs text-black/50 mt-1 font-mono">

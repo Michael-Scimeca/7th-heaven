@@ -208,7 +208,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
         <div className="relative z-10 px-4 pt-3">
          <div className="flex items-center justify-center gap-2 mb-1">
           <div className="w-8 h-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center shadow-md shadow-[var(--color-accent)]/20">
-           <span className="text-white font-black text-2xs">7H</span>
+           <span className="text-white font-black text-[var(--font-size-2xs)]">7H</span>
           </div>
          </div>
          <p className="text-white font-semibold text-base text-center">7th Heaven</p>
@@ -257,8 +257,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           </div>
          </div>
 
-         <p className="text-2xs text-white/20 mt-1.5 ml-1 font-medium">Delivered</p>
-         <p className="text-2xs text-white/12 ml-1">Reply STOP to unsubscribe</p>
+         <p className="text-[var(--font-size-2xs)] text-white/20 mt-1.5 ml-1 font-medium">Delivered</p>
+         <p className="text-[var(--font-size-2xs)] text-white/12 ml-1">Reply STOP to unsubscribe</p>
         </div>
 
         {/* iMessage input bar */}
@@ -333,7 +333,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                ].map((fan, i) => (
                  <div key={i} className={`flex items-center gap-1.5 p-1 border ${fan.status === "there" ? "border-emerald-500/20 bg-emerald-500/[0.03]" : "border-white/[0.04]"} rounded`}>
                    <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${fan.color} flex items-center justify-center shrink-0`}>
-                     <span className="text-2xs font-black text-white">{fan.initials}</span>
+                     <span className="text-[var(--font-size-2xs)] font-black text-white">{fan.initials}</span>
                    </div>
                    <div>
                      <p className="text-sm font-bold text-white/60 leading-none">{fan.name}</p>
@@ -369,7 +369,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                      <circle cx="12" cy="10" r="3" />
                    </svg>
                  </div>
-                 <div className="mt-1 px-2 py-0.5 bg-black/80 backdrop-blur-sm rounded text-2xs font-bold text-white whitespace-nowrap border border-white/10">
+                 <div className="mt-1 px-2 py-0.5 bg-black/80 backdrop-blur-sm rounded text-[var(--font-size-2xs)] font-bold text-white whitespace-nowrap border border-white/10">
                    {showVenue}
                  </div>
                </div>
@@ -380,7 +380,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full border border-[var(--color-accent)]/20 animate-[rPulse_3s_ease-in-out_infinite]" />
                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full border border-[var(--color-accent)]/10" />
                {/* Distance label */}
-               <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-2xs font-bold text-white/50 border border-white/10">
+               <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-[var(--font-size-2xs)] font-bold text-white/50 border border-white/10">
                  0.8 mi
                </div>
              </div>

@@ -130,7 +130,7 @@ export default function CruiseLayoutC() {
             {[{ n: "142", l: "Fans" }, { n: "284", l: "Guests" }, { n: "7", l: "Nights" }, { n: "3", l: "Islands" }, { n: "6", l: "Shows" }].map(s => (
               <div key={s.l} className="text-center">
                 <p className="text-2xl font-black text-white">{s.n}</p>
-                <p className="text-2xs font-bold uppercase tracking-[0.2em] text-white/20">{s.l}</p>
+                <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-white/20">{s.l}</p>
               </div>
             ))}
           </div>

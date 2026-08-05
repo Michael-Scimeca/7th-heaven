@@ -194,7 +194,7 @@ export default function CruiseDashboardGate() {
                 </button>
 
                 <div className="text-center mt-4">
-                  <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover:text-white/60 text-2xs font-bold uppercase tracking-widest transition-all cursor-pointer">
+                  <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover:text-white/60 text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-all cursor-pointer">
                     ← Cancel and Back
                   </button>
                 </div>

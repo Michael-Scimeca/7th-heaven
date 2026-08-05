@@ -275,16 +275,16 @@ export default function ShowPageClient({
         <div className="flex-1 min-w-0">
           <p className="font-bold text-sm text-white truncate">
             {isAnon ? "Anonymous Fan" : (a.profiles?.full_name || "Fan")}
-            {isMe && <span className="ml-2 text-2xs uppercase tracking-widest text-purple-400 font-black">You</span>}
+            {isMe && <span className="ml-2 text-[var(--font-size-2xs)] uppercase tracking-widest text-purple-400 font-black">You</span>}
           </p>
           <div className="flex items-center gap-2 mt-0.5">
             {!isAnon && tier !== "Bronze" && (
-              <span className={`text-2xs font-black uppercase tracking-widest ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
+              <span className={`text-[var(--font-size-2xs)] font-black uppercase tracking-widest ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
             )}
             {a.status === "there" ? (
-              <span className="text-2xs font-black uppercase tracking-widest text-emerald-400">✓ Here Now</span>
+              <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-emerald-400">✓ Here Now</span>
             ) : (
-              <span className="text-2xs font-black uppercase tracking-widest text-white/25">Going</span>
+              <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white/25">Going</span>
             )}
           </div>
         </div>
@@ -433,7 +433,7 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-2xs font-black text-purple-400 uppercase tracking-widest mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[var(--font-size-2xs)] font-black text-purple-400 uppercase tracking-widest mb-4">
                     Missed this show?
                   </span>
                   <h3 className="text-xl font-black text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
@@ -476,7 +476,7 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-2xs font-black text-red-400 uppercase tracking-widest mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-[var(--font-size-2xs)] font-black text-red-400 uppercase tracking-widest mb-4">
                     Live Performance
                   </span>
                   <h3 className="text-xl font-black text-white uppercase tracking-wide mb-3">Live Show Clips</h3>

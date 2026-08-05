@@ -421,10 +421,10 @@ export default function LoginModal() {
    <div
     className="relative w-full max-w-xl rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease]"
     style={{
-     background: "rgba(15, 5, 29, 0.55)",
+     background: "var(--color-bg-surface)",
      backdropFilter: "blur(32px) saturate(180%)",
      WebkitBackdropFilter: "blur(32px) saturate(180%)",
-     border: "1px solid rgba(255, 255, 255, 0.18)",
+     border: "1px solid var(--color-border-main)",
     }}
    >
 
@@ -691,7 +691,7 @@ export default function LoginModal() {
          {loading ? "..." : "Verify Code"}
         </button>
 
-        <div className="flex justify-between items-center mt-2 text-2xs">
+        <div className="flex justify-between items-center mt-2 text-[var(--font-size-2xs)]">
          <button
           type="button"
           onClick={async () => {

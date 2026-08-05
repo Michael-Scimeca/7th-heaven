@@ -26,7 +26,7 @@ function formatMessageContent(content: string) {
           key={i}
           className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 rounded font-black text-xs border ${
             isAdminTag
-              ? 'bg-purple-600/25 text-purple-200 border-purple-500/40 shadow-[0_0_8px_rgba(147, 51, 234,0.4)]'
+              ? 'bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)] shadow-[0_0_8px_var(--color-purple-glow)]'
               : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
           }`}
         >
@@ -492,7 +492,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                   <div className="flex-1 leading-relaxed">
                     {msg.content}
                   </div>
-                  <span className="text-2xs opacity-40 shrink-0 font-mono ml-2">
+                  <span className="text-[var(--font-size-2xs)] opacity-40 shrink-0 font-mono ml-2">
                     {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>

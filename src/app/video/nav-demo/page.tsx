@@ -9,7 +9,7 @@ interface VideoCategory { category: string; videos: { id: string; title: string;
 function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void }) {
   return (
     <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 p-3">
-      <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Nav</p>
+      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Nav</p>
       {layouts.map(l => (
         <button key={l} onClick={() => set(l)}
           className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
@@ -37,7 +37,7 @@ export default function CatNavDemo() {
       {/* Spacer to simulate hero */}
       <div className="h-[30vh] bg-gradient-to-b from-[#1a1a2e] to-[#050508] flex items-end">
         <div className="site-container pb-8">
-          <p className="text-2xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2">Category Nav Demo</p>
+          <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2">Category Nav Demo</p>
           <h1 className="text-4xl font-black italic uppercase tracking-tighter text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>Layout {active}</h1>
         </div>
       </div>
@@ -97,7 +97,7 @@ export default function CatNavDemo() {
                       activeCat === c ? "text-white" : "text-white/30 hover:text-white/60"
                     }`}>
                     {c}
-                    <span className={`text-2xs tabular-nums ${activeCat === c ? "text-[var(--color-accent)]" : "text-white/15"}`}>{vidCount}</span>
+                    <span className={`text-[var(--font-size-2xs)] tabular-nums ${activeCat === c ? "text-[var(--color-accent)]" : "text-white/15"}`}>{vidCount}</span>
                     {activeCat === c && <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-[var(--color-accent)] rounded-full" />}
                   </button>
                 );
@@ -115,7 +115,7 @@ export default function CatNavDemo() {
       {active === "D" && (
         <div className="flex">
           <div className="sticky top-[72px] h-[calc(100vh-72px)] w-[220px] shrink-0 bg-[var(--color-bg-surface)] border-r border-white/[0.06] flex flex-col py-6 px-4 gap-1">
-            <p className="text-2xs font-black uppercase tracking-[0.25em] text-white/20 mb-3 px-3">Categories</p>
+            <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.25em] text-white/20 mb-3 px-3">Categories</p>
             {cats.map(c => {
               const vidCount = categories.find(cat => cat.category === c)?.videos.length || 0;
               return (
@@ -124,7 +124,7 @@ export default function CatNavDemo() {
                     activeCat === c ? "bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "text-white/35 hover:text-white/70 hover:bg-white/[0.03]"
                   }`}>
                   <span className="truncate">{c}</span>
-                  <span className="text-2xs tabular-nums opacity-50">{vidCount}</span>
+                  <span className="text-[var(--font-size-2xs)] tabular-nums opacity-50">{vidCount}</span>
                 </button>
               );
             })}

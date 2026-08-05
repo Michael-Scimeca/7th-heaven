@@ -175,15 +175,15 @@ export default function ReferralProgramPanel() {
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
             <p className="text-2xl font-black text-purple-300">{totalReferrals}</p>
-            <p className="text-2xs uppercase tracking-widest text-white/30 font-bold mt-1">Total Referrals</p>
+            <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold mt-1">Total Referrals</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
             <p className="text-2xl font-black text-emerald-400">{totalConverted}</p>
-            <p className="text-2xs uppercase tracking-widest text-white/30 font-bold mt-1">Converted</p>
+            <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold mt-1">Converted</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
             <p className="text-2xl font-black text-white">{leaderboard.length}</p>
-            <p className="text-2xs uppercase tracking-widest text-white/30 font-bold mt-1">Active Referrers</p>
+            <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold mt-1">Active Referrers</p>
           </div>
         </div>
 
@@ -236,7 +236,7 @@ export default function ReferralProgramPanel() {
               </p>
               <div className="flex items-center gap-3">
                 <div>
-                  <label className="text-2xs uppercase tracking-widest text-white/30 font-bold block mb-1">
+                  <label className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
                     Referrals Needed
                   </label>
                   <input
@@ -248,7 +248,7 @@ export default function ReferralProgramPanel() {
                   />
                 </div>
                 <div className="flex-1">
-                  <label className="text-2xs uppercase tracking-widest text-white/30 font-bold block mb-1">
+                  <label className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
                     Reward
                   </label>
                   <input
@@ -260,7 +260,7 @@ export default function ReferralProgramPanel() {
                   />
                 </div>
                 <div>
-                  <label className="text-2xs uppercase tracking-widest text-white/30 font-bold block mb-1">
+                  <label className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
                     Emoji
                   </label>
                   <input
@@ -307,7 +307,7 @@ export default function ReferralProgramPanel() {
                 className="flex-1 text-center p-2 bg-white/[0.02] border border-white/5 rounded-lg"
               >
                 <p className="text-lg font-black text-purple-300">{m.threshold}</p>
-                <p className="text-2xs text-white/30 font-bold uppercase tracking-widest mt-0.5">
+                <p className="text-[var(--font-size-2xs)] text-white/30 font-bold uppercase tracking-widest mt-0.5">
                   {m.emoji} {m.reward}
                 </p>
               </div>
@@ -321,7 +321,7 @@ export default function ReferralProgramPanel() {
             <p className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold">
                Top Referrers
             </p>
-            <span className="text-2xs text-white/20 uppercase tracking-widest font-bold">
+            <span className="text-[var(--font-size-2xs)] text-white/20 uppercase tracking-widest font-bold">
               {leaderboard.length} referrer{leaderboard.length !== 1 ? "s" : ""}
             </span>
           </div>
@@ -360,7 +360,7 @@ export default function ReferralProgramPanel() {
                       <div
                         className={`flex items-center justify-between p-3 border transition-all hover:bg-white/[0.03] ${
                           i === 0
-                            ? "border-purple-500/30 bg-purple-600/[0.04]"
+                            ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
                             : i === 1
                             ? "border-white/10 bg-white/[0.02]"
                             : i === 2
@@ -371,9 +371,9 @@ export default function ReferralProgramPanel() {
                         <div className="flex items-center gap-3">
                           {/* Rank badge */}
                           <div
-                            className={`w-8 h-8 flex items-center justify-center font-black text-sm shrink-0 ${
+                            className={`w-8 h-8 flex items-center justify-center font-black text-[var(--font-size-sm)] shrink-0 ${
                               i === 0
-                                ? "bg-purple-600/20 text-purple-300 border border-purple-500/30"
+                                ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
                                 : i === 1
                                 ? "bg-white/10 text-white/60 border border-white/10"
                                 : i === 2
@@ -413,7 +413,7 @@ export default function ReferralProgramPanel() {
                             <p className="text-lg font-black text-purple-300">
                               {entry.total}
                             </p>
-                            <p className="text-2xs uppercase tracking-widest text-white/20 font-bold">
+                            <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/20 font-bold">
                               referrals
                             </p>
                           </div>
@@ -427,7 +427,7 @@ export default function ReferralProgramPanel() {
                         {/* Stats */}
                         <div className="flex gap-4">
                           <div>
-                            <span className="text-2xs uppercase tracking-widest text-white/30 font-bold">
+                            <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
                               Converted
                             </span>
                             <p className="text-sm font-bold text-emerald-400">
@@ -435,7 +435,7 @@ export default function ReferralProgramPanel() {
                             </p>
                           </div>
                           <div>
-                            <span className="text-2xs uppercase tracking-widest text-white/30 font-bold">
+                            <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
                               Rewarded
                             </span>
                             <p className="text-sm font-bold text-yellow-400">
@@ -443,7 +443,7 @@ export default function ReferralProgramPanel() {
                             </p>
                           </div>
                           <div>
-                            <span className="text-2xs uppercase tracking-widest text-white/30 font-bold">
+                            <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
                               Pending
                             </span>
                             <p className="text-sm font-bold text-white/40">
@@ -456,7 +456,7 @@ export default function ReferralProgramPanel() {
                         {nextMilestone && (
                           <div>
                             <div className="flex items-center justify-between mb-1">
-                              <span className="text-2xs uppercase tracking-widest text-white/30 font-bold">
+                              <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
                                 Next: {nextMilestone.emoji} {nextMilestone.reward}
                               </span>
                               <span className="text-xs text-purple-300 font-bold">
@@ -477,7 +477,7 @@ export default function ReferralProgramPanel() {
                         {/* Recent invites */}
                         {entry.recent.length > 0 && (
                           <div>
-                            <span className="text-2xs uppercase tracking-widest text-white/30 font-bold">
+                            <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
                               Recent Invites
                             </span>
                             <div className="mt-1 flex flex-wrap gap-1">

@@ -129,10 +129,10 @@ export default function VerifyPage() {
   );
 
   const modalGlassStyle: React.CSSProperties = {
-    background: "rgba(18, 18, 24, 0.45)",
+    background: "var(--color-bg-glass)",
     backdropFilter: "blur(32px) saturate(180%)",
     WebkitBackdropFilter: "blur(32px) saturate(180%)",
-    border: "1px solid rgba(255, 255, 255, 0.15)",
+    border: "1px solid var(--color-border-main)",
   };
 
   if (!isLoggedIn || !member) {
@@ -244,12 +244,12 @@ export default function VerifyPage() {
               <span className="text-5xl block mb-4">🏆</span>
 
               <div className="bg-purple-600/10 border border-purple-500/30 px-5 py-3 mb-3">
-                <p className="text-purple-300/60 text-2xs font-black uppercase tracking-[0.2em] mb-1">Winner Account</p>
+                <p className="text-purple-300/60 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] mb-1">Winner Account</p>
                 <p className="text-purple-300 font-black text-2xl">{winnerData.winner}</p>
               </div>
 
               <div className="bg-white/[0.03] border border-white/10 px-5 py-3 mb-4">
-                <p className="text-white/30 text-2xs font-black uppercase tracking-[0.2em] mb-1">Prize</p>
+                <p className="text-white/30 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] mb-1">Prize</p>
                 <p className="text-white font-black text-lg">{winnerData.prize}</p>
               </div>
 
@@ -288,7 +288,7 @@ export default function VerifyPage() {
           </div>
         )}
 
-        <p className="text-white/20 text-2xs text-center mt-6 uppercase tracking-widest">
+        <p className="text-white/20 text-[var(--font-size-2xs)] text-center mt-6 uppercase tracking-widest">
           Crew access only · 7th Heaven
         </p>
       </div>

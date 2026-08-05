@@ -317,7 +317,7 @@ export default function CrewFeed() {
              <div className="flex items-center gap-2">
               <span className="text-base font-semibold text-white">{post.member_name}</span>
               {post.post_type === "announcement" && (
-               <span className="text-2xs font-bold uppercase tracking-[0.15em] px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
+               <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.15em] px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
                 Official
                </span>
               )}
@@ -329,7 +329,7 @@ export default function CrewFeed() {
            <div className="flex flex-col items-end gap-1">
             <span className="text-xs text-white/30">{timeAgo(post.created_at)}</span>
             <span
-             className="text-2xs font-bold uppercase tracking-[0.15em] px-2 py-0.5"
+             className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.15em] px-2 py-0.5"
              style={{
               color: config.color,
               background: `${config.color}15`,

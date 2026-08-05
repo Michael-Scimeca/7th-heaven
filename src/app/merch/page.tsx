@@ -376,8 +376,8 @@ function MerchDashboard() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <p className="text-purple-300 font-black text-sm">{win.winner}</p>
-                        <span className="text-white/20 text-2xs font-mono">· {win.prize}</span>
-                        {awarded && <span className="text-emerald-400 font-black text-2xs uppercase tracking-widest">✓ Awarded</span>}
+                        <span className="text-white/20 text-[var(--font-size-2xs)] font-mono">· {win.prize}</span>
+                        {awarded && <span className="text-emerald-400 font-black text-[var(--font-size-2xs)] uppercase tracking-widest">✓ Awarded</span>}
                       </div>
                       {/* PIN displayed as large readable digits */}
                       <div className="flex items-center gap-1.5">

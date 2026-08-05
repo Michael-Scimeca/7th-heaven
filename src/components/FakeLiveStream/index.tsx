@@ -1458,7 +1458,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                           {raffleState.prizes[0]?.name && (
                             <div className="mb-4 px-3 py-2.5 bg-purple-500/10 border border-purple-500/20">
-                              <p className="text-2xs font-bold text-purple-400/60 uppercase tracking-[0.15em] mb-1">You could win</p>
+                              <p className="text-[var(--font-size-2xs)] font-bold text-purple-400/60 uppercase tracking-[0.15em] mb-1">You could win</p>
                               <p className="text-yellow-300 font-black text-base leading-tight">
                                 {raffleState.prizes[0].qty > 1 ? <span className="text-black bg-yellow-500/30 px-1.5 py-0.5 rounded text-xs mr-2">{raffleState.prizes[0].qty}x</span> : null}
                                 {raffleState.prizes[0].name}
@@ -1491,11 +1491,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 inbox.unshift({ id: Date.now(), icon: '🎰', title: 'Raffle Entry Confirmed!', desc: `You've entered the live raffle. Stay tuned!`, time: 'Just now', isNew: true, color: 'yellow' });
                                 localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
                               } catch { }
-                            }} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-sm uppercase tracking-[0.15em] transition-colors shadow-[0_0_15px_rgba(147,51,234,0.4)]">
+                            }} className="w-full py-3 bg-[var(--color-purple-primary)] hover:bg-[var(--color-purple-hover)] text-white font-black text-sm uppercase tracking-[0.15em] transition-colors shadow-[0_0_15px_var(--color-purple-glow)]">
                               Enter Raffle
                             </button>
                           ) : (
-                            <div className="w-full py-3 bg-purple-500/10 text-purple-400 border border-purple-500/30 text-center font-black text-sm uppercase tracking-[0.15em] flex items-center justify-center gap-2">
+                            <div className="w-full py-3 bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)] text-center font-black text-sm uppercase tracking-[0.15em] flex items-center justify-center gap-2">
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
                               You're Entered!
                             </div>
@@ -1535,7 +1535,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               const isMine = isCurrentUserWinner && i === 0;
                               return (
                                 <div key={i} className={` overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-black/10'}`}>
-                                  <div className={`px-3 py-1 text-2xs font-black uppercase tracking-[0.2em] text-center ${isMine ? 'bg-purple-600 text-white' : 'bg-gray-50 text-black/30'}`}>
+                                  <div className={`px-3 py-1 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] text-center ${isMine ? 'bg-purple-600 text-white' : 'bg-gray-50 text-black/30'}`}>
                                     {i === 0 ? '1st Place' : i === 1 ? '2nd Place' : '3rd Place'}{raffleState.prizes[i]?.name ? ` · ${raffleState.prizes[i].name}` : ''}
                                   </div>
                                   <div className={`px-4 py-3 text-center ${isMine ? 'bg-purple-500/10' : ''}`}>
@@ -2022,7 +2022,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <div className="pt-4 border-t border-black/10 space-y-3">
                       <div>
                         <p className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</p>
-                        <p className="text-black/40 text-2xs mt-0.5 leading-relaxed">
+                        <p className="text-black/40 text-[var(--font-size-2xs)] mt-0.5 leading-relaxed">
                           Add specific keywords or phrases. Any message containing these (case-insensitive) will be flagged for review.
                         </p>
                       </div>
@@ -2055,13 +2055,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </div>
 
                       {customWords.length === 0 ? (
-                        <p className="text-black/25 text-2xs italic text-center py-2">No custom keywords added yet.</p>
+                        <p className="text-black/25 text-[var(--font-size-2xs)] italic text-center py-2">No custom keywords added yet.</p>
                       ) : (
                         <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1">
                           {customWords.map(word => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 pl-2.5 pr-1 py-1 bg-gray-50 border border-black/10 rounded-lg text-2xs font-bold text-black/80"
+                              className="inline-flex items-center gap-1.5 pl-2.5 pr-1 py-1 bg-gray-50 border border-black/10 rounded-lg text-[var(--font-size-2xs)] font-bold text-black/80"
                             >
                               <span>{word}</span>
                               <button
@@ -2402,7 +2402,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 <div className="flex-1 flex flex-col min-h-0 bg-gray-50">
                   {/* Sort Toggle header */}
                   <div className="shrink-0 flex items-center justify-between px-4 py-2 bg-white/[0.02] border-b border-black/10">
-                    <span className="text-2xs font-black uppercase tracking-widest text-black/40">Sort View</span>
+                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-black/40">Sort View</span>
                     <div className="flex gap-1.5">
                       <button
                         onClick={() => setSetlistSort('order')}
@@ -2458,7 +2458,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             </div>
 
                             <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-2xs font-mono font-bold text-black/40">
+                              <span className="text-[var(--font-size-2xs)] font-mono font-bold text-black/40">
                                 {song.likes}
                               </span>
                               <button
