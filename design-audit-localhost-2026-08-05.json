@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:3000",
-  "date": "2026-08-05T04:16:09.564Z",
+  "date": "2026-08-05T04:17:13.835Z",
   "score": {
     "overall": 55,
     "grade": "D",
@@ -93,14 +93,14 @@
         {
           "id": "too-many-font-families",
           "severity": "error",
-          "message": "4 custom fonts found — recommendation: max 3",
-          "hint": "Fonts: \"Barlow\", \"Barlow Condensed\", \"rockstar\", \"__nextjs-Geist\""
+          "message": "5 custom fonts found — recommendation: max 3",
+          "hint": "Fonts: \"Barlow\", \"Helvetica Neue\", \"Barlow Condensed\", \"rockstar\", \"__nextjs-Geist\""
         },
         {
           "id": "too-many-font-sizes",
           "severity": "error",
-          "message": "23 unique font sizes — recommendation: max 8–10",
-          "hint": "Sizes: 7px, 7.5px, 8px, 8.5px, 9px, 9.6px, 10px, 10.4px, 11px, 11.2px, 12.8px, 13px, 13.6px, 14px, 14.08px, 16px, 19.84px, 27.84px, 35.84px, 43.2px, 48px, 53.44px, 72px"
+          "message": "26 unique font sizes — recommendation: max 8–10",
+          "hint": "Sizes: 7px, 7.5px, 8px, 8.5px, 9px, 9.6px, 10px, 10.4px, 11px, 11.2px, 12px, 12.8px, 13px, 13.6px, 14px, 14.08px, 15px, 16px, 19.84px, 27.84px, 35.84px, 40px, 43.2px, 48px, 53.44px, 72px"
         },
         {
           "id": "no-modular-scale",
@@ -111,7 +111,7 @@
         {
           "id": "too-many-line-heights",
           "severity": "error",
-          "message": "39 unique line-heights — recommendation: max 4–6",
+          "message": "40 unique line-heights — recommendation: max 4–6",
           "hint": "Too many different line spacings — no vertical rhythm system"
         }
       ]
@@ -127,24 +127,24 @@
         {
           "id": "line-heights-rhythm-error",
           "severity": "error",
-          "message": "Line-heights: only 13% match rhythm unit — no rhythm",
+          "message": "Line-heights: only 14% match rhythm unit — no rhythm",
           "hint": "Outliers: 9px, 14px, 15px, 16px, 17px, 19px, 20px, 21px"
         },
         {
           "id": "detected-grid",
           "severity": "pass",
-          "message": "Detected grid: 4px (margin/padding: 56% divisible by 8px, 79% by 4px)"
+          "message": "Detected grid: 4px (margin/padding: 52% divisible by 8px, 79% by 4px)"
         },
         {
           "id": "spacing-grid-warn",
           "severity": "warn",
-          "message": "56% of spacing divisible by 8px — consider switching to an 8px grid",
+          "message": "52% of spacing divisible by 8px — consider switching to an 8px grid",
           "hint": "Not divisible by 4px: 2px, 6px, 10px, 14px"
         },
         {
           "id": "many-margins",
           "severity": "warn",
-          "message": "15 unique margin values — rec. 6–8"
+          "message": "14 unique margin values — rec. 6–8"
         }
       ]
     },
@@ -166,7 +166,7 @@
         {
           "id": "primary-detected",
           "severity": "pass",
-          "message": "Primary: #9333ea (477 uses)"
+          "message": "Primary: #9333ea (475 uses)"
         },
         {
           "id": "secondary-detected",
@@ -232,7 +232,7 @@
         {
           "id": "too-many-zindex",
           "severity": "warn",
-          "message": "59 unique z-index values — system may be chaotic",
+          "message": "60 unique z-index values — system may be chaotic",
           "hint": "Values: -116, -95, -74, -10, 1, 2, 3, 4, 5, 10..."
         }
       ]
@@ -243,7 +243,7 @@
         {
           "id": "reading-width-ok",
           "severity": "pass",
-          "message": "Average line width: ~70 chars — within optimal range (45–75)"
+          "message": "Average line width: ~68 chars — within optimal range (45–75)"
         }
       ]
     },
@@ -253,7 +253,7 @@
         {
           "id": "images-missing-alt",
           "severity": "error",
-          "message": "29/48 images missing alt text (60%)",
+          "message": "21/40 images missing alt text (53%)",
           "hint": "Alt text is required for screen readers and SEO (WCAG 1.1.1)"
         },
         {
@@ -280,7 +280,7 @@
         {
           "id": "links-inconsistent-colors",
           "severity": "warn",
-          "message": "6 different link colors — rec. 1–2",
+          "message": "5 different link colors — rec. 1–2",
           "hint": "Different link colors on the same page break visual language"
         },
         {
@@ -336,7 +336,7 @@
           "id": "heading-sizes-ok",
           "severity": "pass",
           "message": "Visual size hierarchy is correct",
-          "hint": "H2: 51px > H3: 34px > H4: 20px"
+          "hint": "H2: 63px > H3: 34px > H4: 20px"
         }
       ]
     }
