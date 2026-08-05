@@ -166,9 +166,9 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
 
           {/* Middle block: Venue & details (clickable link to tour page) */}
           <Link href="/tour" className="block hover:opacity-85 transition-opacity group/venue">
-            <h3 className="font-[var(--font-heading)] text-sm font-extrabold text-white leading-tight mb-1 uppercase tracking-tight truncate group-hover/venue:text-[var(--color-accent)] transition-colors">
+            <h2 className="font-[var(--font-heading)] text-sm font-extrabold text-white leading-tight mb-1 uppercase tracking-tight truncate group-hover/venue:text-[var(--color-accent)] transition-colors">
               {nextShow.venue}
-            </h3>
+            </h2>
             <div className="flex flex-wrap items-center gap-1 text-[var(--font-size-4xs)] text-white/50 font-medium">
               <span>{nextShow.day}, {nextShow.date}</span>
               {nextShow.city && (

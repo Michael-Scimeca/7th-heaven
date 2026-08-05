@@ -81,7 +81,7 @@ export default function MediaPage() {
               <>
                 <img
                   src={thumbMax(featuredVideo.id)}
-                  alt=""
+                  alt="7th Heaven Media"
                   className="w-full h-full object-cover"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = thumb(featuredVideo.id); }}
                 />

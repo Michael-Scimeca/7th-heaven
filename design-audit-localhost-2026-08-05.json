@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:3000",
-  "date": "2026-08-05T04:17:13.835Z",
+  "date": "2026-08-05T04:22:34.553Z",
   "score": {
     "overall": 55,
     "grade": "D",
@@ -57,10 +57,10 @@
       },
       {
         "name": "Links",
-        "score": 75,
+        "score": 88,
         "weight": 5,
-        "pass": 2,
-        "warn": 2,
+        "pass": 3,
+        "warn": 1,
         "error": 0
       },
       {
@@ -82,8 +82,8 @@
     ]
   },
   "summary": {
-    "pass": 15,
-    "warn": 11,
+    "pass": 16,
+    "warn": 10,
     "error": 11
   },
   "modules": [
@@ -99,8 +99,8 @@
         {
           "id": "too-many-font-sizes",
           "severity": "error",
-          "message": "26 unique font sizes — recommendation: max 8–10",
-          "hint": "Sizes: 7px, 7.5px, 8px, 8.5px, 9px, 9.6px, 10px, 10.4px, 11px, 11.2px, 12px, 12.8px, 13px, 13.6px, 14px, 14.08px, 15px, 16px, 19.84px, 27.84px, 35.84px, 40px, 43.2px, 48px, 53.44px, 72px"
+          "message": "27 unique font sizes — recommendation: max 8–10",
+          "hint": "Sizes: 7px, 7.5px, 8px, 8.5px, 9px, 9.6px, 10px, 10.4px, 11px, 11.2px, 12px, 12.8px, 13px, 13.6px, 14px, 14.08px, 15px, 16px, 19.84px, 27.84px, 35.84px, 40px, 43.2px, 48px, 53.44px, 67.2px, 72px"
         },
         {
           "id": "no-modular-scale",
@@ -111,7 +111,7 @@
         {
           "id": "too-many-line-heights",
           "severity": "error",
-          "message": "40 unique line-heights — recommendation: max 4–6",
+          "message": "41 unique line-heights — recommendation: max 4–6",
           "hint": "Too many different line spacings — no vertical rhythm system"
         }
       ]
@@ -127,7 +127,7 @@
         {
           "id": "line-heights-rhythm-error",
           "severity": "error",
-          "message": "Line-heights: only 14% match rhythm unit — no rhythm",
+          "message": "Line-heights: only 13% match rhythm unit — no rhythm",
           "hint": "Outliers: 9px, 14px, 15px, 16px, 17px, 19px, 20px, 21px"
         },
         {
@@ -154,7 +154,7 @@
         {
           "id": "too-many-colors",
           "severity": "error",
-          "message": "63 unique colors found — recommendation: max 15–20",
+          "message": "62 unique colors found — recommendation: max 15–20",
           "hint": "Too large a palette makes maintenance harder and hurts brand consistency"
         },
         {
@@ -166,7 +166,7 @@
         {
           "id": "primary-detected",
           "severity": "pass",
-          "message": "Primary: #9333ea (475 uses)"
+          "message": "Primary: #9333ea (483 uses)"
         },
         {
           "id": "secondary-detected",
@@ -284,10 +284,9 @@
           "hint": "Different link colors on the same page break visual language"
         },
         {
-          "id": "links-no-visited",
-          "severity": "warn",
-          "message": ":visited state not defined in CSS",
-          "hint": ":visited state helps users understand where they have already been"
+          "id": "links-visited-ok",
+          "severity": "pass",
+          "message": ":visited state defined"
         },
         {
           "id": "links-focus-ok",
@@ -322,21 +321,21 @@
       "name": "Headings",
       "violations": [
         {
-          "id": "no-h1",
-          "severity": "error",
-          "message": "H1 missing — every page must have exactly one H1",
-          "hint": "H1 is the main page heading (SEO + accessibility)"
+          "id": "h1-ok",
+          "severity": "pass",
+          "message": "H1: one on the page — \"7th Heaven — Official Band Website\""
         },
         {
-          "id": "heading-hierarchy-ok",
-          "severity": "pass",
-          "message": "Heading hierarchy has no skipped levels"
+          "id": "skipped-heading-levels",
+          "severity": "error",
+          "message": "1 skipped level(s) in heading hierarchy",
+          "hint": "H1 → H3 (\"St. Charles CITP\")"
         },
         {
           "id": "heading-sizes-ok",
           "severity": "pass",
           "message": "Visual size hierarchy is correct",
-          "hint": "H2: 63px > H3: 34px > H4: 20px"
+          "hint": "H1: 67px > H2: 63px > H3: 34px > H4: 20px"
         }
       ]
     }

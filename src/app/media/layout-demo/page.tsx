@@ -82,7 +82,7 @@ export default function MediaLayoutDemo() {
       {active === "A" && (
         <div>
           <section className="relative w-full overflow-hidden bg-black" style={{ minHeight: "min(70vh, 600px)" }}>
-            <div className="absolute inset-0"><img src={thumb(featured.id)} alt="" className="w-full h-full object-cover scale-110 blur-[40px] opacity-30" /><div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-black/60 to-black/40" /><div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" /></div>
+            <div className="absolute inset-0"><img src={thumb(featured.id)} alt="7th Heaven Media" className="w-full h-full object-cover scale-110 blur-[40px] opacity-30" /><div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-black/60 to-black/40" /><div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" /></div>
             <div className="relative z-10 site-container py-12 flex flex-col lg:flex-row items-center gap-12" style={{ minHeight: "min(70vh, 600px)" }}>
               <div className="w-full lg:w-[65%]">
                 <div className="relative aspect-video overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.8)] border border-white/10">
@@ -135,7 +135,7 @@ export default function MediaLayoutDemo() {
       {active === "C" && (
         <div>
           <section className="relative bg-black overflow-hidden" style={{ minHeight: "60vh" }}>
-            <div className="absolute inset-0"><img src={thumb(featured.id)} alt="" className="w-full h-full object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent" /><div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" /></div>
+            <div className="absolute inset-0"><img src={thumb(featured.id)} alt="7th Heaven Media" className="w-full h-full object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent" /><div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" /></div>
             <div className="relative z-10 site-container flex items-end pb-16" style={{ minHeight: "60vh" }}>
               <div className="max-w-lg">
                 <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-3 block">Featured</span>
@@ -362,7 +362,7 @@ export default function MediaLayoutDemo() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             <div className="md:col-span-8 relative aspect-[16/10] rounded-3xl overflow-hidden bg-black border border-white/10 group cursor-pointer">
-              <img src={thumb(VIDEOS[0].id)} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src={thumb(VIDEOS[0].id)} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8">
                 <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 px-3 py-1 rounded-full inline-block mb-3">Cover Feature</span>
@@ -373,7 +373,7 @@ export default function MediaLayoutDemo() {
             <div className="md:col-span-4 flex flex-col gap-4">
               {VIDEOS.slice(1, 3).map((v) => (
                 <div key={v.id+v.title+"I"} className="flex-1 relative overflow-hidden bg-black border border-white/10 group cursor-pointer min-h-[160px]">
-                  <img src={thumb(v.id)} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                  <img src={thumb(v.id)} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <h3 className="text-base font-bold text-white uppercase truncate">{v.title}</h3>

@@ -347,7 +347,7 @@ export default function CrewFeed() {
           {/* Image attachment */}
           {post.image_url && (
            <div className="mb-4 border border-white/10 overflow-hidden">
-            <img src={post.image_url} alt="" className="w-full h-auto" loading="lazy" />
+            <img src={post.image_url} alt="7th Heaven Media" className="w-full h-auto" loading="lazy" />
            </div>
           )}
 

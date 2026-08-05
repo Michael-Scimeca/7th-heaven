@@ -3641,7 +3641,7 @@ try {
                             <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
-                                  {p.image && <img src={p.image} alt="" className="w-8 h-8 rounded object-cover border border-white/10" />}
+                                  {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
                                   <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
                                 </div>
                               </td>
@@ -3873,7 +3873,7 @@ try {
                             <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
-                                  {p.image && <img src={p.image} alt="" className="w-8 h-8 rounded object-cover border border-white/10" />}
+                                  {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
                                   <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
                                 </div>
                               </td>
@@ -4382,7 +4382,7 @@ try {
                           )}
                           {mem.photo_url && (
                             <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
-                              <img src={mem.photo_url} alt="" className="w-full h-full object-cover" />
+                              <img src={mem.photo_url} alt="7th Heaven Media" className="w-full h-full object-cover" />
                             </div>
                           )}
                         </div>
@@ -8501,7 +8501,7 @@ try {
                   return (
                     <img
                       src={avatarUrl}
-                      alt=""
+                      alt="7th Heaven Media"
                       className="w-full h-full object-cover rounded-full overflow-hidden"
                     />
                   );
@@ -8566,7 +8566,7 @@ try {
                       return (
                         <img
                           src={avatarUrl}
-                          alt=""
+                          alt="7th Heaven Media"
                           className="w-4 h-4 rounded-full object-cover shrink-0"
                         />
                       );
@@ -11215,7 +11215,7 @@ try {
                                 <div key={shift.id} className="bg-black/20 border border-white/5 p-3 flex items-center justify-between gap-3 hover:border-white/10 transition-colors">
                                   <div className="flex items-center gap-2.5 min-w-0">
                                     {member?.avatar ? (
-                                      <img src={member.avatar} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                                      <img src={member.avatar} alt="7th Heaven Media" className="w-8 h-8 rounded-full object-cover shrink-0" />
                                     ) : (
                                       <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[var(--font-size-3xs)] text-white shrink-0" style={{ backgroundColor: color }}>
                                         {initials}
